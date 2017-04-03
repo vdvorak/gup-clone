@@ -26,21 +26,22 @@ public class ContractTransaction extends Transaction {
 
     /**
      *
-     * @param _hash          String
-     * @param members        String[]
-     * @param timestamp      Long
-     * @param additionalInfo String
+     * @param _hash     String
+     * @param members   String[]
+     * @param timestamp Long
+     * @param productID String
+     * @param price     Long
      */
-    public ContractTransaction(String _hash, String[] members, long timestamp, String additionalInfo)
+    public ContractTransaction(String _hash, String[] members, long timestamp, String productID, long price)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
-        this("CONTRACT", _hash, members, timestamp, 0, additionalInfo);
+        this("CONTRACT", _hash, members, timestamp, 0, productID, price);
     }
-    private ContractTransaction(String type, String _hash, String[] members, long timestamp, int logicRef, String additionalInfo)
+    private ContractTransaction(String type, String _hash, String[] members, long timestamp, int logicRef, String productID, long price)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this.type = type;
         this.timestamp = timestamp;
+        setData(getData(type, _hash, members, timestamp, logicRef, productID, price));
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        setData(logicRef, members, additionalInfo);
         if (2<=members.length) setSignature(members[0]); else throw new IllegalArgumentException("ID_SELLER & ID_BUYER ?");
     }
 
@@ -58,7 +59,6 @@ public class ContractTransaction extends Transaction {
         return data;
     }
 
-    @Override
     public void setData(String data) {
         this.data = data;
     }

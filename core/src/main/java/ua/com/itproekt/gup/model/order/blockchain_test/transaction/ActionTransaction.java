@@ -26,22 +26,23 @@ public class ActionTransaction extends Transaction {
 
     /**
      *
-     * @param _hash          String
-     * @param userId         String
-     * @param timestamp      Long
-     * @param additionalInfo String
+     * @param _hash     String
+     * @param userId    String
+     * @param timestamp Long
+     * @param productID String
+     * @param price     Long
      */
-    public ActionTransaction(String _hash, String userId, long timestamp, String additionalInfo)
+    public ActionTransaction(String _hash, String userId, long timestamp, String productID, long price, String contractHash, String actionID) //TODO ??????????
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
-        this("ACTION", _hash, userId, timestamp, 0, additionalInfo);
+        this("ACTION", _hash, userId, timestamp, 0, productID, price, contractHash, actionID);
     }
-    private ActionTransaction(String type, String _hash, String bankId, long timestamp, int logicRef, String additionalInfo)
+    private ActionTransaction(String type, String _hash, String userId, long timestamp, int logicRef, String productID, long price, String contractHash, String actionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this.type = type;
         this.timestamp = timestamp;
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        setData(logicRef, new String[]{bankId}, additionalInfo);
-        setSignature(bankId);
+        getData(contractHash, actionID); //setData(getData(logicRef, new String[]{userId}, productID, price));
+        setSignature(userId);
     }
 
     @Override
@@ -58,7 +59,6 @@ public class ActionTransaction extends Transaction {
         return data;
     }
 
-    @Override
     public void setData(String data) {
         this.data = data;
     }

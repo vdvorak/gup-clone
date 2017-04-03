@@ -26,6 +26,8 @@ public class ChainTest {
     private String         BANK_ID; /* String  */
     private long         TIMESTAMP; /* Long    */
     private String ADDITIONAL_INFO; /* String  */
+    private String         PRODUCT; /* String  */
+    private long             PRICE; /* Long    */
 
     @Before
     public void setUp() {
@@ -36,6 +38,8 @@ public class ChainTest {
         BANK_ID         = "222222";
         TIMESTAMP       = new Date().getTime();
         ADDITIONAL_INFO = "kofe-yakobs-monarkh-400-hr-tsena-ot-132-hrn-kasik-braziliia-id";
+        PRODUCT         = "PRODUCT9555";
+        PRICE           = 500;
     }
 
     @After
@@ -53,11 +57,11 @@ public class ChainTest {
          * 3. вытягиваю сумму-стоимость объявления для заказа
          * 4. если проверка прошла успешно - тогда формируем (новую) самую первую транзакци типа MONEY_TRANSFER
          */
-        try {
-            Chain moneyTransfer = new Chain(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(moneyTransfer) ); // System.out.println( moneyTransfer.getTransaction() );
-        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-        }
+//        try {
+////            Chain moneyTransfer = new Chain(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, PRODUCT, PRICE));
+////            System.out.println( gson.toJson(moneyTransfer) ); // System.out.println( moneyTransfer.getTransaction() );
+//        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//        }
     }
 
 //    @Test

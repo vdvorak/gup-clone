@@ -16,31 +16,35 @@ import java.util.Arrays;
 
 public class MoneyTransferTransaction extends Transaction {
 
-    private String                    type; /* String                                */
-    private String                   _hash; /* (type + <random> + timestamp) SHA-256 */
-    private String                    data; /* (JSON) SHA-256                        */
-    private TransactionSignature signature; /* Class                                 */
-    private long                 timestamp; /* Long                                  */
-    private MoneyTransferTransactionInput[] inputs;
+    private String                              type; /* String                                */
+    private String                             _hash; /* (type + <random> + timestamp) SHA-256 */
+    private String                              data; /* (JSON) //SHA-256                      */
+    private TransactionSignature           signature; /* Class                                 */
+    private long                           timestamp; /* Long                                  */
+    private MoneyTransferTransactionInput[]   inputs;
     private MoneyTransferTransactionOutput[] outputs;
 
     /**
      *
-     * @param selerId        String
-     * @param timestamp      Long
-     * @param additionalInfo String
+     * @param selerId   String
+     * @param timestamp Long
+     * @param price     Long
+     * @param productID String
      */
-    public MoneyTransferTransaction(String selerId, long timestamp, String additionalInfo)
+//    public MoneyTransferTransaction(String selerId, long timestamp, String productID, long price)
+    public MoneyTransferTransaction(String userCardDetails, long amount, String publicHashStore, String signatureStore, long bankTransactionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
-        this("MONEY_TRANSACTION", null, selerId, timestamp, 0, additionalInfo);
+        this("MONEY_TRANSACTION", null, userCardDetails, amount, publicHashStore, signatureStore, bankTransactionID); //this("MONEY_TRANSACTION", null, selerId, timestamp, 0, productID, price);
     }
-    private MoneyTransferTransaction(String type, String _hash, String selerId, long timestamp, int logicRef, String additionalInfo)
+//    private MoneyTransferTransaction(String type, String _hash, String selerId, long timestamp, int logicRef, String productID, long price)
+    private MoneyTransferTransaction(String type, String _hash, String userCardDetails, long amount, String publicHashStore, String signatureStore, long bankTransactionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this.type = type;
         this.timestamp = timestamp;
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        setData(logicRef, new String[]{selerId}, additionalInfo);
-        setSignature(selerId);
+//        setData(getData(logicRef, new String[]{selerId}, productID, price));
+        setData(getData(userCardDetails, amount, publicHashStore, signatureStore, bankTransactionID));
+        setSignature(publicHashStore); //TODO ???
     }
 
     @Override
@@ -57,7 +61,6 @@ public class MoneyTransferTransaction extends Transaction {
         return data;
     }
 
-    @Override
     public void setData(String data) {
         this.data = data;
     }

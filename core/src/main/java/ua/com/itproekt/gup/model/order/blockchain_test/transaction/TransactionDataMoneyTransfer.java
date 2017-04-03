@@ -3,62 +3,68 @@ package ua.com.itproekt.gup.model.order.blockchain_test.transaction;
 
 public class TransactionDataMoneyTransfer {
 
-    private int logicRef;
-    private String[] members;
-    private AdditionalInfo additionalInfo;
+    private String userCardDetails;
+    private long amount;
+    private String publicHashStore;
+    private String signatureStore;
+    private long bankTransactionID;
 
-    private TransactionDataMoneyTransfer(){
-    }
-    public TransactionDataMoneyTransfer(int logicRef, String[] members, String additionalInfo){
-        this.logicRef = logicRef;
-        this.members = members;
-        this.additionalInfo = new AdditionalInfo(additionalInfo);
-    }
-
-    public int getLogicRef() {
-        return logicRef;
+    public TransactionDataMoneyTransfer(String userCardDetails, long amount, String publicHashStore, String signatureStore, long bankTransactionID){
+        this.userCardDetails = userCardDetails;
+        this.amount = amount;
+        this.publicHashStore = publicHashStore;
+        this.signatureStore = signatureStore;
+        this.bankTransactionID = bankTransactionID;
     }
 
-    public void setLogicRef(int logicRef) {
-        this.logicRef = logicRef;
+    public String getUserCardDetails() {
+        return userCardDetails;
     }
 
-    public String[] getMembers() {
-        return members;
+    public void setUserCardDetails(String userCardDetails) {
+        this.userCardDetails = userCardDetails;
     }
 
-    public void setMembers(String[] members) {
-        this.members = members;
+    public long getAmount() {
+        return amount;
     }
 
-    public AdditionalInfo getAdditionalInfo() {
-        return additionalInfo;
+    public void setAmount(long amount) {
+        this.amount = amount;
     }
 
-    public void setAdditionalInfo(AdditionalInfo additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public String getPublicHashStore() {
+        return publicHashStore;
     }
 
-    private class AdditionalInfo {
-        private String message;
+    public void setPublicHashStore(String publicHashStore) {
+        this.publicHashStore = publicHashStore;
+    }
 
-        public AdditionalInfo(String message){
-            this.message = message;
-        }
+    public String getSignatureStore() {
+        return signatureStore;
+    }
 
-        public String getMessage() {
-            return message;
-        }
+    public void setSignatureStore(String signatureStore) {
+        this.signatureStore = signatureStore;
+    }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
+    public long getBankTransactionID() {
+        return bankTransactionID;
+    }
 
-        @Override
-        public String toString() {
-            return "AdditionalInfo{" +
-                    "message='" + message + '\'' +
-                    '}';
-        }
+    public void setBankTransactionID(long bankTransactionID) {
+        this.bankTransactionID = bankTransactionID;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "userCardDetails='" + userCardDetails + '\'' +
+                ", amount='" + amount + '\'' +
+                ", publicHashStore='" + publicHashStore + '\'' +
+                ", signatureStore='" + signatureStore + '\'' +
+                ", bankTransactionID='" + bankTransactionID + '\'' +
+                '}';
     }
 }
