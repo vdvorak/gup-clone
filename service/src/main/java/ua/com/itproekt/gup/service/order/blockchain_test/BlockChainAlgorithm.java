@@ -15,6 +15,30 @@ import java.util.Date;
 
 public class BlockChainAlgorithm {
 
+    public BlockChainAlgorithm(MemberService member, String option)
+            throws IOException {
+        switch (option) {
+            case "moneyTransfer-confirm":
+                moneyTransfer(member).confirm();
+                break;
+            case "moneyTransfer-reject":
+                moneyTransfer(member).reject();
+                break;
+            case "contract-confirm":
+                contract(member).confirm();
+                break;
+            case "contract-reject":
+                contract(member).reject();
+                break;
+            case "action-confirm":
+                action(member).confirm();
+                break;
+            case "action-reject":
+                action(member).reject();
+                break;
+        }
+    }
+
     public BlockChainAlgorithm(BuyerTransactionService buyer, String option)
             throws IOException {
         switch (option) {
@@ -87,6 +111,9 @@ public class BlockChainAlgorithm {
         }
     }
 
+    public static Available moneyTransfer(MemberService member){
+        return member;
+    }
     public static Confirm moneyTransfer(BuyerTransactionService buyer){
         return buyer;
     }
@@ -96,6 +123,9 @@ public class BlockChainAlgorithm {
     public static Unavailable moneyTransfer(TransactionService service){
         return service;
     }
+    public static Available contract(MemberService member){
+        return member;
+    }
     public static Confirm contract(BuyerTransactionService buyer){
         return buyer;
     }
@@ -104,6 +134,9 @@ public class BlockChainAlgorithm {
     }
     public static Unavailable contract(TransactionService service){
         return service;
+    }
+    public static Available action(MemberService member){
+        return member;
     }
     public static Available action(BuyerTransactionService buyer){
         return buyer;
