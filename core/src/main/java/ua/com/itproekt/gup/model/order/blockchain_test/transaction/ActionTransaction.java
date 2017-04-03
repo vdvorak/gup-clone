@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 
 public class ActionTransaction extends Transaction {
@@ -20,6 +21,8 @@ public class ActionTransaction extends Transaction {
     private String                    data; /* (JSON) SHA-256                        */
     private TransactionSignature signature; /* Class                                 */
     private long                 timestamp; /* Long                                  */
+    private ContractTransactionInput[] inputs;
+    private ContractTransactionOutput[] outputs;
 
     /**
      *
@@ -79,14 +82,32 @@ public class ActionTransaction extends Transaction {
         this.timestamp = timestamp;
     }
 
+    public ContractTransactionInput[] getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(ContractTransactionInput[] inputs) {
+        this.inputs = inputs;
+    }
+
+    public ContractTransactionOutput[] getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(ContractTransactionOutput[] outputs) {
+        this.outputs = outputs;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
                 "type='" + type + '\'' +
-                ", _hash=" + _hash +
-                ", data=" + data +
+                ", _hash='" + _hash + '\'' +
+                ", data='" + data + '\'' +
                 ", signature=" + signature +
                 ", timestamp=" + timestamp +
+                ", inputs=" + Arrays.toString(inputs) +
+                ", outputs=" + Arrays.toString(outputs) +
                 '}';
     }
 }

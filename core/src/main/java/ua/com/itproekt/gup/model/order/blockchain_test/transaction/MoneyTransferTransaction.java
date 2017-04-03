@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 
 public class MoneyTransferTransaction extends Transaction {
@@ -20,6 +21,8 @@ public class MoneyTransferTransaction extends Transaction {
     private String                    data; /* (JSON) SHA-256                        */
     private TransactionSignature signature; /* Class                                 */
     private long                 timestamp; /* Long                                  */
+    private MoneyTransferTransactionInput[] inputs;
+    private MoneyTransferTransactionOutput[] outputs;
 
     /**
      *
@@ -78,14 +81,32 @@ public class MoneyTransferTransaction extends Transaction {
         this.timestamp = timestamp;
     }
 
+    public MoneyTransferTransactionInput[] getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(MoneyTransferTransactionInput[] inputs) {
+        this.inputs = inputs;
+    }
+
+    public MoneyTransferTransactionOutput[] getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(MoneyTransferTransactionOutput[] outputs) {
+        this.outputs = outputs;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
                 "type='" + type + '\'' +
-                ", _hash=" + _hash +
-                ", data=" + data +
+                ", _hash='" + _hash + '\'' +
+                ", data='" + data + '\'' +
                 ", signature=" + signature +
                 ", timestamp=" + timestamp +
+                ", inputs=" + Arrays.toString(inputs) +
+                ", outputs=" + Arrays.toString(outputs) +
                 '}';
     }
 }
