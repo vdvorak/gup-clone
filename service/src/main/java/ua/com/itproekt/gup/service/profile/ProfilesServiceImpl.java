@@ -74,7 +74,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPassword(hashedPassword)
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate()
-                .setNotCompletedFields(11); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setNotCompletedFields(11)
+                .setPublicKey(profile.getPublicKey())
+                .setPrivateKey(profile.getPrivateKey()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -102,7 +104,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPassword(hashedPassword)
                 .setUserRoles(profile.getUserRoles())
                 .setCreatedDateEqualsToCurrentDate()
-                .setNotCompletedFields(11); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setNotCompletedFields(11)
+                .setPublicKey(profile.getPublicKey())
+                .setPrivateKey(profile.getPrivateKey()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -130,7 +134,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setActive(profile.getActive())
                 .setEmail(offerRegistration.getEmail())
                 .setPassword(offerRegistration.getPassword())
-                .setUserRoles(offerUserRoleSet);
+                .setUserRoles(offerUserRoleSet)
+                .setPublicKey(profile.getPublicKey())
+                .setPrivateKey(profile.getPrivateKey());
         if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername()))
             profile.setUsername(offerRegistration.getUsername());
         if (0 < offerRegistration.getContactPhones().size()) {
@@ -160,7 +166,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUid(profile.getUid())
                 .setTokenKey(profile.getTokenKey())
                 .setUserRoles(userRoles)
-                .setCreatedDateEqualsToCurrentDate();
+                .setCreatedDateEqualsToCurrentDate()
+                .setPublicKey(profile.getPublicKey())
+                .setPrivateKey(profile.getPrivateKey());
 
         setEmptyFieldsForNewUser(newProfile);
 

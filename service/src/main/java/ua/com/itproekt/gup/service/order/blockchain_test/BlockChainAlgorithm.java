@@ -15,6 +15,7 @@ import java.util.Date;
 
 public class BlockChainAlgorithm {
 
+    BlockChainAlgorithm(){}
     public BlockChainAlgorithm(MemberService member, String option) throws IOException {
         switch (option) {
             case "moneyTransfer-confirm":
@@ -140,21 +141,5 @@ public class BlockChainAlgorithm {
     public Unavailable action(TransactionService service){
         return service;
     }
-
-//    public static void main(String[] args)
-//            throws NoSuchAlgorithmException, IOException, SignatureException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
-//
-//        moneyTransfer(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).confirm();
-////        moneyTransfer(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
-//        action(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).reject();
-//
-//        TransactionService service = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-//        BuyerTransactionService buyer = new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-//        SellerTransactionService seller = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-////        contract(service).
-//        contract(buyer).confirm();
-//        action(seller).reject();
-//        moneyTransfer(seller).reject();
-//    }
 
 }
