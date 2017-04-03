@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
@@ -111,6 +112,59 @@ public class OrderRestController {
 //        return ok;
 //    }
 
+//    @CrossOrigin
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
+//        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+//        if (offer == null) {
+//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+//        } else if (offer.isDeleted()) {
+//            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
+//        }
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//        if (userId!=null){
+//            if (!userId.equals(offer.getAuthorId())){
+//                try {
+//                    MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
+//
+////                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
+//
+////                    System.err.println("------------------------------------------------------------------------------");
+////                    System.err.println("_hash:      " + service.getHash());
+////                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
+////                    System.err.println("------------------------------------------------------------------------------");
+//
+//                    okhttp3.Response response = bankService.confirm();
+//                    // create order
+//                    if (response.code()==200) {
+////                      bankService.getTransaction().getTransaction().
+//                        Order order = new Order();
+//                        order.setOfferId(offer.getId());
+//                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
+////                        order.setPublicKey(service.getKeyPair().readPublic());
+////                        order.setHashTransaction(service.getHash());
+//                        order.setSeoUrl(offer.getSeoUrl());
+//                        order.setSeoKey(offer.getSeoKey());
+//                        order.setOrderType(OrderType.PURCHASE);
+//                        orderService.create(userId, order, offer);
+//                        return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+//                    }
+//                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//                    System.err.println( e.getMessage() );
+//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//                }
+//            } else {
+//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+//            }
+//        } else {
+//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
+//        }
+//    }
+
     /**
      * 1. Получает информацию о заказе (из фронта):
      *    + ID-покупатель
@@ -145,31 +199,43 @@ public class OrderRestController {
         if (userId!=null){
             if (!userId.equals(offer.getAuthorId())){
                 try {
-                    MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
+                    /*
+                     * Делаем иммитацию банка:
+                     * **********************
+                     * 1. Вытаскиваем информацию о продавце
+                     * 2. Вытаскиваем информацию о стоимости объявления
+                     * 3. Вытаскиваем приватную информацию на балансе на счету у покупателя
+                     * 4. Вытаскиваем приватную информацию номер банковской карты продавца (которая должна быть зарегистрированна в банке)
+                     * 5. (Имитация банкf) проверяем: наличие доступной суммы на балансе покупателя для облаты
+                     * 6. И формируем, типа из банка, транзакцию типа MONEY_TRANSFER
+                     */
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // Делаем иммитацию банка:
+//                    ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId); //   !!!
+                    ProfileInfo sellerProfileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(offer.getAuthorId());
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
+                    MemberService buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(offer.getAuthorId(), new Date().getTime(), offer.getSeoUrl())));
 
-//                    System.err.println("------------------------------------------------------------------------------");
-//                    System.err.println("_hash:      " + service.getHash());
-//                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
-//                    System.err.println("------------------------------------------------------------------------------");
-
-                    okhttp3.Response response = bankService.confirm();
+                    okhttp3.Response response = buyer.confirm();
                     // create order
-                    if (response.code()==200) {
-//                      bankService.getTransaction().getTransaction().
+//                    if (response.code()==200) {
                         Order order = new Order();
                         order.setOfferId(offer.getId());
                         order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-//                        order.setPublicKey(service.getKeyPair().readPublic());
-//                        order.setHashTransaction(service.getHash());
+
+                        sellerProfileInfo.getProfile().getPublicId();
+//                        buyer.getTransaction().getTransaction().get
+////                        order.setPublicKey(service.getKeyPair().readPublic());
+////                        order.setHashTransaction(service.getHash());
+
                         order.setSeoUrl(offer.getSeoUrl());
                         order.setSeoKey(offer.getSeoKey());
                         order.setOrderType(OrderType.PURCHASE);
                         orderService.create(userId, order, offer);
-                        return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
-                    }
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+//                    }
+//                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
                     System.err.println( e.getMessage() );
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

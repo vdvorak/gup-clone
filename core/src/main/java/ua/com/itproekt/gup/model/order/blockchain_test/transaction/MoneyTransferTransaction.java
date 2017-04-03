@@ -26,26 +26,31 @@ public class MoneyTransferTransaction extends Transaction {
 
     /**
      *
-     * @param bankId         String
+     * @param selerId        String
      * @param timestamp      Long
      * @param additionalInfo String
      */
-    public MoneyTransferTransaction(String bankId, long timestamp, String additionalInfo)
+    public MoneyTransferTransaction(String selerId, long timestamp, String additionalInfo)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
-        this("MONEY_TRANSACTION", null, bankId, timestamp, 0, additionalInfo);
+        this("MONEY_TRANSACTION", null, selerId, timestamp, 0, additionalInfo);
     }
-    private MoneyTransferTransaction(String type, String _hash, String bankId, long timestamp, int logicRef, String additionalInfo)
+    private MoneyTransferTransaction(String type, String _hash, String selerId, long timestamp, int logicRef, String additionalInfo)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this.type = type;
         this.timestamp = timestamp;
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        setData(logicRef, new String[]{bankId}, additionalInfo);
-        setSignature(bankId);
+        setData(logicRef, new String[]{selerId}, additionalInfo);
+        setSignature(selerId);
     }
 
     @Override
     public String getType() {
         return type;
+    }
+
+    public String get_hash()
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        return super.get_hash();
     }
 
     public void setType(String type) {
