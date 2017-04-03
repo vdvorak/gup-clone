@@ -221,13 +221,11 @@ public class OrderRestController {
                     // create order
 //                    if (response.code()==200) {
                         Order order = new Order();
-                        order.setOfferId(offer.getId());
+                        order.setOfferId(offer.getId()); // sellerProfileInfo.getProfile().getPublicId();
                         order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
 
-                        sellerProfileInfo.getProfile().getPublicId();
-//                        buyer.getTransaction().getTransaction().get
-////                        order.setPublicKey(service.getKeyPair().readPublic());
-////                        order.setHashTransaction(service.getHash());
+                        order.setPublicKey( buyer.getTransaction().getTransaction().getSignature().getPublicKey() );
+                        order.setHashTransaction( buyer.getTransaction().getTransaction().get_hash() );
 
                         order.setSeoUrl(offer.getSeoUrl());
                         order.setSeoKey(offer.getSeoKey());

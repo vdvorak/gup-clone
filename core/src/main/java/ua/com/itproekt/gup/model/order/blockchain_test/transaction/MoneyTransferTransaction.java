@@ -48,11 +48,6 @@ public class MoneyTransferTransaction extends Transaction {
         return type;
     }
 
-    public String get_hash()
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        return super.get_hash();
-    }
-
     public void setType(String type) {
         this.type = type;
     }

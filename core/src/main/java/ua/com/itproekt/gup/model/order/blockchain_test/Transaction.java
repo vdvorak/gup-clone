@@ -26,7 +26,7 @@ abstract public class Transaction {
     /**
      * @return (type + <random> + timestamp) SHA-256
      */
-    protected String get_hash()
+    public String get_hash()
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest       msg = MessageDigest.getInstance("SHA-256"); // 1. Указываем тип шифрования ( формат: SHA-256 )
         String          strHash = getType() + hashGenerator() + getTimestamp();
@@ -42,7 +42,7 @@ abstract public class Transaction {
      * @param members
      * @param additionalInfo
      */
-    protected void setData(int logicRef, String[] members, String additionalInfo)
+    public void setData(int logicRef, String[] members, String additionalInfo)
             throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
         Gson gson = new Gson();
         String data = gson.toJson(new TransactionDataMoneyTransfer(logicRef, members, additionalInfo)); // пользовательские данные которые нужно зашифровать, передать и проверить...
@@ -57,7 +57,7 @@ abstract public class Transaction {
         setData(Hex.toHexString(digestDATA));
     }
 
-    protected void setSignature(String idUser)           // вытягиваем ключ по пользователю-владельцу ???????????????????????
+    public void setSignature(String idUser)           // вытягиваем ключ по пользователю-владельцу ???????????????????????
             throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
         FileKeyGenerator          keyPair = new FileKeyGenerator();   // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из базы-users...
         Signature               signature = Signature.getInstance("RSA", "BC");

@@ -30,8 +30,8 @@ public class FileKeyGenerator {
 
     protected final static Logger        LOGGER = Logger.getLogger(FileKeyGenerator.class);
     public static final int   LENGTH_PUBLIC_KEY = 2048;
-    public static final String FILE_PRIVATE_KEY = "id_rsa";
-    public static final String  FILE_PUBLIC_KEY = "id_rsa.pub";
+    public static final String FILE_PRIVATE_KEY = "/opt/tomcats/tomcat_gup_service_test_offers/temp/id_rsa";
+    public static final String  FILE_PUBLIC_KEY = "/opt/tomcats/tomcat_gup_service_test_offers/temp/id_rsa.pub";
     public static final String DESC_PRIVATE_KEY = "RSA PRIVATE KEY";
     public static final String  DESC_PUBLIC_KEY = "RSA PUBLIC KEY";
 
