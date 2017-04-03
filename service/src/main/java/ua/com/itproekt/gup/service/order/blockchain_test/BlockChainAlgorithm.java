@@ -23,7 +23,7 @@ public class BlockChainAlgorithm {
     static long         TIMESTAMP = new Date().getTime();                                             /* String  */
     static String ADDITIONAL_INFO = "kofe-yakobs-monarkh-400-hr-tsena-ot-132-hrn-kasik-braziliia-id"; /* String  */
 
-    private MemberService member;
+    private static MemberService member;
 
     private BlockChainAlgorithm(){
     }
@@ -31,46 +31,57 @@ public class BlockChainAlgorithm {
         this.member = member;
     }
 
+
+    public static Confirm moneyTransfer(BuyerTransactionService buyerService){
+        System.err.println("1");
+        return buyerService;
+    }
+    public static Unavailable moneyTransfer(SellerTransactionService sellerService){
+        System.err.println("2");
+        return sellerService;
+    }
+    public static Unavailable moneyTransfer(TransactionService service){
+        System.err.println("x");
+        return service;
+    }
+    public static Confirm contract(BuyerTransactionService buyerService){
+        System.err.println("3");
+        return buyerService;
+    }
+    public static Unavailable contract(SellerTransactionService sellerService){
+        System.err.println("4");
+        return sellerService;
+    }
+    public static Unavailable contract(TransactionService service){
+        System.err.println("xx");
+        return service;
+    }
+    public static Available action(BuyerTransactionService buyerService){
+        System.err.println("5");
+        return buyerService;
+    }
+    public static Available action(SellerTransactionService sellerService){
+        System.err.println("6");
+        return sellerService;
+    }
+    public static Unavailable action(TransactionService service){
+        System.err.println("xxx");
+        return service;
+    }
+
     public static void main(String[] args)
             throws NoSuchAlgorithmException, IOException, SignatureException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
-        BlockChainAlgorithm bca = new BlockChainAlgorithm(new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))));
 
-//        bca.getInterface("3").
+        moneyTransfer(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).confirm();
+//        moneyTransfer(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+        action(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).reject();
+
+        TransactionService service = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+        BuyerTransactionService buyer = new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+        SellerTransactionService seller = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+//        contract(service).
+        contract(buyer).confirm();
+        action(seller).reject();
     }
 
-    public Unavailable getInterface(String option){
-        switch (option) {
-            case "1":
-                return getConfirm();
-            case "2":
-                return getReject();
-            case "3":
-                return getAvailable();
-            default:
-                return getUnavailable();
-        }
-
-//        Unavailable test0 = member;
-//        Confirm test1 = member;
-//        Reject test2 = member;
-//        Available test3 = member;
-//
-//        return test0;
-    }
-
-    private Unavailable getUnavailable() {
-        return (Unavailable) member;
-    }
-
-    private Confirm getConfirm() {
-        return (Confirm) member;
-    }
-
-    private Reject getReject() {
-        return (Reject) member;
-    }
-
-    private Available getAvailable() {
-        return (Available) member;
-    }
 }

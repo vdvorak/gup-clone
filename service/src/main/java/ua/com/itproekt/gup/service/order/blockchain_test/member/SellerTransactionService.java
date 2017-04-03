@@ -16,7 +16,7 @@ public class SellerTransactionService extends TransactionService {
     }
 
     @Override
-    protected Transaction getTransaction() {
+    public Transaction getTransaction() {
         return transaction;
     }
 }
