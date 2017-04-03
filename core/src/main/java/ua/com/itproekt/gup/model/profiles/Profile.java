@@ -79,6 +79,9 @@ public class Profile {
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
 
+    private String publicKey;
+    private String privateKey;
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
@@ -439,6 +442,24 @@ public class Profile {
         return this;
     }
 
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public Profile setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+        return this;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public Profile setPrivateKey(String privateKey) {
+        this.publicKey = privateKey;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -477,6 +498,8 @@ public class Profile {
                 ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
+                ", publicKey=" + publicKey +
+                ", privateKey=" + privateKey +
                 '}';
     }
 }

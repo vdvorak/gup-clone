@@ -14,10 +14,6 @@ import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Hex;
-import org.bouncycastle.util.encoders.Base64;
 
 
 /**
@@ -26,13 +22,11 @@ import org.bouncycastle.util.encoders.Base64;
 
 public class Main {
 
-    protected final static Logger LOGGER = Logger.getLogger(Main.class);
     public static final int     KEY_SIZE = 2048; // 1024
 
     public static void main(String[] args)
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException {
         Security.addProvider(new BouncyCastleProvider());
-        LOGGER.info("BouncyCastle provider added.");
 
         KeyPair    keyPair = generateRSAKeyPair();
         RSAPrivateKey priv = (RSAPrivateKey) keyPair.getPrivate();
