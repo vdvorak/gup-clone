@@ -7,6 +7,7 @@ import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -84,7 +85,7 @@ public interface OfferRepository {
      * @param excludeOffersId       - the id's of the offers which must be excluded from result list.
      * @return                      - the entityPage object with offers inside.
      */
-    EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, List<String> excludeOffersId);
+    EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, Collection<String> excludeOffersId);
 
 
     /**

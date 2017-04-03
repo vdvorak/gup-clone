@@ -25,6 +25,7 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -194,7 +195,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 
 
     @Override
-    public EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, List<String> excludeOffersId) {
+    public EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, Collection<String> excludeOffersId) {
 
         Query query = queryPreparator(offerFilterOptions);
 
