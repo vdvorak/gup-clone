@@ -15,73 +15,120 @@ import java.util.Date;
 
 public class BlockChainAlgorithm {
 
-    static Gson              gson = new Gson();
-    static String           _HASH = "????????????????????????????";                                  /* (type + <random> + timestamp) SHA-256 */
-    static String       SELLER_ID = "000000";                                                         /* String  */
-    static String        BUYER_ID = "111111";                                                         /* String  */
-    static String         BANK_ID = "222222";                                                         /* String  */
-    static long         TIMESTAMP = new Date().getTime();                                             /* String  */
-    static String ADDITIONAL_INFO = "kofe-yakobs-monarkh-400-hr-tsena-ot-132-hrn-kasik-braziliia-id"; /* String  */
-
-    private static MemberService member;
-
-    private BlockChainAlgorithm(){
+    public BlockChainAlgorithm(BuyerTransactionService buyer, String option)
+            throws IOException {
+        switch (option) {
+            case "moneyTransfer-confirm":
+                moneyTransfer(buyer).confirm();
+                break;
+            case "moneyTransfer-reject":
+//                moneyTransfer(buyer).reject();
+                break;
+            case "contract-confirm":
+                contract(buyer).confirm();
+                break;
+            case "contract-reject":
+//                contract(buyer).reject();
+                break;
+            case "action-confirm":
+                action(buyer).confirm();
+                break;
+            case "action-reject":
+                action(buyer).reject();
+                break;
+        }
     }
-    public BlockChainAlgorithm(MemberService member){
-        this.member = member;
+
+    public BlockChainAlgorithm(SellerTransactionService seller, String option)
+            throws IOException {
+        switch (option) {
+            case "moneyTransfer-confirm":
+//                moneyTransfer(seller).confirm();
+                break;
+            case "moneyTransfer-reject":
+                moneyTransfer(seller).reject();
+                break;
+            case "contract-confirm":
+//                contract(seller).confirm();
+                break;
+            case "contract-reject":
+//                contract(seller).reject();
+                break;
+            case "action-confirm":
+                action(seller).confirm();
+                break;
+            case "action-reject":
+                action(seller).reject();
+                break;
+        }
     }
 
-
-    public static Confirm moneyTransfer(BuyerTransactionService buyerService){
-        System.err.println("1");
-        return buyerService;
+    public BlockChainAlgorithm(TransactionService service, String option)
+            throws IOException {
+        switch (option) {
+            case "moneyTransfer-confirm":
+//                moneyTransfer(service).confirm();
+                break;
+            case "moneyTransfer-reject":
+//                moneyTransfer(service).reject();
+                break;
+            case "contract-confirm":
+//                contract(service).confirm();
+                break;
+            case "contract-reject":
+//                contract(service).reject();
+                break;
+            case "action-confirm":
+//                action(service).confirm();
+                break;
+            case "action-reject":
+//                action(service).reject();
+                break;
+        }
     }
-    public static Unavailable moneyTransfer(SellerTransactionService sellerService){
-        System.err.println("2");
-        return sellerService;
+
+    public static Confirm moneyTransfer(BuyerTransactionService buyer){
+        return buyer;
+    }
+    public static Reject moneyTransfer(SellerTransactionService seller){
+        return seller;
     }
     public static Unavailable moneyTransfer(TransactionService service){
-        System.err.println("x");
         return service;
     }
-    public static Confirm contract(BuyerTransactionService buyerService){
-        System.err.println("3");
-        return buyerService;
+    public static Confirm contract(BuyerTransactionService buyer){
+        return buyer;
     }
-    public static Unavailable contract(SellerTransactionService sellerService){
-        System.err.println("4");
-        return sellerService;
+    public static Unavailable contract(SellerTransactionService seller){
+        return seller;
     }
     public static Unavailable contract(TransactionService service){
-        System.err.println("xx");
         return service;
     }
-    public static Available action(BuyerTransactionService buyerService){
-        System.err.println("5");
-        return buyerService;
+    public static Available action(BuyerTransactionService buyer){
+        return buyer;
     }
-    public static Available action(SellerTransactionService sellerService){
-        System.err.println("6");
-        return sellerService;
+    public static Available action(SellerTransactionService seller){
+        return seller;
     }
     public static Unavailable action(TransactionService service){
-        System.err.println("xxx");
         return service;
     }
 
-    public static void main(String[] args)
-            throws NoSuchAlgorithmException, IOException, SignatureException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
-
-        moneyTransfer(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).confirm();
-//        moneyTransfer(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
-        action(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).reject();
-
-        TransactionService service = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-        BuyerTransactionService buyer = new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-        SellerTransactionService seller = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-//        contract(service).
-        contract(buyer).confirm();
-        action(seller).reject();
-    }
+//    public static void main(String[] args)
+//            throws NoSuchAlgorithmException, IOException, SignatureException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
+//
+//        moneyTransfer(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).confirm();
+////        moneyTransfer(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+//        action(new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO))).reject();
+//
+//        TransactionService service = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+//        BuyerTransactionService buyer = new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+//        SellerTransactionService seller = new SellerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+////        contract(service).
+//        contract(buyer).confirm();
+//        action(seller).reject();
+//        moneyTransfer(seller).reject();
+//    }
 
 }
