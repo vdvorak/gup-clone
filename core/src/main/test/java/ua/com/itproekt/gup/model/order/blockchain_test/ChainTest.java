@@ -60,40 +60,40 @@ public class ChainTest {
         }
     }
 
-    @Test
-    public void testContractTransaction() {
-        /**
-         * Транзакция типа CONTRACT
-         * ************************
-         * Предполагается что банк успешно подтвердил наличие баланса денег у покупателя (BUYER) и уже снял сумму-стоимости со счета у покупателя (BUYER):
-         * 0. Контракт создается на того юзера кому предназначается сумма-денежного перевода (SELLER)
-         * 1. это значит что уже была выполнена транзакция типа MONEY_TRANSFER и мы получили _hash (id) этой транзакции
-         * 2. вытягиваю клиентов (BUYER|SELLER) которые будут участниками этого контракта
-         * 3. вытягиваю какое-нибудь описание объявления для заказа
-         * 4. устанавливаю время согласно текущей локализации
-         */
-        try {
-//            Chain contract = new Chain(new ContractTransaction(null, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
-            Chain contract = new Chain(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(contract) ); // System.out.println( contract.getTransaction() );
-        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-        }
-    }
-
-    @Test
-    public void testActionTransaction() {
-        /**
-         * Транзакция типа Action
-         * **********************
-         * Предполагается что на этом этапе контракт (транзакция типа CONTRACT) уже была создана:
-         * 1. В течении всего процесса продажи - продавец должен подтвердить оплату
-         * 2. по разным причинам этот контракт, пока он открыт, можно еще отменить (и это может сделать и продавец и покупатель)
-         * 3. Существуют договор контракта по которому обе стороны должны его соблюдать (если какая-то сторона нарушает этот договор - тогда контракт может быть безопастно  отменен)
-         */
-        try {
-            Chain action = new Chain(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(action) ); // System.out.println( action.getTransaction() );
-        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-        }
-    }
+//    @Test
+//    public void testContractTransaction() {
+//        /**
+//         * Транзакция типа CONTRACT
+//         * ************************
+//         * Предполагается что банк успешно подтвердил наличие баланса денег у покупателя (BUYER) и уже снял сумму-стоимости со счета у покупателя (BUYER):
+//         * 0. Контракт создается на того юзера кому предназначается сумма-денежного перевода (SELLER)
+//         * 1. это значит что уже была выполнена транзакция типа MONEY_TRANSFER и мы получили _hash (id) этой транзакции
+//         * 2. вытягиваю клиентов (BUYER|SELLER) которые будут участниками этого контракта
+//         * 3. вытягиваю какое-нибудь описание объявления для заказа
+//         * 4. устанавливаю время согласно текущей локализации
+//         */
+//        try {
+////            Chain contract = new Chain(new ContractTransaction(null, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
+//            Chain contract = new Chain(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
+//            System.out.println( gson.toJson(contract) ); // System.out.println( contract.getTransaction() );
+//        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//        }
+//    }
+//
+//    @Test
+//    public void testActionTransaction() {
+//        /**
+//         * Транзакция типа Action
+//         * **********************
+//         * Предполагается что на этом этапе контракт (транзакция типа CONTRACT) уже была создана:
+//         * 1. В течении всего процесса продажи - продавец должен подтвердить оплату
+//         * 2. по разным причинам этот контракт, пока он открыт, можно еще отменить (и это может сделать и продавец и покупатель)
+//         * 3. Существуют договор контракта по которому обе стороны должны его соблюдать (если какая-то сторона нарушает этот договор - тогда контракт может быть безопастно  отменен)
+//         */
+//        try {
+//            Chain action = new Chain(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
+//            System.out.println( gson.toJson(action) ); // System.out.println( action.getTransaction() );
+//        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//        }
+//    }
 }

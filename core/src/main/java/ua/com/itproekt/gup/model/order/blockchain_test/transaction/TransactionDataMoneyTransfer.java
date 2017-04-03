@@ -1,15 +1,15 @@
-package ua.com.itproekt.gup.model.order.blockchain_test;
+package ua.com.itproekt.gup.model.order.blockchain_test.transaction;
 
 
-public class TransactionData {
+public class TransactionDataMoneyTransfer {
 
     private int logicRef;
     private String[] members;
     private AdditionalInfo additionalInfo;
 
-    private TransactionData(){
+    private TransactionDataMoneyTransfer(){
     }
-    public TransactionData(int logicRef, String[] members, String additionalInfo){
+    public TransactionDataMoneyTransfer(int logicRef, String[] members, String additionalInfo){
         this.logicRef = logicRef;
         this.members = members;
         this.additionalInfo = new AdditionalInfo(additionalInfo);
