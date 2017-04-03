@@ -430,10 +430,24 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer) {
 
-
         // receive list of relevant offer then transform it into offerInfo list
-        List<OfferInfo> relevantOffersList = publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId()).getEntities());
-
+        OfferFilterOptions offerFilterOptions = offerFilterOptionsPreparatorForRelevantSearchWithCity(offer);
+        LinkedList<String> categories = new LinkedList<>(offerFilterOptions.getCategories());
+        int numberOfCategories = categories.size();
+        Set<String> findedIds = new HashSet<>();
+        findedIds.add(offer.getId());
+        Map<String, Offer> relevantOffersMap = new LinkedHashMap<>();
+        // receive list of relevant offers first 3 categories match then 2 and 1
+        for (int i = 0; i < numberOfCategories && relevantOffersMap.size() < 20; i++) {
+            findedIds.addAll(relevantOffersMap.keySet());
+            offerFilterOptions.setLimit(20-relevantOffersMap.size());
+            offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, findedIds).getEntities().forEach(
+                    o-> relevantOffersMap.put(o.getId(), o)
+            );
+            categories.removeLast();
+            offerFilterOptions.setCategories(new LinkedHashSet<>(categories));
+        }
+        List<OfferInfo> relevantOffersList = publicMiniOfferInfoPreparator(new ArrayList<>(relevantOffersMap.values()));
 
         if (relevantOffersList.size() < 20) {
 
