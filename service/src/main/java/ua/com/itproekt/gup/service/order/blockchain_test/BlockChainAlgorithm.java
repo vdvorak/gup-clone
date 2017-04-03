@@ -15,8 +15,7 @@ import java.util.Date;
 
 public class BlockChainAlgorithm {
 
-    public BlockChainAlgorithm(MemberService member, String option)
-            throws IOException {
+    public BlockChainAlgorithm(MemberService member, String option) throws IOException {
         switch (option) {
             case "moneyTransfer-confirm":
                 moneyTransfer(member).confirm();
@@ -38,9 +37,7 @@ public class BlockChainAlgorithm {
                 break;
         }
     }
-
-    public BlockChainAlgorithm(BuyerTransactionService buyer, String option)
-            throws IOException {
+    public BlockChainAlgorithm(BuyerTransactionService buyer, String option) throws IOException {
         switch (option) {
             case "moneyTransfer-confirm":
                 moneyTransfer(buyer).confirm();
@@ -62,9 +59,7 @@ public class BlockChainAlgorithm {
                 break;
         }
     }
-
-    public BlockChainAlgorithm(SellerTransactionService seller, String option)
-            throws IOException {
+    public BlockChainAlgorithm(SellerTransactionService seller, String option) throws IOException {
         switch (option) {
             case "moneyTransfer-confirm":
 //                moneyTransfer(seller).confirm();
@@ -86,9 +81,7 @@ public class BlockChainAlgorithm {
                 break;
         }
     }
-
-    public BlockChainAlgorithm(TransactionService service, String option)
-            throws IOException {
+    public BlockChainAlgorithm(TransactionService service, String option) throws IOException {
         switch (option) {
             case "moneyTransfer-confirm":
 //                moneyTransfer(service).confirm();
@@ -111,40 +104,40 @@ public class BlockChainAlgorithm {
         }
     }
 
-    public static Available moneyTransfer(MemberService member){
+    public   Available moneyTransfer(MemberService member){
         return member;
     }
-    public static Confirm moneyTransfer(BuyerTransactionService buyer){
+    public     Confirm moneyTransfer(BuyerTransactionService buyer){
         return buyer;
     }
-    public static Reject moneyTransfer(SellerTransactionService seller){
+    public      Reject moneyTransfer(SellerTransactionService seller){
         return seller;
     }
-    public static Unavailable moneyTransfer(TransactionService service){
+    public Unavailable moneyTransfer(TransactionService service){
         return service;
     }
-    public static Available contract(MemberService member){
+    public   Available contract(MemberService member){
         return member;
     }
-    public static Confirm contract(BuyerTransactionService buyer){
+    public     Confirm contract(BuyerTransactionService buyer){
         return buyer;
     }
-    public static Unavailable contract(SellerTransactionService seller){
+    public Unavailable contract(SellerTransactionService seller){
         return seller;
     }
-    public static Unavailable contract(TransactionService service){
+    public Unavailable contract(TransactionService service){
         return service;
     }
-    public static Available action(MemberService member){
+    public   Available action(MemberService member){
         return member;
     }
-    public static Available action(BuyerTransactionService buyer){
+    public   Available action(BuyerTransactionService buyer){
         return buyer;
     }
-    public static Available action(SellerTransactionService seller){
+    public   Available action(SellerTransactionService seller){
         return seller;
     }
-    public static Unavailable action(TransactionService service){
+    public Unavailable action(TransactionService service){
         return service;
     }
 
