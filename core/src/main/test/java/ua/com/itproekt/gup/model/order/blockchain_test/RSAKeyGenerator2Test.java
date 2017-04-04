@@ -43,14 +43,12 @@ public class RSAKeyGenerator2Test {
     public void testGeneratePublicKey() {
         try {
             System.out.println( generator2.getPublicKey() );
-            System.out.println( generator2.getPublicKey() );
         } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){}
     }
 
     @Test
     public void testGeneratePublicHash() {
         try {
-            generator2.getPublicKey();
             System.out.println( generator2.getPublicHash() );
         } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){}
     }
@@ -59,6 +57,20 @@ public class RSAKeyGenerator2Test {
     public void testGeneratePrivateKey() {
         try {
             System.out.println( generator2.getPrivateKey() );
+        } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){}
+    }
+
+    @Test
+    public void testObjGeneratePublicKey() {
+        try {
+            System.out.println( generator2.objPublicKey() );
+        } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){}
+    }
+
+    @Test
+    public void testObjGeneratePrivateKey() {
+        try {
+            System.out.println( generator2.objPrivateKey() );
         } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){}
     }
 

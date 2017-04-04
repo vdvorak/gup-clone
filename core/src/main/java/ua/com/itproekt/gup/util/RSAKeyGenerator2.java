@@ -39,6 +39,7 @@ public class RSAKeyGenerator2 {
 
     public String getPublicHash()
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+        getPublicKey();
         if (publicKey!=null){
             MessageDigest   msg = MessageDigest.getInstance("SHA-256"); // 1. Указываем тип шифрования ( формат: SHA-256 )
             byte[]   bytePublic = publicKey.getBytes("UTF-8");          // 2. Переводим данные в байт-код
@@ -70,6 +71,34 @@ public class RSAKeyGenerator2 {
         privateKey = new String(Files.readAllBytes(Paths.get(FILE_PRIVATE_KEY)));
         if (new File(FILE_PRIVATE_KEY).delete()) return privateKey;
         return "Delete operation is failed";
+    }
+
+    public PublicKey objPublicKey()
+            throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+        getPublicKey();
+        KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
+        if (publicKey!=null){
+            PemReader reader = new PemReader( new InputStreamReader(new ByteArrayInputStream(publicKey.getBytes())) );
+            PemObject    obj = reader.readPemObject();
+            byte[]   content = obj.getContent();
+            X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(content);
+            return factory.generatePublic(pubKeySpec);
+        }
+        return null;
+    }
+
+    public PrivateKey objPrivateKey()
+            throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+        getPrivateKey();
+        KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
+        if (privateKey!=null){
+            PemReader reader = new PemReader( new InputStreamReader(new ByteArrayInputStream(privateKey.getBytes())) );
+            PemObject    obj = reader.readPemObject();
+            byte[]   content = obj.getContent();
+            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(content);
+            return factory.generatePrivate(privKeySpec);
+        }
+        return null;
     }
 
 
