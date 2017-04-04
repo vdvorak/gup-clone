@@ -43,6 +43,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -94,6 +97,14 @@ public class LoginRestController {
                 profile.setSocWendor("GUP");
             }
             profile.setActive(false);
+            try {
+                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
+                profile.setPublicKey(generator2.getPublicKey());
+                profile.setPrivateKey(generator2.getPrivateKey());
+                profile.setPublicHash(generator2.getPublicHash());
+            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
@@ -130,6 +141,14 @@ public class LoginRestController {
                 profile.setSocWendor("GUP");
             }
             profile.setActive(false);
+            try {
+                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
+                profile.setPublicKey(generator2.getPublicKey());
+                profile.setPrivateKey(generator2.getPrivateKey());
+                profile.setPublicHash(generator2.getPublicHash());
+            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
             profilesService.createProfile(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
