@@ -392,6 +392,25 @@ public class LoginRestController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo>phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
+        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) != null )
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        LoggedUser loggedUser;
+        try {
+            /* Edit Profile */
+            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
+        } catch (UsernameNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
+
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         if (request.getCookies() == null) {
