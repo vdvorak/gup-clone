@@ -83,87 +83,34 @@ public class OrderRestController {
 
     //------------------------------------------ Create -------------------------------------------------------------
 
-//    /**
-//     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
-//     * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
-//     */
-//    @PreAuthorize("isAuthenticated()")
-//    @CrossOrigin
-//    @RequestMapping(value = "/order/create", method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> createOrder(@Valid @RequestBody Order order) {
-//
-//        Offer offer = offersService.findById(order.getOfferId());
-//        if (offer == null) {
-//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        if (userId.equals(offer.getAuthorId())) {
-//            return new ResponseEntity<>("You are not an offer author.", HttpStatus.FORBIDDEN);
-//        }
-//
-//        if (orderService.isOrderValid(order, offer)) {
-//            // create order
-//            orderService.create(userId, order, offer);
-//        } else {
-//            return new ResponseEntity<>("Order is not valid", HttpStatus.BAD_REQUEST);
-//        }
-//        return ok;
-//    }
+    /**
+     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
+     * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/create", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createOrder(@Valid @RequestBody Order order) {
 
-//    @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
-//        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
-//        if (offer == null) {
-//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-//        } else if (offer.isDeleted()) {
-//            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        if (userId!=null){
-//            if (!userId.equals(offer.getAuthorId())){
-//                try {
-//                    MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
-//
-////                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
-//
-////                    System.err.println("------------------------------------------------------------------------------");
-////                    System.err.println("_hash:      " + service.getHash());
-////                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
-////                    System.err.println("------------------------------------------------------------------------------");
-//
-//                    okhttp3.Response response = bankService.confirm();
-//                    // create order
-//                    if (response.code()==200) {
-////                      bankService.getTransaction().getTransaction().
-//                        Order order = new Order();
-//                        order.setOfferId(offer.getId());
-//                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-////                        order.setPublicKey(service.getKeyPair().readPublic());
-////                        order.setHashTransaction(service.getHash());
-//                        order.setSeoUrl(offer.getSeoUrl());
-//                        order.setSeoKey(offer.getSeoKey());
-//                        order.setOrderType(OrderType.PURCHASE);
-//                        orderService.create(userId, order, offer);
-//                        return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
-//                    }
-//                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-//                    System.err.println( e.getMessage() );
-//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//            } else {
-//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
-//            }
-//        } else {
-//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
-//        }
-//    }
+        Offer offer = offersService.findById(order.getOfferId());
+        if (offer == null) {
+            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId.equals(offer.getAuthorId())) {
+            return new ResponseEntity<>("You are not an offer author.", HttpStatus.FORBIDDEN);
+        }
+
+        if (orderService.isOrderValid(order, offer)) {
+            // create order
+            orderService.create(userId, order, offer);
+        } else {
+            return new ResponseEntity<>("Order is not valid", HttpStatus.BAD_REQUEST);
+        }
+        return ok;
+    }
 
     /**
      * 1. Получает информацию о заказе (из фронта):
