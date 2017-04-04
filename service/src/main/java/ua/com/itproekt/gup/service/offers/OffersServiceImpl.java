@@ -433,58 +433,29 @@ public class OffersServiceImpl implements OffersService {
         // receive list of relevant offer then transform it into offerInfo list
         OfferFilterOptions offerFilterOptions = offerFilterOptionsPreparatorForRelevantSearchWithCity(offer);
         LinkedList<String> categories = new LinkedList<>(offerFilterOptions.getCategories());
-        int numberOfCategories = categories.size();
-        Set<String> findedIds = new HashSet<>();
-        findedIds.add(offer.getId());
+        int numberOfFilterOptions = categories.size() + 1;
+        Set<String> currentOffersIds = new HashSet<>();
+        currentOffersIds.add(offer.getId());
         Map<String, Offer> relevantOffersMap = new LinkedHashMap<>();
         // receive list of relevant offers first 3 categories match then 2 and 1
-        for (int i = 0; i < numberOfCategories && relevantOffersMap.size() < 20; i++) {
-            findedIds.addAll(relevantOffersMap.keySet());
-            offerFilterOptions.setLimit(20-relevantOffersMap.size());
-            offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, findedIds).getEntities().forEach(
-                    o-> relevantOffersMap.put(o.getId(), o)
+        for (int i = 0; i < numberOfFilterOptions && relevantOffersMap.size() < 20; i++) {
+            // prepare set of the offers ID's which must be excluded in the next iterations of search
+            currentOffersIds.addAll(relevantOffersMap.keySet());
+            offerFilterOptions.setLimit(20 - relevantOffersMap.size());
+            // add current offer's to result map
+            //add extra offers from current filter options
+            offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOffersIds).getEntities().forEach(
+                    o -> relevantOffersMap.put(o.getId(), o)
             );
-            categories.removeLast();
-            offerFilterOptions.setCategories(new LinkedHashSet<>(categories));
+            if (categories.size() > 1) {
+                categories.removeLast();
+                offerFilterOptions.setCategories(new LinkedHashSet<>(categories));
+            } else {
+                int limit = 20 - relevantOffersMap.size();
+                offerFilterOptions = offerFilterOptionsPreparatorOnlyWithSkipAndLimit(limit);
+            }
         }
         List<OfferInfo> relevantOffersList = publicMiniOfferInfoPreparator(new ArrayList<>(relevantOffersMap.values()));
-
-        if (relevantOffersList.size() < 20) {
-
-            // prepare list of the offers ID's which must be excluded in the next iterations of search
-            List<String> currentOffersIds = new ArrayList<>();
-
-            // add current offer's ID to exclude list
-            currentOffersIds.add(offer.getId());
-
-            for (OfferInfo offerInfo : relevantOffersList) {
-                currentOffersIds.add(offerInfo.getOffer().getId());
-            }
-
-
-            //add extra offers from same area
-            relevantOffersList.addAll(publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), currentOffersIds).getEntities()));
-        }
-
-
-        if (relevantOffersList.size() < 20) {
-
-            // prepare list of the offers ID's which must be excluded in the next iterations of search
-            List<String> currentOffersIds = new ArrayList<>();
-
-            // add current offer's ID to exclude list
-            currentOffersIds.add(offer.getId());
-
-            for (OfferInfo offerInfo : relevantOffersList) {
-                currentOffersIds.add(offerInfo.getOffer().getId());
-            }
-
-            int limit = 20 - relevantOffersList.size();
-
-            // add extra offers from all categories
-            relevantOffersList.addAll(publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorOnlyWithSkipAndLimit(limit), currentOffersIds).getEntities()));
-        }
-
         return relevantOffersList;
     }
 
