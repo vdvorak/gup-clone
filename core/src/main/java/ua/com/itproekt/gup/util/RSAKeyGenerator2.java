@@ -22,6 +22,7 @@ import java.util.Base64;
 public class RSAKeyGenerator2 {
 
     public static final int   LENGTH_PUBLIC_KEY = 2048;
+    public static final String  ENCRYPTION_TYPE = "SHA-256";
     public static final String FILE_PRIVATE_KEY = "id_rsa";
     public static final String  FILE_PUBLIC_KEY = "id_rsa.pub";
     public static final String DESC_PRIVATE_KEY = "RSA PRIVATE KEY";
@@ -34,16 +35,18 @@ public class RSAKeyGenerator2 {
     public RSAKeyGenerator2()
             throws NoSuchProviderException, NoSuchAlgorithmException {
         Security.addProvider(new BouncyCastleProvider());
-        keyPair = generateRSAKeyPair();
+
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
+        generator.initialize(LENGTH_PUBLIC_KEY);
+        keyPair = generator.generateKeyPair();
     }
 
-    public String getPublicHash()
+    public String getPublicHash(String publicKey)
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-        getPublicKey();
         if (publicKey!=null){
-            MessageDigest   msg = MessageDigest.getInstance("SHA-256"); // 1. Указываем тип шифрования ( формат: SHA-256 )
-            byte[]   bytePublic = publicKey.getBytes("UTF-8");          // 2. Переводим данные в байт-код
-            byte[] digestPublic = msg.digest(bytePublic);               // 3. шифруем ( формат: SHA-256 )
+            MessageDigest   msg = MessageDigest.getInstance(ENCRYPTION_TYPE);
+            byte[]   bytePublic = publicKey.getBytes("UTF-8");
+            byte[] digestPublic = msg.digest(bytePublic);
             return Hex.toHexString(digestPublic);
         }
         return null;
@@ -73,9 +76,8 @@ public class RSAKeyGenerator2 {
         return "Delete operation is failed";
     }
 
-    public PublicKey objPublicKey()
+    public PublicKey getPublicKey(String publicKey)
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-        getPublicKey();
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
         if (publicKey!=null){
             PemReader reader = new PemReader( new InputStreamReader(new ByteArrayInputStream(publicKey.getBytes())) );
@@ -87,9 +89,8 @@ public class RSAKeyGenerator2 {
         return null;
     }
 
-    public PrivateKey objPrivateKey()
+    public PrivateKey getPrivateKey(String privateKey)
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-        getPrivateKey();
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
         if (privateKey!=null){
             PemReader reader = new PemReader( new InputStreamReader(new ByteArrayInputStream(privateKey.getBytes())) );
@@ -99,15 +100,5 @@ public class RSAKeyGenerator2 {
             return factory.generatePrivate(privKeySpec);
         }
         return null;
-    }
-
-
-    private KeyPair generateRSAKeyPair()
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
-        generator.initialize(LENGTH_PUBLIC_KEY);
-
-        KeyPair keyPair = generator.generateKeyPair();
-        return keyPair;
     }
 }
