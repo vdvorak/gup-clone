@@ -100,8 +100,9 @@ public class LoginRestController {
             try {
                 RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
                 profile.setPublicKey(generator2.getPublicKey());
-                profile.setPrivateKey(generator2.getPrivateKey());
-                profile.setPublicHash(generator2.getPublicHash());
+                String privateKey = generator2.getPrivateKey();
+                profile.setPrivateKey(privateKey);
+                profile.setPublicHash(generator2.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
@@ -144,8 +145,9 @@ public class LoginRestController {
             try {
                 RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
                 profile.setPublicKey(generator2.getPublicKey());
-                profile.setPrivateKey(generator2.getPrivateKey());
-                profile.setPublicHash(generator2.getPublicHash());
+                String privateKey = generator2.getPrivateKey();
+                profile.setPrivateKey(privateKey);
+                profile.setPublicHash(generator2.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
@@ -283,6 +285,66 @@ public class LoginRestController {
         }
         return resp;
     }
+
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/register-by-phone", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileInfo> resp = null;
+
+        // CHECK:
+        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+
+            // REGISTER:
+            if( profile.getSocWendor()==null ){
+                profile.setSocWendor("GUP");
+            }
+            profile.setActive(false);
+            try {
+                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
+                profile.setPublicKey(generator2.getPublicKey());
+                String privateKey = generator2.getPrivateKey();
+                profile.setPrivateKey(privateKey);
+                profile.setPublicHash(generator2.getPublicHash(privateKey));
+            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
+            profilesService.createProfile(profile);
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            // LOGIN:
+            LoggedUser loggedUser = null;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail()); //TODO
+                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
+                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+//                authenticateByEmailAndPassword(loggedUser, response);
+                //////////////////////////////////////////////////////////////////////////////////////////
+                AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
+//                System.err.println("********************************************************************");
+//                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
+//                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
+//                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
+//                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
+//                System.err.println("********************************************************************");
+                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString());
+                //////////////////////////////////////////////////////////////////////////////////////////
+
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail()); //TODO
+                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
+            } catch (UsernameNotFoundException ex) {
+                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return resp;
+    }
+
+
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
