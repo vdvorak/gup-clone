@@ -13,7 +13,7 @@ import org.bouncycastle.util.encoders.Hex;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataAction;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataContract;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataMoneyTransfer;
-import ua.com.itproekt.gup.util.FileKeyGenerator;
+import ua.com.itproekt.gup.util.RSAKeyGenerator;
 
 
 abstract public class Transaction {
@@ -65,7 +65,7 @@ abstract public class Transaction {
 
     public void setSignature(String idUser)           //TODO вытягиваем ключ по пользователю-владельцу ???????????????????????
             throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
-        FileKeyGenerator          keyPair = new FileKeyGenerator();   // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из базы-users...
+        RSAKeyGenerator keyPair = new RSAKeyGenerator();   // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из базы-users...
         Signature               signature = Signature.getInstance("RSA", "BC");
         signature.initSign( keyPair.getPrivate() );                   // 2. Создаем подпись-владельца на основе клиентского приватного ключа
         byte[]                  SIGNATURE = signature.sign();         // 3. Подписываем эти данные-владельца...

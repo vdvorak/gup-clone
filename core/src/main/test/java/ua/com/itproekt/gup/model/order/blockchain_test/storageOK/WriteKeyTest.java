@@ -50,17 +50,6 @@ public class WriteKeyTest {
         //////////////////////////////////////////////////////////////////////
         System.err.println("//////////////////////////////////////////////////////////////////////");
         KeyPair    keyPair22 = generateRSAKeyPair();
-//        PemObject pemObject22 = new PemObject("PUBLIC KEY", keyPair22.getPublic().getEncoded());
-////        System.err.println(Base64.getEncoder().encodeToString(pemObject22));
-//
-////        String pemKey00 = "-----BEGIN RSA PUBLIC KEY-----\n"
-////                + "MIGHAoGBANAahj75ZIz9nXqW2H83nGcUao4wNyYZ9Z1kiNTUYQl7ob/RBmDzs5rY\n"
-////                + "mUahXAg0qyS7+a55eU/csShf5ATGzAXv+DDPcz8HrSTcHMEFpuyYooX6PrIZ07Ma\n"
-////                + "XtsJ2J4mhlySI5uOZVRDoaFY53MPQx5gud2quDz759IN/0gnDEEVAgED\n"
-////                + "-----END RSA PUBLIC KEY-----\n";
-////        PemReader pemReader00 = new PemReader(new StringReader(pemKey00));
-////        RSAPublicKey rsaPubKey00 = (RSAPublicKey) pemReader00.readPemObject();
-////        System.out.println("Public key: "+rsaPubKey00);
 
         PemObject pemObject22 = new PemObject("PUBLIC KEY", keyPair22.getPublic().getEncoded());
         PemWriter pemWriter22 = new PemWriter(new OutputStreamWriter(new FileOutputStream("id_rsa22.pub")));
@@ -74,10 +63,15 @@ public class WriteKeyTest {
         PublicKey publicKey333 = factory33.generatePublic(pubKeySpec33);
         System.err.println(publicKey333);
 
+//        if (new File("id_rsa22.pub").delete()) System.err.println("Is deleted!");
+//        else System.err.println("Delete operation is failed?");
+
+
 
 
 
         //////////////////////////////////////////////////////////////////////
+        System.err.println("//////////////////////////////////////////////////////////////////////");
         String content = new String(Files.readAllBytes(Paths.get("id_rsa.pub")));
         System.err.println(content);
 

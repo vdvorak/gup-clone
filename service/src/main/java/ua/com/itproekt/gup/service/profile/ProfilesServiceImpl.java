@@ -77,7 +77,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setNotCompletedFields(11)
                 .setPublicKey(profile.getPublicKey())
                 .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setBankCard(profile.getBankCard())
+                .setPublicHash(profile.getPublicHash()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -108,7 +109,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setNotCompletedFields(11)
                 .setPublicKey(profile.getPublicKey())
                 .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setBankCard(profile.getBankCard())
+                .setPublicHash(profile.getPublicHash()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -139,7 +141,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(offerUserRoleSet)
                 .setPublicKey(profile.getPublicKey())
                 .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard());
+                .setBankCard(profile.getBankCard())
+                .setPublicHash(profile.getPublicHash());
         if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername()))
             profile.setUsername(offerRegistration.getUsername());
         if (0 < offerRegistration.getContactPhones().size()) {
@@ -172,7 +175,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setCreatedDateEqualsToCurrentDate()
                 .setPublicKey(profile.getPublicKey())
                 .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard());
+                .setBankCard(profile.getBankCard())
+                .setPublicHash(profile.getPublicHash());
 
         setEmptyFieldsForNewUser(newProfile);
 

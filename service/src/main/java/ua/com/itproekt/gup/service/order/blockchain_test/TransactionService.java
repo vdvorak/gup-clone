@@ -3,25 +3,15 @@ package ua.com.itproekt.gup.service.order.blockchain_test;
 import java.io.IOException;
 import java.security.*;
 
-import java.security.Security;
 import java.security.cert.X509Certificate;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
-import java.util.Random;
 
-import com.google.gson.Gson;
 import okhttp3.*;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Hex;
 import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
 import ua.com.itproekt.gup.service.order.blockchain_test.member.Available;
-import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import javax.net.ssl.*;
 
 import java.security.cert.CertificateException;
-
-import org.apache.log4j.Logger;
 
 
 abstract public class TransactionService implements Available {

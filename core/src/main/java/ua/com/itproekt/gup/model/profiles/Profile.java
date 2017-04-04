@@ -79,6 +79,7 @@ public class Profile {
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
 
+    private String publicHash;
     private String publicKey;
     private String privateKey;
     private BankCard bankCard;
@@ -443,6 +444,15 @@ public class Profile {
         return this;
     }
 
+    public String getPublicHash() {
+        return publicHash;
+    }
+
+    public Profile setPublicHash(String publicHash) {
+        this.publicHash = publicHash;
+        return this;
+    }
+
     public String getPublicKey() {
         return publicKey;
     }
@@ -457,7 +467,7 @@ public class Profile {
     }
 
     public Profile setPrivateKey(String privateKey) {
-        this.publicKey = privateKey;
+        this.privateKey = privateKey;
         return this;
     }
 

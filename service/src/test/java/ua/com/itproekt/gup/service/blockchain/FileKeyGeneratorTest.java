@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.service.blockchain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.util.FileKeyGenerator;
+import ua.com.itproekt.gup.util.RSAKeyGenerator;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +30,7 @@ public class FileKeyGeneratorTest {
     @Test
     public void testGeneratorFileKey() {
         try {
-            FileKeyGenerator fileKeyGenerator = new FileKeyGenerator();
+            RSAKeyGenerator fileKeyGenerator = new RSAKeyGenerator();
 
             PrivateKey privateKey = fileKeyGenerator.getPrivate();
             System.out.println(String.format("Instantiated private key: %s", privateKey));

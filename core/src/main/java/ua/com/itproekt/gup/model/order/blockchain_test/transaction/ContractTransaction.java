@@ -2,10 +2,8 @@ package ua.com.itproekt.gup.model.order.blockchain_test.transaction;
 
 import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
 import ua.com.itproekt.gup.model.order.blockchain_test.TransactionSignature;
-import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
