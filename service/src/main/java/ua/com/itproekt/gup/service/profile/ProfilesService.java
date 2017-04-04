@@ -104,6 +104,8 @@ public interface ProfilesService {
      */
     boolean profileExistsWithEmail(String email);
 
+    boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
+
     /**
      * Profile exists with uid boolean.
      *
@@ -129,6 +131,8 @@ public interface ProfilesService {
      * @return                          - the Profile.
      */
     Profile findProfileByUidAndWendor(String uid, String socWendor);
+
+    Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
 
     /**
      * Profile exists with socWendor boolean.

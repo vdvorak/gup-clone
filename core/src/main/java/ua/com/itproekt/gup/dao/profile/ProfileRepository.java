@@ -54,6 +54,8 @@ public interface ProfileRepository {
      */
     boolean profileExistsWithEmail(String email);
 
+    boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
+
     /**
      * Profile exists with socWendor boolean.
      *
@@ -87,6 +89,8 @@ public interface ProfileRepository {
      * @return the Profile
      */
     Profile findProfileByUidAndWendor(String uid, String socWendor);
+
+    Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
 
     /**
      * Find all profiles entity page.

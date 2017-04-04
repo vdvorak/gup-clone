@@ -234,6 +234,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileExistsWithEmail(email);
     }
 
+    @Override
+    public boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber) {
+        return profileRepository.profileExistsWithMainPhoneNumber(mainPhoneNumber);
+    }
 
     @Override
     public boolean profileExistsWithSocWendor(String socWendor) {
@@ -481,6 +485,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public Profile findProfileByUidAndWendor(String uid, String socWendor) {
         return profileRepository.findProfileByUidAndWendor(uid, socWendor);
+    }
+
+    @Override
+    public Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
+        return profileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor);
     }
 
     /**

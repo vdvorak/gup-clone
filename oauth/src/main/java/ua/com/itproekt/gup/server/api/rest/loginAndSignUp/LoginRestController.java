@@ -294,7 +294,7 @@ public class LoginRestController {
         ResponseEntity<ProfileInfo> resp = null;
 
         // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+        if( !profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhoneNumber()) ){
 
             // REGISTER:
             if( profile.getSocWendor()==null ){
@@ -311,28 +311,18 @@ public class LoginRestController {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail()); //TODO
+                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor()); //TODO +
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
-//                authenticateByEmailAndPassword(loggedUser, response);
                 //////////////////////////////////////////////////////////////////////////////////////////
-                AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
-//                System.err.println("********************************************************************");
-//                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
-//                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
-//                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
-//                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
-//                System.err.println("********************************************************************");
-                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString());
-                //////////////////////////////////////////////////////////////////////////////////////////
+                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor()); //TODO +
 
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail()); //TODO
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
                 resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -537,6 +527,15 @@ public class LoginRestController {
 
     private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+
+        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+    }
+
+    private void authenticateByPhoneAndPassword(User user, String phone, HttpServletResponse response) {
+        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, phone, user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 

@@ -40,6 +40,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
     }
 
+    public UserDetails loadUserByPhoneNumberdAndVendor(String phoneNumber, String vendor) throws UsernameNotFoundException {
+        Profile profile = profileService.findProfileByPhoneNumberAndWendor(phoneNumber, vendor);
+        if (profile == null) {
+            throw new UsernameNotFoundException("PHONE_NUMBER / VENDOR: [" + phoneNumber + " / " + vendor + "]");
+        }
+        return buildPhoneUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+    }
+
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getEmail(), profile.getPassword(),
                 true, true, true, true, authorities,
@@ -48,6 +56,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getUid(), profile.getSocWendor(),
+                true, true, true, true, authorities,
+                profile.getId());
+    }
+
+    private LoggedUser buildPhoneUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
+        return new LoggedUser(profile.getMainPhoneNumber(), profile.getSocWendor(),
                 true, true, true, true, authorities,
                 profile.getId());
     }

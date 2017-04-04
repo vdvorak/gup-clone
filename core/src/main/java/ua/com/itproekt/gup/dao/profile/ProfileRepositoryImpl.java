@@ -85,6 +85,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber) {
+        Query query = new Query(Criteria.where("mainPhoneNumber").is(mainPhoneNumber));
+        return mongoTemplate.exists(query, Profile.class);
+    }
+
+    @Override
     public boolean profileExistsWithSocWendor(String socWendor) {
         Query query = new Query(Criteria.where("socWendor").is(socWendor));
         return mongoTemplate.exists(query, Profile.class);
@@ -108,6 +114,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public Profile findProfileByUidAndWendor(String uid, String socWendor) {
         Query query = new Query()
                 .addCriteria(Criteria.where("uid").is(uid))
+                .addCriteria(Criteria.where("socWendor").is(socWendor));
+        return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
+    public Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("mainPhoneNumber").is(phoneNumber))
                 .addCriteria(Criteria.where("socWendor").is(socWendor));
         return mongoTemplate.findOne(query, Profile.class);
     }
