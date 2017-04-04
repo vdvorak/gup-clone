@@ -76,7 +76,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
                 .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setPrivateKey(profile.getPrivateKey())
+                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -106,7 +107,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
                 .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setPrivateKey(profile.getPrivateKey())
+                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -136,7 +138,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet)
                 .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey());
+                .setPrivateKey(profile.getPrivateKey())
+                .setBankCard(profile.getBankCard());
         if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername()))
             profile.setUsername(offerRegistration.getUsername());
         if (0 < offerRegistration.getContactPhones().size()) {
@@ -168,7 +171,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate()
                 .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey());
+                .setPrivateKey(profile.getPrivateKey())
+                .setBankCard(profile.getBankCard());
 
         setEmptyFieldsForNewUser(newProfile);
 

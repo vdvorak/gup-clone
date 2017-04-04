@@ -81,6 +81,7 @@ public class Profile {
 
     private String publicKey;
     private String privateKey;
+    private BankCard bankCard;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
@@ -460,6 +461,15 @@ public class Profile {
         return this;
     }
 
+    public BankCard getBankCard() {
+        return bankCard;
+    }
+
+    public Profile setBankCard(BankCard bankCard) {
+        this.bankCard = bankCard;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -500,6 +510,7 @@ public class Profile {
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
                 ", publicKey=" + publicKey +
                 ", privateKey=" + privateKey +
+                ", bankCard=" + bankCard +
                 '}';
     }
 }
