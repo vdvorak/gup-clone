@@ -183,68 +183,68 @@ public class OrderRestController {
      * 5. После этого покупателю должно прийти уведомление об успешном выполнении сделки (контракта)
      *    ( И успешно-завершенный заказ должен попасть в историю покупок... )
      */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
-        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
-        if (offer == null) {
-            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-        } else if (offer.isDeleted()) {
-            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
-        }
-
-        String userId = SecurityOperations.getLoggedUserId();
-        if (userId!=null){
-            if (!userId.equals(offer.getAuthorId())){
-                try {
-                    /*
-                     * Делаем иммитацию банка:
-                     * **********************
-                     * 1. Вытаскиваем информацию о продавце
-                     * 2. Вытаскиваем информацию о стоимости объявления
-                     * 3. Вытаскиваем приватную информацию на балансе на счету у покупателя
-                     * 4. Вытаскиваем приватную информацию номер банковской карты продавца (которая должна быть зарегистрированна в банке)
-                     * 5. (Имитация банкf) проверяем: наличие доступной суммы на балансе покупателя для облаты
-                     * 6. И формируем, типа из банка, транзакцию типа MONEY_TRANSFER
-                     */
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////
-                    // Делаем иммитацию банка:
-//                    ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId); //   !!!
-                    ProfileInfo sellerProfileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(offer.getAuthorId());
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    MemberService buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(offer.getAuthorId(), new Date().getTime(), offer.getSeoUrl())));
-
-                    okhttp3.Response response = buyer.confirm();
-                    // create order
-//                    if (response.code()==200) {
-                        Order order = new Order();
-                        order.setOfferId(offer.getId()); // sellerProfileInfo.getProfile().getPublicId();
-                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-
-                        order.setPublicKey( buyer.getTransaction().getTransaction().getSignature().getPublicKey() );
-                        order.setHashTransaction( buyer.getTransaction().getTransaction().get_hash() );
-
-                        order.setSeoUrl(offer.getSeoUrl());
-                        order.setSeoKey(offer.getSeoKey());
-                        order.setOrderType(OrderType.PURCHASE);
-                        orderService.create(userId, order, offer);
-                    return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
-//                    }
-//                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-                    System.err.println( e.getMessage() );
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            } else {
-                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
-            }
-        } else {
-            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
-        }
-    }
+//    @CrossOrigin
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
+//        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+//        if (offer == null) {
+//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+//        } else if (offer.isDeleted()) {
+//            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
+//        }
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//        if (userId!=null){
+//            if (!userId.equals(offer.getAuthorId())){
+//                try {
+//                    /*
+//                     * Делаем иммитацию банка:
+//                     * **********************
+//                     * 1. Вытаскиваем информацию о продавце
+//                     * 2. Вытаскиваем информацию о стоимости объявления
+//                     * 3. Вытаскиваем приватную информацию на балансе на счету у покупателя
+//                     * 4. Вытаскиваем приватную информацию номер банковской карты продавца (которая должна быть зарегистрированна в банке)
+//                     * 5. (Имитация банкf) проверяем: наличие доступной суммы на балансе покупателя для облаты
+//                     * 6. И формируем, типа из банка, транзакцию типа MONEY_TRANSFER
+//                     */
+//                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+//                    // Делаем иммитацию банка:
+////                    ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId); //   !!!
+//                    ProfileInfo sellerProfileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(offer.getAuthorId());
+//                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                    MemberService buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(offer.getAuthorId(), new Date().getTime(), offer.getSeoUrl())));
+//
+//                    okhttp3.Response response = buyer.confirm();
+//                    // create order
+////                    if (response.code()==200) {
+//                        Order order = new Order();
+//                        order.setOfferId(offer.getId()); // sellerProfileInfo.getProfile().getPublicId();
+//                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
+//
+//                        order.setPublicKey( buyer.getTransaction().getTransaction().getSignature().getPublicKey() );
+//                        order.setHashTransaction( buyer.getTransaction().getTransaction().get_hash() );
+//
+//                        order.setSeoUrl(offer.getSeoUrl());
+//                        order.setSeoKey(offer.getSeoKey());
+//                        order.setOrderType(OrderType.PURCHASE);
+//                        orderService.create(userId, order, offer);
+//                    return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+////                    }
+////                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//                    System.err.println( e.getMessage() );
+//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//                }
+//            } else {
+//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+//            }
+//        } else {
+//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
+//        }
+//    }
 
 //------------------------------------------ Update -------------------------------------------------------------
 
