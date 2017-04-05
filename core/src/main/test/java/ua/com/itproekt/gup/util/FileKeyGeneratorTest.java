@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.blockchain;
+package ua.com.itproekt.gup.util;
 
 import org.junit.After;
 import org.junit.Before;

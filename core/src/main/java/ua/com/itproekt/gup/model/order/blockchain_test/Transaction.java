@@ -20,7 +20,6 @@ abstract public class Transaction {
 
     abstract public String getType();
     abstract public String getData();
-//    abstract public void setData(String data);
     abstract public TransactionSignature getSignature();
     abstract public void setSignature(TransactionSignature signature);
     abstract public long getTimestamp();
@@ -30,10 +29,10 @@ abstract public class Transaction {
      */
     public String get_hash()
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        MessageDigest       msg = MessageDigest.getInstance("SHA-256"); // 1. Указываем тип шифрования ( формат: SHA-256 )
+        MessageDigest       msg = MessageDigest.getInstance("SHA-256"); //TODO 1. Указываем тип шифрования ( формат: SHA-256 )
         String          strHash = getType() + getData() + getTimestamp();
-        byte[] HASH_TRANSACTION = strHash.getBytes("UTF-8");            // 2. Переводим данные в байт-код
-        byte[]       digestHASH = msg.digest(HASH_TRANSACTION);         // 3. шифруем ( формат: SHA-256 )
+        byte[] HASH_TRANSACTION = strHash.getBytes("UTF-8");            //TODO 2. Переводим данные в байт-код
+        byte[]       digestHASH = msg.digest(HASH_TRANSACTION);         //TODO 3. шифруем ( формат: SHA-256 )
         return Hex.toHexString(digestHASH);
     }
 
@@ -63,16 +62,15 @@ abstract public class Transaction {
         return gson.toJson(new TransactionDataAction(contractHash, actionID));
     }
 
-    public void setSignature(String idUser)           //TODO вытягиваем ключ по пользователю-владельцу ???????????????????????
+    public void setSignature(PrivateKey privateKey, String publicKey)
             throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
-        RSAKeyGenerator keyPair = new RSAKeyGenerator();   // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из базы-users...
         Signature               signature = Signature.getInstance("RSA", "BC");
-        signature.initSign( keyPair.getPrivate() );                   // 2. Создаем подпись-владельца на основе клиентского приватного ключа
-        byte[]                  SIGNATURE = signature.sign();         // 3. Подписываем эти данные-владельца...
+        signature.initSign(privateKey);                       //TODO 2. Создаем подпись-владельца на основе клиентского приватного ключа
+        byte[]                  SIGNATURE = signature.sign(); //TODO 3. Подписываем эти данные-владельца...
 
-        setSignature(new TransactionSignature(keyPair.readPublic())); // RSA Public Key = (String) Hex
+        setSignature(new TransactionSignature(publicKey));    //TODO RSA Public Key = (String) Hex
         TransactionSignature objSignature = getSignature();
-        objSignature.setSign(Hex.toHexString(SIGNATURE));             // (String) Hex
+        objSignature.setSign(Hex.toHexString(SIGNATURE));     //TODO (String) Hex
     }
 
     private String hashGenerator(){

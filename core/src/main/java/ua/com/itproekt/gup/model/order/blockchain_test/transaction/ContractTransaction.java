@@ -40,7 +40,7 @@ public class ContractTransaction extends Transaction {
         this.timestamp = timestamp;
         setData(getData(type, _hash, members, timestamp, logicRef, productID, price));
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        if (2<=members.length) setSignature(members[0]); else throw new IllegalArgumentException("ID_SELLER & ID_BUYER ?");
+//        if (2<=members.length) setSignature(members[0]); else throw new IllegalArgumentException("ID_SELLER & ID_BUYER ?"); //TODO FIX
     }
 
     @Override

@@ -98,11 +98,11 @@ public class LoginRestController {
             }
             profile.setActive(false);
             try {
-                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
-                profile.setPublicKey(generator2.getPublicKey());
-                String privateKey = generator2.getPrivateKey();
+                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
+                profile.setPublicKey(generator.getPublicKey());
+                String privateKey = generator.getPrivateKey();
                 profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator2.getPublicHash(privateKey));
+                profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
@@ -143,11 +143,11 @@ public class LoginRestController {
             }
             profile.setActive(false);
             try {
-                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
-                profile.setPublicKey(generator2.getPublicKey());
-                String privateKey = generator2.getPrivateKey();
+                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
+                profile.setPublicKey(generator.getPublicKey());
+                String privateKey = generator.getPrivateKey();
                 profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator2.getPublicHash(privateKey));
+                profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
@@ -302,26 +302,28 @@ public class LoginRestController {
             }
             profile.setActive(false);
             try {
-                RSAKeyGenerator2 generator2 = new RSAKeyGenerator2();
-                profile.setPublicKey(generator2.getPublicKey());
-                String privateKey = generator2.getPrivateKey();
+                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
+                profile.setPublicKey(generator.getPublicKey());
+                String privateKey = generator.getPrivateKey();
                 profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator2.getPublicHash(privateKey));
+                profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
 
+            new ResponseEntity<>(HttpStatus.OK);
+
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor()); //TODO +
+                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
                 //////////////////////////////////////////////////////////////////////////////////////////
                 authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor()); //TODO +
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
 
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
@@ -394,7 +396,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo>phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
-        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) != null )
+        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) == null )
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
@@ -405,7 +407,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }

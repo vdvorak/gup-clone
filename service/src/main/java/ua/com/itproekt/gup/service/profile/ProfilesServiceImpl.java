@@ -70,6 +70,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setAddress(profile.getAddress())
                 .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
+                .setMainPhoneNumber(profile.getMainPhoneNumber())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
                 .setUserRoles(userRoles)
@@ -79,7 +80,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPrivateKey(profile.getPrivateKey())
                 .setBankCard(profile.getBankCard())
                 .setPublicHash(profile.getPublicHash()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
-
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
@@ -102,6 +102,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setAddress(profile.getAddress())
                 .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
+                .setMainPhoneNumber(profile.getMainPhoneNumber())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
                 .setUserRoles(profile.getUserRoles())
@@ -479,6 +480,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor) {
         return prepareAdditionalFieldForPrivate(profileRepository.findProfileByUidAndWendor(uid, socWendor));
+    }
+
+    @Override
+    public ProfileInfo findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(String PhoneNumberd, String socWendor) {
+        return prepareAdditionalFieldForPrivate(profileRepository.findProfileByPhoneNumberAndWendor(PhoneNumberd, socWendor));
     }
 
 

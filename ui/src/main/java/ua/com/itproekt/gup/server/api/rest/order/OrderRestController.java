@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.order;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +14,8 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
+import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ActionTransaction;
+import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.service.order.blockchain_test.MemberService;
@@ -113,7 +116,7 @@ public class OrderRestController {
     }
 
     /**
-     * 1. Получает информацию о заказе (из фронта):
+     * 1. Получает информацию о заказе (фронт):
      *    + ID-покупатель
      *    + ID-продавец
      *    + стоимость
@@ -122,76 +125,141 @@ public class OrderRestController {
      * 2. Нужно по ID-покупателю вытащить из банка доступный баланс
      *
      * 3. Создать транзакцию типа-MoneyTransfer и отправить в блокчейн - эта транзакция создается со стороны покупателя...
-     *    Сохранить ХЕШ-транзакции в ГУПе ( создать заказ-order в ГУПе )
+     *    Сохранить ХЕШ-транзакции в ГУПе ( создать заказ-order ГУП )
      *
      * 4. После этого продавец должен проверить заказ (если по условию все хорошо) - тогда нужно подтвердить выполнение этого заказа - эта транзакция создается со стороны продавца...
      *    Создать транзакцию типа-Contract и отправить в блокчейн ( результатом этого заказа может быть: ПОДТВЕРЖДЕНИЕ-ОТМЕНА... )
      *
      * 5. После этого покупателю должно прийти уведомление об успешном выполнении сделки (контракта)
      *    ( И успешно-завершенный заказ должен попасть в историю покупок... )
+     *
+     * { MONEY_TRANSFER | CONTRACT | ACTION }
      */
-//    @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
-//        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
-//        if (offer == null) {
-//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-//        } else if (offer.isDeleted()) {
-//            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        if (userId!=null){
-//            if (!userId.equals(offer.getAuthorId())){
-//                try {
-//                    /*
-//                     * Делаем иммитацию банка:
-//                     * **********************
-//                     * 1. Вытаскиваем информацию о продавце
-//                     * 2. Вытаскиваем информацию о стоимости объявления
-//                     * 3. Вытаскиваем приватную информацию на балансе на счету у покупателя
-//                     * 4. Вытаскиваем приватную информацию номер банковской карты продавца (которая должна быть зарегистрированна в банке)
-//                     * 5. (Имитация банкf) проверяем: наличие доступной суммы на балансе покупателя для облаты
-//                     * 6. И формируем, типа из банка, транзакцию типа MONEY_TRANSFER
-//                     */
-//                    ////////////////////////////////////////////////////////////////////////////////////////////////////
-//                    // Делаем иммитацию банка:
-////                    ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId); //   !!!
-//                    ProfileInfo sellerProfileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(offer.getAuthorId());
-//                    ////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                    MemberService buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(offer.getAuthorId(), new Date().getTime(), offer.getSeoUrl())));
-//
-//                    okhttp3.Response response = buyer.confirm();
-//                    // create order
-////                    if (response.code()==200) {
-//                        Order order = new Order();
-//                        order.setOfferId(offer.getId()); // sellerProfileInfo.getProfile().getPublicId();
-//                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-//
-//                        order.setPublicKey( buyer.getTransaction().getTransaction().getSignature().getPublicKey() );
-//                        order.setHashTransaction( buyer.getTransaction().getTransaction().get_hash() );
-//
-//                        order.setSeoUrl(offer.getSeoUrl());
-//                        order.setSeoKey(offer.getSeoKey());
-//                        order.setOrderType(OrderType.PURCHASE);
-//                        orderService.create(userId, order, offer);
-//                    return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
-////                    }
-////                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-//                    System.err.println( e.getMessage() );
-//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//            } else {
-//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
-//            }
-//        } else {
-//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
-//        }
-//    }
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl, @RequestBody String type_transcation) {
+        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+        if (offer == null) {
+            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+        } else if (offer.isDeleted()) {
+            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId!=null){
+            if (!userId.equals(offer.getAuthorId())){
+                try {
+                    ProfileInfo sellerProfileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(offer.getAuthorId());
+                    long                TIMESTAMP = new Date().getTime();
+                    MemberService           buyer = null;
+                    long           USER_CARD = (sellerProfileInfo.getProfile().getBankCard()!=null) ? sellerProfileInfo.getProfile().getBankCard().getNumber() : 1234567890l; //TODO
+                    String         PUBLIC_KEY = (sellerProfileInfo.getProfile().getPublicKey()!=null) ? sellerProfileInfo.getProfile().getPublicKey() : "000000"; //TODO
+                    String       PUBLIC_HASH = (sellerProfileInfo.getProfile().getPublicHash()!=null) ? sellerProfileInfo.getProfile().getPublicHash() : "0?o?k?m?j?y?6?t?f?c?d?x?s?q?"; //TODO
+                    String   SIGNATURE_STORE = "1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop"; //TODO
+                    long BANK_TRANSACTION_ID = 127; //TODO
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /*
+                     * Иммитация банка:
+                     * ****************
+                     * 1. в блокчейне формирюем самую первую транзакцию (на тот случай если у покупателя совсем нет биткойнов - в блокчейне выполняется проверка доступных биткойнов)
+                     * 2. Вытаскиваем информацию о продавце
+                     * 3. Вытаскиваем информацию о стоимости объявления
+                     * 4. Вытаскиваем приватную информацию на балансе на счету у покупателя
+                     * 5. Вытаскиваем приватную информацию номер банковской карты продавца (которая должна быть зарегистрированна в банке)
+                     * 6. (имитация банка) проверяем: наличие доступной суммы на балансе покупателя для облаты
+                     * 7. Формируем из банка транзакцию типа MONEY_TRANSFER
+                     */
+                    if(true){ //TODO if(type_transcation.equals("MONEY_TRANSFER")){
+                        buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(String.valueOf(USER_CARD), offer.getPrice(), PUBLIC_HASH, SIGNATURE_STORE, BANK_TRANSACTION_ID)));
+
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+                        Gson gson = new Gson();
+                        System.err.println( gson.toJson(buyer) );
+                        System.err.println( "USER_CARD=" + USER_CARD );
+                        System.err.println( "PUBLIC_KEY=" + PUBLIC_KEY );
+                        System.err.println( "PUBLIC_HASH=" + PUBLIC_HASH );
+                        System.err.println( "SIGNATURE_STORE=" + SIGNATURE_STORE );
+                        System.err.println( "BANK_TRANSACTION_ID=" + BANK_TRANSACTION_ID );
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+
+                        okhttp3.Response response = buyer.confirm();
+//TODO                    if (response.code()==200) {
+//TODO                            return new ResponseEntity<>(gson.toJson(buyer), HttpStatus.OK); //TODO return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+//TODO                    }
+//TODO                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    }
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /*
+                     * Создание контракта:
+                     * *******************
+                     * 1. (при условии что у покупателя есть в наличии количество доступных биткойнов на балансе в блокчейне - это сумма для оплаты стоимости)
+                     * 2. Вытаскиваем туже самую информацию о продавце, объявлении
+                     * 3. Вытаскиваем хеш-транзакции и передаем его...
+                     * 4. Формируем в блокчейн транзакцию типа CONTRACT
+                     */
+                    if(type_transcation.equals("CONTRACT") && buyer!=null){
+                        buyer = new MemberService(new BuyerTransactionService(new ContractTransaction(buyer.getTransaction().getTransaction().get_hash(), new String[]{offer.getAuthorId(),userId}, TIMESTAMP, offer.getId(), offer.getPrice())));
+
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+                        Gson gson = new Gson();
+                        System.err.println( gson.toJson(buyer) );
+                        System.err.println( "_HASH=" + buyer.getTransaction().getTransaction().get_hash() );
+                        System.err.println( "SELLER_ID=" + offer.getAuthorId() );
+                        System.err.println( "BUYER_ID=" + userId );
+                        System.err.println( "TIMESTAMP=" + TIMESTAMP );
+                        System.err.println( "PRODUCT_ID=" + offer.getId() );
+                        System.err.println( "PRICE=" + offer.getPrice() );
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+
+                        okhttp3.Response response = buyer.confirm();
+//                      // create order
+//TODO                      if (response.code()==200) {
+                        Order order = new Order();
+                        order.setOfferId(offer.getId());
+                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
+                        order.setPublicKey(PUBLIC_KEY);
+                        order.setHashTransaction(buyer.getTransaction().getTransaction().get_hash());
+                        order.setSeoUrl(offer.getSeoUrl());
+                        order.setSeoKey(offer.getSeoKey());
+                        order.setOrderType(OrderType.PURCHASE);
+                        order.setPrice(offer.getPrice());
+                        orderService.create(userId, order, offer);
+                        return new ResponseEntity<>(gson.toJson(buyer), HttpStatus.OK); //TODO return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+//TODO                      }
+//TODO                      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    }
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if(type_transcation.equals("ACTION") && buyer!=null){
+                        buyer = new MemberService(new BuyerTransactionService(new ActionTransaction(buyer.getTransaction().getTransaction().get_hash(), offer.getAuthorId(), TIMESTAMP, offer.getId(), offer.getPrice(), sellerProfileInfo.getProfile().getPublicHash(), type_transcation)));
+
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+                        Gson gson = new Gson();
+                        System.err.println( gson.toJson(buyer) );
+                        System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
+
+//TODO                        okhttp3.Response response = buyer.confirm();
+//TODO                      if (response.code()==200) {
+                        return new ResponseEntity<>(gson.toJson(buyer), HttpStatus.OK); //TODO return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+//TODO                      }
+//TODO                      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    }
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+                    System.err.println( e.getMessage() );
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
+        }
+    }
 
 //------------------------------------------ Update -------------------------------------------------------------
 

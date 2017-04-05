@@ -338,6 +338,8 @@ public interface ProfilesService {
      */
     ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor);
 
+    ProfileInfo findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(String PhoneNumberd, String socWendor);
+
     /**
      * Find public profiles with filter options.
      *

@@ -119,9 +119,9 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
+    public Profile findProfileByPhoneNumberAndWendor(String mainPhoneNumber, String socWendor) {
         Query query = new Query()
-                .addCriteria(Criteria.where("mainPhoneNumber").is(phoneNumber))
+                .addCriteria(Criteria.where("mainPhoneNumber").is(mainPhoneNumber))
                 .addCriteria(Criteria.where("socWendor").is(socWendor));
         return mongoTemplate.findOne(query, Profile.class);
     }

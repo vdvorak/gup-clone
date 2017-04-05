@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain_test;
+package ua.com.itproekt.gup.util;
 
 import ua.com.itproekt.gup.util.RSAKeyGenerator2;
 

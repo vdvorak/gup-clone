@@ -24,17 +24,16 @@ public class MoneyTransferTransaction extends Transaction {
 
     /**
      *
-     * @param selerId   String
-     * @param timestamp Long
-     * @param price     Long
-     * @param productID String
+     * @param userCardDetails
+     * @param amount
+     * @param publicHashStore
+     * @param signatureStore
+     * @param bankTransactionID
      */
-//    public MoneyTransferTransaction(String selerId, long timestamp, String productID, long price)
     public MoneyTransferTransaction(String userCardDetails, long amount, String publicHashStore, String signatureStore, long bankTransactionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
-        this("MONEY_TRANSACTION", null, userCardDetails, amount, publicHashStore, signatureStore, bankTransactionID); //this("MONEY_TRANSACTION", null, selerId, timestamp, 0, productID, price);
+        this("MONEY_TRANSACTION", null, userCardDetails, amount, publicHashStore, signatureStore, bankTransactionID);
     }
-//    private MoneyTransferTransaction(String type, String _hash, String selerId, long timestamp, int logicRef, String productID, long price)
     private MoneyTransferTransaction(String type, String _hash, String userCardDetails, long amount, String publicHashStore, String signatureStore, long bankTransactionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this.type = type;
@@ -42,7 +41,7 @@ public class MoneyTransferTransaction extends Transaction {
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
 //        setData(getData(logicRef, new String[]{selerId}, productID, price));
         setData(getData(userCardDetails, amount, publicHashStore, signatureStore, bankTransactionID));
-        setSignature(publicHashStore); //TODO ???
+//        setSignature(publicHashStore); //TODO FIX
     }
 
     @Override

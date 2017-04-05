@@ -30,7 +30,7 @@ public class ActionTransaction extends Transaction {
      * @param productID String
      * @param price     Long
      */
-    public ActionTransaction(String _hash, String userId, long timestamp, String productID, long price, String contractHash, String actionID) //TODO ??????????
+    public ActionTransaction(String _hash, String userId, long timestamp, String productID, long price, String contractHash, String actionID)
             throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, NoSuchProviderException, IllegalArgumentException {
         this("ACTION", _hash, userId, timestamp, 0, productID, price, contractHash, actionID);
     }
@@ -39,8 +39,8 @@ public class ActionTransaction extends Transaction {
         this.type = type;
         this.timestamp = timestamp;
         this._hash = (_hash!=null && this._hash==null) ? _hash : get_hash();
-        getData(contractHash, actionID); //setData(getData(logicRef, new String[]{userId}, productID, price));
-        setSignature(userId);
+        getData(contractHash, actionID);
+//        setSignature(userId); //TODO FIX
     }
 
     @Override
