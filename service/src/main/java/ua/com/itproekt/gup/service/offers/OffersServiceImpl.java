@@ -141,7 +141,8 @@ public class OffersServiceImpl implements OffersService {
                 .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
-                .setRents(offer.getRents());
+                .setRents(offer.getRents())
+                .setMadeInUkraine(offer.isMadeInUkraine());
 
 
         offerRepository.create(newOffer);
@@ -265,7 +266,8 @@ public class OffersServiceImpl implements OffersService {
                 .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
                 .setPaidServices(oldOffer.getPaidServices())
                 .setMonthOfPrices(oldOffer.getMonthOfPrices())
-                .setRents(oldOffer.getRents());
+                .setRents(oldOffer.getRents())
+                .setMadeInUkraine(oldOffer.isMadeInUkraine());
 
         return offerRepository.findAndUpdate(newOffer);
     }
