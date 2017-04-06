@@ -18,6 +18,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = Profile.COLLECTION_NAME)
 public class Profile {
@@ -34,21 +41,30 @@ public class Profile {
 
     private boolean active;
 
-    @Email
+    @Email(message = "заданный имэйл не может существовать")
     @Indexed
     private String email;
     private String socWendor = "gup.com.ua"; // default vendor
     private String uid;
+
+    @NotNull(message="Описание должно быть задано")
+    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "заданный пароль не может существовать")
     private String password;
+
+    @NotNull(message="Описание должно быть задано")
+    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="заданный пароль не может существовать")
+    @Size(min=8, message="Длина фамилии должна быть больше восьми")
     private String passwordRestore;
     private String tokenKey;
+
+    @Size(min=14, message="Длина номера телефона должна быть больше четырнадцати")
     private String mainPhoneNumber;
     private Integer mainPhoneNumberViews;
     private Boolean mainPhoneNumberHide;
     private GeneralPhone generalPhone;
 
     @Indexed
-    @Size(min = 2, max = 70)
+    @Size(min = 2, max = 70, message="Длина номера телефона должна быть 2-70")
     private String username;
     private String executive;
     private String contactPerson;
@@ -62,7 +78,7 @@ public class Profile {
     private Set<String> socialList;
     private FinanceInfo financeInfo; // info about bank etc.
     private Set<String> favoriteOffers;
-    @Size(max = 45)
+    @Size(max = 45, message="Длина поля 'status' должна быть больше сорока пяти")
     private String status;
 
     private Integer point;

@@ -57,15 +57,15 @@ public class Offer {
     private LinkedHashSet<String>   categories;
     private String                  seoCategory;                // last category for seo meta tags
     private List<Property>          properties;
-    @Size(max = 10)
+    @Size(max = 10, message="Длина поля 'imagesIds' должна быть больше десяти")
     private Map<String, String>     imagesIds;                  // old place for images store
 
     private List<Image>             images;                     // new format for image store
 
     private String                  videoUrl;
-    @Size(min = 2, max = 70)
+    @Size(min = 2, max = 70, message="Длина поля 'title' должна быть 2-70")
     private String                  title;
-    @Size(max = 5000)
+    @Size(max = 5000, message="Длина поля 'description' должна быть больше 5000")
     private String                  description;
 
     @Digits(integer = 10, fraction = 0)

@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ua.com.itproekt.gup.util.Validator3Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -352,7 +353,9 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
@@ -401,7 +404,9 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
-    public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
@@ -447,7 +452,7 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
     public ResponseEntity<Void> updateStatus(@RequestBody Profile profile) {
-
+        if (!Validator3Util.validate(profile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         Profile oldProfile = profilesService.findById(loggedUserId);
