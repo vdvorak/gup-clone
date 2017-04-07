@@ -355,7 +355,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
@@ -406,7 +406,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
     public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
@@ -452,7 +452,7 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
     public ResponseEntity<Void> updateStatus(@RequestBody Profile profile) {
-        if (!Validator3Util.validate(profile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        if (!Validator3Util.validate(profile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         Profile oldProfile = profilesService.findById(loggedUserId);

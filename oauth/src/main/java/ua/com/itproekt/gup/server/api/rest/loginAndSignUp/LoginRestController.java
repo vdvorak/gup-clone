@@ -341,7 +341,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
-        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        System.out.println("------------------------------------------------------------------------------------------");
 
         LoggedUser loggedUser;
