@@ -338,6 +338,8 @@ public class LoginRestController {
 
 
 
+
+
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
