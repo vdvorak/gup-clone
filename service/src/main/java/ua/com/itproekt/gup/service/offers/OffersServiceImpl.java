@@ -81,8 +81,19 @@ public class OffersServiceImpl implements OffersService {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO);
 
-//        Image{index=null, url='null', '58ed36244c8eef3facd767c5'}
-        if (offer.getImages()==null){
+////        Image{index=null, url='null', '58ed36244c8eef3facd767c5'}
+//        if (offer.getImages()==null){
+//            List<Image> images = new ArrayList<>();//TODO
+//            Image image = new Image();
+//            image.setUrl("null");
+//            image.setImageId("58ed36244c8eef3facd767c5");
+//            images.add(image);
+//            offer.setImages(images);
+//        }
+//
+        try {
+            offer.getImages().size();
+        }catch (NullPointerException e){
             List<Image> images = new ArrayList<>();//TODO
             Image image = new Image();
             image.setUrl("null");
