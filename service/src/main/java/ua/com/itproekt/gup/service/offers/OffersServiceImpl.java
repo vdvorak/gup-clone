@@ -83,7 +83,10 @@ public class OffersServiceImpl implements OffersService {
 
         //if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
         List<Image> images = new ArrayList<>();//TODO
-        images.add(new Image());//TODO
+
+        Image image = new Image();
+        image.setImageId("58b434234c8e42521f0614be");
+        images.add(image);//TODO
         offer.setImages(images);//TODO
 
         Offer newOffer = new Offer()
