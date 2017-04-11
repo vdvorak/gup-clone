@@ -81,26 +81,15 @@ public class OffersServiceImpl implements OffersService {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO);
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        System.err.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-        System.err.println(offer.getImages());
-
-//        //if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
-//        List<Image> images = new ArrayList<>();//TODO
-//        Image image = new Image();
-//        image.setImageId("58b434234c8e42521f0614be");
-//        images.add(image);//TODO
-//        offer.setImages(images);//TODO
-
 //        Image{index=null, url='null', '58ed36244c8eef3facd767c5'}
-        List<Image> images = new ArrayList<>();//TODO
-        Image image = new Image();
-        image.setUrl("null");
-        image.setImageId("58ed36244c8eef3facd767c5");
-        images.add(image);
-        offer.setImages(images);
-        System.err.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (offer.getImages()==null){
+            List<Image> images = new ArrayList<>();//TODO
+            Image image = new Image();
+            image.setUrl("null");
+            image.setImageId("58ed36244c8eef3facd767c5");
+            images.add(image);
+            offer.setImages(images);
+        }
 
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
