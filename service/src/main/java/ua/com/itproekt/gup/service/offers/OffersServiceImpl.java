@@ -78,6 +78,11 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void create(Offer offer) {
+        System.err.println("////////////////////////////////////////////////////////////////////////////////");
+        System.err.println(offer);
+        System.err.println("////////////////////////////////////////////////////////////////////////////////");
+
+
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO);
 
