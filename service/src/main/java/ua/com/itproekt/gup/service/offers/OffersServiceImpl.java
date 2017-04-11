@@ -79,7 +79,12 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public void create(Offer offer) {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
-        offerModerationReports.setModerationStatus(ModerationStatus.NO); //offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+        offerModerationReports.setModerationStatus(ModerationStatus.NO);
+
+        //if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
+        List<Image> images = new ArrayList<>();//TODO
+        images.add(new Image());//TODO
+        offer.setImages(images);//TODO
 
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
@@ -88,7 +93,7 @@ public class OffersServiceImpl implements OffersService {
                 .setOfferModerationReports(offerModerationReports)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
-                //.setImages(offer.getImages()) //TODO fix imageg bug for moderation
+                .setImages(offer.getImages())
                 .setSeoUrl(offer.getSeoUrl())
                 .setSeoKey(offer.getSeoKey())
                 .setSeoCategory(offer.getSeoCategory())
@@ -113,7 +118,6 @@ public class OffersServiceImpl implements OffersService {
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents())
                 .setMadeInUkraine(offer.isMadeInUkraine());
-        if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
 
         offerRepository.create(newOffer);
 
