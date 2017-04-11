@@ -91,6 +91,14 @@ public class OffersServiceImpl implements OffersService {
 //        image.setImageId("58b434234c8e42521f0614be");
 //        images.add(image);//TODO
 //        offer.setImages(images);//TODO
+
+//        Image{index=null, url='null', '58ed36244c8eef3facd767c5'}
+        List<Image> images = new ArrayList<>();//TODO
+        Image image = new Image();
+        image.setUrl("null");
+        image.setImageId("58ed36244c8eef3facd767c5");
+        images.add(image);
+        offer.setImages(images);
         System.err.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
