@@ -92,7 +92,14 @@ public class OffersServiceImpl implements OffersService {
 //        }
 //
         try {
-            offer.getImages().size();
+            if(offer.getImages().size()<1){
+                List<Image> images = new ArrayList<>();//TODO
+                Image image = new Image();
+                image.setUrl("null");
+                image.setImageId("58ed36244c8eef3facd767c5");
+                images.add(image);
+                offer.setImages(images);
+            }
         }catch (NullPointerException e){
             List<Image> images = new ArrayList<>();//TODO
             Image image = new Image();
