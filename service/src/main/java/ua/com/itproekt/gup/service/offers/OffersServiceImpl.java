@@ -81,38 +81,6 @@ public class OffersServiceImpl implements OffersService {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO); //offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
-//        Offer newOffer = new Offer()
-//                .setAuthorId(offer.getAuthorId())
-//                .setUserInfo(offer.getUserInfo())
-//                .setCreatedDateEqualsToCurrentDate()
-//                .setOfferModerationReports(offerModerationReports)
-//                .setCategories(offer.getCategories())
-//                .setProperties(offer.getProperties())
-//                .setImages(offer.getImages())
-//                .setSeoUrl(offer.getSeoUrl())
-//                .setSeoKey(offer.getSeoKey())
-//                .setSeoCategory(offer.getSeoCategory())
-//                .setVideoUrl(offer.getVideoUrl())
-//                .setTitle(offer.getTitle())
-//                .setDescription(offer.getDescription())
-//                .setPrice(offer.getPrice())
-//                .setOldPrice(0l) //TODO: The OldPrice
-//                .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
-//                .setUsed(offer.getUsed())
-//                .setActive(Boolean.TRUE)
-//                .setDeleted(false)
-//                .setAddress(offer.getAddress())
-//                .setCurrency(offer.getCurrency())
-//                .setCanBeReserved(offer.getCanBeReserved())
-//                .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
-//                .setCanBeRented(offer.getCanBeRented())
-//                .setAvailableShippingMethods(offer.getAvailableShippingMethods())
-//                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
-//                .setShowOrdersCount(offer.isShowOrdersCount())
-//                .setPaidServices(offer.getPaidServices())
-//                .setMonthOfPrices(offer.getMonthOfPrices())
-//                .setRents(offer.getRents())
-//                .setMadeInUkraine(offer.isMadeInUkraine());
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
@@ -128,10 +96,11 @@ public class OffersServiceImpl implements OffersService {
                 .setTitle(offer.getTitle())
                 .setDescription(offer.getDescription())
                 .setPrice(offer.getPrice())
-                .setOldPrice(0l) //TODO: The OldPrice
+                .setOldPrice(0l)
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
                 .setUsed(offer.getUsed())
                 .setActive(Boolean.TRUE)
+                .setDeleted(false)
                 .setAddress(offer.getAddress())
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())
@@ -139,11 +108,11 @@ public class OffersServiceImpl implements OffersService {
                 .setCanBeRented(offer.getCanBeRented())
                 .setAvailableShippingMethods(offer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
+                .setShowOrdersCount(offer.isShowOrdersCount())
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents())
                 .setMadeInUkraine(offer.isMadeInUkraine());
-
 
         offerRepository.create(newOffer);
 
@@ -222,7 +191,7 @@ public class OffersServiceImpl implements OffersService {
 //                .setTitle(oldOffer.getTitle())
 //                .setDescription(oldOffer.getDescription())
 //                .setPrice(oldOffer.getPrice())
-//                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice() != null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l) //TODO: The OldPrice
+//                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice() != null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l)
 //                .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
 //                .setUsed(oldOffer.getUsed())
 //                .setActive(oldOffer.getActive())
@@ -239,6 +208,8 @@ public class OffersServiceImpl implements OffersService {
 //                .setRents(oldOffer.getRents())
 //                .setMadeInUkraine(oldOffer.isMadeInUkraine());
         Offer newOffer = new Offer()
+                .setId(oldOffer.getId())
+                .setOfferModerationReports(oldOffer.getOfferModerationReports()) // TODO ???
                 .setAuthorId(oldOffer.getAuthorId())
                 .setUserInfo(oldOffer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
