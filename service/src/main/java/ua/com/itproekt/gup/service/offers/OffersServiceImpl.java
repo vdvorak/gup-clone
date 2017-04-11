@@ -81,13 +81,18 @@ public class OffersServiceImpl implements OffersService {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO);
 
-        //if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
-        List<Image> images = new ArrayList<>();//TODO
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.err.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+        System.err.println(offer.getImages());
 
-        Image image = new Image();
-        image.setImageId("58b434234c8e42521f0614be");
-        images.add(image);//TODO
-        offer.setImages(images);//TODO
+//        //if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
+//        List<Image> images = new ArrayList<>();//TODO
+//        Image image = new Image();
+//        image.setImageId("58b434234c8e42521f0614be");
+//        images.add(image);//TODO
+//        offer.setImages(images);//TODO
+        System.err.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
