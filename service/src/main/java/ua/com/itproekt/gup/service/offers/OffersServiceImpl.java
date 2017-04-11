@@ -88,7 +88,7 @@ public class OffersServiceImpl implements OffersService {
                 .setOfferModerationReports(offerModerationReports)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
-                .setImages(offer.getImages())
+                //.setImages(offer.getImages()) //TODO fix imageg bug for moderation
                 .setSeoUrl(offer.getSeoUrl())
                 .setSeoKey(offer.getSeoKey())
                 .setSeoCategory(offer.getSeoCategory())
@@ -113,6 +113,7 @@ public class OffersServiceImpl implements OffersService {
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents())
                 .setMadeInUkraine(offer.isMadeInUkraine());
+        if (offer.getImages() != null) newOffer.setImages(offer.getImages()); //TODO fix imageg bug for moderation
 
         offerRepository.create(newOffer);
 
