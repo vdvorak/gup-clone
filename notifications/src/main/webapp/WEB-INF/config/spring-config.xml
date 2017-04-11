@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context-3.0.xsd
+							http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+							http://www.springframework.org/schema/jee
+						    http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<jee:jndi-lookup id="mqConnectionFactory" jndi-name="java:comp/env/jms/mqConnectionFactory" />
+	<jee:jndi-lookup id="testQueueOne" jndi-name="java:comp/env/jms/testQueueOne" />
+	<jee:jndi-lookup id="testQueueTwo" jndi-name="java:comp/env/jms/testQueueTwo" />
+
+	<bean id="mainMessageListener" class="ua.com.itproekt.gup.jms.MainMessageListener">
+    	<property name="mainMessageSender" ref ="mainMessageSender" />
+    </bean>
+
+	<bean id="poiMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    	<property name="connectionFactory" ref ="mqConnectionFactory" />
+    	<property name="destination" ref ="testQueueOne"/>
+		<property name="messageListener" ref ="mainMessageListener"/>
+		<property name="concurrentConsumers" value="2" />
+    </bean>
+
+	<bean id="mainMessageSender" class="ua.com.itproekt.gup.jms.MainMessageListener">
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="testQueue" ref="testQueueTwo"/>
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="mqConnectionFactory" />
+	</bean>
+
+</beans>
