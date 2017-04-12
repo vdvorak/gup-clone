@@ -91,7 +91,7 @@ public class OffersServiceImpl implements OffersService {
                 List<Image> images = new ArrayList<>();
                 Image image = new Image();
                 image.setUrl("null");
-                image.setImageId("58ed36244c8eef3facd767c5");
+                image.setImageId("58edef514c8ea73b0dff0164"); //TODO hard)
                 images.add(image);
                 offer.setImages(images);
             }
@@ -99,7 +99,7 @@ public class OffersServiceImpl implements OffersService {
             List<Image> images = new ArrayList<>();
             Image image = new Image();
             image.setUrl("null");
-            image.setImageId("58ed36244c8eef3facd767c5");
+            image.setImageId("58edef514c8ea73b0dff0164"); //TODO hard)
             images.add(image);
             offer.setImages(images);
         }
