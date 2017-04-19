@@ -119,7 +119,7 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
+        return new ResponseEntity<>(profile.getUsername() + " " + profile.getLastname(), HttpStatus.OK);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
+        return new ResponseEntity<>(profile.getUsername() + " " + profile.getLastname(), HttpStatus.OK);
     }
 
 

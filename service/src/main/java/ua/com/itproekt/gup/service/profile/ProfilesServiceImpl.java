@@ -144,8 +144,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPrivateKey(profile.getPrivateKey())
                 .setBankCard(profile.getBankCard())
                 .setPublicHash(profile.getPublicHash());
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername()))
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername())){
             profile.setUsername(offerRegistration.getUsername());
+        }
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getLastname())){
+            profile.setLastname(offerRegistration.getLastname());
+        }
         if (0 < offerRegistration.getContactPhones().size()) {
             Contact contact = new Contact();
             contact.setContactPhones(offerRegistration.getContactPhones());

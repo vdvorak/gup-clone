@@ -66,6 +66,8 @@ public class Profile {
     @Indexed
     @Size(min = 2, max = 70) //@Size(min = 2, max = 70, message="Длина номера телефона должна быть 2-70")
     private String username;
+    @Size(min = 2, max = 70)
+    private String lastname;
     private String executive;
     private String contactPerson;
     private Address address;
@@ -235,6 +237,15 @@ public class Profile {
 
     public Profile setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public Profile setLastname(String lastname) {
+        this.lastname = lastname;
         return this;
     }
 
@@ -513,6 +524,7 @@ public class Profile {
                 ", mainPhoneNumberViews=" + mainPhoneNumberViews +
                 ", mainPhoneNumberHide=" + mainPhoneNumberHide +
                 ", username='" + username + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
                 ", address='" + address + '\'' +
