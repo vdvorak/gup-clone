@@ -22,7 +22,7 @@
         <!--<beans:property name="prefix" value="/WEB-INF/views/"/>-->
         <!--<beans:property name="suffix" value=".jsp"/>-->
     <!--</beans:bean>-->
-    <context:component-scan base-package="ua.com.itproekt.gup"/>
+    <context:component-scan base-package="ua.com"/>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties" />
 
