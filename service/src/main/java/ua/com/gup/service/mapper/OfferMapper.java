@@ -26,11 +26,17 @@ public class OfferMapper {
         if (offerCreateDTO.getAddress() != null) {
             offer.setAddress(addressMapper.addressDTOToAddress(offerCreateDTO.getAddress()));
         }
+        if (offerCreateDTO.getTitle() != null) {
+            offer.setTitle(offerCreateDTO.getTitle());
+        }
         return offer;
     }
 
     public void offerUpdateDTOToOffer(OfferUpdateDTO source, Offer target) {
         fromOfferBaseDTOToOffer(source, target);
+        if (source.getTitle() != null) {
+            target.setTitle(source.getTitle());
+        }
     }
 
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
@@ -43,6 +49,7 @@ public class OfferMapper {
         if (offer.getAddress() != null) {
             offerDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         }
+        offerDetailsDTO.setTitle(offer.getTitle());
         return offerDetailsDTO;
     }
 
@@ -52,6 +59,7 @@ public class OfferMapper {
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setSeoUrl(offer.getSeoUrl());
         offerShortDTO.setAuthorId(offer.getAuthorId());
+        offer.setTitle(offer.getTitle());
         return offerShortDTO;
     }
 
@@ -60,16 +68,13 @@ public class OfferMapper {
         if (source.getCategories() != null) {
             target.setCategories(source.getCategories());
         }
-        if (source.getTitle() != null) {
-            target.setTitle(source.getTitle());
-        }
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());
         }
         if (source.getImageIds() != null) {
-            LinkedHashSet<ImageDTO> imageDTOs = new LinkedHashSet<>();
-            source.getImageIds().forEach(id -> imageDTOs.add(new ImageDTO(id)));
-            target.setImages(imageDTOs);
+            LinkedHashSet<OfferImageDTO> offerImageDTOS = new LinkedHashSet<>();
+            source.getImageIds().forEach(id -> offerImageDTOS.add(new OfferImageDTO(id)));
+            target.setImages(offerImageDTOS);
         }
 
         if (source.getPrice() != null) {
@@ -97,9 +102,6 @@ public class OfferMapper {
         if (source.getCategories() != null) {
             target.setCategoriesRegExp(source.getCategories().stream().map(OfferCategory::getCode).collect(Collectors.joining("/")));
             target.setCategories(source.getCategories());
-        }
-        if (source.getTitle() != null) {
-            target.setTitle(source.getTitle());
         }
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());

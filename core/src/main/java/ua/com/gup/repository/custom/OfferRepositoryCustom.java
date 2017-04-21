@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface OfferRepositoryCustom {
 
-    List<Offer> findAll(Aggregation aggregation);
+    List<Offer> search(Aggregation aggregation);
 }

@@ -9,7 +9,9 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -29,11 +31,11 @@ public class Offer implements Serializable {
 
     private String createdBy;
 
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     private String lastModifiedBy;
 
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @Indexed
     private OfferStatus status;
@@ -62,6 +64,7 @@ public class Offer implements Serializable {
 
     private boolean priceWithVAT;
 
+    @Indexed(unique = true)
     private String seoUrl;
 
     private String videoUrl;
@@ -90,11 +93,11 @@ public class Offer implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public ZonedDateTime getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -106,11 +109,11 @@ public class Offer implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

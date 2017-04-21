@@ -5,13 +5,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.domain.enumeration.Currency;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 public class Money {
 
     @LastModifiedDate
     @Field("last_modified_date")
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     private BigDecimal amount;
 
@@ -22,11 +22,11 @@ public class Money {
     private Currency baseCurrency;
 
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

@@ -42,11 +42,6 @@ public class OfferResource {
     @Qualifier(value = "OfferServiceNew")
     private OfferService offerService;
 
-//    public OfferResource(@Qualifier("OfferServiceNew") OfferService offerService) {
-//        this.offerService = offerService;
-//    }
-
-
     /**
      * POST  /offers : Create a new offer.
      *
@@ -55,7 +50,6 @@ public class OfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
     public ResponseEntity<OfferDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO) throws URISyntaxException {
         log.debug("REST request to save Offer : {}", offerCreateDTO);
         OfferDetailsDTO result = offerService.save(offerCreateDTO);
@@ -71,7 +65,6 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and with body the offerDTO, or with status 404 (Not Found)
      */
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
     public ResponseEntity<OfferDetailsDTO> getOffer(@PathVariable String id) {
         log.debug("REST request to get Offer : {}", id);
         OfferDetailsDTO offerDetailsDTO = offerService.findOne(id);
@@ -88,7 +81,6 @@ public class OfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
     public ResponseEntity<OfferDetailsDTO> updateOffer(@Valid @RequestBody OfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
         if (!offerService.exists(offerUpdateDTO.getId())) {
@@ -108,7 +100,6 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
         offerService.delete(id);
@@ -118,7 +109,7 @@ public class OfferResource {
     @ApiOperation(
             value = "Get all the offers by filter",
             notes = "List all offer using paging",
-            response = OfferDTO.class,
+            response = OfferShortDTO.class,
             responseContainer = "List"
     )
     @ApiResponses(value = {
@@ -133,7 +124,6 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Timed
     public ResponseEntity<List<OfferShortDTO>> getAllOffersByFilter(OfferFilter offerFilter, @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<OfferShortDTO> page = offerService.findAll(offerFilter, pageable);

@@ -1,11 +1,10 @@
 package ua.com.gup.domain;
 
 
-
 import ua.com.gup.domain.enumeration.OfferModifiedField;
 import ua.com.gup.domain.enumeration.OfferRefusalReason;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +13,7 @@ public class ModerationReport {
 
     String moderatorId; // moderator ID whose last modified profile
 
-    ZonedDateTime lastModifiedDate; // last modified date when moderator modified profile
+    LocalDateTime lastModifiedDate; // last modified date when moderator modified profile
 
     List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
 
@@ -28,11 +27,11 @@ public class ModerationReport {
         this.moderatorId = moderatorId;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

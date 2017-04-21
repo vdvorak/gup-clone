@@ -6,6 +6,7 @@ import ua.com.gup.domain.Attribute;
 import ua.com.gup.domain.OfferCategory;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,19 +18,16 @@ public class OfferBaseDTO implements Serializable {
 
     private LinkedList<OfferCategory> categories;
 
-    @NotNull
-    @Size(min = 2, max = 70, message = "The length of field 'title' should be in range 2-70")
-    private String title;
-
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private LinkedHashSet<ImageDTO> images;
+    private LinkedHashSet<OfferImageDTO> images;
 
     private MoneyDTO price;
 
     private Boolean priceWithVAT;
 
+    @Pattern(regexp = "^http(s{0,1})://[a-zA-Z0-9_/\\-\\.]+\\.([A-Za-z/]{2,5})[a-zA-Z0-9_/\\&\\?\\=\\-\\.\\~\\%]*", message = "Url format exception")
     private String videoUrl;
 
     private Set<Attribute<String>> attrs = new HashSet<>();
@@ -46,14 +44,6 @@ public class OfferBaseDTO implements Serializable {
         this.categories = categories;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -62,11 +52,11 @@ public class OfferBaseDTO implements Serializable {
         this.description = description;
     }
 
-    public LinkedHashSet<ImageDTO> getImages() {
+    public LinkedHashSet<OfferImageDTO> getImages() {
         return images;
     }
 
-    public void setImages(LinkedHashSet<ImageDTO> images) {
+    public void setImages(LinkedHashSet<OfferImageDTO> images) {
         this.images = images;
     }
 

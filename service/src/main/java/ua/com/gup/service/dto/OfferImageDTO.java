@@ -1,21 +1,31 @@
 package ua.com.gup.service.dto;
 
 
-public class ImageDTO {
+public class OfferImageDTO {
 
     private String imageId;
 
+    private String filename;
+
     private String base64Data;
 
-    public ImageDTO() {
+    public OfferImageDTO() {
     }
 
-    public ImageDTO(String imageId) {
+    public OfferImageDTO(String imageId) {
         this.imageId = imageId;
     }
 
     public String getImageId() {
         return imageId;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public void setImageId(String imageId) {
