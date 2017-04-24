@@ -11,16 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/rest/fileStorage")
 public class FileStorageRestController {
     private static final Logger LOG = Logger.getLogger(FileStorageRestController.class);
+    private final String PROFILE_SERVICE_NAME = "profile";
+    private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
 
     @Autowired
     private StorageService storageService;
@@ -63,20 +68,17 @@ public class FileStorageRestController {
 
 
     /**
-     * @param file        file
+     * @param file
      * @return id of uploaded files
      */
-    //ToDo включить ПреАвторайз
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "profile/photo/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
     photoUpload(@RequestParam MultipartFile file) {
-
         if (file.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         if (!file.getContentType().startsWith("image/")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -94,30 +96,48 @@ public class FileStorageRestController {
     @CrossOrigin
     @RequestMapping(value = "profile/photo/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProfilePhoto() {
-
         String userId = SecurityOperations.getLoggedUserId();
-
         if (userId != null){
             storageService.deleteProfileImage(userId);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
+    /**
+     * Easy-delete profile photo (avatar), and replace it with stub.
+     *
+     * @return - status Ok or Bad Request
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "profile/photo/justDelete", method = RequestMethod.POST)
+    public ResponseEntity<Void>
+    justDeleteProfilePhoto(@RequestParam MultipartFile file) {
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId != null){
+            storageService.deleteProfileImage(userId);
+            if (file.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            if (!file.getContentType().startsWith("image/")) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            storageService.saveCachedImageProfile(file);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
-
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return false;
         }
-
         if (serviceName.toLowerCase().equals("profile")) {
             if (param.equals("large") || param.equals("small")) {
                 return true;
             }
         }
-
-
         return true;
     }
 
