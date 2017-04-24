@@ -107,7 +107,7 @@ public class LoginRestController {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818
 
             // LOGIN:
             LoggedUser loggedUser = null;
@@ -356,9 +356,9 @@ public class LoginRestController {
 //            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
 //            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-//            if(profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
-//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//            }
+            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {

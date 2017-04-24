@@ -110,8 +110,7 @@ public class Profile {
     }
 
     public Profile setLastTryLoginDateEqualsToCurrentDate() {
-        //TODO: account is unlock == TRUE
-        if(isUnlockAccount){
+        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<60000)){ //TODO: account is unlock == TRUE & time interval less 1-minut
             //TODO: time interval less five seconds
             if (5000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
                 countTryLoginDate++;
@@ -121,10 +120,11 @@ public class Profile {
                 isUnlockAccount = false;
             }
             lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        }
-
-        //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more 1-minut
-        if (60000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+        } else if (lastTryLoginDate==null){ //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more 1-minut
+            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+            isUnlockAccount = true;
+            countTryLoginDate = 1;
+        } else if (60000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
             isUnlockAccount = true;
             countTryLoginDate = 1;
         }
