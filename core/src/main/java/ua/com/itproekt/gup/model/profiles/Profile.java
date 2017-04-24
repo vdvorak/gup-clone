@@ -91,6 +91,9 @@ public class Profile {
 
     private Long createdDate;
     private Long lastLoginDate;
+    private Long lastTryLoginDate;
+    private int countTryLoginDate;
+    private boolean isUnlockAccount;
     private boolean online;
     private int notCompletedFields; //how many fields user filled
 
@@ -104,6 +107,29 @@ public class Profile {
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
+    }
+
+    public Profile setLastTryLoginDateEqualsToCurrentDate() {
+        //TODO: account is unlock == TRUE
+        if(isUnlockAccount){
+            //TODO: time interval less five seconds
+            if (5000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+                countTryLoginDate++;
+            }
+            //TODO: it was more 3-tryis that block account
+            if(3<countTryLoginDate){
+                isUnlockAccount = false;
+            }
+            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+
+        //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more 1-minut
+        if (60000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+            isUnlockAccount = true;
+            countTryLoginDate = 1;
+        }
+
+        return this;
     }
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
@@ -152,6 +178,33 @@ public class Profile {
 
     public Profile setLastLoginDate(Long lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
+        return this;
+    }
+
+    public Long getLastTryLoginDate() {
+        return lastTryLoginDate;
+    }
+
+    public Profile setLastTryLoginDate(Long lastTryLoginDate) {
+        this.lastTryLoginDate = lastTryLoginDate;
+        return this;
+    }
+
+    public int getCountTryLoginDate() {
+        return countTryLoginDate;
+    }
+
+    public Profile setCountTryLoginDate(int lastTryLoginDate) {
+        this.countTryLoginDate = countTryLoginDate;
+        return this;
+    }
+
+    public boolean getIsUnlockAccount() {
+        return isUnlockAccount;
+    }
+
+    public Profile setIsUnlockAccount(boolean isUnlockAccount) {
+        this.isUnlockAccount = isUnlockAccount;
         return this;
     }
 
@@ -542,6 +595,9 @@ public class Profile {
                 ", userRoles=" + userRoles +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
+                ", lastTryLoginDate=" + lastTryLoginDate +
+                ", countTryLoginDate=" + countTryLoginDate +
+                ", isUnlockAccount=" + isUnlockAccount +
                 ", online=" + online +
                 ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
