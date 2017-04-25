@@ -150,6 +150,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getLastname())){
             profile.setLastname(offerRegistration.getLastname());
         }
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getFirstname())){
+            profile.setFirstname(offerRegistration.getFirstname());
+        }
+
         if (0 < offerRegistration.getContactPhones().size()) {
             Contact contact = new Contact();
             contact.setContactPhones(offerRegistration.getContactPhones());

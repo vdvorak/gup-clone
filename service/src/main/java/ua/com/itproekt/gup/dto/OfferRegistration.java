@@ -11,6 +11,7 @@ public class OfferRegistration {
     String selectedImageType; // type of the first image if it is exist
     private Offer offer;
     private String username;
+    private String firstname;
     private String lastname;
     private String email;
     private String password;
@@ -70,6 +71,13 @@ public class OfferRegistration {
         this.lastname = lastname;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
     public Set<String> getContactPhones() {
         return contactPhones;
