@@ -9,5 +9,6 @@ public enum OfferRefusalReason {
     PROFANITY,
     ADULT_CONTENT,
     MISMATCH_DESCRIBE,
-    PROHIBITED_CONTENT
+    PROHIBITED_CONTENT,
+    CUSTOM
 }

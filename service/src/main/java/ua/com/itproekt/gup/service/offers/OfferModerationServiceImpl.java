@@ -43,32 +43,41 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
     @Override
     public HttpStatus editOfferByModerator(Offer inputOffer) {
+        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+
         String moderatorId = SecurityOperations.getLoggedUserId();
 
+        System.err.println("#1");
         if (profilesService.findById(moderatorId) == null) {
             return HttpStatus.BAD_REQUEST;
         }
 
+        System.err.println("#2");
         // because moderator can't change almost anything in the offer
         Offer offerAfterUpdate = offersService.findById(inputOffer.getId());
 
 
+        System.err.println("#3");
         if (inputOffer.getOfferModerationReports() == null) {
             return HttpStatus.BAD_REQUEST;
         }
 
+        System.err.println("#4");
         if (inputOffer.getOfferModerationReports().getModerationStatus() == null) {
             return HttpStatus.BAD_REQUEST;
         }
 
+        System.err.println("#5");
         if (inputOffer.getOfferModerationReports().getModerationStatus() != ModerationStatus.FAIL && inputOffer.getOfferModerationReports().getModerationStatus() != ModerationStatus.COMPLETE) {
             return HttpStatus.BAD_REQUEST;
         }
 
+        System.err.println("#6");
         if (offerAfterUpdate == null) {
             return HttpStatus.NOT_FOUND;
         }
 
+        System.err.println("#7");
         if (offerAfterUpdate.isDeleted()) {
             return HttpStatus.NOT_FOUND;
         }
@@ -118,6 +127,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         offerAfterUpdate.getOfferModerationReports().setModeratorId(moderatorId);
 
         offersService.edit(offerAfterUpdate);
+        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
         return HttpStatus.OK;
     }
