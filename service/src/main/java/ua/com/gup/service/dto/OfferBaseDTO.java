@@ -5,7 +5,6 @@ package ua.com.gup.service.dto;
 import ua.com.gup.domain.Attribute;
 import ua.com.gup.domain.OfferCategory;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -23,9 +22,7 @@ public class OfferBaseDTO implements Serializable {
 
     private LinkedHashSet<OfferImageDTO> images;
 
-    private MoneyDTO price;
-
-    private Boolean priceWithVAT;
+    private PriceDTO price;
 
     @Pattern(regexp = "^http(s{0,1})://[a-zA-Z0-9_/\\-\\.]+\\.([A-Za-z/]{2,5})[a-zA-Z0-9_/\\&\\?\\=\\-\\.\\~\\%]*", message = "Url format exception")
     private String videoUrl;
@@ -60,20 +57,12 @@ public class OfferBaseDTO implements Serializable {
         this.images = images;
     }
 
-    public MoneyDTO getPrice() {
+    public PriceDTO getPrice() {
         return price;
     }
 
-    public void setPrice(MoneyDTO price) {
+    public void setPrice(PriceDTO price) {
         this.price = price;
-    }
-
-    public Boolean getPriceWithVAT() {
-        return priceWithVAT;
-    }
-
-    public void setPriceWithVAT(Boolean priceWithVAT) {
-        this.priceWithVAT = priceWithVAT;
     }
 
     public String getVideoUrl() {

@@ -7,7 +7,7 @@ import ua.com.gup.domain.enumeration.Currency;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Money {
+public class Price {
 
     @LastModifiedDate
     @Field("last_modified_date")
@@ -21,6 +21,7 @@ public class Money {
 
     private Currency baseCurrency;
 
+    private Boolean priceWithVAT;
 
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
@@ -60,5 +61,13 @@ public class Money {
 
     public void setBaseCurrency(Currency baseCurrency) {
         this.baseCurrency = baseCurrency;
+    }
+
+    public Boolean getPriceWithVAT() {
+        return priceWithVAT;
+    }
+
+    public void setPriceWithVAT(Boolean priceWithVAT) {
+        this.priceWithVAT = priceWithVAT;
     }
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class OfferMapper {
 
     @Autowired
-    private MoneyMapper moneyMapper;
+    private PriceMapper priceMapper;
 
     @Autowired
     private AddressMapper addressMapper;
@@ -79,10 +79,7 @@ public class OfferMapper {
         }
 
         if (source.getPrice() != null) {
-            target.setPrice(moneyMapper.moneyToMoneyDTO(source.getPrice()));
-        }
-        if (source.isPriceWithVAT() != null) {
-            target.setPriceWithVAT(source.isPriceWithVAT());
+            target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
         }
         if (source.getVideoUrl() != null) {
             target.setVideoUrl(source.getVideoUrl());
@@ -122,10 +119,7 @@ public class OfferMapper {
             target.setImageIds(imageIds);
         }
         if (source.getPrice() != null) {
-            target.setPrice(moneyMapper.moneyDTOToMoney(source.getPrice(), Currency.UAH));
-        }
-        if (source.getPriceWithVAT() != null) {
-            target.setPriceWithVAT(source.getPriceWithVAT());
+            target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice(), Currency.UAH));
         }
         if (source.getVideoUrl() != null) {
             target.setVideoUrl(source.getVideoUrl());

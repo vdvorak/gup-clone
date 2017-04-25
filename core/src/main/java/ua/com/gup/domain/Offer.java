@@ -9,8 +9,6 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -57,9 +55,8 @@ public class Offer implements Serializable {
 
     private Address address;
 
-    private Money price;
+    private Price price;
 
-    private boolean priceWithVAT;
 
     @Indexed(unique = true)
     private String seoUrl;
@@ -178,20 +175,12 @@ public class Offer implements Serializable {
         this.address = address;
     }
 
-    public Money getPrice() {
+    public Price getPrice() {
         return price;
     }
 
-    public void setPrice(Money price) {
+    public void setPrice(Price price) {
         this.price = price;
-    }
-
-    public Boolean isPriceWithVAT() {
-        return priceWithVAT;
-    }
-
-    public void setPriceWithVAT(boolean priceWithVAT) {
-        this.priceWithVAT = priceWithVAT;
     }
 
     public String getSeoUrl() {
