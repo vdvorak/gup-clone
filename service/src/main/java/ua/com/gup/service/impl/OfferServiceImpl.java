@@ -81,10 +81,7 @@ public class OfferServiceImpl implements OfferService {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
         for (OfferImageDTO offerImageDTO : offerCreateDTO.getImages()) {
-            if (StringUtils.isEmpty(offerImageDTO.getFilename())) {
-                offerImageDTO.setFilename(seoURL);
-            }
-            offerImageDTO.setImageId(imageService.saveOfferImage(offerImageDTO));
+            offerImageDTO.setImageId(imageService.saveOfferImage(offerImageDTO, seoURL));
         }
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);

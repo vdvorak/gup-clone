@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class ModerationReport {
+public class OfferModerationReport {
 
     String moderatorId; // moderator ID whose last modified profile
 

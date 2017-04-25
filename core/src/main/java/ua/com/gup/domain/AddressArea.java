@@ -1,12 +1,16 @@
 package ua.com.gup.domain;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Map;
 
 public class AddressArea {
 
+    @ApiModelProperty(position = 0, example = "code")
     private String code;
 
+    @ApiModelProperty(position = 10, value = "{\"en\": \"Ukraine\"}")
     private Map<String, String> name;
 
     public String getCode() {

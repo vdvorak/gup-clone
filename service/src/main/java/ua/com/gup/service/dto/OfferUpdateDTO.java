@@ -9,14 +9,11 @@ import javax.validation.constraints.NotNull;
  * A DTO for the Offer entity.
  */
 @ApiModel(description = "Offer update DTO")
-public class OfferUpdateDTO extends OfferBaseDTO {
+public class OfferUpdateDTO extends OfferCreateDTO {
 
+    @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
     @NotNull
-    @ApiModelProperty(required = true)
     private String id;
-
-    @ApiModelProperty(value = "Offer title, size[2;70]")
-    private String title;
 
     public String getId() {
         return id;
@@ -24,13 +21,5 @@ public class OfferUpdateDTO extends OfferBaseDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

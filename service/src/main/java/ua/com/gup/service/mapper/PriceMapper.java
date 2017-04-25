@@ -3,27 +3,27 @@ package ua.com.gup.service.mapper;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Price;
 import ua.com.gup.domain.enumeration.Currency;
-import ua.com.gup.service.dto.PriceDTO;
+import ua.com.gup.service.dto.OfferPriceDTO;
 
 
 @Component
 public class PriceMapper {
 
-    public PriceDTO moneyToMoneyDTO(Price price) {
-        PriceDTO priceDTO = new PriceDTO();
-        priceDTO.setAmount(price.getAmount());
-        priceDTO.setCurrency(price.getCurrency());
-        priceDTO.setPriceWithVAT(price.getPriceWithVAT());
-        return priceDTO;
+    public OfferPriceDTO moneyToMoneyDTO(Price price) {
+        OfferPriceDTO offerPriceDTO = new OfferPriceDTO();
+        offerPriceDTO.setAmount(price.getAmount());
+        offerPriceDTO.setCurrency(price.getCurrency());
+        offerPriceDTO.setPriceWithVAT(price.getPriceWithVAT());
+        return offerPriceDTO;
     }
 
-    public Price moneyDTOToMoney(PriceDTO priceDTO, Currency base) {
+    public Price moneyDTOToMoney(OfferPriceDTO offerPriceDTO, Currency base) {
         Price price = new Price();
-        price.setAmount(priceDTO.getAmount());
-        price.setCurrency(priceDTO.getCurrency());
-        price.setBaseAmount(priceDTO.getAmount().longValue()); // TODO make convert bean
-        price.setBaseCurrency(priceDTO.getCurrency());  // TODO make convert bean
-        price.setPriceWithVAT(priceDTO.getPriceWithVAT());
+        price.setAmount(offerPriceDTO.getAmount());
+        price.setCurrency(offerPriceDTO.getCurrency());
+        price.setBaseAmount(offerPriceDTO.getAmount().longValue()); // TODO make convert bean
+        price.setBaseCurrency(offerPriceDTO.getCurrency());  // TODO make convert bean
+        price.setPriceWithVAT(offerPriceDTO.getPriceWithVAT());
         return price;
     }
 

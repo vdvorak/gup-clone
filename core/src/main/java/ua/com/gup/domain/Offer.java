@@ -57,11 +57,10 @@ public class Offer implements Serializable {
 
     private Price price;
 
-
     @Indexed(unique = true)
     private String seoUrl;
 
-    private String videoUrl;
+    private String youtubeVideoId;
 
     private Map<String, String> attrs = new HashMap<>();
 
@@ -69,7 +68,7 @@ public class Offer implements Serializable {
 
     private Map<String,Boolean> boolAttrs = new HashMap<>();
 
-    private ModerationReport lastModerationReport;
+    private OfferModerationReport lastOfferModerationReport;
 
     public String getId() {
         return id;
@@ -191,12 +190,12 @@ public class Offer implements Serializable {
         this.seoUrl = seoUrl;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
     }
 
     public Map<String, String> getAttrs() {
@@ -223,12 +222,12 @@ public class Offer implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public ModerationReport getLastModerationReport() {
-        return lastModerationReport;
+    public OfferModerationReport getLastModerationReport() {
+        return lastOfferModerationReport;
     }
 
-    public void setLastModerationReport(ModerationReport lastModerationReport) {
-        this.lastModerationReport = lastModerationReport;
+    public void setLastModerationReport(OfferModerationReport lastOfferModerationReport) {
+        this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
 }

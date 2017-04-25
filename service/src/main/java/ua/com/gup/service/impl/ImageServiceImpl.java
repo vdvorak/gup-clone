@@ -40,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String saveOfferImage(OfferImageDTO offerImageDTO) {
+    public String saveOfferImage(OfferImageDTO offerImageDTO, String fileName) {
         if (StringUtils.isEmpty(offerImageDTO.getImageId()) && !StringUtils.isEmpty(offerImageDTO.getBase64Data())
                 && IMAGE_BASE64_PATTERN.matcher(offerImageDTO.getBase64Data()).matches()) {
             try {
@@ -52,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
                     BufferedImage bufferedImage = ImageIO.read(
                             new ByteArrayInputStream(Base64Utils.decodeFromString(base64PatternMatcher.group(2))));
                     FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-                    fileUploadWrapper.setFilename(offerImageDTO.getFilename());
+                    fileUploadWrapper.setFilename(fileName);
                     fileUploadWrapper.setContentType(contentType);
                     fileUploadWrapper.setId(offerImageDTO.getImageId());
                     // will save image in all size types

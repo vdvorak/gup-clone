@@ -1,9 +1,13 @@
 package ua.com.gup.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class OfferCategory {
 
+    @ApiModelProperty(example = "category_code")
     private String code;
 
+    @ApiModelProperty(example = "category_name")
     private String name;
 
     public String getCode() {

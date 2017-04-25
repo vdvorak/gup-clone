@@ -1,37 +1,35 @@
 package ua.com.gup.service.dto;
 
-
-
-import ua.com.gup.domain.Attribute;
+import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.OfferCategory;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
+import java.util.Map;
 
 public class OfferBaseDTO implements Serializable {
 
+    @ApiModelProperty(position = 30)
     private LinkedList<OfferCategory> categories;
 
-    @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
+    @ApiModelProperty(position = 40, example = "title")
+    private String title;
+
+    @ApiModelProperty(position = 50, example = "description")
     private String description;
 
-    private LinkedHashSet<OfferImageDTO> images;
+    @ApiModelProperty(position = 70)
+    private OfferPriceDTO price;
 
-    private PriceDTO price;
+    @ApiModelProperty(position = 110, value = "{\"color\": \"Black\", \"size\":\"XL\"}")
+    private Map<String, String> attrs = new HashMap<>();
 
-    @Pattern(regexp = "^http(s{0,1})://[a-zA-Z0-9_/\\-\\.]+\\.([A-Za-z/]{2,5})[a-zA-Z0-9_/\\&\\?\\=\\-\\.\\~\\%]*", message = "Url format exception")
-    private String videoUrl;
+    @ApiModelProperty(position = 120, value = "{\"year\": 2011, \"volume_sm3\":1500}")
+    private Map<String, Long> numAttrs = new HashMap<>();
 
-    private Set<Attribute<String>> attrs = new HashSet<>();
-
-    private Set<Attribute<Long>> numAttrs = new HashSet<>();
-
-    private Set<Attribute<Boolean>> boolAttrs = new HashSet<>();
+    @ApiModelProperty(position = 130, value = "{\"used\": true, \"mediator\":false}")
+    private Map<String, Boolean> boolAttrs = new HashMap<>();
 
     public LinkedList<OfferCategory> getCategories() {
         return categories;
@@ -39,6 +37,14 @@ public class OfferBaseDTO implements Serializable {
 
     public void setCategories(LinkedList<OfferCategory> categories) {
         this.categories = categories;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -49,51 +55,35 @@ public class OfferBaseDTO implements Serializable {
         this.description = description;
     }
 
-    public LinkedHashSet<OfferImageDTO> getImages() {
-        return images;
-    }
-
-    public void setImages(LinkedHashSet<OfferImageDTO> images) {
-        this.images = images;
-    }
-
-    public PriceDTO getPrice() {
+    public OfferPriceDTO getPrice() {
         return price;
     }
 
-    public void setPrice(PriceDTO price) {
+    public void setPrice(OfferPriceDTO price) {
         this.price = price;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public Set<Attribute<String>> getAttrs() {
+    public Map<String, String> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(Set<Attribute<String>> attrs) {
+    public void setAttrs(Map<String, String> attrs) {
         this.attrs = attrs;
     }
 
-    public Set<Attribute<Long>> getNumAttrs() {
+    public Map<String, Long> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(Set<Attribute<Long>> numAttrs) {
+    public void setNumAttrs(Map<String, Long> numAttrs) {
         this.numAttrs = numAttrs;
     }
 
-    public Set<Attribute<Boolean>> getBoolAttrs() {
+    public Map<String, Boolean> getBoolAttrs() {
         return boolAttrs;
     }
 
-    public void setBoolAttrs(Set<Attribute<Boolean>> boolAttrs) {
+    public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
         this.boolAttrs = boolAttrs;
     }
 }

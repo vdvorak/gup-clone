@@ -6,5 +6,5 @@ import ua.com.gup.service.dto.OfferImageDTO;
 import java.util.Map;
 
 public interface ImageService {
-    String saveOfferImage(OfferImageDTO offerImageDTO);
+    String saveOfferImage(OfferImageDTO offerImageDTO, String fileName);
 }

@@ -3,7 +3,6 @@ package ua.com.gup.service.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.Attribute;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.enumeration.Currency;
@@ -27,30 +26,43 @@ public class OfferMapper {
         if (offerCreateDTO.getAddress() != null) {
             offer.setAddress(addressMapper.addressDTOToAddress(offerCreateDTO.getAddress()));
         }
-        if (offerCreateDTO.getTitle() != null) {
-            offer.setTitle(offerCreateDTO.getTitle());
+        if (offerCreateDTO.getImages() != null && offerCreateDTO.getImages().size() > 0) {
+            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
+            offerCreateDTO.getImages().forEach(i -> imageIds.add(i.getImageId()));
+            offer.setImageIds(imageIds);
+        }
+        if (offerCreateDTO.getYoutubeVideoId() != null) {
+            offer.setYoutubeVideoId(offerCreateDTO.getYoutubeVideoId());
         }
         return offer;
     }
 
     public void offerUpdateDTOToOffer(OfferUpdateDTO source, Offer target) {
         fromOfferBaseDTOToOffer(source, target);
-        if (source.getTitle() != null) {
-            target.setTitle(source.getTitle());
+        if (source.getAddress() != null) {
+            target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
+        }
+        if (source.getImages() != null && source.getImages().size() > 0) {
+            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
+            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
+            target.setImageIds(imageIds);
+        }
+        if (source.getYoutubeVideoId() != null) {
+            target.setYoutubeVideoId(source.getYoutubeVideoId());
         }
     }
 
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferDetailsDTO offerDetailsDTO = new OfferDetailsDTO();
         fromOfferToOfferBaseDTO(offer, offerDetailsDTO);
+
         offerDetailsDTO.setId(offer.getId());
-        offerDetailsDTO.setSeoUrl(offer.getSeoUrl());
-        offerDetailsDTO.setStatus(offer.getStatus());
         offerDetailsDTO.setAuthorId(offer.getAuthorId());
         if (offer.getAddress() != null) {
             offerDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         }
-        offerDetailsDTO.setTitle(offer.getTitle());
+        offerDetailsDTO.setSeoUrl(offer.getSeoUrl());
+        offerDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         return offerDetailsDTO;
     }
 
@@ -58,9 +70,8 @@ public class OfferMapper {
         OfferShortDTO offerShortDTO = new OfferShortDTO();
         fromOfferToOfferBaseDTO(offer, offerShortDTO);
         offerShortDTO.setId(offer.getId());
-        offerShortDTO.setSeoUrl(offer.getSeoUrl());
         offerShortDTO.setAuthorId(offer.getAuthorId());
-        offerShortDTO.setTitle(offer.getTitle());
+        offerShortDTO.setSeoUrl(offer.getSeoUrl());
         return offerShortDTO;
     }
 
@@ -69,69 +80,48 @@ public class OfferMapper {
         if (source.getCategories() != null) {
             target.setCategories(source.getCategories());
         }
+        if (source.getTitle() != null) {
+            target.setTitle(source.getTitle());
+        }
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());
         }
-        if (source.getImageIds() != null) {
-            LinkedHashSet<OfferImageDTO> offerImageDTOS = new LinkedHashSet<>();
-            source.getImageIds().forEach(id -> offerImageDTOS.add(new OfferImageDTO(id)));
-            target.setImages(offerImageDTOS);
-        }
-
         if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
         }
-        if (source.getVideoUrl() != null) {
-            target.setVideoUrl(source.getVideoUrl());
-        }
         if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs().entrySet()
-                    .stream()
-                    .map(e -> new Attribute<String>(e.getKey(), e.getValue()))
-                    .collect(Collectors.toSet()));
+            target.setAttrs(source.getAttrs());
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs().entrySet()
-                    .stream()
-                    .map(e -> new Attribute<Long>(e.getKey(), e.getValue()))
-                    .collect(Collectors.toSet()));
+            target.setNumAttrs(source.getNumAttrs());
         }
         if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs().entrySet()
-                    .stream()
-                    .map(e -> new Attribute<Boolean>(e.getKey(), e.getValue()))
-                    .collect(Collectors.toSet()));
+            target.setBoolAttrs(source.getBoolAttrs());
         }
     }
 
     private void fromOfferBaseDTOToOffer(OfferBaseDTO source, Offer target) {
-
         if (source.getCategories() != null) {
             target.setCategoriesRegExp(source.getCategories().stream().map(OfferCategory::getCode).collect(Collectors.joining("/")));
             target.setCategories(source.getCategories());
         }
+        if (source.getTitle() != null) {
+            target.setTitle(source.getTitle());
+        }
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());
-        }
-        if (source.getImages() != null) {
-            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
-            source.getImages().forEach(c -> imageIds.add(c.getImageId()));
-            target.setImageIds(imageIds);
         }
         if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice(), Currency.UAH));
         }
-        if (source.getVideoUrl() != null) {
-            target.setVideoUrl(source.getVideoUrl());
-        }
         if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
+            target.setAttrs(source.getAttrs());
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
+            target.setNumAttrs(source.getNumAttrs());
         }
         if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
+            target.setBoolAttrs(source.getBoolAttrs());
         }
     }
 }
