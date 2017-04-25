@@ -1,4 +1,4 @@
-package ua.com.gup.service.filter;
+package ua.com.gup.repository.filter;
 
 
 import io.swagger.annotations.ApiModel;
@@ -12,8 +12,11 @@ public class NumericAttributeFilter {
     @ApiModelProperty("Numeric attribute key (code)")
     private String key;
 
-    @ApiModelProperty("Numeric attribute value range")
-    private Range<BigDecimal> val;
+    @ApiModelProperty("Numeric value from inclusive")
+    private Long from;
+    
+    @ApiModelProperty("Numeric value to inclusive")
+    private Long to;
 
     public String getKey() {
         return key;
@@ -23,12 +26,20 @@ public class NumericAttributeFilter {
         this.key = key;
     }
 
-    public Range<BigDecimal> getVal() {
-        return val;
+    public Long getFrom() {
+        return from;
     }
 
-    public void setVal(Range<BigDecimal> val) {
-        this.val = val;
+    public void setFrom(Long from) {
+        this.from = from;
+    }
+
+    public Long getTo() {
+        return to;
+    }
+
+    public void setTo(Long to) {
+        this.to = to;
     }
 
     @Override

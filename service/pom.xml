@@ -280,11 +280,6 @@
             <artifactId>testng</artifactId>
             <version>6.5.2</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.slugify/slugify -->
         <dependency>
             <groupId>com.github.slugify</groupId>

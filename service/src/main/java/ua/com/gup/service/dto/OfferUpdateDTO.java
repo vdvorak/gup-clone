@@ -15,7 +15,7 @@ public class OfferUpdateDTO extends OfferBaseDTO {
     @ApiModelProperty(required = true)
     private String id;
 
-    @ApiModelProperty(value = "Offer title, size[2;70]", required = true)
+    @ApiModelProperty(value = "Offer title, size[2;70]")
     private String title;
 
     public String getId() {

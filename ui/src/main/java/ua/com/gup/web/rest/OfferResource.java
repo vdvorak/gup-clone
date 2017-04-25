@@ -1,9 +1,6 @@
 package ua.com.gup.web.rest;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.repository.filter.OfferFilter;
 import ua.com.gup.service.OfferService;
-import ua.com.gup.service.dto.*;
-import ua.com.gup.service.filter.OfferFilter;
+import ua.com.gup.service.dto.OfferCreateDTO;
+import ua.com.gup.service.dto.OfferDetailsDTO;
+import ua.com.gup.service.dto.OfferShortDTO;
+import ua.com.gup.service.dto.OfferUpdateDTO;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
 import ua.com.gup.web.rest.util.ResponseUtil;
@@ -114,8 +114,19 @@ public class OfferResource {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful retrieval of user detail", response = OfferShortDTO.class),
-            @ApiResponse(code = 500, message = "Internal server error")})
-
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported. " +
+                            "Not taken into account if the 'query' is specified.")
+    })
     /**
      * GET  /offers : get all the offers by filter.
      *
@@ -123,11 +134,11 @@ public class OfferResource {
      * @param pageable    the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @RequestMapping(value = "/offers/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OfferShortDTO>> getAllOffersByFilter(OfferFilter offerFilter, @ApiParam Pageable pageable) {
+    @RequestMapping(value = "/offers/", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferShortDTO>> getAllOffersByFilter(OfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<OfferShortDTO> page = offerService.findAll(offerFilter, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/_search");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

@@ -11,15 +11,15 @@ public final class HeaderUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
-    private static final String APPLICATION_NAME = "gupTestApp";
+    private static final String APPLICATION_NAME = "gupApp";
 
     private HeaderUtil() {
     }
 
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-gupTestApp-alert", message);
-        headers.add("X-gupTestApp-params", param);
+        headers.add("X-gupApp-alert", message);
+        headers.add("X-gupApp-params", param);
         return headers;
     }
 
@@ -38,8 +38,8 @@ public final class HeaderUtil {
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
         log.error("Entity creation failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-gupTestApp-error", "error." + errorKey);
-        headers.add("X-gupTestApp-params", entityName);
+        headers.add("X-gupApp-error", "error." + errorKey);
+        headers.add("X-gupApp-params", entityName);
         return headers;
     }
 }

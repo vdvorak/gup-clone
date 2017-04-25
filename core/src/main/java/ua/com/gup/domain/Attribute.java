@@ -5,7 +5,13 @@ public class Attribute<V> {
 
     private String key;
 
-    private V values;
+    private V value;
+    public Attribute() {
+    }
+    public Attribute(String key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 
     public String getKey() {
         return key;
@@ -15,12 +21,12 @@ public class Attribute<V> {
         this.key = key;
     }
 
-    public V getValues() {
-        return values;
+    public V getValue() {
+        return value;
     }
 
-    public void setValues(V values) {
-        this.values = values;
+    public void setValue(V value) {
+        this.value = value;
     }
 
     @Override

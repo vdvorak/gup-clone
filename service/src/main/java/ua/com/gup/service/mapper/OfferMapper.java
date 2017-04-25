@@ -3,6 +3,7 @@ package ua.com.gup.service.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.domain.Attribute;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.enumeration.Currency;
@@ -59,7 +60,7 @@ public class OfferMapper {
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setSeoUrl(offer.getSeoUrl());
         offerShortDTO.setAuthorId(offer.getAuthorId());
-        offer.setTitle(offer.getTitle());
+        offerShortDTO.setTitle(offer.getTitle());
         return offerShortDTO;
     }
 
@@ -87,13 +88,22 @@ public class OfferMapper {
             target.setVideoUrl(source.getVideoUrl());
         }
         if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs());
+            target.setAttrs(source.getAttrs().entrySet()
+                    .stream()
+                    .map(e -> new Attribute<String>(e.getKey(), e.getValue()))
+                    .collect(Collectors.toSet()));
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs());
+            target.setNumAttrs(source.getNumAttrs().entrySet()
+                    .stream()
+                    .map(e -> new Attribute<Long>(e.getKey(), e.getValue()))
+                    .collect(Collectors.toSet()));
         }
         if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs());
+            target.setBoolAttrs(source.getBoolAttrs().entrySet()
+                    .stream()
+                    .map(e -> new Attribute<Boolean>(e.getKey(), e.getValue()))
+                    .collect(Collectors.toSet()));
         }
     }
 
@@ -121,13 +131,13 @@ public class OfferMapper {
             target.setVideoUrl(source.getVideoUrl());
         }
         if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs());
+            target.setAttrs(source.getAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs());
+            target.setNumAttrs(source.getNumAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
         }
         if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs());
+            target.setBoolAttrs(source.getBoolAttrs().stream().collect(Collectors.toMap(Attribute::getKey, Attribute::getValue)));
         }
     }
 }

@@ -12,10 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A Offer.
@@ -69,11 +66,11 @@ public class Offer implements Serializable {
 
     private String videoUrl;
 
-    private Set<Attribute<String>> attrs = new HashSet<>();
+    private Map<String, String> attrs = new HashMap<>();
 
-    private Set<Attribute<Long>> numAttrs = new HashSet<>();
+    private Map<String,Long> numAttrs = new HashMap<>();
 
-    private Set<Attribute<Boolean>> boolAttrs = new HashSet<>();
+    private Map<String,Boolean> boolAttrs = new HashMap<>();
 
     private ModerationReport lastModerationReport;
 
@@ -213,27 +210,27 @@ public class Offer implements Serializable {
         this.videoUrl = videoUrl;
     }
 
-    public Set<Attribute<String>> getAttrs() {
+    public Map<String, String> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(Set<Attribute<String>> attrs) {
+    public void setAttrs(Map<String, String> attrs) {
         this.attrs = attrs;
     }
 
-    public Set<Attribute<Long>> getNumAttrs() {
+    public Map<String, Long> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(Set<Attribute<Long>> numAttrs) {
+    public void setNumAttrs(Map<String, Long> numAttrs) {
         this.numAttrs = numAttrs;
     }
 
-    public Set<Attribute<Boolean>> getBoolAttrs() {
+    public Map<String, Boolean> getBoolAttrs() {
         return boolAttrs;
     }
 
-    public void setBoolAttrs(Set<Attribute<Boolean>> boolAttrs) {
+    public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
         this.boolAttrs = boolAttrs;
     }
 

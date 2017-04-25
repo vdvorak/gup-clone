@@ -6,7 +6,7 @@ import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferDetailsDTO;
 import ua.com.gup.service.dto.OfferShortDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
-import ua.com.gup.service.filter.OfferFilter;
+import ua.com.gup.repository.filter.OfferFilter;
 
 /**
  * Service Interface for managing Offer.
@@ -33,7 +33,7 @@ public interface OfferService {
      *  Get all the offers.
      *
      *  @param offerFilter the offer filter
-     *  @param pageable the pagination information
+     *  @param pageable the offer filter
      *  @return the list of entities
      */
     Page<OfferShortDTO> findAll(OfferFilter offerFilter, Pageable pageable);

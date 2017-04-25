@@ -1,4 +1,4 @@
-package ua.com.gup.service.filter;
+package ua.com.gup.repository.filter;
 
 
 import io.swagger.annotations.ApiModel;
@@ -11,6 +11,8 @@ import java.util.List;
 
 @ApiModel(description = "Offer filter model")
 public class OfferFilter implements Serializable {
+
+    private static final long serialVersionUID = 1232825578694716871L;
 
     @ApiModelProperty("String for full text search")
     private String query;

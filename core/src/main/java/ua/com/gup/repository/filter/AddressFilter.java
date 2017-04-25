@@ -1,4 +1,4 @@
-package ua.com.gup.service.filter;
+package ua.com.gup.repository.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
