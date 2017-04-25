@@ -9,7 +9,7 @@ public class AddressFilter {
     @ApiModelProperty("Country codes with ',' delimiter")
     private String countries;
     @ApiModelProperty("Area codes with ',' delimiter")
-    private String areas;
+    private String districts;
     @ApiModelProperty("City codes with ',' delimiter")
     private String cities;
 
@@ -21,12 +21,12 @@ public class AddressFilter {
         this.countries = countries;
     }
 
-    public String getAreas() {
-        return areas;
+    public String getDistricts() {
+        return districts;
     }
 
-    public void setAreas(String areas) {
-        this.areas = areas;
+    public void setDistricts(String districts) {
+        this.districts = districts;
     }
 
     public String getCities() {

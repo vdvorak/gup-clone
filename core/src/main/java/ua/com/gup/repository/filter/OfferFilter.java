@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,28 +13,28 @@ public class OfferFilter implements Serializable {
 
     private static final long serialVersionUID = 1232825578694716871L;
 
-    @ApiModelProperty("String for full text search")
+    @ApiModelProperty(value = "String for full text search", position = 0)
     private String query;
 
-    @ApiModelProperty("Categories with ',' delimiter")
+    @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
     private String categories;
 
-    @ApiModelProperty("Filter for creation date [from; to] optional")
-    private Range<LocalDate> date;
+    @ApiModelProperty(value = "Filter for creation date [from; to] optional", position = 20)
+    private DateFilter date;
 
-    @ApiModelProperty("Filter for address")
+    @ApiModelProperty(value = "Filter for address", position = 30)
     private AddressFilter address;
 
-    @ApiModelProperty("Filter for price")
+    @ApiModelProperty(value = "Filter for price", position = 40)
     private MoneyFilter price;
 
-    @ApiModelProperty("Filters for attributes")
+    @ApiModelProperty(value = "Filters for attributes", position = 50)
     private List<AttributeFilter> attrs = new ArrayList<>();
 
-    @ApiModelProperty("Filters for numeric attributes")
+    @ApiModelProperty(value = "Filters for numeric attributes", position = 60)
     private List<NumericAttributeFilter> numAttrs = new ArrayList<>();
 
-    @ApiModelProperty("Filters for boolean attributes")
+    @ApiModelProperty(value = "Filters for boolean attributes", position = 70)
     private List<BooleanAttributeFilter> boolAttrs = new ArrayList<>();
 
     public String getQuery() {
@@ -54,11 +53,11 @@ public class OfferFilter implements Serializable {
         this.categories = categories;
     }
 
-    public Range<LocalDate> getDate() {
+    public DateFilter getDate() {
         return date;
     }
 
-    public void setDate(Range<LocalDate> date) {
+    public void setDate(DateFilter date) {
         this.date = date;
     }
 

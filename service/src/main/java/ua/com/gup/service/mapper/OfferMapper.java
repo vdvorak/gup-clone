@@ -55,7 +55,7 @@ public class OfferMapper {
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferDetailsDTO offerDetailsDTO = new OfferDetailsDTO();
         fromOfferToOfferBaseDTO(offer, offerDetailsDTO);
-
+        offerDetailsDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerDetailsDTO.setId(offer.getId());
         offerDetailsDTO.setAuthorId(offer.getAuthorId());
         if (offer.getAddress() != null) {
@@ -69,6 +69,7 @@ public class OfferMapper {
     public OfferShortDTO offerToOfferShortDTO(Offer offer) {
         OfferShortDTO offerShortDTO = new OfferShortDTO();
         fromOfferToOfferBaseDTO(offer, offerShortDTO);
+        offerShortDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setAuthorId(offer.getAuthorId());
         offerShortDTO.setSeoUrl(offer.getSeoUrl());

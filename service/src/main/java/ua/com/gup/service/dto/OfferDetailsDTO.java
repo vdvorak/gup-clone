@@ -3,12 +3,16 @@ package ua.com.gup.service.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 
 public class OfferDetailsDTO extends OfferBaseDTO {
 
     @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
     private String id;
+
+    @ApiModelProperty(position = 5)
+    private LocalDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
     private String authorId;
@@ -31,6 +35,14 @@ public class OfferDetailsDTO extends OfferBaseDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public String getAuthorId() {

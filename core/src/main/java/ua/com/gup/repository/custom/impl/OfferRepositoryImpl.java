@@ -42,6 +42,19 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
                     matching(offerFilter.getQuery());
             query.addCriteria(textCriteria);
         }
+        if (offerFilter.getDate() != null) {
+            final DateFilter dateFilter = offerFilter.getDate();
+            if (dateFilter.getFrom() != null && dateFilter.getTo() != null) {
+                query.addCriteria(Criteria.where("lastModifiedDate").gte(dateFilter.getFrom()).lte(dateFilter.getTo()));
+            } else {
+                if (dateFilter.getFrom() != null) {
+                    query.addCriteria(Criteria.where("lastModifiedDate").gte(dateFilter.getFrom()));
+                }
+                if (dateFilter.getTo() != null) {
+                    query.addCriteria(Criteria.where("lastModifiedDate").lte(dateFilter.getTo()));
+                }
+            }
+        }
         if (statusList != null && statusList.size() > 0) {
             if (statusList.size() == 1) {
                 query.addCriteria(Criteria.where("status").is(statusList.get(0).toString()));
@@ -59,17 +72,29 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
             String regex = "(?i:" + offerFilter.getCategories().replace(",", "/") + ".*)";
             query.addCriteria(Criteria.where("categoriesRegExp").regex(regex));
         }
+        if (offerFilter.getAddress() != null) {
+            AddressFilter addressFilter = offerFilter.getAddress();
+            if (addressFilter.getCountries() != null) {
+                query.addCriteria(Criteria.where("address.country.code").in(addressFilter.getCountries().split(",")));
+            }
+            if (addressFilter.getDistricts() != null) {
+                query.addCriteria(Criteria.where("address.district.code").in(addressFilter.getDistricts().split(",")));
+            }
+            if (addressFilter.getCities() != null) {
+                query.addCriteria(Criteria.where("address.city.code").in(addressFilter.getCities().split(",")));
+            }
+        }
         if (offerFilter.getPrice() != null) {
             MoneyFilter price = offerFilter.getPrice();
             if (price.getCurrency() != null) {
-                if (price.getAmount() != null) {
-                    if (price.getAmount().getFrom() != null) {
-                        double from = price.getAmount().getFrom().doubleValue();
-                        query.addCriteria(Criteria.where("price.baseAmount").gte(from));
+                if (price.getFrom() != null && price.getTo() != null) {
+                    query.addCriteria(Criteria.where("price.baseAmount").gte(price.getFrom()).lte(price.getTo()));
+                } else {
+                    if (price.getFrom() != null) {
+                        query.addCriteria(Criteria.where("price.baseAmount").gte(price.getFrom()));
                     }
-                    if (price.getAmount().getTo() != null) {
-                        double to = price.getAmount().getTo().doubleValue();
-                        query.addCriteria(Criteria.where("price.baseAmount").lte(to));
+                    if (price.getTo() != null) {
+                        query.addCriteria(Criteria.where("price.baseAmount").lte(price.getTo()));
                     }
                 }
             }

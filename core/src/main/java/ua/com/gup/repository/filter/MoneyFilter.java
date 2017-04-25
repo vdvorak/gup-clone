@@ -15,8 +15,11 @@ public class MoneyFilter {
     @NotNull
     private Currency currency;
 
-    @ApiModelProperty("Range of amount")
-    private Range<BigDecimal> amount;
+    @ApiModelProperty("From")
+    private Double from;
+
+    @ApiModelProperty("To")
+    private Double to;
 
     public Currency getCurrency() {
         return currency;
@@ -26,11 +29,19 @@ public class MoneyFilter {
         this.currency = currency;
     }
 
-    public Range<BigDecimal> getAmount() {
-        return amount;
+    public Double getFrom() {
+        return from;
     }
 
-    public void setAmount(Range<BigDecimal> amount) {
-        this.amount = amount;
+    public void setFrom(Double from) {
+        this.from = from;
+    }
+
+    public Double getTo() {
+        return to;
+    }
+
+    public void setTo(Double to) {
+        this.to = to;
     }
 }
