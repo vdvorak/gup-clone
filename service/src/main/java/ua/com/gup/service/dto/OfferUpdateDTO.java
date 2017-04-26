@@ -22,4 +22,5 @@ public class OfferUpdateDTO extends OfferCreateDTO {
     public void setId(String id) {
         this.id = id;
     }
+
 }

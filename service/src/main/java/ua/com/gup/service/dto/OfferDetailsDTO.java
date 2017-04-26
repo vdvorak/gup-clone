@@ -29,6 +29,9 @@ public class OfferDetailsDTO extends OfferBaseDTO {
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
     private String youtubeVideoId;
 
+    @ApiModelProperty(position = 105)
+    private OfferContactInfoDTO contactInfo;
+
     public String getId() {
         return id;
     }
@@ -83,5 +86,13 @@ public class OfferDetailsDTO extends OfferBaseDTO {
 
     public void setYoutubeVideoId(String youtubeVideoId) {
         this.youtubeVideoId = youtubeVideoId;
+    }
+
+    public OfferContactInfoDTO getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(OfferContactInfoDTO contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }

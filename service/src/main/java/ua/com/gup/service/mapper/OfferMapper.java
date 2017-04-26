@@ -20,6 +20,9 @@ public class OfferMapper {
     @Autowired
     private AddressMapper addressMapper;
 
+    @Autowired
+    private OfferContactInfoMapper contactInfoMapper;
+
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
         fromOfferBaseDTOToOffer(offerCreateDTO, offer);
@@ -33,6 +36,9 @@ public class OfferMapper {
         }
         if (offerCreateDTO.getYoutubeVideoId() != null) {
             offer.setYoutubeVideoId(offerCreateDTO.getYoutubeVideoId());
+        }
+        if (offerCreateDTO.getContactInfo() != null) {
+            offer.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(offerCreateDTO.getContactInfo()));
         }
         return offer;
     }
@@ -50,6 +56,9 @@ public class OfferMapper {
         if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
         }
+        if (source.getContactInfo() != null) {
+            target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
+        }
     }
 
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
@@ -63,6 +72,7 @@ public class OfferMapper {
         }
         offerDetailsDTO.setSeoUrl(offer.getSeoUrl());
         offerDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
+        offerDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
         return offerDetailsDTO;
     }
 

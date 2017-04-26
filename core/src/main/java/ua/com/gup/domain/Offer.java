@@ -62,6 +62,8 @@ public class Offer implements Serializable {
 
     private String youtubeVideoId;
 
+    private OfferContactInfo contactInfo;
+
     private Map<String, String> attrs = new HashMap<>();
 
     private Map<String,Long> numAttrs = new HashMap<>();
@@ -196,6 +198,14 @@ public class Offer implements Serializable {
 
     public void setYoutubeVideoId(String youtubeVideoId) {
         this.youtubeVideoId = youtubeVideoId;
+    }
+
+    public OfferContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(OfferContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public Map<String, String> getAttrs() {
