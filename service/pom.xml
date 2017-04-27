@@ -9,11 +9,17 @@
         <artifactId>GUP</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>service</artifactId>
     <version>${version}</version>
 
     <packaging>jar</packaging>
-
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -287,6 +293,11 @@
             <version>2.1.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.Ritaja</groupId>
+            <artifactId>java-exchange-rates</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 

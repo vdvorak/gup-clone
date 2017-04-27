@@ -1,6 +1,12 @@
 package ua.com.gup.repository.custom.impl;
 
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,18 +15,23 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.repository.custom.OfferRepositoryCustom;
 import ua.com.gup.repository.filter.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OfferRepositoryImpl implements OfferRepositoryCustom {
 
+    private final Logger log = LoggerFactory.getLogger(OfferRepositoryImpl.class);
+
     @Autowired
     private MongoTemplate mongoTemplate;
+
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
@@ -32,6 +43,36 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable) {
         return createQueryAndFind(offerFilter, offerStatuses, pageable);
+    }
+
+    public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("status", status.name());
+        query.put("price.currency", currency.name());
+        BasicDBObject projection = new BasicDBObject();
+        projection.put("_id", 1);
+        projection.put("price.amount", 1);
+        final DBCollection collection = mongoTemplate.getCollection(Offer.COLLECTION_NAME);
+        DBCursor cursor = collection.find(query, projection);
+        try {
+            while (cursor.hasNext()) {
+                final DBObject doc = cursor.next();
+                try {
+                    final DBObject price = (DBObject) doc.get("price");
+                    final BasicDBObject fields = new BasicDBObject();
+                    fields.put("price.baseAmount", exchangeRate * Double.valueOf("" + price.get("amount")));
+                    fields.put("price.baseCurrency", baseCurrency.name());
+                    fields.put("price.last_modified_date", new Date());
+                    collection.update(new BasicDBObject("_id", doc.get("_id")), new BasicDBObject("$set", fields));
+                } catch (Exception e) {
+                    log.error("Error price update doc = {}", doc, e);
+                }
+            }
+        } catch (Exception e) {
+            log.error("ForEach update with currency = {}, baseCurrency = {}, exchangeRate = {} failed: ", currency, baseCurrency, exchangeRate, e);
+        } finally {
+            cursor.close();
+        }
     }
 
     private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Pageable pageable) {
@@ -127,3 +168,8 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         return mongoTemplate.find(query, Offer.class);
     }
 }
+
+
+
+
+

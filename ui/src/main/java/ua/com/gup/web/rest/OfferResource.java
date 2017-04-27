@@ -142,4 +142,16 @@ public class OfferResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    /**
+     * PUT  /offers : update  offers base price.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/updateBasePrice", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateBasePrice() {
+        log.debug("REST request to update base price: {}");
+        offerService.updateActiveOffersBasePrice();
+        return ResponseEntity.ok().build();
+    }
+
 }

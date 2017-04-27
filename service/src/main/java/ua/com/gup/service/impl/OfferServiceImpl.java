@@ -9,11 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
@@ -23,6 +24,7 @@ import ua.com.gup.service.util.SEOFriendlyUrlUtil;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.SecurityUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -42,13 +44,21 @@ public class OfferServiceImpl implements OfferService {
 
     private final SequenceService sequenceService;
 
+    private final CurrencyConverterService currencyConverterService;
+
     private final OfferMapper offerMapper;
 
     @Autowired
-    public OfferServiceImpl(OfferRepository offerRepository, ImageService imageService, SequenceService sequenceService, OfferMapper offerMapper) {
+    public OfferServiceImpl(
+            OfferRepository offerRepository,
+            ImageService imageService,
+            SequenceService sequenceService,
+            CurrencyConverterService currencyConverterService,
+            OfferMapper offerMapper) {
         this.offerRepository = offerRepository;
         this.imageService = imageService;
         this.sequenceService = sequenceService;
+        this.currencyConverterService = currencyConverterService;
         this.offerMapper = offerMapper;
     }
 
@@ -98,7 +108,7 @@ public class OfferServiceImpl implements OfferService {
      * Get all the offers.
      *
      * @param offerFilter the offer filter
-     * @param pageable the pageable
+     * @param pageable    the pageable
      * @return the list of entities
      */
     @Override
@@ -166,8 +176,21 @@ public class OfferServiceImpl implements OfferService {
         }
     }
 
+    /**
+     * Update active offers base price by current exchange rate.
+     *
+     * @return void
+     */
+    @Override
+    public void updateActiveOffersBasePrice() {
+        for (Currency currency : Currency.values()) {
+            final BigDecimal exchangeRate = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal("1"));
+            offerRepository.updateBasePriceByExchangeRate(OfferStatus.ACTIVE, currency, currencyConverterService.getBaseCurrency(), exchangeRate.doubleValue());
+        }
+    }
+
     private String generateUniqueSeoUrl(String title) {
-        return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title+ "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
+        return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
     }
 
 

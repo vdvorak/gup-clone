@@ -17,7 +17,7 @@ public class Price {
 
     private Currency currency;
 
-    private long baseAmount;
+    private double baseAmount;
 
     private Currency baseCurrency;
 
@@ -47,11 +47,11 @@ public class Price {
         this.currency = currency;
     }
 
-    public long getBaseAmount() {
+    public double getBaseAmount() {
         return baseAmount;
     }
 
-    public void setBaseAmount(long baseAmount) {
+    public void setBaseAmount(double baseAmount) {
         this.baseAmount = baseAmount;
     }
 

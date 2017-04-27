@@ -70,4 +70,11 @@ public interface OfferService {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     boolean hasPermissionForUpdate(String id);
+
+    /**
+     * Update active offers base price by current exchange rate.
+     *
+     * @return void
+     */
+    void updateActiveOffersBasePrice();
 }
