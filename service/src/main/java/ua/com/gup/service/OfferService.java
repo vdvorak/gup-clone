@@ -6,7 +6,7 @@ import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferDetailsDTO;
 import ua.com.gup.service.dto.OfferShortDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
-import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.domain.filter.OfferFilter;
 
 import java.util.Optional;
 

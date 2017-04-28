@@ -4,7 +4,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.dto.OfferAddressDTO;
 import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;

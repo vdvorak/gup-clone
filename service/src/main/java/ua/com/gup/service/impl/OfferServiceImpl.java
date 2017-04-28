@@ -13,7 +13,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.repository.OfferRepository;
-import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;

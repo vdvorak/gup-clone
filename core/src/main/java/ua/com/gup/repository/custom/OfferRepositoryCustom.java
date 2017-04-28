@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.domain.filter.OfferFilter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ua.com.gup.repository.filter;
+package ua.com.gup.domain.filter;
 
 
 import io.swagger.annotations.ApiModel;
@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.enumeration.Currency;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @ApiModel(description = "Money filter model")
 public class MoneyFilter {

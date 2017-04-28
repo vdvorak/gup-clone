@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.repository.filter.OfferFilter;
+import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferDetailsDTO;

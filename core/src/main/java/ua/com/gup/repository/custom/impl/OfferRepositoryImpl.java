@@ -18,7 +18,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.repository.custom.OfferRepositoryCustom;
-import ua.com.gup.repository.filter.*;
+import ua.com.gup.domain.filter.*;
 
 import java.util.ArrayList;
 import java.util.Date;

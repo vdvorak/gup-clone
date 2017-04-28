@@ -1,10 +1,8 @@
-package ua.com.gup.repository.filter;
+package ua.com.gup.domain.filter;
 
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.math.BigDecimal;
 
 @ApiModel(description = "Numeric attribute filter model")
 public class NumericAttributeFilter {
