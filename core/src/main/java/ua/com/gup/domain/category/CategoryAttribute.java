@@ -3,11 +3,14 @@ package ua.com.gup.domain.category;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Document(collection = Category.COLLECTION_NAME)
-public class CategoryAttribute {
+public class CategoryAttribute implements Serializable {
 
     public static final String COLLECTION_NAME = "category_attribute";
 
@@ -24,9 +27,13 @@ public class CategoryAttribute {
 
     private Map<String, String> label = new HashMap<>();
 
+    private Set<Integer> categories = new HashSet<>();
+
     private CategoryAttributeType type;
 
-    private Map<String, Map<String, String>> values = new HashMap<>();
+    private CategoryAttributeValidator validator;
+
+    private Set<CategoryAttributeValue> values = new HashSet<>();
 
     public String getId() {
         return id;
@@ -68,6 +75,14 @@ public class CategoryAttribute {
         this.label = label;
     }
 
+    public Set<Integer> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Integer> categories) {
+        this.categories = categories;
+    }
+
     public CategoryAttributeType getType() {
         return type;
     }
@@ -76,11 +91,19 @@ public class CategoryAttribute {
         this.type = type;
     }
 
-    public Map<String, Map<String, String>> getValues() {
+    public CategoryAttributeValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(CategoryAttributeValidator validator) {
+        this.validator = validator;
+    }
+
+    public Set<CategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(Map<String, Map<String, String>> values) {
+    public void setValues(Set<CategoryAttributeValue> values) {
         this.values = values;
     }
 }

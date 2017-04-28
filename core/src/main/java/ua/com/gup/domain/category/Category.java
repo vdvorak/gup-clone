@@ -4,12 +4,12 @@ package ua.com.gup.domain.category;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 @Document(collection = Category.COLLECTION_NAME)
-public class Category {
+public class Category implements Serializable {
 
     public static final String COLLECTION_NAME = "category";
 
@@ -26,9 +26,7 @@ public class Category {
 
     private String key;
 
-    private Map<String, String> label = new HashMap<>();
-
-    private LinkedHashSet<String> attributes;
+    private Map<String, String> title = new HashMap<>();
 
     public String getId() {
         return id;
@@ -70,20 +68,12 @@ public class Category {
         this.key = key;
     }
 
-    public Map<String, String> getLabel() {
-        return label;
+    public Map<String, String> getTitle() {
+        return title;
     }
 
-    public void setLabel(Map<String, String> label) {
-        this.label = label;
-    }
-
-    public LinkedHashSet<String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(LinkedHashSet<String> attributes) {
-        this.attributes = attributes;
+    public void setTitle(Map<String, String> title) {
+        this.title = title;
     }
 
     @Override
