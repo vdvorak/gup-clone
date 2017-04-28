@@ -4,19 +4,23 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.repository.filter.OfferFilter;
 import ua.com.gup.service.dto.OfferAddressDTO;
 import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
 
-public class OfferCreateDTOValidator implements Validator {
+public class OfferDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return OfferCreateDTO.class.equals(clazz) || OfferUpdateDTO.class.equals(clazz);
+        return OfferCreateDTO.class.equals(clazz) || OfferUpdateDTO.class.equals(clazz) || OfferFilter.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
+        if (OfferFilter.class.isInstance(target)) {
+            return;
+        }
         boolean isUpdateDTO = OfferUpdateDTO.class.isInstance(target);
         OfferCreateDTO offerCreateDTO = (OfferCreateDTO) target;
         if (isUpdateDTO) {
@@ -51,7 +55,7 @@ public class OfferCreateDTOValidator implements Validator {
                 }
             }
         }
-        if (!isUpdateDTO &&  offerCreateDTO.getAddress() == null) {
+        if (!isUpdateDTO && offerCreateDTO.getAddress() == null) {
             errors.rejectValue("address", "address.required", null, "address required");
         }
         if (offerCreateDTO.getAddress() != null) {

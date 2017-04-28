@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.repository.filter.OfferFilter;
@@ -24,7 +23,7 @@ import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
 import ua.com.gup.web.rest.util.ResponseUtil;
-import ua.com.gup.web.rest.validator.OfferCreateDTOValidator;
+import ua.com.gup.web.rest.validator.OfferDTOValidator;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
@@ -49,7 +48,7 @@ public class OfferResource {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new OfferCreateDTOValidator());
+        binder.addValidators(new OfferDTOValidator());
     }
 
     /**
