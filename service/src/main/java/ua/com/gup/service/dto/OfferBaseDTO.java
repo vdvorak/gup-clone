@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 public class OfferBaseDTO implements Serializable {
 
@@ -24,6 +25,9 @@ public class OfferBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 110, value = "{\"color\": \"Black\", \"size\":\"XL\"}")
     private Map<String, String> attrs = new HashMap<>();
+
+    @ApiModelProperty(position = 115, value = "{\"deliveryType\": \"NOVAPOSHTA,INTIME\"}")
+    private Map<String,String> multiAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 120, value = "{\"year\": 2011, \"volume_sm3\":1500}")
     private Map<String, Long> numAttrs = new HashMap<>();
@@ -69,6 +73,14 @@ public class OfferBaseDTO implements Serializable {
 
     public void setAttrs(Map<String, String> attrs) {
         this.attrs = attrs;
+    }
+
+    public Map<String, String> getMultiAttrs() {
+        return multiAttrs;
+    }
+
+    public void setMultiAttrs(Map<String, String> multiAttrs) {
+        this.multiAttrs = multiAttrs;
     }
 
     public Map<String, Long> getNumAttrs() {

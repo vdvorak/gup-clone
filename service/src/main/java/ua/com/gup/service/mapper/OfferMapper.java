@@ -7,7 +7,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.service.dto.*;
 
-import java.util.LinkedHashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -108,6 +108,13 @@ public class OfferMapper {
         if (source.getAttrs() != null) {
             target.setAttrs(source.getAttrs());
         }
+        if (source.getMultiAttrs() != null) {
+            Map<String, String> multiAttrs = new HashMap<>();
+            for (String key : source.getMultiAttrs().keySet()) {
+                multiAttrs.put(key, source.getMultiAttrs().get(key).stream().collect(Collectors.joining(",")));
+            }
+            target.setMultiAttrs(multiAttrs);
+        }
         if (source.getNumAttrs() != null) {
             target.setNumAttrs(source.getNumAttrs());
         }
@@ -132,6 +139,15 @@ public class OfferMapper {
         }
         if (source.getAttrs() != null) {
             target.setAttrs(source.getAttrs());
+        }
+        if (source.getMultiAttrs() != null) {
+            Map<String, Set<String>> multiAttrs = new HashMap<>();
+            for (String key : source.getMultiAttrs().keySet()) {
+                final String[] split = source.getMultiAttrs().get(key).split(",");
+                final HashSet<String> strings = new HashSet<>(Arrays.asList(split));
+                multiAttrs.put(key, strings);
+            }
+            target.setMultiAttrs(multiAttrs);
         }
         if (source.getNumAttrs() != null) {
             target.setNumAttrs(source.getNumAttrs());

@@ -1,4 +1,4 @@
-package ua.com.gup.repository.category;
+package ua.com.gup.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.domain.category.Category;

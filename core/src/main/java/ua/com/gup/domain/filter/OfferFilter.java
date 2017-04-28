@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @ApiModel(description = "Offer filter model")
 public class OfferFilter implements Serializable {
@@ -30,6 +29,9 @@ public class OfferFilter implements Serializable {
 
     @ApiModelProperty(value = "Filters for attributes", position = 50)
     private List<AttributeFilter> attrs = new ArrayList<>();
+
+    @ApiModelProperty(value = "Filters for attributes", position = 50)
+    private List<AttributeFilter> multiAttrs = new ArrayList<>();
 
     @ApiModelProperty(value = "Filters for numeric attributes", position = 60)
     private List<NumericAttributeFilter> numAttrs = new ArrayList<>();
@@ -83,6 +85,14 @@ public class OfferFilter implements Serializable {
 
     public void setAttrs(List<AttributeFilter> attrs) {
         this.attrs = attrs;
+    }
+
+    public List<AttributeFilter> getMultiAttrs() {
+        return multiAttrs;
+    }
+
+    public void setMultiAttrs(List<AttributeFilter> multiAttrs) {
+        this.multiAttrs = multiAttrs;
     }
 
     public List<NumericAttributeFilter> getNumAttrs() {

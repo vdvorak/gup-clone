@@ -17,8 +17,8 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.repository.custom.OfferRepositoryCustom;
 import ua.com.gup.domain.filter.*;
+import ua.com.gup.repository.custom.OfferRepositoryCustom;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -143,6 +143,11 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         if (offerFilter.getAttrs() != null) {
             for (AttributeFilter attrFilter : offerFilter.getAttrs()) {
                 query.addCriteria(Criteria.where("attrs." + attrFilter.getKey()).in(attrFilter.getVals().split(",")));
+            }
+        }
+        if (offerFilter.getMultiAttrs() != null) {
+            for (AttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
+                query.addCriteria(Criteria.where("attrs." + attrFilter.getKey()).all(attrFilter.getVals().split(",")));
             }
         }
         if (offerFilter.getNumAttrs() != null) {

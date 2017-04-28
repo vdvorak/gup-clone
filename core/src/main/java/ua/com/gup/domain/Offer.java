@@ -66,6 +66,8 @@ public class Offer implements Serializable {
 
     private Map<String, String> attrs = new HashMap<>();
 
+    private Map<String, Set<String>> multiAttrs = new HashMap<>();
+
     private Map<String,Long> numAttrs = new HashMap<>();
 
     private Map<String,Boolean> boolAttrs = new HashMap<>();
@@ -214,6 +216,14 @@ public class Offer implements Serializable {
 
     public void setAttrs(Map<String, String> attrs) {
         this.attrs = attrs;
+    }
+
+    public Map<String, Set<String>> getMultiAttrs() {
+        return multiAttrs;
+    }
+
+    public void setMultiAttrs(Map<String, Set<String>> multiAttrs) {
+        this.multiAttrs = multiAttrs;
     }
 
     public Map<String, Long> getNumAttrs() {
