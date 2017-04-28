@@ -8,6 +8,8 @@ import ua.com.gup.service.dto.OfferShortDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
 import ua.com.gup.repository.filter.OfferFilter;
 
+import java.util.Optional;
+
 /**
  * Service Interface for managing Offer.
  */
@@ -45,6 +47,14 @@ public interface OfferService {
      *  @return the entity
      */
     OfferDetailsDTO findOne(String id);
+
+    /**
+     * Get one OfferDetailsDTO by seoUrl.
+     *
+     * @param seoUrl the seoUrl of the entity
+     * @return the entity
+     */
+    Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl);
 
     /**
      *  Delete the "id" offer.

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.service.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -95,4 +95,5 @@ public final class SecurityUtils {
         }
         return false;
     }
+
 }

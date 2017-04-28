@@ -10,7 +10,6 @@ public class OfferContactInfoMapper {
     public OfferContactInfoDTO contactInfoToContactInfoDTO(OfferContactInfo contactInfo) {
         OfferContactInfoDTO contactInfoDTO = new OfferContactInfoDTO();
         contactInfoDTO.setContactName(contactInfo.getContactName());
-        contactInfoDTO.setEmail(contactInfo.getEmail());
         contactInfoDTO.setPhoneNumbers(contactInfo.getPhoneNumbers());
         return contactInfoDTO;
     }
@@ -18,7 +17,6 @@ public class OfferContactInfoMapper {
     public OfferContactInfo contactInfoDTOToContactInfo(OfferContactInfoDTO contactInfoDTO) {
         OfferContactInfo contactInfo = new OfferContactInfo();
         contactInfo.setContactName(contactInfoDTO.getContactName());
-        contactInfo.setEmail(contactInfoDTO.getEmail());
         contactInfo.setPhoneNumbers(contactInfoDTO.getPhoneNumbers());
         return contactInfo;
     }

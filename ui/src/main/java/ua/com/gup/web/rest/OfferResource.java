@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.repository.filter.OfferFilter;
 import ua.com.gup.service.OfferService;
@@ -18,9 +20,12 @@ import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferDetailsDTO;
 import ua.com.gup.service.dto.OfferShortDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
+import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
 import ua.com.gup.web.rest.util.ResponseUtil;
+import ua.com.gup.web.rest.validator.OfferCreateDTOValidator;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -42,6 +47,11 @@ public class OfferResource {
     @Qualifier(value = "OfferServiceNew")
     private OfferService offerService;
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new OfferCreateDTOValidator());
+    }
+
     /**
      * POST  /offers : Create a new offer.
      *
@@ -52,23 +62,29 @@ public class OfferResource {
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO) throws URISyntaxException {
         log.debug("REST request to save Offer : {}", offerCreateDTO);
+        if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
+        }
+        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER.name())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
+        }
         OfferDetailsDTO result = offerService.save(offerCreateDTO);
-        return ResponseEntity.created(new URI("/api/offers/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
     /**
-     * GET  /offers/:id : get the "id" offer.
+     * GET  /offers/:seoUrl : get the "seoUrl" offer.
      *
-     * @param id the id of the offerDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the offerDTO, or with status 404 (Not Found)
+     * @param seoUrl the seoUrl of the OfferDetailsDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
-    @RequestMapping(value = "/offers/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferDetailsDTO> getOffer(@PathVariable String id) {
-        log.debug("REST request to get Offer : {}", id);
-        OfferDetailsDTO offerDetailsDTO = offerService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(offerDetailsDTO));
+    @RequestMapping(value = "/offers/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferDetailsDTO> getOffer(@PathVariable String seoUrl) {
+        log.debug("REST request to get Offer : {}", seoUrl);
+        Optional<OfferDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
+        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
     /**
@@ -87,7 +103,7 @@ public class OfferResource {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
         }
         if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new offer cannot already have an ID")).body(null);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
         OfferDetailsDTO result = offerService.save(offerUpdateDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
-import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.service.dto.*;
 
 import java.util.LinkedHashSet;
@@ -70,6 +69,9 @@ public class OfferMapper {
         if (offer.getAddress() != null) {
             offerDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         }
+        if (offer.getImageIds() != null && offer.getImageIds().size() > 0) {
+            offerDetailsDTO.setImageIds(offer.getImageIds());
+        }
         offerDetailsDTO.setSeoUrl(offer.getSeoUrl());
         offerDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
@@ -82,6 +84,9 @@ public class OfferMapper {
         offerShortDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setAuthorId(offer.getAuthorId());
+        if (offer.getImageIds() != null && offer.getImageIds().size() > 0) {
+            offerShortDTO.setImageIds(offer.getImageIds());
+        }
         offerShortDTO.setSeoUrl(offer.getSeoUrl());
         return offerShortDTO;
     }
@@ -123,7 +128,7 @@ public class OfferMapper {
             target.setDescription(source.getDescription());
         }
         if (source.getPrice() != null) {
-            target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice(), Currency.UAH));
+            target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
         }
         if (source.getAttrs() != null) {
             target.setAttrs(source.getAttrs());

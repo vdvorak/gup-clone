@@ -1,13 +1,20 @@
 package ua.com.gup.service.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Price;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.dto.OfferPriceDTO;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Component
 public class PriceMapper {
+
+    @Autowired
+    private CurrencyConverterService currencyConverterService;
 
     public OfferPriceDTO moneyToMoneyDTO(Price price) {
         OfferPriceDTO offerPriceDTO = new OfferPriceDTO();
@@ -17,13 +24,15 @@ public class PriceMapper {
         return offerPriceDTO;
     }
 
-    public Price moneyDTOToMoney(OfferPriceDTO offerPriceDTO, Currency base) {
+    public Price moneyDTOToMoney(OfferPriceDTO offerPriceDTO) {
         Price price = new Price();
         price.setAmount(offerPriceDTO.getAmount());
         price.setCurrency(offerPriceDTO.getCurrency());
-        price.setBaseAmount(offerPriceDTO.getAmount().longValue()); // TODO make convert bean
-        price.setBaseCurrency(offerPriceDTO.getCurrency());  // TODO make convert bean
+        final BigDecimal priceConverted = currencyConverterService.convertToBaseCurrency(offerPriceDTO.getCurrency(), offerPriceDTO.getAmount());
+        price.setBaseAmount(priceConverted.doubleValue());
+        price.setBaseCurrency(currencyConverterService.getBaseCurrency());
         price.setPriceWithVAT(offerPriceDTO.getPriceWithVAT());
+        price.setLastModifiedDate(LocalDateTime.now());
         return price;
     }
 

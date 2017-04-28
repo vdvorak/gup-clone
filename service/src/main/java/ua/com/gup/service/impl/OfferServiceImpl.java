@@ -20,12 +20,13 @@ import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
 import ua.com.gup.service.dto.*;
 import ua.com.gup.service.mapper.OfferMapper;
+import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.util.SecurityUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Offer.
@@ -99,6 +100,7 @@ public class OfferServiceImpl implements OfferService {
         String userID = SecurityUtils.getCurrentUserId();
         offer.setCreatedBy(userID);
         offer.setLastModifiedBy(userID);
+        offer.setAuthorId(userID);
         offer = offerRepository.save(offer);
         OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -130,6 +132,22 @@ public class OfferServiceImpl implements OfferService {
         Offer offer = offerRepository.findOne(id);
         OfferDetailsDTO offerDetailsDTO = offerMapper.offerToOfferDetailsDTO(offer);
         return offerDetailsDTO;
+    }
+
+    /**
+     * Get one OfferDetailsDTO by seoUrl.
+     *
+     * @param seoUrl the seoUrl of the entity
+     * @return the entity
+     */
+    @Override
+    public Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl) {
+        log.debug("Request to get Offer : {}", seoUrl);
+        Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offer.map(o -> o.getStatus()).get() != OfferStatus.ACTIVE) {
+            offer = Optional.empty();
+        }
+        return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
     /**
@@ -168,7 +186,7 @@ public class OfferServiceImpl implements OfferService {
     public boolean hasPermissionForUpdate(String id) {
         Offer offer = offerRepository.findOne(id);
         if (offer != null && SecurityUtils.isAuthenticated()) {
-            String currentUserID = "user_id"; // TODO userservice.getCurrentUserId()
+            String currentUserID = SecurityUtils.getCurrentUserId();
             return (offer.getAuthorId() == currentUserID && offer.getStatus() != OfferStatus.ARCHIVED) ||
                     (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && offer.getStatus() == OfferStatus.ON_MODERATION);
         } else {

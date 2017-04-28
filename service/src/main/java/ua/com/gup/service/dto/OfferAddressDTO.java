@@ -7,10 +7,10 @@ import ua.com.gup.domain.AddressArea;
 public class OfferAddressDTO {
 
     @ApiModelProperty(position = 0, example = "50")
-    private double lat;
+    private Double lat;
 
     @ApiModelProperty(position = 10, example = "30")
-    private double lng;
+    private Double lng;
 
     @ApiModelProperty(position = 20, value = "\"code\":\"1\",\"name\":{\"en\": \"Ukraine\"}")
     private AddressArea country;
@@ -21,19 +21,19 @@ public class OfferAddressDTO {
     @ApiModelProperty(position = 40, value = "\"code\":\"3\",\"name\":{\"en\": \"Kyiv\"}")
     private AddressArea city;
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
+    public Double getLng() {
         return lng;
     }
 
-    public void setLng(double lng) {
+    public void setLng(Double lng) {
         this.lng = lng;
     }
 

@@ -9,9 +9,6 @@ public class OfferContactInfoDTO {
     @ApiModelProperty(position = 0)
     private String contactName;
 
-    @ApiModelProperty(position = 10)
-    private String email;
-
     @ApiModelProperty(position = 20)
     private LinkedHashSet<String> phoneNumbers;
 
@@ -21,14 +18,6 @@ public class OfferContactInfoDTO {
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public LinkedHashSet<String> getPhoneNumbers() {
