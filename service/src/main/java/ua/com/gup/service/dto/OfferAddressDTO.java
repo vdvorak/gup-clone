@@ -21,6 +21,9 @@ public class OfferAddressDTO {
     @ApiModelProperty(position = 40, value = "\"code\":\"3\",\"name\":{\"en\": \"Kyiv\"}")
     private AddressArea city;
 
+    @ApiModelProperty(position = 50)
+    private String fullAddress;
+
     public Double getLat() {
         return lat;
     }
@@ -59,5 +62,13 @@ public class OfferAddressDTO {
 
     public void setCity(AddressArea city) {
         this.city = city;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 }

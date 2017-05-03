@@ -2,6 +2,7 @@ package ua.com.gup.service.dto;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.domain.enumeration.OfferStatus;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -13,6 +14,9 @@ public class OfferDetailsDTO extends OfferBaseDTO {
 
     @ApiModelProperty(position = 5)
     private LocalDateTime lastModifiedDate;
+
+    @ApiModelProperty(position = 6)
+    private OfferStatus status;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
     private String authorId;
@@ -46,6 +50,14 @@ public class OfferDetailsDTO extends OfferBaseDTO {
 
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public OfferStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OfferStatus status) {
+        this.status = status;
     }
 
     public String getAuthorId() {

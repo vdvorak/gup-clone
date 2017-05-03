@@ -80,9 +80,9 @@ public class CategoryResource {
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> updateCategory(@Valid @RequestBody Category category) throws URISyntaxException {
         log.debug("REST request to update Category : {}", category);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
+//        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+//        }
         Category result = categoryService.save(category);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

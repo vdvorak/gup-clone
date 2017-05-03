@@ -72,6 +72,8 @@ public class Offer implements Serializable {
 
     private Map<String,Boolean> boolAttrs = new HashMap<>();
 
+    private OfferStatistic statistic;
+
     private OfferModerationReport lastOfferModerationReport;
 
     public String getId() {
@@ -240,6 +242,14 @@ public class Offer implements Serializable {
 
     public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public OfferStatistic getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic(OfferStatistic statistic) {
+        this.statistic = statistic;
     }
 
     public OfferModerationReport getLastModerationReport() {

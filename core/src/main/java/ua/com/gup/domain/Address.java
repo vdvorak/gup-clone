@@ -16,6 +16,8 @@ public class Address {
 
     private AddressArea city;
 
+    private String fullAddress;
+
     public GeoJsonPoint getLocation() {
         return location;
     }
@@ -46,5 +48,13 @@ public class Address {
 
     public void setCity(AddressArea city) {
         this.city = city;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 }

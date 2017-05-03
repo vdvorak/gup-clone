@@ -14,6 +14,7 @@ public class AddressMapper {
         offerAddressDTO.setCountry(address.getCountry());
         offerAddressDTO.setDistrict(address.getDistrict());
         offerAddressDTO.setCity(address.getCity());
+        offerAddressDTO.setFullAddress(address.getFullAddress());
         return offerAddressDTO;
     }
 
@@ -23,6 +24,7 @@ public class AddressMapper {
         address.setCountry(offerAddressDTO.getCountry());
         address.setDistrict(offerAddressDTO.getDistrict());
         address.setCity(offerAddressDTO.getCity());
+        address.setFullAddress(offerAddressDTO.getFullAddress());
         return address;
     }
 }

@@ -13,12 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.OfferService;
-import ua.com.gup.service.dto.OfferCreateDTO;
-import ua.com.gup.service.dto.OfferDetailsDTO;
-import ua.com.gup.service.dto.OfferShortDTO;
-import ua.com.gup.service.dto.OfferUpdateDTO;
+import ua.com.gup.service.dto.*;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
@@ -64,7 +62,7 @@ public class OfferResource {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER.name())) {
+        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
         OfferDetailsDTO result = offerService.save(offerCreateDTO);
@@ -106,6 +104,48 @@ public class OfferResource {
         }
         OfferDetailsDTO result = offerService.save(offerUpdateDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    /**
+     * PUT  /offers : Updates an existing offer by moderator.
+     *
+     * @param offerModeratorDTO the offerDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
+     * or with status 400 (Bad Request) if the offerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModeratorDTO offerModeratorDTO) throws URISyntaxException {
+        log.debug("REST request to update Offer by moderator : {}", offerModeratorDTO);
+        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in 'ROLE_MODERATOR'")).body(null);
+        }
+        OfferDetailsDTO result = offerService.save(offerModeratorDTO);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    /**
+     * PUT  /offers : Updates status  of an existing offer.
+     *
+     * @param status the status to be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
+     * or with status 400 (Bad Request) if the offerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferDetailsDTO> changeStatus(@RequestParam String id, @RequestParam OfferStatus status) throws URISyntaxException {
+        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
+        Optional<OfferDetailsDTO> result = offerService.updateStatus(id, status);
+        if (!result.isPresent()) {
+            if (!offerService.exists(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)")).body(null);
+            }
+        }
+        return ResponseUtil.wrapOrNotFound(result);
     }
 
     /**
@@ -158,6 +198,48 @@ public class OfferResource {
     }
 
     /**
+     * GET  /offers : get all my offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferShortDTO>> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
+        log.debug("REST request to get a page of my Offers by status");
+        if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User isn't authenticated")).body(null);
+        }
+        if (status == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+        }
+        Page<OfferShortDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/my/" + status.name());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /offers : get all my offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferShortDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
+        log.debug("REST request to get a page of moderator Offers by status");
+        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_MODERATOR'")).body(null);
+        }
+        if (status == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+        }
+        Page<OfferShortDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * PUT  /offers : update  offers base price.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
@@ -169,4 +251,29 @@ public class OfferResource {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * PUT  /offers/{id}/increment/phone-views : increment phone views.
+     *
+     * @param id the offer id
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
+    public ResponseEntity<Void> incrementPhoneViews(@PathVariable String id) {
+        log.debug("REST request to increment phone views");
+        offerService.incrementPhoneViews(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * PUT  /offers/{id}/increment/phone-views : increment phone views statistic.
+     *
+     * @param id the offer id
+     * @return the ResponseEntity with status 200 (OK) and Void
+     */
+    @RequestMapping(value = "/offers/{id}/increment/favorites", method = RequestMethod.PUT)
+    public ResponseEntity<Void> incrementFavorites(@PathVariable String id) {
+        log.debug("REST request to increment favorites");
+        offerService.incrementFavorites(id);
+        return ResponseEntity.ok().build();
+    }
 }

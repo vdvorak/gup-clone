@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
@@ -43,6 +45,34 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable) {
         return createQueryAndFind(offerFilter, offerStatuses, pageable);
+    }
+
+    @Override
+    public void incrementViews(String id) {
+        incrementStatistic(new Query(Criteria.where("_id").is(id)), "views");
+    }
+
+    @Override
+    public void incrementViewsBySeoUrl(String seoUrl) {
+        incrementStatistic(new Query(Criteria.where("seoUrl").is(seoUrl)), "views");
+    }
+
+    @Override
+    public void incrementPhoneViews(String id) {
+        incrementStatistic(new Query(Criteria.where("_id").is(id)), "phoneViews");
+    }
+
+    @Override
+    public void incrementFavorites(String id) {
+        incrementStatistic(new Query(Criteria.where("_id").is(id)), "favorites");
+    }
+
+    private void incrementStatistic(Query query, String field) {
+        Update update = new Update();
+        update.inc("statistic." + field, 1);
+        FindAndModifyOptions options = new FindAndModifyOptions();
+        options.returnNew(false);
+        mongoTemplate.findAndModify(query, update, options, Offer.class);
     }
 
     public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {

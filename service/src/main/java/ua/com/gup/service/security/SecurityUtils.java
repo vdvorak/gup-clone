@@ -96,4 +96,16 @@ public final class SecurityUtils {
         return false;
     }
 
+    /**
+     * If the current user has a specific authority (security role).
+     * <p>
+     * <p>The name of this method comes from the isUserInRole() method in the Servlet API</p>
+     *
+     * @param userRole the authority to check
+     * @return true if the current user has the authority, false otherwise
+     */
+    public static boolean isCurrentUserInRole(UserRole userRole) {
+        return isCurrentUserInRole(userRole.name());
+    }
+
 }

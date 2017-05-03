@@ -1,23 +1,21 @@
 package ua.com.gup.domain;
 
 
-import ua.com.gup.domain.enumeration.OfferModifiedField;
 import ua.com.gup.domain.enumeration.OfferRefusalReason;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 
 public class OfferModerationReport {
 
-    String moderatorId; // moderator ID whose last modified profile
+    private String moderatorId;
 
-    LocalDateTime lastModifiedDate; // last modified date when moderator modified profile
+    private LocalDateTime lastModifiedDate;
 
-    List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
+    private List<OfferRefusalReason> refusalReasons;
 
-    Set<OfferModifiedField> offerModifiedFieldList; // the list of the last modified fields
+    private String description;
 
     public String getModeratorId() {
         return moderatorId;
@@ -35,19 +33,23 @@ public class OfferModerationReport {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public List<OfferRefusalReason> getOfferRefusalReasons() {
-        return offerRefusalReasons;
+    public List<OfferRefusalReason> getRefusalReasons() {
+        return refusalReasons;
     }
 
-    public void setOfferRefusalReasons(List<OfferRefusalReason> offerRefusalReasons) {
-        this.offerRefusalReasons = offerRefusalReasons;
+    public void setRefusalReasons(List<OfferRefusalReason> refusalReasons) {
+        this.refusalReasons = refusalReasons;
     }
 
-    public Set<OfferModifiedField> getOfferModifiedFieldList() {
-        return offerModifiedFieldList;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOfferModifiedFieldList(Set<OfferModifiedField> offerModifiedFieldList) {
-        this.offerModifiedFieldList = offerModifiedFieldList;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isRefused() {
+        return refusalReasons != null && refusalReasons.size() > 0;
     }
 }

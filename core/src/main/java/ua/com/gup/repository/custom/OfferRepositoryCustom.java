@@ -15,6 +15,14 @@ public interface OfferRepositoryCustom {
 
     List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable);
 
+    void incrementViews(String id);
+
+    void incrementViewsBySeoUrl(String seoUrl);
+
+    void incrementPhoneViews(String id);
+
+    void incrementFavorites(String id);
+
     void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
 }
 

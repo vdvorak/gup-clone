@@ -2,11 +2,9 @@ package ua.com.gup.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.service.dto.OfferCreateDTO;
-import ua.com.gup.service.dto.OfferDetailsDTO;
-import ua.com.gup.service.dto.OfferShortDTO;
-import ua.com.gup.service.dto.OfferUpdateDTO;
+import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.service.dto.*;
 
 import java.util.Optional;
 
@@ -32,19 +30,47 @@ public interface OfferService {
     OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO);
 
     /**
-     *  Get all the offers.
+     * Save a offer modified by moderator.
      *
-     *  @param offerFilter the offer filter
-     *  @param pageable the offer filter
-     *  @return the list of entities
+     * @param offerModeratorDTO the entity to save
+     * @return the persisted entity
+     */
+    OfferDetailsDTO save(OfferModeratorDTO offerModeratorDTO);
+
+    /**
+     * Get all the offers.
+     *
+     * @param offerFilter the offer filter
+     * @param pageable    the offer filter
+     * @return the list of entities
      */
     Page<OfferShortDTO> findAll(OfferFilter offerFilter, Pageable pageable);
 
     /**
-     *  Get the "id" offer.
+     * Get all the offers by status and author id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param status   the offer status
+     * @param authorId the offer authorId
+     * @param pageable the offer filter
+     * @return the list of entities
+     */
+    Page<OfferShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
+
+    /**
+     * Get all the offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the offer filter
+     * @return the list of entities
+     */
+    Page<OfferShortDTO> findAllByStatus(OfferStatus status, Pageable pageable);
+
+
+    /**
+     * Get the "id" offer.
+     *
+     * @param id the id of the entity
+     * @return the entity
      */
     OfferDetailsDTO findOne(String id);
 
@@ -57,9 +83,25 @@ public interface OfferService {
     Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl);
 
     /**
-     *  Delete the "id" offer.
+     * Increment statistic phone views by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
+     * @return the entity
+     */
+    void incrementPhoneViews(String id);
+
+    /**
+     * Increment statistic favorites by id.
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    void incrementFavorites(String id);
+
+    /**
+     * Delete the "id" offer.
+     *
+     * @param id the id of the entity
      */
     void delete(String id);
 
@@ -82,9 +124,28 @@ public interface OfferService {
     boolean hasPermissionForUpdate(String id);
 
     /**
+     * Returns whether an entity status can be updated.
+     *
+     * @param id     must not be {@literal null}.
+     * @param status must not be {@literal null}.
+     * @return true if an user has permission for update, {@literal false} otherwise
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    boolean hasPermissionForUpdate(String id, OfferStatus status);
+
+    /**
      * Update active offers base price by current exchange rate.
      *
      * @return void
      */
     void updateActiveOffersBasePrice();
+
+    /**
+     * Update offer's status.
+     *
+     * @param id     the id of the entity
+     * @param status the status to be updated
+     * @return the entity
+     */
+    Optional<OfferDetailsDTO> updateStatus(String id, OfferStatus status);
 }

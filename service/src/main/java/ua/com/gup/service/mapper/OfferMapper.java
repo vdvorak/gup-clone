@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
+import ua.com.gup.domain.OfferModerationReport;
+import ua.com.gup.domain.OfferStatistic;
 import ua.com.gup.service.dto.*;
+import ua.com.gup.service.security.SecurityUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +43,7 @@ public class OfferMapper {
         if (offerCreateDTO.getContactInfo() != null) {
             offer.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(offerCreateDTO.getContactInfo()));
         }
+        offer.setStatistic(new OfferStatistic());
         return offer;
     }
 
@@ -60,10 +65,25 @@ public class OfferMapper {
         }
     }
 
+    public void offerModeratorDTOToOffer(OfferModeratorDTO source, Offer target) {
+        if (source.getCategories() != null) {
+            target.setCategoriesRegExp(source.getCategories().stream().map(OfferCategory::getCode).collect(Collectors.joining("/")));
+            target.setCategories(source.getCategories());
+        }
+        OfferModerationReport moderationReport = source.getModerationReport();
+        if (moderationReport == null) {
+            moderationReport = new OfferModerationReport();
+        }
+        moderationReport.setModeratorId(SecurityUtils.getCurrentUserId());
+        moderationReport.setLastModifiedDate(LocalDateTime.now());
+        target.setLastModerationReport(moderationReport);
+    }
+
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferDetailsDTO offerDetailsDTO = new OfferDetailsDTO();
         fromOfferToOfferBaseDTO(offer, offerDetailsDTO);
         offerDetailsDTO.setLastModifiedDate(offer.getLastModifiedDate());
+        offerDetailsDTO.setStatus(offer.getStatus());
         offerDetailsDTO.setId(offer.getId());
         offerDetailsDTO.setAuthorId(offer.getAuthorId());
         if (offer.getAddress() != null) {

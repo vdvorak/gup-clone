@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
@@ -66,24 +66,6 @@ public class OfferServiceImpl implements OfferService {
     /**
      * Save a offer.
      *
-     * @param offerUpdateDTO the entity to save
-     * @return the persisted entity
-     */
-    @Override
-    public OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
-        log.debug("Request to save Offer : {}", offerUpdateDTO);
-        Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
-        offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
-        offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
-        offer.setLastModifiedDate(LocalDateTime.now());
-        offer = offerRepository.save(offer);
-        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
-        return result;
-    }
-
-    /**
-     * Save a offer.
-     *
      * @param offerCreateDTO the entity to save
      * @return the persisted entity
      */
@@ -106,6 +88,52 @@ public class OfferServiceImpl implements OfferService {
         return result;
     }
 
+
+    /**
+     * Save a offer.
+     *
+     * @param offerUpdateDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
+        log.debug("Request to save Offer : {}", offerUpdateDTO);
+        Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
+        offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
+        offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
+        offer.setLastModifiedDate(LocalDateTime.now());
+        // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
+        if (isNeededModeration(offerUpdateDTO) || offer.getLastModerationReport().isRefused()) {
+            offer.setStatus(OfferStatus.ON_MODERATION);
+        } else {
+            offer.setStatus(OfferStatus.ACTIVE);
+        }
+        offer = offerRepository.save(offer);
+        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
+    }
+
+    /**
+     * Save a offer modified by moderator.
+     *
+     * @param offerModeratorDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public OfferDetailsDTO save(OfferModeratorDTO offerModeratorDTO) {
+        log.debug("Request to save Offer modified by moderator: {}", offerModeratorDTO);
+        Offer offer = offerRepository.findOne(offerModeratorDTO.getId());
+        offerMapper.offerModeratorDTOToOffer(offerModeratorDTO, offer);
+        if (offer.getLastModerationReport().isRefused()) {
+            offer.setStatus(OfferStatus.REJECTED);
+        } else {
+            offer.setStatus(OfferStatus.ACTIVE);
+        }
+        offer = offerRepository.save(offer);
+        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
+    }
+
     /**
      * Get all the offers.
      *
@@ -121,6 +149,36 @@ public class OfferServiceImpl implements OfferService {
     }
 
     /**
+     * Get all the offers by status and author id.
+     *
+     * @param status   the offer status
+     * @param authorId the offer authorId
+     * @param pageable the offer filter
+     * @return the list of entities
+     */
+    @Override
+    public Page<OfferShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
+        Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, authorId, pageable);
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
+
+    /**
+     * Get all the offers by status and author id.
+     *
+     * @param status   the offer status
+     * @param pageable the offer filter
+     * @return the list of entities
+     */
+    @Override
+    public Page<OfferShortDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and authorId = {}", status);
+        Page<Offer> result = offerRepository.findAllByStatus(status, pageable);
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
+
+
+    /**
      * Get one offer by id.
      *
      * @param id the id of the entity
@@ -129,6 +187,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public OfferDetailsDTO findOne(String id) {
         log.debug("Request to get Offer : {}", id);
+        offerRepository.incrementViews(id);
         Offer offer = offerRepository.findOne(id);
         OfferDetailsDTO offerDetailsDTO = offerMapper.offerToOfferDetailsDTO(offer);
         return offerDetailsDTO;
@@ -143,11 +202,34 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Offer : {}", seoUrl);
+        offerRepository.incrementViewsBySeoUrl(seoUrl);
         Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
         if (offer.map(o -> o.getStatus()).get() != OfferStatus.ACTIVE) {
             offer = Optional.empty();
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    /**
+     * Increment statistic phone views by id.
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Override
+    public void incrementPhoneViews(String id) {
+        offerRepository.incrementPhoneViews(id);
+    }
+
+    /**
+     * Increment statistic favorites by id.
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Override
+    public void incrementFavorites(String id) {
+        offerRepository.incrementFavorites(id);
     }
 
     /**
@@ -184,11 +266,33 @@ public class OfferServiceImpl implements OfferService {
      */
     @Override
     public boolean hasPermissionForUpdate(String id) {
+        log.debug("Request has permission for update offer : {}", id);
         Offer offer = offerRepository.findOne(id);
         if (offer != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
             return (offer.getAuthorId() == currentUserID && offer.getStatus() != OfferStatus.ARCHIVED) ||
                     (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && offer.getStatus() == OfferStatus.ON_MODERATION);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns whether an entity status can be updated.
+     *
+     * @param id     must not be {@literal null}.
+     * @param status must not be {@literal null}.
+     * @return true if an user has permission for update, {@literal false} otherwise
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    @Override
+    public boolean hasPermissionForUpdate(String id, OfferStatus status) {
+        log.debug("Request has permission for update offer : {}", id);
+        Offer offer = offerRepository.findOne(id);
+        if (offer != null && SecurityUtils.isAuthenticated()) {
+            String currentUserID = SecurityUtils.getCurrentUserId();
+            return (offer.getAuthorId() == currentUserID && (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED)) ||
+                    (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && (status == OfferStatus.ACTIVE || status == OfferStatus.REJECTED));
         } else {
             return false;
         }
@@ -207,9 +311,51 @@ public class OfferServiceImpl implements OfferService {
         }
     }
 
+    /**
+     * Update offer's status.
+     *
+     * @param id     the id of the entity
+     * @param status the status to be updated
+     * @return the entity
+     */
+    @Override
+    public Optional<OfferDetailsDTO> updateStatus(String id, OfferStatus status) {
+        log.debug("Request to update update offer's status : {}", id);
+        Offer offer = offerRepository.findOne(id);
+        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId()) &&
+                (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED) &&
+                (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED)) {
+            offer.setStatus(status);
+            offer = offerRepository.save(offer);
+        } else {
+            offer = null;
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
     private String generateUniqueSeoUrl(String title) {
         return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
     }
 
+    private boolean isNeededModeration(OfferUpdateDTO offerUpdateDTO) {
+        boolean result = false;
 
+        result |= offerUpdateDTO.getCategories() != null;
+        result |= offerUpdateDTO.getTitle() != null;
+        result |= offerUpdateDTO.getDescription() != null;
+        for (OfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
+            result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+        }
+        result |= offerUpdateDTO.getAddress() != null;
+
+        // price can be change without moderation
+
+        result |= offerUpdateDTO.getContactInfo() != null;
+        result |= offerUpdateDTO.getAttrs() != null;
+        result |= offerUpdateDTO.getMultiAttrs() != null;
+        result |= offerUpdateDTO.getNumAttrs() != null;
+        result |= offerUpdateDTO.getBoolAttrs() != null;
+
+        return result;
+    }
 }
