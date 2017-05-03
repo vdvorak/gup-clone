@@ -21,6 +21,7 @@ import ua.com.itproekt.gup.util.CurrencyConvertUtil;
 import ua.com.itproekt.gup.model.xchangerate.util.Currency;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -253,6 +254,16 @@ public class OfferRepositoryImpl implements OfferRepository {
         query.fields().include("title");
         query.skip(0);
         query.limit(10);
+
+        mongoTemplate.find(query, OfferUserContactInfo.class).stream().map(OfferUserContactInfo::getContactName).collect(Collectors.toSet());
+
+        ////////////////////////////////////////////////
+//        OfferUserContactInfo userInfo;
+//        userInfo.getPhoneNumbers();
+//        userInfo.getContactName();
+        ////////////////////////////////////////////////
+//        mongoTemplate.find(query, OfferUserContactInfo.class).stream().map(Offer::OfferUserContactInfo.getContactName).collect(Collectors.toSet());
+        ////////////////////////////////////////////////
 
         return mongoTemplate.find(query, Offer.class).stream().map(Offer::getTitle).collect(Collectors.toSet());
     }
