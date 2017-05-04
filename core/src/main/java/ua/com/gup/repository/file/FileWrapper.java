@@ -1,17 +1,18 @@
-package ua.com.gup.repository;
+package ua.com.gup.repository.file;
 
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileUploadWrapper {
+public class FileWrapper {
 
     private InputStream inputStream;
     private String bucket;
     private String filename;
     private String id;
     private String contentType;
+    private long length;
     private Map<String, Object> metadata = new HashMap<>();
 
     public InputStream getInputStream() {
@@ -52,6 +53,14 @@ public class FileUploadWrapper {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public long getLength() {
+        return length;
+    }
+
+    public void setLength(long length) {
+        this.length = length;
     }
 
     public void setMetadata(Map<String, Object> metadata) {

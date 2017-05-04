@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.dto.*;
+import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
 
 import java.util.Optional;
 
@@ -124,16 +126,6 @@ public interface OfferService {
     boolean hasPermissionForUpdate(String id);
 
     /**
-     * Returns whether an entity status can be updated.
-     *
-     * @param id     must not be {@literal null}.
-     * @param status must not be {@literal null}.
-     * @return true if an user has permission for update, {@literal false} otherwise
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    boolean hasPermissionForUpdate(String id, OfferStatus status);
-
-    /**
      * Update active offers base price by current exchange rate.
      *
      * @return void
@@ -148,4 +140,13 @@ public interface OfferService {
      * @return the entity
      */
     Optional<OfferDetailsDTO> updateStatus(String id, OfferStatus status);
+
+    /**
+     * Get offer image by id and size type.
+     *
+     * @param id the id of the entity
+     * @param sizeType the size type of image
+     * @return the entity
+     */
+    FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType);
 }

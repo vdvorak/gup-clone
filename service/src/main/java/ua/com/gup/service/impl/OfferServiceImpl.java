@@ -14,11 +14,13 @@ import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.OfferRepository;
+import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
 import ua.com.gup.service.dto.*;
+import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
 import ua.com.gup.service.mapper.OfferMapper;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
@@ -26,7 +28,8 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Offer.
@@ -73,9 +76,7 @@ public class OfferServiceImpl implements OfferService {
     public OfferDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
-        for (OfferImageDTO offerImageDTO : offerCreateDTO.getImages()) {
-            offerImageDTO.setImageId(imageService.saveOfferImage(offerImageDTO, seoURL));
-        }
+        saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
@@ -88,7 +89,6 @@ public class OfferServiceImpl implements OfferService {
         return result;
     }
 
-
     /**
      * Save a offer.
      *
@@ -99,6 +99,7 @@ public class OfferServiceImpl implements OfferService {
     public OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
         Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
+        saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
         offer.setLastModifiedDate(LocalDateTime.now());
@@ -278,27 +279,6 @@ public class OfferServiceImpl implements OfferService {
     }
 
     /**
-     * Returns whether an entity status can be updated.
-     *
-     * @param id     must not be {@literal null}.
-     * @param status must not be {@literal null}.
-     * @return true if an user has permission for update, {@literal false} otherwise
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    @Override
-    public boolean hasPermissionForUpdate(String id, OfferStatus status) {
-        log.debug("Request has permission for update offer : {}", id);
-        Offer offer = offerRepository.findOne(id);
-        if (offer != null && SecurityUtils.isAuthenticated()) {
-            String currentUserID = SecurityUtils.getCurrentUserId();
-            return (offer.getAuthorId() == currentUserID && (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED)) ||
-                    (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && (status == OfferStatus.ACTIVE || status == OfferStatus.REJECTED));
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Update active offers base price by current exchange rate.
      *
      * @return void
@@ -333,6 +313,18 @@ public class OfferServiceImpl implements OfferService {
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
+    /**
+     * Get offer image by id and size type.
+     *
+     * @param id       the id of the entity
+     * @param sizeType the size type of image
+     * @return the entity
+     */
+    @Override
+    public FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType) {
+        return imageService.findOne(id, sizeType);
+    }
+
     private String generateUniqueSeoUrl(String title) {
         return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
     }
@@ -358,4 +350,29 @@ public class OfferServiceImpl implements OfferService {
 
         return result;
     }
+
+    /**
+     * Get offer image by id and size type.
+     *
+     * @param offerImageIds       the ids of persisted images
+     * @param offerImageDTOS      the image dtos to persist or update
+     * @param seoURL              the seo URL for name creation
+     * @return the entity
+     */
+    private void saveOfferImages(Set<String> offerImageIds, Set<OfferImageDTO> offerImageDTOS, String seoURL) {
+        if (offerImageIds == null) {
+            offerImageIds = new LinkedHashSet<>();
+        }
+        if(offerImageDTOS == null){
+            return;
+        }
+        for (OfferImageDTO offerImageDTO : offerImageDTOS) {
+            if (offerImageDTO.getBase64Data() != null) {
+                offerImageDTO.setImageId(imageService.saveOfferImage(offerImageDTO, seoURL));
+            }
+        }
+        offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
+        offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+    }
+
 }

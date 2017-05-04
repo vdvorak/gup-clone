@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.dto.*;
+import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
@@ -275,5 +279,23 @@ public class OfferResource {
         log.debug("REST request to increment favorites");
         offerService.incrementFavorites(id);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * GET  /offers/image/{id} : get offer image by id.
+     *
+     * @param id the offer status
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/image/{id}/{sizeType}", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @PathVariable OfferImageSizeType sizeType) {
+        log.debug("REST request to get offer image by id and size type");
+
+        final FileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
+        return ResponseEntity.ok()
+                .contentLength(imageWrapper.getLength())
+                .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
+                .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
+                .body(new InputStreamResource(imageWrapper.getInputStream()));
     }
 }

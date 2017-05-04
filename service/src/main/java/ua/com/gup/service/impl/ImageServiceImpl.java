@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import ua.com.gup.repository.FileRepository;
-import ua.com.gup.repository.FileUploadWrapper;
+import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.dto.OfferImageDTO;
 import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
@@ -40,6 +40,18 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public FileWrapper findOne(String id, OfferImageSizeType type) {
+        return fileRepository.findOne(OFFER_IMAGE_PATH + type.toString().toLowerCase(), id);
+    }
+
+    @Override
+    public void deleteOfferImage(String id) {
+        for (OfferImageSizeType type : OfferImageSizeType.values()) {
+            fileRepository.delete(OFFER_IMAGE_PATH + type.toString().toLowerCase(), id);
+        }
+    }
+
+    @Override
     public String saveOfferImage(OfferImageDTO offerImageDTO, String fileName) {
         if (StringUtils.isEmpty(offerImageDTO.getImageId()) && !StringUtils.isEmpty(offerImageDTO.getBase64Data())
                 && IMAGE_BASE64_PATTERN.matcher(offerImageDTO.getBase64Data()).matches()) {
@@ -49,23 +61,26 @@ public class ImageServiceImpl implements ImageService {
                 final String contentType = matcher.matches() ? matcher.group(1) : "";
                 Matcher base64PatternMatcher = BASE64_PATTERN.matcher(imageBase64);
                 if (base64PatternMatcher.matches()) {
+                    if (!fileName.contains(".") && base64PatternMatcher.groupCount() > 1) {
+                        fileName = fileName + "." + base64PatternMatcher.group(1);
+                    }
                     BufferedImage bufferedImage = ImageIO.read(
                             new ByteArrayInputStream(Base64Utils.decodeFromString(base64PatternMatcher.group(2))));
-                    FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-                    fileUploadWrapper.setFilename(fileName);
-                    fileUploadWrapper.setContentType(contentType);
-                    fileUploadWrapper.setId(offerImageDTO.getImageId());
+                    FileWrapper fileWrapper = new FileWrapper();
+                    fileWrapper.setFilename(fileName);
+                    fileWrapper.setContentType(contentType);
+                    fileWrapper.setId(offerImageDTO.getImageId());
                     // will save image in all size types
                     for (OfferImageSizeType type : OfferImageSizeType.values()) {
-                        fileUploadWrapper.setBucket(OFFER_IMAGE_PATH + type.toString().toLowerCase());
+                        fileWrapper.setBucket(OFFER_IMAGE_PATH + type.toString().toLowerCase());
                         BufferedImage resizedImage = resizeOfferImage(bufferedImage, type);
                         ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        ImageIO.write(resizedImage, contentType, os);
+                        ImageIO.write(resizedImage, base64PatternMatcher.group(1), os);
                         InputStream is = new ByteArrayInputStream(os.toByteArray());
-                        fileUploadWrapper.setInputStream(is);
-                        fileUploadWrapper.setId(fileRepository.save(fileUploadWrapper));
+                        fileWrapper.setInputStream(is);
+                        fileWrapper.setId(fileRepository.save(fileWrapper));
                     }
-                    return fileUploadWrapper.getId();
+                    return fileWrapper.getId();
                 }
             } catch (IOException e) {
                 log.error("Offer image saving exception: ", e);
