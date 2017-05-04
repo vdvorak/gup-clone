@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.config;
+package ua.com.gup.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,13 +26,21 @@ public class SwaggerConfig {
 
     @Bean
     public Docket apiAdvert() {
+        ApiInfo apiInfo = new ApiInfo(
+                "ADVERT REST API",
+                "New api for advert service.",
+                "API TOS",
+                "Terms of service",
+                new Contact("GUP", "gup.com.ua", "____"),
+                "License of API",
+                "API license URL");
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("Advert")
+                .groupName("advert")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ua.com.gup.web"))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo);
     }
 
     private ApiInfo apiInfo() {
