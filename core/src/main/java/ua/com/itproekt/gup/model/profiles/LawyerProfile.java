@@ -11,17 +11,22 @@ import ua.com.itproekt.gup.model.offer.GeneralPhone;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(collection = LawyerProfile.COLLECTION_NAME)
+@Document(collection = Profile.COLLECTION_NAME)
 public class LawyerProfile {
     public static final String COLLECTION_NAME = "lawyer_users";
 
@@ -31,6 +36,11 @@ public class LawyerProfile {
     @Indexed
     private String publicId;
 
+    @Indexed
+    private String idSeoWord;
+
+    private boolean active;
+
     @Email(message = "заданный имэйл не может существовать")
     @Indexed
     private String email;
@@ -39,15 +49,26 @@ public class LawyerProfile {
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "заданный пароль не может существовать")
     private String password;
 
+    @NotNull(message="Описание должно быть задано")
+    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="заданный пароль не может существовать")
+    @Size(min=8, message="Длина фамилии должна быть больше восьми")
+    private String passwordRestore;
+    private String tokenKey;
+
     @Size(min=14, message="Длина номера телефона должна быть больше четырнадцати")
     private String mainPhoneNumber;
     private Integer mainPhoneNumberViews;
     private Boolean mainPhoneNumberHide;
     private GeneralPhone generalPhone;
 
-    private Address address;
+    private String executive;
+    private String contactPerson;
+    private Address lawyerAddress;
     private String imgId;
+    private Contact contact;
 
+    private Set<ProfileContactList> contactList;
+    private Set<String> socialList;
     private FinanceInfo financeInfo;
     private Set<String> favoriteOffers;
     @Size(max = 45, message="Длина поля 'status' должна быть больше сорока пяти")
@@ -56,7 +77,7 @@ public class LawyerProfile {
     private Integer point;
     private Set<ProfileRating> profileRating;
 
-    private Boolean confirmModerator; // show is verified or not user profile
+    private Boolean confirmModerator;
     private Set<UserRole> userRoles;
 
     private Long createdDate;
@@ -65,7 +86,7 @@ public class LawyerProfile {
     private int countTryLoginDate;
     private boolean isUnlockAccount;
     private boolean online;
-    private int notCompletedFields; //how many fields user filled
+    private int notCompletedFields;
 
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -75,12 +96,24 @@ public class LawyerProfile {
     private String privateKey;
     private BankCard bankCard;
 
+    /*
+     * Requisites:
+     */
+    private String nameCompany;
+    private String fullNameCompany;
+    private String fullNameOvner;
+    private String EGRPOU;
+    private String identificationСode;
+    private String IPN;
+    private Address locationAddress;
+    private String mainKindActivity;
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
 
     public LawyerProfile setLastTryLoginDateEqualsToCurrentDate() {
-        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<60000)){ //TODO: account is unlock == TRUE & time interval less 1-minut
+        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<60000)){
             //TODO: time interval less five seconds
             if (5000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
                 countTryLoginDate++;
@@ -191,6 +224,15 @@ public class LawyerProfile {
         return confirmModerator;
     }
 
+    public String getIdSeoWord() {
+        return idSeoWord;
+    }
+
+    public LawyerProfile setIdSeoWord(String idSeoWord) {
+        this.idSeoWord = idSeoWord;
+        return this;
+    }
+
     public String getMainPhoneNumber() {
         return mainPhoneNumber;
     }
@@ -227,12 +269,39 @@ public class LawyerProfile {
         return this;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getExecutive() {
+        return executive;
     }
 
-    public LawyerProfile setAddress(Address address) {
-        this.address = address;
+    public LawyerProfile setExecutive(String executive) {
+        this.executive = executive;
+        return this;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public LawyerProfile setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+        return this;
+    }
+
+    public Address getLawyerAddress() {
+        return lawyerAddress;
+    }
+
+    public LawyerProfile setLawyerAddress(Address lawyerAddress) {
+        this.lawyerAddress = lawyerAddress;
+        return this;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public LawyerProfile setActive(boolean active) {
+        this.active = active;
         return this;
     }
 
@@ -263,6 +332,15 @@ public class LawyerProfile {
         return this;
     }
 
+    public String getPasswordRestore() {
+        return passwordRestore;
+    }
+
+    public LawyerProfile setPasswordRestore(String passwordRestore) {
+        this.passwordRestore = passwordRestore;
+        return this;
+    }
+
     public Set<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -272,12 +350,39 @@ public class LawyerProfile {
         return this;
     }
 
+    public Contact getContact() {
+        return contact;
+    }
+
+    public LawyerProfile setContact(Contact contact) {
+        this.contact = contact;
+        return this;
+    }
+
     public Set<ProfileRating> getProfileRating() {
         return profileRating;
     }
 
     public LawyerProfile setProfileRating(Set<ProfileRating> profileRating) {
         this.profileRating = profileRating;
+        return this;
+    }
+
+    public Set<ProfileContactList> getContactList() {
+        return contactList;
+    }
+
+    public LawyerProfile setContactList(Set<ProfileContactList> contactList) {
+        this.contactList = contactList;
+        return this;
+    }
+
+    public Set<String> getSocialList() {
+        return socialList;
+    }
+
+    public LawyerProfile setSocialList(Set<String> socialList) {
+        this.socialList = socialList;
         return this;
     }
 
@@ -339,6 +444,15 @@ public class LawyerProfile {
         return this;
     }
 
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public LawyerProfile setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+        return this;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -394,18 +508,99 @@ public class LawyerProfile {
         return this;
     }
 
+
+    public String getNameCompany() {
+        return nameCompany;
+    }
+
+    public LawyerProfile setNameCompany(String nameCompany) {
+        this.nameCompany = nameCompany;
+        return this;
+    }
+
+    public String getFullNameCompany() {
+        return fullNameCompany;
+    }
+
+    public LawyerProfile setFullNameCompany(String fullNameCompany) {
+        this.fullNameCompany = fullNameCompany;
+        return this;
+    }
+
+    public String getFullNameOvner() {
+        return fullNameOvner;
+    }
+
+    public LawyerProfile setFullNameOvner(String fullNameOvner) {
+        this.fullNameOvner = fullNameOvner;
+        return this;
+    }
+
+    public String getEGRPOU() {
+        return EGRPOU;
+    }
+
+    public LawyerProfile setEGRPOU(String EGRPOU) {
+        this.EGRPOU = EGRPOU;
+        return this;
+    }
+
+    public String getIdentificationСode() {
+        return identificationСode;
+    }
+
+    public LawyerProfile setIdentificationСode(String identificationСode) {
+        this.identificationСode = identificationСode;
+        return this;
+    }
+
+    public String getIPN() {
+        return IPN;
+    }
+
+    public LawyerProfile setIPN(String IPN) {
+        this.IPN = IPN;
+        return this;
+    }
+
+    public Address getLocationAddress() {
+        return locationAddress;
+    }
+
+    public LawyerProfile setLocationAddress(Address locationAddress) {
+        this.locationAddress = locationAddress;
+        return this;
+    }
+
+    public String getMainKindActivity() {
+        return mainKindActivity;
+    }
+
+    public LawyerProfile setMainKindActivity(String mainKindActivity) {
+        this.mainKindActivity = mainKindActivity;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
                 "id='" + id + '\'' +
                 ", publicId='" + publicId + '\'' +
+                ", active='" + active + '\'' +
+                ", idSeoWord='" + idSeoWord + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", passwordRestore='" + passwordRestore + '\'' +
+                ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", mainPhoneNumberViews=" + mainPhoneNumberViews +
                 ", mainPhoneNumberHide=" + mainPhoneNumberHide +
-                ", address='" + address + '\'' +
+                ", executive='" + executive + '\'' +
+                ", contactPerson='" + contactPerson + '\'' +
+                ", lawyerAddress='" + lawyerAddress + '\'' +
                 ", imgId='" + imgId + '\'' +
+                ", contact=" + contact +
+                ", contactList=" + contactList +
                 ", financeInfo=" + financeInfo +
                 ", favoriteOffers=" + favoriteOffers +
                 ", status='" + status + '\'' +
@@ -425,6 +620,14 @@ public class LawyerProfile {
                 ", publicKey=" + publicKey +
                 ", privateKey=" + privateKey +
                 ", bankCard=" + bankCard +
+                ", nameCompany=" + nameCompany +
+                ", fullNameCompany=" + fullNameCompany +
+                ", fullNameOvner=" + fullNameOvner +
+                ", EGRPOU=" + EGRPOU +
+                ", identificationСode=" + identificationСode +
+                ", IPN=" + IPN +
+                ", locationAddress=" + locationAddress +
+                ", mainKindActivity=" + mainKindActivity +
                 '}';
     }
 }
