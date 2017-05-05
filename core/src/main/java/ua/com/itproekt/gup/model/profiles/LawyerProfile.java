@@ -108,6 +108,8 @@ public class LawyerProfile {
     private Address locationAddress;
     private String mainKindActivity;
 
+    private Set<String> emploeyrList;
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
@@ -581,6 +583,15 @@ public class LawyerProfile {
         return this;
     }
 
+    public Set<String> getEmploeyrList() {
+        return emploeyrList;
+    }
+
+    public LawyerProfile setEmploeyrList(Set<String> emploeyrList) {
+        this.emploeyrList = emploeyrList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -628,6 +639,7 @@ public class LawyerProfile {
                 ", IPN=" + IPN +
                 ", locationAddress=" + locationAddress +
                 ", mainKindActivity=" + mainKindActivity +
+                ", emploeyrList=" + emploeyrList +
                 '}';
     }
 }
