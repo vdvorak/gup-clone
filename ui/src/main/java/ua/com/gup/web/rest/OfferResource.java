@@ -45,12 +45,14 @@ public class OfferResource {
     private final Logger log = LoggerFactory.getLogger(OfferResource.class);
 
     @Autowired
-    @Qualifier(value = "OfferServiceNew")
     private OfferService offerService;
+
+    @Autowired
+    private OfferDTOValidator offerDTOValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(new OfferDTOValidator());
+        binder.addValidators(offerDTOValidator);
     }
 
     /**

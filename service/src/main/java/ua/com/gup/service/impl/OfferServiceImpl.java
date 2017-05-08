@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
  * Service Implementation for managing Offer.
  */
 @Service
-@Qualifier(value = "OfferServiceNew")
 public class OfferServiceImpl implements OfferService {
 
     private static final String OFFER_SEQUENCE_ID = "offer_sequence";

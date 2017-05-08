@@ -1,8 +1,11 @@
 package ua.com.gup.service;
 
 
+import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.category.Category;
+import ua.com.gup.service.dto.CategoryTreeDTO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,27 +19,55 @@ public interface CategoryService {
      * @return the persisted entity
      */
     Category save(Category category);
-    
+
     /**
-     *  Get all the categories.
+     * Get all the categories.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Category> findAll();
 
     /**
-     *  Get the "id" category.
+     * Get all the categories.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @return the list of entities
      */
-    Category findOne(String id);
-    
+    Collection<CategoryTreeDTO> findAllTreeView();
 
     /**
-     *  Delete the "id" category.
+     * Get the "id" category.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
+     * @return the entity
+     */
+    Category findOne(String id);
+
+
+    /**
+     * Delete the "id" category.
+     *
+     * @param id the id of the entity
      */
     void delete(String id);
+
+    /**
+     * Get offer category from cache.
+     *
+     * @param code the code of the entity
+     */
+    OfferCategory getOfferCategory(int code);
+
+    /**
+     * Get category parent code from cache.
+     *
+     * @param code the code of the entity
+     */
+    int getParentCode(int code);
+
+    /**
+     * Exists in cache.
+     *
+     * @param code the code of the entity
+     */
+    boolean exists(int code);
 }

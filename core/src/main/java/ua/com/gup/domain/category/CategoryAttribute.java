@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Document(collection = Category.COLLECTION_NAME)
+@Document(collection = CategoryAttribute.COLLECTION_NAME)
 public class CategoryAttribute implements Serializable {
 
     public static final String COLLECTION_NAME = "category_attribute";
@@ -25,7 +25,7 @@ public class CategoryAttribute implements Serializable {
 
     private String key;
 
-    private Map<String, String> label = new HashMap<>();
+    private Map<String, String> title = new HashMap<>();
 
     private Set<Integer> categories = new HashSet<>();
 
@@ -67,12 +67,12 @@ public class CategoryAttribute implements Serializable {
         this.key = key;
     }
 
-    public Map<String, String> getLabel() {
-        return label;
+    public Map<String, String> getTitle() {
+        return title;
     }
 
-    public void setLabel(Map<String, String> label) {
-        this.label = label;
+    public void setTitle(Map<String, String> title) {
+        this.title = title;
     }
 
     public Set<Integer> getCategories() {

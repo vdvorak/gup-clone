@@ -1,15 +1,23 @@
 package ua.com.gup.web.rest.validator;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.OfferAddressDTO;
 import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
 
+@Component
 public class OfferDTOValidator implements Validator {
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -37,6 +45,18 @@ public class OfferDTOValidator implements Validator {
         }
         if (offerCreateDTO.getCategories() != null && offerCreateDTO.getCategories().size() < 2) {
             errors.rejectValue("categories", "categories.size", null, "Categories should be more then 1");
+        }
+        if (offerCreateDTO.getCategories() != null) {
+            int parent = 0;
+            for (OfferCategory offerCategory : offerCreateDTO.getCategories()) {
+                if (!categoryService.exists(offerCategory.getCode())) {
+                    errors.rejectValue("categories", "categories.notexist", null, "Category " + offerCategory.getCode() + " doesn't exist");
+                }
+                if (parent != categoryService.getParentCode(offerCategory.getCode())) {
+                    errors.rejectValue("categories", "categories.wrong_hierarchy", null, "Wrong hierarchy. Category <" + offerCategory.getCode() + "> should be subcategory of " + categoryService.getParentCode(offerCategory.getCode()));
+                }
+                parent = offerCategory.getCode();
+            }
         }
         if (!isUpdateDTO && offerCreateDTO.getContactInfo() == null) {
             errors.rejectValue("contactInfo", "contactInfo.required", null, "ContactInfo is required");

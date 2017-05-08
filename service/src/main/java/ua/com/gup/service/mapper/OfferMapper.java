@@ -7,6 +7,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.OfferModerationReport;
 import ua.com.gup.domain.OfferStatistic;
+import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.*;
 import ua.com.gup.service.security.SecurityUtils;
 
@@ -25,6 +26,9 @@ public class OfferMapper {
 
     @Autowired
     private OfferContactInfoMapper contactInfoMapper;
+
+    @Autowired
+    private CategoryService categoryService;
 
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
@@ -67,8 +71,11 @@ public class OfferMapper {
 
     public void offerModeratorDTOToOffer(OfferModeratorDTO source, Offer target) {
         if (source.getCategories() != null) {
-            target.setCategoriesRegExp(source.getCategories().stream().map(OfferCategory::getCode).collect(Collectors.joining("/")));
-            target.setCategories(source.getCategories());
+            target.setCategoriesRegExp(source.getCategories().stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")));
+            final LinkedList<OfferCategory> categories = source.getCategories().stream()
+                    .map(c -> categoryService.getOfferCategory(c.getCode()))
+                    .collect(Collectors.toCollection(LinkedList::new));
+            target.setCategories(categories);
         }
         OfferModerationReport moderationReport = source.getModerationReport();
         if (moderationReport == null) {
@@ -145,8 +152,11 @@ public class OfferMapper {
 
     private void fromOfferBaseDTOToOffer(OfferBaseDTO source, Offer target) {
         if (source.getCategories() != null) {
-            target.setCategoriesRegExp(source.getCategories().stream().map(OfferCategory::getCode).collect(Collectors.joining("/")));
-            target.setCategories(source.getCategories());
+            target.setCategoriesRegExp(source.getCategories().stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")));
+            final LinkedList<OfferCategory> categories = source.getCategories().stream()
+                    .map(c -> categoryService.getOfferCategory(c.getCode()))
+                    .collect(Collectors.toCollection(LinkedList::new));
+            target.setCategories(categories);
         }
         if (source.getTitle() != null) {
             target.setTitle(source.getTitle());

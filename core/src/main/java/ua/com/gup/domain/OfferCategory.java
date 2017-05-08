@@ -2,27 +2,30 @@ package ua.com.gup.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OfferCategory {
 
     @ApiModelProperty(example = "category_code")
-    private String code;
+    private int code;
 
-    @ApiModelProperty(example = "category_name")
-    private String name;
+    @ApiModelProperty(example = "category_title")
+    private Map<String, String> title = new HashMap<>();
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public Map<String, String> getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(Map<String, String> title) {
+        this.title = title;
     }
 }
