@@ -9,8 +9,9 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A Offer.
@@ -26,11 +27,11 @@ public class Offer implements Serializable {
 
     private String createdBy;
 
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
 
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
     @Indexed
     private OfferStatus status;
@@ -68,9 +69,9 @@ public class Offer implements Serializable {
 
     private Map<String, Set<String>> multiAttrs = new HashMap<>();
 
-    private Map<String,Long> numAttrs = new HashMap<>();
+    private Map<String, Long> numAttrs = new HashMap<>();
 
-    private Map<String,Boolean> boolAttrs = new HashMap<>();
+    private Map<String, Boolean> boolAttrs = new HashMap<>();
 
     private OfferStatistic statistic;
 
@@ -92,12 +93,21 @@ public class Offer implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+
+    public ZonedDateTime getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
     public String getLastModifiedBy() {
@@ -108,12 +118,12 @@ public class Offer implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
+    public OfferModerationReport getLastOfferModerationReport() {
+        return lastOfferModerationReport;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setLastOfferModerationReport(OfferModerationReport lastOfferModerationReport) {
+        this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
     public OfferStatus getStatus() {
@@ -138,6 +148,7 @@ public class Offer implements Serializable {
 
     public void setCategories(LinkedList<OfferCategory> categories) {
         this.categories = categories;
+        this.categoriesRegExp = categories.stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/"));
     }
 
     public String getTitle() {

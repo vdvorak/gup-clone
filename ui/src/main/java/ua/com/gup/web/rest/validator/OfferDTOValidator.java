@@ -6,7 +6,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.OfferAddressDTO;
@@ -40,22 +39,12 @@ public class OfferDTOValidator implements Validator {
         if (offerCreateDTO.getTitle() != null && !(2 <= offerCreateDTO.getTitle().length() && offerCreateDTO.getTitle().length() <= 70)) {
             errors.rejectValue("title", "title.size", null, "Title should have size in range [2;70]");
         }
-        if (!isUpdateDTO && offerCreateDTO.getCategories() == null) {
+        if (!isUpdateDTO && offerCreateDTO.getCategory() == null) {
             errors.rejectValue("categories", "categories.required", null, "Categories is required");
         }
-        if (offerCreateDTO.getCategories() != null && offerCreateDTO.getCategories().size() < 2) {
-            errors.rejectValue("categories", "categories.size", null, "Categories should be more then 1");
-        }
-        if (offerCreateDTO.getCategories() != null) {
-            int parent = 0;
-            for (OfferCategory offerCategory : offerCreateDTO.getCategories()) {
-                if (!categoryService.exists(offerCategory.getCode())) {
-                    errors.rejectValue("categories", "categories.notexist", null, "Category " + offerCategory.getCode() + " doesn't exist");
-                }
-                if (parent != categoryService.getParentCode(offerCategory.getCode())) {
-                    errors.rejectValue("categories", "categories.wrong_hierarchy", null, "Wrong hierarchy. Category <" + offerCategory.getCode() + "> should be subcategory of " + categoryService.getParentCode(offerCategory.getCode()));
-                }
-                parent = offerCategory.getCode();
+        if (offerCreateDTO.getCategory() != null) {
+            if (!categoryService.exists(offerCreateDTO.getCategory())) {
+                errors.rejectValue("category", "category.notexist", null, "Category " + offerCreateDTO.getCategory() + " doesn't exist or has subcategory");
             }
         }
         if (!isUpdateDTO && offerCreateDTO.getContactInfo() == null) {

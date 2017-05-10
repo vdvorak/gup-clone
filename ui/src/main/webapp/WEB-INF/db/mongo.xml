@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/data/mongo
@@ -9,17 +9,17 @@
 
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
     <mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo"/>
-        <!--<mongo:options connections-per-host="8"-->
-                       <!--threads-allowed-to-block-for-connection-multiplier="4"-->
-                       <!--connect-timeout="1000"-->
-                       <!--max-wait-time="1500"-->
-                       <!--auto-connect-retry="true"-->
-                       <!--socket-keep-alive="true"-->
-                       <!--socket-timeout="1500"-->
-                       <!--slave-ok="true"-->
-                       <!--write-number="1"-->
-                       <!--write-timeout="0"-->
-                       <!--write-fsync="true"/>-->
+    <!--<mongo:options connections-per-host="8"-->
+    <!--threads-allowed-to-block-for-connection-multiplier="4"-->
+    <!--connect-timeout="1000"-->
+    <!--max-wait-time="1500"-->
+    <!--auto-connect-retry="true"-->
+    <!--socket-keep-alive="true"-->
+    <!--socket-timeout="1500"-->
+    <!--slave-ok="true"-->
+    <!--write-number="1"-->
+    <!--write-timeout="0"-->
+    <!--write-fsync="true"/>-->
     <!--</mongo:mongo>-->
     <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}"
                       username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"/>
@@ -27,8 +27,14 @@
 
     <mongo:mapping-converter id="mongoConverter">
         <mongo:custom-converters>
-            <mongo:converter >
+            <mongo:converter>
                 <bean class="ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="ua.com.gup.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="ua.com.gup.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter"/>
             </mongo:converter>
         </mongo:custom-converters>
     </mongo:mapping-converter>
@@ -38,8 +44,8 @@
     <!--<constructor-arg name="password" value="${mongo.remote.db.password}" />-->
     <!--</bean>-->
 
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" >
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
         <constructor-arg ref="mongoConverter"/>
     </bean>
 </beans>

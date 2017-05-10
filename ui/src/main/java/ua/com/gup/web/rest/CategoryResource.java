@@ -48,6 +48,9 @@ public class CategoryResource {
     @Autowired
     private CategoryAttributeService categoryAttributeService;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     /**
      * POST  /category-attributes : Create a new categoryAttribute.
      *
@@ -243,8 +246,6 @@ public class CategoryResource {
 
     private void findAllTreeView() {
         Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         final ObjectWriter ow = mapper.writer();
         String json = "";
         try {

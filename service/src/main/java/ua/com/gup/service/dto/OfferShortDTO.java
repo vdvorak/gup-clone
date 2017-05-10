@@ -1,9 +1,11 @@
 package ua.com.gup.service.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.domain.OfferCategory;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 public class OfferShortDTO extends OfferBaseDTO {
 
@@ -11,10 +13,13 @@ public class OfferShortDTO extends OfferBaseDTO {
     private String id;
 
     @ApiModelProperty(position = 5)
-    private LocalDateTime lastModifiedDate;
+    private ZonedDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
     private String authorId;
+
+    @ApiModelProperty(position = 30)
+    private LinkedList<OfferCategory> categories;
 
     @ApiModelProperty(position = 80)
     private LinkedHashSet<String> imageIds;
@@ -30,11 +35,11 @@ public class OfferShortDTO extends OfferBaseDTO {
         this.id = id;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -44,6 +49,14 @@ public class OfferShortDTO extends OfferBaseDTO {
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    public LinkedList<OfferCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(LinkedList<OfferCategory> categories) {
+        this.categories = categories;
     }
 
     public LinkedHashSet<String> getImageIds() {

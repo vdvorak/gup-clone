@@ -33,6 +33,9 @@ public class OfferMapper {
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
         fromOfferBaseDTOToOffer(offerCreateDTO, offer);
+        if (offerCreateDTO.getCategory() != null) {
+            offer.setCategories(categoryService.getOfferCategories(offerCreateDTO.getCategory()));
+        }
         if (offerCreateDTO.getAddress() != null) {
             offer.setAddress(addressMapper.addressDTOToAddress(offerCreateDTO.getAddress()));
         }
@@ -53,6 +56,9 @@ public class OfferMapper {
 
     public void offerUpdateDTOToOffer(OfferUpdateDTO source, Offer target) {
         fromOfferBaseDTOToOffer(source, target);
+        if (source.getCategory() != null) {
+            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
+        }
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }
@@ -70,12 +76,8 @@ public class OfferMapper {
     }
 
     public void offerModeratorDTOToOffer(OfferModeratorDTO source, Offer target) {
-        if (source.getCategories() != null) {
-            target.setCategoriesRegExp(source.getCategories().stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")));
-            final LinkedList<OfferCategory> categories = source.getCategories().stream()
-                    .map(c -> categoryService.getOfferCategory(c.getCode()))
-                    .collect(Collectors.toCollection(LinkedList::new));
-            target.setCategories(categories);
+        if (source.getCategory() != null) {
+            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
         }
         OfferModerationReport moderationReport = source.getModerationReport();
         if (moderationReport == null) {
@@ -89,6 +91,7 @@ public class OfferMapper {
     public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferDetailsDTO offerDetailsDTO = new OfferDetailsDTO();
         fromOfferToOfferBaseDTO(offer, offerDetailsDTO);
+        offerDetailsDTO.setCategories(offer.getCategories());
         offerDetailsDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerDetailsDTO.setStatus(offer.getStatus());
         offerDetailsDTO.setId(offer.getId());
@@ -108,6 +111,7 @@ public class OfferMapper {
     public OfferShortDTO offerToOfferShortDTO(Offer offer) {
         OfferShortDTO offerShortDTO = new OfferShortDTO();
         fromOfferToOfferBaseDTO(offer, offerShortDTO);
+        offerShortDTO.setCategories(offer.getCategories());
         offerShortDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setAuthorId(offer.getAuthorId());
@@ -119,10 +123,6 @@ public class OfferMapper {
     }
 
     private void fromOfferToOfferBaseDTO(Offer source, OfferBaseDTO target) {
-
-        if (source.getCategories() != null) {
-            target.setCategories(source.getCategories());
-        }
         if (source.getTitle() != null) {
             target.setTitle(source.getTitle());
         }
@@ -151,13 +151,6 @@ public class OfferMapper {
     }
 
     private void fromOfferBaseDTOToOffer(OfferBaseDTO source, Offer target) {
-        if (source.getCategories() != null) {
-            target.setCategoriesRegExp(source.getCategories().stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")));
-            final LinkedList<OfferCategory> categories = source.getCategories().stream()
-                    .map(c -> categoryService.getOfferCategory(c.getCode()))
-                    .collect(Collectors.toCollection(LinkedList::new));
-            target.setCategories(categories);
-        }
         if (source.getTitle() != null) {
             target.setTitle(source.getTitle());
         }

@@ -18,6 +18,7 @@ import ua.com.gup.service.dto.CategoryTreeDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -32,9 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryAttributeRepository categoryAttributeRepository;
 
-    private final Map<Integer, OfferCategory> offerCategoryCache = new ConcurrentHashMap<>();
-
-    private final Map<Integer, Integer> categoryHierarchyCache = new ConcurrentHashMap<>();
+    private final Map<Integer, LinkedList<OfferCategory>> offerCategoryCache = new ConcurrentHashMap<>();
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryAttributeRepository categoryAttributeRepository) {
@@ -158,29 +157,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * Get offer category from cache.
+     * Get offer categories from cache.
      *
      * @param code the code of the entity
      */
     @Override
-    public OfferCategory getOfferCategory(int code) {
+    public LinkedList<OfferCategory> getOfferCategories(int code) {
         if (offerCategoryCache.size() == 0) {
             warmCache();
         }
         return offerCategoryCache.get(code);
-    }
-
-    /**
-     * Get category parent code from cache.
-     *
-     * @param code the code of the entity
-     */
-    @Override
-    public int getParentCode(int code) {
-        if (offerCategoryCache.size() == 0) {
-            warmCache();
-        }
-        return categoryHierarchyCache.get(code);
     }
 
     /**
@@ -198,22 +184,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void warmCache() {
         final List<Category> categories = categoryRepository.findAll();
-        final Map<Integer, OfferCategory> offerCategories = new HashMap();
-        final Map<Integer, Integer> categoryHierarchy = new HashMap();
-
+        final Set<Integer> parentCategories = categories.stream().map(Category::getParent).collect(Collectors.toSet());
+        final Map<Integer, Category> categoriesMap = categories.stream().collect(Collectors.toMap(Category::getCode, Function.identity()));
+        categories.removeIf(c -> parentCategories.contains(c.getCode()));
+        final Map<Integer, LinkedList<OfferCategory>> offerCategoriesMap = new HashMap();
         for (Category category : categories) {
-            OfferCategory offerCategory = new OfferCategory();
-            offerCategory.setCode(category.getCode());
-            offerCategory.setTitle(category.getTitle());
-            offerCategories.put(offerCategory.getCode(), offerCategory);
-            categoryHierarchy.put(category.getCode(), category.getParent());
+            int code = category.getCode();
+            LinkedList<OfferCategory> linkedList = new LinkedList<>();
+            while (code != 0) {
+                Category current = categoriesMap.get(code);
+                OfferCategory offerCategory = new OfferCategory();
+                offerCategory.setCode(current.getCode());
+                offerCategory.setTitle(current.getTitle());
+                linkedList.add(0, offerCategory);
+                code = current.getParent();
+            }
+            offerCategoriesMap.put(category.getCode(), linkedList);
         }
-        offerCategoryCache.putAll(offerCategories);
-        categoryHierarchyCache.putAll(categoryHierarchy);
+        offerCategoryCache.putAll(offerCategoriesMap);
     }
 
     private void clearCache() {
         offerCategoryCache.clear();
-        categoryHierarchyCache.clear();
     }
 }

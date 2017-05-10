@@ -15,7 +15,7 @@ public class OfferModeratorDTO {
     private String id;
 
     @ApiModelProperty(position = 30)
-    private LinkedList<OfferCategory> categories;
+    private Integer category;
 
     @ApiModelProperty(position = 130)
     private OfferModerationReport moderationReport;
@@ -28,12 +28,12 @@ public class OfferModeratorDTO {
         this.id = id;
     }
 
-    public LinkedList<OfferCategory> getCategories() {
-        return categories;
+    public Integer getCategory() {
+        return category;
     }
 
-    public void setCategories(LinkedList<OfferCategory> categories) {
-        this.categories = categories;
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 
     public OfferModerationReport getModerationReport() {

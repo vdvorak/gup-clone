@@ -11,9 +11,6 @@ import java.util.Set;
 
 public class OfferBaseDTO implements Serializable {
 
-    @ApiModelProperty(position = 30)
-    private LinkedList<OfferCategory> categories;
-
     @ApiModelProperty(position = 40, example = "title")
     private String title;
 
@@ -34,14 +31,6 @@ public class OfferBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 130, value = "{\"used\": true, \"mediator\":false}")
     private Map<String, Boolean> boolAttrs = new HashMap<>();
-
-    public LinkedList<OfferCategory> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(LinkedList<OfferCategory> categories) {
-        this.categories = categories;
-    }
 
     public String getTitle() {
         return title;

@@ -6,6 +6,7 @@ import ua.com.gup.domain.category.Category;
 import ua.com.gup.service.dto.CategoryTreeDTO;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -51,18 +52,11 @@ public interface CategoryService {
     void delete(String id);
 
     /**
-     * Get offer category from cache.
+     * Get offer categories from cache.
      *
      * @param code the code of the entity
      */
-    OfferCategory getOfferCategory(int code);
-
-    /**
-     * Get category parent code from cache.
-     *
-     * @param code the code of the entity
-     */
-    int getParentCode(int code);
+    LinkedList<OfferCategory> getOfferCategories(int code);
 
     /**
      * Exists in cache.

@@ -4,7 +4,6 @@ package ua.com.gup.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +27,10 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.time.ZonedDateTime;
+import java.util.LinkedHashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -101,7 +103,7 @@ public class OfferServiceImpl implements OfferService {
         saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
-        offer.setLastModifiedDate(LocalDateTime.now());
+        offer.setLastModifiedDate(ZonedDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastModerationReport().isRefused()) {
             offer.setStatus(OfferStatus.ON_MODERATION);
@@ -331,11 +333,13 @@ public class OfferServiceImpl implements OfferService {
     private boolean isNeededModeration(OfferUpdateDTO offerUpdateDTO) {
         boolean result = false;
 
-        result |= offerUpdateDTO.getCategories() != null;
+        result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
-        for (OfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
-            result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+        if (offerUpdateDTO.getImages() != null) {
+            for (OfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
+                result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+            }
         }
         result |= offerUpdateDTO.getAddress() != null;
 
@@ -353,16 +357,16 @@ public class OfferServiceImpl implements OfferService {
     /**
      * Get offer image by id and size type.
      *
-     * @param offerImageIds       the ids of persisted images
-     * @param offerImageDTOS      the image dtos to persist or update
-     * @param seoURL              the seo URL for name creation
+     * @param offerImageIds  the ids of persisted images
+     * @param offerImageDTOS the image dtos to persist or update
+     * @param seoURL         the seo URL for name creation
      * @return the entity
      */
     private void saveOfferImages(Set<String> offerImageIds, Set<OfferImageDTO> offerImageDTOS, String seoURL) {
         if (offerImageIds == null) {
             offerImageIds = new LinkedHashSet<>();
         }
-        if(offerImageDTOS == null){
+        if (offerImageDTOS == null) {
             return;
         }
         for (OfferImageDTO offerImageDTO : offerImageDTOS) {

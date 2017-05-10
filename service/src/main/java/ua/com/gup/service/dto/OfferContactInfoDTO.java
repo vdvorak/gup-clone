@@ -9,7 +9,7 @@ public class OfferContactInfoDTO {
     @ApiModelProperty(position = 0)
     private String contactName;
 
-    @ApiModelProperty(position = 20)
+    @ApiModelProperty(position = 20, example = "380501234567")
     private LinkedHashSet<String> phoneNumbers;
 
     public String getContactName() {
