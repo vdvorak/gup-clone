@@ -232,7 +232,7 @@ public class CategoryResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllCategoriesTreeView(WebRequest webRequest) {
         log.debug("REST request to get categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETag)) {
@@ -256,7 +256,7 @@ public class CategoryResource {
         categoriesTreeViewETag = MD5Util.getMD5Hex(json);
         cacheCategoriesTreeViewResponse = ResponseEntity
                 .ok()
-                .header("Content-Type", "text/html; charset=utf-8")
+                .contentType(MediaType.APPLICATION_JSON)
                 .eTag(categoriesTreeViewETag)
                 .body(json);
     }
