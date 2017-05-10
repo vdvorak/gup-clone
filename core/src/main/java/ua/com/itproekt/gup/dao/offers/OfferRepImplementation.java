@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class OfferRepositoryImpl implements OfferRepository {
+public class OfferRepImplementation implements OfferRepository {
 
 
     @Autowired
