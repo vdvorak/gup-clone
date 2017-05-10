@@ -1,6 +1,5 @@
 package ua.com.gup.web.rest;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -40,7 +39,7 @@ public class CategoryResource {
     private static final String ENTITY_NAME = "category";
     private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
     private String categoriesTreeViewETag = "categoriesTreeViewEtag";
-    private ResponseEntity<String> cacheCategoriesTreeViewResponse;
+    private ResponseEntity<Collection<CategoryTreeDTO>> cacheCategoriesTreeViewResponse;
 
     @Autowired
     private CategoryService categoryService;
@@ -233,12 +232,12 @@ public class CategoryResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllCategoriesTreeView(WebRequest webRequest) {
+    public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(WebRequest webRequest) {
         log.debug("REST request to get categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETag)) {
             return null;
         }
-        if(cacheCategoriesTreeViewResponse == null) {
+        if (cacheCategoriesTreeViewResponse == null) {
             findAllTreeView();
         }
         return cacheCategoriesTreeViewResponse;
@@ -249,19 +248,18 @@ public class CategoryResource {
         final ObjectWriter ow = mapper.writer();
         String json = "";
         try {
-             json = ow.writeValueAsString(categoriesTreeView);
+            json = ow.writeValueAsString(categoriesTreeView);
         } catch (JsonProcessingException e) {
             log.error("Json processing exception", e);
         }
         categoriesTreeViewETag = MD5Util.getMD5Hex(json);
         cacheCategoriesTreeViewResponse = ResponseEntity
                 .ok()
-                .contentType(MediaType.APPLICATION_JSON)
                 .eTag(categoriesTreeViewETag)
-                .body(json);
+                .body(categoriesTreeView);
     }
 
-    private void clearCache(){
+    private void clearCache() {
         cacheCategoriesTreeViewResponse = null;
         categoriesTreeViewETag = "";
     }
