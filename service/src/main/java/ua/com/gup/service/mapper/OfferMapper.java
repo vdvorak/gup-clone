@@ -112,6 +112,7 @@ public class OfferMapper {
         OfferShortDTO offerShortDTO = new OfferShortDTO();
         fromOfferToOfferBaseDTO(offer, offerShortDTO);
         offerShortDTO.setCategories(offer.getCategories());
+        offerShortDTO.setAddress(addressMapper.addressToAddressShortDTO(offer.getAddress()));
         offerShortDTO.setLastModifiedDate(offer.getLastModifiedDate());
         offerShortDTO.setId(offer.getId());
         offerShortDTO.setAuthorId(offer.getAuthorId());

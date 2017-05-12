@@ -101,6 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
                 categoryAttributeDTO.setActive(categoryAttribute.isActive());
                 categoryAttributeDTO.setKey(categoryAttribute.getKey());
                 categoryAttributeDTO.setTitle(categoryAttribute.getTitle());
+                categoryAttributeDTO.setType(categoryAttribute.getType());
                 CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
                 validatorDTO.setMin(categoryAttribute.getValidator().getMin());
                 validatorDTO.setMax(categoryAttribute.getValidator().getMax());
@@ -113,6 +114,7 @@ public class CategoryServiceImpl implements CategoryService {
                         CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
                         valueDTO.setKey(categoryAttributeValue.getKey());
                         valueDTO.setTitle(categoryAttributeValue.getTitle());
+                        valueDTOS.add(valueDTO);
                     }
                 }
                 categoryAttributeDTO.setValues(valueDTOS);
@@ -195,6 +197,7 @@ public class CategoryServiceImpl implements CategoryService {
                 Category current = categoriesMap.get(code);
                 OfferCategory offerCategory = new OfferCategory();
                 offerCategory.setCode(current.getCode());
+                offerCategory.setKey(current.getKey());
                 offerCategory.setTitle(current.getTitle());
                 linkedList.add(0, offerCategory);
                 code = current.getParent();
