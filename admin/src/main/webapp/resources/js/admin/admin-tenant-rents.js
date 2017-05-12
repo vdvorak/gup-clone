@@ -72,7 +72,7 @@ $(document).ready(function() {
                 center: 'title',
                 right: 'agendaDay,month' ////right: 'month,agendaWeek,agendaDay'
             },
-            defaultDate: '2016-11-25',
+            defaultDate: '2017-05-12',
             locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
             weekNumbers: false,
@@ -160,7 +160,7 @@ $(document).ready(function() {
                 center: 'title',
                 right: 'agendaDay,month' ////right: 'month,agendaWeek,agendaDay'
             },
-            defaultDate: '2016-11-25',
+            defaultDate: '2017-05-12',
             locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
             weekNumbers: false,
