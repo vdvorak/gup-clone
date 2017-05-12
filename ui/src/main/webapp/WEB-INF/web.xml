@@ -78,6 +78,6 @@
     </filter>
     <filter-mapping>
         <filter-name>gzipFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/api/categories/*</url-pattern>
     </filter-mapping>
 </web-app>
