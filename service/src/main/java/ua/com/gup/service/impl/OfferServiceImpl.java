@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
@@ -26,7 +27,6 @@ import ua.com.gup.service.util.SEOFriendlyUrlUtil;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -370,8 +370,14 @@ public class OfferServiceImpl implements OfferService {
             return;
         }
         for (OfferImageDTO offerImageDTO : offerImageDTOS) {
+            if (!StringUtils.isEmpty(offerImageDTO.getImageId())&& offerImageIds.contains(offerImageDTO.getImageId())) {
+                imageService.deleteOfferImage(offerImageDTO.getImageId());
+            }
             if (offerImageDTO.getBase64Data() != null) {
-                offerImageDTO.setImageId(imageService.saveOfferImage(offerImageDTO, seoURL));
+                final String id = imageService.saveOfferImage(offerImageDTO, seoURL);
+                if (!StringUtils.isEmpty(id)) {
+                    offerImageDTO.setImageId(id);
+                }
             }
         }
         offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));

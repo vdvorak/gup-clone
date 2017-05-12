@@ -25,8 +25,8 @@ import java.util.regex.Pattern;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private static final Pattern IMAGE_BASE64_PATTERN = Pattern.compile("data:image/(png|jpg);base64,.*");
-    private static final Pattern BASE64_PATTERN = Pattern.compile("data:image/(png|jpg);base64,(.*?)");
+    private static final Pattern IMAGE_BASE64_PATTERN = Pattern.compile("data:image/(png|jpg|jpeg);base64,.*");
+    private static final Pattern BASE64_PATTERN = Pattern.compile("data:image/(png|jpg|jpeg);base64,(.*?)");
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile("data:(.*?);base64.*");
     private static final String OFFER_IMAGE_PATH = "offer/image/";
 
@@ -53,7 +53,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String saveOfferImage(OfferImageDTO offerImageDTO, String fileName) {
-        if (StringUtils.isEmpty(offerImageDTO.getImageId()) && !StringUtils.isEmpty(offerImageDTO.getBase64Data())
+        if (!StringUtils.isEmpty(offerImageDTO.getBase64Data())
                 && IMAGE_BASE64_PATTERN.matcher(offerImageDTO.getBase64Data()).matches()) {
             try {
                 String imageBase64 = offerImageDTO.getBase64Data();
