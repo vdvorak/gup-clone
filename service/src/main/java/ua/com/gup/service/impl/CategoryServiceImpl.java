@@ -195,6 +195,7 @@ public class CategoryServiceImpl implements CategoryService {
                 Category current = categoriesMap.get(code);
                 OfferCategory offerCategory = new OfferCategory();
                 offerCategory.setCode(current.getCode());
+                offerCategory.setKey(current.getKey());
                 offerCategory.setTitle(current.getTitle());
                 linkedList.add(0, offerCategory);
                 code = current.getParent();
