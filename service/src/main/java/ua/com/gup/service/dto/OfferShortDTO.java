@@ -21,6 +21,9 @@ public class OfferShortDTO extends OfferBaseDTO {
     @ApiModelProperty(position = 30)
     private LinkedList<OfferCategory> categories;
 
+    @ApiModelProperty(position = 60)
+    private OfferAddressShortDTO address;
+
     @ApiModelProperty(position = 80)
     private LinkedHashSet<String> imageIds;
 
@@ -57,6 +60,14 @@ public class OfferShortDTO extends OfferBaseDTO {
 
     public void setCategories(LinkedList<OfferCategory> categories) {
         this.categories = categories;
+    }
+
+    public OfferAddressShortDTO getAddress() {
+        return address;
+    }
+
+    public void setAddress(OfferAddressShortDTO address) {
+        this.address = address;
     }
 
     public LinkedHashSet<String> getImageIds() {

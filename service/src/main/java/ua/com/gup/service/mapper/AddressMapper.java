@@ -4,9 +4,11 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Address;
 import ua.com.gup.service.dto.OfferAddressDTO;
+import ua.com.gup.service.dto.OfferAddressShortDTO;
 
 @Component
 public class AddressMapper {
+
     public OfferAddressDTO addressToAddressDTO(Address address) {
         OfferAddressDTO offerAddressDTO = new OfferAddressDTO();
         offerAddressDTO.setLat(address.getLocation().getX());
@@ -16,6 +18,13 @@ public class AddressMapper {
         offerAddressDTO.setCity(address.getCity());
         offerAddressDTO.setFullAddress(address.getFullAddress());
         return offerAddressDTO;
+    }
+
+    public OfferAddressShortDTO addressToAddressShortDTO(Address address) {
+        OfferAddressShortDTO offerAddressShortDTO = new OfferAddressShortDTO();
+        offerAddressShortDTO.setLat(address.getLocation().getX());
+        offerAddressShortDTO.setLng(address.getLocation().getY());
+        return offerAddressShortDTO;
     }
 
     public Address addressDTOToAddress(OfferAddressDTO offerAddressDTO) {
