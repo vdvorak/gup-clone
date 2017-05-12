@@ -201,7 +201,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+        if( profile.getId().equals(loggedUserId) ) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(true);
             profilesService.editProfile(profile);
             return new ResponseEntity<>(HttpStatus.OK);
