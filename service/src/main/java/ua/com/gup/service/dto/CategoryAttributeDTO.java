@@ -1,7 +1,7 @@
 package ua.com.gup.service.dto;
 
 
-import ua.com.gup.domain.category.CategoryAttribute;
+import ua.com.gup.domain.category.CategoryAttributeType;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -12,6 +12,7 @@ public class CategoryAttributeDTO {
     private boolean active;
     private String key;
     private Map<String, String> title = new HashMap<>();
+    private CategoryAttributeType type;
     private CategoryAttributeValidatorDTO validator;
     private LinkedHashSet<CategoryAttributeValueDTO> values = new LinkedHashSet<>();
 
@@ -45,6 +46,14 @@ public class CategoryAttributeDTO {
 
     public void setTitle(Map<String, String> title) {
         this.title = title;
+    }
+
+    public CategoryAttributeType getType() {
+        return type;
+    }
+
+    public void setType(CategoryAttributeType type) {
+        this.type = type;
     }
 
     public CategoryAttributeValidatorDTO getValidator() {

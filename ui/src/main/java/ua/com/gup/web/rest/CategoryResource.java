@@ -38,7 +38,7 @@ public class CategoryResource {
 
     private static final String ENTITY_NAME = "category";
     private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
-    private String categoriesTreeViewETag = "categoriesTreeViewEtag";
+    private String categoriesTreeViewETag = "";
     private ResponseEntity<Collection<CategoryTreeDTO>> cacheCategoriesTreeViewResponse;
 
     @Autowired
