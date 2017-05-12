@@ -107,7 +107,7 @@ public class LoginRestController {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818
+            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818
 
             // LOGIN:
             LoggedUser loggedUser = null;
@@ -152,7 +152,7 @@ public class LoginRestController {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s)......
 
             // LOGIN:
             LoggedUser loggedUser = null;
