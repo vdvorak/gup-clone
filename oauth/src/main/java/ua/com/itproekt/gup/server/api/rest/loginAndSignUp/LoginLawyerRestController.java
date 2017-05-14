@@ -91,8 +91,8 @@ public class LoginLawyerRestController {
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
-//            profilesService.createProfile(lawyerProfile); //TODO
-////            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+//            profilesService.createProfile(lawyerProfile);
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
             // LOGIN:
             LoggedUser loggedUser = null;

@@ -112,13 +112,16 @@ public class Profile {
     }
 
     public Profile setLastTryLoginDateEqualsToCurrentDate() {
-        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<60000)){ //TODO: account is unlock == TRUE & time interval less 1-minut
-            //TODO: time interval less five seconds
-            if (5000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+        final int LIMIT_ATTEMPTS = 5,
+                BLOCK_TIME_INTERVAL = 60000;
+
+        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<BLOCK_TIME_INTERVAL)){ //TODO: account is unlock == TRUE & time interval less 1-minut
+            //TODO if the time interval is less than five seconds
+            if ((LIMIT_ATTEMPTS*1000)<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
                 countTryLoginDate++;
             }
-            //TODO: it was more 5-tryis that block account
-            if(4<countTryLoginDate){
+            //TODO: it was more than a five attemps - then block account
+            if(LIMIT_ATTEMPTS<countTryLoginDate){
                 isUnlockAccount = false;
             }
             lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -126,7 +129,8 @@ public class Profile {
             lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
             isUnlockAccount = true;
             countTryLoginDate = 1;
-        } else if (60000<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+        } else if (BLOCK_TIME_INTERVAL<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
             isUnlockAccount = true;
             countTryLoginDate = 1;
         }
