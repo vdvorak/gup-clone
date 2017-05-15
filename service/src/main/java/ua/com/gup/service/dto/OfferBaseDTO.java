@@ -1,13 +1,11 @@
 package ua.com.gup.service.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.OfferCategory;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 
 public class OfferBaseDTO implements Serializable {
 
@@ -24,10 +22,10 @@ public class OfferBaseDTO implements Serializable {
     private Map<String, String> attrs = new HashMap<>();
 
     @ApiModelProperty(position = 115, value = "{\"deliveryType\": \"NOVAPOSHTA,INTIME\"}")
-    private Map<String,String> multiAttrs = new HashMap<>();
+    private Map<String, String> multiAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 120, value = "{\"year\": 2011, \"volume_sm3\":1500}")
-    private Map<String, Long> numAttrs = new HashMap<>();
+    private Map<String, BigDecimal> numAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 130, value = "{\"used\": true, \"mediator\":false}")
     private Map<String, Boolean> boolAttrs = new HashMap<>();
@@ -72,11 +70,11 @@ public class OfferBaseDTO implements Serializable {
         this.multiAttrs = multiAttrs;
     }
 
-    public Map<String, Long> getNumAttrs() {
+    public Map<String, BigDecimal> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(Map<String, Long> numAttrs) {
+    public void setNumAttrs(Map<String, BigDecimal> numAttrs) {
         this.numAttrs = numAttrs;
     }
 

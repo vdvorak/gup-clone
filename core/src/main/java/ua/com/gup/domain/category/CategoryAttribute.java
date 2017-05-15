@@ -27,6 +27,8 @@ public class CategoryAttribute implements Serializable {
 
     private Map<String, String> title = new HashMap<>();
 
+    private Map<String, String> unit = new HashMap<>();
+
     private Set<Integer> categories = new HashSet<>();
 
     private CategoryAttributeType type;
@@ -75,6 +77,14 @@ public class CategoryAttribute implements Serializable {
         this.title = title;
     }
 
+    public Map<String, String> getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Map<String, String> unit) {
+        this.unit = unit;
+    }
+
     public Set<Integer> getCategories() {
         return categories;
     }
@@ -105,5 +115,23 @@ public class CategoryAttribute implements Serializable {
 
     public void setValues(Set<CategoryAttributeValue> values) {
         this.values = values;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CategoryAttribute that = (CategoryAttribute) o;
+
+        if (code != that.code) return false;
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + code;
+        return result;
     }
 }

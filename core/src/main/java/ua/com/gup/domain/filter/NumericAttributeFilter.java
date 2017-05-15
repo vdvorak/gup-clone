@@ -11,10 +11,10 @@ public class NumericAttributeFilter {
     private String key;
 
     @ApiModelProperty("Numeric value from inclusive")
-    private Long from;
+    private Double from;
     
     @ApiModelProperty("Numeric value to inclusive")
-    private Long to;
+    private Double to;
 
     public String getKey() {
         return key;
@@ -24,19 +24,19 @@ public class NumericAttributeFilter {
         this.key = key;
     }
 
-    public Long getFrom() {
+    public Double getFrom() {
         return from;
     }
 
-    public void setFrom(Long from) {
+    public void setFrom(Double from) {
         this.from = from;
     }
 
-    public Long getTo() {
+    public Double getTo() {
         return to;
     }
 
-    public void setTo(Long to) {
+    public void setTo(Double to) {
         this.to = to;
     }
 
