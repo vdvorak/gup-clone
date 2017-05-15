@@ -6,14 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.category.Category;
-import ua.com.gup.domain.category.CategoryAttribute;
-import ua.com.gup.domain.category.CategoryAttributeValue;
-import ua.com.gup.repository.CategoryAttributeRepository;
 import ua.com.gup.repository.CategoryRepository;
+import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.CategoryAttributeDTO;
-import ua.com.gup.service.dto.CategoryAttributeValidatorDTO;
-import ua.com.gup.service.dto.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.CategoryTreeDTO;
 
 import java.util.*;
@@ -31,14 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private final CategoryAttributeRepository categoryAttributeRepository;
+    private final CategoryAttributeService categoryAttributeService;
 
     private final Map<Integer, LinkedList<OfferCategory>> offerCategoryCache = new ConcurrentHashMap<>();
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryAttributeRepository categoryAttributeRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryAttributeService categoryAttributeService) {
         this.categoryRepository = categoryRepository;
-        this.categoryAttributeRepository = categoryAttributeRepository;
+        this.categoryAttributeService = categoryAttributeService;
     }
 
     private static CategoryTreeDTO categoryToCategoryTreeDTO(Category category) {
@@ -93,36 +89,13 @@ public class CategoryServiceImpl implements CategoryService {
             if (categories.containsKey(category.getParent()))
                 categories.get(category.getParent()).getChildren().add(categories.get(category.getCode()));
         }
-        final List<CategoryAttribute> categoryAttributes = categoryAttributeRepository.findAll();
-        for (CategoryAttribute categoryAttribute : categoryAttributes) {
-            for (int categoryCode : categoryAttribute.getCategories()) {
-                CategoryAttributeDTO categoryAttributeDTO = new CategoryAttributeDTO();
-                categoryAttributeDTO.setCode(categoryAttribute.getCode());
-                categoryAttributeDTO.setActive(categoryAttribute.isActive());
-                categoryAttributeDTO.setKey(categoryAttribute.getKey());
-                categoryAttributeDTO.setTitle(categoryAttribute.getTitle());
-                categoryAttributeDTO.setType(categoryAttribute.getType());
-                CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
-                validatorDTO.setMin(categoryAttribute.getValidator().getMin());
-                validatorDTO.setMax(categoryAttribute.getValidator().getMax());
-                boolean exceptThis = categoryAttribute.getValidator().getExcept().contains(categoryCode);
-                validatorDTO.setRequired(categoryAttribute.getValidator().isRequired() ^ exceptThis);
-                categoryAttributeDTO.setValidator(validatorDTO);
-                LinkedHashSet<CategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
-                for (CategoryAttributeValue categoryAttributeValue : categoryAttribute.getValues()) {
-                    if (!categoryAttributeValue.getExceptCategory().contains(categoryCode)) {
-                        CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
-                        valueDTO.setKey(categoryAttributeValue.getKey());
-                        valueDTO.setTitle(categoryAttributeValue.getTitle());
-                        valueDTOS.add(valueDTO);
-                    }
-                }
-                categoryAttributeDTO.setValues(valueDTOS);
-                if (categories.containsKey(categoryCode)) {
-                    categories.get(categoryCode).getAttrs().add(categoryAttributeDTO);
-                }
+        final Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
+        for (Integer code : categories.keySet()) {
+            if (categoryAttributeDTOs.containsKey(code)) {
+                categories.get(code).setAttrs(categoryAttributeDTOs.get(code));
             }
         }
+
         final Set<Integer> firstLevelCategories = categoriesList.stream()
                 .filter((Category c) -> c.getParent() == 0)
                 .map(Category::getCode)

@@ -4,13 +4,14 @@ package ua.com.gup.service.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.OfferCategory;
 import ua.com.gup.domain.OfferModerationReport;
+import ua.com.gup.domain.OfferNumericValue;
 import ua.com.gup.domain.OfferStatistic;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.*;
 import ua.com.gup.service.security.SecurityUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -144,7 +145,12 @@ public class OfferMapper {
             target.setMultiAttrs(multiAttrs);
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs());
+            LinkedHashMap<String, BigDecimal> result = new LinkedHashMap<>();
+            final Map<String, OfferNumericValue> numAttrs = source.getNumAttrs();
+            for (String key : numAttrs.keySet()) {
+                result.put(key, numAttrs.get(key).getViewValue());
+            }
+            target.setNumAttrs(result);
         }
         if (source.getBoolAttrs() != null) {
             target.setBoolAttrs(source.getBoolAttrs());
@@ -174,7 +180,15 @@ public class OfferMapper {
             target.setMultiAttrs(multiAttrs);
         }
         if (source.getNumAttrs() != null) {
-            target.setNumAttrs(source.getNumAttrs());
+            LinkedHashMap<String, OfferNumericValue> result = new LinkedHashMap<>();
+            final Map<String, BigDecimal> numAttrs = source.getNumAttrs();
+            for (String key : numAttrs.keySet()) {
+                OfferNumericValue value = new OfferNumericValue();
+                value.setViewValue(numAttrs.get(key));
+                value.setValue(numAttrs.get(key).doubleValue());
+                result.put(key, value);
+            }
+            target.setNumAttrs(result);
         }
         if (source.getBoolAttrs() != null) {
             target.setBoolAttrs(source.getBoolAttrs());

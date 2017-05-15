@@ -6,17 +6,27 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.domain.category.CategoryAttribute;
+import ua.com.gup.domain.category.CategoryAttributeType;
+import ua.com.gup.domain.category.CategoryAttributeValue;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.OfferAddressDTO;
 import ua.com.gup.service.dto.OfferCreateDTO;
 import ua.com.gup.service.dto.OfferUpdateDTO;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 @Component
 public class OfferDTOValidator implements Validator {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryAttributeService categoryAttributeService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -45,6 +55,54 @@ public class OfferDTOValidator implements Validator {
         if (offerCreateDTO.getCategory() != null) {
             if (!categoryService.exists(offerCreateDTO.getCategory())) {
                 errors.rejectValue("category", "category.notexist", null, "Category " + offerCreateDTO.getCategory() + " doesn't exist or has subcategory");
+            } else {
+//                final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(offerCreateDTO.getCategory());
+//                for (String key : offerCreateDTO.getAttrs().keySet()) {
+//                    CategoryAttributeValue attributeValue = new CategoryAttributeValue();
+//                    attributeValue.setKey(offerCreateDTO.getAttrs().get(key));
+//                    boolean exist = false;
+//                    for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
+//                        exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
+//                    }
+//                    if (!exist) {
+//                        errors.rejectValue("attr", "attr." + key + ".attributeValue", null, "attr." +
+//                                key + ".attributeValue = " + offerCreateDTO.getAttrs().get(key) +
+//                                " doesn't exist or not permitted for this category");
+//                    }
+//                }
+//                for (String key : offerCreateDTO.getMultiAttrs().keySet()) {
+//                    final String[] values = offerCreateDTO.getMultiAttrs().get(key).split(",");
+//                    for (String v : values) {
+//                        CategoryAttributeValue attributeValue = new CategoryAttributeValue();
+//                        attributeValue.setKey(v);
+//                        boolean exist = false;
+//                        for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
+//                            exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
+//                        }
+//                        if (!exist) {
+//                            errors.rejectValue("multiAttr", "multiAttr." + key + ".attributeValue", null, "attr." +
+//                                    key + ".attributeValue = " + offerCreateDTO.getMultiAttrs().get(key) +
+//                                    " doesn't exist or not permitted for this category");
+//                        }
+//                    }
+//                }
+//                for (String key : offerCreateDTO.getNumAttrs().keySet()) {
+//                    final BigDecimal value = offerCreateDTO.getNumAttrs().get(key);
+//                    boolean exist = false;
+//                    for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
+//                        if(categoryAttributeDTO.getKey().equals(key)) {
+//                            if(categoryAttributeDTO.getValidator()!= null){
+//                                if(categoryAttributeDTO.)
+//                            }
+//                            exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
+//                        }
+//                    }
+//                    if (!exist) {
+//                        errors.rejectValue("attr", "attr." + key + ".attributeValue", null, "attr." +
+//                                key + ".attributeValue = " + offerCreateDTO.getAttrs().get(key) +
+//                                " doesn't exist or not permitted for this category");
+//                    }
+//                }
             }
         }
         if (!isUpdateDTO && offerCreateDTO.getContactInfo() == null) {
@@ -83,6 +141,45 @@ public class OfferDTOValidator implements Validator {
             }
             if (address.getCity() == null) {
                 errors.rejectValue("address.city", "address.city.required", null, "City required");
+            }
+        }
+        if (offerCreateDTO.getNumAttrs() != null) {
+            final Map<String, BigDecimal> numAttrs = offerCreateDTO.getNumAttrs();
+            for (String key : numAttrs.keySet()) {
+                try {
+                    numAttrs.get(key).doubleValue();
+                } catch (Exception e) {
+                    errors.rejectValue("numAttrs", "numAttrs." + key + ".invalidFormat", null, "Invalid number format");
+                }
+
+            }
+        }
+    }
+
+    private void checkAttribute(CategoryAttribute categoryAttribute, OfferCreateDTO offerCreateDTO, Errors errors) {
+        if (categoryAttribute.getValidator().isRequired() && !categoryAttribute.getValidator().getExcept().contains(categoryAttribute)) {
+            if (categoryAttribute.getType() == CategoryAttributeType.BOOLEAN) {
+                if (offerCreateDTO.getBoolAttrs() == null
+                        || !offerCreateDTO.getBoolAttrs().containsKey(categoryAttribute.getKey())) {
+                    errors.rejectValue("boolAttrs", "boolAttrs.required", null, "boolAttrs." + categoryAttribute.getKey() + " is required");
+                }
+            } else if (categoryAttribute.getType() == CategoryAttributeType.MULTI_SELECT) {
+
+            } else if (categoryAttribute.getType() == CategoryAttributeType.NUMBER) {
+
+            } else if (categoryAttribute.getType() == CategoryAttributeType.SELECT) {
+                if (offerCreateDTO.getAttrs() == null
+                        || !offerCreateDTO.getAttrs().containsKey(categoryAttribute.getKey())) {
+                    errors.rejectValue("attrs", "attrs.required", null, "attrs." + categoryAttribute.getKey() + " is required");
+                } else {
+                    final String value = offerCreateDTO.getAttrs().get(categoryAttribute.getKey());
+                    boolean existForCategory = false;
+                    for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
+                        existForCategory = existForCategory ||
+                                (value.equals(attributeValue.getKey()) && !attributeValue.getExceptCategory().contains(categoryAttribute.getCode()));
+                    }
+                    errors.rejectValue("attrs", "attrs.value", null, "value = " + value + "for attrs." + categoryAttribute.getKey() + " and category = " + categoryAttribute.getCode() + " doesn't exist");
+                }
             }
         }
     }

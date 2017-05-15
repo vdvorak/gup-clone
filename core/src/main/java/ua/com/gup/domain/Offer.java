@@ -69,7 +69,7 @@ public class Offer implements Serializable {
 
     private Map<String, Set<String>> multiAttrs = new HashMap<>();
 
-    private Map<String, Long> numAttrs = new HashMap<>();
+    private Map<String, OfferNumericValue> numAttrs = new HashMap<>();
 
     private Map<String, Boolean> boolAttrs = new HashMap<>();
 
@@ -101,13 +101,12 @@ public class Offer implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-
     public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public String getLastModifiedBy() {
@@ -239,11 +238,11 @@ public class Offer implements Serializable {
         this.multiAttrs = multiAttrs;
     }
 
-    public Map<String, Long> getNumAttrs() {
+    public Map<String, OfferNumericValue> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(Map<String, Long> numAttrs) {
+    public void setNumAttrs(Map<String, OfferNumericValue> numAttrs) {
         this.numAttrs = numAttrs;
     }
 
