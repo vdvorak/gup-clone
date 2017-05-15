@@ -401,6 +401,139 @@ public class ProfileRestController {
     }
 
 
+
+
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+
+        Profile profile = profilesService.findById(id);
+
+        // we cant't allow empty email field for some cases
+        if (profile==null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            if (profile.getEmail() == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (profile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+//        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setActive(false);
+            profile.setBan(true);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/ban/publicId/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> banProfileByPublicID(@PathVariable("publicId") String publicId, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+
+        Profile profile = profilesService.findByPublicId(publicId);
+
+        // we cant't allow empty email field for some cases
+        if (profile==null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            if (profile.getEmail() == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (profile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+//        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setActive(false);
+            profile.setBan(true);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/unban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> unbanProfileByID(@PathVariable("id") String id, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+
+        Profile profile = profilesService.findById(id);
+
+        // we cant't allow empty email field for some cases
+        if (profile==null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            if (profile.getEmail() == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (profile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+//        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setActive(true);
+            profile.setBan(false);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/unban/publicId/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> unbanProfileByPublicID(@PathVariable("publicId") String publicId, HttpServletRequest request)
+            throws AuthenticationCredentialsNotFoundException {
+
+        Profile profile = profilesService.findByPublicId(publicId);
+
+        // we cant't allow empty email field for some cases
+        if (profile==null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            if (profile.getEmail() == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (profile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+//        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setActive(true);
+            profile.setBan(false);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+
+
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)

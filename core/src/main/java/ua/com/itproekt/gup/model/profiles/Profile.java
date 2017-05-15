@@ -41,30 +41,21 @@ public class Profile {
 
     private boolean active;
 
-    @Email //@Email(message = "заданный имэйл не может существовать")
+    @Email
     @Indexed
     private String email;
-    private String socWendor = "gup.com.ua"; // default vendor
+    private String socWendor = "gup.com.ua";
     private String uid;
-
-    //@NotNull(message="Описание должно быть задано")
-    //@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "заданный пароль не может существовать")
     private String password;
-
-    //@NotNull(message="Описание должно быть задано")
-    //@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="заданный пароль не может существовать")
-    //@Size(min=8, message="Длина фамилии должна быть больше восьми")
     private String passwordRestore;
     private String tokenKey;
-
-    //@Size(min=14, message="Длина номера телефона должна быть больше четырнадцати")
     private String mainPhoneNumber;
     private Integer mainPhoneNumberViews;
     private Boolean mainPhoneNumberHide;
     private GeneralPhone generalPhone;
 
     @Indexed
-    @Size(min = 2, max = 70) //@Size(min = 2, max = 70, message="Длина номера телефона должна быть 2-70")
+    @Size(min = 2, max = 70)
     private String username;
     @Size(min = 2, max = 70)
     private String firstname;
@@ -80,15 +71,15 @@ public class Profile {
 
     private Set<ProfileContactList> contactList;
     private Set<String> socialList;
-    private FinanceInfo financeInfo; // info about bank etc.
+    private FinanceInfo financeInfo;
     private Set<String> favoriteOffers;
-    @Size(max = 45) //@Size(max = 45, message="Длина поля 'status' должна быть больше сорока пяти")
+    @Size(max = 45)
     private String status;
 
     private Integer point;
     private Set<ProfileRating> profileRating;
 
-    private Boolean confirmModerator; // show is verified or not user profile
+    private Boolean confirmModerator;
     private Set<UserRole> userRoles;
 
     private Long createdDate;
@@ -97,7 +88,7 @@ public class Profile {
     private int countTryLoginDate;
     private boolean isUnlockAccount;
     private boolean online;
-    private int notCompletedFields; //how many fields user filled
+    private int notCompletedFields;
 
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -107,6 +98,27 @@ public class Profile {
     private String privateKey;
     private BankCard bankCard;
 
+
+    private Boolean ban = false;
+
+    /* ************************************************************************************************ */
+    /*
+     * Lawyer-Profile
+     */
+    private Set<String> userType;
+    private Address lawyerAddress;
+    private String nameCompany;
+    private String fullNameCompany;
+    private String fullNameOvner;
+    private String EGRPOU;
+    private String identificationСode;
+    private String IPN;
+    private Address locationAddress;
+    private String mainKindActivity;
+    private Set<String> emploeyrList; //private Set<ProfileContactList> emploeyrList;
+
+
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
@@ -115,7 +127,8 @@ public class Profile {
         final int LIMIT_ATTEMPTS = 5,
                 BLOCK_TIME_INTERVAL = 60000;
 
-        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<BLOCK_TIME_INTERVAL)){ //TODO: account is unlock == TRUE & time interval less 1-minut
+        //TODO: account is unlock == TRUE & time interval less one-minut
+        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<BLOCK_TIME_INTERVAL)){
             //TODO if the time interval is less than five seconds
             if ((LIMIT_ATTEMPTS*1000)<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
                 countTryLoginDate++;
@@ -125,7 +138,7 @@ public class Profile {
                 isUnlockAccount = false;
             }
             lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        } else if (lastTryLoginDate==null){ //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more 1-minut
+        } else if (lastTryLoginDate==null){ //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more one-minut
             lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
             isUnlockAccount = true;
             countTryLoginDate = 1;
@@ -575,6 +588,125 @@ public class Profile {
         return this;
     }
 
+
+
+    public Boolean getBan() {
+        return ban;
+    }
+
+    public Profile setBan(Boolean ban) {
+        this.ban = ban;
+        return this;
+    }
+
+    public Boolean isBan() {
+        return ban;
+    }
+
+    /* ************************************************************************************************ */
+    /*
+     * Lawyer-Profile
+     */
+    public Set<String> getUserType() {
+        return userType;
+    }
+
+    public Profile setUserType(Set<String> userType) {
+        this.userType = userType;
+        return this;
+    }
+
+    public Address getLawyerAddress() {
+        return lawyerAddress;
+    }
+
+    public Profile setLawyerAddress(Address lawyerAddress) {
+        this.lawyerAddress = lawyerAddress;
+        return this;
+    }
+
+    public String getNameCompany() {
+        return nameCompany;
+    }
+
+    public Profile setNameCompany(String nameCompany) {
+        this.nameCompany = nameCompany;
+        return this;
+    }
+
+    public String getFullNameCompany() {
+        return fullNameCompany;
+    }
+
+    public Profile setFullNameCompany(String fullNameCompany) {
+        this.fullNameCompany = fullNameCompany;
+        return this;
+    }
+
+    public String getFullNameOvner() {
+        return fullNameOvner;
+    }
+
+    public Profile setFullNameOvner(String fullNameOvner) {
+        this.fullNameOvner = fullNameOvner;
+        return this;
+    }
+
+    public String getEGRPOU() {
+        return EGRPOU;
+    }
+
+    public Profile setEGRPOU(String EGRPOU) {
+        this.EGRPOU = EGRPOU;
+        return this;
+    }
+
+    public String getIdentificationСode() {
+        return identificationСode;
+    }
+
+    public Profile setIdentificationСode(String identificationСode) {
+        this.identificationСode = identificationСode;
+        return this;
+    }
+
+    public String getIPN() {
+        return IPN;
+    }
+
+    public Profile setIPN(String IPN) {
+        this.IPN = IPN;
+        return this;
+    }
+
+    public Address getLocationAddress() {
+        return locationAddress;
+    }
+
+    public Profile setLocationAddress(Address locationAddress) {
+        this.locationAddress = locationAddress;
+        return this;
+    }
+
+    public String getMainKindActivity() {
+        return mainKindActivity;
+    }
+
+    public Profile setMainKindActivity(String mainKindActivity) {
+        this.mainKindActivity = mainKindActivity;
+        return this;
+    }
+
+    public Set<String> getEmploeyrList() {
+        return emploeyrList;
+    }
+
+    public Profile setEmploeyrList(Set<String> emploeyrList) {
+        this.emploeyrList = emploeyrList;
+        return this;
+    }
+
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -621,6 +753,17 @@ public class Profile {
                 ", publicKey=" + publicKey +
                 ", privateKey=" + privateKey +
                 ", bankCard=" + bankCard +
+                ", userType=" + userType +
+                ", lawyerAddress='" + lawyerAddress + '\'' +
+                ", nameCompany='" + nameCompany + '\'' +
+                ", fullNameCompany='" + fullNameCompany + '\'' +
+                ", fullNameOvner='" + fullNameOvner + '\'' +
+                ", EGRPOU='" + EGRPOU + '\'' +
+                ", identificationСode='" + identificationСode + '\'' +
+                ", IPN='" + IPN + '\'' +
+                ", locationAddress='" + locationAddress + '\'' +
+                ", mainKindActivity='" + mainKindActivity + '\'' +
+                ", emploeyrList=" + emploeyrList +
                 '}';
     }
 }

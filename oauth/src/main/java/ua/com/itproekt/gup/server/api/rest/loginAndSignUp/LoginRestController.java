@@ -231,7 +231,7 @@ public class LoginRestController {
             }
             profile.setActive(false);
             profilesService.createProfileWithRoles(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO ???
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

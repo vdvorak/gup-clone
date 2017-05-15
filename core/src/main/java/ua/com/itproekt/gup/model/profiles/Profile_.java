@@ -27,8 +27,8 @@
 //
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 //@Document(collection = Profile.COLLECTION_NAME)
-//public class LawyerProfile {
-//    public static final String COLLECTION_NAME = "lawyer_users";
+//public class Profile {
+//    public static final String COLLECTION_NAME = "users";
 //
 //    @Id
 //    private String id;
@@ -41,43 +41,54 @@
 //
 //    private boolean active;
 //
-//    @Email(message = "заданный имэйл не может существовать")
+//    @Email //@Email(message = "заданный имэйл не может существовать")
 //    @Indexed
 //    private String email;
+//    private String socWendor = "gup.com.ua"; // default vendor
+//    private String uid;
 //
-//    @NotNull(message="Описание должно быть задано")
-//    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "заданный пароль не может существовать")
+//    //@NotNull(message="Описание должно быть задано")
+//    //@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "заданный пароль не может существовать")
 //    private String password;
 //
-//    @NotNull(message="Описание должно быть задано")
-//    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="заданный пароль не может существовать")
-//    @Size(min=8, message="Длина фамилии должна быть больше восьми")
+//    //@NotNull(message="Описание должно быть задано")
+//    //@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$", message="заданный пароль не может существовать")
+//    //@Size(min=8, message="Длина фамилии должна быть больше восьми")
 //    private String passwordRestore;
 //    private String tokenKey;
 //
-//    @Size(min=14, message="Длина номера телефона должна быть больше четырнадцати")
+//    //@Size(min=14, message="Длина номера телефона должна быть больше четырнадцати")
 //    private String mainPhoneNumber;
 //    private Integer mainPhoneNumberViews;
 //    private Boolean mainPhoneNumberHide;
 //    private GeneralPhone generalPhone;
 //
+//    @Indexed
+//    @Size(min = 2, max = 70) //@Size(min = 2, max = 70, message="Длина номера телефона должна быть 2-70")
+//    private String username;
+//    @Size(min = 2, max = 70)
+//    private String firstname;
+//    @Size(min = 2, max = 70)
+//    private String lastname;
 //    private String executive;
 //    private String contactPerson;
-//    private Address lawyerAddress;
+//    private Address address;
 //    private String imgId;
+//    private String imgUrl;
+//    private Long birthDate;
 //    private Contact contact;
 //
 //    private Set<ProfileContactList> contactList;
 //    private Set<String> socialList;
-//    private FinanceInfo financeInfo;
+//    private FinanceInfo financeInfo; // info about bank etc.
 //    private Set<String> favoriteOffers;
-//    @Size(max = 45, message="Длина поля 'status' должна быть больше сорока пяти")
+//    @Size(max = 45) //@Size(max = 45, message="Длина поля 'status' должна быть больше сорока пяти")
 //    private String status;
 //
 //    private Integer point;
 //    private Set<ProfileRating> profileRating;
 //
-//    private Boolean confirmModerator;
+//    private Boolean confirmModerator; // show is verified or not user profile
 //    private Set<UserRole> userRoles;
 //
 //    private Long createdDate;
@@ -86,7 +97,7 @@
 //    private int countTryLoginDate;
 //    private boolean isUnlockAccount;
 //    private boolean online;
-//    private int notCompletedFields;
+//    private int notCompletedFields; //how many fields user filled
 //
 //    private List<OrderAddress> orderAddressList;
 //    private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -96,25 +107,11 @@
 //    private String privateKey;
 //    private BankCard bankCard;
 //
-//    /*
-//     * TODO: Requisites for lawyer profile
-//     */
-//    private String nameCompany;
-//    private String fullNameCompany;
-//    private String fullNameOvner;
-//    private String EGRPOU;
-//    private String identificationСode;
-//    private String IPN;
-//    private Address locationAddress;
-//    private String mainKindActivity;
-//
-//    private Set<String> emploeyrList;
-//
 //    public boolean hasUserRole(String userRole) {
 //        return EnumUtils.isValidEnum(UserRole.class, userRole);
 //    }
 //
-//    public LawyerProfile setLastTryLoginDateEqualsToCurrentDate() {
+//    public Profile setLastTryLoginDateEqualsToCurrentDate() {
 //        final int LIMIT_ATTEMPTS = 5,
 //                BLOCK_TIME_INTERVAL = 60000;
 //
@@ -141,12 +138,12 @@
 //        return this;
 //    }
 //
-//    public LawyerProfile setLastLoginDateEqualsToCurrentDate() {
+//    public Profile setLastLoginDateEqualsToCurrentDate() {
 //        this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
 //        return this;
 //    }
 //
-//    public LawyerProfile setCreatedDateEqualsToCurrentDate() {
+//    public Profile setCreatedDateEqualsToCurrentDate() {
 //        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
 //        return this;
 //    }
@@ -158,8 +155,26 @@
 //        return imgId;
 //    }
 //
-//    public LawyerProfile setImgId(String imgId) {
+//    public Profile setImgId(String imgId) {
 //        this.imgId = imgId;
+//        return this;
+//    }
+//
+//    public String getImgUrl() {
+//        return imgUrl;
+//    }
+//
+//    public Profile setImgUrl(String imgUrl) {
+//        this.imgUrl = imgUrl;
+//        return this;
+//    }
+//
+//    public Long getBirthDate() {
+//        return birthDate;
+//    }
+//
+//    public Profile setBirthDate(Long birthDate) {
+//        this.birthDate = birthDate;
 //        return this;
 //    }
 //
@@ -167,7 +182,7 @@
 //        return lastLoginDate;
 //    }
 //
-//    public LawyerProfile setLastLoginDate(Long lastLoginDate) {
+//    public Profile setLastLoginDate(Long lastLoginDate) {
 //        this.lastLoginDate = lastLoginDate;
 //        return this;
 //    }
@@ -176,7 +191,7 @@
 //        return lastTryLoginDate;
 //    }
 //
-//    public LawyerProfile setLastTryLoginDate(Long lastTryLoginDate) {
+//    public Profile setLastTryLoginDate(Long lastTryLoginDate) {
 //        this.lastTryLoginDate = lastTryLoginDate;
 //        return this;
 //    }
@@ -185,7 +200,7 @@
 //        return countTryLoginDate;
 //    }
 //
-//    public LawyerProfile setCountTryLoginDate(int lastTryLoginDate) {
+//    public Profile setCountTryLoginDate(int lastTryLoginDate) {
 //        this.countTryLoginDate = countTryLoginDate;
 //        return this;
 //    }
@@ -194,7 +209,7 @@
 //        return isUnlockAccount;
 //    }
 //
-//    public LawyerProfile setIsUnlockAccount(boolean isUnlockAccount) {
+//    public Profile setIsUnlockAccount(boolean isUnlockAccount) {
 //        this.isUnlockAccount = isUnlockAccount;
 //        return this;
 //    }
@@ -203,7 +218,7 @@
 //        return confirmModerator;
 //    }
 //
-//    public LawyerProfile setConfirmModerator(Boolean confirmModerator) {
+//    public Profile setConfirmModerator(Boolean confirmModerator) {
 //        this.confirmModerator = confirmModerator;
 //        return this;
 //    }
@@ -212,7 +227,7 @@
 //        return point;
 //    }
 //
-//    public LawyerProfile setPoint(Integer point) {
+//    public Profile setPoint(Integer point) {
 //        this.point = point;
 //        return this;
 //    }
@@ -221,7 +236,7 @@
 //        return id;
 //    }
 //
-//    public LawyerProfile setId(String id) {
+//    public Profile setId(String id) {
 //        this.id = id;
 //        return this;
 //    }
@@ -234,7 +249,7 @@
 //        return idSeoWord;
 //    }
 //
-//    public LawyerProfile setIdSeoWord(String idSeoWord) {
+//    public Profile setIdSeoWord(String idSeoWord) {
 //        this.idSeoWord = idSeoWord;
 //        return this;
 //    }
@@ -243,7 +258,7 @@
 //        return mainPhoneNumber;
 //    }
 //
-//    public LawyerProfile setMainPhoneNumber(String mainPhoneNumber) {
+//    public Profile setMainPhoneNumber(String mainPhoneNumber) {
 //        this.mainPhoneNumber = mainPhoneNumber;
 //        return this;
 //    }
@@ -252,7 +267,7 @@
 //        return mainPhoneNumberViews;
 //    }
 //
-//    public LawyerProfile setMainPhoneNumberViews(Integer mainPhoneNumberViews) {
+//    public Profile setMainPhoneNumberViews(Integer mainPhoneNumberViews) {
 //        this.mainPhoneNumberViews = mainPhoneNumberViews;
 //        return this;
 //    }
@@ -261,7 +276,7 @@
 //        return mainPhoneNumberHide;
 //    }
 //
-//    public LawyerProfile setMainPhoneNumberHide(Boolean mainPhoneNumberHide) {
+//    public Profile setMainPhoneNumberHide(Boolean mainPhoneNumberHide) {
 //        this.mainPhoneNumberHide = mainPhoneNumberHide;
 //        return this;
 //    }
@@ -270,8 +285,35 @@
 //        return generalPhone;
 //    }
 //
-//    public LawyerProfile setGeneralPhone(GeneralPhone generalPhone) {
+//    public Profile setGeneralPhone(GeneralPhone generalPhone) {
 //        this.generalPhone = generalPhone;
+//        return this;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public Profile setUsername(String username) {
+//        this.username = username;
+//        return this;
+//    }
+//
+//    public String getLastname() {
+//        return lastname;
+//    }
+//
+//    public Profile setLastname(String lastname) {
+//        this.lastname = lastname;
+//        return this;
+//    }
+//
+//    public String getFirstname() {
+//        return firstname;
+//    }
+//
+//    public Profile setFirstname(String firstname) {
+//        this.firstname = firstname;
 //        return this;
 //    }
 //
@@ -279,7 +321,7 @@
 //        return executive;
 //    }
 //
-//    public LawyerProfile setExecutive(String executive) {
+//    public Profile setExecutive(String executive) {
 //        this.executive = executive;
 //        return this;
 //    }
@@ -288,17 +330,17 @@
 //        return contactPerson;
 //    }
 //
-//    public LawyerProfile setContactPerson(String contactPerson) {
+//    public Profile setContactPerson(String contactPerson) {
 //        this.contactPerson = contactPerson;
 //        return this;
 //    }
 //
-//    public Address getLawyerAddress() {
-//        return lawyerAddress;
+//    public Address getAddress() {
+//        return address;
 //    }
 //
-//    public LawyerProfile setLawyerAddress(Address lawyerAddress) {
-//        this.lawyerAddress = lawyerAddress;
+//    public Profile setAddress(Address address) {
+//        this.address = address;
 //        return this;
 //    }
 //
@@ -306,7 +348,7 @@
 //        return active;
 //    }
 //
-//    public LawyerProfile setActive(boolean active) {
+//    public Profile setActive(boolean active) {
 //        this.active = active;
 //        return this;
 //    }
@@ -315,7 +357,7 @@
 //        return publicId;
 //    }
 //
-//    public LawyerProfile setPublicId(String publicId) {
+//    public Profile setPublicId(String publicId) {
 //        this.publicId = publicId;
 //        return this;
 //    }
@@ -324,7 +366,7 @@
 //        return email;
 //    }
 //
-//    public LawyerProfile setEmail(String email) {
+//    public Profile setEmail(String email) {
 //        this.email = email;
 //        return this;
 //    }
@@ -333,7 +375,7 @@
 //        return password;
 //    }
 //
-//    public LawyerProfile setPassword(String password) {
+//    public Profile setPassword(String password) {
 //        this.password = password;
 //        return this;
 //    }
@@ -342,7 +384,7 @@
 //        return passwordRestore;
 //    }
 //
-//    public LawyerProfile setPasswordRestore(String passwordRestore) {
+//    public Profile setPasswordRestore(String passwordRestore) {
 //        this.passwordRestore = passwordRestore;
 //        return this;
 //    }
@@ -351,7 +393,7 @@
 //        return userRoles;
 //    }
 //
-//    public LawyerProfile setUserRoles(Set<UserRole> userRoles) {
+//    public Profile setUserRoles(Set<UserRole> userRoles) {
 //        this.userRoles = userRoles;
 //        return this;
 //    }
@@ -360,7 +402,7 @@
 //        return contact;
 //    }
 //
-//    public LawyerProfile setContact(Contact contact) {
+//    public Profile setContact(Contact contact) {
 //        this.contact = contact;
 //        return this;
 //    }
@@ -369,7 +411,7 @@
 //        return profileRating;
 //    }
 //
-//    public LawyerProfile setProfileRating(Set<ProfileRating> profileRating) {
+//    public Profile setProfileRating(Set<ProfileRating> profileRating) {
 //        this.profileRating = profileRating;
 //        return this;
 //    }
@@ -378,7 +420,7 @@
 //        return contactList;
 //    }
 //
-//    public LawyerProfile setContactList(Set<ProfileContactList> contactList) {
+//    public Profile setContactList(Set<ProfileContactList> contactList) {
 //        this.contactList = contactList;
 //        return this;
 //    }
@@ -387,7 +429,7 @@
 //        return socialList;
 //    }
 //
-//    public LawyerProfile setSocialList(Set<String> socialList) {
+//    public Profile setSocialList(Set<String> socialList) {
 //        this.socialList = socialList;
 //        return this;
 //    }
@@ -396,7 +438,7 @@
 //        return financeInfo;
 //    }
 //
-//    public LawyerProfile setFinanceInfo(FinanceInfo financeInfo) {
+//    public Profile setFinanceInfo(FinanceInfo financeInfo) {
 //        this.financeInfo = financeInfo;
 //        return this;
 //    }
@@ -405,7 +447,7 @@
 //        return createdDate;
 //    }
 //
-//    public LawyerProfile setCreatedDate(Long createdDate) {
+//    public Profile setCreatedDate(Long createdDate) {
 //        this.createdDate = createdDate;
 //        return this;
 //    }
@@ -414,7 +456,7 @@
 //        return orderAddressList;
 //    }
 //
-//    public LawyerProfile setOrderAddressList(List<OrderAddress> orderAddressList) {
+//    public Profile setOrderAddressList(List<OrderAddress> orderAddressList) {
 //        this.orderAddressList = orderAddressList;
 //        return this;
 //    }
@@ -423,7 +465,7 @@
 //        return offerUserContactInfoList;
 //    }
 //
-//    public LawyerProfile setOfferUserContactInfoList(List<OfferUserContactInfo> offerUserContactInfoList) {
+//    public Profile setOfferUserContactInfoList(List<OfferUserContactInfo> offerUserContactInfoList) {
 //        this.offerUserContactInfoList = offerUserContactInfoList;
 //        return this;
 //    }
@@ -432,7 +474,7 @@
 //        return favoriteOffers;
 //    }
 //
-//    public LawyerProfile setFavoriteOffers(Set<String> favoriteOffers) {
+//    public Profile setFavoriteOffers(Set<String> favoriteOffers) {
 //        this.favoriteOffers = favoriteOffers;
 //        return this;
 //    }
@@ -445,8 +487,27 @@
 //        this.online = online;
 //    }
 //
-//    public LawyerProfile setIsOnline(boolean isOnline) {
+//    public Profile setIsOnline(boolean isOnline) {
 //        this.online = isOnline;
+//        return this;
+//    }
+//
+//    public String getSocWendor() {
+//        return socWendor;
+//    }
+//
+//    public Profile setSocWendor(String socWendor) {
+//        this.socWendor = socWendor;
+//        return this;
+//    }
+//
+//
+//    public String getUid() {
+//        return uid;
+//    }
+//
+//    public Profile setUid(String uid) {
+//        this.uid = uid;
 //        return this;
 //    }
 //
@@ -454,7 +515,7 @@
 //        return tokenKey;
 //    }
 //
-//    public LawyerProfile setTokenKey(String tokenKey) {
+//    public Profile setTokenKey(String tokenKey) {
 //        this.tokenKey = tokenKey;
 //        return this;
 //    }
@@ -463,7 +524,7 @@
 //        return status;
 //    }
 //
-//    public LawyerProfile setStatus(String status) {
+//    public Profile setStatus(String status) {
 //        this.status = status;
 //        return this;
 //    }
@@ -473,7 +534,7 @@
 //        return notCompletedFields;
 //    }
 //
-//    public LawyerProfile setNotCompletedFields(int notCompletedFields) {
+//    public Profile setNotCompletedFields(int notCompletedFields) {
 //        this.notCompletedFields = notCompletedFields;
 //        return this;
 //    }
@@ -482,7 +543,7 @@
 //        return publicHash;
 //    }
 //
-//    public LawyerProfile setPublicHash(String publicHash) {
+//    public Profile setPublicHash(String publicHash) {
 //        this.publicHash = publicHash;
 //        return this;
 //    }
@@ -491,7 +552,7 @@
 //        return publicKey;
 //    }
 //
-//    public LawyerProfile setPublicKey(String publicKey) {
+//    public Profile setPublicKey(String publicKey) {
 //        this.publicKey = publicKey;
 //        return this;
 //    }
@@ -500,7 +561,7 @@
 //        return privateKey;
 //    }
 //
-//    public LawyerProfile setPrivateKey(String privateKey) {
+//    public Profile setPrivateKey(String privateKey) {
 //        this.privateKey = privateKey;
 //        return this;
 //    }
@@ -509,90 +570,8 @@
 //        return bankCard;
 //    }
 //
-//    public LawyerProfile setBankCard(BankCard bankCard) {
+//    public Profile setBankCard(BankCard bankCard) {
 //        this.bankCard = bankCard;
-//        return this;
-//    }
-//
-//
-//    public String getNameCompany() {
-//        return nameCompany;
-//    }
-//
-//    public LawyerProfile setNameCompany(String nameCompany) {
-//        this.nameCompany = nameCompany;
-//        return this;
-//    }
-//
-//    public String getFullNameCompany() {
-//        return fullNameCompany;
-//    }
-//
-//    public LawyerProfile setFullNameCompany(String fullNameCompany) {
-//        this.fullNameCompany = fullNameCompany;
-//        return this;
-//    }
-//
-//    public String getFullNameOvner() {
-//        return fullNameOvner;
-//    }
-//
-//    public LawyerProfile setFullNameOvner(String fullNameOvner) {
-//        this.fullNameOvner = fullNameOvner;
-//        return this;
-//    }
-//
-//    public String getEGRPOU() {
-//        return EGRPOU;
-//    }
-//
-//    public LawyerProfile setEGRPOU(String EGRPOU) {
-//        this.EGRPOU = EGRPOU;
-//        return this;
-//    }
-//
-//    public String getIdentificationСode() {
-//        return identificationСode;
-//    }
-//
-//    public LawyerProfile setIdentificationСode(String identificationСode) {
-//        this.identificationСode = identificationСode;
-//        return this;
-//    }
-//
-//    public String getIPN() {
-//        return IPN;
-//    }
-//
-//    public LawyerProfile setIPN(String IPN) {
-//        this.IPN = IPN;
-//        return this;
-//    }
-//
-//    public Address getLocationAddress() {
-//        return locationAddress;
-//    }
-//
-//    public LawyerProfile setLocationAddress(Address locationAddress) {
-//        this.locationAddress = locationAddress;
-//        return this;
-//    }
-//
-//    public String getMainKindActivity() {
-//        return mainKindActivity;
-//    }
-//
-//    public LawyerProfile setMainKindActivity(String mainKindActivity) {
-//        this.mainKindActivity = mainKindActivity;
-//        return this;
-//    }
-//
-//    public Set<String> getEmploeyrList() {
-//        return emploeyrList;
-//    }
-//
-//    public LawyerProfile setEmploeyrList(Set<String> emploeyrList) {
-//        this.emploeyrList = emploeyrList;
 //        return this;
 //    }
 //
@@ -604,16 +583,23 @@
 //                ", active='" + active + '\'' +
 //                ", idSeoWord='" + idSeoWord + '\'' +
 //                ", email='" + email + '\'' +
+//                ", socWendor='" + socWendor + '\'' +
+//                ", uid='" + uid + '\'' +
 //                ", password='" + password + '\'' +
 //                ", passwordRestore='" + passwordRestore + '\'' +
 //                ", tokenKey='" + tokenKey + '\'' +
 //                ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
 //                ", mainPhoneNumberViews=" + mainPhoneNumberViews +
 //                ", mainPhoneNumberHide=" + mainPhoneNumberHide +
+//                ", username='" + username + '\'' +
+//                ", lastname='" + lastname + '\'' +
+//                ", firstname='" + firstname + '\'' +
 //                ", executive='" + executive + '\'' +
 //                ", contactPerson='" + contactPerson + '\'' +
-//                ", lawyerAddress='" + lawyerAddress + '\'' +
+//                ", address='" + address + '\'' +
 //                ", imgId='" + imgId + '\'' +
+//                ", imgUrl='" + imgUrl + '\'' +
+//                ", birthDate=" + birthDate +
 //                ", contact=" + contact +
 //                ", contactList=" + contactList +
 //                ", financeInfo=" + financeInfo +
@@ -635,15 +621,6 @@
 //                ", publicKey=" + publicKey +
 //                ", privateKey=" + privateKey +
 //                ", bankCard=" + bankCard +
-//                ", nameCompany=" + nameCompany +
-//                ", fullNameCompany=" + fullNameCompany +
-//                ", fullNameOvner=" + fullNameOvner +
-//                ", EGRPOU=" + EGRPOU +
-//                ", identificationСode=" + identificationСode +
-//                ", IPN=" + IPN +
-//                ", locationAddress=" + locationAddress +
-//                ", mainKindActivity=" + mainKindActivity +
-//                ", emploeyrList=" + emploeyrList +
 //                '}';
 //    }
 //}
