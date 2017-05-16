@@ -5,8 +5,12 @@ import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.file.FileWrapper;
-import ua.com.gup.service.dto.*;
-import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
+import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 
 import java.util.Optional;
 
@@ -21,7 +25,7 @@ public interface OfferService {
      * @param offerCreateDTO the entity to save
      * @return the persisted entity
      */
-    OfferDetailsDTO save(OfferCreateDTO offerCreateDTO);
+    OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO);
 
     /**
      * Save a offer after update.
@@ -29,7 +33,7 @@ public interface OfferService {
      * @param offerUpdateDTO the entity to save
      * @return the persisted entity
      */
-    OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO);
+    OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO);
 
     /**
      * Save a offer modified by moderator.
@@ -37,7 +41,7 @@ public interface OfferService {
      * @param offerModeratorDTO the entity to save
      * @return the persisted entity
      */
-    OfferDetailsDTO save(OfferModeratorDTO offerModeratorDTO);
+    OfferViewDetailsDTO save(OfferModeratorDTO offerModeratorDTO);
 
     /**
      * Get all the offers.
@@ -46,7 +50,7 @@ public interface OfferService {
      * @param pageable    the offer filter
      * @return the list of entities
      */
-    Page<OfferShortDTO> findAll(OfferFilter offerFilter, Pageable pageable);
+    Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable);
 
     /**
      * Get all the offers by status and author id.
@@ -56,7 +60,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
+    Page<OfferViewShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
 
     /**
      * Get all the offers by status.
@@ -65,7 +69,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferShortDTO> findAllByStatus(OfferStatus status, Pageable pageable);
+    Page<OfferViewShortDTO> findAllByStatus(OfferStatus status, Pageable pageable);
 
 
     /**
@@ -74,7 +78,7 @@ public interface OfferService {
      * @param id the id of the entity
      * @return the entity
      */
-    OfferDetailsDTO findOne(String id);
+    OfferViewDetailsDTO findOne(String id);
 
     /**
      * Get one OfferDetailsDTO by seoUrl.
@@ -82,7 +86,7 @@ public interface OfferService {
      * @param seoUrl the seoUrl of the entity
      * @return the entity
      */
-    Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl);
+    Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl);
 
     /**
      * Increment statistic phone views by id.
@@ -139,7 +143,7 @@ public interface OfferService {
      * @param status the status to be updated
      * @return the entity
      */
-    Optional<OfferDetailsDTO> updateStatus(String id, OfferStatus status);
+    Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
 
     /**
      * Get offer image by id and size type.
