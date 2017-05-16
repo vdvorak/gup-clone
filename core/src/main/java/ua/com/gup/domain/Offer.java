@@ -5,6 +5,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.domain.enumeration.OfferStatus;
+import ua.com.gup.domain.offer.*;
+import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
+import ua.com.gup.domain.offer.attribute.value.OfferCategoryMultiAttributeValue;
+import ua.com.gup.domain.offer.attribute.value.OfferCategoryNumericAttributeValue;
+import ua.com.gup.domain.offer.attribute.value.OfferCategorySingleAttributeValue;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -65,13 +70,13 @@ public class Offer implements Serializable {
 
     private OfferContactInfo contactInfo;
 
-    private Map<String, String> attrs = new HashMap<>();
+    private LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 
-    private Map<String, Set<String>> multiAttrs = new HashMap<>();
+    private LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
 
-    private Map<String, OfferNumericValue> numAttrs = new HashMap<>();
+    private LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
 
-    private Map<String, Boolean> boolAttrs = new HashMap<>();
+    private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
     private OfferStatistic statistic;
 
@@ -222,35 +227,35 @@ public class Offer implements Serializable {
         this.contactInfo = contactInfo;
     }
 
-    public Map<String, String> getAttrs() {
+    public LinkedHashMap<String, OfferCategorySingleAttributeValue> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(Map<String, String> attrs) {
+    public void setAttrs(LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs) {
         this.attrs = attrs;
     }
 
-    public Map<String, Set<String>> getMultiAttrs() {
+    public LinkedHashMap<String, OfferCategoryMultiAttributeValue> getMultiAttrs() {
         return multiAttrs;
     }
 
-    public void setMultiAttrs(Map<String, Set<String>> multiAttrs) {
+    public void setMultiAttrs(LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs) {
         this.multiAttrs = multiAttrs;
     }
 
-    public Map<String, OfferNumericValue> getNumAttrs() {
+    public LinkedHashMap<String, OfferCategoryNumericAttributeValue> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(Map<String, OfferNumericValue> numAttrs) {
+    public void setNumAttrs(LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs) {
         this.numAttrs = numAttrs;
     }
 
-    public Map<String, Boolean> getBoolAttrs() {
+    public LinkedHashMap<String, OfferCategoryBoolAttributeValue> getBoolAttrs() {
         return boolAttrs;
     }
 
-    public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
+    public void setBoolAttrs(LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs) {
         this.boolAttrs = boolAttrs;
     }
 

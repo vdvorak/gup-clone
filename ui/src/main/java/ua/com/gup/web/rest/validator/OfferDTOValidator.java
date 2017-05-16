@@ -6,11 +6,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.CategoryAttributeType;
+import ua.com.gup.domain.category.attribute.CategoryAttributeType;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.*;
+import ua.com.gup.service.dto.category.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeValidatorDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.offer.OfferAddressDTO;
+import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;

@@ -19,8 +19,13 @@ import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
-import ua.com.gup.service.dto.*;
-import ua.com.gup.service.dto.enumeration.OfferImageSizeType;
+import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferImageDTO;
+import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.service.mapper.OfferMapper;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
@@ -74,7 +79,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the persisted entity
      */
     @Override
-    public OfferDetailsDTO save(OfferCreateDTO offerCreateDTO) {
+    public OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
         saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
@@ -86,7 +91,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
         offer = offerRepository.save(offer);
-        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
 
@@ -97,7 +102,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the persisted entity
      */
     @Override
-    public OfferDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
+    public OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
         Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
         saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
@@ -111,7 +116,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setStatus(OfferStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
-        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
 
@@ -122,7 +127,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the persisted entity
      */
     @Override
-    public OfferDetailsDTO save(OfferModeratorDTO offerModeratorDTO) {
+    public OfferViewDetailsDTO save(OfferModeratorDTO offerModeratorDTO) {
         log.debug("Request to save Offer modified by moderator: {}", offerModeratorDTO);
         Offer offer = offerRepository.findOne(offerModeratorDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModeratorDTO, offer);
@@ -132,7 +137,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setStatus(OfferStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
-        OfferDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
 
@@ -144,7 +149,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferShortDTO> findAll(OfferFilter offerFilter, Pageable pageable) {
+    public Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get all Offers by filter");
         Page<Offer> result = new PageImpl<>(offerRepository.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable));
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -159,7 +164,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
+    public Page<OfferViewShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
         Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, authorId, pageable);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -173,7 +178,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferShortDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
+    public Page<OfferViewShortDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and authorId = {}", status);
         Page<Offer> result = offerRepository.findAllByStatus(status, pageable);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -187,12 +192,12 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public OfferDetailsDTO findOne(String id) {
+    public OfferViewDetailsDTO findOne(String id) {
         log.debug("Request to get Offer : {}", id);
         offerRepository.incrementViews(id);
         Offer offer = offerRepository.findOne(id);
-        OfferDetailsDTO offerDetailsDTO = offerMapper.offerToOfferDetailsDTO(offer);
-        return offerDetailsDTO;
+        OfferViewDetailsDTO offerViewDetailsDTO = offerMapper.offerToOfferDetailsDTO(offer);
+        return offerViewDetailsDTO;
     }
 
     /**
@@ -202,7 +207,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public Optional<OfferDetailsDTO> findOneBySeoUrl(String seoUrl) {
+    public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Offer : {}", seoUrl);
         offerRepository.incrementViewsBySeoUrl(seoUrl);
         Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
@@ -300,7 +305,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public Optional<OfferDetailsDTO> updateStatus(String id, OfferStatus status) {
+    public Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status) {
         log.debug("Request to update update offer's status : {}", id);
         Offer offer = offerRepository.findOne(id);
         if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId()) &&
