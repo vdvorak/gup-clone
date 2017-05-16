@@ -1,6 +1,8 @@
 package ua.com.gup.service.mapper;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class OfferMapper {
+
+    private final Logger log = LoggerFactory.getLogger(OfferMapper.class);
 
     @Autowired
     private PriceMapper priceMapper;
@@ -117,6 +121,7 @@ public class OfferMapper {
         target.setAttrs(source.getAttrs());
         target.setMultiAttrs(source.getMultiAttrs());
         target.setNumAttrs(source.getNumAttrs());
+        target.setBoolAttrs(source.getBoolAttrs());
     }
 
     private void fromOfferCreateDTOToOffer(OfferCreateDTO source, Offer target) {
@@ -179,11 +184,11 @@ public class OfferMapper {
 
             if (source.getMultiAttrs() != null) {
                 LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
-                for (String key : source.getAttrs().keySet()) {
+                for (String key : source.getMultiAttrs().keySet()) {
                     OfferCategoryMultiAttributeValue attributeValue = new OfferCategoryMultiAttributeValue();
                     final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                     fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                    final String[] values = source.getAttrs().get(key).split(",");
+                    final String[] values = source.getMultiAttrs().get(key).split(",");
                     LinkedHashSet<OfferCategoryAttributeValue> selected = new LinkedHashSet<>();
                     for (String value : values) {
                         OfferCategoryAttributeValue selectedItem = new OfferCategoryAttributeValue();
@@ -208,6 +213,7 @@ public class OfferMapper {
                     final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                     fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                     attributeValue.setSelected(source.getNumAttrs().get(key));
+                    attributeValue.setSelectedDouble(source.getNumAttrs().get(key).doubleValue());
                     numericAttrs.put(key, attributeValue);
                 }
                 target.setNumAttrs(numericAttrs);

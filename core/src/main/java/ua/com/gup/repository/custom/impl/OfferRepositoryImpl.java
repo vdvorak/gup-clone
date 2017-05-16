@@ -172,31 +172,31 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         }
         if (offerFilter.getAttrs() != null) {
             for (AttributeFilter attrFilter : offerFilter.getAttrs()) {
-                query.addCriteria(Criteria.where("attrs." + attrFilter.getKey()).in(attrFilter.getVals().split(",")));
+                query.addCriteria(Criteria.where("attrs." + attrFilter.getKey() + ".selected.key").in(attrFilter.getVals().split(",")));
             }
         }
         if (offerFilter.getMultiAttrs() != null) {
             for (AttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
-                query.addCriteria(Criteria.where("attrs." + attrFilter.getKey()).all(attrFilter.getVals().split(",")));
+                query.addCriteria(Criteria.where("multiAttrs." + attrFilter.getKey() + ".selected").elemMatch(Criteria.where("key").in(attrFilter.getVals().split(","))));
             }
         }
         if (offerFilter.getNumAttrs() != null) {
             for (NumericAttributeFilter filter : offerFilter.getNumAttrs()) {
                 if (filter.getFrom() != null && filter.getTo() != null) {
-                    query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".value").gte(filter.getFrom()).lte(filter.getTo()));
+                    query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()).lte(filter.getTo()));
                 } else {
                     if (filter.getFrom() != null) {
-                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".value").gte(filter.getFrom()));
+                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()));
                     }
                     if (filter.getTo() != null) {
-                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".value").lte(filter.getTo()));
+                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").lte(filter.getTo()));
                     }
                 }
             }
         }
         if (offerFilter.getBoolAttrs() != null) {
             for (BooleanAttributeFilter filter : offerFilter.getBoolAttrs()) {
-                query.addCriteria(Criteria.where("boolAttrs." + filter.getKey()).is(filter.getVal()));
+                query.addCriteria(Criteria.where("boolAttrs." + filter.getKey() + ".selected").is(filter.getVal()));
             }
         }
         query.with(pageable);
