@@ -1,5 +1,6 @@
 package ua.com.gup.domain.category;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +10,9 @@ public class CategoryAttributeValidator {
 
     private Set<Integer> except = new HashSet<>();
 
-    private Integer min;
+    private BigDecimal min;
 
-    private  Integer max;
+    private BigDecimal max;
 
     public boolean isRequired() {
         return required;
@@ -29,19 +30,19 @@ public class CategoryAttributeValidator {
         this.except = except;
     }
 
-    public Integer getMin() {
+    public BigDecimal getMin() {
         return min;
     }
 
-    public void setMin(Integer min) {
+    public void setMin(BigDecimal min) {
         this.min = min;
     }
 
-    public Integer getMax() {
+    public BigDecimal getMax() {
         return max;
     }
 
-    public void setMax(Integer max) {
+    public void setMax(BigDecimal max) {
         this.max = max;
     }
 }

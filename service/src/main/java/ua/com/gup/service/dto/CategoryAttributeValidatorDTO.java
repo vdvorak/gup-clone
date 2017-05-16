@@ -1,10 +1,12 @@
 package ua.com.gup.service.dto;
 
 
+import java.math.BigDecimal;
+
 public class CategoryAttributeValidatorDTO {
     private boolean required;
-    private Integer min;
-    private Integer max;
+    private BigDecimal min;
+    private BigDecimal max;
 
     public boolean isRequired() {
         return required;
@@ -14,19 +16,19 @@ public class CategoryAttributeValidatorDTO {
         this.required = required;
     }
 
-    public Integer getMin() {
+    public BigDecimal getMin() {
         return min;
     }
 
-    public void setMin(Integer min) {
+    public void setMin(BigDecimal min) {
         this.min = min;
     }
 
-    public Integer getMax() {
+    public BigDecimal getMax() {
         return max;
     }
 
-    public void setMax(Integer max) {
+    public void setMax(BigDecimal max) {
         this.max = max;
     }
 }
