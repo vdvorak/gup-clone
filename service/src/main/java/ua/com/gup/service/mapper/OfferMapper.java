@@ -1,23 +1,37 @@
 package ua.com.gup.service.mapper;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.OfferModerationReport;
-import ua.com.gup.domain.OfferNumericValue;
-import ua.com.gup.domain.OfferStatistic;
+import ua.com.gup.domain.offer.OfferModerationReport;
+import ua.com.gup.domain.offer.OfferStatistic;
+import ua.com.gup.domain.offer.attribute.value.*;
+import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.*;
+import ua.com.gup.service.dto.category.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewBaseDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
 public class OfferMapper {
+
+    private final Logger log = LoggerFactory.getLogger(OfferMapper.class);
 
     @Autowired
     private PriceMapper priceMapper;
@@ -31,32 +45,18 @@ public class OfferMapper {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private CategoryAttributeService categoryAttributeService;
+
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
-        fromOfferBaseDTOToOffer(offerCreateDTO, offer);
-        if (offerCreateDTO.getCategory() != null) {
-            offer.setCategories(categoryService.getOfferCategories(offerCreateDTO.getCategory()));
-        }
-        if (offerCreateDTO.getAddress() != null) {
-            offer.setAddress(addressMapper.addressDTOToAddress(offerCreateDTO.getAddress()));
-        }
-        if (offerCreateDTO.getImages() != null && offerCreateDTO.getImages().size() > 0) {
-            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
-            offerCreateDTO.getImages().forEach(i -> imageIds.add(i.getImageId()));
-            offer.setImageIds(imageIds);
-        }
-        if (offerCreateDTO.getYoutubeVideoId() != null) {
-            offer.setYoutubeVideoId(offerCreateDTO.getYoutubeVideoId());
-        }
-        if (offerCreateDTO.getContactInfo() != null) {
-            offer.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(offerCreateDTO.getContactInfo()));
-        }
+        fromOfferCreateDTOToOffer(offerCreateDTO, offer);
         offer.setStatistic(new OfferStatistic());
         return offer;
     }
 
     public void offerUpdateDTOToOffer(OfferUpdateDTO source, Offer target) {
-        fromOfferBaseDTOToOffer(source, target);
+        fromOfferCreateDTOToOffer(source, target);
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getOfferCategories(source.getCategory()));
         }
@@ -89,109 +89,154 @@ public class OfferMapper {
         target.setLastModerationReport(moderationReport);
     }
 
-    public OfferDetailsDTO offerToOfferDetailsDTO(Offer offer) {
-        OfferDetailsDTO offerDetailsDTO = new OfferDetailsDTO();
-        fromOfferToOfferBaseDTO(offer, offerDetailsDTO);
-        offerDetailsDTO.setCategories(offer.getCategories());
-        offerDetailsDTO.setLastModifiedDate(offer.getLastModifiedDate());
-        offerDetailsDTO.setStatus(offer.getStatus());
-        offerDetailsDTO.setId(offer.getId());
-        offerDetailsDTO.setAuthorId(offer.getAuthorId());
-        if (offer.getAddress() != null) {
-            offerDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
-        }
-        if (offer.getImageIds() != null && offer.getImageIds().size() > 0) {
-            offerDetailsDTO.setImageIds(offer.getImageIds());
-        }
-        offerDetailsDTO.setSeoUrl(offer.getSeoUrl());
-        offerDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
-        offerDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
-        return offerDetailsDTO;
+    public OfferViewShortDTO offerToOfferShortDTO(Offer offer) {
+        OfferViewShortDTO offerViewShortDTO = new OfferViewShortDTO();
+        fromOfferToOfferViewBaseDTO(offer, offerViewShortDTO);
+        offerViewShortDTO.setAddress(addressMapper.addressToAddressShortDTO(offer.getAddress()));
+        return offerViewShortDTO;
     }
 
-    public OfferShortDTO offerToOfferShortDTO(Offer offer) {
-        OfferShortDTO offerShortDTO = new OfferShortDTO();
-        fromOfferToOfferBaseDTO(offer, offerShortDTO);
-        offerShortDTO.setCategories(offer.getCategories());
-        offerShortDTO.setAddress(addressMapper.addressToAddressShortDTO(offer.getAddress()));
-        offerShortDTO.setLastModifiedDate(offer.getLastModifiedDate());
-        offerShortDTO.setId(offer.getId());
-        offerShortDTO.setAuthorId(offer.getAuthorId());
-        if (offer.getImageIds() != null && offer.getImageIds().size() > 0) {
-            offerShortDTO.setImageIds(offer.getImageIds());
-        }
-        offerShortDTO.setSeoUrl(offer.getSeoUrl());
-        return offerShortDTO;
+    public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
+        OfferViewDetailsDTO offerViewDetailsDTO = new OfferViewDetailsDTO();
+        fromOfferToOfferViewBaseDTO(offer, offerViewDetailsDTO);
+        offerViewDetailsDTO.setStatus(offer.getStatus());
+        offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
+        offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
+        offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
+        return offerViewDetailsDTO;
     }
 
-    private void fromOfferToOfferBaseDTO(Offer source, OfferBaseDTO target) {
+    private void fromOfferToOfferViewBaseDTO(Offer source, OfferViewBaseDTO target) {
+        target.setId(source.getId());
+        target.setLastModifiedDate(source.getLastModifiedDate());
+        target.setAuthorId(source.getAuthorId());
+        target.setCategories(source.getCategories());
+        target.setTitle(source.getTitle());
+        target.setDescription(source.getDescription());
+        target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
+        if (source.getImageIds() != null && source.getImageIds().size() > 0) {
+            target.setImageIds(source.getImageIds());
+        }
+        target.setSeoUrl(source.getSeoUrl());
+        target.setAttrs(source.getAttrs());
+        target.setMultiAttrs(source.getMultiAttrs());
+        target.setNumAttrs(source.getNumAttrs());
+        target.setBoolAttrs(source.getBoolAttrs());
+    }
+
+    private void fromOfferCreateDTOToOffer(OfferCreateDTO source, Offer target) {
+
+        if (source.getCategory() != null) {
+            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
+        }
+
         if (source.getTitle() != null) {
             target.setTitle(source.getTitle());
         }
-        if (source.getDescription() != null) {
-            target.setDescription(source.getDescription());
-        }
-        if (source.getPrice() != null) {
-            target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
-        }
-        if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs());
-        }
-        if (source.getMultiAttrs() != null) {
-            Map<String, String> multiAttrs = new HashMap<>();
-            for (String key : source.getMultiAttrs().keySet()) {
-                multiAttrs.put(key, source.getMultiAttrs().get(key).stream().collect(Collectors.joining(",")));
-            }
-            target.setMultiAttrs(multiAttrs);
-        }
-        if (source.getNumAttrs() != null) {
-            LinkedHashMap<String, BigDecimal> result = new LinkedHashMap<>();
-            final Map<String, OfferNumericValue> numAttrs = source.getNumAttrs();
-            for (String key : numAttrs.keySet()) {
-                result.put(key, numAttrs.get(key).getViewValue());
-            }
-            target.setNumAttrs(result);
-        }
-        if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs());
-        }
-    }
 
-    private void fromOfferBaseDTOToOffer(OfferBaseDTO source, Offer target) {
-        if (source.getTitle() != null) {
-            target.setTitle(source.getTitle());
-        }
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());
         }
+
+        if (source.getAddress() != null) {
+            target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
+        }
+
         if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
         }
-        if (source.getAttrs() != null) {
-            target.setAttrs(source.getAttrs());
+
+        if (source.getImages() != null && source.getImages().size() > 0) {
+            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
+            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
+            target.setImageIds(imageIds);
         }
-        if (source.getMultiAttrs() != null) {
-            Map<String, Set<String>> multiAttrs = new HashMap<>();
-            for (String key : source.getMultiAttrs().keySet()) {
-                final String[] split = source.getMultiAttrs().get(key).split(",");
-                final HashSet<String> strings = new HashSet<>(Arrays.asList(split));
-                multiAttrs.put(key, strings);
+
+        if (source.getYoutubeVideoId() != null) {
+            target.setYoutubeVideoId(source.getYoutubeVideoId());
+        }
+
+        if (source.getContactInfo() != null) {
+            target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
+        }
+        if (source.getCategory() != null) {
+            final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
+            final Map<String, CategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(CategoryAttributeDTO::getKey, Function.identity()));
+            if (source.getAttrs() != null) {
+                LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+                for (String key : source.getAttrs().keySet()) {
+                    final String value = source.getAttrs().get(key);
+                    final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                    OfferCategorySingleAttributeValue attributeValue = new OfferCategorySingleAttributeValue();
+                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                    OfferCategoryAttributeValue selected = new OfferCategoryAttributeValue();
+                    selected.setKey(value);
+                    for (CategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
+                        if (value.equals(valueDTO.getKey())) {
+                            selected.setTitle(valueDTO.getTitle());
+                        }
+                    }
+                    attributeValue.setSelected(selected);
+                    attrs.put(key, attributeValue);
+                }
+                target.setAttrs(attrs);
             }
-            target.setMultiAttrs(multiAttrs);
-        }
-        if (source.getNumAttrs() != null) {
-            LinkedHashMap<String, OfferNumericValue> result = new LinkedHashMap<>();
-            final Map<String, BigDecimal> numAttrs = source.getNumAttrs();
-            for (String key : numAttrs.keySet()) {
-                OfferNumericValue value = new OfferNumericValue();
-                value.setViewValue(numAttrs.get(key));
-                value.setValue(numAttrs.get(key).doubleValue());
-                result.put(key, value);
+
+            if (source.getMultiAttrs() != null) {
+                LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+                for (String key : source.getMultiAttrs().keySet()) {
+                    OfferCategoryMultiAttributeValue attributeValue = new OfferCategoryMultiAttributeValue();
+                    final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                    final String[] values = source.getMultiAttrs().get(key).split(",");
+                    LinkedHashSet<OfferCategoryAttributeValue> selected = new LinkedHashSet<>();
+                    for (String value : values) {
+                        OfferCategoryAttributeValue selectedItem = new OfferCategoryAttributeValue();
+                        selectedItem.setKey(value);
+                        for (CategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
+                            if (value.equals(valueDTO.getKey())) {
+                                selectedItem.setTitle(valueDTO.getTitle());
+                            }
+                        }
+                        selected.add(selectedItem);
+                    }
+                    attributeValue.setSelected(selected);
+                    multiAttrs.put(key, attributeValue);
+                }
+                target.setMultiAttrs(multiAttrs);
             }
-            target.setNumAttrs(result);
+
+            if (source.getNumAttrs() != null) {
+                LinkedHashMap<String, OfferCategoryNumericAttributeValue> numericAttrs = new LinkedHashMap<>();
+                for (String key : source.getNumAttrs().keySet()) {
+                    OfferCategoryNumericAttributeValue attributeValue = new OfferCategoryNumericAttributeValue();
+                    final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                    attributeValue.setSelected(source.getNumAttrs().get(key));
+                    attributeValue.setSelectedDouble(source.getNumAttrs().get(key).doubleValue());
+                    numericAttrs.put(key, attributeValue);
+                }
+                target.setNumAttrs(numericAttrs);
+            }
+
+            if (source.getBoolAttrs() != null) {
+                LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+                for (String key : source.getBoolAttrs().keySet()) {
+                    OfferCategoryBoolAttributeValue attributeValue = new OfferCategoryBoolAttributeValue();
+                    final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                    attributeValue.setSelected(source.getBoolAttrs().get(key));
+                    boolAttrs.put(key, attributeValue);
+                }
+                target.setBoolAttrs(boolAttrs);
+            }
         }
-        if (source.getBoolAttrs() != null) {
-            target.setBoolAttrs(source.getBoolAttrs());
-        }
+    }
+
+    private void fromCategoryAttributeDTOToOfferCategoryAttributeValue(CategoryAttributeDTO source, OfferCategoryAttributeBaseValue target) {
+        target.setCode(source.getCode());
+        target.setTitle(source.getTitle());
+        target.setUnit(source.getUnit());
+        target.setType(source.getType());
     }
 }

@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.OfferCategory;
-import ua.com.gup.domain.category.Category;
+import ua.com.gup.domain.offer.OfferCategory;
+import ua.com.gup.domain.Category;
 import ua.com.gup.repository.CategoryRepository;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.CategoryAttributeDTO;
-import ua.com.gup.service.dto.CategoryTreeDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.CategoryTreeDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

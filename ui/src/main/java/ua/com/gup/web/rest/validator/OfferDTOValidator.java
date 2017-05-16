@@ -6,18 +6,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.CategoryAttribute;
-import ua.com.gup.domain.category.CategoryAttributeType;
-import ua.com.gup.domain.category.CategoryAttributeValue;
+import ua.com.gup.domain.category.attribute.CategoryAttributeType;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.OfferAddressDTO;
-import ua.com.gup.service.dto.OfferCreateDTO;
-import ua.com.gup.service.dto.OfferUpdateDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeValidatorDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.offer.OfferAddressDTO;
+import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class OfferDTOValidator implements Validator {
@@ -49,6 +53,24 @@ public class OfferDTOValidator implements Validator {
         if (offerCreateDTO.getTitle() != null && !(2 <= offerCreateDTO.getTitle().length() && offerCreateDTO.getTitle().length() <= 70)) {
             errors.rejectValue("title", "title.size", null, "Title should have size in range [2;70]");
         }
+        if (offerCreateDTO.getDescription() != null && !(offerCreateDTO.getDescription().length() <= 5000)) {
+            errors.rejectValue("description", "description.size", null, "Description should have size less then 5000");
+        }
+        String priceType = offerCreateDTO.getAttrs() == null ? null : offerCreateDTO.getAttrs().get("price");
+        if (offerCreateDTO.getPrice() == null && "price".equals(priceType)) {
+            errors.rejectValue("price", "price.required", null, "Price required for price type price.");
+        }
+        if (offerCreateDTO.getPrice() != null && "price".equals(priceType)) {
+            if (offerCreateDTO.getPrice().getPriceWithVAT() == null) {
+                errors.rejectValue("price", "price.withWat.required", null, "Price with WAT required.");
+            }
+            if (offerCreateDTO.getPrice().getAmount() == null) {
+                errors.rejectValue("price", "price.amount.required", null, "Price amount required.");
+            }
+            if (offerCreateDTO.getPrice().getCurrency() == null) {
+                errors.rejectValue("price", "price.currency.required", null, "Price currency required.");
+            }
+        }
         if (!isUpdateDTO && offerCreateDTO.getCategory() == null) {
             errors.rejectValue("categories", "categories.required", null, "Categories is required");
         }
@@ -56,53 +78,102 @@ public class OfferDTOValidator implements Validator {
             if (!categoryService.exists(offerCreateDTO.getCategory())) {
                 errors.rejectValue("category", "category.notexist", null, "Category " + offerCreateDTO.getCategory() + " doesn't exist or has subcategory");
             } else {
-//                final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(offerCreateDTO.getCategory());
-//                for (String key : offerCreateDTO.getAttrs().keySet()) {
-//                    CategoryAttributeValue attributeValue = new CategoryAttributeValue();
-//                    attributeValue.setKey(offerCreateDTO.getAttrs().get(key));
-//                    boolean exist = false;
-//                    for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-//                        exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
-//                    }
-//                    if (!exist) {
-//                        errors.rejectValue("attr", "attr." + key + ".attributeValue", null, "attr." +
-//                                key + ".attributeValue = " + offerCreateDTO.getAttrs().get(key) +
-//                                " doesn't exist or not permitted for this category");
-//                    }
-//                }
-//                for (String key : offerCreateDTO.getMultiAttrs().keySet()) {
-//                    final String[] values = offerCreateDTO.getMultiAttrs().get(key).split(",");
-//                    for (String v : values) {
-//                        CategoryAttributeValue attributeValue = new CategoryAttributeValue();
-//                        attributeValue.setKey(v);
-//                        boolean exist = false;
-//                        for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-//                            exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
-//                        }
-//                        if (!exist) {
-//                            errors.rejectValue("multiAttr", "multiAttr." + key + ".attributeValue", null, "attr." +
-//                                    key + ".attributeValue = " + offerCreateDTO.getMultiAttrs().get(key) +
-//                                    " doesn't exist or not permitted for this category");
-//                        }
-//                    }
-//                }
-//                for (String key : offerCreateDTO.getNumAttrs().keySet()) {
-//                    final BigDecimal value = offerCreateDTO.getNumAttrs().get(key);
-//                    boolean exist = false;
-//                    for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-//                        if(categoryAttributeDTO.getKey().equals(key)) {
-//                            if(categoryAttributeDTO.getValidator()!= null){
-//                                if(categoryAttributeDTO.)
-//                            }
-//                            exist = exist || categoryAttributeDTO.getKey().equals(key) && categoryAttributeDTO.getValues().contains(attributeValue);
-//                        }
-//                    }
-//                    if (!exist) {
-//                        errors.rejectValue("attr", "attr." + key + ".attributeValue", null, "attr." +
-//                                key + ".attributeValue = " + offerCreateDTO.getAttrs().get(key) +
-//                                " doesn't exist or not permitted for this category");
-//                    }
-//                }
+                int numberOfAllAttrs = (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size()) +
+                        (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size()) +
+                        (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size()) +
+                        (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size());
+                if (!isUpdateDTO || (isUpdateDTO && numberOfAllAttrs > 0)) {
+                    final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(offerCreateDTO.getCategory());
+                    final Map<String, CategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(CategoryAttributeDTO::getKey, Function.identity()));
+                    // checking values of attrs
+                    if (offerCreateDTO.getAttrs() != null) {
+                        for (String key : offerCreateDTO.getAttrs().keySet()) {
+                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            if (categoryAttributeDTO == null) {
+                                errors.rejectValue("attrs", "attrs." + key + ".unknown", null, "Unknown attribute");
+                            } else {
+                                CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
+                                attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
+                                final LinkedHashSet<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
+                                if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
+                                    errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
+                                }
+                            }
+                        }
+                    }
+                    // checking values of multiAttrs
+                    if (offerCreateDTO.getMultiAttrs() != null) {
+                        for (String key : offerCreateDTO.getMultiAttrs().keySet()) {
+                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            if (categoryAttributeDTO == null) {
+                                errors.rejectValue("multiAttrs", "multiAttrs." + key + ".unknown", null, "Unknown attribute");
+                            } else {
+                                final String[] values = offerCreateDTO.getMultiAttrs().get(key).split(",");
+                                for (String value : values) {
+                                    CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
+                                    attributeValueDTO.setKey(value);
+                                    if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
+                                        errors.rejectValue("multiAttrs", "multiAttrs." + key + ".value.unknown", null, "Unknown value <" + value + "> for attr <" + key + ">");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // checking values of numAttrs
+                    if (offerCreateDTO.getNumAttrs() != null) {
+                        for (String key : offerCreateDTO.getNumAttrs().keySet()) {
+                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            if (categoryAttributeDTO == null) {
+                                errors.rejectValue("numAttrs", "numAttrs." + key + ".unknown", null, "Unknown attribute");
+                            } else {
+                                final CategoryAttributeValidatorDTO validator = categoryAttributeDTO.getValidator();
+                                final BigDecimal value = offerCreateDTO.getNumAttrs().get(key);
+                                if (validator.getMin() != null) {
+                                    if (validator.getMin().compareTo(value) > 0) {
+                                        errors.rejectValue("numAttrs", "numAttrs." + key + ".min", null, "The value = " + value + " is less then min value = " + validator.getMin());
+                                    }
+                                }
+                                if (validator.getMax() != null) {
+                                    if (validator.getMax().compareTo(value) < 0) {
+                                        errors.rejectValue("numAttrs", "numAttrs." + key + ".max", null, "The value = " + value + " is more then max value = " + validator.getMax());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // checking values of boolAttrs
+                    if (offerCreateDTO.getBoolAttrs() != null) {
+                        for (String key : offerCreateDTO.getBoolAttrs().keySet()) {
+                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            if (categoryAttributeDTO == null) {
+                                errors.rejectValue("boolAttrs", "boolAttrs." + key + ".unknown", null, "Unknown attribute");
+                            }
+                        }
+                    }
+
+                    // checking required attributes
+                    if (categoryAttributeDTOS != null) {
+                        for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
+                            if (categoryAttributeDTO.getType() == CategoryAttributeType.SELECT) {
+                                if (offerCreateDTO.getAttrs() == null || offerCreateDTO.getAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
+                                    errors.rejectValue("attrs", "attrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
+                                }
+                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.MULTI_SELECT) {
+                                if (offerCreateDTO.getMultiAttrs() == null || offerCreateDTO.getMultiAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
+                                    errors.rejectValue("multiAttrs", "multiAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
+                                }
+                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.NUMBER) {
+                                if (offerCreateDTO.getNumAttrs() == null || offerCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
+                                    errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
+                                }
+                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.BOOLEAN) {
+                                if (offerCreateDTO.getBoolAttrs() == null || offerCreateDTO.getBoolAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
+                                    errors.rejectValue("boolAttrs", "boolAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         if (!isUpdateDTO && offerCreateDTO.getContactInfo() == null) {
@@ -152,34 +223,6 @@ public class OfferDTOValidator implements Validator {
                     errors.rejectValue("numAttrs", "numAttrs." + key + ".invalidFormat", null, "Invalid number format");
                 }
 
-            }
-        }
-    }
-
-    private void checkAttribute(CategoryAttribute categoryAttribute, OfferCreateDTO offerCreateDTO, Errors errors) {
-        if (categoryAttribute.getValidator().isRequired() && !categoryAttribute.getValidator().getExcept().contains(categoryAttribute)) {
-            if (categoryAttribute.getType() == CategoryAttributeType.BOOLEAN) {
-                if (offerCreateDTO.getBoolAttrs() == null
-                        || !offerCreateDTO.getBoolAttrs().containsKey(categoryAttribute.getKey())) {
-                    errors.rejectValue("boolAttrs", "boolAttrs.required", null, "boolAttrs." + categoryAttribute.getKey() + " is required");
-                }
-            } else if (categoryAttribute.getType() == CategoryAttributeType.MULTI_SELECT) {
-
-            } else if (categoryAttribute.getType() == CategoryAttributeType.NUMBER) {
-
-            } else if (categoryAttribute.getType() == CategoryAttributeType.SELECT) {
-                if (offerCreateDTO.getAttrs() == null
-                        || !offerCreateDTO.getAttrs().containsKey(categoryAttribute.getKey())) {
-                    errors.rejectValue("attrs", "attrs.required", null, "attrs." + categoryAttribute.getKey() + " is required");
-                } else {
-                    final String value = offerCreateDTO.getAttrs().get(categoryAttribute.getKey());
-                    boolean existForCategory = false;
-                    for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
-                        existForCategory = existForCategory ||
-                                (value.equals(attributeValue.getKey()) && !attributeValue.getExceptCategory().contains(categoryAttribute.getCode()));
-                    }
-                    errors.rejectValue("attrs", "attrs.value", null, "value = " + value + "for attrs." + categoryAttribute.getKey() + " and category = " + categoryAttribute.getCode() + " doesn't exist");
-                }
             }
         }
     }

@@ -2,9 +2,9 @@ package ua.com.gup.service.mapper;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.Address;
-import ua.com.gup.service.dto.OfferAddressDTO;
-import ua.com.gup.service.dto.OfferAddressShortDTO;
+import ua.com.gup.domain.offer.Address;
+import ua.com.gup.service.dto.offer.OfferAddressDTO;
+import ua.com.gup.service.dto.offer.OfferAddressShortDTO;
 
 @Component
 public class AddressMapper {

@@ -1,9 +1,9 @@
 package ua.com.gup.service;
 
 
-import ua.com.gup.domain.OfferCategory;
-import ua.com.gup.domain.category.Category;
-import ua.com.gup.service.dto.CategoryTreeDTO;
+import ua.com.gup.domain.offer.OfferCategory;
+import ua.com.gup.domain.Category;
+import ua.com.gup.service.dto.category.CategoryTreeDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
