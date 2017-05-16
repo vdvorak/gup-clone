@@ -83,52 +83,6 @@ public class LoginLawyerRestController {
     @Autowired
     private MailSenderService mailSenderService;
 
-//
-//    @CrossOrigin
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<ProfileInfo> register(@RequestBody Profile profile, HttpServletResponse response) {
-//        ResponseEntity<ProfileInfo> resp = null;
-//
-//        // CHECK:
-//        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
-//
-//            // REGISTER:
-//            if( profile.getSocWendor()==null ){
-//                profile.setSocWendor("GUP");
-//            }
-//            profile.setActive(false);
-//            try {
-//                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
-//                profile.setPublicKey(generator.getPublicKey());
-//                String privateKey = generator.getPrivateKey();
-//                profile.setPrivateKey(privateKey);
-//                profile.setPublicHash(generator.getPublicHash(privateKey));
-//            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
-//                e.printStackTrace();
-//            }
-//            profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818
-//
-//            // LOGIN:
-//            LoggedUser loggedUser = null;
-//            try {
-//                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-//                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-//                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//                }
-//                authenticateByEmailAndPassword(loggedUser, response);
-//                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-//                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-//            } catch (UsernameNotFoundException ex) {
-//                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//            }
-//        } else {
-//            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
-//        }
-//
-//        return resp;
-//    }
-
     @CrossOrigin
     @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {

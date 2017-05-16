@@ -19,6 +19,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 ////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 //import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
+import ua.com.itproekt.gup.server.api.model.profiles.StorePhones;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -27,9 +28,7 @@ import ua.com.itproekt.gup.util.Validator3Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 
@@ -341,6 +340,45 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profiles, HttpStatus.OK );
     }
+
+
+
+
+
+    /* ************************************************************************************************************** */
+    private String parsePhone(String phone) {
+        phone = phone.replaceAll("\\D+","");
+
+        int strStart=0, strLast=phone.length();
+        if(0<(phone.length()-10)) strStart = phone.length()-10;
+        phone = phone.substring(strStart,strLast);
+
+        return phone;
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/profile/store-phones", method = RequestMethod.POST)
+    public ResponseEntity<List<Profile>> phones(@RequestBody Map<String, Boolean> phones, HttpServletRequest request) {
+//        List<Profile> profiles = new ArrayList<>();
+//        for (String phone : storePhones.getMainPhones()){
+//            System.err.println( phone );
+//            Profile profile = profilesService.findProfileByMainPhone(phone);
+//            if (profile != null) profiles.add(profile);
+//        }
+//
+//        return new ResponseEntity<>(profiles, HttpStatus.OK );
+
+
+        System.err.println("*****************************************************************************************");
+        phones.forEach((k, v) -> System.err.println("Key : " + parsePhone(k) + " Value : " + v));
+        System.err.println("*****************************************************************************************");
+
+        return new ResponseEntity<>(HttpStatus.OK );
+    }
+
+
+
 
 
     /**
