@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 ////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 //import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
+import ua.com.itproekt.gup.server.api.model.profiles.PhoneSynhronize;
 import ua.com.itproekt.gup.server.api.model.profiles.StorePhones;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -29,6 +31,7 @@ import ua.com.itproekt.gup.util.Validator3Util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -356,25 +359,61 @@ public class ProfileRestController {
         return phone;
     }
 
+    private StorePhones searchStorePhones(StorePhones storePhones, Long searchPhone){
+        List<PhoneSynhronize> contactPhones = storePhones.getContactPhones().stream()
+                .map(x -> x.getNumberPhone().equals(searchPhone) ? (new PhoneSynhronize(searchPhone, true)) : x)
+                .collect(Collectors.toList());
+        storePhones.setContactPhones(contactPhones);
+
+        return storePhones;
+    }
+
     @CrossOrigin
     @ResponseBody
-    @RequestMapping(value = "/profile/store-phones", method = RequestMethod.POST)
-    public ResponseEntity<List<Profile>> phones(@RequestBody Map<String, Boolean> phones, HttpServletRequest request) {
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.POST)
+    public ResponseEntity<String> synchronizationPhones(@RequestBody StorePhones storePhones) {
+        String userId = SecurityOperations.getLoggedUserId();
+        storePhones.setIdUser( userId );
+
+        System.err.println("*****************************************************************************************");
+        System.err.println( "userId="+userId );
+        System.err.println( storePhones );
+        //{"idUser":"591c5ee20f664e17d30eb225","mainPhones":[380991234567],"contactPhones":[{"numberPhone":380994444444,"isFound":false},{"numberPhone":380934311043,"isFound":false},{"numberPhone":380970072837,"isFound":false},{"numberPhone":380939325476,"isFound":false}]}
+        System.err.println("*****************************************************************************************");
+
+        return new ResponseEntity<>(HttpStatus.CREATED );
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
+    public ResponseEntity<List<PhoneSynhronize>> synchronizationPhones() {
+        String userId = SecurityOperations.getLoggedUserId();
+
+        System.err.println("*****************************************************************************************");
+        Long   searchPhone = 380994444444l;
+        String storePhones = "{\"mainPhones\":[380994444444],\"contactPhones\":[{\"numberPhone\":380994444444,\"isFound\":false},{\"numberPhone\":380934311043,\"isFound\":false},{\"numberPhone\":380970072837,\"isFound\":false},{\"numberPhone\":380939325476,\"isFound\":false}]}";
+
+        Gson gson = new Gson();
+        StorePhones oStorePhones = gson.fromJson(storePhones, StorePhones.class);
+        oStorePhones.setIdUser(userId);
+
 //        List<Profile> profiles = new ArrayList<>();
 //        for (String phone : storePhones.getMainPhones()){
 //            System.err.println( phone );
 //            Profile profile = profilesService.findProfileByMainPhone(phone);
 //            if (profile != null) profiles.add(profile);
 //        }
-//
-//        return new ResponseEntity<>(profiles, HttpStatus.OK );
 
-
+        StorePhones searchStorePhones = searchStorePhones(oStorePhones, searchPhone);
+        System.err.println( "userId="+userId );
+        System.err.println( searchStorePhones );
+        //{"idUser":"591c5ee20f664e17d30eb225","mainPhones":[380994444444],"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380934311043,"isFound":false},{"numberPhone":380970072837,"isFound":false},{"numberPhone":380939325476,"isFound":false}]}
         System.err.println("*****************************************************************************************");
-        phones.forEach((k, v) -> System.err.println("Key : " + parsePhone(k) + " Value : " + v));
-        System.err.println("*****************************************************************************************");
 
-        return new ResponseEntity<>(HttpStatus.OK );
+        return new ResponseEntity<>(searchStorePhones.getContactPhones(),HttpStatus.OK );
     }
 
 
