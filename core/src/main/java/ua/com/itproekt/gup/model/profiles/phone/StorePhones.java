@@ -1,12 +1,8 @@
-package ua.com.itproekt.gup.server.api.model.profiles;
+package ua.com.itproekt.gup.model.profiles.phone;
 
 import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class StorePhones {
 

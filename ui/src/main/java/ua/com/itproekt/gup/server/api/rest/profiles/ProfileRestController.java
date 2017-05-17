@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.server.api.rest.profiles;
 
-import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,24 +12,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 ////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 //import ua.com.itproekt.gup.model.login.FormLoggedUser;
+import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
+import ua.com.itproekt.gup.model.profiles.phone.PhoneSynhronize;
+import ua.com.itproekt.gup.model.profiles.phone.ProfileStorePhones;
+import ua.com.itproekt.gup.model.profiles.phone.StorePhones;
 import ua.com.itproekt.gup.server.api.model.profiles.*;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ua.com.itproekt.gup.util.Validator3Util;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @RestController
@@ -347,14 +346,14 @@ public class ProfileRestController {
 
 
     /* ************************************************************************************************************** */
-    private String parsePhone(String phone) {
+    private Long parsePhone(String phone) {
         phone = phone.replaceAll("\\D+","");
 
         int strStart=0, strLast=phone.length();
         if(0<(phone.length()-10)) strStart = phone.length()-10;
         phone = phone.substring(strStart,strLast);
 
-        return phone;
+        return Long.parseLong(phone);
     }
 
     private DBStorePhones dbStorePhones(String userId, List<Long> mainPhones, ProfileStorePhones profileStorePhones){
@@ -365,25 +364,20 @@ public class ProfileRestController {
         return new DBStorePhones(userId,mainPhones,contactPhones);
     }
 
-    private ProfileStorePhones profileStorePhones(String userId, Long searchPhone){
-        ///////////////////////////
-        List<Long> mainPhones = new ArrayList<>();
-        mainPhones.add(380994444444l);
+    private ProfileStorePhones profileStorePhones(String userId){
+        Profile             profile = profilesService.findById(userId);
+        DBStorePhones dbStorePhones = profile.getStorePhones();
 
-        List<Long> contactPhones = new ArrayList<>();
-        contactPhones.add(380994444444l);
-        contactPhones.add(380934311043l);
-        contactPhones.add(380970072837l);
-        contactPhones.add(380939325476l);
-
-        DBStorePhones dbStorePhones = new DBStorePhones();
-        dbStorePhones.setIdUser(userId);
-        dbStorePhones.setMainPhones(mainPhones);
-        dbStorePhones.setContactPhones(contactPhones);
-        ///////////////////////////
+        Long searchPhone = 380994444444l;
+//        List<Profile> profiles = new ArrayList<>();
+//        for (String phone : storePhones.getMainPhones()){
+//            System.err.println( phone );
+//            Profile profile = profilesService.findProfileByMainPhone(phone);
+//            if (profile != null) profiles.add(profile);
+//        }
 
         List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
-                .map(x -> x.equals(searchPhone) ? (new PhoneSynhronize(searchPhone, true)) : (new PhoneSynhronize(searchPhone, false)))
+                .map(x -> x.equals(searchPhone) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
                 .collect(Collectors.toList());
 
         ProfileStorePhones profileStorePhones = new ProfileStorePhones();
@@ -400,15 +394,18 @@ public class ProfileRestController {
         String userId = SecurityOperations.getLoggedUserId();
         storePhones.setIdUser( userId );
 
-        System.err.println("*****************************************************************************************");
         ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
         DBStorePhones oDBStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
-        System.err.println( "userId="+userId );
-        System.err.println( oDBStorePhones );
-        //DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
-        System.err.println("*****************************************************************************************");
+        System.err.println( oDBStorePhones ); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Profile profile = profilesService.findById(userId);
+        if( profile.getId().equals(userId) ) {
+            profile.setStorePhones(oDBStorePhones);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -418,23 +415,10 @@ public class ProfileRestController {
     public ResponseEntity<ProfileStorePhones> synchronizationPhones() {
         String userId = SecurityOperations.getLoggedUserId();
 
-        System.err.println("*****************************************************************************************");
-        Long   searchPhone = 380994444444l;
+        ProfileStorePhones profileStorePhones = profileStorePhones(userId);
+        System.err.println( profileStorePhones );//TODO  {"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
 
-//        List<Profile> profiles = new ArrayList<>();
-//        for (String phone : storePhones.getMainPhones()){
-//            System.err.println( phone );
-//            Profile profile = profilesService.findProfileByMainPhone(phone);
-//            if (profile != null) profiles.add(profile);
-//        }
-
-        ProfileStorePhones searchStorePhones = profileStorePhones(userId, searchPhone);
-        System.err.println( "userId="+userId );
-        System.err.println( searchStorePhones );
-        //{"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
-        System.err.println("*****************************************************************************************");
-
-        return new ResponseEntity<>(searchStorePhones, HttpStatus.OK );
+        return new ResponseEntity<>(profileStorePhones, HttpStatus.OK );
     }
 
 

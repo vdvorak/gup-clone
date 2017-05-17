@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.model.profiles;
+package ua.com.itproekt.gup.model.profiles.phone;
 
 import com.google.gson.Gson;
 

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.GeneralPhone;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
+import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
 import javax.validation.constraints.Size;
@@ -116,6 +117,9 @@ public class Profile {
     private Address locationAddress;
     private String mainKindActivity;
     private Set<String> emploeyrList; //private Set<ProfileContactList> emploeyrList;
+
+    /* ************************************************************************************************ */
+    private DBStorePhones storePhones;
 
 
 
@@ -706,6 +710,15 @@ public class Profile {
         return this;
     }
 
+    /* ************************************************************************************************ */
+    public DBStorePhones getStorePhones() {
+        return storePhones;
+    }
+
+    public void setStorePhones(DBStorePhones storePhones) {
+        this.storePhones = storePhones;
+    }
+
 
     @Override
     public String toString() {
@@ -764,6 +777,7 @@ public class Profile {
                 ", locationAddress='" + locationAddress + '\'' +
                 ", mainKindActivity='" + mainKindActivity + '\'' +
                 ", emploeyrList=" + emploeyrList +
+                ", storePhones=" + storePhones +
                 '}';
     }
 }
