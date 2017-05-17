@@ -19,9 +19,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 ////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 //import ua.com.itproekt.gup.model.login.FormLoggedUser;
-import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
-import ua.com.itproekt.gup.server.api.model.profiles.PhoneSynhronize;
-import ua.com.itproekt.gup.server.api.model.profiles.StorePhones;
+import ua.com.itproekt.gup.server.api.model.profiles.*;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -359,13 +357,39 @@ public class ProfileRestController {
         return phone;
     }
 
-    private StorePhones searchStorePhones(StorePhones storePhones, Long searchPhone){
-        List<PhoneSynhronize> contactPhones = storePhones.getContactPhones().stream()
-                .map(x -> x.getNumberPhone().equals(searchPhone) ? (new PhoneSynhronize(searchPhone, true)) : x)
+    private DBStorePhones dbStorePhones(String userId, List<Long> mainPhones, ProfileStorePhones profileStorePhones){
+        List<Long> contactPhones = profileStorePhones.getContactPhones().stream()
+                .map(x -> x.getNumberPhone())
                 .collect(Collectors.toList());
-        storePhones.setContactPhones(contactPhones);
 
-        return storePhones;
+        return new DBStorePhones(userId,mainPhones,contactPhones);
+    }
+
+    private ProfileStorePhones profileStorePhones(String userId, Long searchPhone){
+        ///////////////////////////
+        List<Long> mainPhones = new ArrayList<>();
+        mainPhones.add(380994444444l);
+
+        List<Long> contactPhones = new ArrayList<>();
+        contactPhones.add(380994444444l);
+        contactPhones.add(380934311043l);
+        contactPhones.add(380970072837l);
+        contactPhones.add(380939325476l);
+
+        DBStorePhones dbStorePhones = new DBStorePhones();
+        dbStorePhones.setIdUser(userId);
+        dbStorePhones.setMainPhones(mainPhones);
+        dbStorePhones.setContactPhones(contactPhones);
+        ///////////////////////////
+
+        List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
+                .map(x -> x.equals(searchPhone) ? (new PhoneSynhronize(searchPhone, true)) : (new PhoneSynhronize(searchPhone, false)))
+                .collect(Collectors.toList());
+
+        ProfileStorePhones profileStorePhones = new ProfileStorePhones();
+        profileStorePhones.setContactPhones(oContactPhones);
+
+        return profileStorePhones;
     }
 
     @CrossOrigin
@@ -377,28 +401,25 @@ public class ProfileRestController {
         storePhones.setIdUser( userId );
 
         System.err.println("*****************************************************************************************");
+        ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
+        DBStorePhones oDBStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
         System.err.println( "userId="+userId );
-        System.err.println( storePhones );
-        //{"idUser":"591c5ee20f664e17d30eb225","mainPhones":[380991234567],"contactPhones":[{"numberPhone":380994444444,"isFound":false},{"numberPhone":380934311043,"isFound":false},{"numberPhone":380970072837,"isFound":false},{"numberPhone":380939325476,"isFound":false}]}
+        System.err.println( oDBStorePhones );
+        //DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
         System.err.println("*****************************************************************************************");
 
-        return new ResponseEntity<>(HttpStatus.CREATED );
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @CrossOrigin
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
-    public ResponseEntity<List<PhoneSynhronize>> synchronizationPhones() {
+    public ResponseEntity<ProfileStorePhones> synchronizationPhones() {
         String userId = SecurityOperations.getLoggedUserId();
 
         System.err.println("*****************************************************************************************");
         Long   searchPhone = 380994444444l;
-        String storePhones = "{\"mainPhones\":[380994444444],\"contactPhones\":[{\"numberPhone\":380994444444,\"isFound\":false},{\"numberPhone\":380934311043,\"isFound\":false},{\"numberPhone\":380970072837,\"isFound\":false},{\"numberPhone\":380939325476,\"isFound\":false}]}";
-
-        Gson gson = new Gson();
-        StorePhones oStorePhones = gson.fromJson(storePhones, StorePhones.class);
-        oStorePhones.setIdUser(userId);
 
 //        List<Profile> profiles = new ArrayList<>();
 //        for (String phone : storePhones.getMainPhones()){
@@ -407,16 +428,14 @@ public class ProfileRestController {
 //            if (profile != null) profiles.add(profile);
 //        }
 
-        StorePhones searchStorePhones = searchStorePhones(oStorePhones, searchPhone);
+        ProfileStorePhones searchStorePhones = profileStorePhones(userId, searchPhone);
         System.err.println( "userId="+userId );
         System.err.println( searchStorePhones );
-        //{"idUser":"591c5ee20f664e17d30eb225","mainPhones":[380994444444],"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380934311043,"isFound":false},{"numberPhone":380970072837,"isFound":false},{"numberPhone":380939325476,"isFound":false}]}
+        //{"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
         System.err.println("*****************************************************************************************");
 
-        return new ResponseEntity<>(searchStorePhones.getContactPhones(),HttpStatus.OK );
+        return new ResponseEntity<>(searchStorePhones, HttpStatus.OK );
     }
-
-
 
 
 

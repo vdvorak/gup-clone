@@ -1,34 +1,22 @@
 package ua.com.itproekt.gup.server.api.model.profiles;
 
-import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class StorePhones {
+public class DBStorePhones {
 
-    public StorePhones(){
+    public DBStorePhones(){
     }
 
-    public StorePhones(List<Long> mainPhones, List<PhoneSynhronize> contactPhones){
-        this.mainPhones = mainPhones;
-        this.contactPhones = contactPhones;
-    }
-
-    public StorePhones(String idUser, List<Long> mainPhones, List<PhoneSynhronize> contactPhones){
+    public DBStorePhones(String idUser, List<Long> mainPhones, List<Long> contactPhones){
         this.idUser = idUser;
         this.mainPhones = mainPhones;
         this.contactPhones = contactPhones;
     }
 
-
     private String idUser;
     private List<Long> mainPhones;
-    private List<PhoneSynhronize> contactPhones;
-
+    private List<Long> contactPhones;
 
     public String getIdUser() {
         return idUser;
@@ -46,18 +34,20 @@ public class StorePhones {
         this.mainPhones = mainPhones;
     }
 
-    public List<PhoneSynhronize> getContactPhones() {
+    public List<Long> getContactPhones() {
         return contactPhones;
     }
 
-    public void setContactPhones(List<PhoneSynhronize> contactPhones) {
+    public void setContactPhones(List<Long> contactPhones) {
         this.contactPhones = contactPhones;
     }
 
     @Override
     public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
+        return "DBStorePhones{" +
+                "idUser='" + idUser + '\'' +
+                ", mainPhones=" + mainPhones +
+                ", contactPhones=" + contactPhones +
+                '}';
     }
 }
-
