@@ -368,16 +368,8 @@ public class ProfileRestController {
         Profile             profile = profilesService.findById(userId);
         DBStorePhones dbStorePhones = profile.getStorePhones();
 
-        Long searchPhone = 380994444444l;
-//        List<Profile> profiles = new ArrayList<>();
-//        for (String phone : storePhones.getMainPhones()){
-//            System.err.println( phone );
-//            Profile profile = profilesService.findProfileByMainPhone(phone);
-//            if (profile != null) profiles.add(profile);
-//        }
-
         List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
-                .map(x -> x.equals(searchPhone) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
+                .map(x -> (profilesService.findProfileByMainPhone(String.valueOf(x)) != null) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
                 .collect(Collectors.toList());
 
         ProfileStorePhones profileStorePhones = new ProfileStorePhones();
