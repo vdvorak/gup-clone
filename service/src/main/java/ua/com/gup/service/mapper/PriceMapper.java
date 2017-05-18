@@ -25,15 +25,19 @@ public class PriceMapper {
     }
 
     public Price moneyDTOToMoney(OfferPriceDTO offerPriceDTO) {
-        Price price = new Price();
-        price.setAmount(offerPriceDTO.getAmount());
-        price.setCurrency(offerPriceDTO.getCurrency());
-        final BigDecimal priceConverted = currencyConverterService.convertToBaseCurrency(offerPriceDTO.getCurrency(), offerPriceDTO.getAmount());
-        price.setBaseAmount(priceConverted.doubleValue());
-        price.setBaseCurrency(currencyConverterService.getBaseCurrency());
-        price.setPriceWithVAT(offerPriceDTO.getPriceWithVAT());
-        price.setLastModifiedDate(LocalDateTime.now());
-        return price;
+        if (offerPriceDTO.getCurrency() == null || offerPriceDTO.getAmount() == null) {
+            return null;
+        } else {
+            Price price = new Price();
+            price.setAmount(offerPriceDTO.getAmount());
+            price.setCurrency(offerPriceDTO.getCurrency());
+            final BigDecimal priceConverted = currencyConverterService.convertToBaseCurrency(offerPriceDTO.getCurrency(), offerPriceDTO.getAmount());
+            price.setBaseAmount(priceConverted.doubleValue());
+            price.setBaseCurrency(currencyConverterService.getBaseCurrency());
+            price.setPriceWithVAT(offerPriceDTO.getPriceWithVAT());
+            price.setLastModifiedDate(LocalDateTime.now());
+            return price;
+        }
     }
 
 }
