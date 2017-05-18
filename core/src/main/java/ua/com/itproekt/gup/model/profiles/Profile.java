@@ -106,7 +106,7 @@ public class Profile {
     /*
      * Lawyer-Profile
      */
-    private Set<String> userType;
+    private UserType userType; //private Set<String> userType;
     private Address lawyerAddress;
     private String nameCompany;
     private String fullNameCompany;
@@ -611,11 +611,11 @@ public class Profile {
     /*
      * Lawyer-Profile
      */
-    public Set<String> getUserType() {
+    public UserType getUserType() { //public Set<String> getUserType() {
         return userType;
     }
 
-    public Profile setUserType(Set<String> userType) {
+    public Profile setUserType(UserType userType) { //public Profile setUserType(Set<String> userType) {
         this.userType = userType;
         return this;
     }

@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.dto.ProfileInfo;
@@ -96,6 +97,7 @@ public class LoginRestController {
             if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
             }
+            profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
@@ -141,6 +143,7 @@ public class LoginRestController {
             if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
             }
+            profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
@@ -229,6 +232,7 @@ public class LoginRestController {
             if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
             }
+            profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             profilesService.createProfileWithRoles(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO ???
@@ -300,6 +304,7 @@ public class LoginRestController {
             if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
             }
+            profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
