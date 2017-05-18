@@ -1,14 +1,17 @@
 package ua.com.gup.web.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.gup.domain.Category;
@@ -47,8 +50,8 @@ public class CategoryResource {
     @Autowired
     private CategoryAttributeService categoryAttributeService;
 
-    @Autowired
-    private ObjectMapper mapper;
+//    @Autowired
+//    private ObjectMapper mapper;
 
     /**
      * POST  /category-attributes : Create a new categoryAttribute.
@@ -245,7 +248,10 @@ public class CategoryResource {
 
     private void findAllTreeView() {
         Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView();
-        final ObjectWriter ow = mapper.writer();
+        final ObjectWriter ow = Jackson2ObjectMapperBuilder.json()
+                .serializationInclusion(JsonInclude.Include.NON_NULL) // Don’t include null values
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
+                .modules(new JavaTimeModule()).build().writer();
         String json = "";
         try {
             json = ow.writeValueAsString(categoriesTreeView);
