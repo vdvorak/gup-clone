@@ -25,33 +25,5 @@
     <context:component-scan base-package="ua.com"/>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties"/>
-
-    <mvc:annotation-driven>
-        <mvc:argument-resolvers>
-            <beans:bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
-        </mvc:argument-resolvers>
-        <mvc:message-converters>
-            <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <beans:property name="objectMapper">
-                    <beans:bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
-                        <beans:property name="featuresToDisable">
-                            <beans:array>
-                                <beans:value type="com.fasterxml.jackson.databind.SerializationFeature">
-                                    WRITE_DATES_AS_TIMESTAMPS
-                                </beans:value>
-                                <beans:value type="com.fasterxml.jackson.databind.SerializationFeature">
-                                    WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS
-                                </beans:value>
-                            </beans:array>
-                        </beans:property>
-                        <beans:property name="serializationInclusion">
-                            <beans:value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL
-                            </beans:value>
-                        </beans:property>
-                    </beans:bean>
-                </beans:property>
-            </beans:bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
     <mvc:default-servlet-handler/>
 </beans:beans>
