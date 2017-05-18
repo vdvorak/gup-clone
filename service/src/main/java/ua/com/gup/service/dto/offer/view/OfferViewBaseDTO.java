@@ -1,6 +1,7 @@
 package ua.com.gup.service.dto.offer.view;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.offer.OfferCategory;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
@@ -19,6 +20,7 @@ public class OfferViewBaseDTO implements Serializable {
     private String id;
 
     @ApiModelProperty(position = 5)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
