@@ -365,8 +365,11 @@ public class ProfileRestController {
     }
 
     private ProfileStorePhones profileStorePhones(String userId){
-        Profile             profile = profilesService.findById(userId);
+        Profile profile = profilesService.findById(userId);
+        if (profile==null) return null;
+
         DBStorePhones dbStorePhones = profile.getStorePhones();
+        if (dbStorePhones==null) return null;
 
         List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
                 .map(x -> (profilesService.findProfileByMainPhone(String.valueOf(x)) != null) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
@@ -387,17 +390,26 @@ public class ProfileRestController {
         storePhones.setIdUser( userId );
 
         ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
-        DBStorePhones oDBStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
-        System.err.println( oDBStorePhones ); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
+        DBStorePhones newStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
+        System.err.println( newStorePhones ); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
 
         Profile profile = profilesService.findById(userId);
         if( profile.getId().equals(userId) ) {
-            profile.setStorePhones(oDBStorePhones);
-            profilesService.editProfile(profile);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            if (profile.getStorePhones()==null){
+                profile.setStorePhones(newStorePhones);
+                profilesService.editProfile(profile);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else {
+                if (profile.getStorePhones().equals(newStorePhones)){
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else {
+                    profile.setStorePhones(newStorePhones);
+                    profilesService.editProfile(profile);
+                    return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+                }
+            }
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @CrossOrigin
