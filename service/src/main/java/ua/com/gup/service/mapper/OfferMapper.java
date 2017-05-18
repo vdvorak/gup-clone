@@ -113,7 +113,9 @@ public class OfferMapper {
         target.setCategories(source.getCategories());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
-        target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
+        if (source.getPrice() != null) {
+            target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
+        }
         if (source.getImageIds() != null && source.getImageIds().size() > 0) {
             target.setImageIds(source.getImageIds());
         }

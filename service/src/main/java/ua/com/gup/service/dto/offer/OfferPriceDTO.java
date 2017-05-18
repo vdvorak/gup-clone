@@ -5,10 +5,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.enumeration.Currency;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @ApiModel
-public class OfferPriceDTO {
+public class OfferPriceDTO implements Serializable{
     @ApiModelProperty(position = 0, example = "10000")
     private BigDecimal amount;
 

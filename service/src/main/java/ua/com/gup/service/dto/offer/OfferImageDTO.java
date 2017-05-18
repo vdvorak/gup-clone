@@ -4,8 +4,10 @@ package ua.com.gup.service.dto.offer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 @ApiModel
-public class OfferImageDTO {
+public class OfferImageDTO implements Serializable {
 
     @ApiModelProperty(position = 10, example = "58ff0d6c821847a4bc8c5bfc")
     private String imageId;
