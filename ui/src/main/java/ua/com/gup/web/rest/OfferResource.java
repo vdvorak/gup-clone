@@ -188,7 +188,7 @@ public class OfferResource {
                     value = "Sorting criteria in the format: property(,asc|desc). " +
                             "Default sort order is ascending. " +
                             "Multiple sort criteria are supported. " +
-                            "Not taken into account if the 'query' is specified.")
+                            "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
     /**
      * GET  /offers : get all the offers by filter.

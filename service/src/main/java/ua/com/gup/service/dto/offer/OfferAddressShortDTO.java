@@ -3,7 +3,9 @@ package ua.com.gup.service.dto.offer;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class OfferAddressShortDTO {
+import java.io.Serializable;
+
+public class OfferAddressShortDTO implements Serializable {
 
     @ApiModelProperty(position = 0, example = "50")
     private Double lat;
