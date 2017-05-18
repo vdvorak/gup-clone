@@ -25,5 +25,10 @@
     <context:component-scan base-package="ua.com"/>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties"/>
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <beans:bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
     <mvc:default-servlet-handler/>
 </beans:beans>
