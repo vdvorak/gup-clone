@@ -89,6 +89,14 @@ public interface OfferService {
     Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl);
 
     /**
+     * Get one OfferViewShortDTOs by seoUrl.
+     *
+     * @param seoUrl the seoUrl of the entity
+     * @return the list of entities
+     */
+    Page<OfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable);
+
+    /**
      * Increment statistic phone views by id.
      *
      * @param id the id of the entity

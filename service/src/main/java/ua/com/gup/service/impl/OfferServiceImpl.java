@@ -14,6 +14,7 @@ import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.domain.offer.OfferCategory;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.CurrencyConverterService;
@@ -34,9 +35,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -217,6 +216,35 @@ public class OfferServiceImpl implements OfferService {
             offer = Optional.empty();
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    /**
+     * Get one OfferViewShortDTOs by seoUrl.
+     *
+     * @param seoUrl the seoUrl of the entity
+     * @return the list of entities
+     */
+    @Override
+    public Page<OfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable) {
+        Optional<Offer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offerOptional.isPresent()) {
+            final Offer offer = offerOptional.get();
+            StringBuilder search = new StringBuilder();
+            for (OfferCategory category : offer.getCategories()) {
+                final Map<String, String> titles = category.getTitle();
+                for (String lang : titles.keySet()) {
+                    search.append(titles.get(lang) + " ");
+                    break;
+                }
+            }
+            search.append(offer.getTitle());
+            OfferFilter filter = new OfferFilter();
+            filter.setQuery(search.toString());
+            Page<Offer> result = new PageImpl<>(offerRepository.findByFilter(filter, OfferStatus.ACTIVE, offer.getId(), pageable));
+            return result.map(o -> offerMapper.offerToOfferShortDTO(o));
+
+        }
+        return new PageImpl<OfferViewShortDTO>(new ArrayList<>());
     }
 
     /**

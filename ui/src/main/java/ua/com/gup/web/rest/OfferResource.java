@@ -17,10 +17,10 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.OfferService;
-import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferModeratorDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.service.security.SecurityUtils;
@@ -90,6 +90,21 @@ public class OfferResource {
         log.debug("REST request to get Offer : {}", seoUrl);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+    /**
+     * GET  /offers/:seoUrl/relevant : get the offers relevant to given seo url.
+     *
+     * @param seoUrl the seoUrl
+     * @param pageable    the pagination information
+     * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/offers/{seoUrl}/relevant", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OfferViewShortDTO>> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
+        log.debug("REST request to get Offer : {}", seoUrl);
+        Page<OfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + seoUrl + "/relevant");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

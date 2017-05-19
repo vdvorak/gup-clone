@@ -22,7 +22,8 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
 import ua.com.gup.repository.custom.OfferRepositoryCustom;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,14 +38,22 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
-        List<OfferStatus> offerStatuses = new ArrayList<>();
-        offerStatuses.add(offerStatus);
-        return findByFilter(offerFilter, offerStatuses, pageable);
+        return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
+    }
+
+    @Override
+    public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, String excludedId, Pageable pageable) {
+        return findByFilter(offerFilter, Arrays.asList(offerStatus), Arrays.asList(excludedId), pageable);
     }
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable) {
-        return createQueryAndFind(offerFilter, offerStatuses, pageable);
+        return findByFilter(offerFilter, offerStatuses, null, pageable);
+    }
+
+    @Override
+    public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
+        return createQueryAndFind(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
     @Override
@@ -105,13 +114,16 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         }
     }
 
-    private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Pageable pageable) {
+    private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria.
                     forLanguage("ru").
                     matching(offerFilter.getQuery());
             query.addCriteria(textCriteria);
+        }
+        if (excludedIds != null && excludedIds.size() > 0) {
+            query.addCriteria(Criteria.where("_id").nin(excludedIds));
         }
         if (offerFilter.getDate() != null) {
             final DateFilter dateFilter = offerFilter.getDate();
