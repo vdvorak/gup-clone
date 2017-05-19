@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.service.CurrencyConverterService;
 
-
 import java.math.BigDecimal;
 
 @Service
@@ -51,15 +50,17 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             final com.ritaja.xchangerate.util.Currency convertorBaseCurrency = com.ritaja.xchangerate.util.Currency.get(baseCurrency.name());
             final com.ritaja.xchangerate.util.Currency convertorCurrency = com.ritaja.xchangerate.util.Currency.get(currency.name());
             try {
-                return getInstance().convertCurrency(amount, convertorCurrency, convertorBaseCurrency);
+                BigDecimal exchangeRate = getInstance().convertCurrency(new BigDecimal("100000"), convertorCurrency, convertorBaseCurrency);
+                exchangeRate = exchangeRate.divide(new BigDecimal("100000"));
+                return amount.multiply(exchangeRate);
             } catch (CurrencyNotSupportedException e) {
-                log.error("Currency {} or {} not supported:" , currency, baseCurrency, e);
+                log.error("Currency {} or {} not supported:", currency, baseCurrency, e);
             } catch (StorageException e) {
-                log.error("Storage exception: " , e);
+                log.error("Storage exception: ", e);
             } catch (EndpointException e) {
-                log.error("Endpoint exception: " , e);
+                log.error("Endpoint exception: ", e);
             } catch (ServiceException e) {
-                log.error("Service exception: " , e);
+                log.error("Service exception: ", e);
             }
         }
         return amount;
