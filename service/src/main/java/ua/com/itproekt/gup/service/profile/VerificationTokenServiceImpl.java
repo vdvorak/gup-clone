@@ -56,8 +56,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Async
     @Override
     public VerificationToken sendEmailRegistrationToken(String userId) {
-        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION,
-                emailRegistrationTokenExpiryTimeInMinutes);
+        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
         verificationTokenRepository.save(token);
         Profile profile = ensureUserIsLoaded(userId);
         mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));

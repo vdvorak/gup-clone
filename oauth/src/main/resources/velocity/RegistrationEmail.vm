@@ -1,263 +1,531 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 <head>
-    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title>GUP - регистрация</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-    
-    <meta http-equiv="Content-Type"  content="text/html charset=UTF-8" />
-
-    <!-- Web Font / @font-face : BEGIN -->
-    <!-- NOTE: If web fonts are not required, lines 10 - 27 can be safely removed. -->
-
-    <!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
-    <!--[if mso]>
-    <style>
-        * {
-            font-family: sans-serif !important;
-        }
-    </style>
-    <![endif]-->
-
-    <!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
-    <!--[if !mso]><!-->
-    <!-- insert web font reference, eg: <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'> -->
-    <!--<![endif]-->
-
-    <!-- Web Font / @font-face : END -->
-
-    <!-- CSS Reset -->
-    <style>
-
-        /* What it does: Remove spaces around the email design added by some email clients. */
-        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
-        html,
-        body {
-            margin: 0 auto !important;
-            padding: 0 !important;
-            height: 100% !important;
-            width: 100% !important;
-        }
-
-        /* What it does: Stops email clients resizing small text. */
-        * {
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        /* What is does: Centers email on Android 4.4 */
-        div[style*="margin: 16px 0"] {
-            margin: 0 !important;
-        }
-
-        /* What it does: Stops Outlook from adding extra spacing to tables. */
-        table,
-        td {
-            mso-table-lspace: 0pt !important;
-            mso-table-rspace: 0pt !important;
-        }
-
-        /* What it does: Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
-        table {
-            border-spacing: 0 !important;
-            border-collapse: collapse !important;
-            table-layout: fixed !important;
-            margin: 0 auto !important;
-        }
-
-		table.bottom {
-            border-spacing: 0 !important;
-            border-collapse: collapse !important;
-            table-layout: fixed !important;
-            margin: 0 0 !important;
-        }
-		
-        table table table {
-            table-layout: auto;
-        }
-
-        /* What it does: Uses a better rendering method when resizing images in IE. */
-        img {
-            -ms-interpolation-mode: bicubic;
-        }
-
-        /* What it does: A work-around for iOS meddling in triggered links. */
-        *[x-apple-data-detectors] {
-            color: inherit !important;
-            text-decoration: none !important;
-        }
-
-        /* What it does: A work-around for Gmail meddling in triggered links. */
-        .x-gmail-data-detectors,
-        .x-gmail-data-detectors *,
-        .aBn {
-            border-bottom: 0 !important;
-            cursor: default !important;
-        }
-
-        /* What it does: Prevents Gmail from displaying an download button on large, non-linked images. */
-        .a6S {
-            display: none !important;
-            opacity: 0.01 !important;
-        }
-
-        /* If the above doesn't work, add a .g-img class to any image in question. */
-        img.g-img + div {
-            display: none !important;
-        }
-
-        /* What it does: Prevents underlining the button text in Windows 10 */
-        .button-link {
-            text-decoration: none !important;
-        }
-
-        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
-        /* Create one of these media queries for each additional viewport size you'd like to fix */
-        /* Thanks to Eric Lepetit @ericlepetitsf) for help troubleshooting */
-        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
-            /* iPhone 6 and 6+ */
-            .email-container {
-                min-width: 375px !important;
-            }
-        }
-
-    </style>
-
-    <!-- Progressive Enhancements -->
-    <style>
-
-        /* What it does: Hover styles for buttons */
-        .button-td,
-        .button-a {
-            transition: all 100ms ease-in;
-        }
-
-        .button-td:hover,
-        .button-a:hover {
-            background: #555555 !important;
-            border-color: #555555 !important;
-        }
-
-        /* Media Queries */
-        @media screen and (max-width: 600px) {
-
-            .email-container {
-                width: 100% !important;
-                margin: auto !important;
-            }
-
-            /* What it does: Forces elements to resize to the full width of their container. Useful for resizing images beyond their max-width. */
-            .fluid {
-                max-width: 100% !important;
-                height: auto !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-            }
-
-            /* What it does: Forces table cells into full-width rows. */
-            .stack-column,
-            .stack-column-center {
-                display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                direction: ltr !important;
-            }
-
-            /* And center justify these ones. */
-            .stack-column-center {
-                text-align: center !important;
-            }
-
-            /* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
-            .center-on-narrow {
-                text-align: center !important;
-                display: block !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-                float: none !important;
-            }
-
-            table.center-on-narrow {
-                display: inline-block !important;
-            }
-
-        }
-
-    </style>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body width="100%" style="margin: 0; mso-line-height-rule: exactly;">
-<center style="width: 100%; text-align: left;">
+<body style="margin: 0px;padding: 0px;">
+<!-- MAIN WRAPPER #################################### -->
+<table style="
+        border-spacing:0;
+        border-collapse:collapse!important;
+        margin:0;
+        padding:0;
+        vertical-align:top;
+        background:#fafafa;
+        color:#333333;
+        font-family: Helvetica,Arial,sans-serif;
+        font-weight:normal;
+        text-align:center;
+        height:100%;
+        width:100%;">
+    <tr style="
+            padding:0;
+            margin:0;
+            vertical-align:top;
+            text-align:center">
+        <td align="center"
+            valign="top"
+            style="
+                padding:0px 0px 50px;
+                vertical-align:top;
+                text-align:center;
+                color:#333333;
+                font-family: Helvetica,Arial,sans-serif;
+                font-weight:normal;
+                margin:0;
+                line-height:20px;
+                font-size:14px;
+                border-collapse:collapse!important">
+            <center style="width:100%;">
 
-    <!-- Visually Hidden Preheader Text : BEGIN -->
-    <div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: sans-serif;">
-        (Optional) This text will appear in the inbox preview, but not the email body.
-    </div>
-    <!-- Visually Hidden Preheader Text : END -->
+                <!-- HEADER #################################### -->
 
-    <!-- Email Header : BEGIN -->
-    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
-        <tr>
-            <td style="text-align: left; width: 60px; padding-right: 5px; padding-top: 10px">
-                <a href="#">
-                    <img src="http://www.gup.ua/images/logo.png" width="60" height="60" alt="alt_text" border="0"
-                         style="height: auto; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-                </a>
-            </td>
-            <td>
-                <h1 style="display: inline-block; margin: 0; font-size: 20px;">Добро пожаловать на GUP</h1>
-            </td>
-        </tr>
-    </table>
-    <!-- Email Header : END -->
+                <!-- header back -->
+                <table style="
+                        border-spacing:0;
+                        border-collapse:collapse;
+                        padding:0;
+                        vertical-align:top;
+                        text-align:inherit;
+                        max-width:580px;
+                        width: 100%;
+                        background-color:#1976d2;
+                        margin:0 auto"
+                       bgcolor="#1976d2">
+                    <tr style="
+                            padding:0;
+                            vertical-align:top;
+                            text-align:center">
+                        <td style="
+                            padding:10px 0 20px;
+                            vertical-align:top;
+                            text-align:center;
+                            color:#333333;
+                            font-family: Helvetica,Arial,sans-serif;
+                            font-weight:normal;
+                            margin:0;
+                            line-height:20px;
+                            font-size:14px;
+                            border-collapse:collapse!important">
 
-    <!-- Email Body : BEGIN -->
-    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
-
-        <!-- Hero Image, Flush : BEGIN -->
-        <tr>
-            <td style="border-bottom: 1px solid rgba(0,0,0,0.3);">
-				<!-- MESSAGE -->
-                <p>Спасибо за регистрацию на GUP.
-					<br/>Перейдите по этой <a href="http://gup.com.ua:55555/сonfirmation-registration/${model.getHostNameUrl()}">ссылке</a> для подтверждения вашей почты.
-				</p>
-
-				<!-- LEGALESE -->
-				<div style="font-size: 12px;">
-					<p>Пожалуйста не отвечайте на этот email, он автоматически сгенерирован.</p>
-				</div>
-            </td>
-        </tr>
-        <!-- Hero Image, Flush : END -->
-
-
-        <!-- Background Image with Text : END -->
-
-        <!-- 2 Even Columns : BEGIN -->
-        <tr>
-            <td align="left" valign="top">
-                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 0;">
-                    <tr>
-                        <!-- Column : BEGIN -->
-                        <td class="stack-column-left">
-                            <table class="bottom" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0;">
-                                <tr>
-                                    <td style="padding: 1px; text-align: left">
-                                        <p style="color:rgb(153,153,153); font-size: 12px; margin: 0;">Если вы не регистрировались на GUP вам не нужно переходить по ссылке выше.</p>
+                            <!--header logo-->
+                            <table style="
+                                    border-spacing:0;
+                                    border-collapse:collapse;
+                                    padding:0;
+                                    vertical-align:top;
+                                    text-align:center;
+                                    margin:0 auto;
+                                    max-width: 580px;
+                                    width: 100%;
+                                    background-color:#1976d2;"
+                                   bgcolor="#1976d2">
+                                <tr style="padding:0;
+                                        vertical-align:top;
+                                        text-align:center">
+                                    <td style="
+                                            padding:0px;
+                                            vertical-align:top;
+                                            text-align:center;
+                                            color:#333333;
+                                            font-family: Helvetica,Arial,sans-serif;
+                                            font-weight:normal;
+                                            margin:0;
+                                            line-height:20px;
+                                            font-size:14px;
+                                            border-collapse:collapse!important">
+                                        <span style="
+                                                text-align:center;
+                                                display: block;
+                                                padding:0px;
+                                            line-height:20px;
+                                                margin:0px;">
+                                            <span style="margin: 0px;padding: 0px;line-height:20px;">
+                                                <a href="#"
+                                                   style="
+                                                    text-align:center;
+                                                    color:#4183c4;
+                                                    line-height:20px;
+                                                    text-decoration:none"
+                                                   target="_blank">
+                                                <img alt="GUP"
+                                                     src="logo-gup.png"
+                                                     width="150"
+                                                     height="139"
+                                                     style="
+                                                        outline:none;
+                                                        text-decoration:none;
+                                                        width:auto;
+                                                        max-width:100%;
+                                                        border:none;
+                                                        margin:0 auto;
+                                                        float:none;
+                                                        padding:0px;
+                                                        text-align:center">
+                                                </a>
+                                            </span>
+                                        </span>
                                     </td>
                                 </tr>
                             </table>
+
+                            <!--header heading -->
+                            <table style="
+                                    border-spacing:0;
+                                    border-collapse:collapse;
+                                    padding:0;
+                                    vertical-align:top;
+                                    text-align:center;
+                                    margin:0 auto;
+                                    background-color:#1976d2;
+                                    max-width:580px;
+                                    width:100%;"
+                                   bgcolor="#1976d2">
+                                <!-- h1 -->
+                                <tr style="padding:0;
+                                        vertical-align:top;
+                                        text-align:center">
+                                    <td style="
+                                            padding:0px;
+                                            vertical-align:top;
+                                            text-align:center;
+                                            color:#333333;
+                                            font-family: Helvetica,Arial,sans-serif;
+                                            font-weight:normal;
+                                            margin:0;
+                                            line-height:20px;
+                                            font-size:14px;
+                                             border-collapse:collapse!important">
+                                        <span style="display:block;text-align:center">
+                                            <span style="
+                                                    color:white;
+                                                    font-size: 24px;
+                                                    line-height: 32px;
+                                                    font-weight: normal;
+                                                    font-family: Helvetica,Arial,sans-serif;
+                                                    display: block;
+                                                    ">
+                                                Подтверждение регистрации
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- end headings-->
                         </td>
-                        <!-- Column : END -->
                     </tr>
                 </table>
-            </td>
-        </tr>
-	</table>
-        <!-- 2 Even Columns : END -->
-	
-</center>
+                <!-- header back end -->
+                <!-- HEADER END #################################### -->
+
+
+                <!-- CONTENT #################################### -->
+                <!-- content back -->
+                <table style="
+                    border-spacing:0;
+                    border-collapse:collapse;
+                    padding:0px;
+                    vertical-align:top;
+                    text-align:center;
+                    background-color:#ffffff;
+                    width:100%;
+                    max-width: 580px;"
+                       bgcolor="#ffffff">
+                    <tr style="
+                        padding:0;
+                        vertical-align:top;
+                        text-align:center">
+                        <td align="center"
+                            style="
+                            padding:0;
+                            vertical-align:top;
+                            text-align:center;
+                            color:#333333;
+                            font-family: Helvetica,Arial,sans-serif;
+                            font-weight:normal;
+                            margin:0;
+                            line-height:20px;
+                            font-size:14px;
+                            border-collapse:collapse!important">
+                            <center style="width:100%;max-width:580px">
+                                <!--main text block wrapper -->
+                                <span style="
+                                             border-width: 1px;
+                                             border-color: #c8c9ca;
+                                             border-style:solid;
+                                             border-top: none;
+                                             max-width:500px;
+                                             width:90%;
+                                             display: block;">
+                                     <table style="
+                                             border-spacing:0;
+                                             border-collapse:collapse;
+                                             padding:0;
+                                             vertical-align:top;
+                                             text-align:center;
+                                             margin:0 auto;
+                                             background-color:#ffffff;
+                                             max-width:500px;
+                                             width:100%;"
+                                            bgcolor="#ffffff">
+                                         <tr style="padding:0;
+                                             vertical-align:top;
+                                             text-align:center">
+                                             <td style="
+                                                 padding:30px 35px 25px;
+                                                 vertical-align:top;
+                                                 text-align:center;
+                                                 color:#333333;
+                                                 font-family: Helvetica,Arial,sans-serif;
+                                                 font-weight:normal;
+                                                 margin:0;
+                                                 line-height:20px;
+                                                 font-size:14px;
+                                                 border-collapse:collapse!important">
+
+                                                 <!--MAIN TEXT block -->
+                                                 <table style="
+                                                            border-spacing:0;
+                                                            border-collapse:collapse;
+                                                            padding:0;
+                                                            vertical-align:top;
+                                                            text-align:center;
+                                                            margin:0 auto;
+                                                            background-color:#ffffff;
+                                                            max-width:500px;
+                                                            width:100%;"
+                                                        bgcolor="#ffffff">
+
+                                                        <!-- main text heading -->
+                                                      <tr style="padding:0;
+                                                          vertical-align:top;
+                                                          text-align:center">
+                                                          <td style="
+                                                              padding:0px 0px 25px;
+                                                              vertical-align:top;
+                                                              text-align:center;
+                                                              color:#333333;
+                                                              font-family: Helvetica,Arial,sans-serif;
+                                                              font-weight:normal;
+                                                              margin:0;
+                                                              line-height:20px;
+                                                              font-size:14px;
+                                                              border-collapse:collapse!important">
+                                                              <span style="
+                                                                      color: #000000;
+                                                                      font-size: 20px;
+                                                                      line-height: 24px;
+                                                                      font-weight: bold;
+                                                                      font-family: Helvetica,Arial,sans-serif;
+                                                                      display: block">
+                                                                  Здравствуйте!
+                                                                </span>
+                                                          </td>
+                                                      </tr>
+                                                     <!-- main text content -->
+                                                      <tr style="padding:0;
+                                                          vertical-align:top;
+                                                          text-align:center">
+                                                          <td style="
+                                                              padding:0px 0px 20px;
+                                                              vertical-align:top;
+                                                              text-align:center;
+                                                              color:#333333;
+                                                              font-family: Helvetica,Arial,sans-serif;
+                                                              font-weight:normal;
+                                                              margin:0;
+                                                              line-height:20px;
+                                                              font-size:14px;
+                                                              border-collapse:collapse!important">
+
+                                                              <span align="left" style="
+                                                                      color: #000000;
+                                                                      font-size: 14px;
+                                                                      line-height: 28px;
+                                                                      font-weight: normal;
+                                                                      font-family: Helvetica,Arial,sans-serif;
+                                                                      display: block">
+                                                                                Пожалуйста, подтвердите свою регистрацию на GUP.ua.
+                                                                                <br>
+                                                                                Для этого вам просто надо перейти по следующей ссылке:
+                                                              </span>
+                                                          </td>
+                                                      </tr>
+
+                                                     <!-- main text link -->
+                                                     <tr style="padding:0;
+                                                         vertical-align:top;
+                                                         text-align:center">
+                                                         <td style="
+                                                             padding:0px 0px 20px;
+                                                             vertical-align:top;
+                                                             text-align:center;
+                                                             color:#333333;
+                                                             font-family: Helvetica,Arial,sans-serif;
+                                                             font-weight:normal;
+                                                             margin:0;
+                                                             line-height:20px;
+                                                             font-size:14px;
+                                                             border-collapse:collapse!important">
+                                                             <span style="
+                                                                     color: #000000;
+                                                                     font-size: 14px;
+                                                                     line-height: 28px;
+                                                                     font-weight: normal;
+                                                                     font-family: Helvetica,Arial,sans-serif;
+                                                                     display: block">
+                                                                 <a href="http://gup.com.ua:55555/сonfirmation-registration/${model.getHostNameUrl()}"
+                                                                    style="
+                                                                        color:#1976d2;
+                                                                        text-decoration: none;
+                                                                        font-size: 14px;
+                                                                        line-height: 22px;
+                                                                        font-weight: normal;
+                                                                        font-family: Helvetica,Arial,sans-serif;">
+                                                                     Подтверждение регистрации
+                                                                 </a>
+                                                             </span>
+                                                         </td>
+                                                     </tr>
+
+                                                     <!-- main text signature -->
+                                                      <tr style="padding:0;
+                                                          vertical-align:top;
+                                                          text-align:center">
+                                                          <td style="
+                                                              padding:0px;
+                                                              vertical-align:top;
+                                                              text-align:center;
+                                                              color:#333333;
+                                                              font-family: Helvetica,Arial,sans-serif;
+                                                              font-weight:normal;
+                                                              margin:0;
+                                                              line-height:20px;
+                                                              font-size:14px;
+                                                              border-collapse:collapse!important">
+
+                                                              <span align="left" style="
+                                                                      color: #000000;
+                                                                      font-size: 14px;
+                                                                      line-height: 24px;
+                                                                      font-weight: normal;
+                                                                      font-family: Helvetica,Arial,sans-serif;
+                                                                      display: block;
+                                                                      font-style:italic">
+                                                                  С уважением,
+                                                              </span>
+                                                              <span align="left" style="
+                                                                      color: #000000;
+                                                                      font-size: 14px;
+                                                                      line-height: 24px;
+                                                                      font-weight: normal;
+                                                                      font-family: Helvetica,Arial,sans-serif;
+                                                                      display: block;
+                                                                      font-style:italic">
+                                                                  Служба поддержки портала GUP
+                                                              </span>
+                                                          </td>
+                                                      </tr>
+
+                                                 </table>
+                                                 <!-- end of text content -->
+                                             </td>
+                                         </tr>
+                                     </table>
+                                 </span>
+                                <!-- end of main content wrapper -->
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+                <!-- CONTENT BLOCK END #################################### -->
+
+                <!-- FOOTER #################################### -->
+                <!-- footer wrapper -->
+                <table style="
+                        border-spacing:0;
+                        border-collapse:collapse;
+                        padding:0px;
+                        vertical-align:top;
+                        text-align:center;
+                        background-color: #ffffff;
+                        width:100%;
+                        max-width:580px"
+                       bgcolor="#ffffff">
+                    <tr style="
+                            padding:0;
+                            vertical-align:top;
+                            text-align:center">
+                        <td align="center"
+                            style="
+                                padding:15px 0px;
+                                vertical-align:top;
+                                text-align:center;
+                                color:#333333;
+                                font-family: Helvetica,Arial,sans-serif;
+                                font-weight:normal;
+                                margin:0;
+                                line-height:20px;
+                                font-size:14px;
+                                border-collapse:collapse!important">
+                            <center style="width:100%;max-width:580px">
+
+                                <!--footer content -->
+                                <table style="
+                                        border-spacing:0;
+                                        border-collapse:collapse;
+                                        padding:0;
+                                        vertical-align:top;
+                                        text-align:inherit;
+                                        max-width:580px;
+                                        width: 100%;
+                                        background-color: #ffffff;
+                                        margin:0 auto"
+                                       bgcolor="#ffffff">
+                                    <!-- first row -->
+                                    <tr style="
+                                            padding:0;
+                                            vertical-align:top;
+                                            text-align:center">
+                                        <td style="
+                                            padding:0;
+                                            vertical-align:top;
+                                            text-align:center;
+                                            color:#333333;
+                                            font-family: Helvetica,Arial,sans-serif;
+                                            font-weight:normal;
+                                            margin:0;
+                                            line-height:20px;
+                                            font-size:14px;
+                                            border-collapse:collapse!important">
+                                            <span style="
+                                                     color: #000000;
+                                                     font-size: 14px;
+                                                     line-height: 28px;
+                                                     font-weight: normal;
+                                                     font-family: Helvetica,Arial,sans-serif;
+                                                     display: block">
+                                                <a href="#"
+                                                   style="
+                                                        color:#1976d2;
+                                                        text-decoration: none;
+                                                        font-size: 14px;
+                                                        line-height: 28px;
+                                                        font-weight: normal;
+                                                        font-family: Helvetica,Arial,sans-serif;">
+                                                        Отписаться от рассылки
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- second row -->
+                                    <tr style="
+                                            padding:0;
+                                            vertical-align:top;
+                                            text-align:center">
+                                        <td style="
+                                            padding:0;
+                                            vertical-align:top;
+                                            text-align:center;
+                                            color:#333333;
+                                            font-family: Helvetica,Arial,sans-serif;
+                                            font-weight:normal;
+                                            margin:0;
+                                            line-height:20px;
+                                            font-size:14px;
+                                            border-collapse:collapse!important">
+                                            <span style="
+                                                     color: #000000;
+                                                     font-size: 14px;
+                                                     line-height: 28px;
+                                                     font-weight: normal;
+                                                     font-family: Helvetica,Arial,sans-serif;
+                                                     display: block">
+                                                <a href="#"
+                                                   style="
+                                                        color:#1976d2;
+                                                        text-decoration: none;
+                                                        font-size: 14px;
+                                                        line-height: 28px;
+                                                        font-weight: normal;
+                                                        font-family: Helvetica,Arial,sans-serif;">
+                                                        Настройки рассылки
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- footer content end -->
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+                <!-- FOOTER END #################################### -->
+
+            </center>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
