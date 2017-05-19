@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
+import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.file.FileWrapper;
@@ -19,11 +20,11 @@ import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
-import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferImageDTO;
 import ua.com.gup.service.dto.offer.OfferModeratorDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.service.mapper.OfferMapper;
@@ -151,6 +152,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get all Offers by filter");
+        calculatePriceInBaseCurrency(offerFilter.getPrice());
         Page<Offer> result = new PageImpl<>(offerRepository.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable));
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
@@ -375,7 +377,7 @@ public class OfferServiceImpl implements OfferService {
             return;
         }
         for (OfferImageDTO offerImageDTO : offerImageDTOS) {
-            if (!StringUtils.isEmpty(offerImageDTO.getImageId())&& offerImageIds.contains(offerImageDTO.getImageId())) {
+            if (!StringUtils.isEmpty(offerImageDTO.getImageId()) && offerImageIds.contains(offerImageDTO.getImageId())) {
                 imageService.deleteOfferImage(offerImageDTO.getImageId());
             }
             if (offerImageDTO.getBase64Data() != null) {
@@ -387,6 +389,23 @@ public class OfferServiceImpl implements OfferService {
         }
         offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
         offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+    }
+
+    private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
+        if (moneyFilter != null) {
+            if (moneyFilter.getCurrency() != null) {
+                final Currency currency = moneyFilter.getCurrency();
+                if (moneyFilter.getFrom() != null) {
+                    final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
+                    moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
+                }
+                if (moneyFilter.getTo() != null) {
+                    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
+                    moneyFilter.setTo(toInBaseCurrency.doubleValue());
+                }
+                moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
+            }
+        }
     }
 
 }
