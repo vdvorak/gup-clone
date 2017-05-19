@@ -1,8 +1,8 @@
 package ua.com.gup.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.offer.*;
@@ -15,7 +15,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
  */
 
 @Document(collection = Offer.COLLECTION_NAME)
+@CompoundIndex(name = Offer.COLLECTION_NAME + "_TextIndex", def = "{\"$**\":\"text\"}")
 public class Offer implements Serializable {
 
     public static final String COLLECTION_NAME = "offer2";
@@ -46,12 +49,10 @@ public class Offer implements Serializable {
 
     private LinkedList<OfferCategory> categories;
 
-    @TextIndexed
     @NotNull
     @Size(min = 2, max = 70, message = "The length of field 'title' should be in range 2-70")
     private String title;
 
-    @TextIndexed
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
