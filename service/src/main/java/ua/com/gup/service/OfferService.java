@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferModeratorDTO;
@@ -12,6 +13,7 @@ import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -161,4 +163,14 @@ public interface OfferService {
      * @return the entity
      */
     FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType);
+
+    /**
+     * Get one offer categories by search word.
+     *
+     * @param string the string
+     * @param page the page
+     * @param size the size
+     * @return the list of entities
+     */
+    List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 }

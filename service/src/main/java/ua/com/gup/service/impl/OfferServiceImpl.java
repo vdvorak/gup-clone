@@ -15,19 +15,18 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.domain.offer.OfferCategory;
+import ua.com.gup.domain.offer.OfferCategoryCount;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
-import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferImageDTO;
-import ua.com.gup.service.dto.offer.OfferModeratorDTO;
-import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.service.dto.offer.*;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.service.mapper.OfferCategoryCountMapper;
 import ua.com.gup.service.mapper.OfferMapper;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
@@ -58,18 +57,22 @@ public class OfferServiceImpl implements OfferService {
 
     private final OfferMapper offerMapper;
 
+    private final OfferCategoryCountMapper offerCategoryCountMapper;
+
     @Autowired
     public OfferServiceImpl(
             OfferRepository offerRepository,
             ImageService imageService,
             SequenceService sequenceService,
             CurrencyConverterService currencyConverterService,
-            OfferMapper offerMapper) {
+            OfferMapper offerMapper,
+            OfferCategoryCountMapper offerCategoryCountMapper) {
         this.offerRepository = offerRepository;
         this.imageService = imageService;
         this.sequenceService = sequenceService;
         this.currencyConverterService = currencyConverterService;
         this.offerMapper = offerMapper;
+        this.offerCategoryCountMapper = offerCategoryCountMapper;
     }
 
     /**
@@ -361,6 +364,24 @@ public class OfferServiceImpl implements OfferService {
         return imageService.findOne(id, sizeType);
     }
 
+    /**
+     * Get one offer categories by search word.
+     *
+     * @param string the string
+     * @param page the page
+     * @param size the size
+     * @return the list of entities
+     */
+    @Override
+    public List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size) {
+        log.debug("Request to search category by string : {}", string);
+        final List<OfferCategoryCount> offerCategoryCounts = offerRepository.searchCategoriesByString(string, page, size);
+        return offerCategoryCounts
+                .stream()
+                .map(c -> offerCategoryCountMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
+                .collect(Collectors.toList());
+    }
+
     private String generateUniqueSeoUrl(String title) {
         return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
     }
@@ -388,6 +409,7 @@ public class OfferServiceImpl implements OfferService {
 
         return result;
     }
+
 
     /**
      * Get offer image by id and size type.

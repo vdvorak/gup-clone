@@ -6,6 +6,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.domain.offer.OfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,8 @@ public interface OfferRepositoryCustom {
     void incrementFavorites(String id);
 
     void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
+
+    List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
 }
 
 
