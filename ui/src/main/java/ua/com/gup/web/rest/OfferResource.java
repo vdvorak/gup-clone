@@ -17,6 +17,7 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.OfferService;
+import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferModeratorDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
@@ -95,8 +96,8 @@ public class OfferResource {
     /**
      * GET  /offers/:seoUrl/relevant : get the offers relevant to given seo url.
      *
-     * @param seoUrl the seoUrl
-     * @param pageable    the pagination information
+     * @param seoUrl   the seoUrl
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
     @RequestMapping(value = "/offers/{seoUrl}/relevant", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -316,5 +317,18 @@ public class OfferResource {
                 .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
                 .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
                 .body(new InputStreamResource(imageWrapper.getInputStream()));
+    }
+
+
+    /**
+     * GET  /offers/search/category : get offer category by query.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+        log.debug("REST request to get offer categories by word string");
+        final List<OfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
+        return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }

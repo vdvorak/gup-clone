@@ -9,8 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -21,6 +24,7 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
+import ua.com.gup.domain.offer.OfferCategoryCount;
 import ua.com.gup.repository.custom.OfferRepositoryCustom;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +33,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 public class OfferRepositoryImpl implements OfferRepositoryCustom {
 
@@ -231,6 +237,31 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         }
         query.with(pageable);
         return mongoTemplate.find(query, Offer.class);
+    }
+
+    public List<OfferCategoryCount> searchCategoriesByString(String query, int page, int size) {
+        final String[] words = query.split(" ");
+        final Criteria[] criterias = new Criteria[words.length];
+        for (int i = 0; i < words.length; i++) {
+            criterias[i] = Criteria.where("title").regex("(?i:.*" + words[i] + ".*)");
+        }
+        TextCriteria textCriteria = TextCriteria
+                .forLanguage("russian");
+        textCriteria.matchingPhrase(query);
+        Aggregation agg = newAggregation(
+                match(Criteria.where("status").is(OfferStatus.ACTIVE.toString())),
+                match(new Criteria().andOperator(criterias)),
+                group("categoriesRegExp").count().as("count"),
+                project("count").and("categoriesRegExp").previousOperation(),
+                sort(Sort.Direction.DESC, "count"),
+                skip(page * size),
+                limit(size)
+        );
+        //Convert the aggregation result into a List
+        AggregationResults<OfferCategoryCount> groupResults
+                = mongoTemplate.aggregate(agg, Offer.class, OfferCategoryCount.class);
+        List<OfferCategoryCount> result = groupResults.getMappedResults();
+        return result;
     }
 }
 
