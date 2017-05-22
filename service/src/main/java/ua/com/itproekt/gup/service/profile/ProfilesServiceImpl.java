@@ -647,13 +647,14 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setInternalTransactionHistory(internalTransactionHistory);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        profileInfo.setUserOfferInfoList(userOfferInfoList)
-                .setSubscriptionList(subscriptionList)
-                .setTotalFeedbackAmount(totalFeedbackAmount)
-                .setOrderAmount(totalOrdersAmount)
-                .setOrderInfoBuyerList(orderInfoBuyerList)
-                .setOrderInfoSellerList(orderInfoSellerList)
-                .setFavoriteOfferInfoList(favoriteOfferInfoList);
+        //TODO user all OfferInfoList off
+//        profileInfo.setUserOfferInfoList(userOfferInfoList)
+//                .setSubscriptionList(subscriptionList)
+//                .setTotalFeedbackAmount(totalFeedbackAmount)
+//                .setOrderAmount(totalOrdersAmount)
+//                .setOrderInfoBuyerList(orderInfoBuyerList)
+//                .setOrderInfoSellerList(orderInfoSellerList)
+//                .setFavoriteOfferInfoList(favoriteOfferInfoList);
 
         profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
         profileInfo.getProfile().setFavoriteOffers(null);
