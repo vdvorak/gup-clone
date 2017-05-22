@@ -83,4 +83,16 @@ public class DailyRent {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "DailyRent{" +
+                "id='" + id + '\'' +
+                ", offerId='" + offerId + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", userInfo=" + userInfo +
+                ", monthOfPrices=" + monthOfPrices +
+                ", rents=" + rents +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

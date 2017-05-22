@@ -262,7 +262,13 @@ public class LoginRestController {
                 // TODO profile.setImgId(imgId);
                 profile.setImgUrl(profileVendor.getImage().get("url"));
                 /* Edit Profile */
-            profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
+//            profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
+            ///////////////////////////////////////////////////////
+            profile.setUsername(profileVendor.getUsername());
+            String[] fullname = profileVendor.getName().split(" ");
+            profile.setFirstname(fullname[0]);
+            profile.setLastname(fullname[1]);
+            ///////////////////////////////////////////////////////
             profile.setActive(true);
                 profilesService.editProfile(profile);
             // TODO } catch (NullPointerException e) {
