@@ -128,9 +128,13 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
-            TextCriteria textCriteria = TextCriteria.
-                    forLanguage("russian").
-                    matching(offerFilter.getQuery());
+            TextCriteria textCriteria = TextCriteria
+                    .forLanguage("russian");
+            if (pageable != null && pageable.getSort() != null) {
+                textCriteria.matchingPhrase(offerFilter.getQuery());
+            } else {
+                textCriteria.matching(offerFilter.getQuery());
+            }
             query.addCriteria(textCriteria);
         }
         if (excludedIds != null && excludedIds.size() > 0) {
