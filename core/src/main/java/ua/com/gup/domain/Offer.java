@@ -1,9 +1,9 @@
 package ua.com.gup.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Language;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.offer.*;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
  * A Offer.
  */
 
-@Document(collection = Offer.COLLECTION_NAME)
-@CompoundIndex(name = Offer.COLLECTION_NAME + "_TextIndex", def = "{\"$**\":\"text\"}")
+@Document(collection = Offer.COLLECTION_NAME, language = "russian")
 public class Offer implements Serializable {
 
     public static final String COLLECTION_NAME = "offer2";
@@ -33,6 +32,7 @@ public class Offer implements Serializable {
     @Id
     private String id;
 
+    @Language
     private String createdBy;
 
     private ZonedDateTime createdDate = ZonedDateTime.now();
@@ -153,7 +153,7 @@ public class Offer implements Serializable {
 
     public void setCategories(LinkedList<OfferCategory> categories) {
         this.categories = categories;
-        this.categoriesRegExp = categories.stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/"));
+        this.categoriesRegExp = categories.stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")) + "/";
     }
 
     public String getTitle() {

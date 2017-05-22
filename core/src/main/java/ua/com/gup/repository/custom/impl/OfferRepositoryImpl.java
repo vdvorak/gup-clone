@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
@@ -22,6 +23,7 @@ import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
 import ua.com.gup.repository.custom.OfferRepositoryCustom;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -35,6 +37,15 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @PostConstruct
+    public void createIndex() {
+        TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
+                .named(Offer.COLLECTION_NAME + "_TextIndex")
+                .onField("$**")
+                .withDefaultLanguage("russian")
+                .build();
+        mongoTemplate.indexOps(Offer.class).ensureIndex(textIndex);
+    }
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
@@ -117,9 +128,13 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
-            TextCriteria textCriteria = TextCriteria.
-                    forLanguage("ru").
-                    matching(offerFilter.getQuery());
+            TextCriteria textCriteria = TextCriteria
+                    .forLanguage("russian");
+            if (pageable != null && pageable.getSort() != null) {
+                textCriteria.matchingPhrase(offerFilter.getQuery());
+            } else {
+                textCriteria.matching(offerFilter.getQuery());
+            }
             query.addCriteria(textCriteria);
         }
         if (excludedIds != null && excludedIds.size() > 0) {
@@ -153,6 +168,9 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         }
         if (offerFilter.getCategories() != null) {
             String regex = "^" + offerFilter.getCategories().replace(",", "/");
+            if (!regex.endsWith("/")) {
+                regex = regex + "/";
+            }
             query.addCriteria(Criteria.where("categoriesRegExp").regex(regex, "i"));
         }
         if (offerFilter.getAddress() != null) {
