@@ -108,7 +108,7 @@ public class LoginLawyerRestController {
                 e.printStackTrace();
             }
             profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s)......
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s) ......HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
             // LOGIN:
             LoggedUser loggedUser = null;
@@ -126,7 +126,7 @@ public class LoginLawyerRestController {
 //                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
 //                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
 //                System.err.println("********************************************************************");
-                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString());
+//                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString()); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
                 //////////////////////////////////////////////////////////////////////////////////////////
 
                 ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
