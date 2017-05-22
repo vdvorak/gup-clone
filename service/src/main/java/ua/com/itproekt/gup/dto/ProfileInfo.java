@@ -20,14 +20,12 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
     private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
-    private List<OfferInfo> userOfferInfoList;
+//    private List<OfferInfo> userOfferInfoList; //TODO: off
     private List<Subscription> subscriptionList; // user's subscription list
-    private List<FavoriteOfferInfo> favoriteOfferInfoList; // user's favorite offers list
+//    private List<FavoriteOfferInfo> favoriteOfferInfoList; // user's favorite offers list //TODO: off
 
     private int orderAmount;
     private int totalFeedbackAmount;
-
-    // ToDo запросы на отзывы (спросить Сашу)
 
     public ProfileInfo() {
     }
@@ -126,14 +124,14 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<OfferInfo> getUserOfferInfoList() {
-        return userOfferInfoList;
-    }
-
-    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
-        this.userOfferInfoList = userOfferInfoList;
-        return this;
-    }
+//    public List<OfferInfo> getUserOfferInfoList() {
+//        return userOfferInfoList;
+//    }
+//
+//    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
+//        this.userOfferInfoList = userOfferInfoList;
+//        return this;
+//    }
 
     public List<Subscription> getSubscriptionList() {
         return subscriptionList;
@@ -162,14 +160,14 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<FavoriteOfferInfo> getFavoriteOfferInfoList() {
-        return favoriteOfferInfoList;
-    }
-
-    public ProfileInfo setFavoriteOfferInfoList(List<FavoriteOfferInfo> favoriteOfferInfoList) {
-        this.favoriteOfferInfoList = favoriteOfferInfoList;
-        return this;
-    }
+//    public List<FavoriteOfferInfo> getFavoriteOfferInfoList() {
+//        return favoriteOfferInfoList;
+//    }
+//
+//    public ProfileInfo setFavoriteOfferInfoList(List<FavoriteOfferInfo> favoriteOfferInfoList) {
+//        this.favoriteOfferInfoList = favoriteOfferInfoList;
+//        return this;
+//    }
 
     @Override
     public String toString() {
@@ -184,9 +182,9 @@ public class ProfileInfo {
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 ", orderInfoBuyerList=" + orderInfoBuyerList +
                 ", orderInfoSellerList=" + orderInfoSellerList +
-                ", userOfferInfoList=" + userOfferInfoList +
+//                ", userOfferInfoList=" + userOfferInfoList +
                 ", subscriptionList=" + subscriptionList +
-                ", favoriteOfferInfoList=" + favoriteOfferInfoList +
+//                ", favoriteOfferInfoList=" + favoriteOfferInfoList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +
                 '}';
