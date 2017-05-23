@@ -372,6 +372,8 @@ public interface ProfilesService {
      */
     void deleteFromMyContactList(String profileId);
 
+    void deleteFromMySocialList(String userId, String profileId);
+
     /**
      * Add or delete offer into offer favorite list.
      *

@@ -563,6 +563,19 @@ public class ProfilesServiceImpl implements ProfilesService {
         Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
 
         contactList.remove(profileId);
+        profile.setContactList(contactList);
+
+        editProfile(profile);
+    }
+
+    @Override
+    public void deleteFromMySocialList(String userId, String profileId) {
+        Profile profile = findById(userId);
+
+        Set<String> socialList = profile.getSocialList();
+
+        socialList.remove(profileId);
+        profile.setSocialList(socialList);
 
         editProfile(profile);
     }
