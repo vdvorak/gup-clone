@@ -349,7 +349,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setStatus(status);
             offer = offerRepository.save(offer);
         } else {
-            offer = null;
+            return Optional.empty();
         }
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
@@ -370,8 +370,8 @@ public class OfferServiceImpl implements OfferService {
      * Get one offer categories by search word.
      *
      * @param string the string
-     * @param page the page
-     * @param size the size
+     * @param page   the page
+     * @param size   the size
      * @return the list of entities
      */
     @Override
