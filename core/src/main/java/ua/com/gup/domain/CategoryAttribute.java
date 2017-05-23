@@ -7,10 +7,7 @@ import ua.com.gup.domain.category.attribute.CategoryAttributeValidator;
 import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Document(collection = CategoryAttribute.COLLECTION_NAME)
 public class CategoryAttribute implements Serializable {
@@ -38,7 +35,7 @@ public class CategoryAttribute implements Serializable {
 
     private CategoryAttributeValidator validator;
 
-    private Set<CategoryAttributeValue> values = new HashSet<>();
+    private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
 
     public String getId() {
         return id;
@@ -112,11 +109,11 @@ public class CategoryAttribute implements Serializable {
         this.validator = validator;
     }
 
-    public Set<CategoryAttributeValue> getValues() {
+    public LinkedHashSet<CategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(Set<CategoryAttributeValue> values) {
+    public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
         this.values = values;
     }
 
