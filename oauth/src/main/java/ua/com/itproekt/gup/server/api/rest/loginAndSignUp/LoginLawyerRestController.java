@@ -293,7 +293,7 @@ public class LoginLawyerRestController {
         if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
             profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             profilesService.editProfile(profile);
-            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
+//            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword())); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("authToken")) {
@@ -324,15 +324,51 @@ public class LoginLawyerRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "admin/change-email", method = RequestMethod.POST)
-    public ResponseEntity<String> changeEmail(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
-        return new ResponseEntity<>(HttpStatus.FOUND);
+    public ResponseEntity<String> changeEmail(@RequestBody String email, HttpServletRequest request, HttpServletResponse response) {
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = profilesService.findById(loggedUserId);
+
+        // we cant't allow empty email field for some cases
+        if (profile.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (profile.getEmail().equals("")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setEmail(email);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "admin/change-phone", method = RequestMethod.POST)
-    public ResponseEntity<String> changePhone(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
-        return new ResponseEntity<>(HttpStatus.FOUND);
+    public ResponseEntity<String> changePhone(@RequestBody String mainPhoneNumber, HttpServletRequest request, HttpServletResponse response) {
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = profilesService.findById(loggedUserId);
+
+        // we cant't allow empty email field for some cases
+        if (profile.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (profile.getEmail().equals("")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setMainPhoneNumber(mainPhoneNumber);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
 
