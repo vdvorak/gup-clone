@@ -219,7 +219,7 @@ public class ProfileRestController {
 
         if( userId!=null ){
             profilesService.deleteFromMySocialList(userId, profileId);
-            return new ResponseEntity<>("{\"addFrom\":\""+userId+"\", \"addTo\":\""+profileId+"\"}", HttpStatus.OK);
+            return new ResponseEntity<>("{\"deleteFrom\":\""+userId+"\", \"deleteTo\":\""+profileId+"\"}", HttpStatus.RESET_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
