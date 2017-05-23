@@ -227,8 +227,8 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
 
-//        if (!profilesService.profileExists(profileId)) { //TODO: need make test...
-        if (!profilesService.profilePublicExists(profileId)) {
+        if (!profilesService.profileExists(profileId)) { //TODO: need make test...
+//        if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
