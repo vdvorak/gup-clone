@@ -159,7 +159,7 @@ public class OfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> changeStatus(@RequestParam String id, @RequestParam OfferStatus status) throws URISyntaxException {
+    public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable OfferStatus status) throws URISyntaxException {
         log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
         Optional<OfferViewDetailsDTO> result = offerService.updateStatus(id, status);
         if (!result.isPresent()) {
