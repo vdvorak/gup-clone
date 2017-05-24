@@ -27,6 +27,7 @@ import ua.com.gup.service.dto.offer.*;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.mapper.OfferCategoryCountMapper;
 import ua.com.gup.service.mapper.OfferMapper;
 import ua.com.gup.service.security.SecurityUtils;
@@ -127,14 +128,14 @@ public class OfferServiceImpl implements OfferService {
     /**
      * Save a offer modified by moderator.
      *
-     * @param offerModeratorDTO the entity to save
+     * @param offerModerationReportDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public OfferViewDetailsDTO save(OfferModeratorDTO offerModeratorDTO) {
-        log.debug("Request to save Offer modified by moderator: {}", offerModeratorDTO);
-        Offer offer = offerRepository.findOne(offerModeratorDTO.getId());
-        offerMapper.offerModeratorDTOToOffer(offerModeratorDTO, offer);
+    public OfferViewDetailsDTO save(OfferModerationReportDTO offerModerationReportDTO) {
+        log.debug("Request to save Offer modified by moderator: {}", offerModerationReportDTO);
+        Offer offer = offerRepository.findOne(offerModerationReportDTO.getId());
+        offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
         if (offer.getLastModerationReport().isRefused()) {
             offer.setStatus(OfferStatus.REJECTED);
         } else {
@@ -169,10 +170,10 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferViewShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
         Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, authorId, pageable);
-        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     /**
@@ -183,10 +184,10 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferViewShortDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and authorId = {}", status);
         Page<Offer> result = offerRepository.findAllByStatus(status, pageable);
-        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
 

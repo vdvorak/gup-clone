@@ -8,10 +8,11 @@ import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +41,10 @@ public interface OfferService {
     /**
      * Save a offer modified by moderator.
      *
-     * @param offerModeratorDTO the entity to save
+     * @param offerModerationReportDTO the entity to save
      * @return the persisted entity
      */
-    OfferViewDetailsDTO save(OfferModeratorDTO offerModeratorDTO);
+    OfferViewDetailsDTO save(OfferModerationReportDTO offerModerationReportDTO);
 
     /**
      * Get all the offers.
@@ -62,7 +63,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
 
     /**
      * Get all the offers by status.
@@ -71,7 +72,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortDTO> findAllByStatus(OfferStatus status, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable);
 
 
     /**
