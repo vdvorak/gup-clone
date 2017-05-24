@@ -34,14 +34,11 @@ public class OfferDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return OfferCreateDTO.class.equals(clazz) || OfferUpdateDTO.class.equals(clazz) || OfferFilter.class.equals(clazz);
+        return OfferCreateDTO.class.equals(clazz) || OfferUpdateDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (OfferFilter.class.isInstance(target)) {
-            return;
-        }
         boolean isUpdateDTO = OfferUpdateDTO.class.isInstance(target);
         OfferCreateDTO offerCreateDTO = (OfferCreateDTO) target;
         if (isUpdateDTO) {
