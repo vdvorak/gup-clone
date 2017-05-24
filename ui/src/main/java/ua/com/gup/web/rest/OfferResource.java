@@ -19,11 +19,12 @@ import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
@@ -133,19 +134,19 @@ public class OfferResource {
     /**
      * PUT  /offers : Updates an existing offer by moderator.
      *
-     * @param offerModeratorDTO the offerDTO to update
+     * @param offerModerationReportDTO the offerDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
      * or with status 400 (Bad Request) if the offerDTO is not valid,
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModeratorDTO offerModeratorDTO) throws URISyntaxException {
-        log.debug("REST request to update Offer by moderator : {}", offerModeratorDTO);
+    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) throws URISyntaxException {
+        log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in 'ROLE_MODERATOR'")).body(null);
         }
-        OfferViewDetailsDTO result = offerService.save(offerModeratorDTO);
+        OfferViewDetailsDTO result = offerService.save(offerModerationReportDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
@@ -229,7 +230,7 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortDTO>> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User isn't authenticated")).body(null);
@@ -237,7 +238,7 @@ public class OfferResource {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/my/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -250,7 +251,7 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_MODERATOR'")).body(null);
@@ -258,7 +259,7 @@ public class OfferResource {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
