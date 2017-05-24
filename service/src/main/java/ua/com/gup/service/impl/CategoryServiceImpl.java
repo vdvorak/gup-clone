@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.Category;
-import ua.com.gup.domain.CategoryAttribute;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 import ua.com.gup.domain.offer.OfferCategory;
 import ua.com.gup.repository.CategoryRepository;
 import ua.com.gup.service.CategoryAttributeService;
@@ -14,8 +12,6 @@ import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeValidatorDTO;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.service.mapper.CategoryMapper;
 
@@ -110,10 +106,8 @@ public class CategoryServiceImpl implements CategoryService {
             categories.put(category.getCode(), categoryToCategoryTreeDTO(category, lang));
         }
         for (Category category : categoriesList) {
-            if (categories.containsKey(category.getParent())) {
-                Set<CategoryTreeDTO> children = categories.get(category.getParent()).getChildren();
-                children.add(categories.get(category.getCode()));
-            }
+            if (categories.containsKey(category.getParent()))
+                categories.get(category.getParent()).getChildren().add(categories.get(category.getCode()));
         }
         final Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
         for (Integer code : categories.keySet()) {
@@ -131,44 +125,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .sorted(CategoryTreeDTO.getCategoryTreeDTOComparator(lang))
                 .collect(Collectors.toList());
     }
-
-//    private Map<Integer, TreeSet<CategoryAttributeDTO>> getCategoryAttributeDTOs(String lang) {
-//        final List<CategoryAttribute> categoryAttributes = categoryAttributeService.findAll();
-//        Map<Integer, TreeSet<CategoryAttributeDTO>> categoryAttributeDTOs = new ConcurrentHashMap<>();
-//        categoryAttributes.removeIf(c -> !c.isActive());
-//        for (CategoryAttribute categoryAttribute : categoryAttributes) {
-//            for (Integer category : categoryAttribute.getCategories()) {
-//                if (!categoryAttributeDTOs.containsKey(category)) {
-//                    categoryAttributeDTOs.put(category, new TreeSet<>(Comparator.comparing(CategoryAttributeDTO::getTitle)));
-//                }
-//                CategoryAttributeDTO attributeDTO = new CategoryAttributeDTO();
-//                attributeDTO.setCode(categoryAttribute.getCode());
-//                attributeDTO.setActive(categoryAttribute.isActive());
-//                attributeDTO.setKey(categoryAttribute.getKey());
-//                attributeDTO.setTitle(categoryAttribute.getTitle().get(lang));
-//                attributeDTO.setUnit(categoryAttribute.getUnit().get(lang));
-//                attributeDTO.setType(categoryAttribute.getType());
-//                CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
-//                validatorDTO.setMin(categoryAttribute.getValidator().getMin());
-//                validatorDTO.setMax(categoryAttribute.getValidator().getMax());
-//                boolean exceptThis = categoryAttribute.getValidator().getExcept().contains(category);
-//                validatorDTO.setRequired(categoryAttribute.getValidator().isRequired() ^ exceptThis);
-//                attributeDTO.setValidator(validatorDTO);
-//                LinkedHashSet<CategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
-//                for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
-//                    if (!attributeValue.getExceptCategory().contains(category)) {
-//                        CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
-//                        valueDTO.setKey(attributeValue.getKey());
-//                        valueDTO.setTitle(attributeValue.getTitle().get(lang));
-//                        valueDTOS.add(valueDTO);
-//                    }
-//                }
-//                attributeDTO.setValues(valueDTOS);
-//                categoryAttributeDTOs.get(category).add(attributeDTO);
-//            }
-//        }
-//        return categoryAttributeDTOs;
-//    }
 
     /**
      * Get the "id" category.
