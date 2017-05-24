@@ -8,9 +8,9 @@ import ua.com.gup.domain.CategoryAttribute;
 import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 import ua.com.gup.repository.CategoryAttributeRepository;
 import ua.com.gup.service.CategoryAttributeService;
-import ua.com.gup.service.dto.category.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.CategoryAttributeValidatorDTO;
-import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValidatorDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 
 import java.util.LinkedHashSet;
 import java.util.List;

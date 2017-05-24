@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.category;
+package ua.com.gup.service.dto.category.tree;
 
 
 import ua.com.gup.domain.category.attribute.CategoryAttributeType;

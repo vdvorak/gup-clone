@@ -1,7 +1,7 @@
 package ua.com.gup.service;
 
 import ua.com.gup.domain.CategoryAttribute;
-import ua.com.gup.service.dto.category.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
 
 import java.util.LinkedHashSet;
 import java.util.List;
