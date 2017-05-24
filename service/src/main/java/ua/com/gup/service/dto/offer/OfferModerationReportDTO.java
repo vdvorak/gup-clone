@@ -2,12 +2,13 @@ package ua.com.gup.service.dto.offer;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.OfferModerationReport;
+import ua.com.gup.domain.enumeration.OfferRefusalReason;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
-public class OfferModeratorDTO implements Serializable {
+public class OfferModerationReportDTO implements Serializable {
 
     @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
     @NotNull
@@ -17,7 +18,9 @@ public class OfferModeratorDTO implements Serializable {
     private Integer category;
 
     @ApiModelProperty(position = 130)
-    private OfferModerationReport moderationReport;
+    private List<OfferRefusalReason> refusalReasons;
+
+    private String description;
 
     public String getId() {
         return id;
@@ -35,11 +38,19 @@ public class OfferModeratorDTO implements Serializable {
         this.category = category;
     }
 
-    public OfferModerationReport getModerationReport() {
-        return moderationReport;
+    public List<OfferRefusalReason> getRefusalReasons() {
+        return refusalReasons;
     }
 
-    public void setModerationReport(OfferModerationReport moderationReport) {
-        this.moderationReport = moderationReport;
+    public void setRefusalReasons(List<OfferRefusalReason> refusalReasons) {
+        this.refusalReasons = refusalReasons;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -14,14 +14,15 @@ import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.category.CategoryAttributeDTO;
 import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferModeratorDTO;
+import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewBaseDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -76,24 +77,34 @@ public class OfferMapper {
         }
     }
 
-    public void offerModeratorDTOToOffer(OfferModeratorDTO source, Offer target) {
+    public void offerModeratorDTOToOffer(OfferModerationReportDTO source, Offer target) {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getOfferCategories(source.getCategory()));
         }
-        OfferModerationReport moderationReport = source.getModerationReport();
-        if (moderationReport == null) {
-            moderationReport = new OfferModerationReport();
-        }
+        OfferModerationReport moderationReport = new OfferModerationReport();
+        moderationReport.setDescription(source.getDescription());
+        moderationReport.setRefusalReasons(source.getRefusalReasons());
         moderationReport.setModeratorId(SecurityUtils.getCurrentUserId());
-        moderationReport.setLastModifiedDate(LocalDateTime.now());
+        moderationReport.setLastModifiedDate(ZonedDateTime.now());
         target.setLastModerationReport(moderationReport);
     }
 
     public OfferViewShortDTO offerToOfferShortDTO(Offer offer) {
         OfferViewShortDTO offerViewShortDTO = new OfferViewShortDTO();
-        fromOfferToOfferViewBaseDTO(offer, offerViewShortDTO);
-        offerViewShortDTO.setAddress(addressMapper.addressToAddressShortDTO(offer.getAddress()));
+        fromOfferToOfferViewShortDTO(offer, offerViewShortDTO);
         return offerViewShortDTO;
+    }
+
+    public OfferViewShortWithModerationReportDTO offerToOfferViewShortWithModerationReportDTO(Offer offer) {
+        OfferViewShortWithModerationReportDTO offerViewShortWithModerationReportDTO = new OfferViewShortWithModerationReportDTO();
+        fromOfferToOfferViewShortDTO(offer, offerViewShortWithModerationReportDTO);
+        offerViewShortWithModerationReportDTO.setModerationReport(offer.getLastModerationReport());
+        return offerViewShortWithModerationReportDTO;
+    }
+
+    private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target){
+        fromOfferToOfferViewBaseDTO(source, target);
+        target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
     }
 
     public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
