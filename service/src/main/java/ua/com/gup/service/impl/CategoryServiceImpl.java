@@ -43,6 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryTreeDTO.setActive(category.isActive());
         categoryTreeDTO.setKey(category.getKey());
         categoryTreeDTO.setTitle(category.getTitle());
+        categoryTreeDTO.setDescription(category.getDescription());
         categoryTreeDTO.setAttrs(new LinkedHashSet<>());
         categoryTreeDTO.setChildren(new LinkedHashSet<>());
         return categoryTreeDTO;

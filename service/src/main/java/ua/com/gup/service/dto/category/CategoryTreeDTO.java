@@ -11,6 +11,7 @@ public class CategoryTreeDTO implements Serializable {
     private boolean active;
     private String key;
     private Map<String, String> title = new HashMap<>();
+    private Map<String, String> description = new HashMap<>();
     private LinkedHashSet<CategoryAttributeDTO> attrs = new LinkedHashSet<>();
     private LinkedHashSet<CategoryTreeDTO> children = new LinkedHashSet<>();
 
@@ -44,6 +45,14 @@ public class CategoryTreeDTO implements Serializable {
 
     public void setTitle(Map<String, String> title) {
         this.title = title;
+    }
+
+    public Map<String, String> getDescription() {
+        return description;
+    }
+
+    public void setDescription(Map<String, String> description) {
+        this.description = description;
     }
 
     public LinkedHashSet<CategoryAttributeDTO> getAttrs() {

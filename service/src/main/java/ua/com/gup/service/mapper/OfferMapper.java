@@ -22,7 +22,7 @@ import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class OfferMapper {
         moderationReport.setDescription(source.getDescription());
         moderationReport.setRefusalReasons(source.getRefusalReasons());
         moderationReport.setModeratorId(SecurityUtils.getCurrentUserId());
-        moderationReport.setLastModifiedDate(LocalDateTime.now());
+        moderationReport.setLastModifiedDate(ZonedDateTime.now());
         target.setLastModerationReport(moderationReport);
     }
 

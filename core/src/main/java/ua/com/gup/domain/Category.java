@@ -28,6 +28,8 @@ public class Category implements Serializable {
 
     private Map<String, String> title = new HashMap<>();
 
+    private Map<String, String> description = new HashMap<>();
+
     public String getId() {
         return id;
     }
@@ -74,6 +76,14 @@ public class Category implements Serializable {
 
     public void setTitle(Map<String, String> title) {
         this.title = title;
+    }
+
+    public Map<String, String> getDescription() {
+        return description;
+    }
+
+    public void setDescription(Map<String, String> description) {
+        this.description = description;
     }
 
     @Override

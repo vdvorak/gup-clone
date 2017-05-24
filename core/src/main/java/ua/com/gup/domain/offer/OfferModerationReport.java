@@ -1,17 +1,20 @@
 package ua.com.gup.domain.offer;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ua.com.gup.domain.enumeration.OfferRefusalReason;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
-public class OfferModerationReport {
+public class OfferModerationReport implements Serializable {
 
     private String moderatorId;
 
-    private LocalDateTime lastModifiedDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    private ZonedDateTime lastModifiedDate;
 
     private List<OfferRefusalReason> refusalReasons;
 
@@ -25,11 +28,11 @@ public class OfferModerationReport {
         this.moderatorId = moderatorId;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
