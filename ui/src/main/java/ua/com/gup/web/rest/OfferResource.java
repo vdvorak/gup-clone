@@ -56,7 +56,12 @@ public class OfferResource {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(offerDTOValidator);
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (OfferCreateDTO.class.equals(clazz) || OfferUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(offerDTOValidator);
+            }
+        }
     }
 
     /**
