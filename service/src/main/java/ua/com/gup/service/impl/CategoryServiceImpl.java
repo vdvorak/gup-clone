@@ -101,6 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Collection<CategoryTreeDTO> findAllTreeView(String lang) {
         log.debug("Request to get all Categories in tree view");
         final List<Category> categoriesList = categoryRepository.findAll();
+        categoriesList.removeIf(c -> !c.isActive());
         final Map<Integer, CategoryTreeDTO> categories = new LinkedHashMap<>();
         for (Category category : categoriesList) {
             categories.put(category.getCode(), categoryToCategoryTreeDTO(category, lang));

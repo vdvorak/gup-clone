@@ -2,11 +2,11 @@ package ua.com.gup.web.rest.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.com.gup.domain.Category;
-import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
@@ -18,9 +18,6 @@ public class CategoryDTOValidator implements Validator {
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private CategoryAttributeService categoryAttributeService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -53,5 +50,8 @@ public class CategoryDTOValidator implements Validator {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }
 
+        if (StringUtils.isEmpty(categoryCreateDTO.getKey())) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "title.required");
+        }
     }
 }

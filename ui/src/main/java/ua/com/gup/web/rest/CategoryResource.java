@@ -12,12 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.gup.domain.Category;
 import ua.com.gup.domain.CategoryAttribute;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
+import ua.com.gup.service.dto.category.CategoryAttributeCreateDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
 import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
@@ -25,6 +28,8 @@ import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.MD5Util;
 import ua.com.gup.web.rest.util.ResponseUtil;
+import ua.com.gup.web.rest.validator.CategoryAttributeDTOValidator;
+import ua.com.gup.web.rest.validator.CategoryDTOValidator;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
@@ -54,8 +59,24 @@ public class CategoryResource {
     @Autowired
     private CategoryAttributeService categoryAttributeService;
 
-//    @Autowired
-//    private ObjectMapper mapper;
+    @Autowired
+    private CategoryDTOValidator categoryDTOValidator;
+
+    @Autowired
+    private CategoryAttributeDTOValidator categoryAttributeDTOValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (CategoryCreateDTO.class.equals(clazz) || CategoryUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(categoryDTOValidator);
+            }
+            if (CategoryAttributeCreateDTO.class.equals(clazz) || CategoryAttributeUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(categoryAttributeDTOValidator);
+            }
+        }
+    }
 
     /**
      * POST  /category-attributes : Create a new categoryAttribute.
@@ -65,7 +86,7 @@ public class CategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttribute categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
@@ -90,7 +111,7 @@ public class CategoryResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
         final CategoryAttribute categoryAttribute = categoryAttributeService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.of(categoryAttribute));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(categoryAttribute));
     }
 
     /**
@@ -103,7 +124,7 @@ public class CategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttribute categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
@@ -178,7 +199,7 @@ public class CategoryResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
         final Category category = categoryService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.of(category));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(category));
     }
 
     /**

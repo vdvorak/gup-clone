@@ -8,13 +8,17 @@ import ua.com.gup.domain.CategoryAttribute;
 import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 import ua.com.gup.repository.CategoryAttributeRepository;
 import ua.com.gup.service.CategoryAttributeService;
+import ua.com.gup.service.dto.category.CategoryAttributeCreateDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
+import ua.com.gup.service.mapper.CategoryAttributeMapper;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,22 +31,41 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
 
     private final CategoryAttributeRepository categoryAttributeRepository;
 
+    private final CategoryAttributeMapper categoryAttributeMapper;
+
     private Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
 
     @Autowired
-    public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository) {
+    public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository, CategoryAttributeMapper categoryAttributeMapper) {
         this.categoryAttributeRepository = categoryAttributeRepository;
+        this.categoryAttributeMapper = categoryAttributeMapper;
     }
 
     /**
      * Save a categoryAttribute.
      *
-     * @param categoryAttribute the entity to save
+     * @param categoryAttributeCreateDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public CategoryAttribute save(CategoryAttribute categoryAttribute) {
-        log.debug("Request to save CategoryAttribute : {}", categoryAttribute);
+    public CategoryAttribute save(CategoryAttributeCreateDTO categoryAttributeCreateDTO) {
+        log.debug("Request to save CategoryAttribute : {}", categoryAttributeCreateDTO);
+        final CategoryAttribute attribute = categoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(categoryAttributeCreateDTO);
+        final CategoryAttribute saved = categoryAttributeRepository.save(attribute);
+        clearCache();
+        return saved;
+    }
+
+    /**
+     * Save a categoryAttribute.
+     *
+     * @param categoryAttributeUpdateDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public CategoryAttribute save(CategoryAttributeUpdateDTO categoryAttributeUpdateDTO) {
+        log.debug("Request to save CategoryAttribute : {}", categoryAttributeUpdateDTO);
+        final CategoryAttribute categoryAttribute = categoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(categoryAttributeUpdateDTO);
         final CategoryAttribute saved = categoryAttributeRepository.save(categoryAttribute);
         clearCache();
         return saved;
@@ -71,6 +94,17 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
         return categoryAttributeRepository.findOne(id);
     }
 
+    /**
+     * Get the "code" categoryAttribute.
+     *
+     * @param code the code of the entity
+     * @return the entity
+     */
+    @Override
+    public Optional<CategoryAttribute> findOneByCode(int code) {
+        log.debug("Request to get CategoryAttribute : {}", code);
+        return categoryAttributeRepository.findOneByCode(code);
+    }
 
     /**
      * Delete the "id" categoryAttribute.
