@@ -12,6 +12,7 @@ import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.service.mapper.CategoryMapper;
 
@@ -111,6 +112,14 @@ public class CategoryServiceImpl implements CategoryService {
                 categories.get(category.getParent()).getChildren().add(categories.get(category.getCode()));
         }
         final Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
+        for (Integer code : categoryAttributeDTOs.keySet()) {
+            final LinkedHashSet<CategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            for (CategoryAttributeDTO attributeDTO : attributes) {
+                TreeSet<CategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle().getOrDefault(lang, "")));
+                sortedSet.addAll(attributeDTO.getValues());
+                attributeDTO.setValues(sortedSet);
+            }
+        }
         for (Integer code : categories.keySet()) {
             if (categoryAttributeDTOs.containsKey(code)) {
                 categories.get(code).setAttrs(categoryAttributeDTOs.get(code));

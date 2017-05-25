@@ -19,7 +19,7 @@ import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -91,7 +91,7 @@ public class OfferDTOValidator implements Validator {
                             } else {
                                 CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
-                                final LinkedHashSet<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
+                                final Set<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
                                 if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
                                     errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
                                 }
