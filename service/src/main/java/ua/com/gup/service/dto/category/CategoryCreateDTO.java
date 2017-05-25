@@ -1,26 +1,27 @@
 package ua.com.gup.service.dto.category;
 
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
-public class CategoryTreeDTO implements Serializable {
-    private int code;
-    private boolean active;
-    private String key;
-    private Map<String, String> title = new HashMap<>();
-    private Map<String, String> description = new HashMap<>();
-    private LinkedHashSet<CategoryAttributeDTO> attrs = new LinkedHashSet<>();
-    private LinkedHashSet<CategoryTreeDTO> children = new LinkedHashSet<>();
+public class CategoryCreateDTO {
 
-    public int getCode() {
-        return code;
+    private int parent;
+
+    private boolean active;
+
+    private String key;
+
+    private Map<String, String> title = new HashMap<>();
+
+    private Map<String, String> description = new HashMap<>();
+
+    public int getParent() {
+        return parent;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setParent(int parent) {
+        this.parent = parent;
     }
 
     public boolean isActive() {
@@ -54,21 +55,4 @@ public class CategoryTreeDTO implements Serializable {
     public void setDescription(Map<String, String> description) {
         this.description = description;
     }
-
-    public LinkedHashSet<CategoryAttributeDTO> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(LinkedHashSet<CategoryAttributeDTO> attrs) {
-        this.attrs = attrs;
-    }
-
-    public LinkedHashSet<CategoryTreeDTO> getChildren() {
-        return children;
-    }
-
-    public void setChildren(LinkedHashSet<CategoryTreeDTO> children) {
-        this.children = children;
-    }
-
 }
