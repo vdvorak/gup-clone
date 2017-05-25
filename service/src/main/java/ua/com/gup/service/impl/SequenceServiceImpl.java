@@ -26,11 +26,15 @@ public class SequenceServiceImpl implements SequenceService {
     @Override
     public long getNextSequenceValue(String sequenceId) {
         if (!sequenceExists.getOrDefault(sequenceId, false)) {
-            Sequence sequence = new Sequence();
-            sequence.setId(sequenceId);
-            sequence.setValue(0);
-            sequenceRepository.save(sequence);
-            sequenceExists.put(sequenceId, sequenceRepository.exists(sequenceId));
+            if (sequenceRepository.exists(sequenceId)) {
+                sequenceExists.put(sequenceId, true);
+            } else {
+                Sequence sequence = new Sequence();
+                sequence.setId(sequenceId);
+                sequence.setValue(0);
+                sequenceRepository.save(sequence);
+                sequenceExists.put(sequenceId, sequenceRepository.exists(sequenceId));
+            }
         }
         return sequenceRepository.getNextSequenceValue(sequenceId);
     }
