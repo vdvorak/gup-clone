@@ -1,9 +1,10 @@
 package ua.com.gup.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Language;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.offer.*;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
  */
 
 @Document(collection = Offer.COLLECTION_NAME, language = "russian")
+@CompoundIndexes({
+        @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
+})
 public class Offer implements Serializable {
 
     public static final String COLLECTION_NAME = "offer2";
@@ -32,19 +36,17 @@ public class Offer implements Serializable {
     @Id
     private String id;
 
-    @Language
     private String createdBy;
 
     private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
 
+    @Indexed
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
-    @Indexed
     private OfferStatus status;
 
-    @Indexed
     private String categoriesRegExp;
 
     private LinkedList<OfferCategory> categories;
