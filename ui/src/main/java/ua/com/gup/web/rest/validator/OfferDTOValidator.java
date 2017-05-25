@@ -7,12 +7,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.com.gup.domain.category.attribute.CategoryAttributeType;
-import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.category.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.CategoryAttributeValidatorDTO;
-import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValidatorDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.offer.OfferAddressDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
@@ -20,6 +19,7 @@ import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -91,7 +91,7 @@ public class OfferDTOValidator implements Validator {
                             } else {
                                 CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
-                                final LinkedHashSet<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
+                                final Set<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
                                 if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
                                     errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
                                 }

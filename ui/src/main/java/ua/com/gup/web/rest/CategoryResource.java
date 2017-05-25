@@ -2,7 +2,6 @@ package ua.com.gup.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -13,17 +12,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.gup.domain.Category;
 import ua.com.gup.domain.CategoryAttribute;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.category.CategoryTreeDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeCreateDTO;
+import ua.com.gup.service.dto.category.CategoryAttributeUpdateDTO;
+import ua.com.gup.service.dto.category.CategoryCreateDTO;
+import ua.com.gup.service.dto.category.CategoryUpdateDTO;
+import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.MD5Util;
 import ua.com.gup.web.rest.util.ResponseUtil;
+import ua.com.gup.web.rest.validator.CategoryAttributeDTOValidator;
+import ua.com.gup.web.rest.validator.CategoryDTOValidator;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
@@ -31,7 +37,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * REST controller for managing Category.
@@ -42,8 +50,8 @@ public class CategoryResource {
 
     private static final String ENTITY_NAME = "category";
     private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
-    private String categoriesTreeViewETag = "";
-    private ResponseEntity<Collection<CategoryTreeDTO>> cacheCategoriesTreeViewResponse;
+    private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
+    private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 
     @Autowired
     private CategoryService categoryService;
@@ -51,8 +59,24 @@ public class CategoryResource {
     @Autowired
     private CategoryAttributeService categoryAttributeService;
 
-//    @Autowired
-//    private ObjectMapper mapper;
+    @Autowired
+    private CategoryDTOValidator categoryDTOValidator;
+
+    @Autowired
+    private CategoryAttributeDTOValidator categoryAttributeDTOValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (CategoryCreateDTO.class.equals(clazz) || CategoryUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(categoryDTOValidator);
+            }
+            if (CategoryAttributeCreateDTO.class.equals(clazz) || CategoryAttributeUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(categoryAttributeDTOValidator);
+            }
+        }
+    }
 
     /**
      * POST  /category-attributes : Create a new categoryAttribute.
@@ -62,7 +86,7 @@ public class CategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttribute categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
@@ -87,7 +111,7 @@ public class CategoryResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
         final CategoryAttribute categoryAttribute = categoryAttributeService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.of(categoryAttribute));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(categoryAttribute));
     }
 
     /**
@@ -100,7 +124,7 @@ public class CategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttribute categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
@@ -145,17 +169,17 @@ public class CategoryResource {
     /**
      * POST  /categories : Create a new category.
      *
-     * @param category the category to create
+     * @param categoryCreateDTO the category to create
      * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) throws URISyntaxException {
-        log.debug("REST request to save new Category : {}", category);
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) throws URISyntaxException {
+        log.debug("REST request to save new Category : {}", categoryCreateDTO);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
-        Category result = categoryService.save(category);
+        Category result = categoryService.save(categoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/api/categories/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -175,25 +199,25 @@ public class CategoryResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
         final Category category = categoryService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.of(category));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(category));
     }
 
     /**
      * PUT  /categories : Updates an existing category.
      *
-     * @param category the category to update
+     * @param categoryUpdateDTO the category to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated category,
      * or with status 400 (Bad Request) if the category is not valid,
      * or with status 500 (Internal Server Error) if the category couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Category> updateCategory(@Valid @RequestBody Category category) throws URISyntaxException {
-        log.debug("REST request to update Category : {}", category);
+    public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO) throws URISyntaxException {
+        log.debug("REST request to update Category : {}", categoryUpdateDTO);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
-        Category result = categoryService.save(category);
+        Category result = categoryService.save(categoryUpdateDTO);
         clearCache();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
@@ -236,19 +260,19 @@ public class CategoryResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(WebRequest webRequest) {
+    public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         log.debug("REST request to get categories in tree view");
-        if (webRequest.checkNotModified(categoriesTreeViewETag)) {
+        if (webRequest.checkNotModified(categoriesTreeViewETagMap.getOrDefault(lang, "defaultValue"))) {
             return null;
         }
-        if (cacheCategoriesTreeViewResponse == null) {
-            findAllTreeView();
+        if (cacheCategoriesTreeViewResponseMap.get(lang) == null) {
+            findAllTreeView(lang);
         }
-        return cacheCategoriesTreeViewResponse;
+        return cacheCategoriesTreeViewResponseMap.get(lang);
     }
 
-    private void findAllTreeView() {
-        Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView();
+    private void findAllTreeView(String lang) {
+        Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView(lang);
         final ObjectWriter ow = Jackson2ObjectMapperBuilder.json()
                 .serializationInclusion(JsonInclude.Include.NON_NULL) // Don’t include null values
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
@@ -259,15 +283,15 @@ public class CategoryResource {
         } catch (JsonProcessingException e) {
             log.error("Json processing exception", e);
         }
-        categoriesTreeViewETag = MD5Util.getMD5Hex(json);
-        cacheCategoriesTreeViewResponse = ResponseEntity
+        categoriesTreeViewETagMap.put(lang, MD5Util.getMD5Hex(json));
+        cacheCategoriesTreeViewResponseMap.put(lang, ResponseEntity
                 .ok()
-                .eTag(categoriesTreeViewETag)
-                .body(categoriesTreeView);
+                .eTag(categoriesTreeViewETagMap.get(lang))
+                .body(categoriesTreeView));
     }
 
     private void clearCache() {
-        cacheCategoriesTreeViewResponse = null;
-        categoriesTreeViewETag = "";
+        cacheCategoriesTreeViewResponseMap.clear();
+        categoriesTreeViewETagMap.clear();
     }
 }

@@ -2,28 +2,28 @@ package ua.com.gup.service.dto.category;
 
 
 import ua.com.gup.domain.category.attribute.CategoryAttributeType;
+import ua.com.gup.domain.category.attribute.CategoryAttributeValidator;
+import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.*;
 
-public class CategoryAttributeDTO {
-    private int code;
+public class CategoryAttributeCreateDTO {
+
     private boolean active;
+
     private String key;
+
     private Map<String, String> title = new HashMap<>();
+
     private Map<String, String> unit = new HashMap<>();
+
+    private Set<Integer> categories = new HashSet<>();
+
     private CategoryAttributeType type;
-    private CategoryAttributeValidatorDTO validator;
-    private LinkedHashSet<CategoryAttributeValueDTO> values = new LinkedHashSet<>();
 
-    public int getCode() {
-        return code;
-    }
+    private CategoryAttributeValidator validator;
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+    private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
 
     public boolean isActive() {
         return active;
@@ -57,6 +57,14 @@ public class CategoryAttributeDTO {
         this.unit = unit;
     }
 
+    public Set<Integer> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Integer> categories) {
+        this.categories = categories;
+    }
+
     public CategoryAttributeType getType() {
         return type;
     }
@@ -65,34 +73,19 @@ public class CategoryAttributeDTO {
         this.type = type;
     }
 
-    public CategoryAttributeValidatorDTO getValidator() {
+    public CategoryAttributeValidator getValidator() {
         return validator;
     }
 
-    public void setValidator(CategoryAttributeValidatorDTO validator) {
+    public void setValidator(CategoryAttributeValidator validator) {
         this.validator = validator;
     }
 
-    public LinkedHashSet<CategoryAttributeValueDTO> getValues() {
+    public LinkedHashSet<CategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(LinkedHashSet<CategoryAttributeValueDTO> values) {
+    public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
         this.values = values;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CategoryAttributeDTO that = (CategoryAttributeDTO) o;
-
-        return code == that.code;
-    }
-
-    @Override
-    public int hashCode() {
-        return code;
     }
 }

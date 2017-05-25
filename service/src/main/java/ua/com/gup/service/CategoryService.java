@@ -3,11 +3,14 @@ package ua.com.gup.service;
 
 import ua.com.gup.domain.offer.OfferCategory;
 import ua.com.gup.domain.Category;
-import ua.com.gup.service.dto.category.CategoryTreeDTO;
+import ua.com.gup.service.dto.category.CategoryCreateDTO;
+import ua.com.gup.service.dto.category.CategoryUpdateDTO;
+import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Interface for managing Category.
@@ -16,10 +19,18 @@ public interface CategoryService {
     /**
      * Save a category.
      *
-     * @param category the entity to save
+     * @param categoryCreateDTO the entity to save
      * @return the persisted entity
      */
-    Category save(Category category);
+    Category save(CategoryCreateDTO categoryCreateDTO);
+
+    /**
+     * Save a category.
+     *
+     * @param categoryUpdateDTO the entity to save
+     * @return the persisted entity
+     */
+    Category save(CategoryUpdateDTO categoryUpdateDTO);
 
     /**
      * Get all the categories.
@@ -33,7 +44,7 @@ public interface CategoryService {
      *
      * @return the list of entities
      */
-    Collection<CategoryTreeDTO> findAllTreeView();
+    Collection<CategoryTreeDTO> findAllTreeView(String lang);
 
     /**
      * Get the "id" category.
@@ -42,6 +53,14 @@ public interface CategoryService {
      * @return the entity
      */
     Category findOne(String id);
+
+    /**
+     * Get the "code" category.
+     *
+     * @param code the id of the entity
+     * @return the entity
+     */
+    Optional<Category> findOneByCode(int code);
 
 
     /**

@@ -11,8 +11,8 @@ import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.domain.offer.attribute.value.*;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.category.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.CategoryAttributeValueDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
@@ -102,7 +102,7 @@ public class OfferMapper {
         return offerViewShortWithModerationReportDTO;
     }
 
-    private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target){
+    private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
     }
