@@ -386,7 +386,8 @@ public class OfferServiceImpl implements OfferService {
     }
 
     private String generateUniqueSeoUrl(String title) {
-        return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID));
+        // index number in 36 radix
+        return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID), 36));
     }
 
     private boolean isNeededModeration(OfferUpdateDTO offerUpdateDTO) {
