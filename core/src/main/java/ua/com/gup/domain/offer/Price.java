@@ -1,6 +1,7 @@
 package ua.com.gup.domain.offer;
 
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.domain.enumeration.Currency;
 
@@ -17,6 +18,7 @@ public class Price {
 
     private Currency currency;
 
+    @Indexed
     private double baseAmount;
 
     private Currency baseCurrency;
