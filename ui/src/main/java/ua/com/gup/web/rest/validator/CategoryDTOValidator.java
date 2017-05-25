@@ -2,7 +2,6 @@ package ua.com.gup.web.rest.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -42,16 +41,12 @@ public class CategoryDTOValidator implements Validator {
         }
 
         if (categoryCreateDTO.getParent() != 0) {
-            if (!categoryService.exists(categoryCreateDTO.getParent())) {
+            if (!categoryService.findOneByCode(categoryCreateDTO.getParent()).isPresent()) {
                 errors.rejectValue("parent", "parent.notexist", null, "Parent <" + categoryCreateDTO.getParent() + "> doesn't exist");
             }
         }
         if (categoryCreateDTO.getTitle() == null || categoryCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
-        }
-
-        if (StringUtils.isEmpty(categoryCreateDTO.getKey())) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "title.required");
         }
     }
 }
