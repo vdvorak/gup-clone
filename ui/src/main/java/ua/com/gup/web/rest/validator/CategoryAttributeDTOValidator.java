@@ -2,6 +2,7 @@ package ua.com.gup.web.rest.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -29,6 +30,7 @@ public class CategoryAttributeDTOValidator implements Validator {
         boolean isUpdateDTO = CategoryAttributeUpdateDTO.class.isInstance(target);
         CategoryAttributeCreateDTO categoryAttributeCreateDTO = (CategoryAttributeCreateDTO) target;
         if (isUpdateDTO) {
+
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
             CategoryAttributeUpdateDTO categoryUpdateDTO = (CategoryAttributeUpdateDTO) target;
             if (categoryUpdateDTO.getCode() == 0) {
@@ -41,6 +43,9 @@ public class CategoryAttributeDTOValidator implements Validator {
         }
         if (categoryAttributeCreateDTO.getTitle() == null || categoryAttributeCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
+        }
+        if (!StringUtils.isEmpty(categoryAttributeCreateDTO.getKey())) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "key.required");
         }
     }
 }
