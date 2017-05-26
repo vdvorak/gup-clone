@@ -71,6 +71,7 @@ public class OfferResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new offerDTO, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO) throws URISyntaxException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
@@ -92,6 +93,7 @@ public class OfferResource {
      * @param seoUrl the seoUrl of the OfferDetailsDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOffer(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
@@ -106,6 +108,7 @@ public class OfferResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{seoUrl}/relevant", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OfferViewShortDTO>> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
@@ -123,6 +126,7 @@ public class OfferResource {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> updateOffer(@Valid @RequestBody OfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
@@ -145,6 +149,7 @@ public class OfferResource {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) throws URISyntaxException {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
@@ -164,6 +169,7 @@ public class OfferResource {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable OfferStatus status) throws URISyntaxException {
         log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
@@ -184,6 +190,7 @@ public class OfferResource {
      * @param id the id of the offerDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
@@ -219,6 +226,7 @@ public class OfferResource {
      * @param pageable    the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortDTO>> getAllOffersByFilter(OfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
@@ -234,6 +242,7 @@ public class OfferResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
@@ -255,6 +264,7 @@ public class OfferResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
@@ -274,6 +284,7 @@ public class OfferResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/updateBasePrice", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateBasePrice() {
         log.debug("REST request to update base price: {}");
@@ -287,6 +298,7 @@ public class OfferResource {
      * @param id the offer id
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
     public ResponseEntity<Void> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
@@ -300,6 +312,7 @@ public class OfferResource {
      * @param id the offer id
      * @return the ResponseEntity with status 200 (OK) and Void
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/{id}/increment/favorites", method = RequestMethod.PUT)
     public ResponseEntity<Void> incrementFavorites(@PathVariable String id) {
         log.debug("REST request to increment favorites");
@@ -313,6 +326,7 @@ public class OfferResource {
      * @param id the offer status
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/image/{id}/{sizeType}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @PathVariable OfferImageSizeType sizeType) {
         log.debug("REST request to get offer image by id and size type");
@@ -331,6 +345,7 @@ public class OfferResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
+    @CrossOrigin
     @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
     public ResponseEntity<List<OfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
