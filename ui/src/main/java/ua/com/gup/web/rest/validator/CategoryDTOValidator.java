@@ -1,5 +1,7 @@
 package ua.com.gup.web.rest.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 @Component
 public class CategoryDTOValidator implements Validator {
+
+    private final Logger log = LoggerFactory.getLogger(CategoryDTOValidator.class);
 
     @Autowired
     private CategoryService categoryService;
