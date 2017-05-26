@@ -92,8 +92,13 @@ public class OfferDTOValidator implements Validator {
                                 CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
                                 final Set<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
-                                if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
-                                    errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
+
+                                try {
+                                    if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
+                                        errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
+                                    }
+                                } catch (NullPointerException npe) {
+                                    System.err.println("attrs, attrs.\"key\".value.unknown 'null' Unknown value <...> for attr <" + key + ">");
                                 }
                             }
                         }
