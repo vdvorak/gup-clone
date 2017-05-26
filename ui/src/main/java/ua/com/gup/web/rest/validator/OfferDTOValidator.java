@@ -1,5 +1,7 @@
 package ua.com.gup.web.rest.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,6 +19,7 @@ import ua.com.gup.service.dto.offer.OfferCreateDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +28,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class OfferDTOValidator implements Validator {
+
+    private final Logger log = LoggerFactory.getLogger(OfferDTOValidator.class);
 
     @Autowired
     private CategoryService categoryService;
@@ -91,14 +96,9 @@ public class OfferDTOValidator implements Validator {
                             } else {
                                 CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
-                                final Set<CategoryAttributeValueDTO> values = categoryAttributeDTO.getValues();
-
-                                try {
-                                    if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
-                                        errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
-                                    }
-                                } catch (NullPointerException npe) {
-                                    System.err.println("attrs, attrs.\"key\".value.unknown 'null' Unknown value <...> for attr <" + key + ">");
+                                final Set<CategoryAttributeValueDTO> values = new HashSet<>(categoryAttributeDTO.getValues());
+                                if (!values.contains(attributeValueDTO)) {
+                                    errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
                                 }
                             }
                         }
