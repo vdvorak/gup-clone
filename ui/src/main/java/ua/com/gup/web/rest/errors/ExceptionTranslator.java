@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
@@ -76,7 +78,10 @@ public class ExceptionTranslator {
         } else {
             builder = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 //            errorVM = new ErrorVM(ErrorConstants.ERR_INTERNAL_SERVER_ERROR, "Internal server error");
-            errorVM = new ErrorVM(ErrorConstants.ERR_INTERNAL_SERVER_ERROR, ex.getMessage());
+            StringWriter sw = new StringWriter();
+            ex.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            errorVM = new ErrorVM(ErrorConstants.ERR_INTERNAL_SERVER_ERROR, exceptionAsString);
         }
         return builder.body(errorVM);
     }
