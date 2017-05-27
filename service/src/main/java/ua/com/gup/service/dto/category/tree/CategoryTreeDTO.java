@@ -19,11 +19,11 @@ public class CategoryTreeDTO implements Serializable {
     }
 
     public static Comparator<CategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
-        return Comparator.comparing(c -> c.getTitle().getOrDefault(lang, ""));
+        return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
     }
 
     private Comparator<CategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
-        return Comparator.comparing(c -> c.getTitle().getOrDefault(lang, ""));
+        return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
     }
 
     public int getCode() {
