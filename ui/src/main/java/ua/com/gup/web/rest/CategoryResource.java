@@ -85,7 +85,6 @@ public class CategoryResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new categoryAttribute, or with status 400 (Bad Request) if the categoryAttribute has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
@@ -105,7 +104,6 @@ public class CategoryResource {
      * @param id the id of the CategoryAttribute to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the CategoryAttribute, or with status 404 (Not Found)
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> getCategoryAttributes(@PathVariable String id) {
         log.debug("REST request to get CategoryAttribute : {}", id);
@@ -125,7 +123,6 @@ public class CategoryResource {
      * or with status 500 (Internal Server Error) if the categoryAttribute couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         log.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
@@ -143,7 +140,6 @@ public class CategoryResource {
      * @param id the id of the categoryAttribute to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategoryAttribute(@PathVariable String id) {
         log.debug("REST request to delete CategoryAttribute : {}", id);
@@ -160,7 +156,6 @@ public class CategoryResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes/", method = RequestMethod.GET)
     public ResponseEntity<List<CategoryAttribute>> getAllCategoryAttributes() {
         log.debug("REST request to get a page of Categories");
@@ -178,7 +173,6 @@ public class CategoryResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) throws URISyntaxException {
         log.debug("REST request to save new Category : {}", categoryCreateDTO);
@@ -198,7 +192,6 @@ public class CategoryResource {
      * @param id the id of the Category to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the Category, or with status 404 (Not Found)
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> getCategory(@PathVariable String id) {
         log.debug("REST request to get Category : {}", id);
@@ -218,7 +211,6 @@ public class CategoryResource {
      * or with status 500 (Internal Server Error) if the category couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Category : {}", categoryUpdateDTO);
@@ -236,7 +228,6 @@ public class CategoryResource {
      * @param id the id of the category to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
         log.debug("REST request to delete Category : {}", id);
@@ -253,7 +244,6 @@ public class CategoryResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
         log.debug("REST request to get all Categories");
@@ -269,7 +259,6 @@ public class CategoryResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         log.debug("REST request to get categories in tree view");
