@@ -115,7 +115,8 @@ public class CategoryServiceImpl implements CategoryService {
         for (Integer code : categoryAttributeDTOs.keySet()) {
             final LinkedHashSet<CategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
             for (CategoryAttributeDTO attributeDTO : attributes) {
-                TreeSet<CategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle().getOrDefault(lang, "")));
+                TreeSet<CategoryAttributeValueDTO> sortedSet = new TreeSet<>(
+                        Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
