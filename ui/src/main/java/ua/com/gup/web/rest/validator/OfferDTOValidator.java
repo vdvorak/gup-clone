@@ -96,8 +96,8 @@ public class OfferDTOValidator implements Validator {
                             } else {
                                 CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(offerCreateDTO.getAttrs().get(key));
-                                final Set<CategoryAttributeValueDTO> values = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
-                                if (!values.contains(attributeValueDTO)) { //
+                                final Set<CategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
+                                if (!valuesToCheck.contains(attributeValueDTO)) { //
                                     errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + offerCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
                                 }
                             }
@@ -114,7 +114,8 @@ public class OfferDTOValidator implements Validator {
                                 for (String value : values) {
                                     CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
                                     attributeValueDTO.setKey(value);
-                                    if (!categoryAttributeDTO.getValues().contains(attributeValueDTO)) {
+                                    final Set<CategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
+                                    if (!valuesToCheck.contains(attributeValueDTO)) { //
                                         errors.rejectValue("multiAttrs", "multiAttrs." + key + ".value.unknown", null, "Unknown value <" + value + "> for attr <" + key + ">");
                                     }
                                 }
