@@ -14,10 +14,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -166,6 +163,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         if (profileFilterOptions.getSearchField() != null) {
             String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
+        }
+
+        if (profileFilterOptions.getId() != null) {
+            query.addCriteria(Criteria.where("id").in(profileFilterOptions.getId()));
         }
 
         if (profileFilterOptions.getUserRoles() != null) {

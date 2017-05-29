@@ -284,9 +284,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions) {
-
         List<Profile> fullProfiles = profileRepository.findAllProfilesForAdmin(profileFilterOptions);
-
         removeUnnecessaryFieldsFromProfileForAdminUse(fullProfiles);
 
         return fullProfiles;

@@ -15,8 +15,6 @@ import java.util.Set;
 
 /**
  * Rest controllers for using by administrative module.
- *
- * @author Kobylyatskyy Alexander
  */
 @RestController
 @RequestMapping("/api/rest/admin")
