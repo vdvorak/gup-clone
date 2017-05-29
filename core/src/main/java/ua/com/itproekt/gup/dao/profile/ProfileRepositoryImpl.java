@@ -14,7 +14,9 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -193,6 +195,28 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(0);
         query.limit(10);
         return mongoTemplate.find(query, Profile.class).stream().map(Profile::getUsername).collect(Collectors.toSet());
+    }
+
+
+    @Override
+    public Set<String> getAdminIdAll() {
+        Query query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
+
+        return mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
+    }
+
+    @Override
+    public String getAdminId() {
+        Query            query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
+        Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
+
+        return getRandomObj(IdAdminAll);
+    }
+
+    private String getRandomObj(Collection from) {
+        Random rnd = new Random();
+        int i = rnd.nextInt(from.size());
+        return (String)from.toArray()[i];
     }
 
 

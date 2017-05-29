@@ -189,6 +189,16 @@ public interface ProfileRepository {
 
     Set<String> getMatchedNames(String term);
 
+    /**
+     * return list free admins
+     */
+    Set<String> getAdminIdAll();
+
+    /**
+     * return free admin
+     */
+    String getAdminId();
+
     List<Profile> getMatchedNamesToFindWithId(String term);
 
     /**

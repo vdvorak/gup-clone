@@ -11,7 +11,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.util.List;
-
+import java.util.Set;
 
 /**
  * Rest controllers for using by administrative module.
@@ -24,6 +24,20 @@ public class ProfileRestAdminController {
 
     @Autowired
     private ProfilesService profilesService;
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET)
+    public Set<String> getAdminIdAll() {
+        return profilesService.getAdminIdAll();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
+    public String getAdminId() {
+        return profilesService.getAdminId();
+    }
+
 
     /**
      * List all profiles response entity for admins.
@@ -58,37 +72,29 @@ public class ProfileRestAdminController {
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
-
     //ToDo add Preauthorize
     @CrossOrigin
     @RequestMapping(value = "/profile/role/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> editAdminRole(@RequestBody Profile profile) {
-
         profilesService.editProfile(profile);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     //ToDo add Preauthorize
     @CrossOrigin
     @RequestMapping(value = "/profile/admin/admin-delete", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> listAllProfiles(@RequestBody String profileId) {
-
-
         //additional check before delete profile. Only for administrative staff
         Profile profile = profilesService.findById(profileId);
 
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         profilesService.deleteProfileById(profileId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

@@ -379,6 +379,17 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
+    public Set<String> getAdminIdAll() {
+        return profileRepository.getAdminIdAll();
+    }
+
+    @Override
+    public String getAdminId() {
+        return profileRepository.getAdminId();
+    }
+
+
+    @Override
     public List<Profile> getMatchedNamesWithIds(String term) {
         return profileRepository.getMatchedNamesToFindWithId(term);
     }

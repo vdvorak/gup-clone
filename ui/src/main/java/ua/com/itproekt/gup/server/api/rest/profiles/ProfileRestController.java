@@ -509,16 +509,11 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-
-
-
-
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-
         Profile profile = profilesService.findById(id);
 
         // we cant't allow empty email field for some cases

@@ -236,6 +236,16 @@ public interface ProfilesService {
     Set<String> getMatchedNames(String term);
 
     /**
+     * Search for matched all admin ids and return set of them.
+     */
+    Set<String> getAdminIdAll();
+
+    /**
+     * Search for matched admin id and return of his.
+     */
+    String getAdminId();
+
+    /**
      * Search for matched user ID's and return set of them.
      *
      * @param term                      - the ID or ID's part of the user.
