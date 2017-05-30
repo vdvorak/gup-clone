@@ -217,8 +217,20 @@ public class OfferServiceImpl implements OfferService {
         log.debug("Request to get Offer : {}", seoUrl);
         offerRepository.incrementViewsBySeoUrl(seoUrl);
         Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
-        if (offer.map(o -> o.getStatus()).get() != OfferStatus.ACTIVE) {
-            offer = Optional.empty();
+        if (offer.isPresent()) {
+            final Offer o = offer.get();
+            final String currentUserId = SecurityUtils.getCurrentUserId();
+            if (currentUserId.equals(o.getAuthorId())) {
+                Set<OfferStatus> statuses = new HashSet<>();
+                statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
+                if (!statuses.contains(o.getStatus())) {
+                    offer = Optional.empty();
+                }
+            } else {
+                if (o.getStatus() != OfferStatus.ACTIVE) {
+                    return Optional.empty();
+                }
+            }
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
@@ -312,7 +324,9 @@ public class OfferServiceImpl implements OfferService {
         Offer offer = offerRepository.findOne(id);
         if (offer != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
-            return (offer.getAuthorId() == currentUserID && offer.getStatus() != OfferStatus.ARCHIVED) ||
+            Set<OfferStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED));
+            return (offer.getAuthorId() == currentUserID && statuses.contains(offer.getStatus())) ||
                     (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && offer.getStatus() == OfferStatus.ON_MODERATION);
         } else {
             return false;
