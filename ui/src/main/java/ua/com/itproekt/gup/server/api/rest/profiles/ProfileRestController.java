@@ -545,11 +545,11 @@ public class ProfileRestController {
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/ban/publicId/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> banProfileByPublicID(@PathVariable("publicId") String publicId, HttpServletRequest request)
+    @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> banProfileByPublicID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-
-        Profile profile = profilesService.findByPublicId(publicId);
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        Profile profile = profilesService.findById(id);
 
         // we cant't allow empty email field for some cases
         if (profile==null) {
@@ -561,12 +561,10 @@ public class ProfileRestController {
             if (profile.getEmail().equals("")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-            if (profile.getPublicId().equals(publicId)) { //TODO: off self-profile for admin
+            if (id.equals(loggedUserId)) { //TODO: off self-profile for admin
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
-
-//        String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(false);
@@ -583,7 +581,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/unban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> unbanProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-
+        String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
 
         // we cant't allow empty email field for some cases
@@ -596,9 +594,10 @@ public class ProfileRestController {
             if (profile.getEmail().equals("")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            if (id.equals(loggedUserId)) { //TODO: off self-profile for admin
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
-
-//        String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(true);
