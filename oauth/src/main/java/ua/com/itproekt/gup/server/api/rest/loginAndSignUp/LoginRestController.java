@@ -220,7 +220,7 @@ public class LoginRestController {
     /**
      * Controller for registration new users under admin panel.
      * @param profile   the Profile object with email, password and role.
-     * @return          status 2oo (Ok) if user was created; return status 409 if user with current email already exist.
+     * @return          status '200' (Ok) if user was created; return status '409' (Conflict) if user with current email already exist.
      */
     @CrossOrigin
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
@@ -379,9 +379,12 @@ public class LoginRestController {
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        authenticateByEmailAndPassword(loggedUser, response);
 
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
+        if(profileInfo.getProfile().isBan())
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        authenticateByEmailAndPassword(loggedUser, response);
+
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -405,9 +408,11 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
+        if(profileInfo.getProfile().isBan())
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
 
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -424,8 +429,11 @@ public class LoginRestController {
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
+
         ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
+        if(profileInfo.getProfile().isBan())
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
