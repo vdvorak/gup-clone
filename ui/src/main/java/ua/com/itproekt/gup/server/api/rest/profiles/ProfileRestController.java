@@ -526,6 +526,9 @@ public class ProfileRestController {
             if (profile.getEmail().equals("")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            if (profile.getId().equals(id)) { //TODO: off self-profile for admin
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
 
 //        String loggedUserId = SecurityOperations.getLoggedUserId();
@@ -556,6 +559,9 @@ public class ProfileRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             if (profile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (profile.getPublicId().equals(publicId)) { //TODO: off self-profile for admin
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
