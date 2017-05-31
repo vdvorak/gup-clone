@@ -35,8 +35,10 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Offer.
@@ -266,6 +268,28 @@ public class OfferResource {
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/my/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /offers : get all my offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{iserid}/{status}/seourl", method = RequestMethod.GET)
+    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable OfferStatus status, Pageable pageable) {
+        log.debug("REST request to get a page of my Offers-seourl by status & iserId");
+        if (status == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+        }
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, iserid, pageable);
+        List<String> seoUrls = new ArrayList<>();
+        page.forEach(p -> seoUrls.add(p.getSeoUrl()));
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/"+iserid+"/" + status.name()+"/seourl");
+        return new ResponseEntity<>(seoUrls, headers, HttpStatus.OK);
     }
 
     /**
