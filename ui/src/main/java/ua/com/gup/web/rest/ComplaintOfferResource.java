@@ -187,7 +187,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/{offerId}/offerId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/offerId/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByOfferId(@PathVariable("offerId") String offerId)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -209,7 +209,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/{initiatorId}/initiatorId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/initiatorId/{initiatorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByInitiatorId(@PathVariable("initiatorId") String initiatorId)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -231,7 +231,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/{status}/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/status/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") ComplaintOfferStatus status)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
