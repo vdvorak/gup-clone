@@ -511,68 +511,55 @@ public class ProfileRestController {
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
+    @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
 
         // we cant't allow empty email field for some cases
+        if (id.equals(loggedUserId)) {
+            return new ResponseEntity<>("ADMIN CRAZY", HttpStatus.FORBIDDEN); //TODO: 403
+        }
         if (profile==null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else {
-            if (profile.getEmail() == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (profile.getEmail().equals("")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (id.equals(loggedUserId)) { //TODO: off self-profile for admin
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
         }
 
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(false);
             profile.setBan(true);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("User: '"+id + "' IS BAN", HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
     }
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/unban/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> unbanProfileByID(@PathVariable("id") String id, HttpServletRequest request)
+    @RequestMapping(value = "/profile/unban/id/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> unbanProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
 
         // we cant't allow empty email field for some cases
+        // we cant't allow empty email field for some cases
+        if (id.equals(loggedUserId)) {
+            return new ResponseEntity<>("ADMIN CRAZY", HttpStatus.FORBIDDEN); //TODO: 403
+        }
         if (profile==null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else {
-            if (profile.getEmail() == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (profile.getEmail().equals("")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (id.equals(loggedUserId)) { //TODO: off self-profile for admin
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
         }
 
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(true);
             profile.setBan(false);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("User: '"+id + "' IS UNBAN", HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
     }
 
 

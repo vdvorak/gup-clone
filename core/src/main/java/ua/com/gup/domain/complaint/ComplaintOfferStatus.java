@@ -9,6 +9,7 @@ public enum ComplaintOfferStatus {
     OPENED("Жалоба открывается администратором"),
     DECLINED("(Администратор выносит вердикт по жалобе) жалоба отклоняется администратором, кто-то глупости написал"),
     ACCEPTED("Жалоба подтверждается администратором, кто-то написал по делу");
+
     private final String name;
 
     ComplaintOfferStatus(String s) {
