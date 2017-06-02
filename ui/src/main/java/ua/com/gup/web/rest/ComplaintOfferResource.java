@@ -1,6 +1,7 @@
 package ua.com.gup.web.rest;
 
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing ComplaintOffer.
@@ -147,21 +150,23 @@ public class ComplaintOfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOfferType>> getComplaintOfferTypes()
+    public ResponseEntity<String> getComplaintOfferTypes()
             throws URISyntaxException {
         log.debug("REST request to get Types");
 
-        List<ComplaintOfferType> types = new ArrayList<>();
-        types.add(ComplaintOfferType.TOPIC_MISMATCH);
-        types.add(ComplaintOfferType.PROFANITY);
-        types.add(ComplaintOfferType.CONTENT_PROHIBITED);
-        types.add(ComplaintOfferType.CONTENT_MISMATCH);
-        types.add(ComplaintOfferType.IRRELEVANT);
-        types.add(ComplaintOfferType.AGENCY);
-        types.add(ComplaintOfferType.FRAUD);
-        types.add(ComplaintOfferType.OTHER);
+        Gson gson = new Gson();
+        Map<ComplaintOfferType, String> types = new HashMap<>();
 
-        return new ResponseEntity(types, HttpStatus.OK);
+        types.put(ComplaintOfferType.TOPIC_MISMATCH, ComplaintOfferType.TOPIC_MISMATCH.toString());
+        types.put(ComplaintOfferType.PROFANITY, ComplaintOfferType.PROFANITY.toString());
+        types.put(ComplaintOfferType.CONTENT_PROHIBITED, ComplaintOfferType.CONTENT_PROHIBITED.toString());
+        types.put(ComplaintOfferType.CONTENT_MISMATCH, ComplaintOfferType.CONTENT_MISMATCH.toString());
+        types.put(ComplaintOfferType.IRRELEVANT, ComplaintOfferType.IRRELEVANT.toString());
+        types.put(ComplaintOfferType.AGENCY, ComplaintOfferType.AGENCY.toString());
+        types.put(ComplaintOfferType.FRAUD, ComplaintOfferType.FRAUD.toString());
+        types.put(ComplaintOfferType.OTHER, ComplaintOfferType.OTHER.toString());
+
+        return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
     }
 
 
