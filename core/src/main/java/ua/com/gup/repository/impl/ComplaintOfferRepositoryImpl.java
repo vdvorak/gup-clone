@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.repository.ComplaintOfferRepository;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

@@ -3,6 +3,7 @@ package ua.com.gup.repository;
 
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 
 import java.util.List;
 

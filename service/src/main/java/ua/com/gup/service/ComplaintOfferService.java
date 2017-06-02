@@ -36,7 +36,6 @@ public interface ComplaintOfferService {
      */
     ComplaintOffer findOne(String id);
 
-
     /**
      * Get all the complaintOffers.
      *

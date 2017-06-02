@@ -20,6 +20,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -136,6 +137,31 @@ public class ComplaintOfferResource {
         complaintOfferService.updateTypes(id, complaintOffer.getTypes());
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * GET  /types : get types complaintOffer.
+     *
+     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ComplaintOfferType>> getComplaintOfferTypes()
+            throws URISyntaxException {
+        log.debug("REST request to get Types");
+
+        List<ComplaintOfferType> types = new ArrayList<>();
+        types.add(ComplaintOfferType.TOPIC_MISMATCH);
+        types.add(ComplaintOfferType.PROFANITY);
+        types.add(ComplaintOfferType.CONTENT_PROHIBITED);
+        types.add(ComplaintOfferType.CONTENT_MISMATCH);
+        types.add(ComplaintOfferType.IRRELEVANT);
+        types.add(ComplaintOfferType.AGENCY);
+        types.add(ComplaintOfferType.FRAUD);
+        types.add(ComplaintOfferType.OTHER);
+
+        return new ResponseEntity(types, HttpStatus.OK);
     }
 
 
