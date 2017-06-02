@@ -4,6 +4,7 @@ package ua.com.gup.service;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferDescription;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 
 import java.util.List;
 
@@ -75,20 +76,22 @@ public interface ComplaintOfferService {
      * Update ComplaintOffer's status.
      *
      * @param id     the id of the entity
-     * @param description the description to be updated
+     * @param type the description to be updated
      * @return the entity
      */
-    void updateDescription(String id, ComplaintOfferDescription description);
+//    void updateDescription(String id, ComplaintOfferDescription description);
+    void updateType(String id, ComplaintOfferType type);
 
 
     /**
      * Update ComplaintOffer's status.
      *
      * @param id     the id of the entity
-     * @param descriptions the descriptions to be updated
+     * @param types the descriptions to be updated
      * @return the entity
      */
-    void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions);
+//    void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions);
+    void updateTypes(String id, List<ComplaintOfferType> types);
 
 
     /**

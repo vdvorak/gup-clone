@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferDescription;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.service.ComplaintOfferService;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
@@ -88,15 +89,16 @@ public class ComplaintOfferResource {
     /**
      * PUT  /complaints : Update a staus complaintOffer.
      *
-     * @param description the complaintOffer to update
+     * @param type the complaintOffer to update
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/{id}/description", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferDescription description, @PathVariable("id") String id)
+    @RequestMapping(value = "/complaints/{id}/type", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferDescription description, @PathVariable("id") String id)
+    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id)
             throws URISyntaxException {
-        log.debug("REST request to update ComplaintOffer : {}", description);
+        log.debug("REST request to update ComplaintOffer : {}", type);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
@@ -104,7 +106,7 @@ public class ComplaintOfferResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
-        complaintOfferService.updateDescription(id, description);
+        complaintOfferService.updateType(id, type);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -118,7 +120,8 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/{id}/descriptions", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/{id}/types", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> updateComplaintOfferDescriptions(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
     public ResponseEntity<String> updateComplaintOfferDescriptions(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
             throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
@@ -129,7 +132,8 @@ public class ComplaintOfferResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
-        complaintOfferService.updateDescriptions(id, complaintOffer.getDescriptions());
+//        complaintOfferService.updateDescriptions(id, complaintOffer.getDescriptions());
+        complaintOfferService.updateTypes(id, complaintOffer.getTypes());
 
         return new ResponseEntity(HttpStatus.OK);
     }

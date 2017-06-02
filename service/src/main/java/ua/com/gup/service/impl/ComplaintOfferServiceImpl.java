@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferDescription;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.repository.ComplaintOfferRepository;
 import ua.com.gup.service.ComplaintOfferService;
 
@@ -34,7 +35,8 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
 
         ComplaintOffer newComplaintOffer = new ComplaintOffer();
         newComplaintOffer.setOfferId(complaintOffer.getOfferId());
-        newComplaintOffer.setDescriptions(complaintOffer.getDescriptions());
+//        newComplaintOffer.setDescriptions(complaintOffer.getDescriptions());
+        newComplaintOffer.setTypes(complaintOffer.getTypes());
         newComplaintOffer.setInitiatorId(complaintOffer.getInitiatorId());
         newComplaintOffer.setUsername(complaintOffer.getUsername());
         newComplaintOffer.setFeedback(complaintOffer.getFeedback());
@@ -79,25 +81,48 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
         return complaintRepository.findAllByStatus(status);
     }
 
+//    @Override
+//    public void updateDescription(String id, ComplaintOfferDescription description) {
+//        log.debug("Request to update update complaintOffer descriptions : {}", id);
+//
+//        if(exists(id)) {
+//            ComplaintOffer updateComplaintOffer = findOne(id);
+//            updateComplaintOffer.addDescriptions(description);
+//            updateComplaintOffer.updateLastModifiedDate();
+//            complaintRepository.update(updateComplaintOffer);
+//        }
+//    }
+
     @Override
-    public void updateDescription(String id, ComplaintOfferDescription description) {
-        log.debug("Request to update update complaintOffer descriptions : {}", id);
+    public void updateType(String id, ComplaintOfferType type) {
+        log.debug("Request to update update complaintOffer types : {}", id);
 
         if(exists(id)) {
             ComplaintOffer updateComplaintOffer = findOne(id);
-            updateComplaintOffer.addDescriptions(description);
+            updateComplaintOffer.addType(type);
             updateComplaintOffer.updateLastModifiedDate();
             complaintRepository.update(updateComplaintOffer);
         }
     }
 
+//    @Override
+//    public void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions) {
+//        log.debug("Request to update update complaintOffer descriptions : {}", id);
+//
+//        if(exists(id)) {
+//            ComplaintOffer updateComplaintOffer = findOne(id);
+//            updateComplaintOffer.setDescriptions(descriptions);
+//            updateComplaintOffer.updateLastModifiedDate();
+//            complaintRepository.update(updateComplaintOffer);
+//        }
+//    }
     @Override
-    public void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions) {
-        log.debug("Request to update update complaintOffer descriptions : {}", id);
+    public void updateTypes(String id, List<ComplaintOfferType> types) {
+        log.debug("Request to update update complaintOffer types : {}", id);
 
         if(exists(id)) {
             ComplaintOffer updateComplaintOffer = findOne(id);
-            updateComplaintOffer.setDescriptions(descriptions);
+            updateComplaintOffer.setTypes(types);
             updateComplaintOffer.updateLastModifiedDate();
             complaintRepository.update(updateComplaintOffer);
         }

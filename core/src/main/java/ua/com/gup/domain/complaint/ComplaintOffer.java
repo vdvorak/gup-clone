@@ -22,7 +22,8 @@ public class ComplaintOffer {
     @Indexed
     private String offerId;
 
-    private List<ComplaintOfferDescription> descriptions;
+    //private List<ComplaintOfferDescription> descriptions;
+    private List<ComplaintOfferType> types;
 
     private String username;
 
@@ -61,16 +62,27 @@ public class ComplaintOffer {
         this.offerId = offerId;
     }
 
-    public List<ComplaintOfferDescription> getDescriptions() {
-        return descriptions;
+//    public List<ComplaintOfferDescription> getDescriptions() {
+//        return descriptions;
+//    }
+//
+//    public void setDescriptions(List<ComplaintOfferDescription> descriptions) {
+//        this.descriptions = descriptions;
+//    }
+//
+//    public void addDescriptions(ComplaintOfferDescription description) {
+//        descriptions.add(description);
+//    }
+    public List<ComplaintOfferType> getTypes() {
+        return types;
     }
 
-    public void setDescriptions(List<ComplaintOfferDescription> descriptions) {
-        this.descriptions = descriptions;
+    public void setTypes(List<ComplaintOfferType> types) {
+        this.types = types;
     }
 
-    public void addDescriptions(ComplaintOfferDescription description) {
-        descriptions.add(description);
+    public void addType(ComplaintOfferType type) {
+        types.add(type);
     }
 
     public String getUsername() {
@@ -124,7 +136,8 @@ public class ComplaintOffer {
                 "id='" + id + '\'' +
                 ", initiatorId='" + initiatorId + '\'' +
                 ", offerId='" + offerId + '\'' +
-                ", descriptions=" + descriptions +
+//                ", descriptions=" + descriptions +
+                ", types=" + types +
                 ", username='" + username + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", status=" + status +
