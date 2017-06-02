@@ -190,14 +190,24 @@ public interface ProfileRepository {
     Set<String> getMatchedNames(String term);
 
     /**
-     * return list free admins
+     * return list full admin's
      */
     Set<String> getAdminIdAll();
 
     /**
-     * return free admin
+     * return list by online admin's
+     */
+    Set<String> getAdminIdAllByOnline();
+
+    /**
+     * return random admin
      */
     String getAdminId();
+
+    /**
+     * return random admin by online
+     */
+    String getAdminIdByOnline();
 
     List<Profile> getMatchedNamesToFindWithId(String term);
 

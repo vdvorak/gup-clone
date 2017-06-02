@@ -31,9 +31,21 @@ public class ProfileRestAdminController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
+    public Set<String> getAdminIdAllByOnline() {
+        return profilesService.getAdminIdAllByOnline();
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
     public String getAdminId() {
         return profilesService.getAdminId();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET)
+    public String getAdminIdByOnline() {
+        return profilesService.getAdminIdByOnline();
     }
 
 

@@ -207,8 +207,28 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public Set<String> getAdminIdAllByOnline() {
+        Query query = new Query()
+                .addCriteria(Criteria.where("userRoles").is("ROLE_ADMIN"))
+                .addCriteria(Criteria.where("online").is(true));
+
+        return mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
+    }
+
+    @Override
     public String getAdminId() {
         Query            query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
+        Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
+
+        return getRandomObj(IdAdminAll);
+    }
+
+    @Override
+    public String getAdminIdByOnline() {
+        Query query = new Query()
+                .addCriteria(Criteria.where("userRoles").is("ROLE_ADMIN"))
+                .addCriteria(Criteria.where("online").is(true));
+
         Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
 
         return getRandomObj(IdAdminAll);

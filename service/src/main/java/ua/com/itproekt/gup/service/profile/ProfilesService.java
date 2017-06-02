@@ -240,10 +240,14 @@ public interface ProfilesService {
      */
     Set<String> getAdminIdAll();
 
+    Set<String> getAdminIdAllByOnline();
+
     /**
      * Search for matched admin id and return of his.
      */
     String getAdminId();
+
+    String getAdminIdByOnline();
 
     /**
      * Search for matched user ID's and return set of them.

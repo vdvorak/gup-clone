@@ -382,8 +382,18 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public Set<String> getAdminIdAllByOnline() {
+        return profileRepository.getAdminIdAllByOnline();
+    }
+
+    @Override
     public String getAdminId() {
         return profileRepository.getAdminId();
+    }
+
+    @Override
+    public String getAdminIdByOnline() {
+        return profileRepository.getAdminIdByOnline();
     }
 
 
