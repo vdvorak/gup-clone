@@ -25,10 +25,6 @@ public class ComplaintOffer {
     //private List<ComplaintOfferDescription> descriptions;
     private List<ComplaintOfferType> types;
 
-    private String username;
-
-    private String feedback;
-
     @Indexed
     private ComplaintOfferStatus status;
 
@@ -85,22 +81,6 @@ public class ComplaintOffer {
         types.add(type);
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
-
     public ComplaintOfferStatus getStatus() {
         return status;
     }
@@ -138,8 +118,6 @@ public class ComplaintOffer {
                 ", offerId='" + offerId + '\'' +
 //                ", descriptions=" + descriptions +
                 ", types=" + types +
-                ", username='" + username + '\'' +
-                ", feedback='" + feedback + '\'' +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +
