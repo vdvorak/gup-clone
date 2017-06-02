@@ -212,6 +212,28 @@ public class OfferServiceImpl implements OfferService {
      * @param seoUrl the seoUrl of the entity
      * @return the entity
      */
+//    @Override
+//    public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
+//        log.debug("Request to get Offer : {}", seoUrl);
+//        offerRepository.incrementViewsBySeoUrl(seoUrl);
+//        Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
+//        if (offer.isPresent()) {
+//            final Offer o = offer.get();
+//            final String currentUserId = SecurityUtils.getCurrentUserId();
+//            if (currentUserId.equals(o.getAuthorId())) {
+//                Set<OfferStatus> statuses = new HashSet<>();
+//                statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
+//                if (!statuses.contains(o.getStatus())) {
+//                    offer = Optional.empty();
+//                }
+//            } else {
+//                if (o.getStatus() != OfferStatus.ACTIVE) {
+//                    return Optional.empty();
+//                }
+//            }
+//        }
+//        return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
+//    }
     @Override
     public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Offer : {}", seoUrl);
@@ -219,18 +241,11 @@ public class OfferServiceImpl implements OfferService {
         Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final Offer o = offer.get();
-            final String currentUserId = SecurityUtils.getCurrentUserId();
-            if (currentUserId.equals(o.getAuthorId())) {
                 Set<OfferStatus> statuses = new HashSet<>();
                 statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
                 if (!statuses.contains(o.getStatus())) {
                     offer = Optional.empty();
                 }
-            } else {
-                if (o.getStatus() != OfferStatus.ACTIVE) {
-                    return Optional.empty();
-                }
-            }
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
