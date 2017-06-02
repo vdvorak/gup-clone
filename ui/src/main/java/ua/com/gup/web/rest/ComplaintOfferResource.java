@@ -155,16 +155,16 @@ public class ComplaintOfferResource {
         log.debug("REST request to get Types");
 
         Gson gson = new Gson();
-        Map<ComplaintOfferType, String> types = new HashMap<>();
+        Map<String, String> types = new HashMap<>();
 
-        types.put(ComplaintOfferType.TOPIC_MISMATCH, ComplaintOfferType.TOPIC_MISMATCH.toString());
-        types.put(ComplaintOfferType.PROFANITY, ComplaintOfferType.PROFANITY.toString());
-        types.put(ComplaintOfferType.CONTENT_PROHIBITED, ComplaintOfferType.CONTENT_PROHIBITED.toString());
-        types.put(ComplaintOfferType.CONTENT_MISMATCH, ComplaintOfferType.CONTENT_MISMATCH.toString());
-        types.put(ComplaintOfferType.IRRELEVANT, ComplaintOfferType.IRRELEVANT.toString());
-        types.put(ComplaintOfferType.AGENCY, ComplaintOfferType.AGENCY.toString());
-        types.put(ComplaintOfferType.FRAUD, ComplaintOfferType.FRAUD.toString());
-        types.put(ComplaintOfferType.OTHER, ComplaintOfferType.OTHER.toString());
+        types.put(ComplaintOfferType.TOPIC_MISMATCH.name(), ComplaintOfferType.TOPIC_MISMATCH.toString());
+        types.put(ComplaintOfferType.PROFANITY.name(), ComplaintOfferType.PROFANITY.toString());
+        types.put(ComplaintOfferType.CONTENT_PROHIBITED.name(), ComplaintOfferType.CONTENT_PROHIBITED.toString());
+        types.put(ComplaintOfferType.CONTENT_MISMATCH.name(), ComplaintOfferType.CONTENT_MISMATCH.toString());
+        types.put(ComplaintOfferType.IRRELEVANT.name(), ComplaintOfferType.IRRELEVANT.toString());
+        types.put(ComplaintOfferType.AGENCY.name(), ComplaintOfferType.AGENCY.toString());
+        types.put(ComplaintOfferType.FRAUD.name(), ComplaintOfferType.FRAUD.toString());
+        types.put(ComplaintOfferType.OTHER.name(), ComplaintOfferType.OTHER.toString());
 
         return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
     }
