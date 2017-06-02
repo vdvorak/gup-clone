@@ -234,10 +234,11 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/mySocialList/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMySocialList(@PathVariable String url) {
+//    public ResponseEntity<String> addToMySocialList(@PathVariable String url) {
+    public ResponseEntity<String> addToMySocialList(@PathVariable String profileId) {
 
         String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addSocialToSocialList(userId, url);
+        profilesService.addSocialToSocialList(userId, profileId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
