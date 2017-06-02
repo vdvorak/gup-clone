@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -516,10 +517,11 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
+        Gson gson = new Gson();
 
         // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
-            return new ResponseEntity<>("ADMIN CRAZY", HttpStatus.FORBIDDEN); //TODO: 403
+            return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
         }
         if (profile==null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
@@ -529,10 +531,10 @@ public class ProfileRestController {
             profile.setActive(false);
             profile.setBan(true);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>("User: '"+id + "' IS BAN", HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>(gson.toJson("User: '"+id + "' IS BAN"), HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
+        return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403
     }
 
     @CrossOrigin
@@ -542,11 +544,11 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
+        Gson gson = new Gson();
 
         // we cant't allow empty email field for some cases
-        // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
-            return new ResponseEntity<>("ADMIN CRAZY", HttpStatus.FORBIDDEN); //TODO: 403
+            return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
         }
         if (profile==null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
@@ -556,10 +558,10 @@ public class ProfileRestController {
             profile.setActive(true);
             profile.setBan(false);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>("User: '"+id + "' IS UNBAN", HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>(gson.toJson("User: '"+id + "' IS UNBAN"), HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
+        return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403
     }
 
 
