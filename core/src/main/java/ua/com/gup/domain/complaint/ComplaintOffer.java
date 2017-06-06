@@ -24,6 +24,8 @@ public class ComplaintOffer {
 
     private List<ComplaintOfferDescription> descriptions;
 
+    private String description;
+
     private List<ComplaintOfferType> types;
 
     @Indexed
@@ -70,6 +72,15 @@ public class ComplaintOffer {
     public void addDescriptions(ComplaintOfferDescription description) {
         descriptions.add(description);
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<ComplaintOfferType> getTypes() {
         return types;
     }
@@ -118,6 +129,7 @@ public class ComplaintOffer {
                 ", initiatorId='" + initiatorId + '\'' +
                 ", offerId='" + offerId + '\'' +
                 ", descriptions=" + descriptions +
+                ", description='" + description + '\'' +
                 ", types=" + types +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
