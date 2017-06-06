@@ -583,9 +583,14 @@ public class ProfilesServiceImpl implements ProfilesService {
 //        contactList.remove(profileId);
 //        profile.setContactList(contactList);
         ///////////
-        if (profile != null){
+//        if (profile != null){
+        System.err.println("////////////////////////////////////////////////////////////////////////////////////////");
+        System.err.println( profile.getContactList() );
             profile.getContactList().remove(profileId);
-        }
+        System.err.println("----------------------------------------------------------------------------------------");
+        System.err.println( profile.getContactList() );
+        System.err.println("////////////////////////////////////////////////////////////////////////////////////////");
+//        }
         ////////////
 
         editProfile(profile);

@@ -244,6 +244,18 @@ public class ProfileRestController {
     }
 
     /**
+     *
+     * @return
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/id/{profileId}/mySocialList/add/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<String> addToMySocialListMobile(@PathVariable String profileId, @PathVariable String userId) {
+        profilesService.addSocialToSocialList(userId, profileId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
      * Delete one contact from user contact list.
      *
      * @param profileId - the ID of the profile which must be deleted.
