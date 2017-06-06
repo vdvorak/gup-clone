@@ -213,6 +213,31 @@ public class ComplaintOfferResource {
         return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
     }
 
+    /**
+     * GET  /statuses : get types complaintOffer.
+     *
+     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/complaints/statuses",
+            method = RequestMethod.GET,
+            produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> getComplaintOfferStatuses()
+            throws URISyntaxException {
+        log.debug("REST request to get Statuses");
+        if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
+        }
+
+        final Gson gson = new Gson();
+        final Map<String, String> statuses =
+                Arrays.stream(ComplaintOfferStatus.values())
+                        .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
+
+        return new ResponseEntity(gson.toJson(statuses), HttpStatus.OK);
+    }
+
 
     /**
      * GET  /complaints : Get a staus complaintOffer.
