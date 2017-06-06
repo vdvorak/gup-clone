@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -149,12 +150,15 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(consumes = "charset=ISO-8859-1",
+            value = "/complaints/types",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getComplaintOfferTypes()
             throws URISyntaxException {
         log.debug("REST request to get Types");
 
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         Map<String, String> types = new HashMap<>();
 
         types.put(ComplaintOfferType.TOPIC_MISMATCH.name(), ComplaintOfferType.TOPIC_MISMATCH.toString());
