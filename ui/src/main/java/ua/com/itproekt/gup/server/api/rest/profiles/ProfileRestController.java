@@ -201,6 +201,18 @@ public class ProfileRestController {
 //    }
 
     /**
+     *
+     * @return
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<String> addToMyContactListMobile(@PathVariable String profileId, @PathVariable String userId) {
+        profilesService.addSocialToSocialList(userId, profileId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
      * Delete one contact from user contact list.
      *
      * @param profileId - the ID of the profile which must be deleted.
@@ -219,7 +231,7 @@ public class ProfileRestController {
         String userId = SecurityOperations.getLoggedUserId();
 
         if( userId!=null ){
-            profilesService.deleteFromMySocialList(userId, profileId);
+            profilesService.deleteFromMySocialList(profileId); //profilesService.deleteFromMySocialList(userId, profileId);
             return new ResponseEntity<>("{\"deleteFrom\":\""+userId+"\", \"deleteTo\":\""+profileId+"\"}", HttpStatus.RESET_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
@@ -227,8 +239,6 @@ public class ProfileRestController {
     }
 
     /**
-     *
-     * @param url
      * @return
      */
     @CrossOrigin
@@ -238,19 +248,7 @@ public class ProfileRestController {
     public ResponseEntity<String> addToMySocialList(@PathVariable String profileId) {
 
         String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addSocialToSocialList(userId, profileId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
-     *
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/id/{profileId}/mySocialList/add/{userId}", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMySocialListMobile(@PathVariable String profileId, @PathVariable String userId) {
-        profilesService.addSocialToSocialList(userId, profileId);
+        profilesService.addContactToContactList(userId, profileId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -265,12 +263,10 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/mySocialList/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFromMySocialList(@PathVariable String profileId) {
-
         if (!profilesService.profileExists(profileId)) { //TODO: need make test...
 //        if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
