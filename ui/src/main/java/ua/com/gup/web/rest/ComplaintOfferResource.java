@@ -150,8 +150,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(consumes = "charset=ISO-8859-1",
-            value = "/complaints/types",
+    @RequestMapping(value = "/complaints/types",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getComplaintOfferTypes()
