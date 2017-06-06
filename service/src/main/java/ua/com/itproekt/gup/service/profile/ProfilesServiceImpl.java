@@ -579,11 +579,13 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile profile = findById(userId);
 
-        Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
+//        Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
 //        contactList.remove(profileId);
 //        profile.setContactList(contactList);
         ///////////
-        profile.getContactList().remove(profileId);
+        if (profile != null){
+            profile.getContactList().remove(profileId);
+        }
         ////////////
 
         editProfile(profile);

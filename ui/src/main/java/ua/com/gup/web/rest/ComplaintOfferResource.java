@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferDescription;
@@ -22,10 +23,8 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing ComplaintOffer.
@@ -48,7 +47,9 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer)
             throws URISyntaxException {
         log.debug("REST request to save new ComplaintOffer : {}", complaintOffer);
@@ -156,18 +157,14 @@ public class ComplaintOfferResource {
     public ResponseEntity<String> getComplaintOfferTypes()
             throws URISyntaxException {
         log.debug("REST request to get Types");
+        if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
+        }
 
         final Gson gson = new Gson();
-        Map<String, String> types = new HashMap<>();
-
-        types.put(ComplaintOfferType.TOPIC_MISMATCH.name(), ComplaintOfferType.TOPIC_MISMATCH.toString());
-        types.put(ComplaintOfferType.PROFANITY.name(), ComplaintOfferType.PROFANITY.toString());
-        types.put(ComplaintOfferType.CONTENT_PROHIBITED.name(), ComplaintOfferType.CONTENT_PROHIBITED.toString());
-        types.put(ComplaintOfferType.CONTENT_MISMATCH.name(), ComplaintOfferType.CONTENT_MISMATCH.toString());
-        types.put(ComplaintOfferType.IRRELEVANT.name(), ComplaintOfferType.IRRELEVANT.toString());
-        types.put(ComplaintOfferType.AGENCY.name(), ComplaintOfferType.AGENCY.toString());
-        types.put(ComplaintOfferType.FRAUD.name(), ComplaintOfferType.FRAUD.toString());
-        types.put(ComplaintOfferType.OTHER.name(), ComplaintOfferType.OTHER.toString());
+        Map<String, String> types =
+                Arrays.stream(ComplaintOfferType.values())
+                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));
 
         return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
     }
