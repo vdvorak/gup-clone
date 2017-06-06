@@ -152,7 +152,7 @@ public class ComplaintOfferResource {
     @CrossOrigin
     @RequestMapping(value = "/complaints/types",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferTypes()
             throws URISyntaxException {
         log.debug("REST request to get Types");
