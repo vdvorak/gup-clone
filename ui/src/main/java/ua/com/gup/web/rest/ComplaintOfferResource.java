@@ -162,7 +162,7 @@ public class ComplaintOfferResource {
         }
 
         final Gson gson = new Gson();
-        Map<String, String> types =
+        final Map<String, String> types =
                 Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));
 
