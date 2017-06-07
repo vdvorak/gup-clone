@@ -11,6 +11,8 @@ public class CategoryAttributeCreateDTO {
 
     private boolean active;
 
+    private boolean privateAttr; //TODO.......
+
     private String key;
 
     private Map<String, String> title = new HashMap<>();
