@@ -14,9 +14,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket apiItproekt() {
+//    public Docket apiItproekt() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .groupName("oauth")
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("ua.com.itproekt.gup"))
+//                .paths(PathSelectors.any())
+//                .build()
+//                .apiInfo(apiInfo());
+//    }
+    public Docket apiOauth() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("itproekt")
+                .groupName("oauth")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ua.com.itproekt.gup"))
                 .paths(PathSelectors.any())
@@ -30,7 +39,7 @@ public class SwaggerConfig {
                 "Some custom description of API.",
                 "API TOS",
                 "Terms of service",
-                new Contact("GUP", "gup.com.ua", "____"),
+                "dispatch@gup.ua",
                 "License of API",
                 "API license URL");
         return apiInfo;
