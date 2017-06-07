@@ -91,31 +91,6 @@ public class ComplaintOfferResource {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
-    /**
-     * PUT  /complaints : Update a staus complaintOffer.
-     *
-     * @param description the complaintOffer to update
-     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/complaints/{id}/description", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferDescription description, @PathVariable("id") String id)
-            throws URISyntaxException {
-        log.debug("REST request to update ComplaintOffer : {}", description);
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
-        }
-
-        complaintOfferService.updateDescription(id, description);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     /**
      * PUT  /complaints : Update a staus complaintOffer.
      *
@@ -136,30 +111,6 @@ public class ComplaintOfferResource {
         }
 
         complaintOfferService.updateType(id, type);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    /**
-     * PUT  /complaints : Update a staus complaintOffer.
-     *
-     * @param complaintOffer the complaintOffer to update
-     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/complaints/{id}/descriptions", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescriptions(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
-            throws URISyntaxException {
-        log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
-        }
-
-        complaintOfferService.updateDescriptions(id, complaintOffer.getDescriptions());
 
         return new ResponseEntity(HttpStatus.OK);
     }
