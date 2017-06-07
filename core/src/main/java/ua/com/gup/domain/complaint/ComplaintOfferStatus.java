@@ -6,10 +6,10 @@ package ua.com.gup.domain.complaint;
  */
 public enum ComplaintOfferStatus {
 
-    NEW("Жалоба создаётся пользователем"),
-    OPENED("Жалоба открывается администратором"),
-    DECLINED("Жалоба отклоняется администратором"),
-    ACCEPTED("Жалоба подтверждается администратором");
+    NEW("Жалоба создана"),
+    OPENED("Жалоба находится на рассмотрении"),
+    ACCEPTED("Жалоба принята"),
+    DECLINED("Жалоба отклонена");
 
     private final String name;
 
