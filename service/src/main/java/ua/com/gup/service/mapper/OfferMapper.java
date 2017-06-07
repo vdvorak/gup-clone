@@ -105,6 +105,7 @@ public class OfferMapper {
     private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
+        target.setStatistic(source.getStatistic());
     }
 
     public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
@@ -114,6 +115,7 @@ public class OfferMapper {
         offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
+        offerViewDetailsDTO.setStatistic(offer.getStatistic());
         return offerViewDetailsDTO;
     }
 
