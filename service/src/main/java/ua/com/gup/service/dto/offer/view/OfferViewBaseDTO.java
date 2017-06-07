@@ -4,6 +4,7 @@ package ua.com.gup.service.dto.offer.view;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.offer.OfferCategory;
+import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryNumericAttributeValue;
@@ -55,6 +56,9 @@ public class OfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 130)
     private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+
+    @ApiModelProperty(position = 140)
+    private OfferStatistic statistic;
 
     public String getId() {
         return id;
@@ -158,5 +162,13 @@ public class OfferViewBaseDTO implements Serializable {
 
     public void setBoolAttrs(LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public OfferStatistic getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic(OfferStatistic statistic) {
+        this.statistic = statistic;
     }
 }
