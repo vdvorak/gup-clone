@@ -80,36 +80,12 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
     }
 
     @Override
-    public void updateDescription(String id, ComplaintOfferDescription description) {
-        log.debug("Request to update update complaintOffer descriptions : {}", id);
-
-        if(exists(id)) {
-            ComplaintOffer updateComplaintOffer = findOne(id);
-            updateComplaintOffer.addDescriptions(description);
-            updateComplaintOffer.updateLastModifiedDate();
-            complaintRepository.update(updateComplaintOffer);
-        }
-    }
-
-    @Override
     public void updateType(String id, ComplaintOfferType type) {
         log.debug("Request to update update complaintOffer types : {}", id);
 
         if(exists(id)) {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.addType(type);
-            updateComplaintOffer.updateLastModifiedDate();
-            complaintRepository.update(updateComplaintOffer);
-        }
-    }
-
-    @Override
-    public void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions) {
-        log.debug("Request to update update complaintOffer descriptions : {}", id);
-
-        if(exists(id)) {
-            ComplaintOffer updateComplaintOffer = findOne(id);
-            updateComplaintOffer.setDescriptions(descriptions);
             updateComplaintOffer.updateLastModifiedDate();
             complaintRepository.update(updateComplaintOffer);
         }

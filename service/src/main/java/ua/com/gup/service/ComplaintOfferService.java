@@ -70,16 +70,6 @@ public interface ComplaintOfferService {
      */
     List<ComplaintOffer> findAllByStatus(ComplaintOfferStatus status);
 
-
-    /**
-     * Update ComplaintOffer's status.
-     *
-     * @param id     the id of the entity
-     * @param description the description to be updated
-     * @return the entity
-     */
-    void updateDescription(String id, ComplaintOfferDescription description);
-
     /**
      * Update ComplaintOffer's status.
      *
@@ -88,16 +78,6 @@ public interface ComplaintOfferService {
      * @return the entity
      */
     void updateType(String id, ComplaintOfferType type);
-
-
-    /**
-     * Update ComplaintOffer's status.
-     *
-     * @param id     the id of the entity
-     * @param descriptions the descriptions to be updated
-     * @return the entity
-     */
-    void updateDescriptions(String id, List<ComplaintOfferDescription> descriptions);
 
     /**
      * Update ComplaintOffer's status.
