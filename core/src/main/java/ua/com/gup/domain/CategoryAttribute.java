@@ -37,6 +37,8 @@ public class CategoryAttribute implements Serializable {
 
     private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
 
+    private boolean privateAttr;
+
     public String getId() {
         return id;
     }
@@ -115,6 +117,14 @@ public class CategoryAttribute implements Serializable {
 
     public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
         this.values = values;
+    }
+
+    public boolean isPrivateAttr() {
+        return privateAttr;
+    }
+
+    public void setPrivateAttr(boolean privateAttr) {
+        this.privateAttr = privateAttr;
     }
 
     @Override

@@ -12,6 +12,7 @@ public class CategoryTreeDTO implements Serializable {
     private Map<String, String> description = new HashMap<>();
     private Set<CategoryAttributeDTO> attrs;
     private Set<CategoryTreeDTO> children;
+    private boolean privateAttr;
 
     public CategoryTreeDTO(String lang) {
         attrs = new TreeSet<CategoryAttributeDTO>(getCategoryAttributeDTOComparator(lang));
@@ -76,5 +77,13 @@ public class CategoryTreeDTO implements Serializable {
 
     public Set<CategoryTreeDTO> getChildren() {
         return children;
+    }
+
+    public boolean isPrivateAttr() {
+        return privateAttr;
+    }
+
+    public void setPrivateAttr(boolean privateAttr) {
+        this.privateAttr = privateAttr;
     }
 }

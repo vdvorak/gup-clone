@@ -16,6 +16,7 @@ public class CategoryAttributeDTO {
     private CategoryAttributeType type;
     private CategoryAttributeValidatorDTO validator;
     private Set<CategoryAttributeValueDTO> values;
+    private boolean privateAttr;
 
     public int getCode() {
         return code;
@@ -79,6 +80,14 @@ public class CategoryAttributeDTO {
 
     public void setValues(Set<CategoryAttributeValueDTO> values) {
         this.values = values;
+    }
+
+    public boolean isPrivateAttr() {
+        return privateAttr;
+    }
+
+    public void setPrivateAttr(boolean privateAttr) {
+        this.privateAttr = privateAttr;
     }
 
     @Override

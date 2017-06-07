@@ -11,8 +11,6 @@ public class CategoryAttributeCreateDTO {
 
     private boolean active;
 
-    private boolean privateAttr; //TODO.......
-
     private String key;
 
     private Map<String, String> title = new HashMap<>();
@@ -26,6 +24,8 @@ public class CategoryAttributeCreateDTO {
     private CategoryAttributeValidator validator;
 
     private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
+
+    private boolean privateAttr;
 
     public boolean isActive() {
         return active;
@@ -89,5 +89,13 @@ public class CategoryAttributeCreateDTO {
 
     public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
         this.values = values;
+    }
+
+    public boolean isPrivateAttr() {
+        return privateAttr;
+    }
+
+    public void setPrivateAttr(boolean privateAttr) {
+        this.privateAttr = privateAttr;
     }
 }
