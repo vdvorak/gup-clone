@@ -271,6 +271,28 @@ public class OfferResource {
     }
 
     /**
+     * GET  /offers : get all authorId offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{authorId}/{status}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllProfileOffers(@PathVariable String authorId, @PathVariable OfferStatus status, Pageable pageable) {
+        log.debug("REST request to get a page of authorId Offers by status");
+        if (authorId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
+        }
+        if (status == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+        }
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, authorId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + status.name());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * GET  /offers : get all my offers by status.
      *
      * @param status   the offer status
