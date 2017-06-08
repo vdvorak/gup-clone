@@ -11,6 +11,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,34 +28,34 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdAll() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdAll()), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAll())), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdAllByOnline() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdAllByOnline()), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAllByOnline())), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminId() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(profilesService.getAdminId()), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminId())), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdByOnline() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdByOnline()), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminIdByOnline())), HttpStatus.OK);
     }
 
 
@@ -115,5 +116,38 @@ public class ProfileRestAdminController {
         profilesService.deleteProfileById(profileId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    class Admin {
+        private String id;
+
+        public Admin(String id){
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+
+    class Admins {
+        private Set<Admin> ids;
+
+        public Admins(Set<String> ids){
+            this.ids = new HashSet<>();
+            for (String id: ids)
+                this.ids.add(new Admin(id));
+        }
+
+        public Set<Admin> getIds() {
+            return ids;
+        }
+        public void setIds(Set<Admin> ids) {
+            this.ids = ids;
+        }
     }
 }
