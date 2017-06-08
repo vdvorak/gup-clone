@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.server.api.rest.profiles;
 
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,26 +27,30 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET)
-    public Set<String> getAdminIdAll() {
-        return profilesService.getAdminIdAll();
+    public String getAdminIdAll() {
+        Gson gson = new Gson();
+        return gson.toJson(profilesService.getAdminIdAll());
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
-    public Set<String> getAdminIdAllByOnline() {
-        return profilesService.getAdminIdAllByOnline();
+    public String getAdminIdAllByOnline() {
+        Gson gson = new Gson();
+        return gson.toJson(profilesService.getAdminIdAllByOnline());
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
     public String getAdminId() {
-        return profilesService.getAdminId();
+        Gson gson = new Gson();
+        return gson.toJson(profilesService.getAdminId());
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET)
     public String getAdminIdByOnline() {
-        return profilesService.getAdminIdByOnline();
+        Gson gson = new Gson();
+        return gson.toJson(profilesService.getAdminIdByOnline());
     }
 
 
