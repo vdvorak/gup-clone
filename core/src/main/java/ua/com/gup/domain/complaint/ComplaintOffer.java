@@ -93,12 +93,20 @@ public class ComplaintOffer {
         return createdDate;
     }
 
+    public long getCreatedDateLong() {
+        return createdDateLong;
+    }
+
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
+    }
+
+    public long getLastModifiedDateLong() {
+        return lastModifiedDateLong;
     }
 
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
