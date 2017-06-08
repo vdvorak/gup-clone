@@ -27,32 +27,30 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET)
-    public String getAdminIdAll() {
+    public ResponseEntity<String> getAdminIdAll() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAll());
+        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdAll()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
-    public String getAdminIdAllByOnline() {
+    public ResponseEntity<String> getAdminIdAllByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAllByOnline());
-//        return "{\"" + profilesService.getAdminIdAllByOnline() + "\"}";
+        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdAllByOnline()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
-    public String getAdminId() {
+    public ResponseEntity<String> getAdminId() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminId()).toString();
-//        return "{\"" + profilesService.getAdminId() + "\"}";
+        return new ResponseEntity<>(gson.toJson(profilesService.getAdminId()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET)
-    public String getAdminIdByOnline() {
+    public ResponseEntity<String> getAdminIdByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdByOnline());
+        return new ResponseEntity<>(gson.toJson(profilesService.getAdminIdByOnline()), HttpStatus.OK);
     }
 
 
