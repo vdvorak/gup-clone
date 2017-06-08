@@ -13,10 +13,6 @@ import ua.com.gup.repository.ComplaintOfferRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-mvc-config.xml"})
-@TestExecutionListeners({
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-})
 public class ComplaintOfferServiceTest {
 
     @Autowired
@@ -24,7 +20,11 @@ public class ComplaintOfferServiceTest {
 
     @Test
     public void testRepository() throws Exception {
-        System.out.println( complaintRepository.findAll() );
+        System.err.println();
+        System.err.println("--------------------------------------------------");
+        System.err.println( complaintRepository.findAll() );
+        System.err.println("--------------------------------------------------");
+        System.err.println();
     }
 
 }

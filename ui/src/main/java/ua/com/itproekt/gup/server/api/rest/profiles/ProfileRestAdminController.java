@@ -36,16 +36,16 @@ public class ProfileRestAdminController {
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
     public String getAdminIdAllByOnline() {
         Gson gson = new Gson();
-//        return gson.toJson(profilesService.getAdminIdAllByOnline());
-        return "{\"" + profilesService.getAdminIdAllByOnline() + "\"}";
+        return gson.toJson(profilesService.getAdminIdAllByOnline());
+//        return "{\"" + profilesService.getAdminIdAllByOnline() + "\"}";
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
     public String getAdminId() {
         Gson gson = new Gson();
-//        return gson.toJson(profilesService.getAdminId()).toString();
-        return "{\"" + profilesService.getAdminId() + "\"}";
+        return gson.toJson(profilesService.getAdminId()).toString();
+//        return "{\"" + profilesService.getAdminId() + "\"}";
     }
 
     @CrossOrigin

@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
-    <mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo"/>
+    <mongo:mongo host="62.80.167.164" port="27017" id="mongo"/>
     <!--<mongo:options connections-per-host="8"-->
     <!--threads-allowed-to-block-for-connection-multiplier="4"-->
     <!--connect-timeout="1000"-->
@@ -21,8 +21,8 @@
     <!--write-timeout="0"-->
     <!--write-fsync="true"/>-->
     <!--</mongo:mongo>-->
-    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}"
-                      username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"/>
+    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="heroku_lktlmxlq"
+                      username="gup" password="1qazxcft6"/>
 
 
     <mongo:mapping-converter id="mongoConverter">
