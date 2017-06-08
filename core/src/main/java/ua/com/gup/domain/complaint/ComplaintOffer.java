@@ -30,9 +30,11 @@ public class ComplaintOffer {
     private ComplaintOfferStatus status;
 
     private ZonedDateTime createdDate = ZonedDateTime.now();
+    private long createdDateLong = createdDate.toInstant().toEpochMilli();
 
-    @Indexed
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    @Indexed
+    private long lastModifiedDateLong = lastModifiedDate.toInstant().toEpochMilli();
 
 
     public String getId() {
