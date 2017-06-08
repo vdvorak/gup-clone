@@ -28,7 +28,7 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdAll() {
         Gson gson = new Gson();
         return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAll())), HttpStatus.OK);
@@ -36,7 +36,7 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdAllByOnline() {
         Gson gson = new Gson();
         return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAllByOnline())), HttpStatus.OK);
@@ -44,7 +44,7 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminId() {
         Gson gson = new Gson();
         return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminId())), HttpStatus.OK);
@@ -52,7 +52,7 @@ public class ProfileRestAdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAdminIdByOnline() {
         Gson gson = new Gson();
         return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminIdByOnline())), HttpStatus.OK);
