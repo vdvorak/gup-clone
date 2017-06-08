@@ -29,33 +29,33 @@ public class ProfileRestAdminController {
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAdminIdAll() {
+    public ResponseEntity<Admins> getAdminIdAll() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAll())), HttpStatus.OK);
+        return new ResponseEntity<>(new Admins(profilesService.getAdminIdAll()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAdminIdAllByOnline() {
+    public ResponseEntity<Admins> getAdminIdAllByOnline() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(new Admins(profilesService.getAdminIdAllByOnline())), HttpStatus.OK);
+        return new ResponseEntity<>(new Admins(profilesService.getAdminIdAllByOnline()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAdminId() {
+    public ResponseEntity<Admin> getAdminId() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminId())), HttpStatus.OK);
+        return new ResponseEntity<>(new Admin(profilesService.getAdminId()), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAdminIdByOnline() {
+    public ResponseEntity<Admin> getAdminIdByOnline() {
         Gson gson = new Gson();
-        return new ResponseEntity<>(gson.toJson(new Admin(profilesService.getAdminIdByOnline())), HttpStatus.OK);
+        return new ResponseEntity<>(new Admin(profilesService.getAdminIdByOnline()), HttpStatus.OK);
     }
 
 
