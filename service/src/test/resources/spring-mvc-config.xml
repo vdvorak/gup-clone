@@ -9,7 +9,19 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 
-    <context:component-scan base-package="ua.com.itproekt.gup.server.api" />
-    <mvc:annotation-driven />
+    <!--<context:component-scan base-package="ua.com"/>-->
+    <context:component-scan base-package="ua.com.gup.repository" />
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:properties/price.properties" />
+
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <import resource="root-context.xml"/>
+    <import resource="mail.xml"/>
+    <import resource="db/mongo.xml"/>
+    <import resource="db/mongo-tasks.xml"/>
+    <import resource="security/client-details.xml"/>
+    <import resource="security/spring-security.xml"/>
 
 </beans>
