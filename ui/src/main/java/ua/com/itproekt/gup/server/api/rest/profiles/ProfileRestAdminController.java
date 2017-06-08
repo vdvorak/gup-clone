@@ -34,24 +34,21 @@ public class ProfileRestAdminController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
     public String getAdminIdAllByOnline() {
         Gson gson = new Gson();
         return gson.toJson(profilesService.getAdminIdAllByOnline()).toString();
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
     public String getAdminId() {
         Gson gson = new Gson();
         return gson.toJson(profilesService.getAdminId()).toString();
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET)
     public String getAdminIdByOnline() {
         Gson gson = new Gson();
         return gson.toJson(profilesService.getAdminIdByOnline()).toString();
