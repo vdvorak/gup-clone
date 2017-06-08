@@ -26,32 +26,33 @@ public class ProfileRestAdminController {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET)
     public String getAdminIdAll() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAll()).toString();
+        return gson.toJson(profilesService.getAdminIdAll());
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET)
     public String getAdminIdAllByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAllByOnline()).toString();
+//        return gson.toJson(profilesService.getAdminIdAllByOnline());
+        return "{\"" + profilesService.getAdminIdAllByOnline() + "\"}";
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET)
     public String getAdminId() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminId()).toString();
+//        return gson.toJson(profilesService.getAdminId()).toString();
+        return "{\"" + profilesService.getAdminId() + "\"}";
     }
 
     @CrossOrigin
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET)
     public String getAdminIdByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdByOnline()).toString();
+        return gson.toJson(profilesService.getAdminIdByOnline());
     }
 
 
