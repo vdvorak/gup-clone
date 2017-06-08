@@ -30,7 +30,7 @@ public class ProfileRestAdminController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAdminIdAll() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAll());
+        return gson.toJson(profilesService.getAdminIdAll()).toString();
     }
 
     @CrossOrigin
@@ -38,7 +38,7 @@ public class ProfileRestAdminController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAdminIdAllByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdAllByOnline());
+        return gson.toJson(profilesService.getAdminIdAllByOnline()).toString();
     }
 
     @CrossOrigin
@@ -46,7 +46,7 @@ public class ProfileRestAdminController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAdminId() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminId());
+        return gson.toJson(profilesService.getAdminId()).toString();
     }
 
     @CrossOrigin
@@ -54,7 +54,7 @@ public class ProfileRestAdminController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAdminIdByOnline() {
         Gson gson = new Gson();
-        return gson.toJson(profilesService.getAdminIdByOnline());
+        return gson.toJson(profilesService.getAdminIdByOnline()).toString();
     }
 
 
