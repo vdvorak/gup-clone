@@ -41,8 +41,8 @@ public class ComplaintOffer {
     public ComplaintOffer(){
         createdDate = ZonedDateTime.now();
         lastModifiedDate = ZonedDateTime.now();
-        createdDateLong = toDateTime(createdDate).getMillis();
-        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
+//        createdDateLong = toDateTime(createdDate).getMillis();
+//        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
     }
 
 
@@ -108,7 +108,7 @@ public class ComplaintOffer {
 
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
-        createdDateLong = toDateTime(createdDate).getMillis();
+//        createdDateLong = toDateTime(createdDate).getMillis();
     }
 
     public ZonedDateTime getLastModifiedDate() {
@@ -121,7 +121,7 @@ public class ComplaintOffer {
 
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
-        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
+//        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
     }
 
     public void updateLastModifiedDate() {
@@ -129,9 +129,9 @@ public class ComplaintOffer {
     }
 
 
-    private DateTime toDateTime(final ZonedDateTime zdt) {
-        return new DateTime(zdt.toInstant().toEpochMilli(), DateTimeZone.forID(zdt.getOffset().getId()));
-    }
+//    private DateTime toDateTime(final ZonedDateTime zdt) {
+//        return new DateTime(zdt.toInstant().toEpochMilli(), DateTimeZone.forID(zdt.getOffset().getId()));
+//    }
 
 
     @Override
