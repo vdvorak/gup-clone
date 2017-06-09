@@ -42,9 +42,7 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
         newComplaintOffer.setTypes(complaintOffer.getTypes());
         newComplaintOffer.setInitiatorId(complaintOffer.getInitiatorId());
         newComplaintOffer.setStatus(ComplaintOfferStatus.NEW);
-
-        newComplaintOffer.setCreatedDateLong( toDateTime(newComplaintOffer.getCreatedDate()).getMillis() );
-
+//        newComplaintOffer.setCreatedDateLong( toDateTime(newComplaintOffer.getCreatedDate()).getMillis() );
         complaintRepository.save(newComplaintOffer);
     }
 
@@ -92,9 +90,7 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.addType(type);
             updateComplaintOffer.updateLastModifiedDate();
-
-            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
-
+//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -107,9 +103,7 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setTypes(types);
             updateComplaintOffer.updateLastModifiedDate();
-
-            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
-
+//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -122,9 +116,7 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setStatus(status);
             updateComplaintOffer.updateLastModifiedDate();
-
-            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
-
+//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
     }

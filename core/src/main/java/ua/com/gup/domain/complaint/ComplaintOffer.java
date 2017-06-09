@@ -1,8 +1,5 @@
 package ua.com.gup.domain.complaint;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -41,8 +38,6 @@ public class ComplaintOffer {
     public ComplaintOffer(){
         createdDate = ZonedDateTime.now();
         lastModifiedDate = ZonedDateTime.now();
-//        createdDateLong = toDateTime(createdDate).getMillis();
-//        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
     }
 
 
@@ -112,7 +107,6 @@ public class ComplaintOffer {
 
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
-//        createdDateLong = toDateTime(createdDate).getMillis();
     }
 
     public ZonedDateTime getLastModifiedDate() {
@@ -129,18 +123,11 @@ public class ComplaintOffer {
 
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
-//        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
     }
 
     public void updateLastModifiedDate() {
         this.lastModifiedDate =  ZonedDateTime.now();
     }
-
-
-//    private DateTime toDateTime(final ZonedDateTime zdt) {
-//        return new DateTime(zdt.toInstant().toEpochMilli(), DateTimeZone.forID(zdt.getOffset().getId()));
-//    }
-
 
     @Override
     public String toString() {
