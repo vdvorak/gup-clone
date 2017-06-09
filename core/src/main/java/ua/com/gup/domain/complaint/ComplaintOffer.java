@@ -31,12 +31,19 @@ public class ComplaintOffer {
     @Indexed
     private ComplaintOfferStatus status;
 
-    private ZonedDateTime createdDate = ZonedDateTime.now();
-    private long createdDateLong = toDateTime(createdDate).getMillis();
+    private ZonedDateTime createdDate;
+    private long createdDateLong;
 
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    private ZonedDateTime lastModifiedDate;
     @Indexed
-    private long lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
+    private long lastModifiedDateLong;
+
+    public ComplaintOffer(){
+        createdDate = ZonedDateTime.now();
+        lastModifiedDate = ZonedDateTime.now();
+        createdDateLong = toDateTime(createdDate).getMillis();
+        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
+    }
 
 
     public String getId() {
@@ -101,6 +108,7 @@ public class ComplaintOffer {
 
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
+        createdDateLong = toDateTime(createdDate).getMillis();
     }
 
     public ZonedDateTime getLastModifiedDate() {
@@ -113,6 +121,7 @@ public class ComplaintOffer {
 
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+        lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
     }
 
     public void updateLastModifiedDate() {
