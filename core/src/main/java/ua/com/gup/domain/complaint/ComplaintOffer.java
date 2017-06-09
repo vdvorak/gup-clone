@@ -1,5 +1,7 @@
 package ua.com.gup.domain.complaint;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -30,11 +32,11 @@ public class ComplaintOffer {
     private ComplaintOfferStatus status;
 
     private ZonedDateTime createdDate = ZonedDateTime.now();
-    private long createdDateLong = createdDate.toInstant().toEpochMilli();
+    private long createdDateLong = toDateTime(createdDate).getMillis();
 
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
     @Indexed
-    private long lastModifiedDateLong = lastModifiedDate.toInstant().toEpochMilli();
+    private long lastModifiedDateLong = toDateTime(lastModifiedDate).getMillis();
 
 
     public String getId() {
@@ -118,6 +120,11 @@ public class ComplaintOffer {
     }
 
 
+    private DateTime toDateTime(final ZonedDateTime zdt) {
+        return new DateTime(zdt.toInstant().toEpochMilli(), DateTimeZone.forID(zdt.getOffset().getId()));
+    }
+
+
     @Override
     public String toString() {
         return "ComplaintOffer{" +
@@ -128,7 +135,9 @@ public class ComplaintOffer {
                 ", types=" + types +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
+                ", createdDateLong=" + createdDateLong +
                 ", lastModifiedDate=" + lastModifiedDate +
+                ", lastModifiedDateLong=" + lastModifiedDateLong +
                 '}';
     }
 }
