@@ -1,6 +1,8 @@
 package ua.com.gup.service.impl;
 
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.repository.ComplaintOfferRepository;
 import ua.com.gup.service.ComplaintOfferService;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -39,6 +42,8 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
         newComplaintOffer.setTypes(complaintOffer.getTypes());
         newComplaintOffer.setInitiatorId(complaintOffer.getInitiatorId());
         newComplaintOffer.setStatus(ComplaintOfferStatus.NEW);
+
+        newComplaintOffer.setCreatedDateLong( toDateTime(newComplaintOffer.getCreatedDate()).getMillis() );
 
         complaintRepository.save(newComplaintOffer);
     }
@@ -87,6 +92,9 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.addType(type);
             updateComplaintOffer.updateLastModifiedDate();
+
+            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
+
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -99,6 +107,9 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setTypes(types);
             updateComplaintOffer.updateLastModifiedDate();
+
+            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
+
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -111,7 +122,14 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setStatus(status);
             updateComplaintOffer.updateLastModifiedDate();
+
+            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
+
             complaintRepository.update(updateComplaintOffer);
         }
+    }
+
+    private DateTime toDateTime(final ZonedDateTime zdt) {
+        return new DateTime(zdt.toInstant().toEpochMilli(), DateTimeZone.forID(zdt.getOffset().getId()));
     }
 }

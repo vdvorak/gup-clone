@@ -102,6 +102,10 @@ public class ComplaintOffer {
         return createdDate;
     }
 
+    public void setCreatedDateLong(long createdDateLong) {
+        this.createdDateLong = createdDateLong;
+    }
+
     public long getCreatedDateLong() {
         return createdDateLong;
     }
@@ -113,6 +117,10 @@ public class ComplaintOffer {
 
     public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
+    }
+
+    public void setLastModifiedDateLong(long lastModifiedDateLong) {
+        this.lastModifiedDateLong = lastModifiedDateLong;
     }
 
     public long getLastModifiedDateLong() {
