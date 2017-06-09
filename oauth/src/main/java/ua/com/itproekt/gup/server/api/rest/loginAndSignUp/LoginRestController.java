@@ -383,7 +383,11 @@ public class LoginRestController {
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         if(profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        authenticateByEmailAndPassword(loggedUser, response);
+
+//        authenticateByEmailAndPassword(loggedUser, response);
+        Profile profile = profileInfo.getProfile();
+        profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));
+        profileInfo.setProfile(profile);
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -411,7 +415,9 @@ public class LoginRestController {
         ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
         if(profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
+//        authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
+        profile.setRefreshToken(authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response));
+        profileInfo.setProfile(profile);
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -521,13 +527,23 @@ public class LoginRestController {
     }
 
 
-    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+//    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+//        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+//        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+//        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+//
+//        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+//        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+//    }
+    private String authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+
+        return oAuth2AccessToken.getRefreshToken().getValue();
     }
 
     private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {
@@ -572,13 +588,23 @@ public class LoginRestController {
         }
     }
 
-    private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
+//    private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
+//        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
+//        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+//        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+//
+//        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+//        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+//    }
+    private String authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+
+        return oAuth2AccessToken.getRefreshToken().getValue();
     }
 
     private void authenticateByPhoneAndPassword(User user, String phone, HttpServletResponse response) {

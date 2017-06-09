@@ -121,6 +121,8 @@ public class Profile {
     /* ************************************************************************************************ */
     private DBStorePhones storePhones;
 
+    private String refreshToken;
+
 
 
     public boolean hasUserRole(String userRole) {
@@ -720,6 +722,16 @@ public class Profile {
     }
 
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public Profile setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
+
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -778,6 +790,7 @@ public class Profile {
                 ", mainKindActivity='" + mainKindActivity + '\'' +
                 ", emploeyrList=" + emploeyrList +
                 ", storePhones=" + storePhones +
+                ", refreshToken=" + refreshToken +
                 '}';
     }
 }
