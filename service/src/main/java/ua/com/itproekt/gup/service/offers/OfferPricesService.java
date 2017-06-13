@@ -67,7 +67,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
     private ArrayList<Long> listWeekdays,listWeekends;
-//    private Gson gson;
     private Rents rents;
 
     /**
@@ -87,7 +86,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-//        gson = new Gson();
     }
 
     /**
@@ -516,6 +514,14 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
                 expired = 0;
         data.append("{\n  \"" + monthOfRents + "\": {\n");
         data.append("    \"availables\": [");
+//        for (Rent availableDays : getRents().getAvailables()) {
+//            if (0<available) data.append(",{");
+//            else data.append("\n      {");
+//            data.append("\n        " + availableDays);
+//            data.append("\n      }");
+//            ++available;
+//        }
+///////////////////////////////////////////////////////////////
         for (Rent availableDays : getRents().getAvailables()) {
             if (0<available) data.append(",{");
             else data.append("\n      {");
@@ -523,6 +529,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             data.append("\n      }");
             ++available;
         }
+///////////////////////////////////////////////////////////////
         data.append("\n    ]\n");
         data.append("   ,\"rented\": [");
         for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
@@ -545,124 +552,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         return data.toString();
     }
 
-    /**
-     * {
-     *     "offerRents": {
-     *         "prices": {
-     *             "weekday": {
-     *                 "price": 10000,
-     *                 "days": ["10.10.2016", "31.10.2016"]
-     *             },
-     *             "weekend": {
-     *                 "price": 15000,
-     *                 "days": ["1.10.2016", "30.10.2016"]
-     *             },
-     *             "specialdays": [{
-     *                 "price": 20000,
-     *                 "days": ["3.10.2016", "7.10.2016"]
-     *             }]
-     *         },
-     *         "rents": {
-     *             "availables": [{
-     *                 "day": "4.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }, {
-     *                 "day": "6.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }, {
-     *                 "day": "7.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }, {
-     *                 "day": "8.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }, {
-     *                 "day": "9.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }, {
-     *                 "day": "11.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }],
-     *             "rented": [{
-     *                 "day": "5.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": "1.10.2016",
-     *                 "user": {
-     *                      "userId": "57e440464c8eda79f765532d",
-     *                      "fullName": "Мирошник Александр Петрович",
-     *                      "imgID": "57e440464c8eda79f765532d"
-     *                 }
-     *             }, {
-     *                 "day": "10.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": {
-     *                      "userId": "57e440464c8eda79f765532d",
-     *                      "fullName": "Петренко Юрий Владимирович",
-     *                      "imgID": "57e440464c8eda79f765532d"
-     *                 }
-     *             }, {
-     *                 "day": "14.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": {
-     *                      "userId": "57e440464c8eda79f765532d",
-     *                      "fullName": "Калиниченко Иван Дмитриевич",
-     *                      "imgID": "57e440464c8eda79f765532d"
-     *                 }
-     *             }],
-     *             "expired": [{
-     *                 "day": "1.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": "30.09.2016",
-     *                 "user": {
-     *                      "userId": "57e440464c8eda79f765532d",
-     *                      "fullName": "Мирошник Александр Петрович",
-     *                      "imgID": "57e440464c8eda79f765532d"
-     *                 }
-     *             }, {
-     *                 "day": "2.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": {
-     *                      "userId": "57e440464c8eda79f765532d",
-     *                      "fullName": "Петренко Юрий Владимирович",
-     *                      "imgID": "57e440464c8eda79f765532d"
-     *                 }
-     *             }, {
-     *                 "day": "3.10.2016",
-     *                 "isPrepaid": true,
-     *                 "dayPrepaid": null,
-     *                 "user": null
-     *             }]
-     *         },
-     *         "orders": [{
-     *             "orderId": "57f37a5e603eda79f765532d",
-     *             "offerId": "57f37a5e6032233325b9f8c9",
-     *             "userId": "57e440464c8eda79f765532d",
-     *             "pay": 46111,
-     *             "days": ["5.10.2016", "10.10.2016", "14.10.2016"]
-     *         }, {
-     *             "orderId": "57e4ddae4c8ec16d79c41037",
-     *             "offerId": "57e4ddae4c8e441cdbb32dae",
-     *             "userId": "57e465ba4c8ec16d79c41037",
-     *             "pay": 11111,
-     *             "days": ["5.10.2016"]
-     *         }]
-     *     }
-     * }
-     */
     public String toJson() throws NoSuchElementException {
 //        return gson.toJson(this);
         int scheme = 0;

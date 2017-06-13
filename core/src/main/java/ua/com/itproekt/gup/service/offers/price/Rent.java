@@ -6,6 +6,7 @@ import ua.com.itproekt.gup.util.ConvertUtil;
 public class Rent implements Comparable<Rent>, Cloneable {
 
     private Long day;
+    private String strDay;
     private RentUser user;
     private Boolean confirm;
     private Boolean prepaid;
@@ -21,6 +22,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
 
     public Rent(Long day, RentUser user, Boolean confirm, Boolean prepaid, Long dayPrepaid, Long orderDate, Long updateDate, RentStatus rentStatus, OrderStatus orderStatus, Integer salesRemained, Order order){
         this.day = day;
+        this.strDay = ConvertUtil.toDate(day);
         this.user = user;
         this.confirm = confirm;
         this.prepaid = prepaid;
@@ -35,6 +37,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
 
     public Rent(Rent rent){
         this.day = rent.getDay();
+        this.strDay = ConvertUtil.toDate(day);
         this.user = rent.getUser();
         this.confirm = rent.isConfirm();
         this.prepaid = rent.isPrepaid();
@@ -52,6 +55,10 @@ public class Rent implements Comparable<Rent>, Cloneable {
      */
     public Long getDay() {
         return day;
+    }
+
+    public String getStrDay() {
+        return strDay;
     }
 
     public void setDay(Long day) {
@@ -192,6 +199,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
 //                ", \"salesRemained\": \"" + salesRemained + "\"" +
 //                ", \"order\": " + order;
         return "\"day\": \"" + day + "\"" +
+                ", \"strDay\": " + strDay +
                 ", \"user\": " + user +
                 ", \"confirm\": " + confirm +
                 ", \"prepaid\": " + prepaid +
