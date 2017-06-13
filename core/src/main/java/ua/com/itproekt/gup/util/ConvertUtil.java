@@ -21,14 +21,7 @@ public class ConvertUtil {
      * @return
      */
     public static Long toDate(String strDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.ENGLISH);
-        LocalDate localDate = LocalDate.parse(strDate, formatter);
-        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return date.getTime();
-    }
-
-    public static Long toDateFix(String strDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.UK);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.UK); //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.ENGLISH);
         LocalDate localDate = LocalDate.parse(strDate, formatter);
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return date.getTime();
@@ -58,16 +51,6 @@ public class ConvertUtil {
         }
         return longDate;
     }
-
-    public static Long[] toDateFix(String[] strDate) {
-        Long[] longDate = new Long[strDate.length];
-        for (int date=0; date<strDate.length; ++date){
-            longDate[date] = toDateFix(strDate[date]);
-        }
-        return longDate;
-    }
-
-    /////////////////////////
 
     public static String[] toDate(Long[] days) {
         String[] strDate = new String[days.length];

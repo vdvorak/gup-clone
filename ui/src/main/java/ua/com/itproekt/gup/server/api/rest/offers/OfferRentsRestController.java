@@ -73,7 +73,7 @@ public class OfferRentsRestController {
         user.setFullName(profile.getUsername());
         user.setImgId(profile.getImgId());
         user.setRating(11); //TODO: ...
-        monthOfPricesService.addRent(ConvertUtil.toDateFix(rentNew.getDays()), user);
+        monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), user);
         editOffer.setRents(monthOfPricesService.toRestore2());
         offersService.edit(editOffer);
 

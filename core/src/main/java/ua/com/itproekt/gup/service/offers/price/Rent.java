@@ -199,7 +199,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
 //                ", \"salesRemained\": \"" + salesRemained + "\"" +
 //                ", \"order\": " + order;
         return "\"day\": \"" + day + "\"" +
-                ", \"strDay\": " + ConvertUtil.toDate(day) +
+                ", \"strDay\": \"" + ConvertUtil.toDate(day) + "\"" +
                 ", \"user\": " + user +
                 ", \"confirm\": " + confirm +
                 ", \"prepaid\": " + prepaid +
