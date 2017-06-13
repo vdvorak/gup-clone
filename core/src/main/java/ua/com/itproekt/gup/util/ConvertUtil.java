@@ -27,6 +27,13 @@ public class ConvertUtil {
         return date.getTime();
     }
 
+    public static Long toDateFix(String strDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.UK);
+        LocalDate localDate = LocalDate.parse(strDate, formatter);
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return date.getTime();
+    }
+
     /**
      * (Long) >> <DAY.MONTH.YEAR>
      * 1472936400000 >> "30.06.2014"
@@ -48,6 +55,14 @@ public class ConvertUtil {
         Long[] longDate = new Long[strDate.length];
         for (int date=0; date<strDate.length; ++date){
             longDate[date] = toDate(strDate[date]);
+        }
+        return longDate;
+    }
+
+    public static Long[] toDateFix(String[] strDate) {
+        Long[] longDate = new Long[strDate.length];
+        for (int date=0; date<strDate.length; ++date){
+            longDate[date] = toDateFix(strDate[date]);
         }
         return longDate;
     }
