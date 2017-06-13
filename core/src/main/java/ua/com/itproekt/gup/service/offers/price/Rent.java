@@ -58,7 +58,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
     }
 
     public String getStrDay() {
-        return strDay;
+        return ConvertUtil.toDate(day);
     }
 
     public void setDay(Long day) {
@@ -199,7 +199,7 @@ public class Rent implements Comparable<Rent>, Cloneable {
 //                ", \"salesRemained\": \"" + salesRemained + "\"" +
 //                ", \"order\": " + order;
         return "\"day\": \"" + day + "\"" +
-                ", \"strDay\": " + strDay +
+                ", \"strDay\": " + ConvertUtil.toDate(day) +
                 ", \"user\": " + user +
                 ", \"confirm\": " + confirm +
                 ", \"prepaid\": " + prepaid +
