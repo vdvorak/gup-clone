@@ -39,5 +39,6 @@ public class CategoryAttributeMapper {
         target.setType(source.getType());
         target.setValidator(source.getValidator());
         target.setValues(source.getValues());
+        target.setPrivateAttr(source.isPrivateAttr());
     }
 }
