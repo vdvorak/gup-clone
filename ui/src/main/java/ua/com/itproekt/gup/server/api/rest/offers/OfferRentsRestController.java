@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.Rent2;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.*;
 import ua.com.itproekt.gup.service.offers.price.RentUser;
@@ -26,9 +27,11 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 public class OfferRentsRestController {
 
     @Autowired
-    private OffersService offersService;
+    private RentsService rentsService;
+
     @Autowired
     private OfferPricesServiceImpl monthOfPricesService;
+
     @Autowired
     ProfilesService profilesService;
 
@@ -36,12 +39,12 @@ public class OfferRentsRestController {
     @RequestMapping(value = "/offer/{offerId}/rents", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> viewOfferRents(@PathVariable String offerId){
-        if (!offersService.offerExists(offerId)) {
+        if (!rentsService.exist(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Offer viewOffer = offersService.findById(offerId);
-        monthOfPricesService = new OfferPricesServiceImpl(viewOffer.getMonthOfPrices(), viewOffer.getRents());
+        Rent2 viewRent = rentsService.findById(offerId);
+        monthOfPricesService = new OfferPricesServiceImpl(viewRent.getMonthOfPrices(), viewRent.getRents());
 
         return new ResponseEntity<>(monthOfPricesService.jsonRent(), HttpStatus.OK); //return new ResponseEntity<>(monthOfPricesService.toJsonFull(), HttpStatus.OK);
     }
@@ -58,13 +61,13 @@ public class OfferRentsRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createOfferrRents(@PathVariable String offerId,
                                                     @RequestBody RentNew rentNew){
-        if (!offersService.offerExists(offerId)) {
+        if (!rentsService.exist(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Offer editOffer = offersService.findById(offerId);
+        Rent2 editRent = rentsService.findById(offerId);
         String userId = SecurityOperations.getLoggedUser().getProfileId();
-        monthOfPricesService = new OfferPricesServiceImpl(editOffer.getMonthOfPrices(), editOffer.getRents());
+        monthOfPricesService = new OfferPricesServiceImpl(editRent.getMonthOfPrices(), editRent.getRents());
 
 //        monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), userId);
         Profile profile = profilesService.findWholeProfileById(userId);
@@ -74,8 +77,8 @@ public class OfferRentsRestController {
         user.setImgId(profile.getImgId());
         user.setRating(11); //TODO: ...
         monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), user);
-        editOffer.setRents(monthOfPricesService.toRestore2());
-        offersService.edit(editOffer);
+        editRent.setRents(monthOfPricesService.toRestore2());
+        rentsService.update(editRent);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -92,16 +95,16 @@ public class OfferRentsRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteOfferrRents(@PathVariable String offerId,
                                                     @RequestBody RentNew rentDel){
-        if (!offersService.offerExists(offerId)) {
+        if (!rentsService.exist(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Offer editOffer = offersService.findById(offerId);
-        monthOfPricesService = new OfferPricesServiceImpl(editOffer.getMonthOfPrices(), editOffer.getRents());
+        Rent2 editRent = rentsService.findById(offerId);
+        monthOfPricesService = new OfferPricesServiceImpl(editRent.getMonthOfPrices(), editRent.getRents());
 
         monthOfPricesService.delRent(ConvertUtil.toDate(rentDel.getDays()));
-        editOffer.setRents(monthOfPricesService.toRestore2());
-        offersService.edit(editOffer);
+        editRent.setRents(monthOfPricesService.toRestore2());
+        rentsService.update(editRent);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
