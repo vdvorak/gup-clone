@@ -1,5 +1,6 @@
 package ua.com.gup.web.rest;
 
+import com.google.gson.Gson;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.repository.file.FileWrapper;
@@ -35,9 +37,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -290,6 +290,37 @@ public class OfferResource {
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, authorId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
+        log.debug("REST request to get a page of authorId Offers by status");
+        if (authorId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
+        }
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(OfferStatus.ACTIVE, authorId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + OfferStatus.ACTIVE.name());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/statuses",
+            method = RequestMethod.GET,
+            produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> getOfferStatuses()
+            throws URISyntaxException {
+        log.debug("REST request to get Statuses");
+        if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
+        }
+
+        final Gson gson = new Gson();
+        final Map<String, String> statuses =
+                Arrays.stream(OfferStatus.values())
+                        .collect(Collectors.toMap(OfferStatus::name, OfferStatus::toString));
+
+        return new ResponseEntity(gson.toJson(statuses), HttpStatus.OK);
     }
 
     /**
