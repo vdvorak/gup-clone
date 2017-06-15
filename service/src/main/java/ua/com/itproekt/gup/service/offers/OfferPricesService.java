@@ -182,7 +182,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         if (specialdays!=null)
-        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
+            for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
         else
             restorePrices(0l, new Long[]{});
     }
@@ -201,7 +201,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         if (specialdays!=null)
-        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
+            for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
         else
             restorePrices(0l, new Long[]{});
         rents = Rents.getInstance(rentsRestore.getAvailables(), rentsRestore.getRented(), rentsRestore.getExpired()); //TODO: #2
@@ -452,7 +452,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         return rents;
     }
 
-//    @Override
+    //    @Override
 //    public String toString() throws NoSuchElementException {
 //        StringBuilder data = new StringBuilder();
 //        for (Price prices : this) {
@@ -788,7 +788,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
                     strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : String.valueOf(cal.get(java.util.Calendar.DAY_OF_MONTH));
             int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
             if (day != java.util.Calendar.SATURDAY && day != java.util.Calendar.SUNDAY)
-            listWeekdays.add(ConvertUtil.toDate(strDay + "." + strMonth + "." + year));
+                listWeekdays.add(ConvertUtil.toDate(strDay + "." + strMonth + "." + year));
             else
                 listWeekends.add(ConvertUtil.toDate(strDay + "." + strMonth + "." + year));
             cal.add(java.util.Calendar.DAY_OF_YEAR, 1);

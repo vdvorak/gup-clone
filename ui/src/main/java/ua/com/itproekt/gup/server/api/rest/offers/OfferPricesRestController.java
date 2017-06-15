@@ -10,11 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.Rent2;
 import ua.com.itproekt.gup.service.offers.PriceOfRents;
 import ua.com.itproekt.gup.service.offers.OfferPricesServiceImpl;
-import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.offers.RentsService;
 import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
@@ -123,7 +121,7 @@ public class OfferPricesRestController {
     @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteOfferPrices(@PathVariable String offerId){
-    //FIXME:                                        @PathVariable String day){ ...forse FIXME!!!
+        //FIXME:                                        @PathVariable String day){ ...forse FIXME!!!
         if (!rentsService.exist(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

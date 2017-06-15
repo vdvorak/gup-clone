@@ -23,6 +23,10 @@ public class Test {
         day = Integer.valueOf(ConvertUtil.toDate(Long.valueOf(date)).split("\\.")[0]);
         cal = new GregorianCalendar(year, (month-1), day);
         System.out.println( cal.getTime() );
+
+        cal = new GregorianCalendar();
+        System.out.println( cal.getTime() );
+        System.out.println( cal.getTime().getDate() );
     }
 
 }
