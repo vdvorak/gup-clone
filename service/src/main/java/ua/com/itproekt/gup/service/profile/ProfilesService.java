@@ -341,14 +341,6 @@ public interface ProfilesService {
      */
     ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
 
-    /**
-     * Find private profile by email and update try login date.
-     *
-     * @param email                     - the profile email.
-     * @return                          - the ProfileInfo object.
-     */
-    boolean findPrivateProfileByEmailAndUpdateLastTryLoginDate(String email);
-
     ProfileInfo findPrivateProfileByEmail(String email);
 
     /**

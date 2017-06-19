@@ -85,9 +85,6 @@ public class Profile {
 
     private Long createdDate;
     private Long lastLoginDate;
-    private Long lastTryLoginDate;
-    private int countTryLoginDate;
-    private boolean isUnlockAccount;
     private boolean online;
     private int notCompletedFields;
 
@@ -127,34 +124,6 @@ public class Profile {
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
-    }
-
-    public Profile setLastTryLoginDateEqualsToCurrentDate() {
-        final int LIMIT_ATTEMPTS = 5,
-                BLOCK_TIME_INTERVAL = 60000;
-
-        //TODO: account is unlock == TRUE & time interval less one-minut
-        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<BLOCK_TIME_INTERVAL)){
-            //TODO if the time interval is less than five seconds
-            if ((LIMIT_ATTEMPTS*1000)<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
-                countTryLoginDate++;
-            }
-            //TODO: it was more than a five attemps - then block account
-            if(LIMIT_ATTEMPTS<countTryLoginDate){
-                isUnlockAccount = false;
-            }
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        } else if (lastTryLoginDate==null){ //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more one-minut
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-            isUnlockAccount = true;
-            countTryLoginDate = 1;
-        } else if (BLOCK_TIME_INTERVAL<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-            isUnlockAccount = true;
-            countTryLoginDate = 1;
-        }
-
-        return this;
     }
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
@@ -203,33 +172,6 @@ public class Profile {
 
     public Profile setLastLoginDate(Long lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
-        return this;
-    }
-
-    public Long getLastTryLoginDate() {
-        return lastTryLoginDate;
-    }
-
-    public Profile setLastTryLoginDate(Long lastTryLoginDate) {
-        this.lastTryLoginDate = lastTryLoginDate;
-        return this;
-    }
-
-    public int getCountTryLoginDate() {
-        return countTryLoginDate;
-    }
-
-    public Profile setCountTryLoginDate(int lastTryLoginDate) {
-        this.countTryLoginDate = countTryLoginDate;
-        return this;
-    }
-
-    public boolean getIsUnlockAccount() {
-        return isUnlockAccount;
-    }
-
-    public Profile setIsUnlockAccount(boolean isUnlockAccount) {
-        this.isUnlockAccount = isUnlockAccount;
         return this;
     }
 
@@ -768,9 +710,6 @@ public class Profile {
                 ", userRoles=" + userRoles +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
-                ", lastTryLoginDate=" + lastTryLoginDate +
-                ", countTryLoginDate=" + countTryLoginDate +
-                ", isUnlockAccount=" + isUnlockAccount +
                 ", online=" + online +
                 ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +

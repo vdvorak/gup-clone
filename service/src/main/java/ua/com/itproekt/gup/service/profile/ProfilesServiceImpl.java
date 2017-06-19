@@ -469,17 +469,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileInfo;
     }
 
-    @Override
-    public boolean findPrivateProfileByEmailAndUpdateLastTryLoginDate(String email) {
-        Profile profile = findProfileByEmail(email);
-        if (profile!=null){
-            profile.setLastTryLoginDateEqualsToCurrentDate();
-            profileRepository.findProfileAndUpdate(profile);
-            return profile.getIsUnlockAccount();
-        }
-        return true;
-    }
-
 
     @Override
     public ProfileInfo findPrivateProfileByEmail(String email) {

@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
+import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.profiles.UserType;
@@ -32,6 +33,7 @@ import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
+import ua.com.itproekt.gup.service.profile.LockRemoteIPService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.*;
@@ -350,12 +352,17 @@ public class LoginRestController {
 
 
 
+    @Autowired
+    LockRemoteIPService lockRemoteIPService;
+
+
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser,
+                                             HttpServletResponse response,
+                                             HttpServletRequest request) {
 //        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        System.out.println("------------------------------------------------------------------------------------------");
 
         LoggedUser loggedUser;
         try {
@@ -367,9 +374,24 @@ public class LoginRestController {
 //            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
 //            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
+            //TODO:
+//            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
+            System.out.println("------------------------------------------------------------------------------------------");
+            System.out.println("IP: " + request.getRemoteAddr());
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
+            if(lockRemoteIP==null){
+                lockRemoteIP = new LockRemoteIP();
+                lockRemoteIP.setIp(request.getRemoteAddr());
+                lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
+            }
+            if(!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())){
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            System.out.println("------------------------------------------------------------------------------------------");
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {

@@ -231,9 +231,10 @@ public class LoginLawyerRestController {
 //            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
 //            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            //TODO
+//            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
