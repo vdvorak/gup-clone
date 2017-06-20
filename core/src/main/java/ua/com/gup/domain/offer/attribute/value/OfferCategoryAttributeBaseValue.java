@@ -9,10 +9,15 @@ import java.util.Map;
 
 public class OfferCategoryAttributeBaseValue implements Serializable {
 
+    public OfferCategoryAttributeBaseValue(){
+        privateAttr = false;
+    }
+
     private int code;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private CategoryAttributeType type;
+    private boolean privateAttr;
 
     public int getCode() {
         return code;
@@ -44,6 +49,14 @@ public class OfferCategoryAttributeBaseValue implements Serializable {
 
     public void setType(CategoryAttributeType type) {
         this.type = type;
+    }
+
+    public boolean isPrivateAttr() {
+        return privateAttr;
+    }
+
+    public void setPrivateAttr(boolean privateAttr) {
+        this.privateAttr = privateAttr;
     }
 
     @Override
