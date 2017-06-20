@@ -85,7 +85,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query queryX = new Query( Criteria.where("email").regex(email.toString(), "i"));
         List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
         long count = profiles.stream()
-                .filter(p -> p.getEmail().equals(email))
+                .filter(p -> p.getEmail().toUpperCase().equals(email.toUpperCase()))
                 .count();
         return (0<count) ? true : false;
     }
@@ -326,7 +326,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query queryX = new Query( Criteria.where("email").regex(email.toString(), "i"));
         List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
         Optional<Profile> profile = profiles.stream()
-                .filter(p -> p.getEmail().equals(email))
+                .filter(p -> p.getEmail().toUpperCase().equals(email.toUpperCase()))
                 .findFirst();
         try {
             return profile.get();
