@@ -293,7 +293,7 @@ public class OfferResource {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status");
         if (authorId == null) {
