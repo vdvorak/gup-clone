@@ -17,12 +17,12 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.model.subscription.Subscription;
-import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
+//import ua.com.itproekt.gup.model.subscription.Subscription;
+//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.seosequence.PublicProfileSequenceService;
-import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -46,8 +46,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private SubscriptionService subscriptionService;
+//    @Autowired
+//    private SubscriptionService subscriptionService; //TODO ?
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
 
@@ -646,9 +646,9 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
         List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
-        SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
-        subscriptionFilterOptions.setUserId(profile.getId());
-        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
+//        SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions(); //TODO ?
+//        subscriptionFilterOptions.setUserId(profile.getId()); //TODO ?
+//        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions); //TODO ?
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
         List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
 
