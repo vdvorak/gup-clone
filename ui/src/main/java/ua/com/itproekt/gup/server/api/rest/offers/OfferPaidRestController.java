@@ -17,7 +17,7 @@ import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.text.ParseException;
