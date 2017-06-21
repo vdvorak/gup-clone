@@ -300,7 +300,8 @@ public class OfferResource {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
         }
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(OfferStatus.ACTIVE, authorId, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + OfferStatus.ACTIVE.name());
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + OfferStatus.ACTIVE.name());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
