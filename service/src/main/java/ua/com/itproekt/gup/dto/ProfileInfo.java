@@ -2,7 +2,7 @@ package ua.com.itproekt.gup.dto;
 
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.subscription.Subscription;
+//import ua.com.itproekt.gup.model.subscription.Subscription;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ProfileInfo {
     private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
     private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
 //    private List<OfferInfo> userOfferInfoList; //TODO: off
-    private List<Subscription> subscriptionList; // user's subscription list
+//    private List<Subscription> subscriptionList; // user's subscription list //TODO ?
 //    private List<FavoriteOfferInfo> favoriteOfferInfoList; // user's favorite offers list //TODO: off
 
     private int orderAmount;
@@ -124,23 +124,23 @@ public class ProfileInfo {
         return this;
     }
 
-//    public List<OfferInfo> getUserOfferInfoList() {
-//        return userOfferInfoList;
+////    public List<OfferInfo> getUserOfferInfoList() {
+////        return userOfferInfoList;
+////    }
+////
+////    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
+////        this.userOfferInfoList = userOfferInfoList;
+////        return this;
+////    }
+//
+//    public List<Subscription> getSubscriptionList() {
+//        return subscriptionList;
 //    }
 //
-//    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
-//        this.userOfferInfoList = userOfferInfoList;
+//    public ProfileInfo setSubscriptionList(List<Subscription> subscriptionList) {
+//        this.subscriptionList = subscriptionList;
 //        return this;
 //    }
-
-    public List<Subscription> getSubscriptionList() {
-        return subscriptionList;
-    }
-
-    public ProfileInfo setSubscriptionList(List<Subscription> subscriptionList) {
-        this.subscriptionList = subscriptionList;
-        return this;
-    }
 
     public int getTotalFeedbackAmount() {
         return totalFeedbackAmount;
@@ -182,8 +182,8 @@ public class ProfileInfo {
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 ", orderInfoBuyerList=" + orderInfoBuyerList +
                 ", orderInfoSellerList=" + orderInfoSellerList +
-//                ", userOfferInfoList=" + userOfferInfoList +
-                ", subscriptionList=" + subscriptionList +
+////                ", userOfferInfoList=" + userOfferInfoList +
+//                ", subscriptionList=" + subscriptionList +
 //                ", favoriteOfferInfoList=" + favoriteOfferInfoList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +
