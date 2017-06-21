@@ -21,7 +21,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
@@ -49,8 +49,8 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private StorageService storageService;
 
-    @Autowired
-    private SubscriptionService subscriptionService;
+//    @Autowired
+//    private SubscriptionService subscriptionService;  //TODO ?
 
     @Override
     public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
@@ -134,8 +134,8 @@ public class OffersServiceImpl implements OffersService {
 
         offerRepository.create(newOffer);
 
-        // FixMe delete this in release, because this method must called only by moderator duirng offer moderation.
-        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(newOffer);
+//        // FixMe delete this in release, because this method must called only by moderator duirng offer moderation.
+//        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(newOffer);  //TODO ?
 
         offer.setId(newOffer.getId());
     }
