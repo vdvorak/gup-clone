@@ -11,7 +11,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferRefusalReason;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
@@ -34,8 +34,8 @@ public class OfferModerationServiceImpl implements OfferModerationService {
     @Autowired
     private ActivityFeedService activityFeedService;
 
-    @Autowired
-    private SubscriptionService subscriptionService;
+//    @Autowired
+//    private SubscriptionService subscriptionService;
 
     @Autowired
     private ProfilesService profilesService;
@@ -95,7 +95,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.FAIL); // TODO & setModerationStatus..?
 
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
-            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); // TODO & subscriptionService..?
+//            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); // TODO & subscriptionService..? //TODO ?
         }
 
 
@@ -109,7 +109,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
 
-            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
+//            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); //TODO ?
         }
 
 
