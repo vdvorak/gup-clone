@@ -378,8 +378,6 @@ public class LoginRestController {
 //            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
 //                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //            }
-            System.out.println("------------------------------------------------------------------------------------------");
-            System.out.println("IP: " + request.getRemoteAddr());
             ////////////////////////////////////////////////////////////////////////////////////////////////
             LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
             if(lockRemoteIP==null){
@@ -390,8 +388,6 @@ public class LoginRestController {
             if(!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())){
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            System.out.println("------------------------------------------------------------------------------------------");
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
@@ -416,7 +412,9 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo>vendorLogin(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo>vendorLogin(@RequestBody Profile profile,
+                                                  HttpServletResponse response,
+                                                  HttpServletRequest request) {
         if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) )
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -428,6 +426,17 @@ public class LoginRestController {
 ////            profileEdit.setUsername(profileVendor.getUsername());
 ////            profileEdit.setImgUrl(profileVendor.getImage().get("url"));
 //            profilesService.editProfile(profileEdit);
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
+            if(lockRemoteIP==null){
+                lockRemoteIP = new LockRemoteIP();
+                lockRemoteIP.setIp(request.getRemoteAddr());
+                lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
+            }
+            if(!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
