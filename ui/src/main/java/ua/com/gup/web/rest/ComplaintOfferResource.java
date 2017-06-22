@@ -242,7 +242,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/offerId/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/offer/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByOfferId(@PathVariable("offerId") String offerId)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -264,7 +264,7 @@ public class ComplaintOfferResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/initiatorId/{initiatorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/complaints/initiator/{initiatorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByInitiatorId(@PathVariable("initiatorId") String initiatorId)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -295,6 +295,14 @@ public class ComplaintOfferResource {
         }
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
+        }
+
+        final Map<String, String> statuses =
+                Arrays.stream(ComplaintOfferStatus.values())
+                        .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
+
+        if (statuses.get("new")==null) {
+            return new ResponseEntity( HttpStatus.NO_CONTENT );
         }
 
         return new ResponseEntity(complaintOfferService.findAllByStatus(status), HttpStatus.OK);
