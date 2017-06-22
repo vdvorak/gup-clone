@@ -293,9 +293,9 @@ public class OfferResource {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers/author/{authorId}", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
-        log.debug("REST request to get a page of authorId Offers by status");
+        log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
         if (authorId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
         }
