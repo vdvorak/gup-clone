@@ -301,7 +301,7 @@ public class ComplaintOfferResource {
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
 
-        if (statuses.get("new")==null) {
+        if (statuses.get(status)==null) {
             return new ResponseEntity( HttpStatus.NO_CONTENT );
         }
 
