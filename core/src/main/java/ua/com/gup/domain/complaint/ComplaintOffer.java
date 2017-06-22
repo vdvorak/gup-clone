@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = ComplaintOffer.COLLECTION_NAME, language = "russian")
@@ -28,16 +29,16 @@ public class ComplaintOffer {
     @Indexed
     private ComplaintOfferStatus status;
 
-    private ZonedDateTime createdDate;
-    private long createdDateLong;
+    private Date createdDate; //private ZonedDateTime createdDate;
+//    private long createdDateLong;
 
-    private ZonedDateTime lastModifiedDate;
-    @Indexed
-    private long lastModifiedDateLong;
+    private Date lastModifiedDate; //private ZonedDateTime lastModifiedDate;
+//    @Indexed
+//    private long lastModifiedDateLong;
 
     public ComplaintOffer(){
-        createdDate = ZonedDateTime.now();
-        lastModifiedDate = ZonedDateTime.now();
+        createdDate = new Date(); //createdDate = ZonedDateTime.now();
+        lastModifiedDate = new Date(); //lastModifiedDate = ZonedDateTime.now();
     }
 
 
@@ -93,40 +94,40 @@ public class ComplaintOffer {
         this.status = status;
     }
 
-    public ZonedDateTime getCreatedDate() {
+    public Date getCreatedDate() { //public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDateLong(long createdDateLong) {
-        this.createdDateLong = createdDateLong;
-    }
+//    public void setCreatedDateLong(long createdDateLong) {
+//        this.createdDateLong = createdDateLong;
+//    }
+//
+//    public long getCreatedDateLong() {
+//        return createdDateLong;
+//    }
 
-    public long getCreatedDateLong() {
-        return createdDateLong;
-    }
-
-    public void setCreatedDate(ZonedDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) { //public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public Date getLastModifiedDate() { //public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDateLong(long lastModifiedDateLong) {
-        this.lastModifiedDateLong = lastModifiedDateLong;
-    }
+//    public void setLastModifiedDateLong(long lastModifiedDateLong) {
+//        this.lastModifiedDateLong = lastModifiedDateLong;
+//    }
+//
+//    public long getLastModifiedDateLong() {
+//        return lastModifiedDateLong;
+//    }
 
-    public long getLastModifiedDateLong() {
-        return lastModifiedDateLong;
-    }
-
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(Date lastModifiedDate) { //public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
     public void updateLastModifiedDate() {
-        this.lastModifiedDate =  ZonedDateTime.now();
+        lastModifiedDate =  new Date(); //this.lastModifiedDate =  ZonedDateTime.now();
     }
 
     @Override
@@ -139,9 +140,9 @@ public class ComplaintOffer {
                 ", types=" + types +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
-                ", createdDateLong=" + createdDateLong +
+//                ", createdDateLong=" + createdDateLong +
                 ", lastModifiedDate=" + lastModifiedDate +
-                ", lastModifiedDateLong=" + lastModifiedDateLong +
+//                ", lastModifiedDateLong=" + lastModifiedDateLong +
                 '}';
     }
 }
