@@ -39,6 +39,7 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
         ComplaintOffer newComplaintOffer = new ComplaintOffer();
         newComplaintOffer.setOfferId(complaintOffer.getOfferId());
 //        newComplaintOffer.setDescriptions(complaintOffer.getDescriptions());
+        newComplaintOffer.setDescription(complaintOffer.getDescription());
         newComplaintOffer.setTypes(complaintOffer.getTypes());
         newComplaintOffer.setInitiatorId(complaintOffer.getInitiatorId());
         newComplaintOffer.setStatus(ComplaintOfferStatus.NEW);
