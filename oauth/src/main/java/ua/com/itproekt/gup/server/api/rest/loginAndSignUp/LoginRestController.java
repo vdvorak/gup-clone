@@ -369,8 +369,10 @@ public class LoginRestController {
                                              HttpServletRequest request) {
 //        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        LoggedUser loggedUser;
-        try {
+        ProfileInfo profileInfo = null;
+        synchronized (profilesService) {
+            LoggedUser loggedUser;
+            try {
 //            System.out.println("==========================================================================================");
 //
 //            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -379,38 +381,39 @@ public class LoginRestController {
 //            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
 //            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-            //TODO:
+                //TODO:
 //            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
 //                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //            }
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
-            if(lockRemoteIP==null){
-                lockRemoteIP = new LockRemoteIP();
-                lockRemoteIP.setIp(request.getRemoteAddr());
-                lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
+                ////////////////////////////////////////////////////////////////////////////////////////////////
+                LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
+                if (lockRemoteIP == null) {
+                    lockRemoteIP = new LockRemoteIP();
+                    lockRemoteIP.setIp(request.getRemoteAddr());
+                    lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
+                }
+                if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            } catch (UsernameNotFoundException ex) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            if(!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())){
+
+            if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
+            if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-
-            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
-        } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
-        if(profileInfo.getProfile().isBan())
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
 //        authenticateByEmailAndPassword(loggedUser, response);
-        Profile profile = profileInfo.getProfile();
-        profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));
-        profileInfo.setProfile(profile);
+            Profile profile = profileInfo.getProfile();
+            profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));
+            profileInfo.setProfile(profile);
+        }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
