@@ -266,6 +266,7 @@ public class LoginRestController {
                 /* Edit Profile */
 //            profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
             ///////////////////////////////////////////////////////
+            profile.setEmail(profileVendor.getEmail());
             profile.setUsername(profileVendor.getUsername());
             String[] fullname = profileVendor.getName().split(" ");
             profile.setFirstname(fullname[0]);
