@@ -275,7 +275,12 @@ public class ComplaintOfferResource {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
-        return new ResponseEntity(complaintOfferService.findAllByInitiatorId(initiatorId), HttpStatus.OK);
+//        return new ResponseEntity(complaintOfferService.findAllByInitiatorId(initiatorId), HttpStatus.OK);
+        List<ComplaintOffer> complaints = complaintOfferService.findAllByInitiatorId(initiatorId);
+        if (complaints.isEmpty()){
+            return new ResponseEntity( HttpStatus.NO_CONTENT );
+        }
+        return new ResponseEntity(complaints, HttpStatus.OK);
     }
 
 
