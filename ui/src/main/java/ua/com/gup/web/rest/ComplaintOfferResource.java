@@ -301,11 +301,10 @@ public class ComplaintOfferResource {
         final Map<String, String> statuses =
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
-
         if (statuses.containsKey(status)){
-            return new ResponseEntity( HttpStatus.NO_CONTENT );
+            return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
         }
-        return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
 }
