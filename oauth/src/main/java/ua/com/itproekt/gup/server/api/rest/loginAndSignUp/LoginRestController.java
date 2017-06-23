@@ -290,6 +290,10 @@ public class LoginRestController {
             }
             authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
             ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
+            ///////////////////////////////////////////////////////
+            Profile getProfile = profileInfo.getProfile();
+            getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
+            profileInfo.setProfile(getProfile);
 
             resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
@@ -446,9 +450,13 @@ public class LoginRestController {
         ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
         if(profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
-        profile.setRefreshToken(authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response));
-        profileInfo.setProfile(profile);
+////        authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
+//        profile.setRefreshToken(authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response));
+//        profileInfo.setProfile(profile);
+        ///////////////////////////////////////////////////////
+        Profile getProfile = profileInfo.getProfile();
+        getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
+        profileInfo.setProfile(getProfile);
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
