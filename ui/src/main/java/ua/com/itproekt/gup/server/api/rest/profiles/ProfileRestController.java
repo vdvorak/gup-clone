@@ -18,10 +18,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 ////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 //import ua.com.itproekt.gup.model.login.FormLoggedUser;
-import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
-import ua.com.itproekt.gup.model.profiles.phone.PhoneSynhronize;
-import ua.com.itproekt.gup.model.profiles.phone.ProfileStorePhones;
-import ua.com.itproekt.gup.model.profiles.phone.StorePhones;
+import ua.com.itproekt.gup.model.profiles.phone.*;
 import ua.com.itproekt.gup.server.api.model.profiles.*;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -373,7 +370,7 @@ public class ProfileRestController {
             if (profile != null) profiles.add(profile);
         }
 
-        return new ResponseEntity<>(profiles, HttpStatus.OK );
+        return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
 
@@ -447,17 +444,35 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+//    @CrossOrigin
+//    @ResponseBody
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
+//    public ResponseEntity<ProfileStorePhones> synchronizationPhones() {
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//        ProfileStorePhones profileStorePhones = profileStorePhones(userId);
+//        System.err.println( profileStorePhones );//TODO  {"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
+//
+//        return new ResponseEntity<>(profileStorePhones, HttpStatus.OK );
+//    }
     @CrossOrigin
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
-    public ResponseEntity<ProfileStorePhones> synchronizationPhones() {
+    public ResponseEntity<ProfileIdStorePhones> synchronizationPhones() {
         String userId = SecurityOperations.getLoggedUserId();
 
         ProfileStorePhones profileStorePhones = profileStorePhones(userId);
-        System.err.println( profileStorePhones );//TODO  {"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
+        List<PhoneSynhronizeID> contactIdPhones = new ArrayList<>();
+        for (PhoneSynhronize contactPhone : profileStorePhones.getContactPhones()){
+            Profile profile = profilesService.findProfileByMainPhone( String.valueOf(contactPhone.getNumberPhone()) );
+            PhoneSynhronizeID contactIdPhone = new PhoneSynhronizeID(contactPhone.getNumberPhone(), profile.getId());
+            contactIdPhones.add(contactIdPhone);
+        }
+        ProfileIdStorePhones profileIdStorePhones = new ProfileIdStorePhones(contactIdPhones);
 
-        return new ResponseEntity<>(profileStorePhones, HttpStatus.OK );
+        return new ResponseEntity<>(profileIdStorePhones, HttpStatus.OK);
     }
 
 
