@@ -287,7 +287,8 @@ public class ComplaintOfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/status/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") ComplaintOfferStatus status)
+//    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") ComplaintOfferStatus status)
+    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") String status)
             throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
         if (!SecurityUtils.isAuthenticated()) {
@@ -301,11 +302,10 @@ public class ComplaintOfferResource {
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
 
-        if (statuses.get(status)==null) {
+        if (statuses.containsKey(status)){
             return new ResponseEntity( HttpStatus.NO_CONTENT );
         }
-
-        return new ResponseEntity(complaintOfferService.findAllByStatus(status), HttpStatus.OK);
+        return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
     }
 
 }
