@@ -467,7 +467,10 @@ public class ProfileRestController {
         List<PhoneSynhronizeID> contactIdPhones = new ArrayList<>();
         for (PhoneSynhronize contactPhone : profileStorePhones.getContactPhones()){
             Profile profile = profilesService.findProfileByMainPhone( String.valueOf(contactPhone.getNumberPhone()) );
-            PhoneSynhronizeID contactIdPhone = new PhoneSynhronizeID(contactPhone.getNumberPhone(), profile.getId());
+//            PhoneSynhronizeID contactIdPhone = new PhoneSynhronizeID(contactPhone.getNumberPhone(), profile.getId());
+            PhoneSynhronizeID contactIdPhone = (profile==null)
+                    ? new PhoneSynhronizeID(contactPhone.getNumberPhone(), null)
+                    : new PhoneSynhronizeID(contactPhone.getNumberPhone(), profile.getId());
             contactIdPhones.add(contactIdPhone);
         }
         ProfileIdStorePhones profileIdStorePhones = new ProfileIdStorePhones(contactIdPhones);
