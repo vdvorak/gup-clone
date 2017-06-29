@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Service Implementation for managing Sequences.
+ *
  */
 @Service
 public class SequenceServiceImpl implements SequenceService {
