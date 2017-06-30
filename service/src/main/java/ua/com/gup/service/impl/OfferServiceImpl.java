@@ -17,6 +17,7 @@ import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.domain.offer.OfferCategory;
 import ua.com.gup.domain.offer.OfferCategoryCount;
+import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.CurrencyConverterService;
@@ -377,6 +378,48 @@ public class OfferServiceImpl implements OfferService {
                 (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED) &&
                 (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED)) {
             offer.setStatus(status);
+            offer = offerRepository.save(offer);
+        } else {
+            return Optional.empty();
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    /**
+     * Update offer's statistic.
+     *
+     * @param id     the id of the entity
+     * @param statistic the status to be updated
+     * @return the entity
+     */
+    @Override
+    public Optional<OfferViewDetailsDTO> updateStatistic(String id, OfferStatistic statistic) {
+        log.debug("Request to update update offer's statistic : {}", id);
+        Offer offer = offerRepository.findOne(id);
+        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId())) {
+            offer.setStatistic(statistic);
+            offer = offerRepository.save(offer);
+        } else {
+            return Optional.empty();
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    /**
+     * Reset offer's statistic-views.
+     *
+     * @param id     the id of the entity
+     * @return the entity
+     */
+    @Override
+    public Optional<OfferViewDetailsDTO> resetStatisticViews(String id) {
+        log.debug("Request to update update offer's statistic : {}", id);
+        Offer offer = offerRepository.findOne(id);
+        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId())) {
+            OfferViewDetailsDTO offerViewDetailsDTO = findOne(id);
+            OfferStatistic statistic = offerViewDetailsDTO.getStatistic();
+            statistic.setViews(0);
+            offer.setStatistic(statistic);
             offer = offerRepository.save(offer);
         } else {
             return Optional.empty();

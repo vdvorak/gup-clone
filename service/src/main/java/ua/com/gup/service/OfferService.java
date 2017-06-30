@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
@@ -155,6 +156,23 @@ public interface OfferService {
      * @return the entity
      */
     Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
+
+    /**
+     * Update offer's statistic.
+     *
+     * @param id     the id of the entity
+     * @param statistic the status to be updated
+     * @return the entity
+     */
+    Optional<OfferViewDetailsDTO> updateStatistic(String id, OfferStatistic statistic);
+
+    /**
+     * Reset offer's statistic-views.
+     *
+     * @param id     the id of the entity
+     * @return the entity
+     */
+    Optional<OfferViewDetailsDTO> resetStatisticViews(String id);
 
     /**
      * Get offer image by id and size type.

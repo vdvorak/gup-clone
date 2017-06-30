@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.dto.offer.OfferCategoryCountDTO;
@@ -377,6 +378,20 @@ public class OfferResource {
     public ResponseEntity<Void> updateBasePrice() {
         log.debug("REST request to update base price: {}");
         offerService.updateActiveOffersBasePrice();
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * PUT  /offers/{id}/reset/views : reset views.
+     *
+     * @param id the offer id
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{id}/reset/views", method = RequestMethod.PUT)
+    public ResponseEntity<Void> resetViews(@PathVariable String id) {
+        log.debug("REST request to reset views");
+        offerService.resetStatisticViews(id);
         return ResponseEntity.ok().build();
     }
 
