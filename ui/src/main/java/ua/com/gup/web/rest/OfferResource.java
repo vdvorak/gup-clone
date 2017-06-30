@@ -389,10 +389,13 @@ public class OfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{id}/reset/views", method = RequestMethod.PUT)
-    public ResponseEntity<Void> resetViews(@PathVariable String id) {
+    public ResponseEntity<Optional<OfferViewDetailsDTO>> resetViews(@PathVariable String id) {
         log.debug("REST request to reset views");
-        offerService.resetStatisticViews(id);
-        return ResponseEntity.ok().build();
+        Optional<OfferViewDetailsDTO> offerViewDetailsDTO = offerService.resetStatisticViews(id);
+//        return ResponseEntity.ok().build();
+        return offerViewDetailsDTO.isPresent()
+                ? new ResponseEntity<>(offerViewDetailsDTO, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     /**
