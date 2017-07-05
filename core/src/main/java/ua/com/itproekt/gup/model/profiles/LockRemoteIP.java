@@ -25,30 +25,31 @@ public class LockRemoteIP {
 
 
     public LockRemoteIP setLastTryLoginDateEqualsToCurrentDate() {
-        final int LIMIT_ATTEMPTS = 5,
-                BLOCK_TIME_INTERVAL = 60000;
+        synchronized (this) {
+            final int LIMIT_ATTEMPTS = 5,
+                    BLOCK_TIME_INTERVAL = 60000;
+            long ldt = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+            long deltaLdt = ldt - lastTryLoginDate;
 
-        //TODO: account is unlock == TRUE & time interval less one-minut
-        if(isUnlockAccount && ((LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)<BLOCK_TIME_INTERVAL)){
-            //TODO if the time interval is less than five seconds
-            if ((LIMIT_ATTEMPTS*1000)<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
+            //TODO: account is unlock == TRUE & time interval less one-minut
+            if (isUnlockAccount && (deltaLdt < BLOCK_TIME_INTERVAL)) {
                 countTryLoginDate++;
-            }
-            //TODO: it was more than a five attemps - then block account
-            if(LIMIT_ATTEMPTS<countTryLoginDate){
-                isUnlockAccount = false;
-            }
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        } else if (lastTryLoginDate==null){ //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more one-minut
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-            isUnlockAccount = true;
-            countTryLoginDate = 1;
-        } else if (BLOCK_TIME_INTERVAL<(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()-lastTryLoginDate)){
-            lastTryLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-            isUnlockAccount = true;
-            countTryLoginDate = 1;
-        }
 
+                //TODO: it was more than a five attemps - then block account
+                if (LIMIT_ATTEMPTS < countTryLoginDate) {
+                    isUnlockAccount = false;
+                }
+                lastTryLoginDate = ldt;
+            } else if (lastTryLoginDate == null) { //TODO: then account was after lock (account is unlock == FALSE|TRUE) - time interval more one-minut
+                lastTryLoginDate = ldt;
+                isUnlockAccount = true;
+                countTryLoginDate = 1;
+            } else if (BLOCK_TIME_INTERVAL < deltaLdt) {
+                lastTryLoginDate = ldt;
+                isUnlockAccount = true;
+                countTryLoginDate = 1;
+            }
+        }
         return this;
     }
 
