@@ -77,10 +77,10 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
-                .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard())
-                .setPublicHash(profile.getPublicHash()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                //.setPublicKey(profile.getPublicKey())
+                //.setPrivateKey(profile.getPrivateKey())
+                //.setPublicHash(profile.getPublicHash())
+                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
@@ -110,10 +110,10 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
-                .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard())
-                .setPublicHash(profile.getPublicHash()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+               // .setPublicKey(profile.getPublicKey())
+               // .setPrivateKey(profile.getPrivateKey())
+               // .setPublicHash(profile.getPublicHash())  // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                .setBankCard(profile.getBankCard());
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -143,10 +143,11 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet)
                 .setUserType(profile.getUserType())
-                .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard())
-                .setPublicHash(profile.getPublicHash());
+                //.setPublicKey(profile.getPublicKey())
+                //.setPrivateKey(profile.getPrivateKey())
+                //.setPublicHash(profile.getPublicHash())
+                .setBankCard(profile.getBankCard());
+
         if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername())){
             profile.setUsername(offerRegistration.getUsername());
         }
@@ -186,10 +187,10 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
-                .setPublicKey(profile.getPublicKey())
-                .setPrivateKey(profile.getPrivateKey())
-                .setBankCard(profile.getBankCard())
-                .setPublicHash(profile.getPublicHash());
+                //.setPublicKey(profile.getPublicKey())
+                //.setPrivateKey(profile.getPrivateKey())
+                //.setPublicHash(profile.getPublicHash()
+                .setBankCard(profile.getBankCard());
 
         setEmptyFieldsForNewUser(newProfile);
 

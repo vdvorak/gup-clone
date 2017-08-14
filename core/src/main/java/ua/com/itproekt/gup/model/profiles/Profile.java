@@ -16,14 +16,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -91,9 +84,9 @@ public class Profile {
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
 
-    private String publicHash;
-    private String publicKey;
-    private String privateKey;
+    //private String publicHash;
+    //private String publicKey;
+    //private String privateKey;
     private BankCard bankCard;
 
 
@@ -500,32 +493,32 @@ public class Profile {
         return this;
     }
 
-    public String getPublicHash() {
+   /* public String getPublicHash() {
         return publicHash;
-    }
+    }*/
 
-    public Profile setPublicHash(String publicHash) {
+   /* public Profile setPublicHash(String publicHash) {
         this.publicHash = publicHash;
         return this;
-    }
+    }*/
 
-    public String getPublicKey() {
+    /*public String getPublicKey() {
         return publicKey;
-    }
+    }*/
 
-    public Profile setPublicKey(String publicKey) {
+    /*public Profile setPublicKey(String publicKey) {
         this.publicKey = publicKey;
         return this;
-    }
+    }*/
 
-    public String getPrivateKey() {
+   /* public String getPrivateKey() {
         return privateKey;
-    }
+    }*/
 
-    public Profile setPrivateKey(String privateKey) {
+   /* public Profile setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
         return this;
-    }
+    }*/
 
     public BankCard getBankCard() {
         return bankCard;
@@ -714,8 +707,8 @@ public class Profile {
                 ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
-                ", publicKey=" + publicKey +
-                ", privateKey=" + privateKey +
+               // ", publicKey=" + publicKey +
+               // ", privateKey=" + privateKey +
                 ", bankCard=" + bankCard +
                 ", userType=" + userType +
                 ", lawyerAddress='" + lawyerAddress + '\'' +

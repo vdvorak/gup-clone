@@ -155,8 +155,8 @@ public class OrderRestController {
                     long                TIMESTAMP = new Date().getTime();
                     MemberService           buyer = null;
                     long           USER_CARD = (sellerProfileInfo.getProfile().getBankCard()!=null) ? sellerProfileInfo.getProfile().getBankCard().getNumber() : 1234567890l; //TODO
-                    String         PUBLIC_KEY = (sellerProfileInfo.getProfile().getPublicKey()!=null) ? sellerProfileInfo.getProfile().getPublicKey() : "000000"; //TODO
-                    String       PUBLIC_HASH = (sellerProfileInfo.getProfile().getPublicHash()!=null) ? sellerProfileInfo.getProfile().getPublicHash() : "0?o?k?m?j?y?6?t?f?c?d?x?s?q?"; //TODO
+                   // String         PUBLIC_KEY = (sellerProfileInfo.getProfile().getPublicKey()!=null) ? sellerProfileInfo.getProfile().getPublicKey() : "000000"; //TODO
+                   // String       PUBLIC_HASH = (sellerProfileInfo.getProfile().getPublicHash()!=null) ? sellerProfileInfo.getProfile().getPublicHash() : "0?o?k?m?j?y?6?t?f?c?d?x?s?q?"; //TODO
                     String   SIGNATURE_STORE = "1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop1234567890lkjhgfdsaqwertyuiop"; //TODO
                     long BANK_TRANSACTION_ID = 127; //TODO
 
@@ -173,14 +173,14 @@ public class OrderRestController {
                      * 7. Формируем из банка транзакцию типа MONEY_TRANSFER
                      */
                     if(true){ //TODO if(type_transcation.equals("MONEY_TRANSFER")){
-                        buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(String.valueOf(USER_CARD), offer.getPrice(), PUBLIC_HASH, SIGNATURE_STORE, BANK_TRANSACTION_ID)));
+                        buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(String.valueOf(USER_CARD), offer.getPrice(), /*PUBLIC_HASH*/null, SIGNATURE_STORE, BANK_TRANSACTION_ID)));
 
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
                         Gson gson = new Gson();
                         System.err.println( gson.toJson(buyer) );
                         System.err.println( "USER_CARD=" + USER_CARD );
-                        System.err.println( "PUBLIC_KEY=" + PUBLIC_KEY );
-                        System.err.println( "PUBLIC_HASH=" + PUBLIC_HASH );
+                       // System.err.println( "PUBLIC_KEY=" + PUBLIC_KEY );
+                       // System.err.println( "PUBLIC_HASH=" + PUBLIC_HASH );
                         System.err.println( "SIGNATURE_STORE=" + SIGNATURE_STORE );
                         System.err.println( "BANK_TRANSACTION_ID=" + BANK_TRANSACTION_ID );
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
@@ -221,7 +221,7 @@ public class OrderRestController {
                         Order order = new Order();
                         order.setOfferId(offer.getId());
                         order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-                        order.setPublicKey(PUBLIC_KEY);
+                       // order.setPublicKey(PUBLIC_KEY);
                         order.setHashTransaction(buyer.getTransaction().getTransaction().get_hash());
                         order.setSeoUrl(offer.getSeoUrl());
                         order.setSeoKey(offer.getSeoKey());
@@ -235,7 +235,7 @@ public class OrderRestController {
 
                     ////////////////////////////////////////////////////////////////////////////////////////////////////
                     if(type_transcation.equals("ACTION") && buyer!=null){
-                        buyer = new MemberService(new BuyerTransactionService(new ActionTransaction(buyer.getTransaction().getTransaction().get_hash(), offer.getAuthorId(), TIMESTAMP, offer.getId(), offer.getPrice(), sellerProfileInfo.getProfile().getPublicHash(), type_transcation)));
+                        buyer = new MemberService(new BuyerTransactionService(new ActionTransaction(buyer.getTransaction().getTransaction().get_hash(), offer.getAuthorId(), TIMESTAMP, offer.getId(), offer.getPrice(), /*sellerProfileInfo.getProfile().getPublicHash()*/null, type_transcation)));
 
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
                         Gson gson = new Gson();

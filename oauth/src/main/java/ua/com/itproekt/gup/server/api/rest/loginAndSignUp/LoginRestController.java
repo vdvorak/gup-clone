@@ -18,16 +18,15 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
-import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
@@ -46,11 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -101,7 +96,7 @@ public class LoginRestController {
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-            try {
+           /* try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
                 profile.setPublicKey(generator.getPublicKey());
                 String privateKey = generator.getPrivateKey();
@@ -109,7 +104,7 @@ public class LoginRestController {
                 profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
-            }
+            }*/
             profilesService.createProfile(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818 ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
@@ -147,7 +142,7 @@ public class LoginRestController {
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-            try {
+           /* try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
                 profile.setPublicKey(generator.getPublicKey());
                 String privateKey = generator.getPrivateKey();
@@ -155,7 +150,7 @@ public class LoginRestController {
                 profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
-            }
+            }*/
             profilesService.createProfile(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s)......HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
@@ -319,7 +314,7 @@ public class LoginRestController {
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-            try {
+           /* try {
                 RSAKeyGenerator2 generator = new RSAKeyGenerator2();
                 profile.setPublicKey(generator.getPublicKey());
                 String privateKey = generator.getPrivateKey();
@@ -327,7 +322,7 @@ public class LoginRestController {
                 profile.setPublicHash(generator.getPublicHash(privateKey));
             } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
                 e.printStackTrace();
-            }
+            }*/
             profilesService.createProfile(profile);
 
             new ResponseEntity<>(HttpStatus.OK);
