@@ -10,7 +10,7 @@ import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
 public class LockRemoteIPServiceImpl implements LockRemoteIPService {
 
     @Autowired
-    LockRemoteIPRepository lockRemoteIPRepository;
+    private LockRemoteIPRepository lockRemoteIPRepository;
 
     @Override
     public boolean findLockRemoteIPByIpAndUpdateLastTryLoginDate(String ip){
