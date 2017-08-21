@@ -433,7 +433,7 @@ public class LoginRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    public ResponseEntity<String> changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> changePassword(@RequestBody @Validated FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
         /* Edit Profile | change password */
         if (passwordEncoder.matches(formChangePassword.getPassword(), profile.getPassword())) {
