@@ -1,29 +1,62 @@
 package ua.com.itproekt.gup.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @ControllerAdvice
-public class GlobalControllerExceptionHandler  extends BaseException{
+public class GlobalOAuthExceptionHandler extends BaseException {
 
 
-    @ExceptionHandler(value = { MethodArgumentNotValidException.class })
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public CustomizerError methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return new CustomizerError(ex.getBindingResult().getFieldError().getField(),ex.getBindingResult().getFieldError().getCode(),ex.getBindingResult().getFieldError().getDefaultMessage());
+    public Map handle(MethodArgumentNotValidException exception) {
+        Stream<FieldError> listErrors = exception.getBindingResult().getFieldErrors().stream();
+        Map<String, List<FieldError>> errors = listErrors.collect(Collectors.groupingBy(FieldError::getField));
+
+        return  responce(errors);
     }
 
 
-    @ExceptionHandler(value = { Exception.class })
+    @ExceptionHandler(value = {ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public CustomizerError Exception(Exception ex) {
-        return new CustomizerError("no filed","500",new String(ex.getMessage()));
+    public Map handleConstraintViolation(
+            ConstraintViolationException ex, WebRequest request) {
+        List<String> errors = new ArrayList<String>();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errors.add(violation.getRootBeanClass().getName() + " " +
+                    violation.getPropertyPath() + ": " + violation.getMessage());
+        }
+
+
+        return responce(errors);
+    }
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Object handle(Exception exception) {
+        return exception.getLocalizedMessage();
     }
 
+    private Map responce(Object responce){
+        Map<Object,Object> errors= new HashMap<>();
+        errors.put("errors",responce);
+        return  errors;
+    }
 }
