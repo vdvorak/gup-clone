@@ -115,7 +115,6 @@ public class LostPasswordRestController {
         if( profilesService.profileExists(formLostPassword.getId()) ){
             profile = profilesService.findById(formLostPassword.getId());
             try {
-//                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
                 if( passwordEncoder.matches(formLostPassword.getPassword(),profile.getPasswordRestore()) ){ //if( passwordEncoder.matches(formLostPassword.getPassword(),loggedUser.getPassword()) ){
                     String hashedNewPassword = passwordEncoder.encode(formLostPassword.getNewPassword());
                     profile.setPassword(hashedNewPassword);
