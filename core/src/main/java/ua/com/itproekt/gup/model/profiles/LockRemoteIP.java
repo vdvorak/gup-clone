@@ -27,9 +27,11 @@ public class LockRemoteIP {
     public LockRemoteIP setLastTryLoginDateEqualsToCurrentDate() {
         synchronized (this) {
             final int LIMIT_ATTEMPTS = 5,
-                    BLOCK_TIME_INTERVAL = 60000;
+                      BLOCK_TIME_INTERVAL = 600000,
+                      CHECK_LOGIN_TIME = 60000;
+
             Long ldt = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-            Long deltaLdt = null;
+            Long deltaLdt;
 
             if(lastTryLoginDate != null) {
                 deltaLdt = ldt - lastTryLoginDate;
@@ -38,9 +40,8 @@ public class LockRemoteIP {
             }
 
             //TODO: account is unlock == TRUE & time interval less one-minut
-            if (isUnlockAccount && (deltaLdt < BLOCK_TIME_INTERVAL)) {
+            if (isUnlockAccount && (deltaLdt < CHECK_LOGIN_TIME)) {
                 countTryLoginDate++;
-
                 //TODO: it was more than a five attemps - then block account
                 if (LIMIT_ATTEMPTS < countTryLoginDate) {
                     isUnlockAccount = false;
