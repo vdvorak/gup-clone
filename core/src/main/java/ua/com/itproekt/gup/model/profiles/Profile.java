@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -40,7 +41,17 @@ public class Profile {
     private String email;
     private String socWendor = "gup.com.ua";
     private String uid;
+
+
+    @Pattern.List({
+            @Pattern(regexp = "(.*[0-9]*$)", message = "Пароль должен содержать хотя бы одну цифру")
+            , @Pattern(regexp = "([^\\s]+$)", message = "Пароль не должен иметь пробелов")
+            , @Pattern(regexp = "(^[^а-яА-ЯёЁ]+$)", message = "Пароль не должен использовать кириллицу")
+            , @Pattern(regexp = "(?=.*[A-Z])", message = "Пароль  должен сожержать хотя бы одну заглавную букву")
+    })
+    @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
     private String password;
+
     private String passwordRestore;
     private String tokenKey;
     private String mainPhoneNumber;
@@ -84,9 +95,6 @@ public class Profile {
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
 
-    //private String publicHash;
-    //private String publicKey;
-    //private String privateKey;
     private BankCard bankCard;
 
 
@@ -112,7 +120,6 @@ public class Profile {
     private DBStorePhones storePhones;
 
     private String refreshToken;
-
 
 
     public boolean hasUserRole(String userRole) {
@@ -493,33 +500,6 @@ public class Profile {
         return this;
     }
 
-   /* public String getPublicHash() {
-        return publicHash;
-    }*/
-
-   /* public Profile setPublicHash(String publicHash) {
-        this.publicHash = publicHash;
-        return this;
-    }*/
-
-    /*public String getPublicKey() {
-        return publicKey;
-    }*/
-
-    /*public Profile setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
-        return this;
-    }*/
-
-   /* public String getPrivateKey() {
-        return privateKey;
-    }*/
-
-   /* public Profile setPrivateKey(String privateKey) {
-        this.privateKey = privateKey;
-        return this;
-    }*/
-
     public BankCard getBankCard() {
         return bankCard;
     }
@@ -528,7 +508,6 @@ public class Profile {
         this.bankCard = bankCard;
         return this;
     }
-
 
 
     public Boolean getBan() {
@@ -707,8 +686,8 @@ public class Profile {
                 ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
-               // ", publicKey=" + publicKey +
-               // ", privateKey=" + privateKey +
+                // ", publicKey=" + publicKey +
+                // ", privateKey=" + privateKey +
                 ", bankCard=" + bankCard +
                 ", userType=" + userType +
                 ", lawyerAddress='" + lawyerAddress + '\'' +
