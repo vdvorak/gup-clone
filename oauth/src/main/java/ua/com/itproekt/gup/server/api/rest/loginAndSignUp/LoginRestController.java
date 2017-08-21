@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ua.com.itproekt.gup.dto.ProfileInfo;
@@ -54,60 +55,51 @@ public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private VerificationTokenService verificationTokenService;
 
     @Autowired
-    ActivityFeedService activityFeedService;
+    private ActivityFeedService activityFeedService;
 
     @Autowired
     private DefaultTokenServices tokenServices;
 
     @Autowired
-    APIVendor profileVendor;
+    private APIVendor profileVendor;
 
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     @Autowired
     private MailSenderService mailSenderService;
 
 
+    @Autowired
+    private LockRemoteIPService lockRemoteIPService;
+
+
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> register(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo> register(@RequestBody @Validated Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
-
         // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
-
+        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-           /* try {
-                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
-                profile.setPublicKey(generator.getPublicKey());
-                String privateKey = generator.getPrivateKey();
-                profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator.getPublicHash(privateKey));
-            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
-                e.printStackTrace();
-            }*/
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: http://gup.com.ua:9001/redmine/issues/818 ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
-
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
@@ -132,28 +124,16 @@ public class LoginRestController {
     @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
-
         // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
 
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-           /* try {
-                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
-                profile.setPublicKey(generator.getPublicKey());
-                String privateKey = generator.getPrivateKey();
-                profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator.getPublicHash(privateKey));
-            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
-                e.printStackTrace();
-            }*/
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s)......HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
-
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
@@ -161,18 +141,7 @@ public class LoginRestController {
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
-//                authenticateByEmailAndPassword(loggedUser, response);
-                //////////////////////////////////////////////////////////////////////////////////////////
                 AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
-//                System.err.println("********************************************************************");
-//                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
-//                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
-//                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
-//                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
-//                System.err.println("********************************************************************");
-//                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString()); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
-                //////////////////////////////////////////////////////////////////////////////////////////
-
                 ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
@@ -201,7 +170,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if( profile.getId().equals(loggedUserId) ) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+        if (profile.getId().equals(loggedUserId)) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(true);
             profilesService.editProfile(profile);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -211,28 +180,27 @@ public class LoginRestController {
     }
 
 
-
-
     //ToDo hide this controller under @PreAuthorize annotation
+
     /**
      * Controller for registration new users under admin panel.
-     * @param profile   the Profile object with email, password and role.
-     * @return          status '200' (Ok) if user was created; return status '409' (Conflict) if user with current email already exist.
+     *
+     * @param profile the Profile object with email, password and role.
+     * @return status '200' (Ok) if user was created; return status '409' (Conflict) if user with current email already exist.
      */
     @CrossOrigin
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> registerForAdminPanel(@RequestBody Profile profile) {
         // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
 
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             profilesService.createProfileWithRoles(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -244,39 +212,22 @@ public class LoginRestController {
     @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> vendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
-
         // CHECK:
-        if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) ){
-
+        if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor())) {
             // REGISTER:
             profilesService.facebookRegister(profile);
-
             // EDIT:
-            // TODO try {
-                profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
-                /* Edit Photo Profile */
-                // TODO String imgId = storageService.saveCachedImageProfile( getCachedImageProfile("profile", getImageProfile(profileVendor.getImage().get("url")), "profile_" + profile.getId()) );
-                // TODO profile.setImgId(imgId);
-                profile.setImgUrl(profileVendor.getImage().get("url"));
-                /* Edit Profile */
-//            profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
-            ///////////////////////////////////////////////////////
+            profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
+            /* Edit Photo Profile */
+            profile.setImgUrl(profileVendor.getImage().get("url"));
+            /* Edit Profile */
             profile.setEmail(profileVendor.getEmail());
             profile.setUsername(profileVendor.getUsername());
             String[] fullname = profileVendor.getName().split(" ");
             profile.setFirstname(fullname[0]);
             profile.setLastname(fullname[1]);
-            ///////////////////////////////////////////////////////
             profile.setActive(true);
-                profilesService.editProfile(profile);
-            // TODO } catch (NullPointerException e) {
-            // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
-            // TODO     resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            // TODO } catch (IOException e) {
-            // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
-            // TODO     resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            // TODO }
-
+            profilesService.editProfile(profile);
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
@@ -286,11 +237,9 @@ public class LoginRestController {
             }
             authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
             ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-            ///////////////////////////////////////////////////////
             Profile getProfile = profileInfo.getProfile();
             getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
             profileInfo.setProfile(getProfile);
-
             resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
             resp = new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -299,34 +248,19 @@ public class LoginRestController {
     }
 
 
-
     @CrossOrigin
     @RequestMapping(value = "/register-by-phone", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
-
         // CHECK:
-        if( !profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhoneNumber()) ){
-
+        if (!profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhoneNumber())) {
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
-           /* try {
-                RSAKeyGenerator2 generator = new RSAKeyGenerator2();
-                profile.setPublicKey(generator.getPublicKey());
-                String privateKey = generator.getPrivateKey();
-                profile.setPrivateKey(privateKey);
-                profile.setPublicHash(generator.getPublicHash(privateKey));
-            } catch (NoSuchProviderException | NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
-                e.printStackTrace();
-            }*/
             profilesService.createProfile(profile);
-
-            new ResponseEntity<>(HttpStatus.OK);
-
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
@@ -350,37 +284,15 @@ public class LoginRestController {
     }
 
 
-
-
-    @Autowired
-    LockRemoteIPService lockRemoteIPService;
-
-
-
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser,
                                              HttpServletResponse response,
                                              HttpServletRequest request) {
-//        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         ProfileInfo profileInfo = null;
         synchronized (profilesService) {
             LoggedUser loggedUser;
             try {
-//            System.out.println("==========================================================================================");
-//
-//            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-////            System.out.println("loggedUserId="+loggedUserId);
-////            System.out.println("------------------------------------------------------------------------------------------");
-//            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
-//            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
-                //TODO:
-//            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
-//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//            }
-                ////////////////////////////////////////////////////////////////////////////////////////////////
                 LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
                 if (lockRemoteIP == null) {
                     lockRemoteIP = new LockRemoteIP();
@@ -404,7 +316,6 @@ public class LoginRestController {
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-//        authenticateByEmailAndPassword(loggedUser, response);
             Profile profile = profileInfo.getProfile();
             profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));
             profileInfo.setProfile(profile);
@@ -415,29 +326,21 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo>vendorLogin(@RequestBody Profile profile,
-                                                  HttpServletResponse response,
-                                                  HttpServletRequest request) {
-        if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) )
+    public ResponseEntity<ProfileInfo> vendorLogin(@RequestBody Profile profile,
+                                                   HttpServletResponse response,
+                                                   HttpServletRequest request) {
+        if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
         try {
-            /* Edit Profile */
-//            profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
-//            Profile profileEdit = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor()).getProfile();
-////            profileEdit.setUsername(profileVendor.getUsername());
-////            profileEdit.setImgUrl(profileVendor.getImage().get("url"));
-//            profilesService.editProfile(profileEdit);
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////
             LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
-            if(lockRemoteIP==null){
+            if (lockRemoteIP == null) {
                 lockRemoteIP = new LockRemoteIP();
                 lockRemoteIP.setIp(request.getRemoteAddr());
                 lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
             }
-            if(!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())){
+            if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
@@ -447,12 +350,8 @@ public class LoginRestController {
         }
 
         ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-        if(profileInfo.getProfile().isBan())
+        if (profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-////        authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
-//        profile.setRefreshToken(authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response));
-//        profileInfo.setProfile(profile);
-        ///////////////////////////////////////////////////////
         Profile getProfile = profileInfo.getProfile();
         getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
         profileInfo.setProfile(getProfile);
@@ -462,8 +361,8 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo>phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
-        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) == null )
+    public ResponseEntity<ProfileInfo> phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
+        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
@@ -475,7 +374,7 @@ public class LoginRestController {
         }
 
         ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
-        if(profileInfo.getProfile().isBan())
+        if (profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
 
@@ -536,9 +435,8 @@ public class LoginRestController {
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
     public ResponseEntity<String> changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
-
         /* Edit Profile | change password */
-        if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
+        if (passwordEncoder.matches(formChangePassword.getPassword(), profile.getPassword())) {
             profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             profilesService.editProfile(profile);
             mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
@@ -565,14 +463,6 @@ public class LoginRestController {
     }
 
 
-//    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
-//        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
-//        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
-//        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
-//
-//        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-//        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-//    }
     private String authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
@@ -590,10 +480,10 @@ public class LoginRestController {
 
     class AuthenticateByEmailAndPasswordFromRegister {
 
-        public AuthenticateByEmailAndPasswordFromRegister(){
+        public AuthenticateByEmailAndPasswordFromRegister() {
         }
 
-        public AuthenticateByEmailAndPasswordFromRegister(HttpServletResponse httpServletResponse, OAuth2AccessToken oAuth2AccessToken){
+        public AuthenticateByEmailAndPasswordFromRegister(HttpServletResponse httpServletResponse, OAuth2AccessToken oAuth2AccessToken) {
             this.httpServletResponse = httpServletResponse;
             this.oAuth2AccessToken = oAuth2AccessToken;
         }
@@ -626,14 +516,7 @@ public class LoginRestController {
         }
     }
 
-//    private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
-//        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
-//        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
-//        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
-//
-//        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-//        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-//    }
+
     private String authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
