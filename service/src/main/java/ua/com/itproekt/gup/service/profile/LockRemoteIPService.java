@@ -8,7 +8,7 @@ public interface LockRemoteIPService {
     /**
      * Find private profile by ip and update try login date.
      *
-     * @param email                     - the profile email.
+     * @param ip                        - the profile ip.
      * @return                          - the ProfileInfo object.
      */
     boolean findLockRemoteIPByIpAndUpdateLastTryLoginDate(String ip);
