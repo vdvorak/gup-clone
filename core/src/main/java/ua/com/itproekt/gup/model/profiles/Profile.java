@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.model.profiles;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.EnumUtils;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +11,7 @@ import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -24,6 +24,8 @@ import java.util.Set;
 @Document(collection = Profile.COLLECTION_NAME)
 public class Profile {
     public static final String COLLECTION_NAME = "users";
+    private static final String EMAIL_PATTERN ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                                              + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     @Id
     private String id;
@@ -36,7 +38,10 @@ public class Profile {
 
     private boolean active;
 
-    @Email
+
+    @NotNull(message = "email не может быть пустым")
+    @Pattern(regexp = EMAIL_PATTERN , message = "email не может содержать кириллицу или неправельный формат \n " +
+            "пример : myemail@com.ua")
     @Indexed
     private String email;
     private String socWendor = "gup.com.ua";
