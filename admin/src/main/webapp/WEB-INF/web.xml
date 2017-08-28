@@ -72,7 +72,7 @@
     </servlet-mapping>
 
 
-    <error-page>
+   <!-- <error-page>
         <error-code>401</error-code>
         <location>/WEB-INF/views/error/401.jsp</location>
     </error-page>
@@ -95,5 +95,5 @@
     <error-page>
         <location>/WEB-INF/views/error/error.jsp</location>
     </error-page>
-
+-->
 </web-app>
