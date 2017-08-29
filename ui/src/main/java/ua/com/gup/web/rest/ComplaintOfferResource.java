@@ -5,14 +5,11 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
-import ua.com.gup.domain.complaint.ComplaintOfferDescription;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.service.ComplaintOfferService;
@@ -21,9 +18,10 @@ import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -149,17 +147,21 @@ public class ComplaintOfferResource {
     @RequestMapping(value = "/complaints/types",
             method = RequestMethod.GET,
             produces = "application/json;charset=UTF-8")
-    public ResponseEntity<String> getComplaintOfferTypes()
-            throws URISyntaxException {
-        log.debug("REST request to get Types");
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
+    public ResponseEntity<String> getComplaintOfferTypes() throws URISyntaxException {
+        log.info("REST request to get Types");
+        /*if (!SecurityUtils.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization"))
+                                 .body(null);
+        }*/
 
         final Gson gson = new Gson();
-        final Map<String, String> types =
+        /*final Map<String, String> types =
                 Arrays.stream(ComplaintOfferType.values())
-                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));
+                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));final Map<String, String> types =*/
+         final List<ComplaintOfferType> types  =
+                         Arrays.stream(ComplaintOfferType.values())
+                        .collect(Collectors.toList());
 
         return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
     }
@@ -185,7 +187,6 @@ public class ComplaintOfferResource {
         final Map<String, String> statuses =
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
-
         return new ResponseEntity(gson.toJson(statuses), HttpStatus.OK);
     }
 
@@ -277,8 +278,8 @@ public class ComplaintOfferResource {
 
 //        return new ResponseEntity(complaintOfferService.findAllByInitiatorId(initiatorId), HttpStatus.OK);
         List<ComplaintOffer> complaints = complaintOfferService.findAllByInitiatorId(initiatorId);
-        if (complaints.isEmpty()){
-            return new ResponseEntity( HttpStatus.NO_CONTENT );
+        if (complaints.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(complaints, HttpStatus.OK);
     }
@@ -306,10 +307,10 @@ public class ComplaintOfferResource {
         final Map<String, String> statuses =
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
-        if (statuses.containsKey(status)){
+        if (statuses.containsKey(status)) {
             return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
         }
-        return new ResponseEntity( HttpStatus.NO_CONTENT );
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
