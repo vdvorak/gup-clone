@@ -23,7 +23,6 @@ import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
-import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
@@ -238,7 +237,7 @@ public class LoginRestController {
             authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
             ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
             Profile getProfile = profileInfo.getProfile();
-            getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
+            //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
             profileInfo.setProfile(getProfile);
             resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
@@ -293,7 +292,9 @@ public class LoginRestController {
         synchronized (profilesService) {
             LoggedUser loggedUser;
             try {
-                LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
+
+                //tempory delete block user for login
+                /*LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
                 if (lockRemoteIP == null) {
                     lockRemoteIP = new LockRemoteIP();
                     lockRemoteIP.setIp(request.getRemoteAddr());
@@ -301,7 +302,7 @@ public class LoginRestController {
                 }
                 if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }
+                }*/
 
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
             } catch (UsernameNotFoundException ex) {
@@ -316,9 +317,10 @@ public class LoginRestController {
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-            Profile profile = profileInfo.getProfile();
-            profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));
-            profileInfo.setProfile(profile);
+            //Profile profile = profileInfo.getProfile();
+            //profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));,
+            authenticateByEmailAndPassword(loggedUser, response);
+            //profileInfo.setProfile(profile);
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -334,7 +336,7 @@ public class LoginRestController {
 
         LoggedUser loggedUser;
         try {
-            LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
+            /*LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
             if (lockRemoteIP == null) {
                 lockRemoteIP = new LockRemoteIP();
                 lockRemoteIP.setIp(request.getRemoteAddr());
@@ -342,7 +344,7 @@ public class LoginRestController {
             }
             if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            }*/
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
@@ -352,10 +354,10 @@ public class LoginRestController {
         ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
         if (profileInfo.getProfile().isBan())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        Profile getProfile = profileInfo.getProfile();
-        getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
-        profileInfo.setProfile(getProfile);
-
+        //Profile getProfile = profileInfo.getProfile();
+        //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
+        //profileInfo.setProfile(getProfile);,
+        authenticateByUidAndToken(loggedUser, profileInfo.getProfile().getSocWendor(), response);
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -466,7 +468,8 @@ public class LoginRestController {
     }
 
 
-    private String authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
@@ -474,7 +477,7 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
 
-        return oAuth2AccessToken.getRefreshToken().getValue();
+        //return oAuth2AccessToken.getRefreshToken().getValue();
     }
 
     private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {

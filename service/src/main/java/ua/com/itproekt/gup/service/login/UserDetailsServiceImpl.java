@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    ProfilesService profileService;
+    private ProfilesService profileService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -3,7 +3,6 @@ package ua.com.itproekt.gup.filter;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.com.itproekt.gup.util.CookieUtil;
@@ -15,10 +14,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class OAuthFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(OAuthFilter.class);

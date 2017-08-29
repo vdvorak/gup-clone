@@ -52,8 +52,7 @@ public class TokenStoreService implements TokenStore {
     @Override
     public OAuth2AccessToken readAccessToken(String tokenId) {
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-           LOG.info("tokenId  : " + tokenId);
-           LOG.info("OAuth2AccessToken  : " + token);
+           LOG.info(" AccessToken  : " + token);
         return (token != null) ? token.getoAuth2AccessToken() : null;
     }
 
@@ -85,9 +84,8 @@ public class TokenStoreService implements TokenStore {
 
     @Override
     public void removeRefreshToken(OAuth2RefreshToken refreshToken) {
-        LOG.info("removeRefreshToken by OAuth2RefreshToken  : " + refreshToken);
         OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(refreshToken.getValue());
-        LOG.info("removeRefreshToken OAuth2AuthenticationRefreshToken  : " + token);
+        LOG.info("remove RefreshToken RefreshToken  : " + token);
         if (token != null) {
             oAuth2RefreshTokenRepository.delete(token);
         }
