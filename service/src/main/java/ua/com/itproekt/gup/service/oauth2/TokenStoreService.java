@@ -5,6 +5,7 @@
 */
 package ua.com.itproekt.gup.service.oauth2;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TokenStoreService implements TokenStore {
+    private final static Logger LOG = Logger.getLogger(TokenStoreService.class);
 
     @Autowired
     private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
@@ -50,16 +52,16 @@ public class TokenStoreService implements TokenStore {
     @Override
     public OAuth2AccessToken readAccessToken(String tokenId) {
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-//        if (null == token) {
-//            throw new InvalidTokenException("Token not valid");
-//        }
-
+           LOG.info("tokenId  : " + tokenId);
+           LOG.info("OAuth2AccessToken  : " + token);
         return (token != null) ? token.getoAuth2AccessToken() : null;
     }
 
     @Override
     public void removeAccessToken(OAuth2AccessToken accessToken) {
+        LOG.info("removeAccessToken by accessToken  : " + accessToken);
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(accessToken.getValue());
+        LOG.info("removeAccessToken OAuth2AuthenticationAccessToken  : " + token);
         if (token != null) {
             oAuth2AccessTokenRepository.delete(token);
         }
@@ -82,8 +84,10 @@ public class TokenStoreService implements TokenStore {
     }
 
     @Override
-    public void removeRefreshToken(OAuth2RefreshToken accessToken) {
-        OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(accessToken.getValue());
+    public void removeRefreshToken(OAuth2RefreshToken refreshToken) {
+        LOG.info("removeRefreshToken by OAuth2RefreshToken  : " + refreshToken);
+        OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(refreshToken.getValue());
+        LOG.info("removeRefreshToken OAuth2AuthenticationRefreshToken  : " + token);
         if (token != null) {
             oAuth2RefreshTokenRepository.delete(token);
         }

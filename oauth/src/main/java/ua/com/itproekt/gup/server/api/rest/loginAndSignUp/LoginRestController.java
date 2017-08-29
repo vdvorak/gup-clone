@@ -398,8 +398,10 @@ public class LoginRestController {
             return success;
         }
 
+
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
+                LOG.info("authToken remove : " + cookie.getValue());
                 tokenServices.revokeToken(cookie.getValue());
             }
         }
