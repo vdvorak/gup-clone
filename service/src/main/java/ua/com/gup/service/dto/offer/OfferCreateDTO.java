@@ -3,6 +3,7 @@ package ua.com.gup.service.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.service.dto.offer.land.Lands;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -51,6 +52,9 @@ public class OfferCreateDTO implements Serializable {
 
     @ApiModelProperty(position = 130, value = "{\"used\": true, \"mediator\":false}")
     private Map<String, Boolean> boolAttrs = new HashMap<>();
+
+    @ApiModelProperty(position = 140)
+    private Lands[] lands;
 
     public Integer getCategory() {
         return category;
@@ -146,5 +150,13 @@ public class OfferCreateDTO implements Serializable {
 
     public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public Lands[] getLands() {
+        return lands;
+    }
+
+    public void setLands(Lands[] lands) {
+        this.lands = lands;
     }
 }
