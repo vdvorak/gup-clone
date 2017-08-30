@@ -282,11 +282,11 @@ public class Offer implements Serializable {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public Lands getLands() {
+    public List<Lands> getLands() {
         return lands;
     }
 
-    public void setLands(Lands lands) {
+    public void setLands(List<Lands> lands) {
         this.lands = lands;
     }
 }
