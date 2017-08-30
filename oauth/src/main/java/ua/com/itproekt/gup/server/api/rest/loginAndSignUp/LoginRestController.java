@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import ua.com.gup.service.security.SecurityUtils;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
@@ -319,7 +320,9 @@ public class LoginRestController {
 
             //Profile profile = profileInfo.getProfile();
             //profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));,
-            authenticateByEmailAndPassword(loggedUser, response);
+            if(!SecurityUtils.isAuthenticated()) {
+                authenticateByEmailAndPassword(loggedUser, response);
+            }
             //profileInfo.setProfile(profile);
         }
 
