@@ -1,7 +1,8 @@
-package ua.com.gup.service.dto.offer.land;
+package ua.com.gup.domain.offer.land;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.mongodb.core.geo.GeoJsonMultiPolygon;
 
 @ApiModel
 public class Lands
@@ -10,7 +11,7 @@ public class Lands
     private MapData mapData;
 
     @ApiModelProperty(position = 10)
-    private Geometry geometry;
+    private GeoJsonMultiPolygon geometry;
 
     public MapData getMapData ()
     {
@@ -22,13 +23,11 @@ public class Lands
         this.mapData = mapData;
     }
 
-    public Geometry getGeometry ()
-    {
+    public GeoJsonMultiPolygon getGeometry() {
         return geometry;
     }
 
-    public void setGeometry (Geometry geometry)
-    {
+    public void setGeometry(GeoJsonMultiPolygon geometry) {
         this.geometry = geometry;
     }
 

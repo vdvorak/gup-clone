@@ -11,6 +11,7 @@ import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.offer.attribute.value.OfferCategoryNumericAttributeValue;
 import ua.com.gup.domain.offer.attribute.value.OfferCategorySingleAttributeValue;
+import ua.com.gup.domain.offer.land.Lands;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +20,7 @@ import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -65,6 +67,8 @@ public class Offer implements Serializable {
     private Address address;
 
     private Price price;
+
+    private List<Lands> lands;
 
     @Indexed(unique = true)
     private String seoUrl;
@@ -278,4 +282,11 @@ public class Offer implements Serializable {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
+    public Lands getLands() {
+        return lands;
+    }
+
+    public void setLands(Lands lands) {
+        this.lands = lands;
+    }
 }
