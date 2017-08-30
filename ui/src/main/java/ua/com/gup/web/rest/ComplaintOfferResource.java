@@ -149,17 +149,17 @@ public class ComplaintOfferResource {
             produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferTypes() throws URISyntaxException {
         log.info("REST request to get Types");
-        /*if (!SecurityUtils.isAuthenticated()) {
+        if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                  .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization"))
                                  .body(null);
-        }*/
+        }
 
         final Gson gson = new Gson();
         /*final Map<String, String> types =
                 Arrays.stream(ComplaintOfferType.values())
-                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));final Map<String, String> types =*/
-         final List<ComplaintOfferType> types  =
+                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));*/
+        final List<ComplaintOfferType> types  =
                          Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toList());
 
