@@ -72,8 +72,8 @@ public class TokenStoreService implements TokenStore {
     }
 
     @Override
-    public OAuth2RefreshToken readRefreshToken(String accessToken) {
-        OAuth2AuthenticationRefreshToken refreshToken = oAuth2RefreshTokenRepository.findByTokenId(accessToken);
+    public OAuth2RefreshToken readRefreshToken(String readRefreshToken) {
+        OAuth2AuthenticationRefreshToken refreshToken = oAuth2RefreshTokenRepository.findByTokenId(readRefreshToken);
         return (refreshToken != null) ? refreshToken.getoAuth2RefreshToken() : null;
     }
 
