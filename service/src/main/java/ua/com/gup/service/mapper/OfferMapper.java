@@ -116,7 +116,11 @@ public class OfferMapper {
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
         offerViewDetailsDTO.setStatistic(offer.getStatistic());
-        offerViewDetailsDTO.setLands(landsToOfferLandsDTO(offer.getLands()));
+
+        if(offer.getLands()!= null) {
+            offerViewDetailsDTO.setLands(landsToOfferLandsDTO(offer.getLands()));
+        }
+
         return offerViewDetailsDTO;
     }
 
