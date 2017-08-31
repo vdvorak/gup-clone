@@ -2,16 +2,24 @@ package ua.com.gup.domain.offer.land;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.data.mongodb.core.geo.GeoJsonMultiPolygon;
+
+import java.io.Serializable;
 
 @ApiModel
-public class Lands
+public class Lands implements Serializable
 {
     @ApiModelProperty(position = 0)
     private MapData mapData;
 
     @ApiModelProperty(position = 10)
-    private GeoJsonMultiPolygon geometry;
+    private Geometry geometry;
+
+
+    public Lands(MapData mapData, Geometry geometry) {
+        this.mapData = mapData;
+        this.geometry = geometry;
+    }
+    public Lands() {}
 
     public MapData getMapData ()
     {
@@ -23,11 +31,11 @@ public class Lands
         this.mapData = mapData;
     }
 
-    public GeoJsonMultiPolygon getGeometry() {
+    public Geometry getGeometry() {
         return geometry;
     }
 
-    public void setGeometry(GeoJsonMultiPolygon geometry) {
+    public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 

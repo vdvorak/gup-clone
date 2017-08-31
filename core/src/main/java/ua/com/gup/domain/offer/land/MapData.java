@@ -3,8 +3,10 @@ package ua.com.gup.domain.offer.land;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 @ApiModel
-public class MapData {
+public class MapData implements Serializable {
     @ApiModelProperty(position = 0)
     private String unit_area;
 
