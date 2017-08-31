@@ -9,11 +9,13 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferStatistic;
 import ua.com.gup.domain.offer.attribute.value.*;
+import ua.com.gup.domain.offer.land.Lands;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.service.dto.offer.OfferCreateDTO;
+import ua.com.gup.service.dto.offer.OfferLandsDTO;
 import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.service.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.dto.offer.view.OfferViewBaseDTO;
@@ -23,9 +25,7 @@ import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -116,8 +116,11 @@ public class OfferMapper {
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
         offerViewDetailsDTO.setStatistic(offer.getStatistic());
+        offerViewDetailsDTO.setLands(landsToOfferLandsDTO(offer.getLands()));
         return offerViewDetailsDTO;
     }
+
+
 
     private void fromOfferToOfferViewBaseDTO(Offer source, OfferViewBaseDTO target) {
         target.setId(source.getId());
@@ -165,6 +168,10 @@ public class OfferMapper {
             LinkedHashSet<String> imageIds = new LinkedHashSet<>();
             source.getImages().forEach(i -> imageIds.add(i.getImageId()));
             target.setImageIds(imageIds);
+        }
+
+        if(source.getLands() != null){
+            target.setLands(transformOfferLandsDTOtoLands(source.getLands()));
         }
 
         if (source.getYoutubeVideoId() != null) {
@@ -246,6 +253,23 @@ public class OfferMapper {
                 target.setBoolAttrs(boolAttrs);
             }
         }
+    }
+
+    private ArrayList<Lands> transformOfferLandsDTOtoLands(ArrayList<OfferLandsDTO> offerLandsDto) {
+        ArrayList<Lands> lands = new ArrayList<Lands>();
+        for (OfferLandsDTO item : offerLandsDto  ) {
+            Lands land = new Lands(item.getMapData(),item.getGeometry());
+            lands.add(land);
+        }
+          return lands;
+    }
+    private List<OfferLandsDTO> landsToOfferLandsDTO(List<Lands> lands) {
+        ArrayList<OfferLandsDTO> offerLandsDTOS = new ArrayList<OfferLandsDTO>();
+        for (Lands item : lands  ) {
+            OfferLandsDTO offerLandsDTO = new OfferLandsDTO(item.getMapData(),item.getGeometry());
+            offerLandsDTOS.add(offerLandsDTO);
+        }
+        return offerLandsDTOS;
     }
 
     private void fromCategoryAttributeDTOToOfferCategoryAttributeValue(CategoryAttributeDTO source, OfferCategoryAttributeBaseValue target) {

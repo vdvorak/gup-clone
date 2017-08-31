@@ -17,10 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -286,7 +283,7 @@ public class Offer implements Serializable {
         return lands;
     }
 
-    public void setLands(List<Lands> lands) {
+    public void setLands(ArrayList<Lands> lands) {
         this.lands = lands;
     }
 }

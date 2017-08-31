@@ -28,6 +28,19 @@ public class MapData implements Serializable {
     @ApiModelProperty(position = 60)
     private String ownershipcode;
 
+    public MapData(String unit_area, String area, String id_office, String cadnum, String use, String purpose, String ownershipcode) {
+        this.unit_area = unit_area;
+        this.area = area;
+        this.id_office = id_office;
+        this.cadnum = cadnum;
+        this.use = use;
+        this.purpose = purpose;
+        this.ownershipcode = ownershipcode;
+    }
+    public MapData() {
+
+    }
+
     public String getUnit_area() {
         return unit_area;
     }

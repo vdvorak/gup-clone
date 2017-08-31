@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A DTO for creation the Offer entity.
@@ -54,7 +51,7 @@ public class OfferCreateDTO implements Serializable {
     private Map<String, Boolean> boolAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 140)
-    private List<OfferLandsDTO> lands;
+    private ArrayList<OfferLandsDTO> lands = new ArrayList<OfferLandsDTO>();
 
     public Integer getCategory() {
         return category;
@@ -152,11 +149,11 @@ public class OfferCreateDTO implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public List<OfferLandsDTO> getLands() {
+    public ArrayList<OfferLandsDTO> getLands() {
         return lands;
     }
 
-    public void setLands(List<OfferLandsDTO> lands) {
+    public void setLands(ArrayList<OfferLandsDTO> lands) {
         this.lands = lands;
     }
 }
