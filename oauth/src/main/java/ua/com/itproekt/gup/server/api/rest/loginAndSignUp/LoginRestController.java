@@ -321,6 +321,7 @@ public class LoginRestController {
             //Profile profile = profileInfo.getProfile();
             //profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));,
             if(!SecurityUtils.isAuthenticated()) {
+                LOG.info("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
                 authenticateByEmailAndPassword(loggedUser, response);
             }
             //profileInfo.setProfile(profile);
