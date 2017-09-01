@@ -550,7 +550,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
                 if (cookie.getName().equals("authToken")) {
                     principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                } else if (cookie.getName().equals("authToken")) {
+                } else if (cookie.getName().equals("refreshToken")) {
                     principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                 }
                 if (principal != null) {
