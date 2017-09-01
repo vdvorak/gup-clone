@@ -106,6 +106,9 @@ public class OfferMapper {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
         target.setStatistic(source.getStatistic());
+        if(source.getLands()!=null) {
+            target.setLands(transformlandsToOfferLandsDTO(source.getLands()));
+        }
     }
 
     public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
@@ -118,7 +121,7 @@ public class OfferMapper {
         offerViewDetailsDTO.setStatistic(offer.getStatistic());
 
         if(offer.getLands()!= null) {
-            offerViewDetailsDTO.setLands(landsToOfferLandsDTO(offer.getLands()));
+            offerViewDetailsDTO.setLands(transformlandsToOfferLandsDTO(offer.getLands()));
         }
 
         return offerViewDetailsDTO;
@@ -267,7 +270,7 @@ public class OfferMapper {
         }
           return lands;
     }
-    private List<OfferLandsDTO> landsToOfferLandsDTO(List<Lands> lands) {
+    private List<OfferLandsDTO> transformlandsToOfferLandsDTO(List<Lands> lands) {
         ArrayList<OfferLandsDTO> offerLandsDTOS = new ArrayList<OfferLandsDTO>();
         for (Lands item : lands  ) {
             OfferLandsDTO offerLandsDTO = new OfferLandsDTO(item.getMapData(),item.getGeometry());
