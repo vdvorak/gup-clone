@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @ApiModel
 public class Geometry implements Serializable {
@@ -11,9 +12,9 @@ public class Geometry implements Serializable {
     @ApiModelProperty(position = 0)
     private String type;
     @ApiModelProperty(position = 10)
-    private String[][][][] coordinates;
+    private BigDecimal[][][][] coordinates;
 
-    public Geometry(String type, String[][][][] coordinates) {
+    public Geometry(String type, BigDecimal[][][][] coordinates) {
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -30,11 +31,11 @@ public class Geometry implements Serializable {
         this.type = type;
     }
 
-    public String[][][][] getCoordinates() {
+    public BigDecimal[][][][] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(String[][][][] coordinates) {
+    public void setCoordinates(BigDecimal[][][][] coordinates) {
         this.coordinates = coordinates;
     }
 
