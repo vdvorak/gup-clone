@@ -22,13 +22,13 @@
     </properties>
 
     <dependencies>
-        <!-- Module dependency -->
+        <!-- BEGIN Module dependency other moduules -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>
             <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
-
+        <!-- END Module dependency other modules -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>
@@ -315,7 +315,7 @@
         </dependency>
     </dependencies>
 
-    <profiles>
+   <!-- <profiles>
         <profile>
             <id>dev</id>
             <activation>
@@ -417,19 +417,19 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+    </profiles>-->
 
-    <build>
+  <!--  <build>
         <finalName>api##${project.version}</finalName>
-        <filters>
+        &lt;!&ndash;<filters>
             <filter>profiles/${build.profile.id}/config.properties</filter>
-        </filters>
-        <resources>
+        </filters>&ndash;&gt;
+        &lt;!&ndash;<resources>
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
             </resource>
-        </resources>
+        </resources>&ndash;&gt;
         <defaultGoal>package</defaultGoal>
 
         <plugins>
@@ -531,5 +531,97 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
+    <build>
+        <finalName>api##${project.version}</finalName>
+        <defaultGoal>package</defaultGoal>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>${target.jdk}</source>
+                <target>${target.jdk}</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+                <excludes>
+                    <exclude>**/*Test.*</exclude>
+                    <exclude>**/*Suite.*</exclude>
+                </excludes>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>integration-test</id>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                    <phase>integration-test</phase>
+                    <configuration>
+                        <excludes>
+                            <exclude>none</exclude>
+                        </excludes>
+                        <includes>
+                            <include>**/*Test.*</include>
+                            <include>**/*Suite.*</include>
+                        </includes>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>maven-jetty-plugin</artifactId>
+            <version>6.1.26</version>
+            <configuration>
+                <scanIntervalSeconds>5</scanIntervalSeconds>
+                <stopPort>9095</stopPort>
+                <stopKey>STOP</stopKey>
+                <connectors>
+                    <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                        <port>9090</port>
+                        <maxIdleTime>60000</maxIdleTime>
+                    </connector>
+                </connectors>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>start-jetty</id>
+                    <phase>pre-integration-test</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <scanIntervalSeconds>0</scanIntervalSeconds>
+                        <daemon>true</daemon>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>stop-jetty</id>
+                    <phase>post-integration-test</phase>
+                    <goals>
+                        <goal>stop</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 </project>
