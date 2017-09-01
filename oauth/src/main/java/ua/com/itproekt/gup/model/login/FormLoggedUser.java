@@ -1,25 +1,19 @@
 package ua.com.itproekt.gup.model.login;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotNull;
 
-
+@ApiModel(description = "Form login user")
 public class FormLoggedUser {
 
     @NotNull(message="Имэйл должен быть задан")
-/*
-    @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" +
-            "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
-            "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\]?)|(?:[a-zA-Z0-9-]+\\.)" +
-            "+(?:[a-zA-Z]){2,}\\.?)$",
-            message = "заданный имэйл не может существовать")
-*/
+    @ApiModelProperty(position = 0)
     private String email;
 
     @NotNull(message="Описание должно быть задано")
-/*
-    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$",
-            message = "заданный пароль не может существовать")
-*/
+    @ApiModelProperty(position = 10)
     private String password;
 
     private FormLoggedUser() {
