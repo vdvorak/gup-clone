@@ -65,7 +65,7 @@ public class Offer implements Serializable {
 
     private Price price;
 
-    private List<Lands> lands;
+    private Lands lands;
 
     @Indexed(unique = true)
     private String seoUrl;
@@ -279,11 +279,11 @@ public class Offer implements Serializable {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public List<Lands> getLands() {
+    public Lands getLands() {
         return lands;
     }
 
-    public void setLands(ArrayList<Lands> lands) {
+    public void setLands(Lands lands) {
         this.lands = lands;
     }
 }

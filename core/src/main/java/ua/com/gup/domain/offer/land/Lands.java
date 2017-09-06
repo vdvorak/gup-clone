@@ -3,45 +3,35 @@ package ua.com.gup.domain.offer.land;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
+import java.util.List;
 
 @ApiModel
-public class Lands implements Serializable
-{
-    @ApiModelProperty(position = 0)
-    private MapData mapData;
+public class Lands{
 
-    @ApiModelProperty(position = 10)
-    private Geometry geometry;
+   @ApiModelProperty(position = 0)
+   private String cadnums;
 
+   @ApiModelProperty(position = 10)
+   private List<Polygons> polygons;
 
-    public Lands(MapData mapData, Geometry geometry) {
-        this.mapData = mapData;
-        this.geometry = geometry;
-    }
-    public Lands() {}
-
-    public MapData getMapData ()
-    {
-        return mapData;
+    public Lands(String cadnums, List<Polygons> polygons) {
+        this.cadnums = cadnums;
+        this.polygons = polygons;
     }
 
-    public void setMapData (MapData mapData)
-    {
-        this.mapData = mapData;
+    public String getCadnums() {
+        return cadnums;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
+    public void setCadnums(String cadnums) {
+        this.cadnums = cadnums;
     }
 
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public List<Polygons> getPolygons() {
+        return polygons;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Lands [mapData = "+mapData+", geometry = "+geometry+"]";
+    public void setPolygons(List<Polygons> polygons) {
+        this.polygons = polygons;
     }
 }

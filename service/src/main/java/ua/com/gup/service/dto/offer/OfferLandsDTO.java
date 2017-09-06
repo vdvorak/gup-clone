@@ -2,41 +2,38 @@ package ua.com.gup.service.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.land.Geometry;
-import ua.com.gup.domain.offer.land.MapData;
+import ua.com.gup.domain.offer.land.Polygons;
 
 import java.io.Serializable;
+import java.util.List;
 
 @ApiModel
 public class OfferLandsDTO implements Serializable {
+
     @ApiModelProperty(position = 0)
-    private MapData mapData;
+    private String cadnums;
 
     @ApiModelProperty(position = 10)
-    private Geometry geometry;
+    private List<Polygons> polygons;
 
-    public OfferLandsDTO(MapData mapData, Geometry geometry) {
-        this.mapData = mapData;
-        this.geometry = geometry;
+    public OfferLandsDTO(String cadnums, List<Polygons> polygons) {
+        this.cadnums = cadnums;
+        this.polygons = polygons;
     }
 
-    public OfferLandsDTO() {
-
+    public String getCadnums() {
+        return cadnums;
     }
 
-    public MapData getMapData() {
-        return mapData;
+    public void setCadnums(String cadnums) {
+        this.cadnums = cadnums;
     }
 
-    public void setMapData(MapData mapData) {
-        this.mapData = mapData;
+    public List<Polygons> getPolygons() {
+        return polygons;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
-    }
-
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public void setPolygons(List<Polygons> polygons) {
+        this.polygons = polygons;
     }
 }

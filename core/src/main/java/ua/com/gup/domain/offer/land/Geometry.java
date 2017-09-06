@@ -3,24 +3,20 @@ package ua.com.gup.domain.offer.land;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @ApiModel
-public class Geometry implements Serializable {
+public class Geometry {
 
     @ApiModelProperty(position = 0)
     private String type;
     @ApiModelProperty(position = 10)
-    private BigDecimal[][][][] coordinates;
+    private List<List<List<List<BigDecimal>>>> coordinates;
 
-    public Geometry(String type, BigDecimal[][][][] coordinates) {
+    public Geometry(String type, List<List<List<List<BigDecimal>>>> coordinates) {
         this.type = type;
         this.coordinates = coordinates;
-    }
-
-    public Geometry() {
-
     }
 
     public String getType() {
@@ -31,11 +27,11 @@ public class Geometry implements Serializable {
         this.type = type;
     }
 
-    public BigDecimal[][][][] getCoordinates() {
+    public List<List<List<List<BigDecimal>>>> getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(BigDecimal[][][][] coordinates) {
+    public void setCoordinates(List<List<List<List<BigDecimal>>>> coordinates) {
         this.coordinates = coordinates;
     }
 

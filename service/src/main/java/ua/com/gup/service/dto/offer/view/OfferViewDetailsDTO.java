@@ -8,8 +8,6 @@ import ua.com.gup.service.dto.offer.OfferAddressDTO;
 import ua.com.gup.service.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.service.dto.offer.OfferLandsDTO;
 
-import java.util.List;
-
 public class OfferViewDetailsDTO extends OfferViewBaseDTO {
 
     @ApiModelProperty(position = 6)
@@ -28,7 +26,7 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
     private OfferStatistic statistic;
 
     @ApiModelProperty(position = 150)
-    private List<OfferLandsDTO> lands;
+    private OfferLandsDTO lands;
 
     public OfferStatus getStatus() {
         return status;
@@ -70,11 +68,11 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
         this.statistic = statistic;
     }
 
-    public List<OfferLandsDTO> getLands() {
+    public OfferLandsDTO getLands() {
         return lands;
     }
 
-    public void setLands(List<OfferLandsDTO> lands) {
+    public void setLands(OfferLandsDTO lands) {
         this.lands = lands;
     }
 }

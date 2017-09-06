@@ -25,7 +25,9 @@ import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -106,8 +108,8 @@ public class OfferMapper {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
         target.setStatistic(source.getStatistic());
-        if(source.getLands()!=null) {
-            target.setLands(transformlandsToOfferLandsDTO(source.getLands()));
+        if (source.getLands() != null) {
+            target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
         }
     }
 
@@ -120,13 +122,12 @@ public class OfferMapper {
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
         offerViewDetailsDTO.setStatistic(offer.getStatistic());
 
-        if(offer.getLands()!= null) {
-            offerViewDetailsDTO.setLands(transformlandsToOfferLandsDTO(offer.getLands()));
+        if (offer.getLands() != null) {
+            offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
         }
 
         return offerViewDetailsDTO;
     }
-
 
 
     private void fromOfferToOfferViewBaseDTO(Offer source, OfferViewBaseDTO target) {
@@ -177,8 +178,8 @@ public class OfferMapper {
             target.setImageIds(imageIds);
         }
 
-        if(source.getLands() != null){
-            target.setLands(transformOfferLandsDTOtoLands(source.getLands()));
+        if (source.getLands() != null) {
+            target.setLands(transformOfferLandsDTOToLands(source.getLands()));
         }
 
         if (source.getYoutubeVideoId() != null) {
@@ -262,21 +263,21 @@ public class OfferMapper {
         }
     }
 
-    private ArrayList<Lands> transformOfferLandsDTOtoLands(ArrayList<OfferLandsDTO> offerLandsDto) {
-        ArrayList<Lands> lands = new ArrayList<Lands>();
-        for (OfferLandsDTO item : offerLandsDto  ) {
-            Lands land = new Lands(item.getMapData(),item.getGeometry());
-            lands.add(land);
+    private Lands transformOfferLandsDTOToLands(OfferLandsDTO offerLandsDto) {
+        Lands lands = null;
+        if (offerLandsDto != null) {
+            lands = new Lands(offerLandsDto.getCadnums(), offerLandsDto.getPolygons());
         }
-          return lands;
+        return lands;
     }
-    private List<OfferLandsDTO> transformlandsToOfferLandsDTO(List<Lands> lands) {
-        ArrayList<OfferLandsDTO> offerLandsDTOS = new ArrayList<OfferLandsDTO>();
-        for (Lands item : lands  ) {
-            OfferLandsDTO offerLandsDTO = new OfferLandsDTO(item.getMapData(),item.getGeometry());
-            offerLandsDTOS.add(offerLandsDTO);
+
+    private OfferLandsDTO transformLandsToOfferLandsDTO(Lands lands) {
+        OfferLandsDTO offerLandsDTOS = null;
+        if (lands != null) {
+            offerLandsDTOS = new OfferLandsDTO(lands.getCadnums(), lands.getPolygons());
         }
         return offerLandsDTOS;
+
     }
 
     private void fromCategoryAttributeDTOToOfferCategoryAttributeValue(CategoryAttributeDTO source, OfferCategoryAttributeBaseValue target) {

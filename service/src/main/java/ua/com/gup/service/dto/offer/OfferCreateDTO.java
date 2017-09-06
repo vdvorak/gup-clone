@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * A DTO for creation the Offer entity.
+ * DTO for creation the Offer entity.
  */
-@ApiModel(description = "Offer create DTO")
+@ApiModel(description = "DTO for Offer")
 public class OfferCreateDTO implements Serializable {
 
     @ApiModelProperty(position = 30)
@@ -51,7 +51,7 @@ public class OfferCreateDTO implements Serializable {
     private Map<String, Boolean> boolAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 140)
-    private ArrayList<OfferLandsDTO> lands = new ArrayList<OfferLandsDTO>();
+    private OfferLandsDTO lands;
 
     public Integer getCategory() {
         return category;
@@ -149,11 +149,11 @@ public class OfferCreateDTO implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public ArrayList<OfferLandsDTO> getLands() {
+    public OfferLandsDTO getLands() {
         return lands;
     }
 
-    public void setLands(ArrayList<OfferLandsDTO> lands) {
+    public void setLands(OfferLandsDTO lands) {
         this.lands = lands;
     }
 }
