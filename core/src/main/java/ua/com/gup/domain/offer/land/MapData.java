@@ -26,6 +26,8 @@ public class MapData  {
     @ApiModelProperty(position = 60)
     private String ownershipcode;
 
+    public MapData(){}
+
     public MapData(String unit_area, String area, String id_office, String cadnum, String use, String purpose, String ownershipcode) {
         this.unit_area = unit_area;
         this.area = area;

@@ -14,6 +14,8 @@ public class Geometry {
     @ApiModelProperty(position = 10)
     private List<List<List<List<BigDecimal>>>> coordinates;
 
+    public Geometry() {}
+
     public Geometry(String type, List<List<List<List<BigDecimal>>>> coordinates) {
         this.type = type;
         this.coordinates = coordinates;

@@ -12,6 +12,7 @@ public class Polygons{
     @ApiModelProperty(position = 10)
     private Geometry geometry;
 
+    public Polygons() {}
 
     public Polygons(MapData mapData, Geometry geometry) {
         this.mapData = mapData;
