@@ -16,6 +16,8 @@ public class OfferLandsDTO implements Serializable {
     @ApiModelProperty(position = 10)
     private List<Polygons> polygons;
 
+    public OfferLandsDTO() {}
+
     public OfferLandsDTO(String cadnums, List<Polygons> polygons) {
         this.cadnums = cadnums;
         this.polygons = polygons;
