@@ -186,7 +186,7 @@ public class OfferServiceImpl implements OfferService {
      */
     @Override
     public Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
-        log.debug("Request to get all Offers by status = {} and authorId = {}", status);
+        log.debug("Request to get all Offers by status = {}", status);
         Page<Offer> result = offerRepository.findAllByStatus(status, pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }

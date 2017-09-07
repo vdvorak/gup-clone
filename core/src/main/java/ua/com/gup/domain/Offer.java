@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * A Offer.
+ * Database table entity Offer.
  */
 
 @Document(collection = Offer.COLLECTION_NAME, language = "russian")
