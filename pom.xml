@@ -1,13 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <name>GUP</name>
-    <groupId>ua.com.gup</groupId>
-    <artifactId>GUP</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <url>http://maven.apache.org</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -15,22 +10,33 @@
         <version>1.3.3.RELEASE</version>
     </parent>
 
+    <groupId>ua.com.itproekt</groupId>
+    <artifactId>GUP</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
     <properties>
         <version>0.0.1-SNAPSHOT</version>
         <springframework.version>4.2.4.RELEASE</springframework.version>
         <springframework.security.version>3.2.9.RELEASE</springframework.security.version>
         <springframework.security.oauth.version>2.0.9.RELEASE</springframework.security.oauth.version>
         <springframework.security.test.version>4.0.1.RELEASE</springframework.security.test.version>
-        <swagger2.version>2.6.1</swagger2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <swagger2.version>2.6.1</swagger2.version>
     </properties>
+
+    <url>http://maven.apache.org</url>
 
     <modules>
         <module>core</module>
-        <module>service</module>
         <module>oauth</module>
         <module>ui</module>
+        <module>service</module>
         <module>admin</module>
+        <!--<module>file-storage</module>-->
         <module>exchange-rates</module>
+        <!--<module>blockchain-client</module>-->
+        <!--<module>bitcoinj</module>-->
     </modules>
 </project>
