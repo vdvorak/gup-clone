@@ -10,7 +10,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
-import ua.com.itproekt.gup.bank_api.entity.FinanceInfo;
 import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
 import ua.com.itproekt.gup.bank_api.repository.*;
