@@ -24,7 +24,7 @@
 		<appender-ref ref="Suite" />
 	</appender>
 
-	<logger name="ua.com.itproekt.gup">
+	<logger name="ua.com">
 		<level value="INFO" />
 	</logger>
 
@@ -38,7 +38,7 @@
 
 	<root>
 		<priority value="INFO" />
-		<appender-ref ref="SuiteAsync" />
+	<!--	<appender-ref ref="SuiteAsync" />-->
 		<appender-ref ref="console" />
 	</root>
 
