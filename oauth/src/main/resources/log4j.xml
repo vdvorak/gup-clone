@@ -10,7 +10,7 @@
 		</layout>
 	</appender>
 
-	<appender name="Suite" class="org.apache.log4j.RollingFileAppender">
+	<!--<appender name="Suite" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="/var3/log/resterr/r2c-ws.log" />
 		<param name="MaxFileSize" value="20MB" />
 		<param name="MaxBackupIndex" value="10" />
@@ -22,7 +22,7 @@
 
 	<appender name="SuiteAsync" class="org.apache.log4j.AsyncAppender">
 		<appender-ref ref="Suite" />
-	</appender>
+	</appender>-->
 
 	<logger name="ua.com">
 		<level value="INFO" />
