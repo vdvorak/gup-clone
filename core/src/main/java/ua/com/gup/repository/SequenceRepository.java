@@ -7,8 +7,8 @@ import ua.com.gup.repository.custom.SequenceRepositoryCustom;
 /**
  * Repository for the sequence entity.
  */
-@SuppressWarnings("unused")
-public interface SequenceRepository  extends MongoRepository<Sequence,String>, SequenceRepositoryCustom{
+
+public interface SequenceRepository extends MongoRepository<Sequence, String>, SequenceRepositoryCustom {
 
 
 }
