@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Repository for the category attribute entity.
  */
-@SuppressWarnings("unused")
+
 public interface CategoryAttributeRepository extends MongoRepository<CategoryAttribute, String> {
 
     Optional<CategoryAttribute> findOneByCode(int code);
