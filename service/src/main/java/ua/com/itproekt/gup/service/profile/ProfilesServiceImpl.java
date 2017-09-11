@@ -34,27 +34,21 @@ import java.util.*;
 public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-    BankSession bankSession = new BankSession(); //BankSession bankSession = new BankSession("http://93.73.109.38:8087"); //ToDo need use 'bank_session.properties'
+    private PasswordEncoder passwordEncoder;
+    //BankSession bankSession = new BankSession("http://93.73.109.38:8087"); //ToDo need use 'bank_session.properties'
+    private BankSession bankSession = new BankSession();
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
-    OffersService offersService;
+    private OffersService offersService;
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private VerificationTokenService verificationTokenService;
     @Autowired
-    OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
+    private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
-//    @Autowired
-//    private SubscriptionService subscriptionService; //TODO ?
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
-
-
-    //ToDo  make this work after we will repair oauth
-//    @Autowired
-//    private SessionRegistry sessionRegistry;
 
     @Override
     public void createProfile(Profile profile) {
@@ -604,9 +598,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         favoriteOffers.add(offerId);
     }
 
-    // -------------------------------------------- Helper methods ------------------------------------------
-    //-------------------------------------------------------------------------------------------------------
-
 
     /**
      * Create and prepare ProfileInfo object from Principal object.
@@ -809,30 +800,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         }
         return allOffersFeedbackList;
     }
-
-
-//    /**
-//     * @param profileId
-//     * @return
-//     */
-//    private List<Order> orderListPreparatorForUser(String profileId) {
-//        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
-//        orderFilterOptions.setBuyerId(profileId);
-//        orderFilterOptions.setSellerId(profileId);
-//        return orderService.findOrdersWihOptions(orderFilterOptions);
-//    }
-
-
-//    /**
-//     * Calculate average point of orders for user (seller) from order list
-//     *
-//     * @param profileId
-//     * @return
-//     */
-//    private int calculateAveragePointsForSellerByUserId(String profileId) {
-//        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
-//        return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
-//    }
 
     /**
      * @param profile

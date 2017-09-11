@@ -2,13 +2,10 @@ package ua.com.itproekt.gup.dto;
 
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
-//import ua.com.itproekt.gup.model.subscription.Subscription;
 
 import java.util.List;
 
 public class ProfileInfo {
-
-    //ToDo when this features will work     profileInfo.setIsOnline(isUserOnline(id));
 
     private Profile profile;
     private Integer unreadEventsCount;
@@ -20,10 +17,6 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
     private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
-//    private List<OfferInfo> userOfferInfoList; //TODO: off
-//    private List<Subscription> subscriptionList; // user's subscription list //TODO ?
-//    private List<FavoriteOfferInfo> favoriteOfferInfoList; // user's favorite offers list //TODO: off
-
     private int orderAmount;
     private int totalFeedbackAmount;
 
@@ -124,24 +117,6 @@ public class ProfileInfo {
         return this;
     }
 
-////    public List<OfferInfo> getUserOfferInfoList() {
-////        return userOfferInfoList;
-////    }
-////
-////    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
-////        this.userOfferInfoList = userOfferInfoList;
-////        return this;
-////    }
-//
-//    public List<Subscription> getSubscriptionList() {
-//        return subscriptionList;
-//    }
-//
-//    public ProfileInfo setSubscriptionList(List<Subscription> subscriptionList) {
-//        this.subscriptionList = subscriptionList;
-//        return this;
-//    }
-
     public int getTotalFeedbackAmount() {
         return totalFeedbackAmount;
     }
@@ -160,15 +135,6 @@ public class ProfileInfo {
         return this;
     }
 
-//    public List<FavoriteOfferInfo> getFavoriteOfferInfoList() {
-//        return favoriteOfferInfoList;
-//    }
-//
-//    public ProfileInfo setFavoriteOfferInfoList(List<FavoriteOfferInfo> favoriteOfferInfoList) {
-//        this.favoriteOfferInfoList = favoriteOfferInfoList;
-//        return this;
-//    }
-
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -182,9 +148,6 @@ public class ProfileInfo {
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 ", orderInfoBuyerList=" + orderInfoBuyerList +
                 ", orderInfoSellerList=" + orderInfoSellerList +
-////                ", userOfferInfoList=" + userOfferInfoList +
-//                ", subscriptionList=" + subscriptionList +
-//                ", favoriteOfferInfoList=" + favoriteOfferInfoList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +
                 '}';
