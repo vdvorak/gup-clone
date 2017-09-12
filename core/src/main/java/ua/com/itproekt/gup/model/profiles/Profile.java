@@ -11,7 +11,6 @@ import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -39,7 +38,6 @@ public class Profile {
     private boolean active;
 
 
-    @NotNull(message = "email не может быть пустым")
     @Pattern(regexp = EMAIL_PATTERN , message = "email не может содержать кириллицу или неправельный формат \n " +
             "пример : myemail@com.ua")
     @Indexed
