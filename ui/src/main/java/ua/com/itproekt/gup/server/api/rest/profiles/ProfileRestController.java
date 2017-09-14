@@ -287,7 +287,7 @@ public class ProfileRestController {
         if (profileInfo != null) {
             return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
