@@ -70,7 +70,7 @@ public class Profile {
     private String lastname;
     private String executive;
     private String contactPerson;
-    private ua.com.gup.domain.offer.Address address;
+    private Address address;
     private String imgId;
     private String imgUrl;
     private Long birthDate;
@@ -298,11 +298,11 @@ public class Profile {
         return this;
     }
 
-    public ua.com.gup.domain.offer.Address getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public Profile setAddress(ua.com.gup.domain.offer.Address address) {
+    public Profile setAddress(Address address) {
         this.address = address;
         return this;
     }
