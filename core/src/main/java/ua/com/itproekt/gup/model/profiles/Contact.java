@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.model.profiles;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
 import javax.validation.constraints.Size;
