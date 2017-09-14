@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath*:applicationContext.xml"})
+@ContextConfiguration({"/appContext.xml"})
 @WebAppConfiguration
 public class OauthControllerTest {
 
