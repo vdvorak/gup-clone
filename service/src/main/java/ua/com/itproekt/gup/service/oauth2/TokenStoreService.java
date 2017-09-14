@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package ua.com.itproekt.gup.service.oauth2;
 
 import org.apache.log4j.Logger;
