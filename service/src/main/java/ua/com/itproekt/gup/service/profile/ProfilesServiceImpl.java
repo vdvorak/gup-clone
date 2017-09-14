@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dto.*;
@@ -17,12 +16,9 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
-//import ua.com.itproekt.gup.model.subscription.Subscription;
-//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.seosequence.PublicProfileSequenceService;
-//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -30,13 +26,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+//import ua.com.itproekt.gup.model.subscription.Subscription;
+//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
+//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    //BankSession bankSession = new BankSession("http://93.73.109.38:8087"); //ToDo need use 'bank_session.properties'
-    private BankSession bankSession = new BankSession();
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -49,6 +47,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileRepository profileRepository;
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
+
+    //ToDo need use 'bank_session.properties'
+    //BankSession bankSession = new BankSession("http://93.73.109.38:8087");
+    /*@Autowired
+    private BankSession bankSession;*/
 
     @Override
     public void createProfile(Profile profile) {
@@ -80,7 +83,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.createProfile(newProfile);
 
         // create new balance for user in the bank
-        bankSession.createBalanceRecord(newProfile.getId(), 3);
+        //bankSession.createBalanceRecord(newProfile.getId(), 3); //TODO for banking
 
         profile.setId(newProfile.getId());
     }
@@ -114,7 +117,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.createProfile(newProfile);
 
         // create new balance for user in the bank
-        bankSession.createBalanceRecord(newProfile.getId(), 3);
+        //bankSession.createBalanceRecord(newProfile.getId(), 3);//TODO for banking
 
         profile.setId(newProfile.getId());
     }
@@ -181,15 +184,13 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
-                //.setPublicKey(profile.getPublicKey())
-                //.setPrivateKey(profile.getPrivateKey())
-                //.setPublicHash(profile.getPublicHash()
                 .setBankCard(profile.getBankCard());
 
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
-        bankSession.createBalanceRecord(newProfile.getId(), 3);
+
+        /*bankSession.createBalanceRecord(newProfile.getId(), 3);*///TODO for banking
 
         profile.setId(newProfile.getId());
     }
@@ -638,30 +639,23 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
         List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
-//        SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions(); //TODO ?
-//        subscriptionFilterOptions.setUserId(profile.getId()); //TODO ?
-//        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions); //TODO ?
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
         List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
 
         int totalOrdersAmount = orderInfoListForUser.size();
-
         int totalFeedbackAmount = orderService.calculateFeedbackAmountForOrderList(orderInfoListForUser);
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        Long bankTImeStart = System.currentTimeMillis();
-        Integer userBalance = bankSession.getUserBalance(profile.getId());
+//TODO for banking
+        /*Integer userBalance = bankSession.getUserBalance(profile.getId());
         Integer userBonus = Integer.parseInt(bankSession.getBonusByUserId(profile.getId()));
         String internalTransactionHistory = bankSession.getInternalTransactionsJsonByUserId(profile.getId());
-//        System.err.println("#11 Whole bank time: " + (System.currentTimeMillis() - bankTImeStart));
 
         profileInfo.setUserBalance(userBalance)
-                .setUserBonusBalance(userBonus)
-                .setInternalTransactionHistory(internalTransactionHistory);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                   .setUserBonusBalance(userBonus)
+                   .setInternalTransactionHistory(internalTransactionHistory);*/
 
-        //TODO user all OfferInfoList off
+//TODO user all OfferInfoList off
 //        profileInfo.setUserOfferInfoList(userOfferInfoList)
 //                .setSubscriptionList(subscriptionList)
 //                .setTotalFeedbackAmount(totalFeedbackAmount)
