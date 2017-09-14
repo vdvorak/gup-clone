@@ -318,13 +318,10 @@ public class LoginRestController {
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-            //Profile profile = profileInfo.getProfile();
-            //profile.setRefreshToken(authenticateByEmailAndPassword(loggedUser, response));,
             if(!SecurityUtils.isAuthenticated()) {
                 LOG.info("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
                 authenticateByEmailAndPassword(loggedUser, response);
             }
-            //profileInfo.setProfile(profile);
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -481,7 +478,6 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
 
-        //return oAuth2AccessToken.getRefreshToken().getValue();
     }
 
     private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {
