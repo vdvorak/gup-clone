@@ -18,24 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//@CompoundIndexes({
-//    @CompoundIndex(name = "user_offers_idx", def = "{'authorId' : 1, 'reservation' : 1}"),// + сортировка
-//    @CompoundIndex(name = "createdDate_offers_idx", def = "{'reservation' : 1, 'createdDate' : 1}"),
-//    @CompoundIndex(name = "category_offers_idx", def = "{'address.area' : 1, 'address.city' : 1, 'address.country' : 1, 'category' : 1, 'reservation' : 1, 'used' : 1, 'price' : 1, 'createdDate' : 1}"),
-//    @CompoundIndex(name = "prop_offers_idx", def = "{'reservation' : 1, 'address.city' : 1, 'address.area' : 1, 'address.country' : 1, 'category' : 1, 'properties.key': 1, 'properties.value': 1, 'used' : 1, 'price' : 1, 'createdDate' : 1}"),
-//})
 
-//@CompoundIndexes({
-//        @CompoundIndex(name = "read_all_main_idx", def = "{'createdDate' : -1, 'active' : 1}"),// + сортировка
-//        @CompoundIndex(name = "createdDate_offers_idx", def = "{'createdDate' : 1}")
-//})
-
-
-/**
- * Class describe offer
- *
- * @author Kobylyatskyy Alexander
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
 
