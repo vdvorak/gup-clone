@@ -25,19 +25,19 @@
 	</appender>-->
 
 	<logger name="ua.com">
-		<level value="INFO" />
+		<level value="TRACE" />
 	</logger>
 
 	<logger name="org.apache">
-		<level value="INFO" />
+		<level value="TRACE" />
 	</logger>
 
 	<logger name="org.springframework">
-		<level value="INFO" />
+		<level value="TRACE" />
 	</logger>
 
 	<root>
-		<priority value="INFO" />
+		<priority value="TRACE" />
 	<!--	<appender-ref ref="SuiteAsync" />-->
 		<appender-ref ref="console" />
 	</root>

@@ -2,67 +2,50 @@ package ua.com.itproekt.gup.model.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.stereotype.Component;
+import ua.com.gup.domain.offer.AddressArea;
 
 import java.math.BigDecimal;
 
 @Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
-    private String coordinates;
-    private String country;
-    private String area;
-    private String city;
-    private String district;
-    private String street;
+    private AddressArea country;
+    private AddressArea district;
+    private AddressArea city;
+    private String fullAddress;
     private BigDecimal lat;
     private BigDecimal lng;
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
+    public AddressArea getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(AddressArea country) {
         this.country = country;
+    }
+
+    public AddressArea getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(AddressArea district) {
+        this.district = district;
+    }
+
+    public AddressArea getCity() {
+        return city;
+    }
+
+    public void setCity(AddressArea city) {
+        this.city = city;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 
     public BigDecimal getLat() {
@@ -81,16 +64,13 @@ public class Address {
         this.lng = lng;
     }
 
-
     @Override
     public String toString() {
         return "Address{" +
-                "coordinates='" + coordinates + '\'' +
-                ", country='" + country + '\'' +
-                ", area='" + area + '\'' +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                ", street='" + street + '\'' +
+                "country=" + country +
+                ", district=" + district +
+                ", city=" + city +
+                ", fullAddress='" + fullAddress + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
                 '}';
