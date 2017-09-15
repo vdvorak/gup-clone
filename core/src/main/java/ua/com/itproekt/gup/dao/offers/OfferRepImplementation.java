@@ -322,56 +322,6 @@ public class OfferRepImplementation implements OfferRepository {
             query.addCriteria(Criteria.where("reservation").is(null)); // not reserved
         }
 
-
-        /* ToDo it is for search in multiply city. Ask Sasha... */
-//        Set<String> cityList = offerFO.getCityList();
-//        if (offerFO.getCityList() != null) {
-//            List<Criteria> criteriaCity = new ArrayList<>();
-//
-//            for (String city : cityList) {
-//                criteriaCity.add(Criteria.where("address.city").is(city));
-//            }
-//
-//            Criteria[] criteriaArr = criteriaCity.toArray(new Criteria[cityList.size()]);
-//
-//            query.addCriteria(new Criteria().orOperator(criteriaArr));
-//        }
-
-
-
-
-
-//        query.addCriteria(Criteria.where("address.area").is("2"));
-
-//        Criteria criteria2 = new Criteria();
-//        criteria2.orOperator(Criteria.where("address.area").is("2"),
-//                Criteria.where("address.area").is("13"));
-//        query.addCriteria(criteria2);
-
-//        Criteria criteria2 = new Criteria();
-//        Criteria[] criterias = {Criteria.where("address.area").is("2"), Criteria.where("address.area").is("13")};
-//        criteria2.orOperator(criterias);
-//        query.addCriteria(criteria2);
-
-//        List<Criteria> criteriasList = new ArrayList<>();
-//        criteriasList.add( Criteria.where("address.area").is("2") );
-//        criteriasList.add(Criteria.where("address.area").is("13") );
-//
-//        Criteria criteria2 = new Criteria();
-//        Criteria[] criterias = criteriasList.toArray( new Criteria[criteriasList.size()] );
-//        criteria2.orOperator(criterias);
-//        query.addCriteria(criteria2);
-
-//        List<Criteria> criteriasList = new ArrayList<>();
-//        Criteria criteria2 = new Criteria();
-//
-//        criteriasList.add( Criteria.where("address.area").is("2") );
-//        criteriasList.add(Criteria.where("address.area").is("13") );
-//
-//        Criteria[] criterias = criteriasList.toArray( new Criteria[criteriasList.size()] );
-//        criteria2.orOperator(criterias);
-//        query.addCriteria(criteria2);
-
         /* ToDo it is for old impl of search, where we could find offer with area, city and country */
         if (offerFO.getAddresses() != null) {
             List<Criteria> criteriasAddresses = new ArrayList<>();
@@ -386,9 +336,9 @@ public class OfferRepImplementation implements OfferRepository {
                     criteriasAddresses.add( Criteria.where("address.city").is(address.getCity()) );
                 }
 
-                if (address.getArea() != null) {
+              /*  if (address.getArea() != null) {
                     criteriasAddresses.add( Criteria.where("address.area").is(address.getArea()) );
-                }
+                }*/
             }
 
             Criteria[] criterias = criteriasAddresses.toArray( new Criteria[criteriasAddresses.size()] );
@@ -403,9 +353,9 @@ public class OfferRepImplementation implements OfferRepository {
                 query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
             }
 
-            if (offerFO.getAddress().getArea() != null) {
+           /* if (offerFO.getAddress().getArea() != null) {
                 query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
-            }
+            }*/
         }
 
         if (offerFO.getSearchField() != null) {
