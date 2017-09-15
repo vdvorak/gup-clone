@@ -70,7 +70,7 @@ public class Profile {
     private String lastname;
     private String executive;
     private String contactPerson;
-    private Address address;
+    private ua.com.gup.domain.offer.Address address;
     private String imgId;
     private String imgUrl;
     private Long birthDate;
@@ -93,20 +93,16 @@ public class Profile {
     private Long lastLoginDate;
     private boolean online;
     private int notCompletedFields;
-
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
-
     private BankCard bankCard;
-
-
     private Boolean ban = false;
 
-    /* ************************************************************************************************ */
+
     /*
      * Lawyer-Profile
      */
-    private UserType userType; //private Set<String> userType;
+    private UserType userType;
     private Address lawyerAddress;
     private String nameCompany;
     private String fullNameCompany;
@@ -116,12 +112,8 @@ public class Profile {
     private String IPN;
     private Address locationAddress;
     private String mainKindActivity;
-    private Set<String> emploeyrList; //private Set<ProfileContactList> emploeyrList;
-
-    /* ************************************************************************************************ */
+    private Set<String> emploeyrList;
     private DBStorePhones storePhones;
-
-    //private String refreshToken;
 
 
     public boolean hasUserRole(String userRole) {
@@ -298,11 +290,11 @@ public class Profile {
         return this;
     }
 
-    public Address getAddress() {
+    public ua.com.gup.domain.offer.Address getAddress() {
         return address;
     }
 
-    public Profile setAddress(Address address) {
+    public Profile setAddress(ua.com.gup.domain.offer.Address address) {
         this.address = address;
         return this;
     }
