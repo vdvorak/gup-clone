@@ -18,6 +18,7 @@ public final class CookieUtil {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setMaxAge(secondExpires);
         cookie.setPath("/");
+        cookie.setDomain(".dev.gup.ua");
         resp.addCookie(cookie);
     }
 
