@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client;
+package ua.com.gup.client;
 
 import ua.com.gup.exception.RestError;
 import org.springframework.http.HttpStatus;

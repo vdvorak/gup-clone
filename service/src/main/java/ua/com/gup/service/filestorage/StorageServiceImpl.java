@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.repository.dao.filestorage.StorageRepository;
 import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.CreatedObjResp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client;
+package ua.com.gup.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;

@@ -1,16 +1,8 @@
-package ua.com.itproekt.gup.service.order.blockchain_test;
+package ua.com.gup.service.order.blockchain_test;
 
-import com.google.gson.Gson;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
-import ua.com.itproekt.gup.service.order.blockchain_test.member.*;
+import ua.com.gup.service.order.blockchain_test.member.*;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SignatureException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
 
 
 public class BlockChainAlgorithm {

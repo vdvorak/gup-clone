@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/data/mongo
        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
-    <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
+    <mongo:repositories base-package="ua.com.gup"/>
     <!--<mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo" />-->
         <!--<mongo:options connections-per-host="8"-->
                        <!--threads-allowed-to-block-for-connection-multiplier="4"-->
@@ -30,7 +30,7 @@
     <mongo:mapping-converter id="mongoConverter">
         <mongo:custom-converters>
             <mongo:converter >
-                <bean class="ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter"/>
+                <bean class="ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter"/>
             </mongo:converter>
         </mongo:custom-converters>
     </mongo:mapping-converter>

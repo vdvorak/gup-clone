@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client;
+package ua.com.gup.client;
 
 public interface BaseRestServiceClient {
 

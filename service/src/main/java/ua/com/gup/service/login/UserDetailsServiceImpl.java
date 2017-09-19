@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.login;
+package ua.com.gup.service.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.model.login.LoggedUser;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.service.profile.ProfilesService;
 
 import java.util.List;
 import java.util.Set;

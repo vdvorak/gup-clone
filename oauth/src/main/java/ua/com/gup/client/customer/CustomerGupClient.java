@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client.customer;
+package ua.com.gup.client.customer;
 
 import ua.com.itproekt.gup.client.BaseRestServiceClient;
 import ua.com.gup.model.RestCustomer;

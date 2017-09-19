@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.exception;
+package ua.com.gup.exception;
 
 import java.util.HashMap;
 import java.util.Map;

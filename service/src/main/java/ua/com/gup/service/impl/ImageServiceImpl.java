@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
+import ua.com.gup.dto.offer.OfferImageDTO;
+import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.model.offer.Image;
 import ua.com.gup.repository.FileRepository;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.ImageService;
-import ua.com.gup.service.dto.offer.OfferImageDTO;
-import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -47,7 +48,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void deleteOfferImage(String id) {
         for (OfferImageSizeType type : OfferImageSizeType.values()) {
-            fileRepository.delete(OFFER_IMAGE_PATH + type.toString().toLowerCase(), id);
+            fileRepository.delete(OFFER_IMAGE_PATH + type.toString().toLowerCase(), new Image(null,null,id));
         }
     }
 

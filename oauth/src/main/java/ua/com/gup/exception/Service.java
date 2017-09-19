@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.exception;
+package ua.com.gup.exception;
 
 public enum Service {
 	CUSTOMER_SERVICE(1, "CustomerGupErrorCode"),

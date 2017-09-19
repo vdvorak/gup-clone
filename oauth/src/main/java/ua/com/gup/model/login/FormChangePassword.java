@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.login;
+package ua.com.gup.model.login;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

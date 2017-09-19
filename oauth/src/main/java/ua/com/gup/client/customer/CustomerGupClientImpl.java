@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client.customer;
+package ua.com.gup.client.customer;
 
 import ua.com.itproekt.gup.client.BaseRestServiceClientImpl;
 import ua.com.itproekt.gup.client.GupRequestCallback;

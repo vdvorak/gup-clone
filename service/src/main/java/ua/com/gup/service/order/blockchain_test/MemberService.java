@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.service.order.blockchain_test;
+package ua.com.gup.service.order.blockchain_test;
 
 import okhttp3.Response;
-import ua.com.itproekt.gup.service.order.blockchain_test.member.Available;
+import ua.com.gup.service.order.blockchain_test.member.Available;
 
 import java.io.IOException;
 

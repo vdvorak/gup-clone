@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.login;
+package ua.com.gup.model.login;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

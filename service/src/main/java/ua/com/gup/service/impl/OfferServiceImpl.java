@@ -15,25 +15,25 @@ import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.domain.offer.OfferCategory;
-import ua.com.gup.domain.offer.OfferCategoryCount;
-import ua.com.gup.domain.offer.OfferStatistic;
+import ua.com.gup.domain.offer.model.OfferCategory;
+import ua.com.gup.domain.offer.model.OfferCategoryCount;
+import ua.com.gup.domain.offer.model.OfferStatistic;
+import ua.com.gup.dto.offer.*;
+import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
+import ua.com.gup.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
+import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.repository.OfferRepository;
 import ua.com.gup.repository.file.FileWrapper;
 import ua.com.gup.service.CurrencyConverterService;
 import ua.com.gup.service.ImageService;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.service.SequenceService;
-import ua.com.gup.service.dto.offer.*;
-import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
-import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.mapper.OfferCategoryCountMapper;
 import ua.com.gup.service.mapper.OfferMapper;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
-import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -88,7 +88,8 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
-        saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        //todo vdvorak
+        //saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
@@ -111,12 +112,13 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
         Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
-        saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+       //todo vdvorak
+        // saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
         offer.setLastModifiedDate(ZonedDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
-        if (isNeededModeration(offerUpdateDTO) || offer.getLastModerationReport().isRefused()) {
+        if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(OfferStatus.ON_MODERATION);
         } else {
             offer.setStatus(OfferStatus.ACTIVE);
@@ -137,7 +139,7 @@ public class OfferServiceImpl implements OfferService {
         log.debug("Request to save Offer modified by moderator: {}", offerModerationReportDTO);
         Offer offer = offerRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
-        if (offer.getLastModerationReport().isRefused()) {
+        if (offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(OfferStatus.REJECTED);
         } else {
             offer.setStatus(OfferStatus.ACTIVE);
@@ -359,7 +361,8 @@ public class OfferServiceImpl implements OfferService {
     public void updateActiveOffersBasePrice() {
         for (Currency currency : Currency.values()) {
             final BigDecimal exchangeRate = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal("1"));
-            offerRepository.updateBasePriceByExchangeRate(OfferStatus.ACTIVE, currency, currencyConverterService.getBaseCurrency(), exchangeRate.doubleValue());
+            //todo vdvorak
+            //offerRepository.updateBasePriceByExchangeRate(OfferStatus.ACTIVE, currency, currencyConverterService.getBaseCurrency(), exchangeRate.doubleValue());
         }
     }
 
