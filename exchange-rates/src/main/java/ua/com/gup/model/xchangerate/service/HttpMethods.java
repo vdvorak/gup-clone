@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.service;
+package ua.com.gup.model.xchangerate.service;
 
 public enum HttpMethods {
 

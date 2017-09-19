@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.offer;
+package ua.com.gup.model.offer;
 
 /**
  * Reasons of the offer's refusal. It is used by moderators.

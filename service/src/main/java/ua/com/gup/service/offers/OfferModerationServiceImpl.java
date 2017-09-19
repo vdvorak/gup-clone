@@ -1,18 +1,14 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.model.activityfeed.EventType;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
-import ua.com.itproekt.gup.util.SecurityOperations;
-
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.SecurityOperations;
 
 /**
  * Implementation of the OfferModerationService interface.
@@ -53,45 +49,41 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
         System.err.println("#3");
-        if (inputOffer.getOfferModerationReports() == null) {
+        if (inputOffer.getLastOfferModerationReport() == null) {
             return HttpStatus.BAD_REQUEST;
         }
 
-        System.err.println("#4");
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == null) {
+        //todo maybe add in future
+        /*System.err.println("#4");
+        if (inputOffer.getLastOfferModerationReport().getModerationStatus() == null) {
             return HttpStatus.BAD_REQUEST;
-        }
+        }*/
 
-        System.err.println("#5");
+        /*System.err.println("#5");
         if (inputOffer.getOfferModerationReports().getModerationStatus() != ModerationStatus.FAIL && inputOffer.getOfferModerationReports().getModerationStatus() != ModerationStatus.COMPLETE) {
             return HttpStatus.BAD_REQUEST;
-        }
+        }*/
 
         System.err.println("#6");
         if (offerAfterUpdate == null) {
             return HttpStatus.NOT_FOUND;
         }
 
-        System.err.println("#7");
+       /* System.err.println("#7");
         if (offerAfterUpdate.isDeleted()) {
             return HttpStatus.NOT_FOUND;
-        }
+        }*/
 
         // FAIL - we must have not only status FAIL but also reasons
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL
-//                && inputOffer.getOfferModerationReports().getOfferRefusalReasonses() != null) // TODO it was getOfferRefusalReasonses..!
+        /*if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL
                 && inputOffer.getOfferModerationReports().getOfferRefusalReasons() != null) // TODO it was getOfferRefusalReasons..!
         {
-//            // clear old reasons:
-//            offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasons().clear(); //offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasonses().clear();
-            // add new reasons:
             offerAfterUpdate.getOfferModerationReports().setOfferRefusalReasons(inputOffer.getOfferModerationReports().getOfferRefusalReasons()); //offerAfterUpdate.getOfferModerationReports().setOfferRefusalReasonses(inputOffer.getOfferModerationReports().getOfferRefusalReasonses());
 
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.FAIL); // TODO & setModerationStatus..?
 
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
-//            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); // TODO & subscriptionService..? //TODO ?
-        }
+        }*/
 
 
         /*
@@ -100,12 +92,11 @@ public class OfferModerationServiceImpl implements OfferModerationService {
           Then we find if this offer suit for subscriptions.
          */
         // COMPLETE
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
+        /*if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
 
-//            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); //TODO ?
-        }
+        }*/
 
 
         // if categories were changed by moderator - we send notification to user
@@ -116,10 +107,10 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
         // FixMe .getOfferModerationReports() - тут могут быть NPE
-        offerAfterUpdate.getOfferModerationReports().setLastModifiedDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        //offerAfterUpdate.getOfferModerationReports().setLastModifiedDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
 
         // set moderator ID who modified this offer
-        offerAfterUpdate.getOfferModerationReports().setModeratorId(moderatorId);
+        //offerAfterUpdate.getOfferModerationReports().setModeratorId(moderatorId);
 
         offersService.edit(offerAfterUpdate);
         System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
@@ -143,17 +134,8 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
     private String getMainOfferImage(Offer offer) {
-//        Map<String, String> imagesMap;
-//
-//        imagesMap = offer.getImagesIds();
-//
-//        for (String s : imagesMap.keySet()) {
-//            if (imagesMap.get(s).equals("1")) {
-//                return s;
-//            }
-//        }
         try {
-            return offer.getImages().get(0).getImageId();
+            return offer.getImageIds().get(0).getImageId();
         } catch (NullPointerException e){}
 
         return null;

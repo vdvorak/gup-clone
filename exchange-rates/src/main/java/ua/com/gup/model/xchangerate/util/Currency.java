@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.util;
+package ua.com.gup.model.xchangerate.util;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +8,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ua.com.gup.exception.AlreadyVerifiedTokenException;
+import ua.com.gup.exception.AuthenticationException;
+import ua.com.gup.exception.TokenHasExpiredException;
+import ua.com.gup.exception.TokenNotFoundException;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.verification.VerificationToken;
+import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.repository.dao.profile.VerificationTokenRepository;
-import ua.com.itproekt.gup.exception.AlreadyVerifiedTokenException;
-import ua.com.itproekt.gup.exception.AuthenticationException;
-import ua.com.itproekt.gup.exception.TokenHasExpiredException;
-import ua.com.itproekt.gup.exception.TokenNotFoundException;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
-import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
+import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.gup.service.emailnotification.MailSenderService;
 
 import java.util.List;
 

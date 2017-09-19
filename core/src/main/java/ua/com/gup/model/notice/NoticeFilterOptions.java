@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.notice;
+package ua.com.gup.model.notice;
 
 public class NoticeFilterOptions extends Notice {
     private int skip;

@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.offer.Rent2Repository;
-import ua.com.itproekt.gup.model.offer.Rent2;
+import ua.com.gup.model.offer.Rent2;
 
 @Service
 public class RentsServiceImpl implements RentsService {

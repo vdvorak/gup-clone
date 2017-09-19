@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.service.order.blockchain_test.member;
+package ua.com.gup.service.order.blockchain_test.member;
 
-import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
-import ua.com.itproekt.gup.service.order.blockchain_test.TransactionService;
+import ua.com.gup.model.order.blockchain_test.Transaction;
+import ua.com.gup.service.order.blockchain_test.TransactionService;
 
 
 public class BuyerTransactionService extends TransactionService {

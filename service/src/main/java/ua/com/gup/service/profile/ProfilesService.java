@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
 import ua.com.gup.dto.OfferRegistration;
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.model.profiles.ProfileRating;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

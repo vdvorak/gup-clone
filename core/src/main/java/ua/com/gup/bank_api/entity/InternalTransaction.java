@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api.entity;
+package ua.com.gup.bank_api.entity;
 
 public class InternalTransaction {
 

@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
 
 import ua.com.gup.domain.Offer;
-import ua.com.itproekt.gup.model.offer.Image;
+import ua.com.gup.model.offer.Image;
 
 import java.util.List;
 import java.util.Set;

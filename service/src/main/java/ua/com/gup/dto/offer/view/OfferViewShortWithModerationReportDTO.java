@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.offer.view;
+package ua.com.gup.dto.offer.view;
 
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.offer.OfferModerationReport;

@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.model.order.blockchain_test.transaction;
+package ua.com.gup.model.order.blockchain_test.transaction;
 
-import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
-import ua.com.itproekt.gup.model.order.blockchain_test.TransactionSignature;
+import ua.com.gup.model.order.blockchain_test.Transaction;
+import ua.com.gup.model.order.blockchain_test.TransactionSignature;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;

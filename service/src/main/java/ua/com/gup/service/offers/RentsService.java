@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 
-import ua.com.itproekt.gup.model.offer.Rent2;
+import ua.com.gup.model.offer.Rent2;
 
 public interface RentsService {
     public void create(Rent2 rent, String offerId);

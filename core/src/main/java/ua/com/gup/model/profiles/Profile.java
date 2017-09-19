@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.EnumUtils;
@@ -6,10 +6,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.domain.offer.model.Address;
-import ua.com.itproekt.gup.model.offer.GeneralPhone;
-import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
-import ua.com.itproekt.gup.util.OfferUserContactInfo;
+import ua.com.gup.model.offer.GeneralPhone;
+import ua.com.gup.model.profiles.order.OrderAddress;
+import ua.com.gup.model.profiles.phone.DBStorePhones;
+import ua.com.gup.util.OfferUserContactInfo;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

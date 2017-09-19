@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.dao.notice;
+package ua.com.gup.repository.dao.notice;
 
-import ua.com.itproekt.gup.model.notice.Notice;
-import ua.com.itproekt.gup.model.notice.NoticeFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.notice.Notice;
+import ua.com.gup.model.notice.NoticeFilterOptions;
+import ua.com.gup.util.EntityPage;
 
 
 public interface NoticeRepository {

@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
+import ua.com.gup.model.profiles.verification.VerificationToken;
 
 
 public interface VerificationTokenService {

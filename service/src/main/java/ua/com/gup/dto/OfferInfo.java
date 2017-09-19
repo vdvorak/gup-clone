@@ -1,9 +1,10 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderFeedback;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.OrderFeedback;
 
 import java.util.List;
 

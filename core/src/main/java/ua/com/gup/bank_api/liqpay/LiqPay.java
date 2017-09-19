@@ -1,10 +1,7 @@
-package ua.com.itproekt.gup.bank_api.liqpay;
+package ua.com.gup.bank_api.liqpay;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import ua.com.gup.bank_api.liqpay.LiqPayApi;
-import ua.com.gup.bank_api.liqpay.LiqPayRequest;
-import ua.com.gup.bank_api.liqpay.LiqPayUtil;
 
 import java.net.Proxy;
 import java.util.HashMap;
@@ -12,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static ua.com.gup.bank_api.liqpay.LiqPayUtil.base64_encode;
+import static ua.com.gup.bank_api.liqpay.LiqPayUtil.sha1;
 
 
 public class LiqPay implements LiqPayApi {

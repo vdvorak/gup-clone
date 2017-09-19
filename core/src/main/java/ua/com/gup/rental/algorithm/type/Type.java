@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.algorithm.type;
+package ua.com.gup.rental.algorithm.type;
 
 public class Type {
 

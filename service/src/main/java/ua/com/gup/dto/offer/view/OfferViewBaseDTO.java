@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.offer.view;
+package ua.com.gup.dto.offer.view;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +9,7 @@ import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValu
 import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
-import ua.com.gup.service.dto.offer.OfferPriceDTO;
+import ua.com.gup.dto.offer.OfferPriceDTO;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;

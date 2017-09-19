@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.siteMap.siteMapContent;
+package ua.com.gup.service.siteMap.siteMapContent;
 
 /**
  * How frequently the page is likely to change. This value provides

@@ -1,11 +1,11 @@
-package ua.com.gup.domain.offer.offers;
+package ua.com.gup.domain.offer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.offer.Rent2;
+import ua.com.gup.model.offer.Rent2;
 
 import com.mongodb.WriteResult;
 import org.springframework.data.mongodb.core.query.Query;

@@ -1,18 +1,19 @@
-package ua.com.itproekt.gup.service.siteMap;
+package ua.com.gup.service.siteMap;
 
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.siteMap.siteMapContent.ChangeFreq;
-import ua.com.itproekt.gup.service.siteMap.siteMapContent.ImageMap;
-import ua.com.itproekt.gup.service.siteMap.siteMapContent.Url;
-import ua.com.itproekt.gup.service.siteMap.siteMapContent.UrlSet;
-import ua.com.itproekt.gup.service.siteMap.siteMapIndex.SiteMap;
-import ua.com.itproekt.gup.service.siteMap.siteMapIndex.SiteMapIndex;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.offer.OfferModerationReport;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.siteMap.siteMapContent.ChangeFreq;
+import ua.com.gup.service.siteMap.siteMapContent.ImageMap;
+import ua.com.gup.service.siteMap.siteMapContent.Url;
+import ua.com.gup.service.siteMap.siteMapContent.UrlSet;
+import ua.com.gup.service.siteMap.siteMapIndex.SiteMap;
+import ua.com.gup.service.siteMap.siteMapIndex.SiteMapIndex;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -44,14 +45,16 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
 
 
         // we can show only offers which have Complete status (approve by moderators)
-        OfferModerationReports offerModerationReports = new OfferModerationReports();
-        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+        OfferModerationReport offerModerationReport = new OfferModerationReport();
+        //todo vdvorak
+        //offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setActive(true);
-        offerFilterOptions.setDeleted(false);
+        //todo vdvorak
+        //offerFilterOptions.setActive(true);
+        //offerFilterOptions.setDeleted(false);
 
-        offerFilterOptions.setOfferModerationReports(offerModerationReports);
+        offerFilterOptions.setLastOfferModerationReport(offerModerationReport);
 
 
 

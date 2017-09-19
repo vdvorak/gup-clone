@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.model.order.filter;
+package ua.com.gup.model.order.filter;
 
 
-import ua.com.itproekt.gup.model.order.Order;
+import ua.com.gup.model.order.Order;
 
 public class OrderFilterOptions extends Order {
     private int skip;

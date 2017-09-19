@@ -1,17 +1,14 @@
-package ua.com.itproekt.gup.service.order.blockchain_test;
-
-import java.io.IOException;
-import java.security.*;
-
-import java.security.cert.X509Certificate;
+package ua.com.gup.service.order.blockchain_test;
 
 import okhttp3.*;
-import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
-import ua.com.itproekt.gup.service.order.blockchain_test.member.Available;
+import ua.com.gup.model.order.blockchain_test.Transaction;
+import ua.com.gup.service.order.blockchain_test.member.Available;
 
 import javax.net.ssl.*;
-
+import java.io.IOException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 
 abstract public class TransactionService implements Available {

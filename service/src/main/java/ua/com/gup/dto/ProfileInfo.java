@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
 
-import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.gup.model.order.OrderFeedback;
+import ua.com.gup.model.profiles.Profile;
 
 import java.util.List;
 

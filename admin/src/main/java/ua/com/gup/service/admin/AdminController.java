@@ -1,11 +1,8 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.gup.service.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * @author Kobylyatskyy Alexander
- */
 @Controller
 public class AdminController {
 
@@ -56,11 +53,6 @@ public class AdminController {
     public String getAdminRentsEdit() {
         return "admin/admin-tenant-rents";
     }
-
-//    @RequestMapping("/account")
-//    public String getAccount() {
-//        return "account";
-//    }
 
     @RequestMapping("/admin-admins")
     public String getAdmins() {

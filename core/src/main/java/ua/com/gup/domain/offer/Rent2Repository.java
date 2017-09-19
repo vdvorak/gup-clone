@@ -1,7 +1,7 @@
-package ua.com.gup.domain.offer.offers;
+package ua.com.gup.domain.offer;
 
 
-import ua.com.itproekt.gup.model.offer.Rent2;
+import ua.com.gup.model.offer.Rent2;
 
 public interface Rent2Repository {
     public void create(Rent2 rent);

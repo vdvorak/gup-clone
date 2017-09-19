@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.oauth2;
+package ua.com.gup.service.oauth2;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.provider.token.DefaultAuthenticationK
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.dao.oauth2.OAuth2RefreshTokenRepository;
-import ua.com.itproekt.gup.model.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.itproekt.gup.model.oauth2.OAuth2AuthenticationRefreshToken;
+import ua.com.gup.model.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.model.oauth2.OAuth2AuthenticationRefreshToken;
 
 import java.util.Collection;
 import java.util.List;

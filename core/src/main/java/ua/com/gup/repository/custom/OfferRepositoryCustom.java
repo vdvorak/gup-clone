@@ -3,10 +3,10 @@ package ua.com.gup.repository.custom;
 
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.domain.offer.OfferCategoryCount;
+import ua.com.gup.domain.offer.model.OfferCategoryCount;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.offer;
+package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModel;
@@ -6,7 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 /**
  * DTO for creation the Offer entity.

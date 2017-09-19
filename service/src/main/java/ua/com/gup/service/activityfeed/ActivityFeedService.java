@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.service.activityfeed;
+package ua.com.gup.service.activityfeed;
 
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.model.activityfeed.EventFilterOptions;
+import ua.com.gup.util.EntityPage;
 
 public interface ActivityFeedService {
     void createEvent(Event event);

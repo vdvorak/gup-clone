@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.siteMap;
+package ua.com.gup.service.siteMap;
 
 /**
  * Service for generate site map xml.

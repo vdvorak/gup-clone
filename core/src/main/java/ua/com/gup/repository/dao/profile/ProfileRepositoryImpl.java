@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.util.MongoTemplateOperations;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.model.profiles.ProfileRating;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.*;

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.seoSequence;
+package ua.com.gup.repository.dao.seoSequence;
 
 
 public interface SeoSequenceRepository {

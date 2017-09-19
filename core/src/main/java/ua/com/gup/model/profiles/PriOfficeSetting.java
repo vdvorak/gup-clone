@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
 public enum  PriOfficeSetting {
     TENDER, PROJECT, NEWS, OFFER, INVESTMENT, BALANCE

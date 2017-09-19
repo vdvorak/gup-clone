@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.model.xchangerate;
+//package ua.com.gup.model.xchangerate;
 //
 //import java.math.BigDecimal;
 //
@@ -7,14 +7,14 @@
 //import org.testng.Assert;
 //import org.testng.annotations.Test;
 //
-//import ua.com.itproekt.gup.model.xchangerate.api.CurrencyConverter;
-//import ua.com.itproekt.gup.model.xchangerate.api.CurrencyConverterBuilder;
-//import ua.com.itproekt.gup.model.xchangerate.api.CurrencyNotSupportedException;
-//import ua.com.itproekt.gup.model.xchangerate.endpoint.EndpointException;
-//import ua.com.itproekt.gup.model.xchangerate.service.ServiceException;
-//import ua.com.itproekt.gup.model.xchangerate.storage.StorageException;
-//import ua.com.itproekt.gup.model.xchangerate.util.Currency;
-//import ua.com.itproekt.gup.model.xchangerate.util.Strategy;
+//import ua.com.gup.model.xchangerate.api.CurrencyConverter;
+//import ua.com.gup.model.xchangerate.api.CurrencyConverterBuilder;
+//import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
+//import ua.com.gup.model.xchangerate.endpoint.EndpointException;
+//import ua.com.gup.model.xchangerate.service.ServiceException;
+//import ua.com.gup.model.xchangerate.storage.StorageException;
+//import ua.com.gup.model.xchangerate.util.Currency;
+//import ua.com.gup.model.xchangerate.util.Strategy;
 //
 //
 //@Test

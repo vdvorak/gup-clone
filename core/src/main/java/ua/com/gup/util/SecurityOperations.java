@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

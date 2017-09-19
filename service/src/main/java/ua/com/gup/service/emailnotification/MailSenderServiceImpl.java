@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.emailnotification;
+package ua.com.gup.service.emailnotification;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
@@ -12,9 +12,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.SubscribeOfferEmail;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.service.profile.ProfilesService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -80,7 +81,7 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
     @Override
-    public void sendSubscriptionOfferEmail(String subscriptionId,String email, Offer offer, final Map<String, String> resources) {
+    public void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, final Map<String, String> resources) {
 
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {

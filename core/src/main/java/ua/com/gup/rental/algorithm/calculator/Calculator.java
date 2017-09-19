@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.rental.algorithm.calculator;
+package ua.com.gup.rental.algorithm.calculator;
 
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.Types;
 
 import java.math.BigDecimal;
 

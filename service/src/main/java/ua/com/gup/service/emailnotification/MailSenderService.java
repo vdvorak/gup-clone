@@ -1,5 +1,7 @@
-package ua.com.itproekt.gup.service.emailnotification;
+package ua.com.gup.service.emailnotification;
 
+
+import ua.com.gup.domain.Offer;
 
 import java.util.Map;
 

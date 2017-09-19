@@ -1,17 +1,13 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.offers.price.*;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.ConvertUtil;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.service.offers.price.*;
+import ua.com.gup.util.ConvertUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

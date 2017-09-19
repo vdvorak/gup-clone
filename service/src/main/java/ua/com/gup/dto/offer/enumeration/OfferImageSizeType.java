@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.offer.enumeration;
+package ua.com.gup.dto.offer.enumeration;
 
 
 public enum OfferImageSizeType {

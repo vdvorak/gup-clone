@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.service.offers.price;
+package ua.com.gup.service.offers.price;
 
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.util.ConvertUtil;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.util.ConvertUtil;
 
 public class Rent implements Comparable<Rent>, Cloneable {
 

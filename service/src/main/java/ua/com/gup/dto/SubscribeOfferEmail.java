@@ -1,9 +1,9 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
+
+import ua.com.gup.domain.Offer;
 
 /**
  * Wrapper class for sending email for the offers subscribers.
- *
- * @author Kobylyatskyy Alexander
  */
 public class SubscribeOfferEmail {
 

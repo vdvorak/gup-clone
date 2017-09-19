@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.siteMap.siteMapContent;
+package ua.com.gup.service.siteMap.siteMapContent;
 
 
 import javax.xml.bind.annotation.XmlElement;

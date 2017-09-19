@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.api;
+package ua.com.gup.model.xchangerate.api;
 
 public class CurrencyNotSupportedException extends Exception {
 

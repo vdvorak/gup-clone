@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 import org.springframework.stereotype.Service;
 import ua.com.gup.model.FacebookProfile;

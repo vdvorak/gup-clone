@@ -1,15 +1,15 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.OfferInfo;
 import ua.com.gup.dto.OfferRegistration;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.itproekt.gup.model.offer.Reservation;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.model.offer.Reservation;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.util.EntityPage;
 
 import java.util.List;
 import java.util.Set;

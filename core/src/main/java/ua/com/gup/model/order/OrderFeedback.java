@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order;
+package ua.com.gup.model.order;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

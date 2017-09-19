@@ -1,14 +1,16 @@
-package ua.com.itproekt.gup.service.reservationSchedule;
+package ua.com.gup.service.reservationSchedule;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.model.reservationSchedule.ReservationSchedule;
 import ua.com.gup.repository.dao.reservationSchedule.ReservationScheduleRepository;
-import ua.com.itproekt.gup.model.reservationSchedule.ReservationSchedule;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class ReservationScheduleServiceImpl implements ReservationScheduleService {

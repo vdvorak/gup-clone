@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.rental.dao;
+package ua.com.gup.rental.dao;
 
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
-import ua.com.itproekt.gup.rental.algorithm.type.OfferType;
+import ua.com.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.OfferType;
 
 import java.util.List;
 

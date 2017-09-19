@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.dao.order;
+package ua.com.gup.repository.dao.order;
 
 
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
 
 import java.util.List;
 

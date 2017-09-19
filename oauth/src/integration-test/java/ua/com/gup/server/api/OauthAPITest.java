@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.server.api;
+//package ua.com.gup.server.api;
 //
 //import com.jayway.restassured.builder.RequestSpecBuilder;
 //import com.jayway.restassured.config.RestAssuredConfig;

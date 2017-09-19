@@ -1,11 +1,12 @@
-package ua.com.itproekt.gup.service.order;
+package ua.com.gup.service.order;
 
 
+import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.OrderInfo;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.OrderFeedback;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.model.profiles.Profile;
 
 import java.util.List;
 

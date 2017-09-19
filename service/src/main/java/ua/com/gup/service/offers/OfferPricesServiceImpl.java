@@ -1,14 +1,15 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.repository.dao.filestorage.StorageRepository;
+import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.offer.OfferRepository;
+import ua.com.gup.repository.dao.filestorage.StorageRepository;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.profile.VerificationTokenService;
+import ua.com.gup.service.order.OrderService;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.profile.VerificationTokenService;
 
 @Service
 public class OfferPricesServiceImpl extends OfferPricesService {
@@ -64,8 +65,8 @@ public class OfferPricesServiceImpl extends OfferPricesService {
 
         Offer oldOffer = offerRepository.findById(offerId);
 
-        Offer newOffer = new Offer()
-                .setId(oldOffer.getId())
+        Offer newOffer = new Offer();
+        newOffer.setId(oldOffer.getId());
 //                .setModerationStatus(oldOffer.getModerationStatus())
 //                .setUserInfo(oldOffer.getUserInfo())
 //                .setCategories(oldOffer.getCategories())
@@ -90,7 +91,7 @@ public class OfferPricesServiceImpl extends OfferPricesService {
 //                .setShowOrdersCount(oldOffer.isShowOrdersCount())
 //                .setIsDeleted(oldOffer.isDeleted())
 //                .setPaidServices(oldOffer.getPaidServices())
-                .setMonthOfPrices(monthOfPrices);
+//                .setMonthOfPrices(monthOfPrices);
 
         return offerRepository.findAndUpdate(newOffer);
     }

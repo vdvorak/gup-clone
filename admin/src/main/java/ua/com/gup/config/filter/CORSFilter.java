@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.filter;
+package ua.com.gup.config.filter;
 
 import org.springframework.stereotype.Component;
 

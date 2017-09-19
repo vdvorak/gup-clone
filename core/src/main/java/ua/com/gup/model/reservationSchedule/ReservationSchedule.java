@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.reservationSchedule;
+package ua.com.gup.model.reservationSchedule;
 
 
 import org.springframework.data.annotation.Id;

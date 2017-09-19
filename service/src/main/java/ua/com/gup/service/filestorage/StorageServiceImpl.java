@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.filestorage;
+package ua.com.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.repository.dao.filestorage.StorageRepository;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

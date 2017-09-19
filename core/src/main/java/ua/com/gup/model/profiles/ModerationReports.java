@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
 /**
  * Class contains information relating to moderator activity to the profile.

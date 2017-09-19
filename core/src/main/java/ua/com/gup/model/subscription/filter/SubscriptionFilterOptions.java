@@ -1,7 +1,7 @@
-//package ua.com.itproekt.gup.model.subscription.filter;
+//package ua.com.gup.model.subscription.filter;
 //
 //
-//import ua.com.itproekt.gup.model.subscription.Subscription;
+//import ua.com.gup.model.subscription.Subscription;
 //
 //
 ///**

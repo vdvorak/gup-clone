@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain_test.transaction;
+package ua.com.gup.model.order.blockchain_test.transaction;
 
 
 public class MoneyTransferTransactionOutput {

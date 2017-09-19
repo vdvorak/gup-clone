@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.offer;
+package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModel;

@@ -13,7 +13,7 @@ import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
+import ua.com.gup.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.service.mapper.CategoryMapper;
 
 import java.util.*;

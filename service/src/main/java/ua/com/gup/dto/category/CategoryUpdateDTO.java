@@ -1,4 +1,4 @@
-package ua.com.gup.service.dto.category;
+package ua.com.gup.dto.category;
 
 public class CategoryUpdateDTO extends CategoryCreateDTO{
 

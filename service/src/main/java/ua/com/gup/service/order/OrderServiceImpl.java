@@ -1,30 +1,31 @@
-package ua.com.itproekt.gup.service.order;
+package ua.com.gup.service.order;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.repository.dao.order.OrderRepository;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.dto.OrderInfo;
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.Image;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderComment;
-import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.order.OrderStatus;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.model.activityfeed.EventType;
+import ua.com.gup.model.offer.Image;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.OrderComment;
+import ua.com.gup.model.order.OrderFeedback;
+import ua.com.gup.model.order.OrderStatus;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.repository.dao.order.OrderRepository;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.PaymentMethod;
-import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.TransportCompany;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.PaymentMethod;
+import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.TransportCompany;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -312,16 +313,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean isOrderValid(Order order, Offer offer) {
-        if (offer.getCurrency() != Currency.UAH) {
+        if (offer.getPrice().getCurrency() != Currency.UAH) {
             return false;
         }
 
         if (offer.getPrice() == null) {
             return false;
         }
-        if (offer.getPrice() < 1) {
+
+        //todo maybe in future
+        /*if (offer.getPrice() < 1) {
             return false;
-        }
+        }*/
 
         if (!isShippingMethodsValid(order, offer)) {
             return false;
@@ -331,7 +334,7 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
 
-        order.setPrice(offer.getPrice());
+        order.setPrice(offer.getPrice().getAmount().longValue());
 
         return true;
     }
@@ -339,7 +342,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean isShippingMethodsValid(Order order, Offer offer) {
-        TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
+        //todo future
+       /* TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
         Set<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
 
         for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
@@ -347,19 +351,20 @@ public class OrderServiceImpl implements OrderService {
             if (orderTransportCompany == offerTransportCompany) {
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
     @Override
     public boolean isPaymentMethodsValid(Order order, Offer offer) {
-        PaymentMethod orderPaymentMethod = order.getPaymentMethod();
+        //todo future
+        /*PaymentMethod orderPaymentMethod = order.getPaymentMethod();
         Set<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
         for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
             if (orderPaymentMethod == offerPaymentMethod) {
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -527,12 +532,13 @@ public class OrderServiceImpl implements OrderService {
      * @param offer  - the offer.
      */
     private void newOrderPreparator(String userId, Order order, Offer offer) {
-        order
+            order
                 .setBuyerId(userId)
                 .setSellerId(offer.getAuthorId())
                 .setOfferTitle(offer.getTitle())
-                .setPrice(offer.getPrice())
-                .setSeoKey(offer.getSeoKey())
+                .setPrice(offer.getPrice().getAmount().longValue())
+                //todo  vdvorak
+                //.setSeoKey(offer.getSeoKey())
                 .setSeoUrl(offer.getSeoUrl())
                 .setOfferMainImageId(findMainOfferPhoto(offer));
     }
@@ -546,7 +552,7 @@ public class OrderServiceImpl implements OrderService {
      */
     private String findMainOfferPhoto(Offer offer) {
 
-        List<Image> imageList = offer.getImages();
+        List<Image> imageList = offer.getImageIds();
 
         if (imageList != null) {
             for (Image image : imageList) {

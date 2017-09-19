@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.seosequence;
+package ua.com.gup.service.seosequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.exception.PublicProfileSequenceException;
-import ua.com.itproekt.gup.model.seosequence.PublicProfileSequence;
+import ua.com.gup.exception.PublicProfileSequenceException;
+import ua.com.gup.model.seosequence.PublicProfileSequence;
 
 @Repository
 public class PublicProfileSequenceImpl implements PublicProfileSequenceService {

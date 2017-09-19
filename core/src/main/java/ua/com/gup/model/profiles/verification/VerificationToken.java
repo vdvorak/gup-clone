@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles.verification;
+package ua.com.gup.model.profiles.verification;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;

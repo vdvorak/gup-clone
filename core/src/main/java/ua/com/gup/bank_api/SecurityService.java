@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api;
+package ua.com.gup.bank_api;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

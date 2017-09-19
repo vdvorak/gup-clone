@@ -1,7 +1,8 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 
 import org.springframework.http.HttpStatus;
+import ua.com.gup.domain.Offer;
 
 /**
  * This interface describe

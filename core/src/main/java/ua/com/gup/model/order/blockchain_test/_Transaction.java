@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.model.order.blockchain_test;
+//package ua.com.gup.model.order.blockchain_test;
 //
 //import java.io.IOException;
 //import java.io.UnsupportedEncodingException;
@@ -10,8 +10,8 @@
 //import com.google.gson.Gson;
 //
 //import org.bouncycastle.util.encoders.Hex;
-//import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataMoneyTransfer;
-//import ua.com.itproekt.gup.util.FileKeyGenerator;
+//import ua.com.gup.model.order.blockchain_test.transaction.TransactionDataMoneyTransfer;
+//import ua.com.gup.util.FileKeyGenerator;
 //
 //
 //abstract public class Transaction {

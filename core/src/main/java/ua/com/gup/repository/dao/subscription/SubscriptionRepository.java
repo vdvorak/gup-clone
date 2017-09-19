@@ -1,9 +1,9 @@
-//package ua.com.itproekt.gup.dao.subscription;
+//package ua.com.gup.repository.dao.subscription;
 //
 //
-//import ua.com.itproekt.gup.model.subscription.Subscription;
-//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-//import ua.com.itproekt.gup.util.EntityPage;
+//import ua.com.gup.model.subscription.Subscription;
+//import ua.com.gup.model.subscription.filter.SubscriptionFilterOptions;
+//import ua.com.gup.util.EntityPage;
 //
 //import java.util.List;
 //

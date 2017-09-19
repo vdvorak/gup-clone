@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.seosequence;
+package ua.com.gup.service.seosequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

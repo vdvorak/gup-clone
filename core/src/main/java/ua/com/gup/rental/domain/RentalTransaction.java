@@ -1,11 +1,11 @@
-package ua.com.itproekt.gup.rental.domain;
+package ua.com.gup.rental.domain;
 
-import ua.com.itproekt.gup.rental.algorithm.calculator.Calculator;
-import ua.com.itproekt.gup.rental.algorithm.type.Type;
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
-import ua.com.itproekt.gup.rental.algorithm.staff.Customer;
-import ua.com.itproekt.gup.rental.util.Converter;
+import ua.com.gup.rental.algorithm.calculator.Calculator;
+import ua.com.gup.rental.algorithm.type.Type;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.algorithm.staff.Customer;
+import ua.com.gup.rental.util.Converter;
 
 import java.math.BigDecimal;
 

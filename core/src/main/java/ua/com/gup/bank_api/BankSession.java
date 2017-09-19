@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api;
+package ua.com.gup.bank_api;
 
 
 import com.google.gson.Gson;
@@ -13,7 +13,6 @@ import ua.com.gup.bank_api.entity.BankUser;
 import ua.com.gup.bank_api.entity.InternalTransaction;
 import ua.com.gup.bank_api.liqpay.LiqPay;
 import ua.com.gup.bank_api.repository.*;
-import ua.com.itproekt.gup.bank_api.repository.*;
 import ua.com.gup.bank_api.services.BankService;
 import ua.com.gup.bank_api.services.Pair;
 import ua.com.gup.bank_api.util.LogUtil;

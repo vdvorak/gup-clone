@@ -1,12 +1,12 @@
-package ua.com.itproekt.gup.rental.dao;
+package ua.com.gup.rental.dao;
 
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
-import ua.com.itproekt.gup.rental.algorithm.type.OfferType;
-import ua.com.itproekt.gup.rental.model.OfferStore;
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
-import ua.com.itproekt.gup.rental.algorithm.staff.Customer;
-import ua.com.itproekt.gup.rental.domain.RentalTransaction;
+import ua.com.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.OfferType;
+import ua.com.gup.rental.model.OfferStore;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.algorithm.staff.Customer;
+import ua.com.gup.rental.domain.RentalTransaction;
 
 import java.util.LinkedList;
 import java.util.List;

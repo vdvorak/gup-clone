@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.exception;
+package ua.com.gup.exception;
 
 
 public class TokenNotFoundException extends RuntimeException {

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.offer.paidservices;
+package ua.com.gup.model.offer.paidservices;
 
 public enum Marked {
     ONE(1),

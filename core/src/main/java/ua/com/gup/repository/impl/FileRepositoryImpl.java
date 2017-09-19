@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.repository.FileRepository;
 import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.model.offer.Image;
 
 import java.util.Map;
 
@@ -58,10 +59,10 @@ public class FileRepositoryImpl implements FileRepository {
     }
 
     @Override
-    public void delete(String bucket, String id) {
+    public void delete(String bucket, Image id) {
         GridFS gridFs = new GridFS(mongoTemplate.getDb(), bucket);
-        if (ObjectId.isValid(id)) {
-            gridFs.remove(new ObjectId(id));
+        if (ObjectId.isValid(id.getImageId())) {
+            gridFs.remove(new ObjectId(id.getImageId()));
         }
     }
 }

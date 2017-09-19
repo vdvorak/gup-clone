@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.notice;
+package ua.com.gup.repository.dao.notice;
 
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.notice.Notice;
-import ua.com.itproekt.gup.model.notice.NoticeFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.MongoTemplateOperations;
+import ua.com.gup.model.notice.Notice;
+import ua.com.gup.model.notice.NoticeFilterOptions;
+import ua.com.gup.util.EntityPage;
+import ua.com.gup.util.MongoTemplateOperations;
 
 
 @Repository

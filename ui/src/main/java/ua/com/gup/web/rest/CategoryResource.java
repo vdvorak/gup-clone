@@ -23,7 +23,7 @@ import ua.com.gup.service.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.service.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.service.dto.category.CategoryCreateDTO;
 import ua.com.gup.service.dto.category.CategoryUpdateDTO;
-import ua.com.gup.service.dto.category.tree.CategoryTreeDTO;
+import ua.com.gup.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.MD5Util;

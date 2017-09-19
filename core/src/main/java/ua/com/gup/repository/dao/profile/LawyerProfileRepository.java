@@ -1,9 +1,9 @@
-//package ua.com.itproekt.gup.dao.profile;
+//package ua.com.gup.repository.dao.profile;
 //
-//import ua.com.itproekt.gup.model.profiles.LawyerProfile;
-//import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-//import ua.com.itproekt.gup.model.profiles.ProfileRating;
-//import ua.com.itproekt.gup.model.profiles.UserRole;
+//import ua.com.gup.model.profiles.LawyerProfile;
+//import ua.com.gup.model.profiles.ProfileFilterOptions;
+//import ua.com.gup.model.profiles.ProfileRating;
+//import ua.com.gup.model.profiles.UserRole;
 //
 //import java.util.List;
 //import java.util.Set;

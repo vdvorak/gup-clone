@@ -1,9 +1,9 @@
-package ua.com.gup.service.dto.offer.view;
+package ua.com.gup.dto.offer.view;
 
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.offer.model.OfferStatistic;
-import ua.com.gup.service.dto.offer.OfferAddressShortDTO;
-import ua.com.gup.service.dto.offer.OfferLandsDTO;
+import ua.com.gup.dto.offer.OfferAddressShortDTO;
+import ua.com.gup.dto.offer.OfferLandsDTO;
 
 public class OfferViewShortDTO extends OfferViewBaseDTO {
 

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
+package ua.com.gup.server.api.rest.loginAndSignUp;
 
 import org.apache.http.impl.client.HttpClients;
 import org.junit.After;
@@ -8,7 +8,7 @@ import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.dto.ProfileInfo;
 
 import java.util.*;

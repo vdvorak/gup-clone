@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.rental.algorithm.type;
+package ua.com.gup.rental.algorithm.type;
 
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
 
 
 public class OfferType extends Type {

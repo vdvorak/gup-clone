@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.storage;
+package ua.com.gup.model.xchangerate.storage;
 
 public class StorageException extends Exception {
 

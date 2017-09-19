@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.model.xchangerate.api;
+package ua.com.gup.model.xchangerate.api;
 
-import ua.com.itproekt.gup.model.xchangerate.endpoint.CurrencyLayerEndpoint;
-import ua.com.itproekt.gup.model.xchangerate.endpoint.YahooEndpoint;
-import ua.com.itproekt.gup.model.xchangerate.storage.DiskStore;
-import ua.com.itproekt.gup.model.xchangerate.storage.FileStore;
-import ua.com.itproekt.gup.model.xchangerate.util.Strategy;
+import ua.com.gup.model.xchangerate.endpoint.CurrencyLayerEndpoint;
+import ua.com.gup.model.xchangerate.endpoint.YahooEndpoint;
+import ua.com.gup.model.xchangerate.storage.DiskStore;
+import ua.com.gup.model.xchangerate.storage.FileStore;
+import ua.com.gup.model.xchangerate.util.Strategy;
 
 public class CurrencyConverterBuilder {
 	private String   _accessKey;

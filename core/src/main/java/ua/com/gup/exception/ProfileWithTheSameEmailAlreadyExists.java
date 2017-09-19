@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.exception;
+package ua.com.gup.exception;
 
 /**
  * Created by Sasha on 26.12.2015.

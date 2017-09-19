@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.repository.dao.profile.LockRemoteIPRepository;
-import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
+import ua.com.gup.model.profiles.LockRemoteIP;
 
 @Service
 public class LockRemoteIPServiceImpl implements LockRemoteIPService {

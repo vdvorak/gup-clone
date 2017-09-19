@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.rental.algorithm.staff;
+package ua.com.gup.rental.algorithm.staff;
 
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.Types;
 
 public interface BonusChargable {
 

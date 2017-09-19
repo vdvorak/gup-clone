@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.login;
+package ua.com.gup.service.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.dao.profile.ProfileRepository;
+import ua.com.gup.repository.dao.profile.ProfileRepository;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserRole;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    ProfileRepository profileRepository;
+    private ProfileRepository profileRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -31,14 +31,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
     }
-
-//    public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
-//        Profile profile = profileService.findProfileByUidAndWendor(uid, vendor);
-//        if (profile == null) {
-//            throw new UsernameNotFoundException("UID / VENDOR: [" + uid + " / " + vendor + "]");
-//        }
-//        return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
-//    }
 
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getEmail(), profile.getPassword(),

@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 
-import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
+import ua.com.gup.model.profiles.LockRemoteIP;
 
 public interface LockRemoteIPRepository {
 

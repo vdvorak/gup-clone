@@ -6,28 +6,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.category.attribute.value.*;
 import ua.com.gup.domain.offer.OfferModerationReport;
-import ua.com.gup.domain.offer.OfferStatistic;
-import ua.com.gup.domain.offer.attribute.value.*;
 import ua.com.gup.domain.offer.land.Lands;
+import ua.com.gup.domain.offer.model.OfferStatistic;
+import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
+import ua.com.gup.dto.offer.OfferCreateDTO;
+import ua.com.gup.dto.offer.OfferLandsDTO;
+import ua.com.gup.dto.offer.OfferModerationReportDTO;
+import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
+import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
+import ua.com.gup.dto.offer.view.OfferViewShortDTO;
+import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
+import ua.com.gup.model.offer.Image;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferLandsDTO;
-import ua.com.gup.service.dto.offer.OfferModerationReportDTO;
-import ua.com.gup.service.dto.offer.OfferUpdateDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewBaseDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewDetailsDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewShortDTO;
-import ua.com.gup.service.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.service.security.SecurityUtils;
 
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -67,8 +66,8 @@ public class OfferMapper {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }
         if (source.getImages() != null && source.getImages().size() > 0) {
-            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
-            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
+            List<Image> imageIds = new LinkedList<>();
+            source.getImages().forEach(i -> imageIds.add(new Image(null,null,i.getImageId())));
             target.setImageIds(imageIds);
         }
         if (source.getYoutubeVideoId() != null) {
@@ -88,7 +87,7 @@ public class OfferMapper {
         moderationReport.setRefusalReasons(source.getRefusalReasons());
         moderationReport.setModeratorId(SecurityUtils.getCurrentUserId());
         moderationReport.setLastModifiedDate(ZonedDateTime.now());
-        target.setLastModerationReport(moderationReport);
+        target.setLastOfferModerationReport(moderationReport);
     }
 
     public OfferViewShortDTO offerToOfferShortDTO(Offer offer) {
@@ -100,7 +99,7 @@ public class OfferMapper {
     public OfferViewShortWithModerationReportDTO offerToOfferViewShortWithModerationReportDTO(Offer offer) {
         OfferViewShortWithModerationReportDTO offerViewShortWithModerationReportDTO = new OfferViewShortWithModerationReportDTO();
         fromOfferToOfferViewShortDTO(offer, offerViewShortWithModerationReportDTO);
-        offerViewShortWithModerationReportDTO.setModerationReport(offer.getLastModerationReport());
+        offerViewShortWithModerationReportDTO.setModerationReport(offer.getLastOfferModerationReport());
         return offerViewShortWithModerationReportDTO;
     }
 
@@ -141,7 +140,9 @@ public class OfferMapper {
             target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
         }
         if (source.getImageIds() != null && source.getImageIds().size() > 0) {
-            target.setImageIds(source.getImageIds());
+            LinkedHashSet<String> imageIds = new LinkedHashSet<String>();
+            source.getImageIds().forEach(i -> imageIds.add(i.getImageId()));
+            target.setImageIds(imageIds);
         }
         target.setSeoUrl(source.getSeoUrl());
         target.setAttrs(source.getAttrs());
@@ -173,8 +174,8 @@ public class OfferMapper {
         }
 
         if (source.getImages() != null && source.getImages().size() > 0) {
-            LinkedHashSet<String> imageIds = new LinkedHashSet<>();
-            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
+            List<Image> imageIds = new LinkedList<Image>();
+            source.getImages().forEach(i -> imageIds.add(new Image(null,null,i.getImageId())));
             target.setImageIds(imageIds);
         }
 

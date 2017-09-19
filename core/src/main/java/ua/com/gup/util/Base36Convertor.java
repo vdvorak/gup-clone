@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 
 public class Base36Convertor {

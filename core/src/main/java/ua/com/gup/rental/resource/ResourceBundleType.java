@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.resource;
+package ua.com.gup.rental.resource;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

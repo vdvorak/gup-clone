@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.rental.algorithm;
+package ua.com.gup.rental.algorithm;
 
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
-import ua.com.itproekt.gup.rental.algorithm.type.OfferType;
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
-import ua.com.itproekt.gup.rental.dao.OfferStoreDAO;
+import ua.com.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.OfferType;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.dao.OfferStoreDAO;
 
 import java.util.Arrays;
 import java.util.List;

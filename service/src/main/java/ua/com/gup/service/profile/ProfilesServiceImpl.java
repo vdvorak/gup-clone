@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -6,28 +6,26 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.*;
+import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.OrderFeedback;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.model.profiles.*;
 import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.dao.profile.ProfileRepository;
-import ua.com.itproekt.gup.model.login.LoggedUser;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.seosequence.PublicProfileSequenceService;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.order.OrderService;
+import ua.com.gup.service.seosequence.PublicProfileSequenceService;
+import ua.com.gup.util.EntityPage;
+import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-//import ua.com.itproekt.gup.model.subscription.Subscription;
-//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 
 @Service
 public class ProfilesServiceImpl implements ProfilesService {

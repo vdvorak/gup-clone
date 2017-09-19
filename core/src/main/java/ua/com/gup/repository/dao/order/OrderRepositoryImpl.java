@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.order;
+package ua.com.gup.repository.dao.order;
 
 
 import com.mongodb.WriteResult;
@@ -8,9 +8,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.util.MongoTemplateOperations;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
