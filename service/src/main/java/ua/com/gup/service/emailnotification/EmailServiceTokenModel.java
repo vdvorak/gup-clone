@@ -1,9 +1,7 @@
-package ua.com.itproekt.gup.service.emailnotification;
+package ua.com.gup.service.emailnotification;
 
 
 import org.apache.commons.codec.binary.Base64;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 
 import java.io.Serializable;
 

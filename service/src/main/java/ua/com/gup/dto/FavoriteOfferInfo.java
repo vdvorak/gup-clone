@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
 
 
 public class FavoriteOfferInfo {

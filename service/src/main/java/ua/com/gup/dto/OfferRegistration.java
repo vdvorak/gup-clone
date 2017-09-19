@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dto;
+package ua.com.gup.dto;
 
 import ua.com.gup.domain.Offer;
 import ua.com.itproekt.gup.model.offer.Image;
