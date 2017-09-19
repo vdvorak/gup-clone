@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.algorithm;
+package ua.com.gup.rental.algorithm;
 
 public interface Command {
     void execute();

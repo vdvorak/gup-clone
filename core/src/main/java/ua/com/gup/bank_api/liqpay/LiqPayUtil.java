@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api.liqpay;
+package ua.com.gup.bank_api.liqpay;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

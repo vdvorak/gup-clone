@@ -1,22 +1,15 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 
-import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.stream.Collectors;
-import ua.com.itproekt.gup.model.profiles.LockRemoteIP;
 
-import javax.annotation.PostConstruct;
+import ua.com.gup.model.profiles.LockRemoteIP;
 
 
 @Repository

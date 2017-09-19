@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.emailnotification;
+package ua.com.gup.model.emailnotification;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

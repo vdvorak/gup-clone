@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.model.profiles.ProfileRating;
+import ua.com.gup.model.profiles.UserRole;
 
 import java.util.List;
 import java.util.Set;

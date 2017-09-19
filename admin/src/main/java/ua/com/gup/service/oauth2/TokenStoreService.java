@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package ua.com.itproekt.gup.service.oauth2;
+package ua.com.gup.service.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -12,8 +12,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
-import ua.com.itproekt.gup.dao.oauth2.OAuth2RefreshTokenRepository;
+import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
+import ua.com.gup.repository.dao.oauth2.OAuth2RefreshTokenRepository;
 import ua.com.gup.model.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.model.oauth2.OAuth2AuthenticationRefreshToken;
 

@@ -1,4 +1,4 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.domain.offer.model;
 
 
 import javax.validation.constraints.Size;

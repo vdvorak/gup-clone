@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api.services;
+package ua.com.gup.bank_api.services;
 
 /**
  * Created by Optical Illusion on 21.12.2015.

@@ -1,11 +1,11 @@
-package ua.com.itproekt.gup.model.xchangerate.endpoint;
+package ua.com.gup.model.xchangerate.endpoint;
 
 import java.math.BigDecimal;
 
 import org.json.JSONException;
 
-import ua.com.itproekt.gup.model.xchangerate.storage.DiskStore;
-import ua.com.itproekt.gup.model.xchangerate.util.Currency;
+import ua.com.gup.model.xchangerate.storage.DiskStore;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 public class CurrencyLayerEndpoint extends EndpointFactory {
 

@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.dao.reservationSchedule;
+package ua.com.gup.repository.dao.reservationSchedule;
 
-import ua.com.itproekt.gup.model.reservationSchedule.ReservationSchedule;
+import ua.com.gup.model.reservationSchedule.ReservationSchedule;
 
 public interface ReservationScheduleRepository {
 

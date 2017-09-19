@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 
 
-import ua.com.itproekt.gup.service.offers.price.Rent;
+import ua.com.gup.service.offers.price.Rent;
 
 import java.util.List;
 

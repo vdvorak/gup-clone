@@ -1,4 +1,4 @@
-package ua.com.gup.domain.offer.attribute;
+package ua.com.gup.domain.category.attribute;
 
 
 import org.springframework.data.annotation.Id;

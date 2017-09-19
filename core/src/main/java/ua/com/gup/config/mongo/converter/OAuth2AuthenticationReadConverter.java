@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.mongo.converter;
+package ua.com.gup.config.mongo.converter;
 
 import com.mongodb.DBObject;
 import org.springframework.core.convert.converter.Converter;
@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
-import ua.com.itproekt.gup.model.login.LoggedUser;
+import ua.com.gup.model.login.LoggedUser;
 
 import java.util.Collection;
 import java.util.HashSet;

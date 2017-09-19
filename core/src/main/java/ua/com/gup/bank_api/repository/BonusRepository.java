@@ -1,11 +1,11 @@
-package ua.com.itproekt.gup.bank_api.repository;
+package ua.com.gup.bank_api.repository;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.postgresql.util.Base64;
-import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.bank_api.SecurityService;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.bank_api.SecurityService;
 
 public class BonusRepository {
     private BankSession session;

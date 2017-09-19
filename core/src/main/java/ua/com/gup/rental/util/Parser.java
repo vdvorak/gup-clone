@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.util;
+package ua.com.gup.rental.util;
 
 
 public class Parser {

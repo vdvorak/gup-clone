@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.activityfeed;
+package ua.com.gup.model.activityfeed;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

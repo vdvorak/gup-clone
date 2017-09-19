@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.model;
+package ua.com.gup.rental.model;
 
 
 import java.util.Arrays;

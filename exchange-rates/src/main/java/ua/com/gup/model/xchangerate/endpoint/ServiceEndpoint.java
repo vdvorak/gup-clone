@@ -1,13 +1,13 @@
-package ua.com.itproekt.gup.model.xchangerate.endpoint;
+package ua.com.gup.model.xchangerate.endpoint;
 
 import java.math.BigDecimal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.com.itproekt.gup.model.xchangerate.api.CurrencyNotSupportedException;
-import ua.com.itproekt.gup.model.xchangerate.service.ServiceException;
-import ua.com.itproekt.gup.model.xchangerate.util.Currency;
+import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
+import ua.com.gup.model.xchangerate.service.ServiceException;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 public interface ServiceEndpoint {
 

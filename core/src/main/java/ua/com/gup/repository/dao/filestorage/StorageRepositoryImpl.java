@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.filestorage;
+package ua.com.gup.repository.dao.filestorage;
 
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -8,7 +8,7 @@ import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
+import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

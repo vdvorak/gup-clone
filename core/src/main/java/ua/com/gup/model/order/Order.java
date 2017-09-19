@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.model.order;
+package ua.com.gup.model.order;
 
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.util.PaymentMethod;
+import ua.com.gup.model.profiles.order.OrderAddress;
+import ua.com.gup.util.PaymentMethod;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

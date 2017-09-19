@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.server.api.rest.filestorage;
+//package ua.com.gup.server.api.rest.filestorage;
 //
 //import java.io.FileNotFoundException;
 //import java.net.ConnectException;
@@ -21,7 +21,7 @@
 //import org.springframework.web.HttpMediaTypeNotAcceptableException;
 //import org.springframework.web.bind.MissingServletRequestParameterException;
 //import org.springframework.web.client.RestTemplate;
-//import ua.com.itproekt.gup.util.CreatedObjResp;
+//import ua.com.gup.util.CreatedObjResp;
 //
 //import static org.hamcrest.core.IsEqual.equalTo;
 //import static org.hamcrest.MatcherAssert.assertThat;

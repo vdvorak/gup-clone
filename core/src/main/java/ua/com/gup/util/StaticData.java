@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserRole;

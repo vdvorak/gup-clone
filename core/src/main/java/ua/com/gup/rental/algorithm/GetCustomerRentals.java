@@ -1,9 +1,9 @@
-package ua.com.itproekt.gup.rental.algorithm;
+package ua.com.gup.rental.algorithm;
 
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
-import ua.com.itproekt.gup.rental.dao.OfferStoreDAO;
-import ua.com.itproekt.gup.rental.domain.RentalTransaction;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.dao.OfferStoreDAO;
+import ua.com.gup.rental.domain.RentalTransaction;
 
 import java.util.List;
 import java.util.Scanner;

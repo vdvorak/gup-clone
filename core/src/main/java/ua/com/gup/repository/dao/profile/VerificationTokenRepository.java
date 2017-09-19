@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
+import ua.com.gup.model.profiles.verification.VerificationToken;
+import ua.com.gup.model.profiles.verification.VerificationTokenType;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package ua.com.gup.domain.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 import javax.validation.constraints.NotNull;
 

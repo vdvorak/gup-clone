@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
 /**
  * The type User profile filter options, use for pagination.

@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.rental.util;
+package ua.com.gup.rental.util;
 
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
 
 import java.math.BigDecimal;
 import java.util.Currency;

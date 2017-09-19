@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.model.login;
+package ua.com.gup.model.login;
 
 
 import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter;
+import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
 import java.util.List;

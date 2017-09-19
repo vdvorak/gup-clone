@@ -1,10 +1,7 @@
-package ua.com.gup.domain.offer.attribute;
+package ua.com.gup.domain.category.attribute;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.domain.category.attribute.CategoryAttributeType;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValidator;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
 
 import java.io.Serializable;
 import java.util.*;

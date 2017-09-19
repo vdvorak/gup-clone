@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.endpoint;
+package ua.com.gup.model.xchangerate.endpoint;
 
 public class EndpointException extends Exception {
 

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.filter;
+package ua.com.gup.config.filter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

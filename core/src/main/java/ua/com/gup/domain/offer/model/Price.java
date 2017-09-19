@@ -1,9 +1,9 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.domain.offer.model;
 
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
-import ua.com.itproekt.gup.model.xchangerate.util.Currency;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

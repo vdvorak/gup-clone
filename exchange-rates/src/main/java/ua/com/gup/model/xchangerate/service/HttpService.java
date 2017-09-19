@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.xchangerate.service;
+package ua.com.gup.model.xchangerate.service;
 
 import org.json.JSONException;
 import org.json.JSONObject;

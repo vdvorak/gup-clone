@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain_test;
+package ua.com.gup.model.order.blockchain_test;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,10 +10,9 @@ import java.util.Random;
 import com.google.gson.Gson;
 
 import org.bouncycastle.util.encoders.Hex;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataAction;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataContract;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.TransactionDataMoneyTransfer;
-import ua.com.itproekt.gup.util.RSAKeyGenerator;
+import ua.com.gup.model.order.blockchain_test.transaction.TransactionDataAction;
+import ua.com.gup.model.order.blockchain_test.transaction.TransactionDataContract;
+import ua.com.gup.model.order.blockchain_test.transaction.TransactionDataMoneyTransfer;
 
 
 abstract public class Transaction {

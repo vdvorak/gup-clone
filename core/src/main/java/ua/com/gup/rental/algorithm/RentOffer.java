@@ -1,15 +1,15 @@
-package ua.com.itproekt.gup.rental.algorithm;
+package ua.com.gup.rental.algorithm;
 
-import ua.com.itproekt.gup.rental.algorithm.calculator.Calculator;
-import ua.com.itproekt.gup.rental.algorithm.type.Types;
-import ua.com.itproekt.gup.rental.algorithm.type.OfferType;
-import ua.com.itproekt.gup.rental.resource.Resource;
-import ua.com.itproekt.gup.rental.resource.ResourceBundleType;
-import ua.com.itproekt.gup.rental.algorithm.staff.Customer;
-import ua.com.itproekt.gup.rental.dao.OfferStoreDAO;
-import ua.com.itproekt.gup.rental.domain.RentalTransaction;
-import ua.com.itproekt.gup.rental.util.Converter;
-import ua.com.itproekt.gup.rental.util.Parser;
+import ua.com.gup.rental.algorithm.calculator.Calculator;
+import ua.com.gup.rental.algorithm.type.Types;
+import ua.com.gup.rental.algorithm.type.OfferType;
+import ua.com.gup.rental.resource.Resource;
+import ua.com.gup.rental.resource.ResourceBundleType;
+import ua.com.gup.rental.algorithm.staff.Customer;
+import ua.com.gup.rental.dao.OfferStoreDAO;
+import ua.com.gup.rental.domain.RentalTransaction;
+import ua.com.gup.rental.util.Converter;
+import ua.com.gup.rental.util.Parser;
 
 import java.util.Scanner;
 

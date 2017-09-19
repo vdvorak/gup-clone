@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.rental.resource;
+package ua.com.gup.rental.resource;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;

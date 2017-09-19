@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.profile;
+package ua.com.gup.repository.dao.profile;
 
 import ua.com.gup.model.profiles.Profile;
 

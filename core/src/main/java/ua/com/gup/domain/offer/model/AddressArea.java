@@ -1,4 +1,4 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.domain.offer.model;
 
 
 import io.swagger.annotations.ApiModelProperty;

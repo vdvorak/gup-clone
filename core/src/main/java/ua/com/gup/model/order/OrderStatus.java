@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order;
+package ua.com.gup.model.order;
 
 /**
  * This class describe different stages of order.

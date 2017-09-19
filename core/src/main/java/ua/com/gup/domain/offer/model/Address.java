@@ -1,10 +1,12 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.domain.offer.model;
 
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Address {
 
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)

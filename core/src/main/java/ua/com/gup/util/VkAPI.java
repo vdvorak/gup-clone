@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

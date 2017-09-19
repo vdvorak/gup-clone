@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.dto;
+package ua.com.gup.server.api.rest.dto;
 
 
 import java.io.InputStream;

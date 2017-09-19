@@ -1,6 +1,6 @@
 /* tutorial http://porterhead.blogspot.com/2014/05/securing-rest-services-with-spring.html
 */
-package ua.com.itproekt.gup.model.oauth2;
+package ua.com.gup.model.oauth2;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

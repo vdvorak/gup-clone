@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ public final class CookieUtil {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setMaxAge(secondExpires);
         cookie.setPath("/");
-        cookie.setDomain(".dev.gup.ua");
+        //cookie.setDomain("dev.gup.ua");
         resp.addCookie(cookie);
     }
 

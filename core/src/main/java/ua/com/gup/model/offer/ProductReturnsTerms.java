@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.offer;
+package ua.com.gup.model.offer;
 
 /**
  * Enum class which describe different variants of the product return terms.

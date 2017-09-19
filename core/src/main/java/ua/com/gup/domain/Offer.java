@@ -7,11 +7,13 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.offer.*;
-import ua.com.gup.domain.offer.attribute.value.OfferCategoryBoolAttributeValue;
-import ua.com.gup.domain.offer.attribute.value.OfferCategoryMultiAttributeValue;
-import ua.com.gup.domain.offer.attribute.value.OfferCategoryNumericAttributeValue;
-import ua.com.gup.domain.offer.attribute.value.OfferCategorySingleAttributeValue;
+import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValue;
+import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
+import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
+import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
 import ua.com.gup.domain.offer.land.Lands;
+import ua.com.gup.domain.offer.model.*;
+import ua.com.gup.model.offer.Image;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -57,7 +59,7 @@ public class Offer implements Serializable {
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private LinkedHashSet<String> imageIds;
+    private List<Image> imageIds;
 
     private String authorId;
 
@@ -175,11 +177,11 @@ public class Offer implements Serializable {
         this.description = description;
     }
 
-    public LinkedHashSet<String> getImageIds() {
+    public List<Image> getImageIds() {
         return imageIds;
     }
 
-    public void setImageIds(LinkedHashSet<String> imageIds) {
+    public void setImageIds(List<Image> imageIds) {
         this.imageIds = imageIds;
     }
 
@@ -271,13 +273,6 @@ public class Offer implements Serializable {
         this.statistic = statistic;
     }
 
-    public OfferModerationReport getLastModerationReport() {
-        return lastOfferModerationReport;
-    }
-
-    public void setLastModerationReport(OfferModerationReport lastOfferModerationReport) {
-        this.lastOfferModerationReport = lastOfferModerationReport;
-    }
 
     public Lands getLands() {
         return lands;

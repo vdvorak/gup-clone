@@ -1,4 +1,4 @@
-package ua.com.gup.domain.offer.attribute.value;
+package ua.com.gup.domain.category.attribute.value;
 
 public class OfferCategoryBoolAttributeValue extends OfferCategoryAttributeBaseValue{
     private Boolean selected;

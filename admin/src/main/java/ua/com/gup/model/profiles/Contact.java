@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
-import ua.com.itproekt.gup.util.SocialNetwork;
+import ua.com.gup.util.SocialNetwork;
 
 import javax.validation.constraints.Size;
 import java.util.List;

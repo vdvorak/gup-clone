@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.util;
 
 /**
  * Created by Fairy on 23.11.2015.

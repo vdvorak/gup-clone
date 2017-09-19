@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.dao.filestorage;
+package ua.com.gup.repository.dao.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
-import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
+import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 
 import java.util.Set;
 

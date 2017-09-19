@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.activityfeed;
+package ua.com.gup.repository.dao.activityfeed;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.model.activityfeed.EventFilterOptions;
+import ua.com.gup.util.EntityPage;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;

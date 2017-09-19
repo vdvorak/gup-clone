@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.activityfeed;
+package ua.com.gup.model.activityfeed;
 
 /**
  * This class describe all types of events type for notifications.

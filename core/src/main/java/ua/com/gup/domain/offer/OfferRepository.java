@@ -1,11 +1,11 @@
-package ua.com.gup.domain.offer.offers;
+package ua.com.gup.domain.offer;
 
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.gup.domain.Offer;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.util.EntityPage;
 
 import java.util.Collection;
 import java.util.Set;

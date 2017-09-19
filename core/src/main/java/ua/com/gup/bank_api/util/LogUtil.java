@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.util;
+package ua.com.gup.bank_api.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

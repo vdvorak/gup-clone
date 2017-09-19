@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.activityfeed;
+package ua.com.gup.model.activityfeed;
 
 
 public final class EventFilterOptions extends Event {

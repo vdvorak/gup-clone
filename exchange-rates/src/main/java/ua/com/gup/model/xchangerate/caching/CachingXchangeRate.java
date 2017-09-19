@@ -1,14 +1,14 @@
-package ua.com.itproekt.gup.model.xchangerate.caching;
+package ua.com.gup.model.xchangerate.caching;
 
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.com.itproekt.gup.model.xchangerate.api.CurrencyNotSupportedException;
-import ua.com.itproekt.gup.model.xchangerate.endpoint.EndpointException;
-import ua.com.itproekt.gup.model.xchangerate.storage.DiskStore;
-import ua.com.itproekt.gup.model.xchangerate.storage.StorageException;
-import ua.com.itproekt.gup.model.xchangerate.util.Currency;
+import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
+import ua.com.gup.model.xchangerate.endpoint.EndpointException;
+import ua.com.gup.model.xchangerate.storage.DiskStore;
+import ua.com.gup.model.xchangerate.storage.StorageException;
+import ua.com.gup.model.xchangerate.util.Currency;
 
 public abstract class CachingXchangeRate {
 

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao.seoSequence;
+package ua.com.gup.repository.dao.seoSequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.exception.SequenceException;
-import ua.com.itproekt.gup.model.seosequence.SeoSequence;
+import ua.com.gup.exception.SequenceException;
+import ua.com.gup.model.seosequence.SeoSequence;
 
 @Repository
 public class SeoSequenceRepositoryImpl implements SeoSequenceRepository {

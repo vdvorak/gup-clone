@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api.services;
+package ua.com.gup.bank_api.services;
 
 
 import org.json.simple.JSONObject;

@@ -1,11 +1,11 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.gup.model.profiles;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.util.OfferUserContactInfo;
+import ua.com.gup.model.profiles.order.OrderAddress;
+import ua.com.gup.util.OfferUserContactInfo;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;

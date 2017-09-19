@@ -1,9 +1,9 @@
-//package ua.com.itproekt.gup.model.subscription;
+//package ua.com.gup.model.subscription;
 //
 //
 //import org.springframework.data.annotation.Id;
 //import org.springframework.data.mongodb.core.mapping.Document;
-//import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+//import ua.com.gup.model.offer.filter.OfferFilterOptions;
 //
 //import java.time.LocalDateTime;
 //import java.time.ZoneOffset;

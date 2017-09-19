@@ -1,6 +1,6 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
-import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
+import ua.com.gup.service.offers.price.PriceOfRent;
 
 public class PriceOfRents {
 

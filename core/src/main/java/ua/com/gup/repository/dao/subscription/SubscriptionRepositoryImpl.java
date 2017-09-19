@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.dao.subscription;
+//package ua.com.gup.repository.dao.subscription;
 //
 //import com.mongodb.WriteResult;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +6,9 @@
 //import org.springframework.data.mongodb.core.query.Criteria;
 //import org.springframework.data.mongodb.core.query.Query;
 //import org.springframework.stereotype.Repository;
-//import ua.com.itproekt.gup.model.subscription.Subscription;
-//import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-//import ua.com.itproekt.gup.util.MongoTemplateOperations;
+//import ua.com.gup.model.subscription.Subscription;
+//import ua.com.gup.model.subscription.filter.SubscriptionFilterOptions;
+//import ua.com.gup.util.MongoTemplateOperations;
 //
 //import java.util.List;
 //

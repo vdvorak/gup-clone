@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.bank_api.liqpay;
+package ua.com.gup.bank_api.liqpay;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static ua.com.itproekt.gup.bank_api.liqpay.LiqPayUtil.base64_encode;
+import static ua.com.gup.bank_api.liqpay.LiqPayUtil.base64_encode;
 
 public class LiqPayRequest {
 
