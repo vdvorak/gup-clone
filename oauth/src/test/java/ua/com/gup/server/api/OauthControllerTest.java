@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api;
+package ua.com.gup.server.api;
 
 import org.hamcrest.core.StringContains;
 import org.junit.Before;
