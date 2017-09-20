@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.config;
+package ua.com.gup.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +15,9 @@ public class SwaggerConfig {
     @Bean
     public Docket apiOauth() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("oauth")
+                .groupName("REST-OAuth2-API")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ua.com.itproekt.gup"))
+                .apis(RequestHandlerSelectors.basePackage("ua.com.gup"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());

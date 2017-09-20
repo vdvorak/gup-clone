@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.socket;
+package ua.com.gup.config.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,17 +18,7 @@ import java.net.UnknownHostException;
 public class TcpNotificationClient {
 
     @Autowired
-    Environment env;
-
-//    public static void main(String[] args) {
-//        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(TcpNotificationClient.class);
-//        TcpNotificationClient tcpNotificationClient = applicationContext.getBean(TcpNotificationClient.class);
-//        try {
-//            tcpNotificationClient.transport("{\"from\":\""+InetAddress.getLocalHost().getHostAddress()+"\",\"message\":\"This is a TcpNotificationClient\"}");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private Environment env;
 
     public void transport(String notification) throws IOException {
         String host = env.getProperty("tcp.server.host");

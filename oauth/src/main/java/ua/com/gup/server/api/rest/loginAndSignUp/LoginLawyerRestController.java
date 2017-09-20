@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
+package ua.com.gup.server.api.rest.loginAndSignUp;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

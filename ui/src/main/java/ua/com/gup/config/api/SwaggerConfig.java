@@ -1,4 +1,4 @@
-package ua.com.gup.config;
+package ua.com.gup.config.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,42 +14,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket apiItproekt() {
+    public Docket apiGPU() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("itproekt")
+                .groupName("REST-API-GPU")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ua.com.itproekt.gup"))
+                .apis(RequestHandlerSelectors.basePackage("ua.com.gup"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
-    }
-
-    @Bean
-    public Docket apiAdvert() {
-        ApiInfo apiInfo = new ApiInfo(
-                "ADVERT REST API",
-                "New api for advert service.",
-                "API TOS",
-                "Terms of service",
-                new Contact("GUP", "gup.com.ua", "____"),
-                "License of API",
-                "API license URL");
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("advert")
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("ua.com.gup.web"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo);
     }
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
                 "UI REST API",
                 "Some custom description of API.",
-                "API TOS",
+                "1.0",
                 "Terms of service",
-                new Contact("GUP", "gup.com.ua", "____"),
+                new Contact("GUP", "gup.com.ua", "gpu@dev.gup.ua"),
                 "License of API",
                 "API license URL");
         return apiInfo;

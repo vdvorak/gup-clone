@@ -52,7 +52,7 @@ class CalendarPricesRestController {
   @RequestMapping(value = Array("/offer/{offerId}/price"), produces = Array(MediaType.APPLICATION_JSON_VALUE))
   def viewOfferPrices(@PathVariable offerId: String): ResponseEntity[String] = {
     if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
-    else new ResponseEntity( new OfferPricesServiceImpl(offersServiceImpl findById(offerId) ) toJson, HttpStatus OK )
+    else new ResponseEntity( new OfferPricesServiceImpl(offersServiceImpl findById(offerId) getMonthOfPrices) toJson, HttpStatus OK )
   }
 
   /**
