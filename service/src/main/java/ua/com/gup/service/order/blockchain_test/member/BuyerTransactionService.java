@@ -1,0 +1,22 @@
+package ua.com.gup.service.order.blockchain_test.member;
+
+import ua.com.gup.model.order.blockchain_test.Transaction;
+import ua.com.gup.service.order.blockchain_test.TransactionService;
+
+
+public class BuyerTransactionService extends TransactionService {
+
+    private Transaction transaction;
+
+    private BuyerTransactionService(){
+    }
+
+    public BuyerTransactionService(Transaction transaction){
+        this.transaction = transaction;
+    }
+
+    @Override
+    public Transaction getTransaction() {
+        return transaction;
+    }
+}

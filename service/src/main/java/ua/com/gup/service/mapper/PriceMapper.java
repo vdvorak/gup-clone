@@ -2,9 +2,9 @@ package ua.com.gup.service.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.Price;
+import ua.com.gup.domain.offer.model.Price;
 import ua.com.gup.service.CurrencyConverterService;
-import ua.com.gup.service.dto.offer.OfferPriceDTO;
+import ua.com.gup.dto.offer.OfferPriceDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

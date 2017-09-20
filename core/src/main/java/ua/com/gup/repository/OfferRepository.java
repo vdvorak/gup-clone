@@ -12,7 +12,6 @@ import java.util.Optional;
 /**
  * Repository for the offer entity.
  */
-@SuppressWarnings("unused")
 public interface OfferRepository extends MongoRepository<Offer, String>, OfferRepositoryCustom {
 
     Optional<Offer> findOneBySeoUrl(String seoUrl);

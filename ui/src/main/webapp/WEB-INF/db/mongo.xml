@@ -30,13 +30,13 @@
 -->
     <!-- new settings for connecting to mongo database -->
 
-    <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
+    <mongo:repositories base-package="ua.com.gup"/>
     <mongo:db-factory id="mongoDbFactory" uri="${mongo.remote.db.uri}" />
 
     <mongo:mapping-converter id="mongoConverter">
         <mongo:custom-converters>
             <mongo:converter>
-                <bean class="ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter"/>
+                <bean class="ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter"/>
             </mongo:converter>
             <mongo:converter>
                 <bean class="ua.com.gup.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter"/>

@@ -2,8 +2,8 @@ package ua.com.gup.service;
 
 
 import ua.com.gup.repository.file.FileWrapper;
-import ua.com.gup.service.dto.offer.OfferImageDTO;
-import ua.com.gup.service.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.OfferImageDTO;
+import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 
 public interface ImageService {
 

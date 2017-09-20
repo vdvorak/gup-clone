@@ -77,7 +77,6 @@ public class ExceptionTranslator {
             errorVM = new ErrorVM("error." + responseStatus.value().value(), responseStatus.reason());
         } else {
             builder = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
-//            errorVM = new ErrorVM(ErrorConstants.ERR_INTERNAL_SERVER_ERROR, "Internal server error");
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
             String exceptionAsString = sw.toString();
