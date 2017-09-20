@@ -38,5 +38,6 @@
         <module>exchange-rates</module>
         <!--<module>blockchain-client</module>-->
         <!--<module>bitcoinj</module>-->
+        <module>geo</module>
     </modules>
 </project>
