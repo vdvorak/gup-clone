@@ -28,7 +28,6 @@ public class GlobalOAuthExceptionHandler extends BaseException {
     public Map handle(MethodArgumentNotValidException exception) {
         Stream<FieldError> listErrors = exception.getBindingResult().getFieldErrors().stream();
         Map<String, List<FieldError>> errors = listErrors.collect(Collectors.groupingBy(FieldError::getField));
-
         return  responce(errors);
     }
 
@@ -43,14 +42,13 @@ public class GlobalOAuthExceptionHandler extends BaseException {
             errors.add(violation.getRootBeanClass().getName() + " " +
                     violation.getPropertyPath() + ": " + violation.getMessage());
         }
-
-
         return responce(errors);
     }
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public Object handle(Exception exception) {
+             exception.printStackTrace();
         return responce(exception.getLocalizedMessage());
     }
 

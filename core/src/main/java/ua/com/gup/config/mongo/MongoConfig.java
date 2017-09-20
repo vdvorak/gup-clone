@@ -1,31 +1,16 @@
 package ua.com.gup.config.mongo;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.mongodb.core.convert.CustomConversions;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
-import ua.com.gup.domain.util.JSR310DateConverters;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Configuration
-@EnableMongoRepositories(basePackages = "ua.com.gup")
+//@Configuration
+//@EnableMongoRepositories(basePackages = "ua.com.gup")
 public class MongoConfig {
 
-    @Bean
+  /*  @Bean
     public CustomConversions customConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();
         converters.add(JSR310DateConverters.DateToZonedDateTimeConverter.INSTANCE);
         converters.add(JSR310DateConverters.ZonedDateTimeToDateConverter.INSTANCE);
-        converters.add(JSR310DateConverters.DateToLocalDateConverter.INSTANCE);
-        converters.add(JSR310DateConverters.DateToLocalDateTimeConverter.INSTANCE);
-        converters.add(JSR310DateConverters.LocalDateTimeToDateConverter.INSTANCE);
-        converters.add(JSR310DateConverters.LocalDateToDateConverter.INSTANCE);
         converters.add(new OAuth2AuthenticationReadConverter());
         return new CustomConversions(converters);
-    }
+    }*/
 
 }

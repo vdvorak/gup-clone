@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <name>OAuth-2 REST-Service</name>
     <artifactId>oauth</artifactId>
+    <groupId>ua.com.gup</groupId>
     <version>${version}</version>
     <packaging>war</packaging>
 
 
     <parent>
-        <groupId>ua.com.itproekt</groupId>
+        <groupId>ua.com.gup</groupId>
         <artifactId>GUP</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -24,7 +25,7 @@
     <dependencies>
         <!-- BEGIN Module dependency other moduules -->
         <dependency>
-            <groupId>ua.com.itproekt</groupId>
+            <groupId>ua.com.gup</groupId>
             <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
@@ -586,7 +587,7 @@
                 </execution>
             </executions>
         </plugin>
-        <plugin>
+        <!--<plugin>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>maven-jetty-plugin</artifactId>
             <version>6.1.26</version>
@@ -621,7 +622,7 @@
                     </goals>
                 </execution>
             </executions>
-        </plugin>
+        </plugin>-->
     </plugins>
 </build>
 </project>
