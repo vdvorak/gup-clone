@@ -20,8 +20,6 @@ import ua.com.gup.util.ServiceNames;
 @RequestMapping("/api/rest/fileStorage")
 public class FileStorageRestController {
     private static final Logger LOG = Logger.getLogger(FileStorageRestController.class);
-    private final String PROFILE_SERVICE_NAME = "profile";
-    private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
 
     @Autowired
     private StorageService storageService;
@@ -36,7 +34,7 @@ public class FileStorageRestController {
     @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
     getById(@PathVariable String serviceName, @PathVariable String fileId,
-            @RequestParam(required = true, defaultValue = "large") String cachedSize) {
+            @RequestParam(defaultValue = "large") String cachedSize) {
 
         if (!isServiceNameAndRequestParamValid(serviceName, cachedSize)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,7 +55,7 @@ public class FileStorageRestController {
     @RequestMapping(value = "profile/photo/read/user/{userId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
     getAvatarPictureByUserId(@PathVariable String userId,
-                             @RequestParam(required = true, defaultValue = "large") String cachedSize) {
+                             @RequestParam(defaultValue = "large") String cachedSize) {
 
         return storageService.readProfileCachedImage(userId, cachedSize);
     }
@@ -93,7 +91,7 @@ public class FileStorageRestController {
     @RequestMapping(value = "profile/photo/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProfilePhoto() {
         String userId = SecurityOperations.getLoggedUserId();
-        if (userId != null){
+        if (userId != null) {
             storageService.deleteProfileImage(userId);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -111,7 +109,7 @@ public class FileStorageRestController {
     public ResponseEntity<Void>
     justDeleteProfilePhoto(@RequestParam MultipartFile file) {
         String userId = SecurityOperations.getLoggedUserId();
-        if (userId != null){
+        if (userId != null) {
             storageService.deleteProfileImage(userId);
             if (file.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
