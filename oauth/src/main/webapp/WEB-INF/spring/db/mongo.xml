@@ -29,8 +29,14 @@
 
     <mongo:mapping-converter id="mongoConverter">
         <mongo:custom-converters>
-            <mongo:converter >
+            <mongo:converter>
                 <bean class="ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="ua.com.gup.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="ua.com.gup.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter"/>
             </mongo:converter>
         </mongo:custom-converters>
     </mongo:mapping-converter>

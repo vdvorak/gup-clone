@@ -51,7 +51,7 @@ public class GlobalOAuthExceptionHandler extends BaseException {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public Object handle(Exception exception) {
-        return exception.getLocalizedMessage();
+        return responce(exception.getLocalizedMessage());
     }
 
     private Map responce(Object responce){
