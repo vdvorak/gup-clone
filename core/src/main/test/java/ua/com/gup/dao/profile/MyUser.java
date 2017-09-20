@@ -1,4 +1,4 @@
-package ua.com.gup.repository.dao.profile;
+package ua.com.gup.dao.profile;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

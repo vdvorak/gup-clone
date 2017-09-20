@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup;
+package ua.com.gup;
 
 import org.junit.After;
 import org.junit.Before;

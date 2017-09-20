@@ -1,17 +1,16 @@
-package ua.com.gup.repository.dao.profile;
+package ua.com.gup.dao.profile;
 
 /**
  * @see https://www.mkyong.com/mongodb/spring-data-mongodb-hello-world-example/
  */
-import java.util.List;
-
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
+import java.util.List;
 
 public class ProfileRepositoryTest2 {
 

@@ -448,15 +448,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         return rents;
     }
 
-    //    @Override
-//    public String toString() throws NoSuchElementException {
-//        StringBuilder data = new StringBuilder();
-//        for (Price prices : this) {
-//            for (Long price : prices) data.append("(" + prices.get() + ")" + convertDate(price) + " ");
-//            if (!prices.isEmpty()) data.append("\n");
-//        }
-//        return data.toString();
-//    }
     @Override
     public String toString() throws NoSuchElementException {
         StringBuilder data = new StringBuilder();
@@ -548,81 +539,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         return data.toString();
     }
 
-//    public String toJson() throws NoSuchElementException {
-////        return gson.toJson(this);
-//        int scheme = 0;
-//        StringBuilder data = new StringBuilder();
-//        data.append("{\n  \"" + monthOfPrices + "\": {\n"); //data.append("{\n");
-//        if (weekdayPrice!=null && weekendPrice!=null){
-//            for (Price prices : this) {
-//                if (scheme==0){
-//                    data.append("    \"weekday\": {\n");
-//                    data.append("      \"price\": " + prices.get() + "\n");
-//                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
-//                    if (1 < prices.size()) {
-//                        Long lastPrice = 0l;
-//                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
-//                    } else {
-//                        data.append("]\n");
-//                    }
-//                    data.append("    }\n");
-//                }
-//                if (scheme==1){
-//                    data.append("    ,\"weekend\": {\n");
-//                    data.append("      \"price\": " + prices.get() + "\n");
-//                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
-//                    if (1 < prices.size()) {
-//                        Long lastPrice = 0l;
-//                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
-//                    } else {
-//                        data.append("]\n");
-//                    }
-//                    data.append("    }\n");
-//                }
-//                if (scheme==2) data.append("    ,\"specialdays\": [\n");
-//                if (1<scheme){
-//                    if (scheme==2) data.append("      {\n");
-//                    if (2<scheme) data.append("      ,{\n");
-//                    data.append("        \"price\": " + prices.get() + "\n");
-//                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
-//                    if (1 < prices.size()) {
-//                        Long lastPrice = 0l;
-//                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
-//                    } else {
-//                        data.append("]\n");
-//                    }
-//                    data.append("      }\n");
-//                }
-//                if (scheme==(this.size()-1) && 1<scheme) data.append("    ]\n");
-//                ++scheme;
-//            }
-//        } else {
-//            if (!this.isEmpty()){ //TODO
-//                data.append("    \"specialdays\":\n  [\n");
-//                for (Price prices : this) {
-//                    if (0 < scheme) data.append("      ,{\n");
-//                    else data.append("      {\n");
-//                    data.append("      \"price\": " + prices.get() + "\n");
-//                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
-//                    if (1 < prices.size()) {
-//                        Long lastPrice = 0l;
-//                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"  ]\n");
-//                    } else {
-//                        data.append("  ]\n");
-//                    }
-//                    data.append("      }\n");
-//                    ++scheme;
-//                }
-//                data.append("    ]\n");
-//            }
-//        }
-//        data.append("  }\n}"); //data.append("}");
-//        return data.toString();
-//    }
 
     public String toJson() throws NoSuchElementException {
         int scheme = 0;
@@ -820,7 +736,6 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         Gson gson = new Gson();
         Map<String, PriceOfRentsRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, PriceOfRentsRestore>>(){}.getType());
         PriceOfRentsRestore restore = restores.get(monthOfPrices);
-//        System.err.println(restore);
         return restore;
     }
 

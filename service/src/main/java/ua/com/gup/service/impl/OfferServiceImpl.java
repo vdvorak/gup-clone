@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.Offer;
@@ -209,34 +208,6 @@ public class OfferServiceImpl implements OfferService {
         return offerViewDetailsDTO;
     }
 
-    /**
-     * Get one OfferDetailsDTO by seoUrl.
-     *
-     * @param seoUrl the seoUrl of the entity
-     * @return the entity
-     */
-//    @Override
-//    public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
-//        log.debug("Request to get Offer : {}", seoUrl);
-//        offerRepository.incrementViewsBySeoUrl(seoUrl);
-//        Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
-//        if (offer.isPresent()) {
-//            final Offer o = offer.get();
-//            final String currentUserId = SecurityUtils.getCurrentUserId();
-//            if (currentUserId.equals(o.getAuthorId())) {
-//                Set<OfferStatus> statuses = new HashSet<>();
-//                statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
-//                if (!statuses.contains(o.getStatus())) {
-//                    offer = Optional.empty();
-//                }
-//            } else {
-//                if (o.getStatus() != OfferStatus.ACTIVE) {
-//                    return Optional.empty();
-//                }
-//            }
-//        }
-//        return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
-//    }
     @Override
     public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Offer : {}", seoUrl);
@@ -357,7 +328,8 @@ public class OfferServiceImpl implements OfferService {
      * @return void
      */
     @Override
-    @Scheduled(cron = "${offer.job.updateActiveOffersBasePrice.cron}", zone = "${offer.job.updateActiveOffersBasePrice.zone}")
+    //todo vdvorak
+    //@Scheduled(cron = "${offer.job.updateActiveOffersBasePrice.cron}", zone = "${offer.job.updateActiveOffersBasePrice.zone}")
     public void updateActiveOffersBasePrice() {
         for (Currency currency : Currency.values()) {
             final BigDecimal exchangeRate = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal("1"));

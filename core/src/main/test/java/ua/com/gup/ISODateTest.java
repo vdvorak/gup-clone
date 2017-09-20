@@ -1,11 +1,10 @@
-package ua.com.itproekt.gup;
+package ua.com.gup;
 
 import com.google.gson.Gson;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class ISODateTest {
 

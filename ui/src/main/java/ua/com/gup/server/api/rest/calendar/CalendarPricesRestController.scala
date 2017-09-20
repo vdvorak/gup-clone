@@ -25,12 +25,12 @@ class CalendarPricesRestController {
   private val logger = LoggerFactory.getLogger(classOf[CalendarPricesRestController])
   private val formatter = "d.MM.yyyy"
   private val simpleDateFormat = new SimpleDateFormat(formatter)
-  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json" //???
+  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json"
   private[this] var objJsonMonth: JsonElement = null
   private[this] var objJsonRents: JsonObject = null
 
   private[this] var monthOfPrices: HashMap[String,PriceOfRent] = _
-  def setMonthOfPrices(key:String, value:PriceOfRent) = this.monthOfPrices = monthOfPrices
+//  def setMonthOfPrices(key:String, value:PriceOfRent) = this.monthOfPrices = monthOfPrices
 
 //  private[this] var rents: Map[String,RentTest] = _
 //  def setRents(key:String, value:RentTest) = this.rents = rents
@@ -45,13 +45,14 @@ class CalendarPricesRestController {
   /**
    *    URL: http://localhost:8184/api/rest/calendarService/offer/587659524c8ef1b9713b5ca3/price
    * method: GET
-   * @return Status: 200 OK | Text: {...}
+    *
+    * @return Status: 200 OK | Text: {...}
    */
   @PreAuthorize("isAuthenticated()")
   @RequestMapping(value = Array("/offer/{offerId}/price"), produces = Array(MediaType.APPLICATION_JSON_VALUE))
   def viewOfferPrices(@PathVariable offerId: String): ResponseEntity[String] = {
     if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
-    else new ResponseEntity( new OfferPricesServiceImpl(offersServiceImpl findById(offerId) getMonthOfPrices) toJson, HttpStatus OK )
+    else new ResponseEntity( new OfferPricesServiceImpl(offersServiceImpl findById(offerId) ) toJson, HttpStatus OK )
   }
 
   /**
