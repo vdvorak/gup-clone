@@ -1,26 +1,23 @@
-package ua.com.itproekt.gup.server.api.rest.calendar
+package ua.com.gup.server.api.rest.calendar
 
+import java.io.{FileNotFoundException, FileReader}
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.validation.Valid
-import com.google.gson.{JsonElement, Gson, JsonObject, JsonParser}
-import com.google.gson.reflect.TypeToken
-import java.io.FileNotFoundException
-import java.io.FileReader
 
+import com.google.gson.reflect.TypeToken
+import com.google.gson.{Gson, JsonElement, JsonObject, JsonParser}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.{ResponseEntity, MediaType, HttpStatus}
+import org.springframework.http.{HttpStatus, MediaType, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation._
+import ua.com.gup.domain.Offer
+import ua.com.gup.service.offers.price.PriceOfRent
+import ua.com.gup.service.offers.{OfferPricesServiceImpl, OffersServiceImpl, PriceOfRents}
+import ua.com.gup.util.ConvertUtil
+
 import scala.collection.mutable.HashMap
-import ua.com.itproekt.gup.model.offer.Offer
-import ua.com.itproekt.gup.server.api.rest.offers.RentTest
-import ua.com.itproekt.gup.service.offers.PriceOfRents
-import ua.com.itproekt.gup.service.offers.price.PriceOfRent
-import ua.com.itproekt.gup.service.offers.{PriceOfRents, OfferPricesServiceImpl, OffersServiceImpl, OffersService}
-import ua.com.itproekt.gup.util.ConvertUtil
 
 @RestController
 @RequestMapping(Array("/api/rest/calendarService"))

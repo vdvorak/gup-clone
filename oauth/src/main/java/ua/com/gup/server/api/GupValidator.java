@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.server.api;
+package ua.com.gup.server.api;
 
-import ua.com.itproekt.gup.exception.CustomerGupErrorCode;
-import ua.com.itproekt.gup.exception.CustomerGupException;
-import ua.com.itproekt.gup.model.RestCustomer;
+import ua.com.gup.exception.CustomerGupErrorCode;
+import ua.com.gup.exception.CustomerGupException;
+import ua.com.gup.model.RestCustomer;
 
 public class GupValidator {
 	public void validateString(String param, String paramName) {

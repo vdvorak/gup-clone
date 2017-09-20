@@ -1,12 +1,12 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.FinanceInfo;
-import ua.com.itproekt.gup.model.profiles.ProfileContactList;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.util.OfferUserContactInfo;
-import ua.com.itproekt.gup.util.TransportCompany;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.FinanceInfo;
+import ua.com.gup.model.profiles.ProfileContactList;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.model.profiles.order.OrderAddress;
+import ua.com.gup.util.OfferUserContactInfo;
+import ua.com.gup.util.TransportCompany;
 
 import java.util.*;
 

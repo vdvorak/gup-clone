@@ -1,9 +1,9 @@
 package ua.com.gup.client.customer;
 
-import ua.com.itproekt.gup.client.BaseRestServiceClientImpl;
-import ua.com.itproekt.gup.client.GupRequestCallback;
-import ua.com.itproekt.gup.client.GupResponseExtractor;
-import ua.com.itproekt.gup.client.Response;
+import ua.com.gup.client.BaseRestServiceClientImpl;
+import ua.com.gup.client.GupRequestCallback;
+import ua.com.gup.client.GupResponseExtractor;
+import ua.com.gup.client.Response;
 import ua.com.gup.exception.BaseException;
 import ua.com.gup.exception.CustomerGupErrorCode;
 import ua.com.gup.exception.CustomerGupException;

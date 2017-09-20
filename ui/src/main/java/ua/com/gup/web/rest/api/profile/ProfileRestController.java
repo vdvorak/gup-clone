@@ -12,16 +12,16 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.model.profiles.phone.*;
-import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
-import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.model.profiles.phone.*;
+import ua.com.gup.web.rest.api.profile.config.CheckMainPhone;
+import ua.com.gup.service.login.UserDetailsServiceImpl;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.model.offer.paidservices.Marked;
+import ua.com.gup.model.offer.paidservices.Marked;
 
 import java.text.ParseException;
 import java.time.LocalDate;

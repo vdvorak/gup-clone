@@ -1,9 +1,9 @@
-package ua.com.itproekt.gup.server.api;
+package ua.com.gup.server.api;
 
-import ua.com.itproekt.gup.exception.BaseException;
-import ua.com.itproekt.gup.exception.RestError;
-import ua.com.itproekt.gup.model.RestCustomer;
-import ua.com.itproekt.gup.server.api.service.CustomerGupService;
+import ua.com.gup.exception.BaseException;
+import ua.com.gup.exception.RestError;
+import ua.com.gup.model.RestCustomer;
+import ua.com.gup.server.api.service.CustomerGupService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

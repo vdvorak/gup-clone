@@ -1,11 +1,11 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.itproekt.gup.service.offers.OffersService;
+import ua.com.gup.service.offers.OffersService;
 
 import java.util.Set;
 

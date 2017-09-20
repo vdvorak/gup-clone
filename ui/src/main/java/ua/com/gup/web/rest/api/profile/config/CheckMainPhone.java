@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.model.profiles;
+package ua.com.gup.web.rest.api.profile.config;
 
 import java.util.Arrays;
 

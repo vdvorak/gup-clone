@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.client;
+package ua.com.gup.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.DefaultResponseErrorHandler;

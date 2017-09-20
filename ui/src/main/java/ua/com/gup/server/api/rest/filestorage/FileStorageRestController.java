@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.filestorage;
+package ua.com.gup.server.api.rest.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import org.apache.commons.lang3.EnumUtils;
@@ -11,14 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
-import ua.com.itproekt.gup.service.filestorage.StorageService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.ServiceNames;
-
-import java.io.IOException;
+import ua.com.gup.service.filestorage.StorageService;
+import ua.com.gup.util.CreatedObjResp;
+import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.ServiceNames;
 
 @RestController
 @RequestMapping("/api/rest/fileStorage")

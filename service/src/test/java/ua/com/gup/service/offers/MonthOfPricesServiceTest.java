@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
+import ua.com.gup.service.offers.price.PriceOfRent;
 
 /**
 * @see http://www.javacreed.com/gson-deserialiser-example/

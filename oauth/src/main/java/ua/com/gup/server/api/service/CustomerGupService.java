@@ -1,7 +1,7 @@
-package ua.com.itproekt.gup.server.api.service;
+package ua.com.gup.server.api.service;
 
-import ua.com.itproekt.gup.exception.CustomerGupException;
-import ua.com.itproekt.gup.model.RestCustomer;
+import ua.com.gup.exception.CustomerGupException;
+import ua.com.gup.model.RestCustomer;
 
 public interface CustomerGupService {
 

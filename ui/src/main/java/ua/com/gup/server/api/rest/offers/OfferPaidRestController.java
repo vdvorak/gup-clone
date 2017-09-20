@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -8,12 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.model.offer.paidservices.Marked;
-import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
-import ua.com.itproekt.gup.service.offers.OffersService;
-//import ua.com.itproekt.gup.service.subscription.SubscriptionService;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.model.offer.paidservices.Marked;
+import ua.com.gup.model.offer.paidservices.PaidServices;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.util.SecurityOperations;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,7 +76,9 @@ public class OfferPaidRestController {
         paid.setIsUrgent( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
         paid.setIsCheaper( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
         paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
-        Offer newOffer = oldOffer.setPaidServices(paid);
+        //todo vdvorak
+        //Offer newOffer = oldOffer.setPaidServices(paid);
+        Offer newOffer = oldOffer;
         offersService.edit(newOffer);
 
         return new ResponseEntity<>(oldOffer.toString(), HttpStatus.OK);
@@ -110,10 +113,12 @@ public class OfferPaidRestController {
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (marked_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, marked_cost, offerId);
-                PaidServices paid = null;
+                PaidServices paid = new PaidServices();
                 try {
-                    if(oldOffer.getPaidServices() != null){
-                        paid = oldOffer.getPaidServices();
+                    //todo vdvorak
+                    //if(oldOffer.getPaidServices() != null){
+                    if(oldOffer != null){
+                        //paid = oldOffer.getPaidServices();
                         paid.setIsMarked( addDate(paid.getIsMarked(), Marked.getMarked(Integer.valueOf(period)).period()) );
                     } else {
                         paid = new PaidServices();
@@ -125,7 +130,9 @@ public class OfferPaidRestController {
                 } catch (ParseException e) {
                     return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
                 }
-                Offer newOffer = oldOffer.setPaidServices(paid);
+                //todo vdvorak
+                //Offer newOffer = oldOffer.setPaidServices(paid);
+                Offer newOffer = oldOffer;
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
@@ -161,10 +168,14 @@ public class OfferPaidRestController {
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (urgent_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, urgent_cost, offerId);
-                PaidServices paid = null;
+                //todo vdvorak
+                //PaidServices paid = null;
+                PaidServices paid = new PaidServices();
                 try {
-                    if(oldOffer.getPaidServices() != null){
-                        paid = oldOffer.getPaidServices();
+                    //todo vdvorak
+                    //if(oldOffer.getPaidServices() != null){
+                    if(oldOffer != null){
+                        //paid = oldOffer.getPaidServices();
                         paid.setIsUrgent(addDate(paid.getIsUrgent(), Marked.getMarked(Integer.valueOf(period)).period()));
                     } else {
                         paid = new PaidServices();
@@ -176,7 +187,9 @@ public class OfferPaidRestController {
                 } catch (ParseException e) {
                     return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
                 }
-                Offer newOffer = oldOffer.setPaidServices(paid);
+                //todo vdvorak
+                //Offer newOffer = oldOffer.setPaidServices(paid);
+                Offer newOffer = oldOffer;
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
@@ -213,10 +226,14 @@ public class OfferPaidRestController {
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (cheaper_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, cheaper_cost, offerId);
-                PaidServices paid = null;
+                //todo vdvorak
+                //PaidServices paid = null;
+                PaidServices paid = new PaidServices();
                 try {
-                    if(oldOffer.getPaidServices() != null){
-                        paid = oldOffer.getPaidServices();
+                    //todo vdvorak
+                    //if(oldOffer.getPaidServices() != null){
+                    if(oldOffer != null){
+                        //paid = oldOffer.getPaidServices();
                         paid.setIsCheaper(addDate(paid.getIsCheaper(), Marked.getMarked(Integer.valueOf(period)).period()));
                     } else {
                         paid = new PaidServices();
@@ -228,7 +245,9 @@ public class OfferPaidRestController {
                 } catch (ParseException e) {
                     return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
                 }
-                Offer newOffer = oldOffer.setPaidServices(paid);
+                //todo vdvorak
+                //Offer newOffer = oldOffer.setPaidServices(paid);
+                Offer newOffer = oldOffer;
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
@@ -263,9 +282,12 @@ public class OfferPaidRestController {
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (paid_update_cost < amount){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, paid_update_cost, offerId);
-                PaidServices paid = null;
-                if(oldOffer.getPaidServices() != null){
-                    paid = oldOffer.getPaidServices();
+                //todo vdvorak
+                //PaidServices paid = null;
+                PaidServices paid = new PaidServices();
+                if(oldOffer != null){
+                //if(oldOffer.getPaidServices() != null){
+                    //paid = oldOffer.getPaidServices();
                     paid.setLastPaidUpdateDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
                 } else {
                     paid = new PaidServices();
@@ -274,7 +296,9 @@ public class OfferPaidRestController {
                     paid.setIsCheaper(0l);
                     paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
                 }
-                Offer newOffer = oldOffer.setPaidServices(paid);
+                //todo vdovorak
+                //Offer newOffer = oldOffer.setPaidServices(paid);
+                Offer newOffer = oldOffer;
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.itproekt.gup.model.offer.Reservation;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.reservationSchedule.ReservationScheduleService;
-import ua.com.itproekt.gup.util.OfferUserContactInfo;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.model.offer.Reservation;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.reservationSchedule.ReservationScheduleService;
+import ua.com.gup.util.OfferUserContactInfo;
+import ua.com.gup.util.SecurityOperations;
 
 
 /**
@@ -55,13 +57,14 @@ public class OfferReservationRestController {
         }
 
         Offer offer = offersService.findById(offerId);
-        if (!offer.getCanBeReserved() || (offer.getReservation() != null)) {
+        //todo vdvorak
+        /*if (!offer.getCanBeReserved() || (offer.getReservation() != null)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         if (period < 1 || period > offer.getMaximumReservedPeriod()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        }*/
 
         String userId = SecurityOperations.getLoggedUserId();
 

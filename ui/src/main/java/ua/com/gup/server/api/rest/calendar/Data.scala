@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.calendar
+package ua.com.gup.server.api.rest.calendar
 
 /**
  * CalendarData

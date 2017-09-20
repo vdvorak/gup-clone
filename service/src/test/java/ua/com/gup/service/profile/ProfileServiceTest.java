@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.profile;
+package ua.com.gup.service.profile;
 
 
 import org.junit.Test;
@@ -10,12 +10,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.testng.annotations.BeforeMethod;
-import ua.com.gup.repository.dao.profile.ProfileRepository;
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.service.offers.OffersServiceImpl;
-import ua.com.itproekt.gup.service.order.OrderServiceImpl;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.repository.dao.profile.ProfileRepository;
+import ua.com.gup.service.offers.OffersServiceImpl;
+import ua.com.gup.service.order.OrderServiceImpl;
+import ua.com.gup.util.EntityPage;
 
 import static org.junit.Assert.assertNull;
 

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.order;
+package ua.com.gup.server.api.rest.order;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,31 +8,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.domain.Offer;
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.exception.ResourceNotFoundException;
-import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderStatus;
-import ua.com.itproekt.gup.model.order.OrderType;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ActionTransaction;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ContractTransaction;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
-import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.service.order.blockchain_test.MemberService;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.order.blockchain_test.member.BuyerTransactionService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.PaymentMethod;
-import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.TransportCompany;
+import ua.com.gup.exception.ResourceNotFoundException;
+import ua.com.gup.model.order.Order;
+import ua.com.gup.model.order.OrderStatus;
+import ua.com.gup.model.order.OrderType;
+import ua.com.gup.model.order.blockchain_test.transaction.ActionTransaction;
+import ua.com.gup.model.order.blockchain_test.transaction.ContractTransaction;
+import ua.com.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
+import ua.com.gup.model.order.filter.OrderFilterOptions;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.order.OrderService;
+import ua.com.gup.service.order.blockchain_test.MemberService;
+import ua.com.gup.service.order.blockchain_test.member.BuyerTransactionService;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.PaymentMethod;
+import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.TransportCompany;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import java.util.List;
-
-import java.io.IOException;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
 
 
 @Controller
@@ -142,9 +145,11 @@ public class OrderRestController {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
         if (offer == null) {
             return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-        } else if (offer.isDeleted()) {
-            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
         }
+        //todo vdvorak
+        /*else if (offer.isDeleted()) {
+            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
+        }*/
 
         String userId = SecurityOperations.getLoggedUserId();
         if (userId!=null){
@@ -172,7 +177,7 @@ public class OrderRestController {
                      * 7. Формируем из банка транзакцию типа MONEY_TRANSFER
                      */
                     if(true){ //TODO if(type_transcation.equals("MONEY_TRANSFER")){
-                        buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(String.valueOf(USER_CARD), offer.getPrice(), /*PUBLIC_HASH*/null, SIGNATURE_STORE, BANK_TRANSACTION_ID)));
+                        buyer = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(String.valueOf(USER_CARD), offer.getPrice().getAmount().longValue(),null, SIGNATURE_STORE, BANK_TRANSACTION_ID)));
 
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
                         Gson gson = new Gson();
@@ -201,7 +206,7 @@ public class OrderRestController {
                      * 4. Формируем в блокчейн транзакцию типа CONTRACT
                      */
                     if(type_transcation.equals("CONTRACT") && buyer!=null){
-                        buyer = new MemberService(new BuyerTransactionService(new ContractTransaction(buyer.getTransaction().getTransaction().get_hash(), new String[]{offer.getAuthorId(),userId}, TIMESTAMP, offer.getId(), offer.getPrice())));
+                        buyer = new MemberService(new BuyerTransactionService(new ContractTransaction(buyer.getTransaction().getTransaction().get_hash(), new String[]{offer.getAuthorId(),userId}, TIMESTAMP, offer.getId(), offer.getPrice().getAmount().longValue())));
 
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
                         Gson gson = new Gson();
@@ -223,9 +228,10 @@ public class OrderRestController {
                        // order.setPublicKey(PUBLIC_KEY);
                         order.setHashTransaction(buyer.getTransaction().getTransaction().get_hash());
                         order.setSeoUrl(offer.getSeoUrl());
-                        order.setSeoKey(offer.getSeoKey());
+                        //todo vdvorak
+                        //order.setSeoKey(offer.getSeoKey());
                         order.setOrderType(OrderType.PURCHASE);
-                        order.setPrice(offer.getPrice());
+                        order.setPrice(offer.getPrice().getAmount().longValue());
                         orderService.create(userId, order, offer);
                         return new ResponseEntity<>(gson.toJson(buyer), HttpStatus.OK); //TODO return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
 //TODO                      }
@@ -234,7 +240,7 @@ public class OrderRestController {
 
                     ////////////////////////////////////////////////////////////////////////////////////////////////////
                     if(type_transcation.equals("ACTION") && buyer!=null){
-                        buyer = new MemberService(new BuyerTransactionService(new ActionTransaction(buyer.getTransaction().getTransaction().get_hash(), offer.getAuthorId(), TIMESTAMP, offer.getId(), offer.getPrice(), /*sellerProfileInfo.getProfile().getPublicHash()*/null, type_transcation)));
+                        buyer = new MemberService(new BuyerTransactionService(new ActionTransaction(buyer.getTransaction().getTransaction().get_hash(), offer.getAuthorId(), TIMESTAMP, offer.getId(), offer.getPrice().getAmount().longValue(),null, type_transcation)));
 
                         System.err.println( "////////////////////////////////////////////////////////////////////////////////////////////////////" );
                         Gson gson = new Gson();

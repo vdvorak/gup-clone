@@ -1,9 +1,10 @@
-package ua.com.itproekt.gup.server.api.rest.finance;
+package ua.com.gup.server.api.rest.finance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.SecurityOperations;
 
 import java.util.Map;
 

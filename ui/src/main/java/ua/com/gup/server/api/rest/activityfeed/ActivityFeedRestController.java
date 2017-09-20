@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.activityfeed;
+package ua.com.gup.server.api.rest.activityfeed;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,11 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
-import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.model.activityfeed.EventFilterOptions;
+import ua.com.gup.service.activityfeed.ActivityFeedService;
+import ua.com.gup.util.EntityPage;
+import ua.com.gup.util.SecurityOperations;
 
 @RestController
 @RequestMapping("/api/rest/activityFeed")

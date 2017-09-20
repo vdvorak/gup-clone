@@ -15,7 +15,7 @@ import ua.com.gup.domain.complaint.ComplaintOfferType;
 import ua.com.gup.service.ComplaintOfferService;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;

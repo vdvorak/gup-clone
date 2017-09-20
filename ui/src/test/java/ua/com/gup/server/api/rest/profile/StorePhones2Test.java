@@ -1,10 +1,10 @@
-package ua.com.itproekt.gup.server.api.rest.profile;
+package ua.com.gup.server.api.rest.profile;
 
 
 import com.google.gson.Gson;
-import ua.com.itproekt.gup.model.profiles.phone.DBStorePhones;
-import ua.com.itproekt.gup.model.profiles.phone.PhoneSynhronize;
-import ua.com.itproekt.gup.model.profiles.phone.ProfileStorePhones;
+import ua.com.gup.model.profiles.phone.DBStorePhones;
+import ua.com.gup.model.profiles.phone.PhoneSynhronize;
+import ua.com.gup.model.profiles.phone.ProfileStorePhones;
 
 import java.util.*;
 import java.util.stream.Collectors;

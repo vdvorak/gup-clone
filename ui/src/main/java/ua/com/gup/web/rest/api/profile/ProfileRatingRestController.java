@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileRating;
+import ua.com.gup.service.profile.ProfilesService;
 
 /**
  * The type Profile rating rest controller.

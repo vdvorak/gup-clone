@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model;
+package ua.com.gup.model;
 
 public class RestCustomer {
 	private Long     id;

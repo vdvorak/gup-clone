@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.filestorage;
+package ua.com.gup.server.api.rest.filestorage;
 
 
 import com.mongodb.gridfs.GridFSDBFile;
@@ -9,9 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.filestorage.StorageService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.service.filestorage.StorageService;
+import ua.com.gup.service.profile.ProfilesService;
 
 
 /**

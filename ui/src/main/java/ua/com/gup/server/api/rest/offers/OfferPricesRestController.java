@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -10,11 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.offer.Rent2;
-import ua.com.itproekt.gup.service.offers.PriceOfRents;
-import ua.com.itproekt.gup.service.offers.OfferPricesServiceImpl;
-import ua.com.itproekt.gup.service.offers.RentsService;
-import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
+import ua.com.gup.model.offer.Rent2;
+import ua.com.gup.service.offers.PriceOfRents;
+import ua.com.gup.service.offers.OfferPricesServiceImpl;
+import ua.com.gup.service.offers.RentsService;
+import ua.com.gup.service.offers.price.PriceOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

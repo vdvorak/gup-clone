@@ -1,13 +1,13 @@
-package ua.com.itproekt.gup.filter;
+package ua.com.gup.config.filter;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import ua.com.itproekt.gup.util.CookieUtil;
-import ua.com.itproekt.gup.util.LogUtil;
-import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.gup.util.CookieUtil;
+import ua.com.gup.bank_api.util.LogUtil;
+import ua.com.gup.util.Oauth2Util;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;

@@ -1,8 +1,9 @@
-package ua.com.itproekt.gup.server.api.rest.invitecodes;
+package ua.com.gup.server.api.rest.invitecodes;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.gup.bank_api.BankSession;
 
 public class BonusRestControllerTest {
 

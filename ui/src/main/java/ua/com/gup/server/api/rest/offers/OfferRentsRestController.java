@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,13 +6,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.offer.Rent2;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.offers.*;
-import ua.com.itproekt.gup.service.offers.price.RentUser;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.ConvertUtil;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.model.offer.Rent2;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.service.offers.*;
+import ua.com.gup.service.offers.price.RentUser;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.ConvertUtil;
+import ua.com.gup.util.SecurityOperations;
 
 /**
  * GET

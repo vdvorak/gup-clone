@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import java.util.Arrays;
 

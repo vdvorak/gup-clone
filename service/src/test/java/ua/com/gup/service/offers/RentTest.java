@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.offers;
+package ua.com.gup.service.offers;
 
 import java.util.Arrays;
 

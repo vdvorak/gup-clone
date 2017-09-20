@@ -11,12 +11,12 @@ import org.springframework.validation.Validator;
 import ua.com.gup.domain.category.attribute.CategoryAttributeType;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeDTO;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeValidatorDTO;
-import ua.com.gup.service.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.service.dto.offer.OfferAddressDTO;
-import ua.com.gup.service.dto.offer.OfferCreateDTO;
-import ua.com.gup.service.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
+import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
+import ua.com.gup.dto.offer.OfferAddressDTO;
+import ua.com.gup.dto.offer.OfferCreateDTO;
+import ua.com.gup.dto.offer.OfferUpdateDTO;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

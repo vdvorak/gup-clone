@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.invitecodes;
+package ua.com.gup.server.api.rest.invitecodes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.bank_api.BankSession;
+import ua.com.gup.util.SecurityOperations;
 
 
 @Controller

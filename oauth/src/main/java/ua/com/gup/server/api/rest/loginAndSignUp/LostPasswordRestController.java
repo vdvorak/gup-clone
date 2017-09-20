@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
+package ua.com.gup.server.api.rest.loginAndSignUp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,18 +16,18 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.login.FormLostPassword;
-import ua.com.itproekt.gup.model.login.LoggedUser;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.gup.model.login.FormLostPassword;
+import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
-import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
-import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.CookieUtil;
-import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.gup.model.profiles.verification.VerificationTokenType;
+import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.gup.service.emailnotification.MailSenderService;
+import ua.com.gup.service.login.UserDetailsServiceImpl;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.profile.VerificationTokenService;
+import ua.com.gup.util.CookieUtil;
+import ua.com.gup.util.Oauth2Util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

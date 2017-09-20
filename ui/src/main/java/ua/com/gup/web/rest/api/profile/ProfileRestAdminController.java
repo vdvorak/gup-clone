@@ -1,4 +1,4 @@
-package ua.com.gup.web.rest.api;
+package ua.com.gup.web.rest.api.profile;
 
 
 import com.google.gson.Gson;
@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.service.profile.ProfilesService;
 
 import java.util.HashSet;
 import java.util.List;

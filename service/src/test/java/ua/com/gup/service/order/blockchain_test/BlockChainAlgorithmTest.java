@@ -1,12 +1,12 @@
-package ua.com.itproekt.gup.service.order.blockchain_test;
+package ua.com.gup.service.order.blockchain_test;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
-import ua.com.itproekt.gup.service.order.blockchain_test.member.*;
+import ua.com.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
+import ua.com.gup.service.order.blockchain_test.member.*;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;

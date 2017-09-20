@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.offers;
+package ua.com.gup.server.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,18 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.dto.OfferInfo;
 import ua.com.gup.dto.OfferRegistration;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.service.offers.OfferModerationService;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.service.siteMap.SiteMapGeneratorService;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.service.offers.OfferModerationService;
+import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.profile.VerificationTokenService;
+import ua.com.gup.service.seosequence.SeoSequenceService;
+import ua.com.gup.service.siteMap.SiteMapGeneratorService;
+import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -66,9 +67,10 @@ public class OfferRestController {
             return new ResponseEntity<>("Offer with this seoUrl is not exist", HttpStatus.NOT_FOUND);
         }
 
-        if (offer.isDeleted()) {
+        //todo vdvorak
+        /*if (offer.isDeleted()) {
             return new ResponseEntity<>("Offer with this seoUrl was deleted", HttpStatus.NOT_FOUND);
-        }
+        }*/
 
         String userId = SecurityOperations.getLoggedUserId();
 
@@ -80,9 +82,10 @@ public class OfferRestController {
             if (offer.getAuthorId().equals(userId)) {
                 offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
             } else {
-                if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
+                //todo vdvorak
+               /* if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
                     return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
-                }
+                }*/
                 offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }
         } else {
@@ -114,9 +117,10 @@ public class OfferRestController {
             return new ResponseEntity<>("Offer with this seoUrl is not exist", HttpStatus.NOT_FOUND);
         }
 
-        if (offer.isDeleted()) {
+        //todo vdvorak
+      /*  if (offer.isDeleted()) {
             return new ResponseEntity<>("Offer with this seoUrl was deleted", HttpStatus.NOT_FOUND);
-        }
+        }*/
 
         String userId = SecurityOperations.getLoggedUserId();
 
@@ -128,9 +132,10 @@ public class OfferRestController {
             if (offer.getAuthorId().equals(userId)) {
                 offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
             } else {
-                if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
+                //todo vdvorak future
+               /* if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
                     return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
-                }
+                }*/
                 offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }
         } else {
@@ -150,12 +155,13 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO) {
         /* we can show only offers which have Complete status (approve by moderators) */
-        OfferModerationReports offerModerationReports = new OfferModerationReports();
-        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+        OfferModerationReport offerModerationReport = new OfferModerationReport();
 
-        offerFO.setActive(true);
-        offerFO.setDeleted(false);
-        offerFO.setOfferModerationReports(offerModerationReports);
+        //todo vdvorak future
+        //offerModerationReport.setModerationStatus(ModerationStatus.COMPLETE);
+        /*offerFO.setActive(true);
+        offerFO.setDeleted(false);*/
+        offerFO.setLastOfferModerationReport(offerModerationReport);
 
         if (offerFO.isMain()) {
             offerFO.setCreatedDateSortDirection("DESC");
@@ -182,7 +188,8 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         offerFO.setAuthorId(userId);
-        offerFO.setDeleted(true);
+        //todo vdvorak
+        //offerFO.setDeleted(true);
 
 
         return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
@@ -292,10 +299,10 @@ public class OfferRestController {
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if (offer.isDeleted()) {
+        //todo vdvorak
+        /*if (offer.isDeleted()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        }*/
 
         String userId = SecurityOperations.getLoggedUserId();
 
@@ -303,11 +310,12 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if (offer.getActive()) {
+        //todo vdvorak
+        /*if (offer.getActive()) {
             offer.setActive(false);
         } else {
             offer.setActive(true);
-        }
+        }*/
 
         offersService.edit(offer);
 
@@ -338,7 +346,8 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        offer.setDeleted(true);
+        //todo vdvorak
+        //offer.setDeleted(true);
 
         offersService.edit(offer);
 
@@ -381,7 +390,7 @@ public class OfferRestController {
      * @return - the status.
      */
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("hasRole({'ROLE_ADMIN','ROLE_MODERATOR'})")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@RequestBody Offer inputOffer) {
         System.err.println("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
