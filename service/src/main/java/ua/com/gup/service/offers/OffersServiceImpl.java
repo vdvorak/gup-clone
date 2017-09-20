@@ -59,22 +59,15 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
-
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
-
-        if (offerRegistration.getOffer().getImageIds() != null) {
+        if (offerRegistration.getImages() != null) {
             // prepare images
-            List<Image> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
-
+            List<String> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
             // add prepared image to the offer
             offerRegistration.getOffer().setImageIds(resultImageList);
         }
-
-
         // create new offer
         create(offerRegistration.getOffer());
-
         return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
     }
 
@@ -95,7 +88,8 @@ public class OffersServiceImpl implements OffersService {
                 images.add(image);
 
             }
-            offer.setImageIds(images);
+            //todo vdvorak
+            //offer.setImageIds(images);
         }catch (NullPointerException e){
             offer.setImageIds(null);
         }
@@ -175,7 +169,7 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void delete(String id) {
-        List<Image> imagesIds = findById(id).getImageIds();
+        List<String> imagesIds = findById(id).getImageIds();
         if (imagesIds != null) {
             offerRepository.delete(id);
         }
@@ -413,13 +407,11 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public String getMainOfferImage(Offer offer) {
-
-        List<Image> imageList = offer.getImageIds();
-
-        if (imageList != null) {
-            for (Image image : imageList) {
-                if (StringUtils.isNotBlank(image.getImageId())) {
-                    return image.getImageId();
+        List<String> imageListId = offer.getImageIds();
+        if (imageListId != null) {
+            for (String imageId : imageListId) {
+                if (StringUtils.isNotBlank(imageId)) {
+                    return imageId;
                 }
             }
         }
@@ -627,26 +619,17 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    private List<Image> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
-        List<Image> images = offerRegistration.getOffer().getImageIds();
-
-        List<Image> resultImages = new ArrayList<>();
-
+    private List<String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
+        List<Image> images = offerRegistration.getImages();
+        List<String> resultImages = new ArrayList<>();
         for (Image image : images) {
-
             Integer currentImageIndex = image.getIndex();
-
             if (currentImageIndex != null) {
-
                 addImageToTheImageLIst(resultImages, files[currentImageIndex]);
-
             } else if (StringUtils.isNotBlank(image.getUrl())) {
-
                 MultipartFile multipartFile = storageService.imageDownloader(image.getUrl());
-
                 addImageToTheImageLIst(resultImages, multipartFile);
             }
-
         }
         return resultImages;
     }
@@ -659,10 +642,9 @@ public class OffersServiceImpl implements OffersService {
      * @param resultImages  - the result image list.
      * @param multipartFile - the multipart file.
      */
-    private void addImageToTheImageLIst(List<Image> resultImages, MultipartFile multipartFile) {
+    private void addImageToTheImageLIst(List<String> resultImages, MultipartFile multipartFile) {
         FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
         Image newImage = new Image();
-
         try {
             fileUploadWrapper
                     .setServiceName("offers")
@@ -674,27 +656,24 @@ public class OffersServiceImpl implements OffersService {
         }
         String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
         newImage.setImageId(newImageId);
-        resultImages.add(newImage);
+        resultImages.add(newImage.getImageId());
 
     }
 
 
-    private List<Image> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
+    private List<String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
 
-        List<Image> resultImages = new ArrayList<>();
+        List<String> resultImages = new ArrayList<>();
         FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
 
-        List<Image> newImageList = newOfferRegistration.getOffer().getImageIds();
-        List<Image> oldImageList = oldOffer.getImageIds();
+        List<Image> newImageList = newOfferRegistration.getImages();
+        List<String> oldImageList = oldOffer.getImageIds();
         deleteImages(oldImageList, newImageList); // delete unnecessary images
 
         for (Image image : newImageList) {
-
             Integer currentImageIndex = image.getIndex();
             Image newImage = new Image();
-
             if (currentImageIndex != null) {
-
                 // Сохраняем одну фотографию, которая лежит по указанному индексу
                 try {
                     fileUploadWrapper
@@ -707,10 +686,10 @@ public class OffersServiceImpl implements OffersService {
                 }
                 String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
                 newImage.setImageId(newImageId);
-                resultImages.add(newImage);
+                resultImages.add(newImageId);
             } else if (StringUtils.isNotBlank(image.getImageId())) {
                 newImage.setImageId(image.getImageId());
-                resultImages.add(newImage);
+                resultImages.add(image.getImageId());
             }
         }
 
@@ -724,24 +703,19 @@ public class OffersServiceImpl implements OffersService {
      * @param oldImageList - the old Image list.
      * @param newImageList - the new Image list.
      */
-    private void deleteImages(List<Image> oldImageList, List<Image> newImageList) {
+    private void deleteImages(List<String> oldImageList, List<Image> newImageList) {
         Set<String> setOfTheImagesForDelete = new HashSet<>();
-
         boolean isDeleted;
-
-        for (Image oldImage : oldImageList) {
+        for (String oldImage : oldImageList) {
             isDeleted = true;
-
             for (Image newImage : newImageList) {
-                if (oldImage.getImageId().equals(newImage.getImageId())) {
+                if (oldImage.equals(newImage.getImageId())) {
                     isDeleted = false;
                 }
             }
-
             if (isDeleted) {
-                setOfTheImagesForDelete.add(oldImage.getImageId());
+                setOfTheImagesForDelete.add(oldImage);
             }
-
         }
         storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }

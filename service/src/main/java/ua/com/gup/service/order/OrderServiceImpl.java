@@ -8,7 +8,6 @@ import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.dto.OrderInfo;
 import ua.com.gup.model.activityfeed.Event;
 import ua.com.gup.model.activityfeed.EventType;
-import ua.com.gup.model.offer.Image;
 import ua.com.gup.model.order.Order;
 import ua.com.gup.model.order.OrderComment;
 import ua.com.gup.model.order.OrderFeedback;
@@ -551,13 +550,11 @@ public class OrderServiceImpl implements OrderService {
      * @return - the main photo ID.
      */
     private String findMainOfferPhoto(Offer offer) {
-
-        List<Image> imageList = offer.getImageIds();
-
-        if (imageList != null) {
-            for (Image image : imageList) {
-                if (StringUtils.isNotBlank(image.getImageId())) {
-                    return image.getImageId();
+        List<String> imageListId = offer.getImageIds();
+        if (imageListId != null) {
+            for (String imageId : imageListId) {
+                if (StringUtils.isNotBlank(imageId)) {
+                    return imageId;
                 }
             }
         }

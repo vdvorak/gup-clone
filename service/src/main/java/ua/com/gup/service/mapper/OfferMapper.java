@@ -20,7 +20,6 @@ import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
-import ua.com.gup.model.offer.Image;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.service.CategoryService;
 import ua.com.gup.service.security.SecurityUtils;
@@ -66,8 +65,8 @@ public class OfferMapper {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }
         if (source.getImages() != null && source.getImages().size() > 0) {
-            List<Image> imageIds = new LinkedList<>();
-            source.getImages().forEach(i -> imageIds.add(new Image(null,null,i.getImageId())));
+            List<String> imageIds = new LinkedList<>();
+            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
             target.setImageIds(imageIds);
         }
         if (source.getYoutubeVideoId() != null) {
@@ -140,8 +139,8 @@ public class OfferMapper {
             target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
         }
         if (source.getImageIds() != null && source.getImageIds().size() > 0) {
-            LinkedHashSet<String> imageIds = new LinkedHashSet<String>();
-            source.getImageIds().forEach(i -> imageIds.add(i.getImageId()));
+            LinkedList<String> imageIds = new LinkedList<String>();
+            source.getImageIds().forEach(i -> imageIds.add(i));
             target.setImageIds(imageIds);
         }
         target.setSeoUrl(source.getSeoUrl());
@@ -174,8 +173,8 @@ public class OfferMapper {
         }
 
         if (source.getImages() != null && source.getImages().size() > 0) {
-            List<Image> imageIds = new LinkedList<Image>();
-            source.getImages().forEach(i -> imageIds.add(new Image(null,null,i.getImageId())));
+            List<String> imageIds = new LinkedList<String>();
+            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
             target.setImageIds(imageIds);
         }
 

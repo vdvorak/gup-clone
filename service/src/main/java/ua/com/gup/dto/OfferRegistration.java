@@ -17,8 +17,6 @@ public class OfferRegistration {
     private String password;
     private List<String> importImagesUrlList;
     private Set<String> contactPhones;
-
-
     private List<Image> images;
 
     public Offer getOffer() {

@@ -5,21 +5,22 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.domain.offer.*;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
+import ua.com.gup.domain.enumeration.OfferStatus;
+import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.land.Lands;
 import ua.com.gup.domain.offer.model.*;
-import ua.com.gup.model.offer.Image;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -59,7 +60,7 @@ public class Offer implements Serializable {
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private List<Image> imageIds;
+    private List<String> imageIds;
 
     private String authorId;
 
@@ -177,11 +178,11 @@ public class Offer implements Serializable {
         this.description = description;
     }
 
-    public List<Image> getImageIds() {
+    public List<String> getImageIds() {
         return imageIds;
     }
 
-    public void setImageIds(List<Image> imageIds) {
+    public void setImageIds(List<String> imageIds) {
         this.imageIds = imageIds;
     }
 

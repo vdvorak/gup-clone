@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +32,7 @@ public class OfferCreateDTO implements Serializable {
     private OfferPriceDTO price;
 
     @ApiModelProperty(position = 80)
-    private LinkedHashSet<OfferImageDTO> images;
+    private List<OfferImageDTO> images;
 
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
     private String youtubeVideoId;
@@ -95,11 +95,11 @@ public class OfferCreateDTO implements Serializable {
         this.price = price;
     }
 
-    public LinkedHashSet<OfferImageDTO> getImages() {
+    public List<OfferImageDTO> getImages() {
         return images;
     }
 
-    public void setImages(LinkedHashSet<OfferImageDTO> images) {
+    public void setImages(List<OfferImageDTO> images) {
         this.images = images;
     }
 

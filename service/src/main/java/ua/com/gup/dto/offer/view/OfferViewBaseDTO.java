@@ -40,7 +40,7 @@ public class OfferViewBaseDTO implements Serializable {
     private OfferPriceDTO price;
 
     @ApiModelProperty(position = 80)
-    private LinkedHashSet<String> imageIds;
+    private List<String> imageIds;
 
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
@@ -116,11 +116,11 @@ public class OfferViewBaseDTO implements Serializable {
         this.price = price;
     }
 
-    public LinkedHashSet<String> getImageIds() {
+    public List<String> getImageIds() {
         return imageIds;
     }
 
-    public void setImageIds(LinkedHashSet<String> imageIds) {
+    public void setImageIds(List<String> imageIds) {
         this.imageIds = imageIds;
     }
 

@@ -135,7 +135,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
     private String getMainOfferImage(Offer offer) {
         try {
-            return offer.getImageIds().get(0).getImageId();
+            return offer.getImageIds().get(0);
         } catch (NullPointerException e){}
 
         return null;
