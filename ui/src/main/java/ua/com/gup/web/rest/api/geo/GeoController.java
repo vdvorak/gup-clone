@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ua.com.gup.model.geo.GeoModel;
 import ua.com.gup.repository.GeoRepository;
 import ua.com.gup.util.Locale;
@@ -19,7 +16,7 @@ import ua.com.gup.web.rest.dto.converter.GeoDTOConverter;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api/")
 public class GeoController {
 
