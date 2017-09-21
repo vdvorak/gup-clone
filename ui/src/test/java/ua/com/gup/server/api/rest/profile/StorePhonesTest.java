@@ -49,7 +49,7 @@ public class StorePhonesTest {
         test4(mainPhones,contactPhones,searchPhone);
 
         /////////////////////////////////////////////////////////////////
-        String storePhones = "{\"mainPhones\":[380994444444],\"contactPhones\":[{\"numberPhone\":380994444444,\"isFound\":false},{\"numberPhone\":380934311043,\"isFound\":false},{\"numberPhone\":380970072837,\"isFound\":false},{\"numberPhone\":380939325476,\"isFound\":false}]}";
+        String storePhones = "{'mainPhones':[380994444444],'contactPhones':[{'numberPhone':380994444444,'isFound':false},{'numberPhone':380934311043,'isFound':false},{'numberPhone':380970072837,'isFound':false},{'numberPhone':380939325476,'isFound':false}]}";
         test5(storePhones,searchPhone);
 
         /////////////////////////////////////////////////////////////////

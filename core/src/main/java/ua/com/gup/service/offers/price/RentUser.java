@@ -47,10 +47,10 @@ public class RentUser implements Cloneable {
     @Override
     public String toString() {
         return "{" +
-                "\"id\": \"" + id + "\"" +
-                ", \"fullName\": " +((fullName==null) ? fullName : "\"" + fullName + "\"") +
-                ", \"imgId\": " +((imgId==null) ? imgId : "\"" + imgId + "\"") +
-                ", \"rating\": " +((rating==null) ? rating : "\"" + rating + "\"") +
+                "'id': '" + id + "'" +
+                ", 'fullName': " +((fullName==null) ? fullName : "'" + fullName + "'") +
+                ", 'imgId': " +((imgId==null) ? imgId : "'" + imgId + "'") +
+                ", 'rating': " +((rating==null) ? rating : "'" + rating + "'") +
                 '}';
     }
 }

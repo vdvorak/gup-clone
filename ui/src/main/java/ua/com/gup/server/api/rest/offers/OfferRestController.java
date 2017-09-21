@@ -84,7 +84,7 @@ public class OfferRestController {
             } else {
                 //todo vdvorak
                /* if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-                    return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("{'success':false,'error':{'code':407,'info':'Moderation status is NO or FAIL'}}", HttpStatus.BAD_REQUEST);
                 }*/
                 offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }
@@ -133,12 +133,12 @@ public class OfferRestController {
             } else {
                 //todo vdvorak future
                /* if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-                    return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("{'success':false,'error':{'code':407,'info':'Moderation status is NO or FAIL'}}", HttpStatus.BAD_REQUEST);
                 }*/
                 offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }
         } else {
-            return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":405,\"info\":\"Method Not Allowed to Moderation\"}}", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{'success':false,'error':{'code':405,'info':'Method Not Allowed to Moderation'}}", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);

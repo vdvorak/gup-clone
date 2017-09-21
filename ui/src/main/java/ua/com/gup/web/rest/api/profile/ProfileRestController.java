@@ -158,7 +158,7 @@ public class ProfileRestController {
 
         if (userId != null) {
             profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId); //TODO: turn...
-            return new ResponseEntity<>("{\"addFrom\":\"" + userId + "\", \"addTo\":\"" + profileId + "\"}", HttpStatus.OK);
+            return new ResponseEntity<>("{'addFrom':'" + userId + "', 'addTo':'" + profileId + "'}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
@@ -196,7 +196,7 @@ public class ProfileRestController {
 
         if (userId != null) {
             profilesService.deleteFromMySocialList(profileId); //profilesService.deleteFromMySocialList(userId, profileId);
-            return new ResponseEntity<>("{\"deleteFrom\":\"" + userId + "\", \"deleteTo\":\"" + profileId + "\"}", HttpStatus.RESET_CONTENT);
+            return new ResponseEntity<>("{'deleteFrom':'" + userId + "', 'deleteTo':'" + profileId + "'}", HttpStatus.RESET_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }

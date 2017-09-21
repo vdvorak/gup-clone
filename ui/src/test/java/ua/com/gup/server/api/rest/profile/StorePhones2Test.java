@@ -18,7 +18,7 @@ public class StorePhones2Test {
         List<Long> mainPhones = new ArrayList<>();
         mainPhones.add(380994444444l);
 
-        String profileStorePhones = "{\"contactPhones\":[{\"numberPhone\":380994444444,\"isFound\":false},{\"numberPhone\":380934311043,\"isFound\":false},{\"numberPhone\":380970072837,\"isFound\":false},{\"numberPhone\":380939325476,\"isFound\":false}]}";
+        String profileStorePhones = "{'contactPhones':[{'numberPhone':380994444444,'isFound':false},{'numberPhone':380934311043,'isFound':false},{'numberPhone':380970072837,'isFound':false},{'numberPhone':380939325476,'isFound':false}]}";
 
         Gson gson = new Gson();
         ProfileStorePhones oProfileStorePhones = gson.fromJson(profileStorePhones, ProfileStorePhones.class);

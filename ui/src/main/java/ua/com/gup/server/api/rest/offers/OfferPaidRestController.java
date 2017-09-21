@@ -128,7 +128,7 @@ public class OfferPaidRestController {
                         paid.setLastPaidUpdateDate(0l);
                     }
                 } catch (ParseException e) {
-                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("{'status':'ERROR', 'notification':'Incorrect Data Format'}", HttpStatus.BAD_REQUEST);
                 }
                 //todo vdvorak
                 //Offer newOffer = oldOffer.setPaidServices(paid);
@@ -136,9 +136,9 @@ public class OfferPaidRestController {
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{'status':'ERROR', 'notification':'insufficient funds'}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("{'status':'ERROR', 'notification':'not the owner'}", HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -185,7 +185,7 @@ public class OfferPaidRestController {
                         paid.setLastPaidUpdateDate(0l);
                     }
                 } catch (ParseException e) {
-                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("{'status':'ERROR', 'notification':'Incorrect Data Format'}", HttpStatus.BAD_REQUEST);
                 }
                 //todo vdvorak
                 //Offer newOffer = oldOffer.setPaidServices(paid);
@@ -193,9 +193,9 @@ public class OfferPaidRestController {
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{'status':'ERROR', 'notification':'insufficient funds'}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("{'status':'ERROR', 'notification':'not the owner'}", HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -243,7 +243,7 @@ public class OfferPaidRestController {
                         paid.setLastPaidUpdateDate(0l);
                     }
                 } catch (ParseException e) {
-                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("{'status':'ERROR', 'notification':'Incorrect Data Format'}", HttpStatus.BAD_REQUEST);
                 }
                 //todo vdvorak
                 //Offer newOffer = oldOffer.setPaidServices(paid);
@@ -251,9 +251,9 @@ public class OfferPaidRestController {
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{'status':'ERROR', 'notification':'insufficient funds'}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("{'status':'ERROR', 'notification':'not the owner'}", HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -302,9 +302,9 @@ public class OfferPaidRestController {
                 offersService.edit(newOffer);
                 return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{'status':'ERROR', 'notification':'insufficient funds'}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("{'status':'ERROR', 'notification':'not the owner'}", HttpStatus.FORBIDDEN);
     }
 
 
