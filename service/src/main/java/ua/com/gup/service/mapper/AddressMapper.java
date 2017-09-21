@@ -23,8 +23,10 @@ public class AddressMapper {
 
     public OfferAddressShortDTO addressToAddressShortDTO(Address address) {
         OfferAddressShortDTO offerAddressShortDTO = new OfferAddressShortDTO();
-        offerAddressShortDTO.setLat(address.getLocation().getX());
-        offerAddressShortDTO.setLng(address.getLocation().getY());
+        if(address.getLocation()!=null&& !address.getLocation().getCoordinates().isEmpty()) {
+            offerAddressShortDTO.setLat(address.getLocation().getX());
+            offerAddressShortDTO.setLng(address.getLocation().getY());
+        }
         return offerAddressShortDTO;
     }
 
