@@ -1,4 +1,4 @@
-package ua.com.gup.repository.custom;
+package ua.com.gup.repository;
 
 
 import org.springframework.data.domain.Pageable;

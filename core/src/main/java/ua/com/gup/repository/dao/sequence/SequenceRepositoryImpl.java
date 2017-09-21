@@ -1,4 +1,4 @@
-package ua.com.gup.repository.custom.impl;
+package ua.com.gup.repository.dao.seoSequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import ua.com.gup.domain.Sequence;
-import ua.com.gup.repository.custom.SequenceRepositoryCustom;
 
 
 public class SequenceRepositoryImpl implements SequenceRepositoryCustom {

@@ -1,7 +1,7 @@
 package ua.com.gup.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.domain.category.attribute.CategoryAttribute;
+import ua.com.gup.domain.CategoryAttribute;
 
 import java.util.Optional;
 

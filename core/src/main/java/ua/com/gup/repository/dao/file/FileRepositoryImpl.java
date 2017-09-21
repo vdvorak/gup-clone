@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.repository.FileRepository;
-import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.server.api.rest.file.FileWrapper;
 import ua.com.gup.model.offer.Image;
 
 import java.util.Map;

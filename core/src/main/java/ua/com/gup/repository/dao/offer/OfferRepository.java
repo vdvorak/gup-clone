@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.repository.custom.OfferRepositoryCustom;
 
 import java.util.Optional;
 

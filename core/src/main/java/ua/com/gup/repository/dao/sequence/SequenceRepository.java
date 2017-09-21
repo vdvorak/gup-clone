@@ -1,8 +1,7 @@
-package ua.com.gup.repository;
+package ua.com.gup.repository.dao.seoSequence;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.domain.Sequence;
-import ua.com.gup.repository.custom.SequenceRepositoryCustom;
 
 /**
  * Repository for the sequence entity.
