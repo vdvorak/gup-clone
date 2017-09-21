@@ -1,4 +1,4 @@
-package ua.com.gup.web.rest.api;
+package ua.com.gup.web.rest.api.profile;
 
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
@@ -18,18 +18,15 @@ import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.model.profiles.phone.*;
-import ua.com.gup.web.rest.api.profile.config.CheckMainPhone;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.web.rest.api.profile.config.CheckMainPhone;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-////import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
-//import ua.com.itproekt.gup.model.login.FormLoggedUser;
 
 
 @RestController
@@ -59,7 +56,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate( id );
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -90,7 +87,7 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/publicid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate( profilesService.findPublicProfileByPublicId(id).getProfile().getId() ); //ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(profilesService.findPublicProfileByPublicId(id).getProfile().getId()); //ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -159,48 +156,16 @@ public class ProfileRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if( userId!=null ){
+        if (userId != null) {
             profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId); //TODO: turn...
-            return new ResponseEntity<>("{\"addFrom\":\""+userId+"\", \"addTo\":\""+profileId+"\"}", HttpStatus.OK);
+            return new ResponseEntity<>("{\"addFrom\":\"" + userId + "\", \"addTo\":\"" + profileId + "\"}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
     }
 
-//    @CrossOrigin
-//    @ResponseBody
-//    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
-//    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId, @RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) { //TODO: ???
-//
-//        LoggedUser loggedUser;
-//        try {
-//            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
-//        } catch (UsernameNotFoundException ex) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
-//
-//        if (profilesService.profilePublicExists(profileId)) {
-//            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = profileInfo.getProfile().getId();
-//
-//        if( userId!=null ){
-//            profilesService.addSocialToSocialList(userId, profileId);
-//            return new ResponseEntity<>("{\"addFrom\":\""+userId+"\", \"addTo\":\""+profileId+"\"}", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
-//        }
-//    }
 
     /**
-     *
      * @return
      */
     @CrossOrigin
@@ -229,9 +194,9 @@ public class ProfileRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if( userId!=null ){
+        if (userId != null) {
             profilesService.deleteFromMySocialList(profileId); //profilesService.deleteFromMySocialList(userId, profileId);
-            return new ResponseEntity<>("{\"deleteFrom\":\""+userId+"\", \"deleteTo\":\""+profileId+"\"}", HttpStatus.RESET_CONTENT);
+            return new ResponseEntity<>("{\"deleteFrom\":\"" + userId + "\", \"deleteTo\":\"" + profileId + "\"}", HttpStatus.RESET_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
@@ -269,8 +234,6 @@ public class ProfileRestController {
         profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 
     /**
@@ -345,29 +308,14 @@ public class ProfileRestController {
         return profile.getId();
     }
 
-//    @CrossOrigin
-//    @ResponseBody
-//    @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
-//    public String idByMainPhone(@RequestParam String mainPhone) {
-////        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
-////        if (profile == null) {
-////            return "NOT FOUND";
-////        }
-////        return profile.getId();
-//
-////        Stream.of(mainPhone.split(","))
-////                .anyMatch( p -> { profilesService.findProfileByMainPhone(p)::equals(); } );
-//        for (String p : mainPhone.split(","))
-//            if (profilesService.findProfileByMainPhone(p) != null) return "IS FOUND";
-//        return "NOT FOUND";
-//    }
+
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
     public ResponseEntity<List<Profile>> idByMainPhone(@RequestBody CheckMainPhone checkMainPhone, HttpServletRequest request) {
         List<Profile> profiles = new ArrayList<>();
-        for (String mainPhone : checkMainPhone.getMainPhones()){
-            System.err.println( mainPhone );
+        for (String mainPhone : checkMainPhone.getMainPhones()) {
+            System.err.println(mainPhone);
             Profile profile = profilesService.findProfileByMainPhone(mainPhone);
             if (profile != null) profiles.add(profile);
         }
@@ -376,34 +324,31 @@ public class ProfileRestController {
     }
 
 
-
-
-
     /* ************************************************************************************************************** */
     private Long parsePhone(String phone) {
-        phone = phone.replaceAll("\\D+","");
+        phone = phone.replaceAll("\\D+", "");
 
-        int strStart=0, strLast=phone.length();
-        if(0<(phone.length()-10)) strStart = phone.length()-10;
-        phone = phone.substring(strStart,strLast);
+        int strStart = 0, strLast = phone.length();
+        if (0 < (phone.length() - 10)) strStart = phone.length() - 10;
+        phone = phone.substring(strStart, strLast);
 
         return Long.parseLong(phone);
     }
 
-    private DBStorePhones dbStorePhones(String userId, List<Long> mainPhones, ProfileStorePhones profileStorePhones){
+    private DBStorePhones dbStorePhones(String userId, List<Long> mainPhones, ProfileStorePhones profileStorePhones) {
         List<Long> contactPhones = profileStorePhones.getContactPhones().stream()
                 .map(x -> x.getNumberPhone())
                 .collect(Collectors.toList());
 
-        return new DBStorePhones(userId,mainPhones,contactPhones);
+        return new DBStorePhones(userId, mainPhones, contactPhones);
     }
 
-    private ProfileStorePhones profileStorePhones(String userId){
+    private ProfileStorePhones profileStorePhones(String userId) {
         Profile profile = profilesService.findById(userId);
-        if (profile==null) return null;
+        if (profile == null) return null;
 
         DBStorePhones dbStorePhones = profile.getStorePhones();
-        if (dbStorePhones==null) return null;
+        if (dbStorePhones == null) return null;
 
         List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
                 .map(x -> (profilesService.findProfileByMainPhone(String.valueOf(x)) != null) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
@@ -421,20 +366,20 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.POST)
     public ResponseEntity<String> synchronizationPhones(@RequestBody StorePhones storePhones) {
         String userId = SecurityOperations.getLoggedUserId();
-        storePhones.setIdUser( userId );
+        storePhones.setIdUser(userId);
 
         ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
         DBStorePhones newStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
-        System.err.println( newStorePhones ); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
+        System.err.println(newStorePhones); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
 
         Profile profile = profilesService.findById(userId);
-        if( profile.getId().equals(userId) ) {
-            if (profile.getStorePhones()==null){
+        if (profile.getId().equals(userId)) {
+            if (profile.getStorePhones() == null) {
                 profile.setStorePhones(newStorePhones);
                 profilesService.editProfile(profile);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
-                if (profile.getStorePhones().equals(newStorePhones)){
+                if (profile.getStorePhones().equals(newStorePhones)) {
                     return new ResponseEntity<>(HttpStatus.OK);
                 } else {
                     profile.setStorePhones(newStorePhones);
@@ -446,18 +391,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @CrossOrigin
-//    @ResponseBody
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
-//    public ResponseEntity<ProfileStorePhones> synchronizationPhones() {
-//        String userId = SecurityOperations.getLoggedUserId();
-//
-//        ProfileStorePhones profileStorePhones = profileStorePhones(userId);
-//        System.err.println( profileStorePhones );//TODO  {"contactPhones":[{"numberPhone":380994444444,"isFound":true},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false},{"numberPhone":380994444444,"isFound":false}]}
-//
-//        return new ResponseEntity<>(profileStorePhones, HttpStatus.OK );
-//    }
+
     @CrossOrigin
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
@@ -467,9 +401,9 @@ public class ProfileRestController {
 
         ProfileStorePhones profileStorePhones = profileStorePhones(userId);
         List<PhoneSynhronizeID> contactIdPhones = new ArrayList<>();
-        for (PhoneSynhronize contactPhone : profileStorePhones.getContactPhones()){
-            Profile profile = profilesService.findProfileByMainPhone( String.valueOf(contactPhone.getNumberPhone()) );
-            PhoneSynhronizeID contactIdPhone = (profile==null)
+        for (PhoneSynhronize contactPhone : profileStorePhones.getContactPhones()) {
+            Profile profile = profilesService.findProfileByMainPhone(String.valueOf(contactPhone.getNumberPhone()));
+            PhoneSynhronizeID contactIdPhone = (profile == null)
                     ? new PhoneSynhronizeID(contactPhone.getNumberPhone(), null)
                     : new PhoneSynhronizeID(contactPhone.getNumberPhone(), profile.getId());
             contactIdPhones.add(contactIdPhone);
@@ -478,7 +412,6 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profileIdStorePhones, HttpStatus.OK);
     }
-
 
 
     /**
@@ -551,7 +484,7 @@ public class ProfileRestController {
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
         }
-        if (profile==null) {
+        if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
         }
 
@@ -559,7 +492,7 @@ public class ProfileRestController {
             profile.setActive(false);
             profile.setBan(true);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(gson.toJson("User: '"+id + "' IS BAN"), HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>(gson.toJson("User: '" + id + "' IS BAN"), HttpStatus.OK); //TODO: 200
         }
 
         return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403
@@ -578,7 +511,7 @@ public class ProfileRestController {
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
         }
-        if (profile==null) {
+        if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
         }
 
@@ -586,7 +519,7 @@ public class ProfileRestController {
             profile.setActive(true);
             profile.setBan(false);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(gson.toJson("User: '"+id + "' IS UNBAN"), HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>(gson.toJson("User: '" + id + "' IS UNBAN"), HttpStatus.OK); //TODO: 200
         }
 
         return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403

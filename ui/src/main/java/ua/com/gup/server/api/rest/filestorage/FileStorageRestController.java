@@ -1,12 +1,10 @@
 package ua.com.gup.server.api.rest.filestorage;
 
-import com.mongodb.gridfs.GridFSDBFile;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -135,19 +133,5 @@ public class FileStorageRestController {
         return true;
     }
 
-
-    //---------------------------------------------------------- Helper ------------------------------
-
-    /**
-     * @param gridFSDBFile
-     * @return
-     */
-    private ResponseEntity responseEntityPreparator(GridFSDBFile gridFSDBFile) {
-        return ResponseEntity.ok()
-                .contentLength(gridFSDBFile.getLength())
-                .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
-                .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
-                .body(new InputStreamResource(gridFSDBFile.getInputStream()));
-    }
 
 }
