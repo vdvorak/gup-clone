@@ -3,8 +3,8 @@ package ua.com.gup.model.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
-import ua.com.gup.service.offers.PriceOfRentsRestore;
-import ua.com.gup.service.offers.RentsRestore;
+import ua.com.gup.model.offers.PriceOfRentsRestore;
+import ua.com.gup.model.offers.RentsRestore;
 import ua.com.gup.util.OfferUserContactInfo;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

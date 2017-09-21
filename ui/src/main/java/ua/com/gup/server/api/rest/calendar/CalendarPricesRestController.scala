@@ -13,7 +13,8 @@ import org.springframework.http.{HttpStatus, MediaType, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 import ua.com.gup.domain.Offer
-import ua.com.gup.service.offers.price.PriceOfRent
+import ua.com.gup.model.offers.PriceOfRents
+import ua.com.gup.model.offers.price.PriceOfRent
 import ua.com.gup.service.offers.{OfferPricesServiceImpl, OffersServiceImpl, PriceOfRents}
 import ua.com.gup.util.ConvertUtil
 

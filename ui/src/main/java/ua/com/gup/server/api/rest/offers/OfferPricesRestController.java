@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.model.offer.Rent2;
-import ua.com.gup.service.offers.PriceOfRents;
+import ua.com.gup.model.offers.PriceOfRents;
 import ua.com.gup.service.offers.OfferPricesServiceImpl;
 import ua.com.gup.service.offers.RentsService;
-import ua.com.gup.service.offers.price.PriceOfRent;
+import ua.com.gup.model.offers.price.PriceOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

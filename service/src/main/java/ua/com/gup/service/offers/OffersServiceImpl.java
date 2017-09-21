@@ -24,7 +24,7 @@ import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.order.OrderService;
-import ua.com.gup.service.seosequence.SeoSequenceService;
+import ua.com.gup.service.sequence.SeoSequenceService;
 import ua.com.gup.util.EntityPage;
 import ua.com.gup.util.SecurityOperations;
 import ua.com.gup.util.SeoUtils;

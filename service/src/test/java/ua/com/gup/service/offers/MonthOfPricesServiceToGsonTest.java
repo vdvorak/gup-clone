@@ -7,7 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.gup.service.offers.price.PriceOfRent;
+import ua.com.gup.model.offers.PriceOfRentsRestore;
+import ua.com.gup.model.offers.price.PriceOfRent;
 import ua.com.gup.util.ConvertUtil;
 
 import java.io.FileNotFoundException;

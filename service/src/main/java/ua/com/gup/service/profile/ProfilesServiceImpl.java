@@ -18,7 +18,7 @@ import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.dao.profile.ProfileRepository;
 import ua.com.gup.service.offers.OffersService;
 import ua.com.gup.service.order.OrderService;
-import ua.com.gup.service.seosequence.PublicProfileSequenceService;
+import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.EntityPage;
 import ua.com.gup.util.SecurityOperations;
 

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.offer.OfferRepository;
+import ua.com.gup.model.offers.PriceOfRentsRestore;
+import ua.com.gup.model.offers.RentsRestore;
 import ua.com.gup.repository.dao.filestorage.StorageRepository;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
 import ua.com.gup.service.order.OrderService;

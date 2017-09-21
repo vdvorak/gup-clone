@@ -25,9 +25,6 @@ public class OfferModerationServiceImpl implements OfferModerationService {
     @Autowired
     private ActivityFeedService activityFeedService;
 
-//    @Autowired
-//    private SubscriptionService subscriptionService;
-
     @Autowired
     private ProfilesService profilesService;
 
