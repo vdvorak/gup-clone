@@ -11,16 +11,19 @@ public class AddressMapper {
 
     public OfferAddressDTO addressToAddressDTO(Address address) {
         OfferAddressDTO offerAddressDTO = new OfferAddressDTO();
-       if (address!=null && Double.valueOf(address.getLocation().getX())!=null
-                         && Double.valueOf(address.getLocation().getY())!=null ) {
-           offerAddressDTO.setLat(address.getLocation().getX());
-           offerAddressDTO.setLng(address.getLocation().getY());
-       }
-        offerAddressDTO.setCountry(address.getCountry());
-        offerAddressDTO.setDistrict(address.getDistrict());
-        offerAddressDTO.setCity(address.getCity());
-        offerAddressDTO.setFullAddress(address.getFullAddress());
-        address.setLevel(offerAddressDTO.getLevel());
+        if (address != null) {
+            if (Double.valueOf(address.getLocation().getX()) != null
+                    && Double.valueOf(address.getLocation().getY()) != null) {
+                offerAddressDTO.setLat(address.getLocation().getX());
+                offerAddressDTO.setLng(address.getLocation().getY());
+            }
+            offerAddressDTO.setCountry(address.getCountry());
+            offerAddressDTO.setDistrict(address.getDistrict());
+            offerAddressDTO.setCity(address.getCity());
+            offerAddressDTO.setFullAddress(address.getFullAddress());
+            address.setLevel(offerAddressDTO.getLevel());
+
+        }
         return offerAddressDTO;
     }
 
