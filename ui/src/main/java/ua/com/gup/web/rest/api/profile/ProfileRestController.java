@@ -154,7 +154,7 @@ public class ProfileRestController {
         String userId = SecurityOperations.getLoggedUserId();
         if (userId != null) {
             profilesService.addSocialToSocialList(userId, profileId);
-            return new ResponseEntity<>("{\"addFrom\":" + userId + ", \"addTo\":" + profileId + '}', HttpStatus.OK);
+            return new ResponseEntity<>("{\"addFrom\":" + userId + ", \"addTo\":" + profileId + "}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
