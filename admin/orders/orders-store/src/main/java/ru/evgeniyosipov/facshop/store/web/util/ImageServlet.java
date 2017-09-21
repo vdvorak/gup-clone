@@ -47,7 +47,7 @@ public class ImageServlet extends HttpServlet {
             response.reset();
             response.setBufferSize(DEFAULT_BUFFER_SIZE);
             response.setHeader("Content-Length", String.valueOf(p.getImgSrc().length));
-            response.setHeader("Content-Disposition", "inline; filename=\"" + p.getName() + "\"");
+            response.setHeader("Content-Disposition", "inline; filename='" + p.getName() + "'");
 
             ByteArrayInputStream byteInputStream = null;
             BufferedOutputStream output = null;

@@ -53,7 +53,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * FIXME: Закрываем библиотечные методы ('add','get') для внешнего доступа через механизм делигирования..
  */
-public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
+public class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
@@ -499,8 +499,8 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         int available = 0,
                 rent = 0,
                 expired = 0;
-        data.append("{\n  \"" + monthOfRents + "\": {\n");
-        data.append("    \"availables\": [");
+        data.append("{\n  '" + monthOfRents + "': {\n");
+        data.append("    'availables': [");
 //        for (Rent availableDays : getRents().getAvailables()) {
 //            if (0<available) data.append(",{");
 //            else data.append("\n      {");
@@ -518,7 +518,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         }
 ///////////////////////////////////////////////////////////////
         data.append("\n    ]\n");
-        data.append("   ,\"rented\": [");
+        data.append("   ,'rented': [");
         for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
             if (0<rent) data.append(",{");
             else data.append("\n      {");
@@ -527,7 +527,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             ++rent;
         }
         data.append("\n    ]\n");
-        data.append("    ,\"expired\": [");
+        data.append("    ,'expired': [");
         for (Rent expiredDays : getRents().getExpired()) {
             if (0<expired) data.append(",{");
             else data.append("\n      {");
@@ -547,41 +547,41 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         if (weekdayPrice!=null && weekendPrice!=null){
             for (Price prices : this) {
                 if (scheme==0){
-                    data.append("    \"weekday\": \n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-//                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("    'weekday': \n");
+                    data.append("      'price': " + prices.get() + "\n");
+//                    data.append("      ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
 //                    if (1 < prices.size()) {
 //                        Long lastPrice = 0l;
 //                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+//                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
 //                    } else {
 //                        data.append("]\n");
 //                    }
 //                    data.append("    }\n");
                 }
                 if (scheme==1){
-                    data.append("    ,\"weekend\": \n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-//                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("    ,'weekend': \n");
+                    data.append("      'price': " + prices.get() + "\n");
+//                    data.append("      ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
 //                    if (1 < prices.size()) {
 //                        Long lastPrice = 0l;
 //                        for (Long price : prices) lastPrice = price;
-//                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+//                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
 //                    } else {
 //                        data.append("]\n");
 //                    }
 //                    data.append("    }\n");
                 }
-                if (scheme==2) data.append("    ,\"specialdays\": [\n");
+                if (scheme==2) data.append("    ,'specialdays': [\n");
                 if (1<scheme){
                     if (scheme==2) data.append("      {\n");
                     if (2<scheme) data.append("      ,{\n");
-                    data.append("        \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("        'price': " + prices.get() + "\n");
+                    data.append("        ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
                     } else {
                         data.append("]\n");
                     }
@@ -592,16 +592,16 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             }
         } else {
             if (!this.isEmpty()){ //TODO
-                data.append("    \"specialdays\":\n  [\n");
+                data.append("    'specialdays':\n  [\n");
                 for (Price prices : this) {
                     if (0 < scheme) data.append("      ,{\n");
                     else data.append("      {\n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("      'price': " + prices.get() + "\n");
+                    data.append("        ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"  ]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "'  ]\n");
                     } else {
                         data.append("  ]\n");
                     }
@@ -625,45 +625,45 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         /**
          * monthOfPrices
          */
-        data.append("{\n  \"" + monthOfPrices + "\": {\n");
+        data.append("{\n  '" + monthOfPrices + "': {\n");
         if (weekdayPrice!=null && weekendPrice!=null){
             for (Price prices : this) {
                 if (scheme==0){
-                    data.append("    \"weekday\": {\n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("    'weekday': {\n");
+                    data.append("      'price': " + prices.get() + "\n");
+                    data.append("      ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
                     } else {
                         data.append("]\n");
                     }
                     data.append("    }\n");
                 }
                 if (scheme==1){
-                    data.append("    ,\"weekend\": {\n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("    ,'weekend': {\n");
+                    data.append("      'price': " + prices.get() + "\n");
+                    data.append("      ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
                     } else {
                         data.append("]\n");
                     }
                     data.append("    }\n");
                 }
-                if (scheme==2) data.append("    ,\"specialdays\": [\n");
+                if (scheme==2) data.append("    ,'specialdays': [\n");
                 if (1<scheme){
                     if (scheme==2) data.append("      {\n");
                     if (2<scheme) data.append("      ,{\n");
-                    data.append("        \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("        'price': " + prices.get() + "\n");
+                    data.append("        ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "']\n");
                     } else {
                         data.append("]\n");
                     }
@@ -674,16 +674,16 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             }
         } else {
             if (!this.isEmpty()){ //TODO
-                data.append("    \"specialdays\":\n  [\n");
+                data.append("    'specialdays':\n  [\n");
                 for (Price prices : this) {
                     if (0 < scheme) data.append("      ,{\n");
                     else data.append("      {\n");
-                    data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    data.append("      'price': " + prices.get() + "\n");
+                    data.append("        ,'days': ['" + ConvertUtil.toDate(prices.element()) + "'");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"  ]\n");
+                        data.append(",'" + ConvertUtil.toDate(lastPrice) + "'  ]\n");
                     } else {
                         data.append("  ]\n");
                     }
@@ -698,8 +698,8 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
         /**
          * monthOfRents
          */
-        data.append("  ,\"" + monthOfRents + "\": {\n");
-        data.append("    \"availables\": [");
+        data.append("  ,'" + monthOfRents + "': {\n");
+        data.append("    'availables': [");
         for (Rent availableDays : getRents().getAvailables()) {
             if (0<available) data.append(",{");
             else data.append("\n      {");
@@ -708,7 +708,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             ++available;
         }
         data.append("\n    ]\n");
-        data.append("   ,\"rented\": [");
+        data.append("   ,'rented': [");
         for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
             if (0<rent) data.append(",{");
             else data.append("\n      {");
@@ -717,7 +717,7 @@ public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public 
             ++rent;
         }
         data.append("\n    ]\n");
-        data.append("    ,\"expired\": [");
+        data.append("    ,'expired': [");
         for (Rent expiredDays : getRents().getExpired()) {
             if (0<expired) data.append(",{");
             else data.append("\n      {");

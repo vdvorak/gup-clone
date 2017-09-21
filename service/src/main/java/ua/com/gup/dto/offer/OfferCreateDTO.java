@@ -40,16 +40,16 @@ public class OfferCreateDTO implements Serializable {
     @ApiModelProperty(position = 105)
     private OfferContactInfoDTO contactInfo;
 
-    @ApiModelProperty(position = 110, value = "{\"color\": \"Black\", \"size\":\"XL\"}")
+    @ApiModelProperty(position = 110, value = "{'color': 'Black', 'size':'XL'}")
     private Map<String, String> attrs = new HashMap<>();
 
-    @ApiModelProperty(position = 115, value = "{\"deliveryType\": \"NOVAPOSHTA,INTIME\"}")
+    @ApiModelProperty(position = 115, value = "{'deliveryType': 'NOVAPOSHTA,INTIME'}")
     private Map<String, String> multiAttrs = new HashMap<>();
 
-    @ApiModelProperty(position = 120, value = "{\"year\": 2011, \"volume_sm3\":1500}")
+    @ApiModelProperty(position = 120, value = "{'year': 2011, 'volume_sm3':1500}")
     private Map<String, BigDecimal> numAttrs = new HashMap<>();
 
-    @ApiModelProperty(position = 130, value = "{\"used\": true, \"mediator\":false}")
+    @ApiModelProperty(position = 130, value = "{'used': true, 'mediator':false}")
     private Map<String, Boolean> boolAttrs = new HashMap<>();
 
     @ApiModelProperty(position = 140)

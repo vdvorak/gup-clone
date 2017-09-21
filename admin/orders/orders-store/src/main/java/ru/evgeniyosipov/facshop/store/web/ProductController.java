@@ -56,7 +56,7 @@ public class ProductController implements Serializable {
         logger.log(Level.INFO, "Part Header = {0}", partHeader);
         for (String cd : part.getHeader("content-disposition").split(";")) {
             if (cd.trim().startsWith("filename")) {
-                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("'", "");
             }
         }
         return null;

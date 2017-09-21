@@ -17,6 +17,7 @@ public class AddressMapper {
         offerAddressDTO.setDistrict(address.getDistrict());
         offerAddressDTO.setCity(address.getCity());
         offerAddressDTO.setFullAddress(address.getFullAddress());
+        address.setLevel(offerAddressDTO.getLevel());
         return offerAddressDTO;
     }
 
@@ -34,6 +35,7 @@ public class AddressMapper {
         address.setDistrict(offerAddressDTO.getDistrict());
         address.setCity(offerAddressDTO.getCity());
         address.setFullAddress(offerAddressDTO.getFullAddress());
+        address.setLevel(offerAddressDTO.getLevel());
         return address;
     }
 }

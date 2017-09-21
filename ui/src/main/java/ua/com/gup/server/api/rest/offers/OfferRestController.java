@@ -92,7 +92,6 @@ public class OfferRestController {
             offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
         }
 
-
         //if user is moderator or administrator
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())) {
             offerInfo.setForAdmin(true);
