@@ -16,7 +16,7 @@ public class Validator3Util {
                     "Внимание, ошибка в поле [%s]: value [%s] >> %s",
                     cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
 
-        return (constraintViolations.size()==0) ? true : false; // return constraintViolations.size();
+        return (constraintViolations.size()==0) ? true : false;
     }
 
 }
