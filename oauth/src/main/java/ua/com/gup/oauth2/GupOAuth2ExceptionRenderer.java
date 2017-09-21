@@ -82,7 +82,7 @@ public class GupOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer {
                             contentType = acceptedMediaType;
                         }
 
-                        this.logger.debug("Written [" + returnValue + "] as \"" + contentType + "\" using [" + messageConverter + "]");
+                        this.logger.debug("Written [" + returnValue + "] as '" + contentType + "' using [" + messageConverter + "]");
                     }
 
                     return;

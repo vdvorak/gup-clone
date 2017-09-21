@@ -27,23 +27,23 @@ public class MonthOfPricesServiceToGsonTest {
             RESTORECALENDAR_FILE_NAME = "restoreMonthOfPrices.json",
             RENT_FILE_NAME = "offerRents.json", //FIXME: file.properties
             jsonRestore = "{\n" +
-                    "  \"monthOfPrices\": {\n" +
-                    "    \"weekday\": {\n" +
-                    "      \"price\": 10000\n" +
-                    "      ,\"days\": [\"10.10.2016\",\"28.10.2016\"]\n" +
+                    "  'monthOfPrices': {\n" +
+                    "    'weekday': {\n" +
+                    "      'price': 10000\n" +
+                    "      ,'days': ['10.10.2016','28.10.2016']\n" +
                     "    }\n" +
-                    "    ,\"weekend\": {\n" +
-                    "      \"price\": 15000\n" +
-                    "      ,\"days\": [\"1.10.2016\",\"30.10.2016\"]\n" +
+                    "    ,'weekend': {\n" +
+                    "      'price': 15000\n" +
+                    "      ,'days': ['1.10.2016','30.10.2016']\n" +
                     "    }\n" +
-                    "    ,\"specialdays\": [\n" +
+                    "    ,'specialdays': [\n" +
                     "      {\n" +
-                    "        \"price\": 11111\n" +
-                    "        ,\"days\": [\"31.10.2016\"]\n" +
+                    "        'price': 11111\n" +
+                    "        ,'days': ['31.10.2016']\n" +
                     "      }\n" +
                     "      ,{\n" +
-                    "        \"price\": 20000\n" +
-                    "        ,\"days\": [\"3.10.2016\",\"7.10.2016\"]\n" +
+                    "        'price': 20000\n" +
+                    "        ,'days': ['3.10.2016','7.10.2016']\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +

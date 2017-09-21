@@ -14,13 +14,16 @@ public class OfferAddressDTO implements Serializable{
     @ApiModelProperty(position = 10, example = "30")
     private Double lng;
 
-    @ApiModelProperty(position = 20, value = "\"code\":\"1\",\"name\":{\"en\": \"Ukraine\"}")
+    @ApiModelProperty(position = 10, example = "30")
+    private Integer level;
+
+    @ApiModelProperty(position = 20, value = "'code':'1','name':{'en': 'Ukraine'}")
     private AddressArea country;
 
-    @ApiModelProperty(position = 30, value = "\"code\":\"2\",\"name\":{\"en\": \"Kyiv district\"}")
+    @ApiModelProperty(position = 30, value = "'code':'2','name':{'en': 'Kyiv district'}")
     private AddressArea district;
 
-    @ApiModelProperty(position = 40, value = "\"code\":\"3\",\"name\":{\"en\": \"Kyiv\"}")
+    @ApiModelProperty(position = 40, value = "'code':'3','name':{'en': 'Kyiv'}")
     private AddressArea city;
 
     @ApiModelProperty(position = 50)
@@ -72,5 +75,13 @@ public class OfferAddressDTO implements Serializable{
 
     public void setFullAddress(String fullAddress) {
         this.fullAddress = fullAddress;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }
