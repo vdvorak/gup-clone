@@ -1,6 +1,8 @@
 package ua.com.gup.model.activityfeed;
 
 
+import ua.com.gup.domain.Event;
+
 public final class EventFilterOptions extends Event {
     private int skip;
     private int limit;

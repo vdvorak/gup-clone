@@ -12,8 +12,7 @@ public class AddressMapper {
     public OfferAddressDTO addressToAddressDTO(Address address) {
         OfferAddressDTO offerAddressDTO = new OfferAddressDTO();
         if (address != null) {
-            if (Double.valueOf(address.getLocation().getX()) != null
-                    && Double.valueOf(address.getLocation().getY()) != null) {
+            if (address.getLocation()!=null) {
                 offerAddressDTO.setLat(address.getLocation().getX());
                 offerAddressDTO.setLng(address.getLocation().getY());
             }
@@ -29,10 +28,11 @@ public class AddressMapper {
 
     public OfferAddressShortDTO addressToAddressShortDTO(Address address) {
         OfferAddressShortDTO offerAddressShortDTO = new OfferAddressShortDTO();
-        if (address!=null && Double.valueOf(address.getLocation().getX())!=null
-                && Double.valueOf(address.getLocation().getY())!=null ) {
-            offerAddressShortDTO.setLat(address.getLocation().getX());
-            offerAddressShortDTO.setLng(address.getLocation().getY());
+        if (address != null) {
+            if(address.getLocation()!=null) {
+                offerAddressShortDTO.setLat(address.getLocation().getX());
+                offerAddressShortDTO.setLng(address.getLocation().getY());
+            }
         }
         return offerAddressShortDTO;
     }

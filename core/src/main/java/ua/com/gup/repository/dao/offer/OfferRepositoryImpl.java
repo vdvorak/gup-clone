@@ -1,4 +1,4 @@
-package ua.com.gup.repository.impl;
+package ua.com.gup.repository.dao.offer;
 
 
 import com.mongodb.BasicDBObject;
@@ -24,7 +24,6 @@ import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
 import ua.com.gup.domain.offer.model.OfferCategoryCount;
-import ua.com.gup.repository.OfferRepositoryCustom;
 import ua.com.gup.model.xchangerate.util.Currency;
 
 import javax.annotation.PostConstruct;

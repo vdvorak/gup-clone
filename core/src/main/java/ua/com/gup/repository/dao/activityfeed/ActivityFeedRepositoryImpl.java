@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventFilterOptions;
 import ua.com.gup.util.EntityPage;
 

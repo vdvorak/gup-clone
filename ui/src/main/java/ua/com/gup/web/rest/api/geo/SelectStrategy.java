@@ -2,7 +2,7 @@ package ua.com.gup.web.rest.api.geo;
 
 
 import ua.com.gup.model.geo.GeoModel;
-import ua.com.gup.repository.GeoRepository;
+import ua.com.gup.repository.dao.geo.GeoRepository;
 import ua.com.gup.web.rest.dto.CommonGeoDTO;
 import ua.com.gup.web.rest.dto.converter.GeoDTOConverter;
 

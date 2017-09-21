@@ -16,7 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.server.api.rest.file.FileWrapper;
 import ua.com.gup.service.OfferService;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;

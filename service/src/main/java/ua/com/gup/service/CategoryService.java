@@ -2,7 +2,7 @@ package ua.com.gup.service;
 
 
 import ua.com.gup.domain.offer.model.OfferCategory;
-import ua.com.gup.domain.category.attribute.Category;
+import ua.com.gup.domain.Category;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryTreeDTO;

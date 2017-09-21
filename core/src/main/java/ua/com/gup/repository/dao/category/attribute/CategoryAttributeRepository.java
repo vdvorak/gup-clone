@@ -1,4 +1,4 @@
-package ua.com.gup.repository;
+package ua.com.gup.repository.dao.category.attribute;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.domain.CategoryAttribute;

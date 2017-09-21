@@ -1,4 +1,4 @@
-package ua.com.gup.repository;
+package ua.com.gup.repository.dao.geo;
 
 
 

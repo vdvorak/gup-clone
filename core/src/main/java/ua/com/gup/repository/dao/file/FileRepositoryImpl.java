@@ -1,4 +1,4 @@
-package ua.com.gup.repository.impl;
+package ua.com.gup.repository.dao.file;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -9,7 +9,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.repository.FileRepository;
 import ua.com.gup.server.api.rest.file.FileWrapper;
 import ua.com.gup.model.offer.Image;
 

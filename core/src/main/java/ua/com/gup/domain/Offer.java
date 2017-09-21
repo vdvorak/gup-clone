@@ -11,7 +11,7 @@ import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeV
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.offer.OfferModerationReport;
-import ua.com.gup.domain.offer.land.Lands;
+import ua.com.gup.domain.offer.model.Lands;
 import ua.com.gup.domain.offer.model.*;
 
 import javax.validation.constraints.NotNull;

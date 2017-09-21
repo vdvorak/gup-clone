@@ -1,4 +1,4 @@
-package ua.com.gup.repository;
+package ua.com.gup.repository.dao.offer;
 
 
 import org.springframework.data.domain.Pageable;

@@ -3,7 +3,7 @@ package ua.com.gup.service.activityfeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.repository.dao.activityfeed.ActivityFeedRepository;
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventFilterOptions;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.EntityPage;

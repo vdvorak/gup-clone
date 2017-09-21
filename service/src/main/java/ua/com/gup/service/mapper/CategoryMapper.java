@@ -2,7 +2,7 @@ package ua.com.gup.service.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.category.attribute.Category;
+import ua.com.gup.domain.Category;
 import ua.com.gup.service.SequenceService;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;

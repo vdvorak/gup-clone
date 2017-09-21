@@ -10,8 +10,8 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.dto.offer.OfferImageDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.model.offer.Image;
-import ua.com.gup.repository.FileRepository;
-import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.repository.dao.file.FileRepository;
+import ua.com.gup.server.api.rest.file.FileWrapper;
 import ua.com.gup.service.ImageService;
 
 import javax.imageio.ImageIO;

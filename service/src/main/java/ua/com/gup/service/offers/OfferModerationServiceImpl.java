@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.Offer;
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventType;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
 import ua.com.gup.service.profile.ProfilesService;

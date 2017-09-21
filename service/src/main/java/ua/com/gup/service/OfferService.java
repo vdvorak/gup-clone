@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.domain.offer.model.OfferStatistic;
-import ua.com.gup.repository.file.FileWrapper;
+import ua.com.gup.server.api.rest.file.FileWrapper;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.OfferCreateDTO;

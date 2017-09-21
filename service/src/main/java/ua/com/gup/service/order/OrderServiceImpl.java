@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.dto.OrderInfo;
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventType;
 import ua.com.gup.model.order.Order;
 import ua.com.gup.model.order.OrderComment;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import ua.com.gup.domain.Offer;
 import ua.com.gup.domain.category.attribute.value.*;
 import ua.com.gup.domain.offer.OfferModerationReport;
-import ua.com.gup.domain.offer.land.Lands;
+import ua.com.gup.domain.offer.model.Lands;
 import ua.com.gup.domain.offer.model.OfferStatistic;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;

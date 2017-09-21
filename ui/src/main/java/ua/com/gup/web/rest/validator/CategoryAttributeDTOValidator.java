@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.attribute.CategoryAttribute;
+import ua.com.gup.domain.CategoryAttribute;
 import ua.com.gup.service.CategoryAttributeService;
 import ua.com.gup.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.dto.category.CategoryAttributeUpdateDTO;

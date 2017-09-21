@@ -1,4 +1,4 @@
-package ua.com.gup.repository.file;
+package ua.com.gup.server.api.rest.file;
 
 
 import java.io.InputStream;

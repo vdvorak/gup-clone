@@ -1,4 +1,4 @@
-package ua.com.gup.repository.impl;
+package ua.com.gup.repository.dao.geo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.model.geo.GeoModel;
-import ua.com.gup.repository.GeoRepository;
 import ua.com.gup.util.Locale;
 
 import javax.annotation.PostConstruct;

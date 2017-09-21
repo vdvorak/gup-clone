@@ -13,7 +13,7 @@ import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
 import ua.com.gup.dto.OfferInfo;
 import ua.com.gup.dto.OfferRegistration;
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventType;
 import ua.com.gup.model.offer.*;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;

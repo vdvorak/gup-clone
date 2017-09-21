@@ -1,9 +1,10 @@
-package ua.com.gup.model.activityfeed;
+package ua.com.gup.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
+import ua.com.gup.model.activityfeed.EventType;
 
 import java.time.LocalDateTime;
 
