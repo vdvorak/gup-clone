@@ -23,8 +23,8 @@ import java.util.Set;
 @Document(collection = Profile.COLLECTION_NAME)
 public class Profile {
     public static final String COLLECTION_NAME = "users";
-    private static final String EMAIL_PATTERN ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                                              + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     @Id
     private String id;
@@ -38,8 +38,7 @@ public class Profile {
     private boolean active;
 
 
-    @Pattern(regexp = EMAIL_PATTERN , message = "email не может содержать кириллицу или неправельный формат \n " +
-            "пример : myemail@com.ua")
+    @Pattern(regexp = EMAIL_PATTERN, message = "{profile.email.invalidFormat}")
     @Indexed
     private String email;
     private String socWendor = "gup.com.ua";
@@ -47,11 +46,11 @@ public class Profile {
 
 
     @Pattern.List({
-            @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{2,})", message = "Пароль должен содержать хотя бы одну цифру и хотя бы одну заглавную букву")
-            , @Pattern(regexp = "([^\\s]+$)", message = "Пароль не должен иметь пробелов")
-            , @Pattern(regexp = "(^[^а-яА-ЯёЁ]+$)", message = "Пароль не должен использовать кириллицу")
+            @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{2,})", message = "{profile.password.atLeastOneNumberAndLetter}")
+            , @Pattern(regexp = "([^\\s]+$)", message = "{profile.password.mayNotContainSpaces}")
+            , @Pattern(regexp = "(^[^а-яА-ЯёЁ]+$)", message = "{profile.password.mayNotContainCyrillicSymbols}")
     })
-    @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
+    @Size(min = 6, message = "{profile.password.minLength}")
     private String password;
 
     private String passwordRestore;
