@@ -5,6 +5,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.annotation.Password;
 import ua.com.gup.domain.offer.model.Address;
 import ua.com.gup.model.offer.GeneralPhone;
 import ua.com.gup.model.profiles.order.OrderAddress;
@@ -44,13 +45,7 @@ public class Profile {
     private String socWendor = "gup.com.ua";
     private String uid;
 
-
-    @Pattern.List({
-            @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{2,})", message = "{profile.password.atLeastOneNumberAndLetter}")
-            , @Pattern(regexp = "([^\\s]+$)", message = "{profile.password.mayNotContainSpaces}")
-            , @Pattern(regexp = "(^[^а-яА-ЯёЁ]+$)", message = "{profile.password.mayNotContainCyrillicSymbols}")
-    })
-    @Size(min = 6, message = "{profile.password.minLength}")
+    @Password
     private String password;
 
     private String passwordRestore;
