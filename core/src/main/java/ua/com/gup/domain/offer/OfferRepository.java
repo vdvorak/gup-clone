@@ -33,6 +33,16 @@ public interface OfferRepository {
      */
     Offer findBySeoKey(String seoKey);
 
+
+
+    /**
+     * Find and return one offer by it's SEO url.
+     *
+     * @param seoUrl    - the SEO url string.
+     * @return          - one offer.
+     */
+    Offer findBySeoUrl(String seoUrl);
+
     /**
      * Update offer which is already exist.
      *

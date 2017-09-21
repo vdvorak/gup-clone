@@ -156,8 +156,7 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public Offer findBySeoUrlAndIncPhoneViews(String seoUrl) {
-        String seoKey = seoUrl.substring(seoUrl.lastIndexOf("-") + 1);
-        Offer offer = offerRepository.findBySeoKey(seoKey);
+        Offer offer = offerRepository.findBySeoUrl(seoUrl);
         offerRepository.incPhoneViewsAtOne(offer.getId());
         return offer;
     }
