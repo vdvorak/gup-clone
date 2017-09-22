@@ -10,7 +10,7 @@
     </parent>
     <artifactId>GUP</artifactId>
     <groupId>ua.com.gup</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${version}</version>
     <packaging>pom</packaging>
     <name>GUP</name>
     <description>Global Ukraine Portal</description>
