@@ -17,7 +17,7 @@ import ua.com.gup.service.offers.OfferModerationService;
 import ua.com.gup.service.offers.OffersService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
-import ua.com.gup.service.seosequence.SeoSequenceService;
+import ua.com.gup.service.sequence.SeoSequenceService;
 import ua.com.gup.service.siteMap.SiteMapGeneratorService;
 import ua.com.gup.util.SecurityOperations;
 

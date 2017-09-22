@@ -148,17 +148,13 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
     public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
-
         if (!profilesService.profileExists(profileId)) {//TODO: need make test...
-//        if (profilesService.profilePublicExists(profileId)) { // if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
-
         String userId = SecurityOperations.getLoggedUserId();
-
         if (userId != null) {
-            profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId); //TODO: turn...
-            return new ResponseEntity<>("{'addFrom':'" + userId + "', 'addTo':'" + profileId + "'}", HttpStatus.OK);
+            profilesService.addSocialToSocialList(userId, profileId);
+            return new ResponseEntity<>("{\"addFrom\":" + userId + ", \"addTo\":" + profileId + "}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }

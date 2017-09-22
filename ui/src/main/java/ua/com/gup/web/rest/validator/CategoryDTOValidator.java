@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.attribute.Category;
-import ua.com.gup.service.CategoryService;
+import ua.com.gup.domain.Category;
+import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;
 

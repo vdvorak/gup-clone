@@ -4,8 +4,8 @@ package ua.com.gup.model.offer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.service.offers.PriceOfRentsRestore;
-import ua.com.gup.service.offers.RentsRestore;
+import ua.com.gup.model.offers.PriceOfRentsRestore;
+import ua.com.gup.model.offers.RentsRestore;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = Rent2.COLLECTION_NAME)

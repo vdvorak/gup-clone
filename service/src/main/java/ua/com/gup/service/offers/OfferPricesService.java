@@ -5,8 +5,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
+import ua.com.gup.model.offers.PriceOfRentsRestore;
+import ua.com.gup.model.offers.Rents;
+import ua.com.gup.model.offers.RentsRestore;
+import ua.com.gup.model.offers.price.*;
 import ua.com.gup.model.order.Order;
-import ua.com.gup.service.offers.price.*;
 import ua.com.gup.util.ConvertUtil;
 
 import java.text.SimpleDateFormat;

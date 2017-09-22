@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
-import ua.com.gup.service.ComplaintOfferService;
+import ua.com.gup.service.complaint.ComplaintOfferService;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.model.profiles.UserRole;

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.offer.Rent2Repository;
 import ua.com.gup.model.offer.Rent2;
+import ua.com.gup.model.offers.RentsRestore;
 
 @Service
 public class RentsServiceImpl implements RentsService {

@@ -1,6 +1,6 @@
 package ua.com.gup.service.activityfeed;
 
-import ua.com.gup.model.activityfeed.Event;
+import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventFilterOptions;
 import ua.com.gup.util.EntityPage;
 
