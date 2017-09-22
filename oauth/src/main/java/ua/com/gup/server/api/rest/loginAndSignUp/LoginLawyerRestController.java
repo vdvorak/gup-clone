@@ -28,7 +28,7 @@ import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.model.profiles.UserType;
 import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
-import ua.com.gup.service.emailnotification.MailSenderService;
+import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
@@ -80,7 +80,7 @@ public class LoginLawyerRestController {
     StorageService storageService;
 
     @Autowired
-    private MailSenderService mailSenderService;
+    private EmailService emailService;
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
@@ -106,7 +106,7 @@ public class LoginLawyerRestController {
                 e.printStackTrace();
             }*/
             profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId()); //TODO: test(s) ......HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
+//            verificationTokenService.generateEmailRegistrationToken(profile.getId()); //TODO: test(s) ......HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
             // LOGIN:
             LoggedUser loggedUser = null;
@@ -292,7 +292,7 @@ public class LoginLawyerRestController {
         if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
             profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             profilesService.editProfile(profile);
-//            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword())); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
+//            emailService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword())); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
 
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("authToken")) {

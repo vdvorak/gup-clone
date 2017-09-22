@@ -159,7 +159,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         }
 
         createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+        verificationTokenService.generateEmailRegistrationToken(profile.getId());
         return profile;
     }
 

@@ -10,7 +10,9 @@ public interface VerificationTokenService {
      * @param userId
      * @return
      */
-    VerificationToken sendEmailRegistrationToken(String userId);
+    VerificationToken generateEmailRegistrationToken(String userId);
+
+    void saveToken(VerificationToken token);
 
     VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken);
 
@@ -21,7 +23,7 @@ public interface VerificationTokenService {
      */
     VerificationToken getVerificationToken(String base64EncodedToken);
 
-//    VerificationToken sendEmailRegistrationToken(String userId);
+//    VerificationToken generateEmailRegistrationToken(String userId);
 
     /**
      *

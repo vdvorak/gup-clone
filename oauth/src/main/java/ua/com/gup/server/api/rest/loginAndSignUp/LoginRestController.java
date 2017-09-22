@@ -3,6 +3,7 @@ package ua.com.gup.server.api.rest.loginAndSignUp;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -21,16 +22,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ua.com.gup.bank_api.util.LogUtil;
 import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.exception.VerificationTokenExpiredException;
+import ua.com.gup.exception.VerificationTokenNotFoundException;
 import ua.com.gup.model.login.FormChangePassword;
 import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserType;
+import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.gup.service.activityfeed.ActivityFeedService;
+import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.gup.service.emailnotification.MailSenderService;
+import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.LockRemoteIPService;
@@ -51,6 +56,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -84,18 +90,20 @@ public class LoginRestController {
     private StorageService storageService;
 
     @Autowired
-    private MailSenderService mailSenderService;
+    private EmailService emailService;
 
 
     @Autowired
     private LockRemoteIPService lockRemoteIPService;
 
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> register(@RequestBody @Validated Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
-        // CHECK:
+    public ResponseEntity<ProfileInfo> register(@RequestBody @Validated Profile profile) {
+
+        // email exists check:
         if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
             // REGISTER:
             if (profile.getSocWendor() == null) {
@@ -104,24 +112,28 @@ public class LoginRestController {
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
             profilesService.createProfile(profile);
-            // LOGIN:
-            LoggedUser loggedUser = null;
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
-                authenticateByEmailAndPassword(loggedUser, response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-            } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+            eventPublisher.publishEvent(new OnInitialRegistrationByEmailEvent(profile));
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
 
-        return resp;
+    @CrossOrigin
+    @RequestMapping(value = "/registerConfirm", method = RequestMethod.GET)
+    public ResponseEntity<ProfileInfo> registerConfirm(@RequestParam("token") String token) {
+        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+        if (verificationToken == null) {
+            throw new VerificationTokenNotFoundException();
+        }
+        if (verificationToken.getExpiryDate().before(new Date())) {
+            throw new VerificationTokenExpiredException();
+        }
+        Profile profile = profilesService.findById(verificationToken.getUserId());
+        if (!Boolean.TRUE.equals(profile.getActive())) {
+            profile.setActive(Boolean.TRUE);
+            profilesService.editProfile(profile);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -142,9 +154,7 @@ public class LoginRestController {
             LoggedUser loggedUser = null;
             try {
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
+
                 AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
                 ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -322,7 +332,7 @@ public class LoginRestController {
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-            if(!SecurityUtils.isAuthenticated()) {
+            if (!SecurityUtils.isAuthenticated()) {
                 LOG.info("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
                 authenticateByEmailAndPassword(loggedUser, response);
             }
@@ -391,7 +401,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        ResponseEntity<String> success =  new ResponseEntity<String>(HttpStatus.OK);
+        ResponseEntity<String> success = new ResponseEntity<String>(HttpStatus.OK);
         if (request.getCookies() == null) {
             Cookie cookieAuthToken = new Cookie("authToken", null);
             cookieAuthToken.setMaxAge(0);
@@ -443,13 +453,15 @@ public class LoginRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    public ResponseEntity<String> changePassword(@RequestBody @Validated FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> changePassword(@RequestBody @Validated FormChangePassword formChangePassword,
+                                                 HttpServletRequest request, HttpServletResponse response) {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
         /* Edit Profile | change password */
         if (passwordEncoder.matches(formChangePassword.getPassword(), profile.getPassword())) {
             profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             profilesService.editProfile(profile);
-            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
+            emailService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "",
+                    VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
 
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("authToken")) {

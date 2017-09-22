@@ -22,7 +22,7 @@ import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.gup.service.emailnotification.MailSenderService;
+import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
@@ -70,7 +70,7 @@ public class LostPasswordRestController {
     private String hostNameUrl;
 
     @Autowired
-    private MailSenderService mailSenderService;
+    private EmailService emailService;
 
     /**
      * #1 Generate new client password
@@ -91,7 +91,7 @@ public class LostPasswordRestController {
             profile.setPasswordRestore(hashedPassword); //profile.setPassword(hashedPassword);
             profilesService.editProfile(profile);
             // TODO send to e-mail
-            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, generateURLRecovery(domain, profile.getId(), secret)));
+            emailService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, generateURLRecovery(domain, profile.getId(), secret)));
             // TODO return new ResponseEntity<>(generateURLRecovery(domain, profile.getId(), secret), HttpStatus.OK);
             return new ResponseEntity<>(HttpStatus.OK);
         }

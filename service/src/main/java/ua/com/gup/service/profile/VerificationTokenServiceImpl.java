@@ -1,23 +1,14 @@
 package ua.com.gup.service.profile;
 
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import ua.com.gup.exception.AlreadyVerifiedTokenException;
-import ua.com.gup.exception.AuthenticationException;
-import ua.com.gup.exception.TokenHasExpiredException;
-import ua.com.gup.exception.TokenNotFoundException;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.repository.dao.profile.VerificationTokenRepository;
-import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.gup.service.emailnotification.MailSenderService;
 
 import java.util.List;
 
@@ -25,16 +16,10 @@ import java.util.List;
 @Service
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
-//    private static final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$");
-
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    private MailSenderService mailSenderService;
-
-    @Autowired
-//    private ProfileRepository profileRepository;
     private ProfilesService profilesService;
 
     @Autowired
@@ -49,81 +34,65 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Value("${verification.token.emailRegistration.timeToLive.inMinutes}")
     private int emailRegistrationTokenExpiryTimeInMinutes;
 
-    @Value("${hostName.url}")
-    private String hostNameUrl;
 
-    @Transactional
-    @Async
     @Override
-    public VerificationToken sendEmailRegistrationToken(String userId) {
-        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
-        verificationTokenRepository.save(token);
-        Profile profile = ensureUserIsLoaded(userId);
-        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
-        return token;
+    public VerificationToken generateEmailRegistrationToken(String userId) {
+        return new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
     }
 
-////    @Transactional
-////    @Async
-////    public VerificationToken sendEmailRegistrationToken(String userId) {
-////        User user = ensureUserIsLoaded(userId);
-////        VerificationToken token = new VerificationToken(user,
-////                VerificationTokenType.emailRegistration, emailRegistrationTokenExpiryTimeInMinutes);
-////        tokenRepository.save(token);
-////        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(user,
-////                token, hostNameUrl));
-////        return token;
-////    }
+    @Override
+    public void saveToken(VerificationToken token) {
+        verificationTokenRepository.save(token);
+    }
 
-    @Transactional
-    @Async
+
     @Override
     public VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken) {
-        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
-        verificationTokenRepository.save(token);
-
-        Profile profile = ensureUserIsLoaded(userId);
-        hostNameUrl = refreshToken;
-        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
-        return token;
+        throw new NotImplementedException();
+//        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
+//        verificationTokenRepository.save(token);
+//        Profile profile = ensureUserIsLoaded(userId);
+//        hostNameUrl = refreshToken;
+//        emailService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
+//        return token;
     }
 
     /**
      * generate token if user found otherwise do nothing
+     * <p>
+     * //   * @param lostPasswordRequest
      *
-//   * @param lostPasswordRequest
      * @return a token or null if user not found
      */
-    @Transactional
-    @Async
     public VerificationToken sendLostPasswordToken(String email) {
-        VerificationToken token = null;
-        Profile profile = profilesService.findProfileByEmail(email);
-
-        if (profile != null) {
-            List<VerificationToken> tokens = verificationTokenRepository.findByUserIdAndTokenType(profile.getId(), VerificationTokenType.LOST_PASSWORD);
-            token = getActiveToken(tokens);
-            if (token == null) {
-                token = new VerificationToken(profile.getId(),
-                VerificationTokenType.LOST_PASSWORD, lostPasswordTokenExpiryTimeInMinutes);
-                verificationTokenRepository.save(token);
-            }
-            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
-        }
-
-        return token;
+        throw new NotImplementedException();
+//        VerificationToken token = null;
+//        Profile profile = profilesService.findProfileByEmail(email);
+//
+//        if (profile != null) {
+//            List<VerificationToken> tokens = verificationTokenRepository.findByUserIdAndTokenType(profile.getId(), VerificationTokenType.LOST_PASSWORD);
+//            token = getActiveToken(tokens);
+//            if (token == null) {
+//                token = new VerificationToken(profile.getId(),
+//                        VerificationTokenType.LOST_PASSWORD, lostPasswordTokenExpiryTimeInMinutes);
+//                verificationTokenRepository.save(token);
+//            }
+//            emailService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
+//        }
+//
+//        return token;
     }
 
     @Override
-    @Transactional
     public VerificationToken verifyToken(String base64EncodedToken) {
-        VerificationToken token = getVerificationToken(base64EncodedToken);
-        if (token.isVerified()) {
-            throw new AlreadyVerifiedTokenException();
-        }
-        token.setVerified(true);
-        verificationTokenRepository.save(token);
-        return token;
+        throw new NotImplementedException();
+//        VerificationToken token = getVerificationToken(base64EncodedToken);
+//        if (token.isVerified()) {
+//            throw new AlreadyVerifiedTokenException();
+//        }
+//        token.setVerified(true);
+//        verificationTokenRepository.save(token);
+//        return token;
     }
 
 //    @Transactional
@@ -141,33 +110,33 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //        if (token == null) {
 //            token = sendEmailVerificationToken(user);
 //        } else {
-//            mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(user, token, hostNameUrl));
+//            emailService.sendVerificationEmail(new EmailServiceTokenModel(user, token, hostNameUrl));
 //        }
 //        return token;
 //    }
 
 
     @Override
-    @Transactional
     public VerificationToken resetPassword(String base64EncodedToken, String password) {
-        Assert.notNull(base64EncodedToken);
-        VerificationToken token = getVerificationToken(base64EncodedToken);
-        if (token.isVerified()) {
-            throw new AlreadyVerifiedTokenException();
-        }
-        token.setVerified(true);
-        Profile profile;
-        try {
-            profile = new Profile()
-                .setId(token.getUserId())
-                .setPassword(passwordEncoder.encode(password));
-        } catch (Exception e) {
-            throw new AuthenticationException();
-        }
-
-        profilesService.editProfile(profile);
-        verificationTokenRepository.save(token);
-        return token;
+        throw new NotImplementedException();
+//        Assert.notNull(base64EncodedToken);
+//        VerificationToken token = getVerificationToken(base64EncodedToken);
+//        if (token.isVerified()) {
+//            throw new AlreadyVerifiedTokenException();
+//        }
+//        token.setVerified(true);
+//        Profile profile;
+//        try {
+//            profile = new Profile()
+//                    .setId(token.getUserId())
+//                    .setPassword(passwordEncoder.encode(password));
+//        } catch (Exception e) {
+//            throw new AuthenticationException();
+//        }
+//
+//        profilesService.editProfile(profile);
+//        verificationTokenRepository.save(token);
+//        return token;
     }
 
 //    private VerificationToken loadToken(String base64EncodedToken) {
@@ -184,17 +153,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //    }
 
     @Override
-    public VerificationToken getVerificationToken(String base64EncodedToken) {
-        Assert.notNull(base64EncodedToken);
-        String rawToken = new String(Base64.decodeBase64(base64EncodedToken.getBytes()));
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(rawToken);
-        if (verificationToken == null) {
-            throw new TokenNotFoundException();
-        }
-        if (verificationToken.hasExpired()) {
-            throw new TokenHasExpiredException();
-        }
-        return verificationToken;
+    public VerificationToken getVerificationToken(String rawToken) {
+        return verificationTokenRepository.findByToken(rawToken);
     }
 
 
@@ -231,7 +191,4 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         this.lostPasswordTokenExpiryTimeInMinutes = lostPasswordTokenExpiryTimeInMinutes;
     }
 
-    public void setHostNameUrl(String hostNameUrl) {
-        this.hostNameUrl = hostNameUrl;
-    }
 }

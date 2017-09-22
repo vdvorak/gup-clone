@@ -50,7 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getEmail(), profile.getPassword(),
-                true, true, true, true, authorities,
+                profile.getActive(), true, true, true, authorities,
                 profile.getId());
     }
 
