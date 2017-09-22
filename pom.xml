@@ -1,24 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <name>GUP</name>
-    <description>Xchange Rate API</description>
-    <groupId>ua.com.gup</groupId>
-    <artifactId>GUP</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <url>http://maven.apache.org</url>
-
-
+    <!--Add Spring boot for development parent context -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.3.3.RELEASE</version>
     </parent>
-
-
+    <artifactId>GUP</artifactId>
+    <groupId>ua.com.gup</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>GUP</name>
+    <description>Global Ukraine Portal</description>
+    <url>www.dev.gup.com.ua</url>
+    <organization>
+        <name>GUP</name>
+        <url>http://www.gup.com.ua</url>
+    </organization>
+    <!--GLOBAL UKRAINE PORTAL -->
     <properties>
         <version>0.0.1-SNAPSHOT</version>
         <springframework.version>4.2.4.RELEASE</springframework.version>
@@ -29,6 +30,45 @@
         <swagger2.version>2.6.1</swagger2.version>
     </properties>
 
+    <prerequisites>
+        <maven>3.2.5</maven>
+    </prerequisites>
+
+    <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
+    <!--<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>-->
 
     <modules>
         <module>core</module>
