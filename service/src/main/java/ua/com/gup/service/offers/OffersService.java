@@ -21,50 +21,40 @@ public interface OffersService {
     /**
      * Create one offer and return it.
      *
-     * @param offer                 - the offer object.
+     * @param offer - the offer object.
      */
     void create(Offer offer);
 
 
     /**
-     * Create offer with registration. For those case where user is not authorized.
-     * User who authorized also can create offer with this method
-     *
-     * @param offerRegistration     - the OfferRegistration object contain information about offer
-     *                          and if need - information about user registration.
-     * @return                      - the ResponseEntity object
-     */
-    ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files);
-
-    /**
      * Return one offer by it's id.
      *
-     * @param offerId               - the offer id
-     * @return                      - the offer object
+     * @param offerId - the offer id
+     * @return - the offer object
      */
     Offer findById(String offerId);
 
     /**
      * Return one offer by it's seo Key.
      *
-     * @param seoKey                - the seo key of the offer.
-     * @return                      - the offer.
+     * @param seoKey - the seo key of the offer.
+     * @return - the offer.
      */
     Offer findBySeoKey(String seoKey);
 
     /**
      * Methods receive seoUrl as string. Return offer and increase it numbers of views.
      *
-     * @param seoUrl                - the Seo URL of the specific offer.
-     * @return                      - the Offer object
+     * @param seoUrl - the Seo URL of the specific offer.
+     * @return - the Offer object
      */
     Offer findBySeoUrlAndIncViews(String seoUrl);
 
     /**
      * Return offer and increase it's views count.
      *
-     * @param offerId               - the offer ID.
-     * @return                      - the Offer object
+     * @param offerId - the offer ID.
+     * @return - the Offer object
      */
     Offer findOfferAndIncViews(String offerId);
 
@@ -73,31 +63,31 @@ public interface OffersService {
     /**
      * Delete offer by it's id.
      *
-     * @param id                    - the offer id.
+     * @param id - the offer id.
      */
     void delete(String id);
 
     /**
      * Return true if offer exist.
      *
-     * @param id                    - the offer id.
-     * @return                      - the true or false.
+     * @param id - the offer id.
+     * @return - the true or false.
      */
     boolean offerExists(String id);
 
     /**
      * Return EntityPage of Offers that received with offer filter options.
      *
-     * @param offerFilterOptions    - the OfferFilterOptions object.
-     * @return                      - the EntityPage of Offers.
+     * @param offerFilterOptions - the OfferFilterOptions object.
+     * @return - the EntityPage of Offers.
      */
     EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
 
     /**
      * Edit offer and return new updated one.
      *
-     * @param oldOffer              - the Offer which we need to update from.
-     * @return                      - the new Offer.
+     * @param oldOffer - the Offer which we need to update from.
+     * @return - the new Offer.
      */
     Offer edit(Offer oldOffer);
 
@@ -105,24 +95,24 @@ public interface OffersService {
      * This method edit offer and previously check specific fields for update and can change moderator status if some
      * of the field were updated.
      *
-     * @param offerRegistration     - the OfferRegistration object.
-     * @param files                 - the array fo MultiPartFile - images from client side.
-     * @return                      - the ResponseEntity object for the REST controller.
+     * @param offerRegistration - the OfferRegistration object.
+     * @param files             - the array fo MultiPartFile - images from client side.
+     * @return - the ResponseEntity object for the REST controller.
      */
     ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files);
 
     /**
      * Reservation of the one offer.
      *
-     * @param offerId               - the Offer id.
-     * @param reservation           - the Reservation object.
+     * @param offerId     - the Offer id.
+     * @param reservation - the Reservation object.
      */
     void reserveOffer(String offerId, Reservation reservation);
 
     /**
      * Delete reservation by offer id.
      *
-     * @param offerId               - the offer's ID which must be deleted.
+     * @param offerId - the offer's ID which must be deleted.
      */
     void deleteReservation(String offerId);
 
@@ -137,31 +127,32 @@ public interface OffersService {
     /**
      * Delete specific rent from offer.
      *
-     * @param offerId               - the offer's ID.
-     * @param rentId                - the id of rent.
+     * @param offerId - the offer's ID.
+     * @param rentId  - the id of rent.
      */
     void deleteRent(String offerId, String rentId);
 
     /**
      * Change the active status of the offer.
      *
-     * @param offerId               - the offer ID.
-     * @param isActive              - the true or false.
+     * @param offerId  - the offer ID.
+     * @param isActive - the true or false.
      */
     void setActive(String offerId, boolean isActive);
 
     /**
      * Method for autocomplete input in frontend for searching offers.
      *
-     * @param name                  - the String input part.
-     * @return                      - the Set of results string.
+     * @param name - the String input part.
+     * @return - the Set of results string.
      */
     Set<String> getMatchedNames(String name);
+
 
     /**
      * Return id if main offer image
      *
-     * @return                      - the ID of the main image.
+     * @return - the ID of the main image.
      */
     String getMainOfferImage(Offer offer);
 }

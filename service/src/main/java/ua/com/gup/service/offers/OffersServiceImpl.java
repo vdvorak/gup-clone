@@ -10,9 +10,9 @@ import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
 import ua.com.gup.dto.OfferRegistration;
+import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.offer.*;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.sequence.SeoSequenceService;
 import ua.com.gup.util.EntityPage;
@@ -29,29 +29,10 @@ import java.util.*;
 public class OffersServiceImpl implements OffersService {
 
     @Autowired
-    private SeoSequenceService seoSequenceService;
-
-    @Autowired
     private OfferRepository offerRepository;
 
     @Autowired
     private StorageService storageService;
-
-
-    @Override
-    public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
-        offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-        if (offerRegistration.getImages() != null) {
-            // prepare images
-            List<String> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
-            // add prepared image to the offer
-            offerRegistration.getOffer().setImageIds(resultImageList);
-        }
-        // create new offer
-        create(offerRegistration.getOffer());
-        return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-    }
-
 
     @Override
     public void create(Offer offer) {
@@ -61,7 +42,7 @@ public class OffersServiceImpl implements OffersService {
 
         try {
             List<Image> images = null;
-            if(offer.getImageIds().size()<1){
+            if (offer.getImageIds().size() < 1) {
                 images = new ArrayList<>();
                 Image image = new Image();
                 image.setUrl("null");
@@ -71,7 +52,7 @@ public class OffersServiceImpl implements OffersService {
             }
             //todo vdvorak
             //offer.setImageIds(images);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             offer.setImageIds(null);
         }
 
@@ -300,6 +281,7 @@ public class OffersServiceImpl implements OffersService {
         return null;
     }
     //----------------------------------------------------- Helpers ----------------------------------------------------
+
     /**
      * Create OfferFilterOption object for search offers relevant to current on it's city.
      *
@@ -416,22 +398,6 @@ public class OffersServiceImpl implements OffersService {
     private void offerSeoUrlAndPaidServicePreparator(SeoSequenceService seoSequenceService, OfferRegistration offerRegistration) {
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
         SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
-    }
-
-
-    private List<String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
-        List<Image> images = offerRegistration.getImages();
-        List<String> resultImages = new ArrayList<>();
-        for (Image image : images) {
-            Integer currentImageIndex = image.getIndex();
-            if (currentImageIndex != null) {
-                addImageToTheImageLIst(resultImages, files[currentImageIndex]);
-            } else if (StringUtils.isNotBlank(image.getUrl())) {
-                MultipartFile multipartFile = storageService.imageDownloader(image.getUrl());
-                addImageToTheImageLIst(resultImages, multipartFile);
-            }
-        }
-        return resultImages;
     }
 
 
