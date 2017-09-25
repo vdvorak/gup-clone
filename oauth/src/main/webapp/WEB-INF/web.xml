@@ -48,12 +48,12 @@
 
     <filter>
         <filter-name>oauthFilter</filter-name>
-        <filter-class>OAuthFilter</filter-class>
+        <filter-class>ua.com.gup.config.filter.OAuthFilter</filter-class>
     </filter>
 
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>CORSFilter</filter-class>
+        <filter-class>ua.com.gup.config.filter.CORSFilter</filter-class>
     </filter>
 
     <filter-mapping>
