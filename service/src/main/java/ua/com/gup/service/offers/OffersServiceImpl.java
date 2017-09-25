@@ -6,16 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.domain.Event;
 import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.offer.model.Address;
-import ua.com.gup.domain.offer.model.OfferCategory;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
+import ua.com.gup.domain.offer.model.Address;
+import ua.com.gup.domain.offer.model.OfferCategory;
 import ua.com.gup.dto.OfferInfo;
 import ua.com.gup.dto.OfferRegistration;
-import ua.com.gup.domain.Event;
 import ua.com.gup.model.activityfeed.EventType;
-import ua.com.gup.model.offer.*;
+import ua.com.gup.model.offer.Image;
+import ua.com.gup.model.offer.OfferModifiedField;
+import ua.com.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.model.offer.paidservices.PaidServices;
 import ua.com.gup.model.order.Order;
@@ -57,20 +60,6 @@ public class OffersServiceImpl implements OffersService {
 //    @Autowired
 //    private SubscriptionService subscriptionService;  //TODO ?
 
-    @Override
-    public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
-        offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-        if (offerRegistration.getImages() != null) {
-            // prepare images
-            List<String> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
-            // add prepared image to the offer
-            offerRegistration.getOffer().setImageIds(resultImageList);
-        }
-        // create new offer
-        create(offerRegistration.getOffer());
-        return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-    }
-
 
     @Override
     public void create(Offer offer) {
@@ -80,7 +69,7 @@ public class OffersServiceImpl implements OffersService {
 
         try {
             List<Image> images = null;
-            if(offer.getImageIds().size()<1){
+            if (offer.getImageIds().size() < 1) {
                 images = new ArrayList<>();
                 Image image = new Image();
                 image.setUrl("null");
@@ -90,7 +79,7 @@ public class OffersServiceImpl implements OffersService {
             }
             //todo vdvorak
             //offer.setImageIds(images);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             offer.setImageIds(null);
         }
 
@@ -417,6 +406,7 @@ public class OffersServiceImpl implements OffersService {
         return null;
     }
     //----------------------------------------------------- Helpers ----------------------------------------------------
+
     /**
      * Create OfferFilterOption object for search offers relevant to current on it's city.
      *
@@ -615,22 +605,6 @@ public class OffersServiceImpl implements OffersService {
         paidServices.setLastUpdateDateToCurrentDate();
         //todo maybe add in future Offer change
         //offerRegistration.getOffer().setPaidServices(paidServices);
-    }
-
-
-    private List<String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
-        List<Image> images = offerRegistration.getImages();
-        List<String> resultImages = new ArrayList<>();
-        for (Image image : images) {
-            Integer currentImageIndex = image.getIndex();
-            if (currentImageIndex != null) {
-                addImageToTheImageLIst(resultImages, files[currentImageIndex]);
-            } else if (StringUtils.isNotBlank(image.getUrl())) {
-                MultipartFile multipartFile = storageService.imageDownloader(image.getUrl());
-                addImageToTheImageLIst(resultImages, multipartFile);
-            }
-        }
-        return resultImages;
     }
 
 

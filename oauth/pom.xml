@@ -23,12 +23,18 @@
     </properties>
 
     <dependencies>
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
         <!-- BEGIN Module dependency other moduules -->
         <dependency>
             <groupId>ua.com.gup</groupId>
             <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
+
         <!-- END Module dependency other modules -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -149,25 +155,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
 
-        <!--mail-->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4</version>
-        </dependency>
 
         <!-- Aspectj -->
         <dependency>
@@ -204,60 +192,6 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-
-        <!-- Test -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>2.4.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>spring-mock-mvc</artifactId>
-            <version>2.4.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.0.31-beta</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>2.4.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>spring-mock-mvc</artifactId>
-            <version>2.4.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
@@ -277,11 +211,7 @@
             <artifactId>joda-time</artifactId>
             <version>2.8.2</version>
         </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -314,191 +244,35 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger2.version}</version>
         </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.10.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
     </dependencies>
 
-   <!-- <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <build.profile.id>dev</build.profile.id>
-                <skip.integration.tests>true</skip.integration.tests>
-                <skip.unit.tests>false</skip.unit.tests>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <filtering>true</filtering>
-                        <directory>src/test/resources</directory>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-report-plugin</artifactId>
-                        <version>${surefire.version}</version>
-                        <configuration>
-                            <showSuccess>true</showSuccess>
-                            <alwaysGenerateFailsafeReport>true</alwaysGenerateFailsafeReport>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report-only</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>integration-test</id>
-            <properties>
-                <build.profile.id>integration-test</build.profile.id>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>true</skip.unit.tests>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <filtering>true</filtering>
-                        <directory>src/integration-test/resources</directory>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-report-plugin</artifactId>
-                        <version>${surefire.version}</version>
-                        <configuration>
-                            <showSuccess>true</showSuccess>
-                            <alwaysGenerateFailsafeReport>true</alwaysGenerateFailsafeReport>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>failsafe-report-only</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.2</version>
-                        <configuration>
-                            <port>9090</port>
-                            <path>/api</path>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>tomcat-run</id>
-                                <goals>
-                                    <goal>run-war-only</goal>
-                                </goals>
-                                <phase>pre-integration-test</phase>
-                                <configuration>
-                                    <fork>true</fork>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>tomcat-shutdown</id>
-                                <goals>
-                                    <goal>shutdown</goal>
-                                </goals>
-                                <phase>post-integration-test</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>-->
-
-  <!--  <build>
+    <build>
         <finalName>api##${project.version}</finalName>
-        &lt;!&ndash;<filters>
-            <filter>profiles/${build.profile.id}/config.properties</filter>
-        </filters>&ndash;&gt;
-        &lt;!&ndash;<resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>&ndash;&gt;
         <defaultGoal>package</defaultGoal>
-
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
-                <configuration>
-                    <skipTests>${skip.unit.tests}</skipTests>
-                    <excludes>
-                        <exclude>**/*.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
-                <executions>
-                    <execution>
-                        <id>add-integration-test-sources</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/integration-test/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-integration-test-resources</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>add-test-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <filtering>true</filtering>
-                                    <directory>src/integration-test/resources</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${surefire.version}</version>
-                <executions>
-                    <execution>
-                        <id>integration-tests</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <skipTests>${skip.integration.tests}</skipTests>
-                            <includes>
-                                <include>**/*.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -509,120 +283,82 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Project-Name>Integration Tests App</Project-Name>
-                            <Build-Version>${project.version}</Build-Version>
-                            <Build-Date>${maven.build.timestamp}</Build-Date>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.6</version>
                 <executions>
                     <execution>
-                        <id>default-jar</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Test.*</exclude>
+                        <exclude>**/*Suite.*</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>none</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*Test.*</include>
+                                <include>**/*Suite.*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
+                <configuration>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <stopPort>9095</stopPort>
+                    <stopKey>STOP</stopKey>
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>9090</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <scanIntervalSeconds>0</scanIntervalSeconds>
+                            <daemon>true</daemon>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
         </plugins>
-    </build>-->
-    <build>
-        <finalName>api##${project.version}</finalName>
-        <defaultGoal>package</defaultGoal>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-                <source>${target.jdk}</source>
-                <target>${target.jdk}</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.6</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>integration-test</goal>
-                        <goal>verify</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.6</version>
-            <configuration>
-                <excludes>
-                    <exclude>**/*Test.*</exclude>
-                    <exclude>**/*Suite.*</exclude>
-                </excludes>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>integration-test</id>
-                    <goals>
-                        <goal>test</goal>
-                    </goals>
-                    <phase>integration-test</phase>
-                    <configuration>
-                        <excludes>
-                            <exclude>none</exclude>
-                        </excludes>
-                        <includes>
-                            <include>**/*Test.*</include>
-                            <include>**/*Suite.*</include>
-                        </includes>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <!--<plugin>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>maven-jetty-plugin</artifactId>
-            <version>6.1.26</version>
-            <configuration>
-                <scanIntervalSeconds>5</scanIntervalSeconds>
-                <stopPort>9095</stopPort>
-                <stopKey>STOP</stopKey>
-                <connectors>
-                    <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                        <port>9090</port>
-                        <maxIdleTime>60000</maxIdleTime>
-                    </connector>
-                </connectors>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>start-jetty</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                        <goal>run</goal>
-                    </goals>
-                    <configuration>
-                        <scanIntervalSeconds>0</scanIntervalSeconds>
-                        <daemon>true</daemon>
-                    </configuration>
-                </execution>
-                <execution>
-                    <id>stop-jetty</id>
-                    <phase>post-integration-test</phase>
-                    <goals>
-                        <goal>stop</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>-->
-    </plugins>
-</build>
+    </build>
 </project>
