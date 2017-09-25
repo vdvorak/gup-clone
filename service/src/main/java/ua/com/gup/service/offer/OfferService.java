@@ -76,13 +76,15 @@ public interface OfferService {
     Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable);
 
 
+    Optional<OfferViewDetailsDTO> findOne(String id);
+
     /**
      * Get the "id" offer.
      *
      * @param id the id of the entity
      * @return the entity
      */
-    OfferViewDetailsDTO findOne(String id);
+    OfferViewDetailsDTO findOneWithViewIncrement(String id);
 
     /**
      * Get one OfferDetailsDTO by seoUrl.
