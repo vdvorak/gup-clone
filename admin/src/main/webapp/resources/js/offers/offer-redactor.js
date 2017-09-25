@@ -203,7 +203,7 @@
             fd.append('file', f);
             $.ajax({
                 type: "POST",
-                url: "/api/rest/fileStorage/OFFERS/file/upload/",
+                url: "/swagger/rest/fileStorage/OFFERS/file/upload/",
                 data: fd,
                 async: false,
                 cache: false,
@@ -231,7 +231,7 @@
             .css("display", "inline-block");
         cloneImg.find('img')
             .attr("alt", "")
-            .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
+            .attr("src", '/swagger/rest/fileStorage/OFFERS/file/read/id/' + id)
             .attr("id", id)
             .click(onClickSetMainImg);
         cloneImg.find('span')
@@ -250,7 +250,7 @@
         delete imgsArr[idImg];
         $.ajax({
             type: "POST",
-            url: "/api/rest/fileStorage/OFFERS/file/delete/id/" + idImg,
+            url: "/swagger/rest/fileStorage/OFFERS/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
                 deleteImgFromPage(idImg);
             }
@@ -269,7 +269,7 @@
 
     function deleteImgFromDB(arr) {
         return $.ajax({
-            url: '/api/rest/fileStorage/OFFERS/file/delete',
+            url: '/swagger/rest/fileStorage/OFFERS/file/delete',
             method: 'POST',
             data: {'fileId': arr},
             traditional: true
@@ -730,7 +730,7 @@
         var data = JSON.stringify(this);
         return $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/create",
+            url: "/swagger/rest/offersService/offer/create",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: data,
@@ -745,7 +745,7 @@
     function readOfferData() {
         return $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/id/" + offerId + "/read",
+            url: "/swagger/rest/offersService/offer/id/" + offerId + "/read",
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         });
@@ -755,7 +755,7 @@
         var data = JSON.stringify(this);
         return $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/edit",
+            url: "/swagger/rest/offersService/offer/edit",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: data,
@@ -770,7 +770,7 @@
     function deleteOffer() {
         return $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/id/" + offerId + "/delete",
+            url: "/swagger/rest/offersService/offer/id/" + offerId + "/delete",
             statusCode: {
                 204: function () {
                     window.location.href = '/offers';

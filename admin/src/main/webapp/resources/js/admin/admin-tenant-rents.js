@@ -16,7 +16,7 @@ $(document).ready(function() {
     var request = $.ajax({
         type: 'POST',
         contentType: "application/json; charset=utf-8",
-        url: 'http://gup.com.ua:8186/api/rest/offersService/offer/read/all',
+        url: 'http://gup.com.ua:8186/swagger/rest/offersService/offer/read/all',
         data: JSON.stringify(emptyObj),
         error: function(offers) {
             console.log(offers.responseText);

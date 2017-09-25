@@ -8,10 +8,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
-import ua.com.gup.repository.dao.oauth2.OAuth2RefreshTokenRepository;
-import ua.com.gup.model.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.gup.model.oauth2.OAuth2AuthenticationRefreshToken;
+import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
+import ua.com.gup.repository.oauth2.OAuth2RefreshTokenRepository;
+import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.domain.oauth2.OAuth2AuthenticationRefreshToken;
 
 import java.util.Collection;
 import java.util.List;

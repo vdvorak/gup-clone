@@ -32,7 +32,7 @@
         if (utils.properties && !utils.properties.length) delete utils.properties;
         $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/read/all",
+            url: "/swagger/rest/offersService/offer/read/all",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(utils),
@@ -68,11 +68,11 @@
         if (arrKeys.length) {
             for (var key in imagesIds) {
                 if (imagesIds[key] === 'pic1') {
-                    imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
+                    imgSrc = '/swagger/rest/fileStorage/OFFERS/file/read/id/' + key;
                     break;
                 }
             }
-            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
+            if (imgSrc === '') imgSrc = '/swagger/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
         } else {
             imgSrc = "/resources/images/no_photo.jpg";
         }

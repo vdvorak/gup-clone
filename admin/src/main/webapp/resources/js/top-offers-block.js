@@ -17,7 +17,7 @@ function getOfferImageUrl(imagesIds) {
     if (imagesIds) {
         for (var imgId in imagesIds) {
             if (imagesIds[imgId] === "pic1") {
-                return "/api/rest/fileStorage/OFFERS/file/read/id/" + imgId;
+                return "/swagger/rest/fileStorage/OFFERS/file/read/id/" + imgId;
             }
         }
     }
@@ -35,7 +35,7 @@ function loadAndAppendTopOffers() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/api/rest/offersService/offer/read/all",
+        url: "/swagger/rest/offersService/offer/read/all",
         data: JSON.stringify(offerFO),
         statusCode: {
             200: function (data) {

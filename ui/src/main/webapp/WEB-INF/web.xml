@@ -74,7 +74,7 @@
 
     <filter>
         <filter-name>gzipFilter</filter-name>
-        <filter-class>ua.com.gup.web.rest.filter.GZIPFilter</filter-class>
+        <filter-class>ua.com.gup.config.filter.GZIPFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>gzipFilter</filter-name>

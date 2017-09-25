@@ -207,7 +207,7 @@ setTimeout(function run() {
 function getLoggedInProfileAjax() {
     $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/read/loggedInProfile",
+        url: "/swagger/rest/profilesService/profile/read/loggedInProfile",
         async: false,
         success: function (profile) {
 
@@ -215,7 +215,7 @@ function getLoggedInProfileAjax() {
 
             if (isNeedDrawAllHeader) { // - do it only after first page loading
                 if (profile.imgId) {
-                    $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
+                    $('#headerProfileImg').attr('src', '/swagger/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
                 } else {
                     $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
                 }
@@ -255,7 +255,7 @@ function getLoggedInProfileAjax() {
     $.ajax({
         type: "POST",
         contentType: "text/plain; charset=utf-8",
-        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+        url: "/swagger/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
 
             if (!isNeedDrawAllHeader) {
@@ -270,7 +270,7 @@ function getLoggedInProfileAjax() {
                     for (var i in data) {
                         $('.dropDownMail').append($('.mailMessage').last().clone());
                         $('.mailMessage p').last().text(data[i]['message']);
-                        $('.mailMessage img').last().attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
+                        $('.mailMessage img').last().attr('src', '/swagger/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
                         $('.mailMessage').last().attr('id', i);
                     }
                 }
@@ -374,7 +374,7 @@ function fillNotificationListBlock() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/api/rest/activityFeed/event/read/all",
+        url: "/swagger/rest/activityFeed/event/read/all",
         data: JSON.stringify(eventFO),
         statusCode: {
             200: function (responseEntity) {
@@ -405,7 +405,7 @@ function fillNotificationListBlock() {
 $('#read-all-events').on('click', function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/activityFeed/event/set/viewed/all",
+        url: "/swagger/rest/activityFeed/event/set/viewed/all",
         statusCode: {
             200: function (response) {
                 $(".dropDownBell").empty();
@@ -419,7 +419,7 @@ $('#read-all-events').on('click', function () {
 
 function getImgSrcForNotification(imgId) {
     if (imgId) {
-        return '/api/rest/fileStorage/PROFILE/file/read/id/' + imgId + '?cachedImage=1';
+        return '/swagger/rest/fileStorage/PROFILE/file/read/id/' + imgId + '?cachedImage=1';
     } else {
         return '/resources/images/no_avatar.jpg';
     }
@@ -431,7 +431,7 @@ function fillContactListBlock(contactList) {
         contactList.forEach(function (contactId) {
             $.ajax({
                 type: "POST",
-                url: "/api/rest/profilesService/profile/read/id/" + contactId,
+                url: "/swagger/rest/profilesService/profile/read/id/" + contactId,
                 success: function (profile) {
                     $('.dropDownBook').append(
                         '<div class="friend">' +
@@ -458,7 +458,7 @@ function getContactProfileImgTagHtml(imgId) {
     if (imgId) {
         imgTag += 'src="/resources/images/no_photo.jpg"';
     } else {
-        imgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + imgId + '?cachedImage=1"';
+        imgTag += 'src="/swagger/rest/fileStorage/PROFILE/file/read/id/' + imgId + '?cachedImage=1"';
     }
     imgTag += ' />';
 
@@ -500,7 +500,7 @@ function dialogueMakeRead(id) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
+        url: 'swagger/rest/dialogueService/dialogue/updateRead/' + id,
         success: function (response) {
         }
     });
@@ -514,7 +514,7 @@ function sendMessageAjax(privateMessage, dialogueId) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/api/rest/dialogueService/dialogue/id/" + dialogueId + "/message/create",
+        url: "/swagger/rest/dialogueService/dialogue/id/" + dialogueId + "/message/create",
         data: JSON.stringify(privateMessage),
         success: function (response) {
         }

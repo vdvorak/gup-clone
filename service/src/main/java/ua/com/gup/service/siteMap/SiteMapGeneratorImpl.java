@@ -4,7 +4,7 @@ package ua.com.gup.service.siteMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.service.offers.OffersService;
@@ -28,7 +28,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     private final String xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9";
     private final String xmlnsImage = "http://www.google.com/schemas/sitemap-image/1.1";
     private final String host = "http://gup.com.ua/";
-    private final String imageHost = "http://gup.com.ua:8084/api/rest/fileStorage/offers/photo/read/id/";
+    private final String imageHost = "http://gup.com.ua:8084/swagger/rest/fileStorage/offers/photo/read/id/";
 
     // FixMe need to be changed
     private final String MAIN_SITEMAP_DESTINATION = "C:\\My Downloads\\file.xml";

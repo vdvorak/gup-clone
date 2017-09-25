@@ -6,24 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.offer.model.Address;
-import ua.com.gup.domain.offer.model.OfferCategory;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
-import ua.com.gup.dto.OfferInfo;
 import ua.com.gup.dto.OfferRegistration;
-import ua.com.gup.domain.Event;
-import ua.com.gup.model.activityfeed.EventType;
 import ua.com.gup.model.offer.*;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.model.offer.paidservices.PaidServices;
-import ua.com.gup.model.order.Order;
-import ua.com.gup.model.order.OrderFeedback;
-import ua.com.gup.server.api.rest.dto.FileUploadWrapper;
-import ua.com.gup.service.activityfeed.ActivityFeedService;
+import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.service.order.OrderService;
 import ua.com.gup.service.sequence.SeoSequenceService;
 import ua.com.gup.util.EntityPage;
 import ua.com.gup.util.SecurityOperations;
@@ -38,10 +28,6 @@ import java.util.*;
 @Service
 public class OffersServiceImpl implements OffersService {
 
-
-    @Autowired
-    private OrderService orderService;
-
     @Autowired
     private SeoSequenceService seoSequenceService;
 
@@ -49,13 +35,8 @@ public class OffersServiceImpl implements OffersService {
     private OfferRepository offerRepository;
 
     @Autowired
-    private ActivityFeedService activityFeedService;
-
-    @Autowired
     private StorageService storageService;
 
-//    @Autowired
-//    private SubscriptionService subscriptionService;  //TODO ?
 
     @Override
     public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
@@ -276,7 +257,6 @@ public class OffersServiceImpl implements OffersService {
         //newOffer.setReservation(newReservation);
 
         Offer updatedOffer = offerRepository.findAndUpdate(newOffer);
-        activityFeedService.createEvent(new Event(updatedOffer.getAuthorId(), EventType.OFFER_RESERVATION, offerId, null, SecurityOperations.getLoggedUserId()));
     }
 
     @Override
@@ -306,103 +286,6 @@ public class OffersServiceImpl implements OffersService {
     public Set<String> getMatchedNames(String name) {
         return offerRepository.getMatchedNames(name);
     }
-
-
-    @Override
-    public OfferInfo getPublicOfferInfoByOffer(Offer offer) {
-        return publicOfferPreparator(offer);
-    }
-
-    @Override
-    public OfferInfo getPrivateOfferInfoByOffer(Offer offer) {
-        return privateOfferPreparator(offer);
-    }
-
-
-    @Override
-    public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
-
-        // here we receive list of offers but with redundant information
-        List<Offer> notPreparedOfferList;
-
-        if (offerFilterOptions.getFavouriteCategories() == null) {
-            notPreparedOfferList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
-        } else {
-            // if we have favourite categories in FO object - we must find offer relevant for each category
-            notPreparedOfferList = prepareListOfOffersRelevantToFavouriteCategories(offerFilterOptions);
-        }
-
-        return publicMiniOfferInfoPreparator(notPreparedOfferList);
-    }
-
-
-    @Override
-    public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
-        return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
-    }
-
-    @Override
-    public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList) {
-        List<OfferInfo> offerInfoList = new ArrayList<>();
-        List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
-
-        for (Offer offer : offerList) {
-            offerInfoList.add(privateOfferPreparatorForShortList(offer, orderTotalList));
-        }
-
-        return offerInfoList;
-    }
-
-
-    @Override
-    public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions) {
-        List<OfferInfo> offerInfoList = new ArrayList<>();
-
-        List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
-
-        List<Order> orderTotalList = orderService.findAllOrdersForUser(offerFilterOptions.getAuthorId());
-
-
-        for (Offer offer : offerList) {
-            offerInfoList.add(privateOfferPreparatorForShortList(offer, orderTotalList));
-        }
-
-        return offerInfoList;
-    }
-
-
-    @Override
-    public List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer) {
-
-        // receive list of relevant offer then transform it into offerInfo list
-        OfferFilterOptions offerFilterOptions = offerFilterOptionsPreparatorForRelevantSearchWithCity(offer);
-        LinkedList<OfferCategory> categories = new LinkedList<>(offerFilterOptions.getCategories());
-        int numberOfFilterOptions = categories.size() + 1;
-        Set<String> currentOffersIds = new HashSet<>();
-        currentOffersIds.add(offer.getId());
-        Map<String, Offer> relevantOffersMap = new LinkedHashMap<>();
-        // receive list of relevant offers first 3 categories match then 2 and 1
-        for (int i = 0; i < numberOfFilterOptions && relevantOffersMap.size() < 20; i++) {
-            // prepare set of the offers ID's which must be excluded in the next iterations of search
-            currentOffersIds.addAll(relevantOffersMap.keySet());
-            offerFilterOptions.setLimit(20 - relevantOffersMap.size());
-            // add current offer's to result map
-            //add extra offers from current filter options
-            offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOffersIds).getEntities().forEach(
-                    o -> relevantOffersMap.put(o.getId(), o)
-            );
-            if (categories.size() > 1) {
-                categories.removeLast();
-                offerFilterOptions.setCategories(new LinkedList<>(categories));
-            } else {
-                int limit = 20 - relevantOffersMap.size();
-                offerFilterOptions = offerFilterOptionsPreparatorOnlyWithSkipAndLimit(limit);
-            }
-        }
-        List<OfferInfo> relevantOffersList = publicMiniOfferInfoPreparator(new ArrayList<>(relevantOffersMap.values()));
-        return relevantOffersList;
-    }
-
 
     @Override
     public String getMainOfferImage(Offer offer) {
@@ -471,84 +354,7 @@ public class OffersServiceImpl implements OffersService {
         return offerFilterOptions;
     }
 
-    /**
-     * Make list of offerInfo from list of offers: delete unnecessary fields, add some additional fields
-     *
-     * @param offerList list of offers
-     * @return offerInfo list
-     */
-    private List<OfferInfo> publicMiniOfferInfoPreparator(List<Offer> offerList) {
-        List<OfferInfo> offerInfoList = new ArrayList<>();
-        for (Offer offer : offerList) {
-            offerInfoList.add(publicOfferPreparator(offer));
-        }
-        return offerInfoList;
-    }
-
-    /**
-     * Create OfferInfo and put there public version of offer
-     * and some additional fields
-     *
-     * @param offer Offer
-     * @return OfferInfo
-     */
-    private OfferInfo publicOfferPreparator(Offer offer) {
-        OfferInfo offerInfo = new OfferInfo();
-        offer.setLastOfferModerationReport(null);
-        offerInfo.setOffer(offer);
-        return offerInfo;
-    }
-
-    /**
-     * Create OfferInfo and put there private version of offer
-     * and some additional fields
-     *
-     * @param offer offer
-     * @return offerInfo object
-     */
-    private OfferInfo privateOfferPreparator(Offer offer) {
-        OfferInfo offerInfo = new OfferInfo();
-
-        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
-
-        offerInfo.setOffer(offer);
-        offerInfo.setOrders(orderService.findAllOrdersForOffer(offer.getId()));
-        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
-        return offerInfo;
-    }
-
-
     // ----------------------------- For offer short list in private profile cabinet ----------------------
-
-    /**
-     * @param offer          - the offer.
-     * @param orderTotalList - the order of the offer.
-     * @return - the OfferInfo object.
-     */
-    private OfferInfo privateOfferPreparatorForShortList(Offer offer, List<Order> orderTotalList) {
-        OfferInfo offerInfo = new OfferInfo();
-
-        int orderAmountForOffer = 0;
-
-        List<OrderFeedback> orderFeedbackList = new ArrayList<>();
-
-        for (Order order : orderTotalList) {
-            if (order.getOfferId().equals(offer.getId())) {
-                if (order.getOrderFeedback() != null) {
-                    orderFeedbackList.add(order.getOrderFeedback());
-                }
-                orderAmountForOffer++;
-            }
-        }
-
-        offerInfo.setOffer(offer);
-        offerInfo.setFeedbackCount(orderFeedbackList.size());
-        offerInfo.setOrderCount(orderAmountForOffer);
-
-
-        return offerInfo;
-    }
-
 
     /**
      * Prepare LIst of Offers relevant to favourite categories.
@@ -610,11 +416,6 @@ public class OffersServiceImpl implements OffersService {
     private void offerSeoUrlAndPaidServicePreparator(SeoSequenceService seoSequenceService, OfferRegistration offerRegistration) {
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
         SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
-
-        PaidServices paidServices = new PaidServices();
-        paidServices.setLastUpdateDateToCurrentDate();
-        //todo maybe add in future Offer change
-        //offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
 

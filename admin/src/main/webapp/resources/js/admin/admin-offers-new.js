@@ -1,6 +1,6 @@
 let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
-let urlReadAllOffer = apiUi + '/api/rest/offersService/offer/read/admin/all';
-let ulrImg = apiUi + '/api/rest/fileStorage/offers/photo/read/id/';
+let urlReadAllOffer = apiUi + '/swagger/rest/offersService/offer/read/admin/all';
+let ulrImg = apiUi + '/swagger/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = '/resources/images/no_photo.jpg';
 let urlEditOffer = host + '/editBulletin/';
 

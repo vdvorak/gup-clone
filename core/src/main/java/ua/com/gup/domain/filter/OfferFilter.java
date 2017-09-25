@@ -3,7 +3,7 @@ package ua.com.gup.domain.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.model.OfferStatistic;
+import ua.com.gup.model.offer.OfferStatistic;
 
 import java.io.Serializable;
 import java.util.*;

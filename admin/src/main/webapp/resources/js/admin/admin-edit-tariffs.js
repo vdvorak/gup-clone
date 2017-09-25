@@ -9,7 +9,7 @@ $(document).ready(function(){
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/api/rest/offersService/offer/read/all",
+        url: "/swagger/rest/offersService/offer/read/all",
         data: JSON.stringify(offerOptions),
 
         success: function (response) {

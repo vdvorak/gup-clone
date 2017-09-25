@@ -7,7 +7,7 @@
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.springframework.data.mongodb.core.MongoTemplate;
-//import ua.com.gup.repository.dao.offer.OfferRepositoryImpl;
+//import OfferRepositoryImpl;
 //import ua.com.gup.model.offer.Offer;
 //import ua.com.gup.model.offer.Reservation;
 //import ua.com.gup.model.offer.filter.OfferFilterOptions;

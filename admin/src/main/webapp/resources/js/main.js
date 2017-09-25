@@ -265,7 +265,7 @@ $(document).ready(function () {
     $('#noMoneyStartRich').on('click', function () {
         $.ajax({
             type: "POST",
-            url: "/api/rest/profilesService/join-organization",
+            url: "/swagger/rest/profilesService/join-organization",
             cache: false,
             success: function (response) {
                 if (response == "2") {
@@ -306,7 +306,7 @@ $(document).ready(function () {
 function findUser(userId) {
     return $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/read/id/" + userId
+        url: "/swagger/rest/profilesService/profile/read/id/" + userId
     });
 }
 

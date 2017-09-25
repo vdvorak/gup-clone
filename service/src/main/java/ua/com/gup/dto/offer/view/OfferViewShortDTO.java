@@ -1,7 +1,7 @@
 package ua.com.gup.dto.offer.view;
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.model.OfferStatistic;
+import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.dto.offer.OfferAddressShortDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
 

@@ -2,7 +2,7 @@ package ua.com.gup.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.model.Price;
+import ua.com.gup.model.offer.Price;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.dto.offer.OfferPriceDTO;
 

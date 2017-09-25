@@ -1324,7 +1324,7 @@
         c.fn.datetimepicker = old;
         return this
     };
-    c(document).on("focus.datetimepicker.data-api click.datetimepicker.data-api", '[data-provide="datetimepicker"]', function (h) {
+    c(document).on("focus.datetimepicker.data-swagger click.datetimepicker.data-swagger", '[data-provide="datetimepicker"]', function (h) {
         var g = c(this);
         if (g.data("datetimepicker")) {
             return

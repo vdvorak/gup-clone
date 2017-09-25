@@ -86,14 +86,14 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/api/rest/profilesService/profile/read/all",
+            url: "/swagger/rest/profilesService/profile/read/all",
             data: JSON.stringify(filterOptions),
             success: function (response) {
                 data = response.entities;
 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].imgId.length > 2) {
-                        data[i].imgId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
+                        data[i].imgId = '<img src="/swagger/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
                     } else {
                         data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }

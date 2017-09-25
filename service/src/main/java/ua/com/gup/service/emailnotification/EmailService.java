@@ -1,8 +1,8 @@
 package ua.com.gup.service.emailnotification;
 
 
-import ua.com.gup.domain.Offer;
-import ua.com.gup.model.email.EmailMessage;
+import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.model.profiles.Profile;
 
 import java.util.Map;

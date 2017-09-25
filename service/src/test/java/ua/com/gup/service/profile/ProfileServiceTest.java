@@ -12,9 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.testng.annotations.BeforeMethod;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.repository.dao.profile.ProfileRepository;
+import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.offers.OffersServiceImpl;
-import ua.com.gup.service.order.OrderServiceImpl;
 import ua.com.gup.util.EntityPage;
 
 import static org.junit.Assert.assertNull;
@@ -24,8 +23,6 @@ public class ProfileServiceTest {
 
     @Mock
     OffersServiceImpl offersService;
-    @Mock
-    OrderServiceImpl orderService;
     @InjectMocks
     private ProfilesServiceImpl profilesService;
     @Mock

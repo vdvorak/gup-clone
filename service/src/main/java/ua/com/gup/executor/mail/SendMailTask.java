@@ -3,7 +3,7 @@ package ua.com.gup.executor.mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ua.com.gup.model.email.EmailMessage;
+import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.service.emailnotification.EmailService;
 
 @Component

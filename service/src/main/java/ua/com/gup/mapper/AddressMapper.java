@@ -2,7 +2,7 @@ package ua.com.gup.mapper;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.model.Address;
+import ua.com.gup.model.offer.Address;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferAddressShortDTO;
 

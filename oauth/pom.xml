@@ -393,7 +393,7 @@
                         <version>2.2</version>
                         <configuration>
                             <port>9090</port>
-                            <path>/api</path>
+                            <path>/swagger</path>
                         </configuration>
                         <executions>
                             <execution>
@@ -421,9 +421,9 @@
     </profiles>-->
 
   <!--  <build>
-        <finalName>api##${project.version}</finalName>
+        <finalName>swagger##${project.version}</finalName>
         &lt;!&ndash;<filters>
-            <filter>profiles/${build.profile.id}/config.properties</filter>
+            <filter>profiles/${build.profile.id}/model.properties</filter>
         </filters>&ndash;&gt;
         &lt;!&ndash;<resources>
             <resource>

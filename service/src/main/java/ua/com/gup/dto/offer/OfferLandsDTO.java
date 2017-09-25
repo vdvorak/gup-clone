@@ -2,7 +2,7 @@ package ua.com.gup.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.model.Polygons;
+import ua.com.gup.model.offer.Polygons;
 
 import java.io.Serializable;
 import java.util.List;

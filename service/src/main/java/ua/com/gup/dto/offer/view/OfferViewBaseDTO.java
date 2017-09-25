@@ -3,8 +3,8 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.model.OfferCategory;
-import ua.com.gup.domain.offer.model.OfferStatistic;
+import ua.com.gup.model.offer.OfferCategory;
+import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;

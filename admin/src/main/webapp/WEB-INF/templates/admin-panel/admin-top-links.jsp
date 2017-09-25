@@ -51,7 +51,7 @@
 <!-- Here we ara getting service url from properties files and then put them into global variables. -->
 <script>
     <%@ page language="java" import="java.util.ResourceBundle" %>
-    <% ResourceBundle resource = ResourceBundle.getBundle("config-host");
+    <% ResourceBundle resource = ResourceBundle.getBundle("model-host");
       String apiUi=resource.getString("apiUi");
       String apiOauth=resource.getString("apiOauth");
       String host=resource.getString("host");

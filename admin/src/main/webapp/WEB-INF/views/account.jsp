@@ -214,7 +214,7 @@
     $('.deactivateOffer').click(function () {
         var id = $(this).attr("value");
         $.ajax({
-            url: '/api/rest/offersService/offer/id/' + id + '/setActive/false',
+            url: '/swagger/rest/offersService/offer/id/' + id + '/setActive/false',
             method: 'POST',
             success: function (response) {
                 window.location.href = '/account';
@@ -228,7 +228,7 @@
     $('.activeOffer').click(function () {
         var id = $(this).attr("value");
         $.ajax({
-            url: '/api/rest/offersService/offer/id/' + id + '/setActive/true',
+            url: '/swagger/rest/offersService/offer/id/' + id + '/setActive/true',
             method: 'POST',
             success: function (response) {
                 window.location.href = '/account';

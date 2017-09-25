@@ -11,7 +11,7 @@ if (typeof loggedInProfile == 'undefined') {
 $.ajax({
     type: "POST",
     contentType: "application/json; charset=utf-8",
-    url: "/api/rest/offersService/offer/id/" + offerId + "/read",
+    url: "/swagger/rest/offersService/offer/id/" + offerId + "/read",
     async: false,
     success: function (response) {
         offer = response;
@@ -73,7 +73,7 @@ $('.offer-description').text(offer.description);
 if (offer.imagesIds) {
     if (Object.keys(offer.imagesIds).length > 0) {
         for (var i in offer.imagesIds) {
-            $('#offer-slider').append('<li><img src="/api/rest/fileStorage/OFFERS/file/read/id/' + i + '" /></li>');
+            $('#offer-slider').append('<li><img src="/swagger/rest/fileStorage/OFFERS/file/read/id/' + i + '" /></li>');
         }
     } else {
         $('#offer-slider').append('<li><img src="/resources/images/no_photo.jpg" /></li>');
@@ -162,11 +162,11 @@ if (typeof loggedInProfile != 'undefined') {
 // ----------- Draw additional information about offer author ----------------------------------------------------
 $.ajax({
     type: "POST",
-    url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
+    url: "/swagger/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
 
         var imgSrc = (profile.imgId != '' && profile.imgId !== null)
-            ? '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId
+            ? '/swagger/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId
             : '/resources/images/doersLogo.png';
         $('#avatar-img').attr('src', imgSrc);
 
@@ -229,7 +229,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/read/all",
+            url: "/swagger/rest/offersService/offer/read/all",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(offerFO),
@@ -248,11 +248,11 @@ $(document).ready(function () {
                         if (arrKeys.length) {
                             for (var key in imagesIds) {
                                 if (imagesIds[key] === 'pic1') {
-                                    imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
+                                    imgSrc = '/swagger/rest/fileStorage/OFFERS/file/read/id/' + key;
                                     break;
                                 }
                             }
-                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
+                            if (imgSrc === '') imgSrc = '/swagger/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
                         } else {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
@@ -348,7 +348,7 @@ $('#make-reserve').click(function (event) {
         event.stopPropagation();
         $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/id/" + offerId + "/reserve",
+            url: "/swagger/rest/offersService/offer/id/" + offerId + "/reserve",
             cache: false,
             statusCode: {
                 200: function () {

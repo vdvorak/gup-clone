@@ -10,7 +10,7 @@ function setValuesForFieldsFromProfile(profile) {
 
     if (profile.imgId != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center').css('background-size', 'cover');
+            'url(/swagger/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center').css('background-size', 'cover');
     }
 
     $('#select-type').val(profile.contact.type);
@@ -118,7 +118,7 @@ function initializeProfileEntityForUpdate() {
 $(document).ready(function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+        url: "/swagger/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
         statusCode: {
             200: function (profile) {
                 loadedProfile = profile;
@@ -270,7 +270,7 @@ $('#updateProfileBtn').on('click', function () {
     if(temp.emails.valid && temp.username.valid){
         $.ajax({
             type: "POST",
-            url: "/api/rest/profilesService/profile/edit",
+            url: "/swagger/rest/profilesService/profile/edit",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(updatedProfile),
@@ -391,7 +391,7 @@ $(".cropper-btn-success").click(function (event) {
 
     $.ajax({
         type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+        url: "/swagger/rest/fileStorage/profile/file/upload?cacheImage=1", //
         data: formData,
         enctype: 'multipart/form-data',
 //                async: false,
@@ -402,9 +402,9 @@ $(".cropper-btn-success").click(function (event) {
             201: function (data) {
                 updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
+                    'url(/swagger/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
                     .css('background-size', 'cover');
-                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
+                cropper.replace('/swagger/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
             },
             400: function () {
                 alert('400');

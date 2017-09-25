@@ -2,7 +2,6 @@ package ua.com.gup.domain.offer;
 
 
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ua.com.gup.domain.Offer;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.util.EntityPage;

@@ -103,4 +103,4 @@ Request.prototype.post = function (url, data, success, error) {
     });
 }
 var R = {}
-R.request = new Request("/api/rest")
+R.request = new Request("/swagger/rest")

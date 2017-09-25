@@ -2,7 +2,7 @@ var profileId = getUrlParam('id');
 
 $.ajax({
     type: "POST",
-    url: "/api/rest/profilesService/profile/read/id/" + profileId,
+    url: "/swagger/rest/profilesService/profile/read/id/" + profileId,
     statusCode: {
         200: function (profile) {
             if (typeof loggedInProfile != 'undefined' && loggedInProfile.id !== profileId) {
@@ -23,7 +23,7 @@ $.ajax({
             }
 
             if (profile.imgId) {
-                $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
+                $('#profileImg').attr('src', '/swagger/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
             } else {
                 $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
             }
@@ -122,7 +122,7 @@ $(document).on('click', '#addProfileToContact', function () {
 $(document).on('click', '#removeProfileFromContacts', function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/id/" + profileId + "/myContactList/delete",
+        url: "/swagger/rest/profilesService/profile/id/" + profileId + "/myContactList/delete",
         cache: false,
         statusCode: {
             200: function () {

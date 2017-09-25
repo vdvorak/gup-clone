@@ -151,11 +151,11 @@
   // ===================================
 
   $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
+    .on('click.bs.dropdown.data-swagger', clearMenus)
+    .on('click.bs.dropdown.data-swagger', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-swagger', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-swagger', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-swagger', '[role="menu"]', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-swagger', '[role="listbox"]', Dropdown.prototype.keydown)
 
 }(jQuery);

@@ -2,8 +2,8 @@ package ua.com.gup.service.sequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.Sequence;
-import ua.com.gup.repository.dao.sequence.SequenceRepository;
+import ua.com.gup.domain.sequence.Sequence;
+import ua.com.gup.repository.sequence.SequenceRepository;
 
 import java.util.concurrent.ConcurrentHashMap;
 

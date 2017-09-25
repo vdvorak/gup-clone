@@ -270,7 +270,7 @@ R._libra = {
 /* OUT */
 var genout = Generator.generator.gen(R._libra);
 var fs = require('fs')
-fs.writeFileSync('api-generated.js', genout)
+fs.writeFileSync('swagger-generated.js', genout)
 //console.log(genout);
 //eval(genout);
 

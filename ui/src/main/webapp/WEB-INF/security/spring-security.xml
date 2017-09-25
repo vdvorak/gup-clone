@@ -31,7 +31,7 @@
           entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false" />
-        <!--<sec:intercept-url pattern="/api/rest/**" access="ROLE_USER" />-->
+        <!--<sec:intercept-url pattern="/swagger/rest/**" access="ROLE_USER" />-->
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
     </sec:http>
@@ -113,7 +113,7 @@
     <!--  ************************************************************************* -->
     <!--<sec:global-method-security pre-post-annotations="enabled" />-->
 
-    <!--<sec:http auto-config="true" use-expressions="true">-->
+    <!--<sec:http auto-model="true" use-expressions="true">-->
     <!--<sec:access-denied-handler error-page="/error403" />-->
     <!--<sec:form-login login-page="/login" authentication-failure-url="/login?error=true"-->
     <!--default-target-url="/account"-->

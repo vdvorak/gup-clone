@@ -214,7 +214,7 @@ User.get = function (id, callback) {
     else {
         R.Libra().profilesService().profile().read().id(id, null, function (res) {
             res.getPic = function () {
-                return res.imgId ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.imgId : '/resources/images/no_photo.jpg'
+                return res.imgId ? '/swagger/rest/fileStorage/PROFILE/file/read/id/' + res.imgId : '/resources/images/no_photo.jpg'
             }
             res.getPage = function () {
                 return '/profile?id=' + id
@@ -852,7 +852,7 @@ function toggleSettingsBox(e) {
 var loadedProfile = {};
 $.ajax({
     type: "POST",
-    url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+    url: "/swagger/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
     statusCode: {
         200: function (profile) {
             loadedProfile = profile;
@@ -911,7 +911,7 @@ $(".cropper-btn-success").click(function () {
 
     var loadImg = $.ajax({
         type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1",
+        url: "/swagger/rest/fileStorage/profile/file/upload?cacheImage=1",
         data: formData,
         async: false,
         cache: false,
@@ -919,8 +919,8 @@ $(".cropper-btn-success").click(function () {
         processData: false,
         success: function (data, textStatus, request) {
             loadedProfile.imgId = data.id;
-            $('div.photo img').attr("src", "/api/rest/fileStorage/profile/file/read/id/" + loadedProfile.imgId);
-            cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + loadedProfile.imgId);
+            $('div.photo img').attr("src", "/swagger/rest/fileStorage/profile/file/read/id/" + loadedProfile.imgId);
+            cropper.replace('/swagger/rest/fileStorage/profile/file/read/id/' + loadedProfile.imgId);
         }
     });
     $("#uploadProfilePhotoInput").val("");
@@ -930,7 +930,7 @@ $(".cropper-btn-success").click(function () {
 function updateProfile() {
     return $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/edit",
+        url: "/swagger/rest/profilesService/profile/edit",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(loadedProfile),

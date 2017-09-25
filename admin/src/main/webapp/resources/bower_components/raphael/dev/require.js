@@ -184,9 +184,9 @@ var requirejs, require, define;
         requirejs = undefined;
     }
 
-    //Allow for a require config object
+    //Allow for a require model object
     if (typeof require !== 'undefined' && !isFunction(require)) {
-        //assume it is a config object.
+        //assume it is a model object.
         cfg = require;
         require = undefined;
     }
@@ -196,7 +196,7 @@ var requirejs, require, define;
             checkLoadedTimeoutId,
             config = {
                 //Defaults. Do not set a default for map
-                //config to speed up normalize(), which
+                //model to speed up normalize(), which
                 //will run faster if there is no default.
                 waitSeconds: 7,
                 baseUrl: './',
@@ -256,7 +256,7 @@ var requirejs, require, define;
          * @param {String} name the relative name
          * @param {String} baseName a real name that the name arg is relative
          * to.
-         * @param {Boolean} applyMap apply the map config to the value. Should
+         * @param {Boolean} applyMap apply the map model to the value. Should
          * only be done if this normalization is for a dependency ID.
          * @returns {String} normalized name
          */
@@ -304,7 +304,7 @@ var requirejs, require, define;
                 }
             }
 
-            //Apply map config if available.
+            //Apply map model if available.
             if (applyMap && map && (baseParts || starMap)) {
                 nameParts = name.split('/');
 
@@ -312,12 +312,12 @@ var requirejs, require, define;
                     nameSegment = nameParts.slice(0, i).join('/');
 
                     if (baseParts) {
-                        //Find the longest baseName segment match in the config.
+                        //Find the longest baseName segment match in the model.
                         //So, do joins on the biggest to smallest lengths of baseParts.
                         for (j = baseParts.length; j > 0; j -= 1) {
                             mapValue = getOwn(map, baseParts.slice(0, j).join('/'));
 
-                            //baseName segment has config, find if it has one for
+                            //baseName segment has model, find if it has one for
                             //this name.
                             if (mapValue) {
                                 mapValue = getOwn(mapValue, nameSegment);
@@ -337,7 +337,7 @@ var requirejs, require, define;
 
                     //Check for a star map match, but just hold on to it,
                     //if there is a shorter segment match later in a matching
-                    //config, then favor over this star map.
+                    //model, then favor over this star map.
                     if (!foundStarMap && starMap && getOwn(starMap, nameSegment)) {
                         foundStarMap = getOwn(starMap, nameSegment);
                         starI = i;
@@ -406,7 +406,7 @@ var requirejs, require, define;
          * for the module name, used to resolve relative names.
          * @param {Boolean} isNormalized: is the ID already normalized.
          * This is true if this call is done for a define() module ID.
-         * @param {Boolean} applyMap: apply the map config to the ID.
+         * @param {Boolean} applyMap: apply the map model to the ID.
          * Should only be true if this map is for a dependency.
          *
          * @returns {Object}
@@ -450,8 +450,8 @@ var requirejs, require, define;
                     //A regular module.
                     normalizedName = normalize(name, parentName, applyMap);
 
-                    //Normalized name may be a plugin ID due to map config
-                    //application in normalize. The map config values must
+                    //Normalized name may be a plugin ID due to map model
+                    //application in normalize. The map model values must
                     //already be normalized, so do not need to redo that part.
                     nameParts = splitPrefix(normalizedName);
                     prefix = nameParts[0];
@@ -582,7 +582,7 @@ var requirejs, require, define;
                         config: function () {
                             var c,
                                 pkg = getOwn(config.pkgs, mod.map.id);
-                            // For packages, only support config targeted
+                            // For packages, only support model targeted
                             // at the main module.
                             c = pkg ? getOwn(config.config, mod.map.id + '/' + pkg.main) :
                                       getOwn(config.config, mod.map.id);
@@ -759,7 +759,7 @@ var requirejs, require, define;
                 //source inputs are not modified. For example
                 //"shim" deps are passed in here directly, and
                 //doing a direct modification of the depMaps array
-                //would affect that config.
+                //would affect that model.
                 this.depMaps = depMaps && depMaps.slice(0);
 
                 this.errback = errback;
@@ -958,7 +958,7 @@ var requirejs, require, define;
                         }
 
                         //prefix and name should already be normalized, no need
-                        //for applying map config again either.
+                        //for applying map model again either.
                         normalizedMap = makeModuleMap(map.prefix + '!' + name,
                                                       this.map.parentMap);
                         on(normalizedMap,
@@ -1034,7 +1034,7 @@ var requirejs, require, define;
                         //it.
                         getModule(moduleMap);
 
-                        //Transfer any config to this other module.
+                        //Transfer any model to this other module.
                         if (hasProp(config.config, id)) {
                             config.config[moduleName] = config.config[id];
                         }
@@ -1240,7 +1240,7 @@ var requirejs, require, define;
 
             /**
              * Set a configuration for the context.
-             * @param {Object} cfg config object to integrate.
+             * @param {Object} cfg model object to integrate.
              */
             configure: function (cfg) {
                 //Make sure the baseUrl ends in a slash.
@@ -1301,7 +1301,7 @@ var requirejs, require, define;
                         location = pkgObj.location;
 
                         //Create a brand new object on pkgs, since currentPackages can
-                        //be passed in again, and config.pkgs is the internal transformed
+                        //be passed in again, and model.pkgs is the internal transformed
                         //state for all package configs.
                         pkgs[pkgObj.name] = {
                             name: pkgObj.name,
@@ -1316,7 +1316,7 @@ var requirejs, require, define;
                         };
                     });
 
-                    //Done with modifications, assing packages back to context config
+                    //Done with modifications, assing packages back to context model
                     config.pkgs = pkgs;
                 }
 
@@ -1332,9 +1332,9 @@ var requirejs, require, define;
                     }
                 });
 
-                //If a deps array or a config callback is specified, then call
+                //If a deps array or a model callback is specified, then call
                 //require with those args. This is useful when require is defined as a
-                //config object before require.js is loaded.
+                //model object before require.js is loaded.
                 if (cfg.deps || cfg.callback) {
                     context.require(cfg.deps || [], cfg.callback);
                 }
@@ -1405,7 +1405,7 @@ var requirejs, require, define;
 
                         requireMod = getModule(makeModuleMap(null, relMap));
 
-                        //Store if map config should be applied to this require
+                        //Store if map model should be applied to this require
                         //call for dependencies.
                         requireMod.skipMap = options.skipMap;
 
@@ -1471,7 +1471,7 @@ var requirejs, require, define;
                         if (mod) {
                             //Hold on to listeners in case the
                             //module will be attempted to be reloaded
-                            //using a different config.
+                            //using a different model.
                             if (mod.events.defined) {
                                 undefEvents[id] = mod.events;
                             }
@@ -1692,9 +1692,9 @@ var requirejs, require, define;
         var context, config,
             contextName = defContextName;
 
-        // Determine if have config object in the call.
+        // Determine if have model object in the call.
         if (!isArray(deps) && typeof deps !== 'string') {
-            // deps is a config object
+            // deps is a model object
             config = deps;
             if (isArray(callback)) {
                 // Adjust args if there are dependencies
@@ -1723,7 +1723,7 @@ var requirejs, require, define;
     };
 
     /**
-     * Support require.config() to make it easier to cooperate with other
+     * Support require.model() to make it easier to cooperate with other
      * AMD loaders on globally agreed names.
      */
     req.config = function (config) {
@@ -1769,7 +1769,7 @@ var requirejs, require, define;
     ], function (prop) {
         //Reference from contexts instead of early binding to default context,
         //so that during builds, the latest instance of the default context
-        //with its config gets used.
+        //with its model gets used.
         req[prop] = function () {
             var ctx = contexts[defContextName];
             return ctx.require[prop].apply(ctx, arguments);
@@ -2048,6 +2048,6 @@ var requirejs, require, define;
         return eval(text);
     };
 
-    //Set up with config info.
+    //Set up with model info.
     req(cfg);
 }(this));

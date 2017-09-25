@@ -6,20 +6,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.Offer;
-import ua.com.gup.dto.*;
+import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.dto.FavoriteOfferInfo;
+import ua.com.gup.dto.OfferRegistration;
+import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.model.order.Order;
-import ua.com.gup.model.order.OrderFeedback;
-import ua.com.gup.model.order.filter.OrderFilterOptions;
 import ua.com.gup.model.profiles.*;
-import ua.com.gup.repository.dao.oauth2.OAuth2AccessTokenRepository;
-import ua.com.gup.repository.dao.profile.ProfileRepository;
+import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
+import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.offers.OffersService;
-import ua.com.gup.service.order.OrderService;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
-import ua.com.gup.util.EntityPage;
 import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
@@ -32,8 +29,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private OrderService orderService;
     @Autowired
     private OffersService offersService;
     @Autowired
@@ -104,9 +99,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
-               // .setPublicKey(profile.getPublicKey())
-               // .setPrivateKey(profile.getPrivateKey())
-               // .setPublicHash(profile.getPublicHash())  // strange and magic number. Actually it is total number of fields, that you can manually filled.
+                // .setPublicKey(profile.getPublicKey())
+                // .setPrivateKey(profile.getPrivateKey())
+                // .setPublicHash(profile.getPublicHash())  // strange and magic number. Actually it is total number of fields, that you can manually filled.
                 .setBankCard(profile.getBankCard());
 
         setEmptyFieldsForNewUser(newProfile);
@@ -142,13 +137,13 @@ public class ProfilesServiceImpl implements ProfilesService {
                 //.setPublicHash(profile.getPublicHash())
                 .setBankCard(profile.getBankCard());
 
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername())){
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername())) {
             profile.setUsername(offerRegistration.getUsername());
         }
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getLastname())){
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getLastname())) {
             profile.setLastname(offerRegistration.getLastname());
         }
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getFirstname())){
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getFirstname())) {
             profile.setFirstname(offerRegistration.getFirstname());
         }
 
@@ -623,48 +618,10 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
-
-        OrderFilterOptions orderFilterOptionsForUser = new OrderFilterOptions();
-        orderFilterOptionsForUser.setBuyerId(profile.getId());
-        orderFilterOptionsForUser.setSellerId(profile.getId());
-
-        //ToDo make me simple
         OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
-//        offerFilterOptionsForAuthor.setLimit(20);
-
-        List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
-        List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
-        List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
-        List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
-        List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
-
-        int totalOrdersAmount = orderInfoListForUser.size();
-        int totalFeedbackAmount = orderService.calculateFeedbackAmountForOrderList(orderInfoListForUser);
-        List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
-
-//TODO for banking
-        /*Integer userBalance = bankSession.getUserBalance(profile.getId());
-        Integer userBonus = Integer.parseInt(bankSession.getBonusByUserId(profile.getId()));
-        String internalTransactionHistory = bankSession.getInternalTransactionsJsonByUserId(profile.getId());
-
-        profileInfo.setUserBalance(userBalance)
-                   .setUserBonusBalance(userBonus)
-                   .setInternalTransactionHistory(internalTransactionHistory);*/
-
-//TODO user all OfferInfoList off
-//        profileInfo.setUserOfferInfoList(userOfferInfoList)
-//                .setSubscriptionList(subscriptionList)
-//                .setTotalFeedbackAmount(totalFeedbackAmount)
-//                .setOrderAmount(totalOrdersAmount)
-//                .setOrderInfoBuyerList(orderInfoBuyerList)
-//                .setOrderInfoSellerList(orderInfoSellerList)
-//                .setFavoriteOfferInfoList(favoriteOfferInfoList);
-
-        profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
         profileInfo.getProfile().setFavoriteOffers(null);
         profileInfo.getProfile().setPassword(null);
-
         return profileInfo;
     }
 
@@ -686,18 +643,11 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOfferUserContactInfoList(null)
                 .setFavoriteOffers(null);
 
-        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profile.getId());
 
         profileInfo.setUserBalance(null)
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
-                .setUnreadEventsCount(null)
-                .setOrderFeedbackList(orderFeedbackList) // all users feedback for his offer
-
-
-                        //ToDo boost this shit! based on orderFeedbackList
-                .setUserAveragePoints(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList)); // ToDo impl this!
-
+                .setUnreadEventsCount(null);
         return profileInfo;
     }
 
@@ -762,36 +712,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOrderAddressList(null);
     }
 
-
-    /**
-     * Prepare feedback list
-     *
-     * @param profileId - the profileID
-     * @return - the list of order's feedback
-     */
-    private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId) {
-        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAuthorId(profileId);
-
-        EntityPage<Offer> offerEntityPage = offersService.findOffersWihOptions(offerFilterOptions);
-
-        if (offerEntityPage == null) {
-            return allOffersFeedbackList;
-        }
-
-        List<Offer> offerList = offerEntityPage.getEntities();
-
-
-        for (Offer offer : offerList) {
-            List<OrderFeedback> oneOfferOrderList = orderService.findAllFeedbacksForOffer(offer.getId());
-            for (OrderFeedback orderFeedback : oneOfferOrderList) {
-                allOffersFeedbackList.add(orderFeedback);
-            }
-        }
-        return allOffersFeedbackList;
-    }
-
     /**
      * @param profile
      * @return
@@ -826,19 +746,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         favoriteOfferInfo.setFavoriteOfferImage(offersService.getMainOfferImage(offer));
 
         return favoriteOfferInfo;
-    }
-
-    /**
-     * @param orderInfoList
-     * @return
-     */
-    private List<Order> orderInfoListToOrderList(List<OrderInfo> orderInfoList) {
-        List<Order> orderList = new ArrayList<>();
-
-        for (OrderInfo orderInfo : orderInfoList) {
-            orderList.add(orderInfo.getOrder());
-        }
-        return orderList;
     }
 
     /**

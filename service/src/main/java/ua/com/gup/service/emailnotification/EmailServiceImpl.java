@@ -12,12 +12,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
-import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.SubscribeOfferEmail;
-import ua.com.gup.model.email.EmailMessage;
+import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.verification.VerificationToken;
-import ua.com.gup.repository.EmailRepository;
+import ua.com.gup.repository.email.EmailRepository;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
 
@@ -51,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private VerificationTokenService verificationTokenService;
-    private final String deleteThisSubscribeLInk = "http://gup.com.ua:8184/api/rest/subscription/delete/";
+    private final String deleteThisSubscribeLInk = "http://gup.com.ua:8184/swagger/rest/subscription/delete/";
 
     @Value("${email.services.emailVerificationSubjectText}")
     private String emailVerificationSubjectText;
@@ -113,7 +113,7 @@ public class EmailServiceImpl implements EmailService {
                 messageHelper.setSubject(message.getSubject());
 
                 StringBuilder text = new StringBuilder(hostNameUrl);
-                text.append(String.format("api/oauth/registerConfirm?token=%s", verificationToken.getToken()));
+                text.append(String.format("swagger/oauth/registerConfirm?token=%s", verificationToken.getToken()));
                 messageHelper.setText(text.toString(), true);
             }
         };
@@ -220,7 +220,7 @@ public class EmailServiceImpl implements EmailService {
 //                model.put("model", emailVerificationModel);
 //                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, "UTF-8", model);
                 StringBuilder text = new StringBuilder(emailVerificationModel.getHostNameUrl());
-                text.append(String.format("/api/oauth/registerConfirm?token=%s", emailVerificationModel.getEncodedToken()));
+                text.append(String.format("/swagger/oauth/registerConfirm?token=%s", emailVerificationModel.getEncodedToken()));
                 messageHelper.setText(text.toString(), true);
                 for (String resourceIdentifier : resources.keySet()) {
                     addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);

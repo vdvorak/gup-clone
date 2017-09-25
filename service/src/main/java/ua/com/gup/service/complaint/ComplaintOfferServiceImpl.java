@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
-import ua.com.gup.repository.dao.complaint.ComplaintOfferRepository;
+import ua.com.gup.repository.complaint.ComplaintOfferRepository;
 
 import java.time.ZonedDateTime;
 import java.util.List;

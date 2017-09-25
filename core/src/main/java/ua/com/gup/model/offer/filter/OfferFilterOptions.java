@@ -3,9 +3,9 @@ package ua.com.gup.model.offer.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.offer.model.Address;
-import ua.com.gup.domain.offer.model.OfferCategory;
+import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.model.offer.Address;
+import ua.com.gup.model.offer.OfferCategory;
 
 import java.util.List;
 import java.util.Set;

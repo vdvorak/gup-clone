@@ -1,8 +1,8 @@
 package ua.com.gup.service.category;
 
 
-import ua.com.gup.domain.offer.model.OfferCategory;
-import ua.com.gup.domain.Category;
+import ua.com.gup.model.offer.OfferCategory;
+import ua.com.gup.domain.category.Category;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryTreeDTO;

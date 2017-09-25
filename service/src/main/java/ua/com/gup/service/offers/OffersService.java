@@ -2,16 +2,13 @@ package ua.com.gup.service.offers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.domain.Offer;
-import ua.com.gup.dto.OfferInfo;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.OfferRegistration;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.model.order.Order;
 import ua.com.gup.util.EntityPage;
 
-import java.util.List;
 import java.util.Set;
 
 
@@ -160,75 +157,6 @@ public interface OffersService {
      * @return                      - the Set of results string.
      */
     Set<String> getMatchedNames(String name);
-
-    /**
-     * Return one offer for public view. Delete some fields from offer which should not be shown in public view.
-     *
-     * @param offer                 - the offer.
-     * @return                      - the offer wrapped in OfferInfo class.
-     */
-    OfferInfo getPublicOfferInfoByOffer(Offer offer);
-
-
-//    /**
-//     * One offer that can contain privet information for it's author.
-//     *
-//     * @param offerId               - the offer's ID.
-//     * @return                      - the offer wrapped in OfferInfo class.
-//     */
-//    OfferInfo getPrivateOfferInfoById(String offerId);
-
-    /**
-     * One offer that can contain privet information for it's author.
-     *
-     * @param offer                 - the offer.
-     * @return                      - the offer wrapped in OfferInfo class.
-     */
-    OfferInfo getPrivateOfferInfoByOffer(Offer offer);
-
-    /**
-     * Return list of lightweight offers i.e. for page with search result.
-     *
-     * @param offerFilterOptions    - the object with filter options.
-     * @return                      - the list of offers wrapped in OfferInfo class.
-     */
-    List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions);
-
-    /**
-     * Return list of offer info objects found with offer filter options and exclude one specific offer.
-     *
-     * @param offerFilterOptions    - the offer filter object.
-     * @param excludeOfferId        - the ID of the offer which must be excluded from result set.
-     * @return                      - the list of the OfferInfo object.
-     */
-    List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId);
-
-
-    /**
-     * Return list of offer info objects found with offer filter options and exclude list of specific offers.
-     *
-     * @param offerFilterOptions    - the OfferFilterOptions objects.
-     * @param orderTotalList        - the list of the offer's IDs which must be excluded from result.
-     * @return                      - the list of the OfferInfo objects.
-     */
-    List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList);
-
-    /**
-     * Return list of Offer Info objects with private information. Accept offerFilterOptions.
-     *
-     * @param offerFilterOptions    - the OfferFilterOptions object.
-     * @return                      - the list of the OfferInfo objects.
-     */
-    List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions);
-
-
-    /**
-     * Return List of offers which are relevant to specific one.
-     *
-     * @param offer                 - the offer to which we must find relevant offers.
-     * @return                      - the list of the offers.
-     */
-    List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer);
 
     /**
      * Return id if main offer image

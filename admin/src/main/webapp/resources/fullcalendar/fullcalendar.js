@@ -3180,7 +3180,7 @@ var MouseFollower = Class.extend(ListenerMixin, {
 
 var Grid = FC.Grid = Class.extend(ListenerMixin, MouseIgnorerMixin, {
 
-	// self-config, overridable by subclasses
+	// self-model, overridable by subclasses
 	hasDayInteractions: true, // can user click/select ranges of time?
 
 	view: null, // a View object
@@ -3830,7 +3830,7 @@ var Grid = FC.Grid = Class.extend(ListenerMixin, MouseIgnorerMixin, {
 
 Grid.mixin({
 
-	// self-config, overridable by subclasses
+	// self-model, overridable by subclasses
 	segSelector: '.fc-event-container > *', // what constitutes an event element?
 
 	mousedOverSeg: null, // the segment object the user's mouse is over. null if over nothing

@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 /**
- * The data source config that can be used in integration tests.
+ * The data source model that can be used in integration tests.
  */
 @Configuration
 @Profile("test")

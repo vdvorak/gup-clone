@@ -2,7 +2,7 @@ package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.offer.model.AddressArea;
+import ua.com.gup.model.offer.AddressArea;
 
 import java.io.Serializable;
 

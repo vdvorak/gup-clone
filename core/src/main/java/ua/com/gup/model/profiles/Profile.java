@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.annotation.Password;
-import ua.com.gup.domain.offer.model.Address;
+import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.GeneralPhone;
 import ua.com.gup.model.profiles.order.OrderAddress;
 import ua.com.gup.model.profiles.phone.DBStorePhones;
