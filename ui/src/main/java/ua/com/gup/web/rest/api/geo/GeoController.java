@@ -16,13 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/geo")
+@RequestMapping(path = "/api")
 public class GeoController {
 
     @Autowired
     private GeoRepository repository;
 
-    @RequestMapping(path = "/{atuid}", method = RequestMethod.GET)
+    @RequestMapping(path = "/geo/{atuid}", method = RequestMethod.GET)
     public ResponseEntity<CommonGeoDTO> findById(@PathVariable("atuid") Long atuid,
                                                  @RequestParam(name = "ancestors", defaultValue = "true") boolean ancestorsNeeded) {
         if (atuid == null) {
@@ -38,7 +38,7 @@ public class GeoController {
         return new ResponseEntity(commonGeoDTOs, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/geo", method = RequestMethod.GET)
     public ResponseEntity<List<CommonGeoDTO>> findByName(@RequestParam(name = "id", required = false) Long[] ids,
                                                          @RequestParam(name = "name", required = false) String atuname,
                                                          @RequestParam(name = "lang", defaultValue = "ua") Locale locale,
