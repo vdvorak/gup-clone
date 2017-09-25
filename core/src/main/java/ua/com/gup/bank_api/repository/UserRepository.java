@@ -11,7 +11,9 @@ import org.postgresql.util.Base64;
 import ua.com.gup.bank_api.BankSession;
 import ua.com.gup.bank_api.SecurityService;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by RAYANT on 23.10.2015.
@@ -33,7 +35,7 @@ public class UserRepository {
         this.session = session;
     }
 
-    public void saveUser(String login, String userPassword, String role) {
+    public void saveUser(String login, String userPassword, String role) throws IOException, URISyntaxException {
         DefaultHttpClient client = new DefaultHttpClient();
         try {
             String host;
@@ -51,12 +53,21 @@ public class UserRepository {
                     .build();
             HttpPost httpPost = new HttpPost(uri);
             client.execute(httpPost);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }finally {
+
+            try {
+                client.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
         }
     }
 
-    public void updateUser(Long id, String login, String password, String role, String email, String firstName, String lastName, String phone) throws NullPointerException {
+    public void updateUser(Long id, String login, String password, String role, String email, String firstName, String lastName, String phone) throws NullPointerException, IOException, URISyntaxException {
         DefaultHttpClient client = new DefaultHttpClient();
         try {
             String host;
@@ -81,6 +92,14 @@ public class UserRepository {
             client.execute(httpPost);
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
+        }finally {
+            try {
+                client.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
         }
     }
 
@@ -132,7 +151,7 @@ public class UserRepository {
         return "";
     }
 
-    public String getUserJson(String login) {
+    public String getUserJson(String login) throws IOException, URISyntaxException {
         DefaultHttpClient client = new DefaultHttpClient();
         try {
             String host;
@@ -156,6 +175,14 @@ public class UserRepository {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
+        }finally {
+            try {
+                client.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
         }
         return "";
     }
