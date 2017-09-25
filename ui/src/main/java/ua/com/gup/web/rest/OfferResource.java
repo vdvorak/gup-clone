@@ -16,8 +16,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.server.api.rest.file.FileWrapper;
-import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -26,12 +24,14 @@ import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.server.api.rest.file.FileWrapper;
+import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.web.rest.util.HeaderUtil;
 import ua.com.gup.web.rest.util.PaginationUtil;
 import ua.com.gup.web.rest.util.ResponseUtil;
 import ua.com.gup.web.rest.validator.OfferDTOValidator;
-import ua.com.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -96,9 +96,18 @@ public class OfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> getOffer(@PathVariable String seoUrl) {
+    public ResponseEntity<OfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
+        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
+        log.debug("REST request to get Offer by ID : {}", id);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -340,7 +349,7 @@ public class OfferResource {
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
 
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/"+iserid+"/" + status.name()+"/seourl");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
         return new ResponseEntity<>(seoUrls, headers, HttpStatus.OK);
     }
 
