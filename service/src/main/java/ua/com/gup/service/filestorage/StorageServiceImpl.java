@@ -214,24 +214,5 @@ public class StorageServiceImpl implements StorageService {
     }
 
 
-//    private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
-//        Set<String> diffMap = new HashSet<>();
-//
-//        boolean hasRemove = true;
-//
-//        for (String s : oldImagesMap.keySet()) {
-//
-//            for (String s1 : newImagesMap.keySet()) {
-//
-//                if (s.equals(s1)) {
-//                    hasRemove = false;
-//                }
-//            }
-//            if (hasRemove) {
-//                diffMap.add(s);
-//            }
-//            hasRemove = true;
-//        }
-//        return diffMap;
-//    }
+
 }

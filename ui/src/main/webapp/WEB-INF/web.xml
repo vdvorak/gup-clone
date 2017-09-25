@@ -49,7 +49,7 @@
 
     <filter>
         <filter-name>oauthFilter</filter-name>
-        <filter-class>ua.com.gup.config.filter.OAuthFilter</filter-class>
+        <filter-class>OAuthFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -21,18 +21,20 @@
     </organization>
     <!--GLOBAL UKRAINE PORTAL -->
     <properties>
+        <!-- system compiler setting -->
+        <maven.version>3.5</maven.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <target.jdk>1.8</target.jdk>
         <version>0.0.1-SNAPSHOT</version>
+        <!-- library -->
         <springframework.version>4.2.4.RELEASE</springframework.version>
         <springframework.security.version>3.2.9.RELEASE</springframework.security.version>
         <springframework.security.oauth.version>2.0.9.RELEASE</springframework.security.oauth.version>
         <springframework.security.test.version>4.0.1.RELEASE</springframework.security.test.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger2.version>2.6.1</swagger2.version>
     </properties>
-
-    <prerequisites>
-        <maven>3.2.5</maven>
-    </prerequisites>
 
     <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
     <!--<dependencyManagement>
