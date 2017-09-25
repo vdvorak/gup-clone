@@ -1,4 +1,4 @@
-package ua.com.gup.repository.dao.profile;
+package ua.com.gup.dao.profile;
 
 import com.github.fakemongo.Fongo;
 import com.mongodb.Mongo;
@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.ProfileContactList;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.repository.dao.profile.ProfileRepository;
+import ua.com.gup.repository.dao.profile.ProfileRepositoryImpl;
 
 import java.util.List;
 import java.util.Set;

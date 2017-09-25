@@ -13,7 +13,7 @@ public class SendMailTask {
     private EmailService emailService;
     @Autowired
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(cron="0 1 1 * * *")
     public void printMessages() {
         EmailMessage message = emailService.findOneMessage();
         if (message != null) {
