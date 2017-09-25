@@ -86,7 +86,7 @@
         <constructor-arg ref="clientDetails" />
     </bean>
 
-    <bean id="tokenStore" class="TokenStoreService" />
+    <bean id="tokenStore" class="ua.com.gup.service.oauth2.TokenStoreService" />
 
     <!-- This is where we defined token based configurations, token validity and other things -->
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
