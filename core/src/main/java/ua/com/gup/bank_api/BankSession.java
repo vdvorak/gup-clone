@@ -17,7 +17,9 @@ import ua.com.gup.bank_api.services.BankService;
 import ua.com.gup.bank_api.services.Pair;
 import ua.com.gup.bank_api.util.LogUtil;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,11 +117,11 @@ public class BankSession {
         internalTransactionRepository.investInOrganization(code, sender, amount, transactionType, status);
     }
 
-    public void saveUser(String login, String userPassword, String role) {
+    public void saveUser(String login, String userPassword, String role) throws IOException, URISyntaxException {
         userRepository.saveUser(login, userPassword, role);
     }
 
-    public void updateUser(BankUser bankUser) throws NullPointerException {
+    public void updateUser(BankUser bankUser) throws NullPointerException, IOException, URISyntaxException {
         Long id = bankUser.getId();
         String login = bankUser.getLogin();
         String password = bankUser.getPassword();
@@ -139,7 +141,7 @@ public class BankSession {
         return userRepository.getAllUsersJson();
     }
 
-    public BankUser getUserByLogin(String login) {
+    public BankUser getUserByLogin(String login) throws IOException, URISyntaxException {
         return BankService.getUserFromJsonString(userRepository.getUserJson(login));
     }
 
