@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 })
 public class Offer implements Serializable {
 
-    public static final String COLLECTION_NAME = "offer2";
+    public static final String COLLECTION_NAME = "offer";
     private static final long serialVersionUID = 1L;
     @Id
     private String id;
