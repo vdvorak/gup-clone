@@ -8,7 +8,7 @@
 //import org.springframework.stereotype.Repository;
 //import ua.com.gup.model.subscription.Subscription;
 //import ua.com.gup.model.subscription.filter.SubscriptionFilterOptions;
-//import ua.com.gup.util.MongoTemplateOperations;
+//import ua.com.gup.config.mongo.MongoTemplateOperations;
 //
 //import java.util.List;
 //

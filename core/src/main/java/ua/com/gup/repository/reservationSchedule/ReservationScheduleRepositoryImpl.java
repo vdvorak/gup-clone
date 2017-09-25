@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.model.reservationSchedule.ReservationSchedule;
-import ua.com.gup.util.MongoTemplateOperations;
+import ua.com.gup.config.mongo.MongoTemplateOperations;
 
 @Repository
 public class ReservationScheduleRepositoryImpl implements ReservationScheduleRepository {

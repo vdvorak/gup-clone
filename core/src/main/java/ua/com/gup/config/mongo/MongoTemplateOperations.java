@@ -1,4 +1,4 @@
-package ua.com.gup.util;
+package ua.com.gup.config.mongo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

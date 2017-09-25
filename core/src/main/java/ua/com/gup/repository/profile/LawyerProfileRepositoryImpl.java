@@ -11,7 +11,7 @@
 //import ua.com.gup.model.profiles.ProfileFilterOptions;
 //import ua.com.gup.model.profiles.ProfileRating;
 //import ua.com.gup.model.profiles.UserRole;
-//import ua.com.gup.util.MongoTemplateOperations;
+//import ua.com.gup.config.mongo.MongoTemplateOperations;
 //
 //import javax.annotation.PostConstruct;
 //import java.util.List;
