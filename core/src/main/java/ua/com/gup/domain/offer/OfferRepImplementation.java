@@ -11,8 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.domain.Offer;
-import ua.com.gup.domain.offer.model.Address;
+import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
@@ -22,7 +21,7 @@ import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.util.CurrencyConvertUtil;
 import ua.com.gup.util.EntityPage;
-import ua.com.gup.util.MongoTemplateOperations;
+import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.util.OfferUserContactInfo;
 
 import javax.annotation.PostConstruct;

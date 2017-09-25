@@ -3,7 +3,7 @@ package ua.com.gup.service.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.repository.dao.profile.LockRemoteIPRepository;
+import ua.com.gup.repository.profile.LockRemoteIPRepository;
 import ua.com.gup.model.profiles.LockRemoteIP;
 
 @Service

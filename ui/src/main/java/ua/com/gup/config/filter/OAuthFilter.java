@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.com.gup.util.CookieUtil;
-import ua.com.gup.bank_api.util.LogUtil;
+import ua.com.gup.util.LogUtil;
 import ua.com.gup.util.Oauth2Util;
 
 import javax.servlet.*;

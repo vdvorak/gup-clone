@@ -7,9 +7,9 @@
 //import org.testng.Assert;
 //import org.testng.annotations.Test;
 //
-//import ua.com.gup.model.xchangerate.api.CurrencyConverter;
-//import ua.com.gup.model.xchangerate.api.CurrencyConverterBuilder;
-//import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
+//import ua.com.gup.model.xchangerate.swagger.CurrencyConverter;
+//import ua.com.gup.model.xchangerate.swagger.CurrencyConverterBuilder;
+//import ua.com.gup.model.xchangerate.swagger.CurrencyNotSupportedException;
 //import ua.com.gup.model.xchangerate.endpoint.EndpointException;
 //import ua.com.gup.model.xchangerate.service.ServiceException;
 //import ua.com.gup.model.xchangerate.storage.StorageException;

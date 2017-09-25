@@ -1,7 +1,7 @@
 package ua.com.gup.mapper;
 
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.model.OfferContactInfo;
+import ua.com.gup.model.offer.OfferContactInfo;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 
 @Component

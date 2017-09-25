@@ -2,7 +2,7 @@ package ua.com.gup.service.sequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.repository.dao.sequence.SeoSequenceRepository;
+import ua.com.gup.repository.sequence.SeoSequenceRepository;
 
 @Service
 public class SeoSequenceImpl implements SeoSequenceService {

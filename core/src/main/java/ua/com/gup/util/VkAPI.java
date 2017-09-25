@@ -29,7 +29,7 @@ public final class VkAPI {
             + "&v={API_VERSION}"
             + "&response_type=token";
 
-    private static final String API_REQUEST = "https://api.vk.com/method/{METHOD_NAME}"
+    private static final String API_REQUEST = "https://swagger.vk.com/method/{METHOD_NAME}"
             + "?{PARAMETERS}"
 //            + "&access_token={ACCESS_TOKEN}" //TODO: fix token
 //            + "&v={API_VERSION}"; //TODO: fix token

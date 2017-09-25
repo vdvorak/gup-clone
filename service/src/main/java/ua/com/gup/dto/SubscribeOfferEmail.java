@@ -1,6 +1,6 @@
 package ua.com.gup.dto;
 
-import ua.com.gup.domain.Offer;
+import ua.com.gup.domain.offer.Offer;
 
 /**
  * Wrapper class for sending email for the offers subscribers.

@@ -1,9 +1,6 @@
 package ua.com.gup.dto;
 
-import ua.com.gup.model.order.OrderFeedback;
 import ua.com.gup.model.profiles.Profile;
-
-import java.util.List;
 
 public class ProfileInfo {
 
@@ -13,10 +10,7 @@ public class ProfileInfo {
     private Integer userBalance;
     private Integer userBonusBalance;
     private Integer userAveragePoints;
-    private List<OrderFeedback> orderFeedbackList;
     private String internalTransactionHistory;
-    private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
-    private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
     private int orderAmount;
     private int totalFeedbackAmount;
 
@@ -80,14 +74,6 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<OrderFeedback> getOrderFeedbackList() {
-        return orderFeedbackList;
-    }
-
-    public ProfileInfo setOrderFeedbackList(List<OrderFeedback> orderFeedbackList) {
-        this.orderFeedbackList = orderFeedbackList;
-        return this;
-    }
 
     public String getInternalTransactionHistory() {
         return internalTransactionHistory;
@@ -99,23 +85,7 @@ public class ProfileInfo {
     }
 
 
-    public List<OrderInfo> getOrderInfoBuyerList() {
-        return orderInfoBuyerList;
-    }
 
-    public ProfileInfo setOrderInfoBuyerList(List<OrderInfo> orderInfoBuyerList) {
-        this.orderInfoBuyerList = orderInfoBuyerList;
-        return this;
-    }
-
-    public List<OrderInfo> getOrderInfoSellerList() {
-        return orderInfoSellerList;
-    }
-
-    public ProfileInfo setOrderInfoSellerList(List<OrderInfo> orderInfoSellerList) {
-        this.orderInfoSellerList = orderInfoSellerList;
-        return this;
-    }
 
     public int getTotalFeedbackAmount() {
         return totalFeedbackAmount;
@@ -144,10 +114,7 @@ public class ProfileInfo {
                 ", userBalance=" + userBalance +
                 ", userBonusBalance=" + userBonusBalance +
                 ", userAveragePoints=" + userAveragePoints +
-                ", orderFeedbackList=" + orderFeedbackList +
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
-                ", orderInfoBuyerList=" + orderInfoBuyerList +
-                ", orderInfoSellerList=" + orderInfoSellerList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +
                 '}';

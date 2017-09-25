@@ -9,7 +9,7 @@ import ua.com.gup.model.xchangerate.util.Currency;
 
 public class CurrencyLayerEndpoint extends EndpointFactory {
 
-	public static final String                  BASE_URL = "http://apilayer.net/api/";
+	public static final String                  BASE_URL = "http://apilayer.net/swagger/";
 	public static final String                  ENDPOINT = "live";
 	private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger( CurrencyLayerEndpoint.class.getName() );
 

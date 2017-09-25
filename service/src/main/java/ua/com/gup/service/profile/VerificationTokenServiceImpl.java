@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
-import ua.com.gup.repository.dao.profile.VerificationTokenRepository;
+import ua.com.gup.repository.profile.VerificationTokenRepository;
 
 import java.util.List;
 

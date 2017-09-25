@@ -4,7 +4,7 @@ package ua.com.gup.service.reservationSchedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.model.reservationSchedule.ReservationSchedule;
-import ua.com.gup.repository.dao.reservationSchedule.ReservationScheduleRepository;
+import ua.com.gup.repository.reservationSchedule.ReservationScheduleRepository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

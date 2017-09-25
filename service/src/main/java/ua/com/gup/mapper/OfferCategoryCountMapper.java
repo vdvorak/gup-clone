@@ -2,8 +2,8 @@ package ua.com.gup.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.model.OfferCategory;
-import ua.com.gup.domain.offer.model.OfferCategoryCount;
+import ua.com.gup.model.offer.OfferCategory;
+import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 
