@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ua.com.gup.server.api.rest.LoginRestController;
+import ua.com.gup.api.oauth2.LoginRestController;
 import ua.com.gup.server.config.TestConfig;
 import ua.com.gup.service.profile.ProfilesService;
 
@@ -52,13 +52,5 @@ public class LoginRestControllerTest {
                 .andExpect(status().isConflict());
 
     }
-
-//    @Test
-//    public void registerConfirm() throws Exception {
-//    }
-//
-//    @Test
-//    public void login() throws Exception {
-//    }
 
 }

@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.rest;
+package ua.com.gup.api.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.model.FormLostPassword;
+import ua.com.gup.model.login.FormLostPassword;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.dto.ProfileInfo;

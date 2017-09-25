@@ -1,13 +1,11 @@
-package ua.com.itproekt.gup.filter;
-
-import org.springframework.stereotype.Component;
+package ua.com.gup.config.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@Component
+//@Component
 public class CORSFilter implements Filter {
 
     @Override

@@ -6,15 +6,21 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.repository.filestorage.StorageRepository;
-import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.CreatedObjResp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -154,6 +160,43 @@ public class StorageServiceImpl implements StorageService {
     }
 
 
+    @Override
+    public MultipartFile[] imageDownloader(List<String> imagesUrlList) {
+        List<MultipartFile> multipartFiles = new ArrayList<>();
+
+        for (String imageUrl : imagesUrlList) {
+            multipartFiles.add(imageDownloader(imageUrl));
+        }
+        return multipartFiles.toArray(new MultipartFile[multipartFiles.size()]);
+    }
+
+
+    @Override
+    public MultipartFile imageDownloader(String imageUrl) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream is = null;
+
+        try {
+            URL url = new URL(imageUrl);
+            is = url.openStream();
+            byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
+            int n;
+
+            while ((n = is.read(byteChunk)) > 0) {
+                baos.write(byteChunk, 0, n);
+            }
+
+            return new MockMultipartFile("fileFromImport", url.getFile(), "image/jpeg", baos.toByteArray());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
     // ------------------------------------------ Helper methods ----------------------------------------
 
     /**
@@ -169,6 +212,7 @@ public class StorageServiceImpl implements StorageService {
                 .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
                 .body(new InputStreamResource(gridFSDBFile.getInputStream()));
     }
+
 
 
 }

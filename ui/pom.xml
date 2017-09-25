@@ -14,8 +14,6 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <encoding>UTF-8</encoding>
         <scala.version>2.11.5</scala.version>
         <scala.compat.version>2.11</scala.compat.version>
@@ -310,24 +308,24 @@
 
 
     <build>
-        <finalName>ui</finalName>
+        <finalName>ui-api##${project.version}</finalName>
         <defaultGoal>package</defaultGoal>
 
         <plugins>
 
-            <plugin>
+           <!-- <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>

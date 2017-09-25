@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.rest;
+package ua.com.gup.api.oauth2;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.gup.model.AuthenticateByEmailAndPasswordFromRegister;
-import ua.com.gup.model.FormChangePassword;
-import ua.com.gup.model.FormLoggedUser;
+import ua.com.gup.model.oauth2.AuthenticateByEmailAndPasswordFromRegister;
+import ua.com.gup.model.login.FormChangePassword;
+import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserRole;

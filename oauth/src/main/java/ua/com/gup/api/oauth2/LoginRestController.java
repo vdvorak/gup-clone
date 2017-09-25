@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.rest;
+package ua.com.gup.api.oauth2;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ import ua.com.gup.util.LogUtil;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
-import ua.com.gup.model.FormChangePassword;
-import ua.com.gup.model.FormLoggedUser;
+import ua.com.gup.model.login.FormChangePassword;
+import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserType;
