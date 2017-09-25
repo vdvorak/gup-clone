@@ -35,40 +35,36 @@
     </prerequisites>
 
     <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
-    <!--<dependencyManagement>
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
+                <artifactId>spring-context</artifactId>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
+                <artifactId>spring-web</artifactId>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
+                <artifactId>spring-context-support</artifactId>
+                <version>${springframework.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
+
         </dependencies>
-    </dependencyManagement>-->
+    </dependencyManagement>
 
     <modules>
         <module>core</module>
