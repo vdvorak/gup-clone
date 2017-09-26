@@ -21,7 +21,6 @@
     <!--<mvc:default-servlet-handler  />-->
 
     <import resource="classpath:/spring/root-context.xml"/>
-    <import resource="classpath:/spring/mail.xml"/>
     <import resource="classpath:/spring/db/mongo.xml"/>
     <import resource="classpath:/spring/db/mongo-tasks.xml"/>
     <import resource="classpath:/spring/security/client-details.xml"/>

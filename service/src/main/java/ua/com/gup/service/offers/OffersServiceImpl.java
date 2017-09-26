@@ -11,18 +11,22 @@ import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
 import ua.com.gup.dto.OfferRegistration;
 import ua.com.gup.model.file.FileUploadWrapper;
-import ua.com.gup.model.offer.*;
+import ua.com.gup.model.offer.Address;
+import ua.com.gup.model.offer.Image;
+import ua.com.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.service.sequence.SeoSequenceService;
 import ua.com.gup.util.EntityPage;
 import ua.com.gup.util.SecurityOperations;
-import ua.com.gup.util.SeoUtils;
 import ua.com.gup.util.Translit;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -306,126 +310,6 @@ public class OffersServiceImpl implements OffersService {
         return offerFilterOptions;
     }
 
-    /**
-     * Create OfferFilterOption object for search offers relevant to current on it's country.
-     *
-     * @param offer the offer to which we must find relevant offers.
-     * @return the OfferFilterOptions object.
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
-
-        return offerFilterOptions;
-    }
-
-    /**
-     * Return OfferFilterOption object only with skip and limit parameter/
-     *
-     * @return the OfferFilterOptions object
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit(int limit) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setSkip(0);
-        offerFilterOptions.setLimit(limit);
-        return offerFilterOptions;
-    }
-
-    // ----------------------------- For offer short list in private profile cabinet ----------------------
-
-    /**
-     * Prepare LIst of Offers relevant to favourite categories.
-     *
-     * @param offerFilterOptions - the FilterOptions object.
-     * @return - the list of the offers.
-     */
-    private List<Offer> prepareListOfOffersRelevantToFavouriteCategories(OfferFilterOptions offerFilterOptions) {
-        List<Offer> resultList = new ArrayList<>();
-        LinkedList<OfferCategory> currentCategory = new LinkedList<>();
-        int newLimit = 18;
-
-        List<OfferCategory> favouriteCategories = offerFilterOptions.getFavouriteCategories();
-        int categoriesAmount = favouriteCategories.size();
-        if (categoriesAmount == 1) {
-            newLimit = 18;
-        } else if (categoriesAmount == 2) {
-            newLimit = 9;
-        } else if (categoriesAmount == 3) {
-            newLimit = 6;
-        }
-
-        offerFilterOptions.setLimit(newLimit);
-
-        for (OfferCategory favouriteCategory : favouriteCategories) {
-            currentCategory.clear();
-            currentCategory.add(favouriteCategory);
-            // add to result list new portion of offers
-            resultList.addAll(offerRepository.findOffersWithOptions(offerFilterOptions).getEntities());
-
-        }
-        offerFilterOptions.setCategories(currentCategory);
-
-        if (resultList.size() < 18) {
-
-            // create list of the current offer's ID
-            List<String> currentOffersIds = new ArrayList<>();
-            for (Offer offer : resultList) {
-                currentOffersIds.add(offer.getId());
-            }
-
-            offerFilterOptions.setLimit(18 - resultList.size());
-            offerFilterOptions.setCategories(null);
-
-            // add the missing offers amount to result list
-            resultList.addAll(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOffersIds).getEntities());
-        }
-
-        return resultList;
-    }
-
-
-    /**
-     * Add SeoUrl to offer and create new PaidService in offer
-     *
-     * @param seoSequenceService the link to seoSequenceService instance
-     * @param offerRegistration  offerRegistration object
-     */
-    private void offerSeoUrlAndPaidServicePreparator(SeoSequenceService seoSequenceService, OfferRegistration offerRegistration) {
-        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
-        SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
-    }
-
-
-    /**
-     * This method get image from the web (download it), or take image from client side. Than method save image
-     * in the DB and put image's ID to the result Image list.
-     *
-     * @param resultImages  - the result image list.
-     * @param multipartFile - the multipart file.
-     */
-    private void addImageToTheImageLIst(List<String> resultImages, MultipartFile multipartFile) {
-        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-        Image newImage = new Image();
-        try {
-            fileUploadWrapper
-                    .setServiceName("offers")
-                    .setInputStream(multipartFile.getInputStream())
-                    .setContentType(multipartFile.getContentType())
-                    .setFilename(multipartFile.getOriginalFilename());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
-        newImage.setImageId(newImageId);
-        resultImages.add(newImage.getImageId());
-
-    }
-
 
     private List<String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
 
@@ -486,62 +370,5 @@ public class OffersServiceImpl implements OffersService {
         storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }
 
-
-    /**
-     * Show does new offer have critical changes or not and add information about them into new offer object.
-     *
-     * @param oldOffer - the old offer version - before update.
-     * @param newOffer - the new offer version - candidate to update.
-     * @return - true if offer has critical changes, and false - if not.
-     */
-    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files) {
-
-        Set<OfferModifiedField> newOfferModifiedFields = new HashSet<>();
-
-        if (!oldOffer.getTitle().equals(newOffer.getTitle())) {
-            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_TITLE);
-        }
-
-        if (!oldOffer.getDescription().equals(newOffer.getDescription())) {
-            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_DESCRIPTION);
-        }
-
-        if (!oldOffer.getCategories().equals(newOffer.getCategories())) {
-            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
-        }
-
-
-        //FixMe this bullshit doesn't work properly - it's show not equals in the same lists
-        //        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
-        //            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
-        //        }
-
-        // if we have new images uploaded manual
-        if (files.length > 0) {
-            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
-        }
-
-
-        //todo maybe add in future Offer is changed
-        // Если в старой версии статус модерации был NO - то изменённые поля мы добавляем, если COMPLETE - то заменяем
-        /*if (oldOffer.getLastOfferModerationReport().getModerationStatus() == ModerationStatus.NO) {
-            if (oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst() != null) {
-                newOfferModifiedFields.addAll(oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst());
-            }
-        }*/
-
-        // take old offerModerationReports, add offerModifiedFields and put it into new Offer
-        OfferModerationReport resultOfferModerationReports = oldOffer.getLastOfferModerationReport();
-
-        //todo maybe add in future Offer is changed
-        //resultOfferModerationReports.setOfferModifiedFieldLIst(newOfferModifiedFields);
-
-        if (newOfferModifiedFields.size() > 0) {
-            newOffer.setLastOfferModerationReport(resultOfferModerationReports);
-            return true;
-        }
-
-        return false;
-    }
 
 }

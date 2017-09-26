@@ -1,6 +1,6 @@
 package ua.com.gup.service.emailnotification;
 
-import org.apache.velocity.app.VelocityEngine;
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.velocity.VelocityEngineUtils;
+import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.SubscribeOfferEmail;
-import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.repository.email.EmailRepository;
@@ -46,8 +45,6 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private EmailRepository emailRepository;
 
-    @Autowired
-    private VelocityEngine velocityEngine;
 
     @Autowired
     private VerificationTokenService verificationTokenService;
@@ -145,27 +142,27 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, final Map<String, String> resources) {
 
-
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
-                        MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
-                messageHelper.setTo(email);
-                messageHelper.setFrom(emailFromAddress);
-                messageHelper.setReplyTo(emailReplyToAddress);
-                messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");
-                Map<String, Object> model = new HashMap<>();
-                model.put("model", subscribeEmailBodyPreparator(subscriptionId, email, offer));
-                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/OfferSubscriptionEmail.vm", "UTF-8", model);
-                messageHelper.setText(text, true);
-
-                for (String resourceIdentifier : resources.keySet()) {
-                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
-                }
-            }
-        };
-
-        mailSender.send(preparator);
+        throw new NotImplementedException("Not implemented yet");
+//        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+//            public void prepare(MimeMessage mimeMessage) throws Exception {
+//                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
+//                        MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
+//                messageHelper.setTo(email);
+//                messageHelper.setFrom(emailFromAddress);
+//                messageHelper.setReplyTo(emailReplyToAddress);
+//                messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");
+//                Map<String, Object> model = new HashMap<>();
+//                model.put("model", subscribeEmailBodyPreparator(subscriptionId, email, offer));
+//                String text = "";//VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/OfferSubscriptionEmail.vm", "UTF-8", model);
+//                messageHelper.setText(text, true);
+//
+//                for (String resourceIdentifier : resources.keySet()) {
+//                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
+//                }
+//            }
+//        };
+//
+//        mailSender.send(preparator);
     }
 
 
