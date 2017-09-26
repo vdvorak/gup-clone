@@ -21,6 +21,7 @@ public class PriceMapper {
         offerPriceDTO.setAmount(price.getAmount());
         offerPriceDTO.setCurrency(price.getCurrency());
         offerPriceDTO.setPriceWithVAT(price.getPriceWithVAT());
+        offerPriceDTO.setBargainingPossible(price.getBargainingPossible());
         return offerPriceDTO;
     }
 
@@ -35,6 +36,7 @@ public class PriceMapper {
             price.setBaseAmount(priceConverted.doubleValue());
             price.setBaseCurrency(currencyConverterService.getBaseCurrency());
             price.setPriceWithVAT(offerPriceDTO.getPriceWithVAT());
+            price.setBargainingPossible(offerPriceDTO.getBargainingPossible());
             price.setLastModifiedDate(LocalDateTime.now());
             return price;
         }

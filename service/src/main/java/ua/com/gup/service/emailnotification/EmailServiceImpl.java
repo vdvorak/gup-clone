@@ -1,6 +1,5 @@
 package ua.com.gup.service.emailnotification;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +141,8 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, final Map<String, String> resources) {
 
-        throw new NotImplementedException("Not implemented yet");
+
+        throw new RuntimeException("Not implemented yet");
 //        MimeMessagePreparator preparator = new MimeMessagePreparator() {
 //            public void prepare(MimeMessage mimeMessage) throws Exception {
 //                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,

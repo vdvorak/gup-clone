@@ -1,6 +1,5 @@
 package ua.com.gup.server.api.filestorage;
 
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -122,9 +121,6 @@ public class FileStorageRestController {
     }
 
     private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return false;
-        }
         if (serviceName.toLowerCase().equals("profile")) {
             if (param.equals("large") || param.equals("small")) {
                 return true;

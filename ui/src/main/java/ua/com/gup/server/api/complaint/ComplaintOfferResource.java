@@ -1,7 +1,6 @@
 package ua.com.gup.server.api.complaint;
 
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
+import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.service.complaint.ComplaintOfferService;
 import ua.com.gup.service.security.SecurityUtils;
-import ua.com.gup.server.util.HeaderUtil;
-import ua.com.gup.model.profiles.UserRole;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
@@ -151,19 +150,19 @@ public class ComplaintOfferResource {
         log.info("REST request to get Types");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization"))
-                                 .body(null);
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization"))
+                    .body(null);
         }
 
-        final Gson gson = new Gson();
+
         /*final Map<String, String> types =
                 Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));*/
-        final List<ComplaintOfferType> types  =
-                         Arrays.stream(ComplaintOfferType.values())
+        final List<ComplaintOfferType> types =
+                Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toList());
 
-        return new ResponseEntity(gson.toJson(types), HttpStatus.OK);
+        return new ResponseEntity(types, HttpStatus.OK);
     }
 
     /**
@@ -183,11 +182,10 @@ public class ComplaintOfferResource {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
 
-        final Gson gson = new Gson();
         final Map<String, String> statuses =
                 Arrays.stream(ComplaintOfferStatus.values())
                         .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
-        return new ResponseEntity(gson.toJson(statuses), HttpStatus.OK);
+        return new ResponseEntity(statuses, HttpStatus.OK);
     }
 
 

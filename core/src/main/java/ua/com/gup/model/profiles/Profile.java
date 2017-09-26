@@ -1,7 +1,6 @@
 package ua.com.gup.model.profiles;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -109,10 +108,6 @@ public class Profile {
     private Set<String> emploeyrList;
     private DBStorePhones storePhones;
 
-
-    public boolean hasUserRole(String userRole) {
-        return EnumUtils.isValidEnum(UserRole.class, userRole);
-    }
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();

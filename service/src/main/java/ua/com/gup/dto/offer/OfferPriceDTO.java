@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @ApiModel
-public class OfferPriceDTO implements Serializable{
+public class OfferPriceDTO implements Serializable {
     @ApiModelProperty(position = 0, example = "10000")
     private BigDecimal amount;
 
@@ -18,6 +18,13 @@ public class OfferPriceDTO implements Serializable{
 
     @ApiModelProperty(position = 20, example = "false")
     private Boolean priceWithVAT;
+
+    @ApiModelProperty(position = 30, example = "false")
+    private Boolean bargainingPossible;
+
+    public OfferPriceDTO() {
+        bargainingPossible = Boolean.FALSE;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -41,5 +48,13 @@ public class OfferPriceDTO implements Serializable{
 
     public void setPriceWithVAT(Boolean priceWithVAT) {
         this.priceWithVAT = priceWithVAT;
+    }
+
+    public Boolean getBargainingPossible() {
+        return bargainingPossible;
+    }
+
+    public void setBargainingPossible(Boolean bargainingPossible) {
+        this.bargainingPossible = bargainingPossible;
     }
 }

@@ -1,7 +1,6 @@
 package ua.com.gup.server.api.profile;
 
-import com.google.gson.Gson;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.profiles.Profile;
@@ -470,11 +470,11 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
-        Gson gson = new Gson();
+
 
         // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
-            return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
+            return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
         }
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
@@ -484,10 +484,10 @@ public class ProfileRestController {
             profile.setActive(false);
             profile.setBan(true);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(gson.toJson("User: '" + id + "' IS BAN"), HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>("User: '" + id + "' successfully banned", HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403
+        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
     }
 
     @CrossOrigin
@@ -497,11 +497,11 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
-        Gson gson = new Gson();
+
 
         // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
-            return new ResponseEntity<>(gson.toJson("ADMIN CRAZY"), HttpStatus.FORBIDDEN); //TODO: 403
+            return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
         }
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //TODO: 204
@@ -511,10 +511,10 @@ public class ProfileRestController {
             profile.setActive(true);
             profile.setBan(false);
             profilesService.editProfile(profile);
-            return new ResponseEntity<>(gson.toJson("User: '" + id + "' IS UNBAN"), HttpStatus.OK); //TODO: 200
+            return new ResponseEntity<>("User: '" + id + "' successfully unbanned", HttpStatus.OK); //TODO: 200
         }
 
-        return new ResponseEntity<>(gson.toJson("IS NEED ROLE_USER"), HttpStatus.FORBIDDEN); //TODO: 403
+        return new ResponseEntity<>("IS NEED ROLE_USER", HttpStatus.FORBIDDEN); //TODO: 403
     }
 
 
@@ -574,7 +574,7 @@ public class ProfileRestController {
 
         Profile oldProfile = profilesService.findById(loggedUserId);
 
-        if (StringUtils.isBlank(profile.getStatus())) {
+        if (StringUtils.isEmpty(profile.getStatus())) {
             oldProfile.setStatus("");
         } else {
             oldProfile.setStatus(profile.getStatus());

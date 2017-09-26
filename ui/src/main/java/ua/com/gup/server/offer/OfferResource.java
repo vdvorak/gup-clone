@@ -1,7 +1,6 @@
 package ua.com.gup.server.offer;
 
 
-import com.google.gson.Gson;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -324,12 +323,12 @@ public class OfferResource {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
 
-        final Gson gson = new Gson();
+
         final Map<String, String> statuses =
                 Arrays.stream(OfferStatus.values())
                         .collect(Collectors.toMap(OfferStatus::name, OfferStatus::toString));
 
-        return new ResponseEntity(gson.toJson(statuses), HttpStatus.OK);
+        return new ResponseEntity(statuses, HttpStatus.OK);
     }
 
     /**

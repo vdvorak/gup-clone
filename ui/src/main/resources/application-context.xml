@@ -16,7 +16,6 @@
     <context:property-placeholder location="classpath:properties/*.properties" />
 
     <import resource="root-context.xml"/>
-    <import resource="mail.xml"/>
     <import resource="db/mongo.xml"/>
     <import resource="db/mongo-tasks.xml"/>
     <import resource="security/client-details.xml"/>

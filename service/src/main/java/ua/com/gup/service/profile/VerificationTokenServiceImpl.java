@@ -1,6 +1,5 @@
 package ua.com.gup.service.profile;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +47,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken) {
-        throw new NotImplementedException(refreshToken);
+        throw new RuntimeException("Not implemented yet");
 //        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
 //        verificationTokenRepository.save(token);
 //        Profile profile = ensureUserIsLoaded(userId);
@@ -65,7 +64,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
      * @return a token or null if user not found
      */
     public VerificationToken sendLostPasswordToken(String email) {
-        throw new NotImplementedException(email);
+        throw new RuntimeException("Not implemented yet");
 //        VerificationToken token = null;
 //        Profile profile = profilesService.findProfileByEmail(email);
 //
@@ -85,7 +84,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public VerificationToken verifyToken(String base64EncodedToken) {
-        throw new NotImplementedException(base64EncodedToken);
+        throw new RuntimeException("Not implemented yet");
 //        VerificationToken token = getVerificationToken(base64EncodedToken);
 //        if (token.isVerified()) {
 //            throw new AlreadyVerifiedTokenException();
@@ -118,7 +117,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public VerificationToken resetPassword(String base64EncodedToken, String password) {
-        throw new NotImplementedException(base64EncodedToken);
+        throw new RuntimeException("Not implemented yet");
 //        Assert.notNull(base64EncodedToken);
 //        VerificationToken token = getVerificationToken(base64EncodedToken);
 //        if (token.isVerified()) {

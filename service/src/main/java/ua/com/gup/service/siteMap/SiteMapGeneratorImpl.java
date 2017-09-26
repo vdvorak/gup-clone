@@ -1,9 +1,9 @@
 package ua.com.gup.service.siteMap;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
@@ -108,13 +108,13 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
 
             String mainImage = offersService.getMainOfferImage(offer);
 
-            if (StringUtils.isNotBlank(mainImage)) {
+            if (!StringUtils.isEmpty(mainImage)) {
                 ImageMap imageMap = new ImageMap();
                 imageMap.setImageLoc(imageHost + mainImage + ".jpg?cachedSize=large");
 
                 String offerTitle = offer.getTitle();
 
-                if (StringUtils.isNotBlank(offerTitle)) {
+                if (!StringUtils.isEmpty(offerTitle)) {
                     imageMap.setImageTitle(offerTitle);
                     imageMap.setImageCaption(offerTitle);
                 }

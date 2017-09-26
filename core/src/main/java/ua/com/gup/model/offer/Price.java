@@ -25,6 +25,8 @@ public class Price {
 
     private Boolean priceWithVAT;
 
+    private Boolean bargainingPossible;
+
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -71,5 +73,13 @@ public class Price {
 
     public void setPriceWithVAT(Boolean priceWithVAT) {
         this.priceWithVAT = priceWithVAT;
+    }
+
+    public Boolean getBargainingPossible() {
+        return bargainingPossible;
+    }
+
+    public void setBargainingPossible(Boolean bargainingPossible) {
+        this.bargainingPossible = bargainingPossible;
     }
 }

@@ -1,10 +1,10 @@
 package ua.com.gup.service.offers;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
@@ -277,7 +277,7 @@ public class OffersServiceImpl implements OffersService {
         List<String> imageListId = offer.getImageIds();
         if (imageListId != null) {
             for (String imageId : imageListId) {
-                if (StringUtils.isNotBlank(imageId)) {
+                if (!StringUtils.isEmpty(imageId)) {
                     return imageId;
                 }
             }
@@ -337,7 +337,7 @@ public class OffersServiceImpl implements OffersService {
                 String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
                 newImage.setImageId(newImageId);
                 resultImages.add(newImageId);
-            } else if (StringUtils.isNotBlank(image.getImageId())) {
+            } else if (!StringUtils.isEmpty(image.getImageId())) {
                 newImage.setImageId(image.getImageId());
                 resultImages.add(image.getImageId());
             }
