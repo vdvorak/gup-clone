@@ -281,18 +281,6 @@
         <defaultGoal>package</defaultGoal>
 
         <plugins>
-
-           <!-- <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>3.2.0</version>
-            </plugin>-->
-           <!-- <plugin>
-            <!-- <plugin>
-                 <groupId>net.alchim31.maven</groupId>
-                 <artifactId>scala-maven-plugin</artifactId>
-                 <version>3.2.0</version>
-             </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -302,7 +290,8 @@
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
-            </plugin>-->
+            </plugin>
+
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.6</version>
