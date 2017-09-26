@@ -1,7 +1,6 @@
 package ua.com.gup.server.api.profile;
 
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +29,6 @@ public class ProfileRestAdminController {
     @RequestMapping(value = "/search/admin/id/all", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Admins> getAdminIdAll() {
-        Gson gson = new Gson();
         return new ResponseEntity<>(new Admins(profilesService.getAdminIdAll()), HttpStatus.OK);
     }
 
@@ -38,7 +36,6 @@ public class ProfileRestAdminController {
     @RequestMapping(value = "/search/admin/id/all-by-online", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Admins> getAdminIdAllByOnline() {
-        Gson gson = new Gson();
         return new ResponseEntity<>(new Admins(profilesService.getAdminIdAllByOnline()), HttpStatus.OK);
     }
 
@@ -46,7 +43,6 @@ public class ProfileRestAdminController {
     @RequestMapping(value = "/search/admin/id", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Admin> getAdminId() {
-        Gson gson = new Gson();
         return new ResponseEntity<>(new Admin(profilesService.getAdminId()), HttpStatus.OK);
     }
 
@@ -54,7 +50,6 @@ public class ProfileRestAdminController {
     @RequestMapping(value = "/search/admin/id-by-online", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Admin> getAdminIdByOnline() {
-        Gson gson = new Gson();
         return new ResponseEntity<>(new Admin(profilesService.getAdminIdByOnline()), HttpStatus.OK);
     }
 
@@ -122,13 +117,14 @@ public class ProfileRestAdminController {
     class Admin {
         private String id;
 
-        public Admin(String id){
+        public Admin(String id) {
             this.id = id;
         }
 
         public String getId() {
             return id;
         }
+
         public void setId(String id) {
             this.id = id;
         }
@@ -137,15 +133,16 @@ public class ProfileRestAdminController {
     class Admins {
         private Set<Admin> ids;
 
-        public Admins(Set<String> ids){
+        public Admins(Set<String> ids) {
             this.ids = new HashSet<>();
-            for (String id: ids)
+            for (String id : ids)
                 this.ids.add(new Admin(id));
         }
 
         public Set<Admin> getIds() {
             return ids;
         }
+
         public void setIds(Set<Admin> ids) {
             this.ids = ids;
         }
