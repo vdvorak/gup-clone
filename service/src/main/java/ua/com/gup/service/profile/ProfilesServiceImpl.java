@@ -137,13 +137,13 @@ public class ProfilesServiceImpl implements ProfilesService {
                 //.setPublicHash(profile.getPublicHash())
                 .setBankCard(profile.getBankCard());
 
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername())) {
+        if (!StringUtils.isNotBlank(offerRegistration.getUsername())) {
             profile.setUsername(offerRegistration.getUsername());
         }
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getLastname())) {
+        if (!StringUtils.isNotBlank(offerRegistration.getLastname())) {
             profile.setLastname(offerRegistration.getLastname());
         }
-        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getFirstname())) {
+        if (!StringUtils.isNotBlank(offerRegistration.getFirstname())) {
             profile.setFirstname(offerRegistration.getFirstname());
         }
 
