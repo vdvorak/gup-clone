@@ -344,7 +344,7 @@
     <build>
         <finalName>core##${project.version}</finalName>
         <defaultGoal>package</defaultGoal>
-        <plugins>
+        <!--<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -369,6 +369,6 @@
                     <protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
                 </configuration>
             </plugin>
-        </plugins>
+        </plugins>-->
     </build>
 </project>
