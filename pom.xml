@@ -36,8 +36,7 @@
         <swagger2.version>2.6.1</swagger2.version>
     </properties>
 
-    <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
-    <!--<dependencyManagement>
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -66,7 +65,7 @@
             </dependency>
 
         </dependencies>
-    </dependencyManagement>-->
+    </dependencyManagement>
 
     <build>
         <plugins>
