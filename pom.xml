@@ -10,7 +10,7 @@
     </parent>
     <artifactId>GUP</artifactId>
     <groupId>ua.com.gup</groupId>
-    <version>${version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>GUP</name>
     <description>Global Ukraine Portal</description>
@@ -33,11 +33,14 @@
         <springframework.security.version>3.2.9.RELEASE</springframework.security.version>
         <springframework.security.oauth.version>2.0.9.RELEASE</springframework.security.oauth.version>
         <springframework.security.test.version>4.0.1.RELEASE</springframework.security.test.version>
+        <httpcore.version>4.4.1</httpcore.version>
+        <httpclient.version>4.4.1</httpclient.version>
         <swagger2.version>2.6.1</swagger2.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring framework-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -62,6 +65,52 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>${springframework.version}</version>
+            </dependency>
+
+            <!-- Joda Time (DateTime)-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>  <!-- version fromm spring.boot dependencies -->
+            </dependency>
+
+            <!-- Jackson (JSON) -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.6.5</version>
+            </dependency>
+
+            <!-- http -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+
+            <!-- Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>  <!-- version fromm spring.boot dependencies -->
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version> <!-- version fromm spring.boot dependencies -->
+                <scope>test</scope>
             </dependency>
 
         </dependencies>

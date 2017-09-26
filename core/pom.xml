@@ -77,12 +77,6 @@
 
 
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>1.8.4.RELEASE</version>
@@ -119,14 +113,8 @@
 
         <!--JSON translator-->
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -139,13 +127,6 @@
         </dependency>
 
 
-        <!--mail-->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4</version>
-        </dependency>
-
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -157,18 +138,18 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.2.1.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.0.31-beta</version>
-            <scope>test</scope>
-        </dependency>
+
+        <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -186,29 +167,8 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4</version>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.apache.httpcomponents</groupId>-->
-        <!--<artifactId>httpclient</artifactId>-->
-        <!--<version>4.3.1</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
-        </dependency>
-        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -224,35 +184,21 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
-            <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.4.1</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.apache.httpcomponents</groupId>-->
-        <!--<artifactId>httpasyncclient</artifactId>-->
-        <!--<version>4.0.2</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20140107</version>
         </dependency>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
@@ -344,7 +290,7 @@
     <build>
         <finalName>core##${project.version}</finalName>
         <defaultGoal>package</defaultGoal>
-        <!--<plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -355,20 +301,6 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <contextFile>src/main/resources/tomcat/context.xml</contextFile>
-                    <systemProperties>
-                        <file.encoding>UTF-8</file.encoding>
-                        <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
-                    </systemProperties>
-                    <protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
-                </configuration>
-            </plugin>
-        </plugins>-->
+        </plugins>
     </build>
 </project>
