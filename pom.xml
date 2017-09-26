@@ -38,7 +38,6 @@
         <swagger2.version>2.6.1</swagger2.version>
     </properties>
 
-    <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
     <dependencyManagement>
         <dependencies>
             <!-- Spring framework-->
