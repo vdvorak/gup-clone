@@ -22,7 +22,7 @@
     <!--GLOBAL UKRAINE PORTAL -->
     <properties>
         <!-- system compiler setting -->
-        <maven.version>3.5.1</maven.version>
+        <maven.version>3.2</maven.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,7 +37,7 @@
     </properties>
 
     <!-- IN FUTURE CREATE NORMAL POM.XML with dependencyManagement -->
-    <dependencyManagement>
+    <!--<dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -66,7 +66,7 @@
             </dependency>
 
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>-->
 
     <modules>
         <module>core</module>
@@ -74,10 +74,6 @@
         <module>ui</module>
         <module>service</module>
         <module>admin</module>
-        <!--<module>file-storage</module>-->
         <module>exchange-rates</module>
-        <!--<module>blockchain-client</module>-->
-        <!--<module>bitcoinj</module>-->
-        <!--<module>geo</module>-->
     </modules>
 </project>
