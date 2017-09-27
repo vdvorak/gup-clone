@@ -12,12 +12,9 @@ import java.util.UUID;
 
 @Document(collection = "verification.token")
 public class VerificationToken {
-
-
     @Transient
     @Value("${verification.token.defaultTimeToLive.inMinutes}")
     private int DEFAULT_EXPIRY_TIME_IN_MINS;
-
     @Id
     private String id;
     private String userId;

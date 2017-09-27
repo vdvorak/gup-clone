@@ -132,9 +132,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet)
                 .setUserType(profile.getUserType())
-                //.setPublicKey(profile.getPublicKey())
-                //.setPrivateKey(profile.getPrivateKey())
-                //.setPublicHash(profile.getPublicHash())
                 .setBankCard(profile.getBankCard());
 
         if (!StringUtils.isNotBlank(offerRegistration.getUsername())) {
