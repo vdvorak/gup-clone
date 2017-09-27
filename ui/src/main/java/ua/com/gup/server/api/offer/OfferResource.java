@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class OfferResource {
 
-    private static final String ENTITY_NAME = "offer";
     private final Logger log = LoggerFactory.getLogger(OfferResource.class);
 
     @Autowired
