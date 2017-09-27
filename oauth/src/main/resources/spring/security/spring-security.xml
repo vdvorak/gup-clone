@@ -16,8 +16,7 @@
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
-        <!-- include this only if you need to authenticate clients via request
-         parameters -->
+        <!-- include this only if you need to authenticate clients via request parameters -->
         <sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
     </sec:http>
