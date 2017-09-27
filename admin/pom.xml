@@ -17,7 +17,7 @@
         <!-- Core -->
         <dependency>
             <groupId>ua.com.gup</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
         <!-- commons library -->
