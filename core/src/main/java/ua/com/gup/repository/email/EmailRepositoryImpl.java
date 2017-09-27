@@ -3,11 +3,14 @@ package ua.com.gup.repository.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.domain.email.EmailMessage;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 
 @Repository
 public class EmailRepositoryImpl implements EmailRepository {
@@ -36,8 +39,20 @@ public class EmailRepositoryImpl implements EmailRepository {
         return mongoTemplate.findOne(query, EmailMessage.class);
     }
 
+    private EmailMessage findById(EmailMessage message) {
+        return mongoTemplate.findById(message.getId(), EmailMessage.class);
+    }
+
     @Override
     public void removeMessage(EmailMessage message) {
         mongoTemplate.remove(message);
+    }
+
+    @Override
+    public EmailMessage updateLastAttemptTimestamp(EmailMessage message) {
+        Update update = new Update();
+        update.set("lastAttemptTimestamp", new Date().getTime());
+        Query query = new Query(Criteria.where("_id").is(message.getId()));
+        return mongoTemplate.findAndModify(query, update, EmailMessage.class);
     }
 }

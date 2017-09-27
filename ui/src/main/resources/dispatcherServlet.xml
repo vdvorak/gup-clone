@@ -20,7 +20,9 @@
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <beans:bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+            <beans:bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" >
+                <beans:property name="maxPageSize" value="100"/>
+            </beans:bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

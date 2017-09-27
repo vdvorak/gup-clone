@@ -2,9 +2,9 @@ package ua.com.gup.repository.offer;
 
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
 
@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.List;
 
 public interface OfferRepositoryCustom {
+
+    long countByFilter(OfferFilter offerFilter, OfferStatus offerStatus);
 
     List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable);
 

@@ -131,11 +131,10 @@ public class OfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{seoUrl}/relevant", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OfferViewShortDTO>> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
+    public ResponseEntity<Page> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
         Page<OfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + seoUrl + "/relevant");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     /**
@@ -249,11 +248,10 @@ public class OfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortDTO>> getAllOffersByFilter(OfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<Page> getAllOffersByFilter(OfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<OfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     /**
@@ -265,7 +263,7 @@ public class OfferResource {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<Page> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User isn't authenticated")).body(null);
@@ -274,8 +272,7 @@ public class OfferResource {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/my/" + status.name());
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     /**
@@ -302,14 +299,13 @@ public class OfferResource {
 
     @CrossOrigin
     @RequestMapping(value = "/offers/author/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
+    public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
         if (authorId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
         }
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(OfferStatus.ACTIVE, authorId, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/author/" + authorId);
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @CrossOrigin

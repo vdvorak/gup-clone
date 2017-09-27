@@ -9,14 +9,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.enumeration.Currency;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.MoneyFilter;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.model.offer.OfferCategory;
-import ua.com.gup.model.offer.OfferCategoryCount;
-import ua.com.gup.model.offer.OfferStatistic;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
@@ -24,9 +21,12 @@ import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.mapper.OfferCategoryCountMapper;
 import ua.com.gup.mapper.OfferMapper;
+import ua.com.gup.model.file.FileWrapper;
+import ua.com.gup.model.offer.OfferCategory;
+import ua.com.gup.model.offer.OfferCategoryCount;
+import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.repository.offer.OfferRepository;
-import ua.com.gup.model.file.FileWrapper;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.service.image.ImageService;
 import ua.com.gup.service.security.SecurityUtils;
@@ -158,7 +158,12 @@ public class OfferServiceImpl implements OfferService {
     public Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get all Offers by filter");
         calculatePriceInBaseCurrency(offerFilter.getPrice());
-        Page<Offer> result = new PageImpl<>(offerRepository.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable));
+        long count = offerRepository.countByFilter(offerFilter, OfferStatus.ACTIVE);
+        List<Offer> offers = Collections.EMPTY_LIST;
+        if (count > 0) {
+            offers = offerRepository.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable);
+        }
+        Page<Offer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
 
