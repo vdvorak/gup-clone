@@ -1,5 +1,6 @@
 package ua.com.gup.util;
 
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @see http://oauth.vk.com/authorize?client_id=5612442&scope=photos,messages&redirect_uri=http://api.vk.com/blank.html&display=touch&response_type=token
+ * @see http//oauth.vk.com/authorize?client_id=5612442&scope=photos,messages&redirect_uri=http://api.vk.com/blank.html&display=touch&response_type=token
  */
 public final class VkAPI {
 

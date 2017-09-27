@@ -28,32 +28,24 @@ public class Profile {
 
     @Id
     private String id;
-
     @Indexed
     private String publicId;
-
     @Indexed
     private String idSeoWord;
-
     private boolean active;
-
-
     @Pattern(regexp = EMAIL_PATTERN, message = "{profile.email.invalidFormat}")
     @Indexed
     private String email;
     private String socWendor = "gup.com.ua";
     private String uid;
-
     @Password
     private String password;
-
     private String passwordRestore;
     private String tokenKey;
     private String mainPhoneNumber;
     private Integer mainPhoneNumberViews;
     private Boolean mainPhoneNumberHide;
     private GeneralPhone generalPhone;
-
     @Indexed
     @Size(min = 2, max = 70)
     private String username;
@@ -68,20 +60,16 @@ public class Profile {
     private String imgUrl;
     private Long birthDate;
     private Contact contact;
-
     private Set<ProfileContactList> contactList;
     private Set<String> socialList;
     private FinanceInfo financeInfo;
     private Set<String> favoriteOffers;
     @Size(max = 45)
     private String status;
-
     private Integer point;
     private Set<ProfileRating> profileRating;
-
     private Boolean confirmModerator;
     private Set<UserRole> userRoles;
-
     private Long createdDate;
     private Long lastLoginDate;
     private boolean online;
@@ -90,8 +78,6 @@ public class Profile {
     private List<OfferUserContactInfo> offerUserContactInfoList;
     private BankCard bankCard;
     private Boolean ban = false;
-
-
     /*
      * Lawyer-Profile
      */
@@ -108,7 +94,6 @@ public class Profile {
     private Set<String> emploeyrList;
     private DBStorePhones storePhones;
 
-
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
@@ -118,9 +103,6 @@ public class Profile {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
-
-    //*********************************************************************
-
 
     public String getImgId() {
         return imgId;
@@ -445,7 +427,6 @@ public class Profile {
         return this;
     }
 
-
     public String getUid() {
         return uid;
     }
@@ -472,7 +453,6 @@ public class Profile {
         this.status = status;
         return this;
     }
-
 
     public int getNotCompletedFields() {
         return notCompletedFields;
@@ -505,8 +485,6 @@ public class Profile {
     public Boolean isBan() {
         return ban;
     }
-
-    /* ************************************************************************************************ */
     /*
      * Lawyer-Profile
      */
@@ -609,7 +587,6 @@ public class Profile {
         return this;
     }
 
-    /* ************************************************************************************************ */
     public DBStorePhones getStorePhones() {
         return storePhones;
     }
@@ -617,7 +594,6 @@ public class Profile {
     public void setStorePhones(DBStorePhones storePhones) {
         this.storePhones = storePhones;
     }
-
 
     @Override
     public String toString() {
