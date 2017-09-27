@@ -387,11 +387,4 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                 new Update().pull("userRoles", userRole), Profile.class);
     }
 
-
-    //ToDo delete this bulshit in the future
-    @Override
-    public void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests) {
-        this.mongoTemplate = mongoTemplateInstanceForTests;
-        MongoTemplateOperations.setStaticMongoTemplate(mongoTemplateInstanceForTests);
-    }
 }

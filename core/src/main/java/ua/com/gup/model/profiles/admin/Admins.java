@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.profile.model;
+package ua.com.gup.model.profiles.admin;
 
 import java.util.HashSet;
 import java.util.Set;

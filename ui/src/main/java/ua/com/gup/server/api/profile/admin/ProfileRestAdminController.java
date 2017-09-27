@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.profile;
+package ua.com.gup.server.api.profile.admin;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
+import ua.com.gup.model.profiles.admin.Admin;
+import ua.com.gup.model.profiles.admin.Admins;
 import ua.com.gup.service.profile.ProfilesService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Rest controllers for using by administrative module.
@@ -113,38 +113,4 @@ public class ProfileRestAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    class Admin {
-        private String id;
-
-        public Admin(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-    }
-
-    class Admins {
-        private Set<Admin> ids;
-
-        public Admins(Set<String> ids) {
-            this.ids = new HashSet<>();
-            for (String id : ids)
-                this.ids.add(new Admin(id));
-        }
-
-        public Set<Admin> getIds() {
-            return ids;
-        }
-
-        public void setIds(Set<Admin> ids) {
-            this.ids = ids;
-        }
-    }
 }

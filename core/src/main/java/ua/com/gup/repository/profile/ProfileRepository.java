@@ -1,6 +1,5 @@
 package ua.com.gup.repository.profile;
 
-import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.ProfileRating;
@@ -163,13 +162,6 @@ public interface ProfileRepository {
      */
     Profile findProfileRating(String profileId, String profileRatingId);
 
-//    /**
-//     * Add friend.
-//     *
-//     * @param profileId       the profile id
-//     * @param friendProfileId the friend profile id
-//     */
-//    void addFriend(String profileId, String friendProfileId);
 
     /**
      * Add new role to user.
@@ -251,16 +243,6 @@ public interface ProfileRepository {
      * @return          - the profile
      */
     Profile findBySeoWord(String seoWord);
-
-
-    //FixMe smth really really strange
-    //For tests
-    /**
-     * Method for testing profileRepository.
-     *
-     * @param mongoTemplateInstanceForTests - the Mongotemplate object.
-     */
-    void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests);
 
 }
 

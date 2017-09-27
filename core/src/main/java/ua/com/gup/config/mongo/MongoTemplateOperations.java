@@ -75,8 +75,5 @@ public final class MongoTemplateOperations {
         return cursor.explain().toMap();
     }
 
-    //for tests
-    public static void setStaticMongoTemplate(MongoTemplate staticMongoTemplate) {
-        MongoTemplateOperations.staticMongoTemplate = staticMongoTemplate;
-    }
+
 }

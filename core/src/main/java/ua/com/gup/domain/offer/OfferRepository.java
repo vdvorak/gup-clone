@@ -1,7 +1,6 @@
 package ua.com.gup.domain.offer;
 
 
-import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.util.EntityPage;
@@ -134,14 +133,4 @@ public interface OfferRepository {
      * @return      - collection of matched names in String.
      */
     Set<String> getMatchedNames(String name);
-
-
-    //FixMe smth really strange
-    //For tests
-    /**
-     * Method for testing offerRepository.
-     *
-     * @param mongoTemplateInstanceForTests - the Mongotemplate object.
-     */
-    void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests);
 }

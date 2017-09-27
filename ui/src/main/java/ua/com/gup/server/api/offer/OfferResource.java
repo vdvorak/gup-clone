@@ -1,4 +1,4 @@
-package ua.com.gup.server.offer;
+package ua.com.gup.server.api.offer;
 
 
 import io.swagger.annotations.*;

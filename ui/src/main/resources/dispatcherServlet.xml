@@ -12,8 +12,6 @@
              http://www.springframework.org/schema/context/spring-context-4.0.xsd"
              default-lazy-init="true">
 
-    <!--<resources mapping="/resources/**" location="/resources/"/>-->
-
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties"/>
     <context:component-scan base-package="ua.com.gup"/>
@@ -25,6 +23,5 @@
             </beans:bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
-
 
 </beans:beans>

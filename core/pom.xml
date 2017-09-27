@@ -36,6 +36,10 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
         <!-- commons library slf4j -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -46,10 +50,11 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <!-- Logging with SLF4J & Log4j -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-        </dependency>
+        </dependency>-->
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>

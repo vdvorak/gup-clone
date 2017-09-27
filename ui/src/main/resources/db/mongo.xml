@@ -6,29 +6,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/data/mongo
        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
-<!--  OLD SETTINGS MONGO
-    <mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo"/>
-                    <mongo:options connections-per-host="8"
-                    threads-allowed-to-block-for-connection-multiplier="4"
-                    connect-timeout="1000"
-                    max-wait-time="1500"
-                    auto-connect-retry="true"
-                    socket-keep-alive="true"
-                    socket-timeout="1500"
-                    slave-ok="true"
-                    write-number="1"
-                    write-timeout="0"
-                    write-fsync="true"/>
-                    </mongo:mongo>
-
-    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}"
-                      username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"/>
-    <bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">
-    <constructor-arg name="username" value="${mongo.remote.db.login}" />
-    <constructor-arg name="password" value="${mongo.remote.db.password}" />
-    </bean>
--->
-    <!-- new settings for connecting to mongo database -->
 
     <mongo:repositories base-package="ua.com.gup"/>
     <mongo:db-factory id="mongoDbFactory" uri="${mongo.remote.db.uri}" />
