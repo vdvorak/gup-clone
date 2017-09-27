@@ -287,11 +287,10 @@
     </build>
 
     <modules>
+        <module>exchange-rates</module>
         <module>core</module>
+        <module>service</module>
         <module>oauth</module>
         <module>ui</module>
-        <module>service</module>
-        <module>admin</module>
-        <module>exchange-rates</module>
     </modules>
 </project>
