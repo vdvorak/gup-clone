@@ -105,7 +105,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>${springframework.security.test.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>

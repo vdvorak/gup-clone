@@ -2,10 +2,10 @@ package ua.com.gup.service.profile;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.FavoriteOfferInfo;
 import ua.com.gup.dto.OfferRegistration;
@@ -134,13 +134,13 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserType(profile.getUserType())
                 .setBankCard(profile.getBankCard());
 
-        if (!StringUtils.isNotBlank(offerRegistration.getUsername())) {
+        if (!StringUtils.isEmpty(offerRegistration.getUsername())) {
             profile.setUsername(offerRegistration.getUsername());
         }
-        if (!StringUtils.isNotBlank(offerRegistration.getLastname())) {
+        if (!StringUtils.isEmpty(offerRegistration.getLastname())) {
             profile.setLastname(offerRegistration.getLastname());
         }
-        if (!StringUtils.isNotBlank(offerRegistration.getFirstname())) {
+        if (!StringUtils.isEmpty(offerRegistration.getFirstname())) {
             profile.setFirstname(offerRegistration.getFirstname());
         }
 
@@ -755,17 +755,17 @@ public class ProfilesServiceImpl implements ProfilesService {
         int result = 0;
 
         // 1
-        if (StringUtils.isBlank(profile.getMainPhoneNumber())) {
+        if (StringUtils.isEmpty(profile.getMainPhoneNumber())) {
             result++;
         }
 
         // 1
-        if (StringUtils.isBlank(profile.getUsername())) {
+        if (StringUtils.isEmpty(profile.getUsername())) {
             result++;
         }
 
         // 1
-        if (StringUtils.isBlank(profile.getImgId()) && StringUtils.isBlank(profile.getImgUrl())) {
+        if (StringUtils.isEmpty(profile.getImgId()) && StringUtils.isEmpty(profile.getImgUrl())) {
             result++;
         }
 
@@ -778,19 +778,19 @@ public class ProfilesServiceImpl implements ProfilesService {
         if (profile.getContact() == null) {
             result = result + 8;
         } else {
-            if (StringUtils.isBlank(profile.getContact().getPosition())) {
+            if (StringUtils.isEmpty(profile.getContact().getPosition())) {
                 result++;
             }
-            if (StringUtils.isBlank(profile.getContact().getCompanyName())) {
+            if (StringUtils.isEmpty(profile.getContact().getCompanyName())) {
                 result++;
             }
-            if (StringUtils.isBlank(profile.getContact().getAboutUs())) {
+            if (StringUtils.isEmpty(profile.getContact().getAboutUs())) {
                 result++;
             }
-            if (StringUtils.isBlank(profile.getContact().getSkypeUserName())) {
+            if (StringUtils.isEmpty(profile.getContact().getSkypeUserName())) {
                 result++;
             }
-            if (StringUtils.isBlank(profile.getContact().getLinkToWebSite())) {
+            if (StringUtils.isEmpty(profile.getContact().getLinkToWebSite())) {
                 result++;
             }
             if (CollectionUtils.isEmpty(profile.getContact().getContactEmails())) {

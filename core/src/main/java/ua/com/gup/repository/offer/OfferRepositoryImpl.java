@@ -20,9 +20,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.StringUtils;
-import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
 
@@ -53,6 +53,11 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
     }
 
     @Override
+    public long countByFilter(OfferFilter offerFilter, OfferStatus offerStatus) {
+        return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
+    }
+
+    @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
     }
@@ -69,7 +74,7 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
-        return createQueryAndFind(offerFilter, offerStatuses, excludedIds, pageable);
+        return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
     @Override
@@ -130,7 +135,7 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         }
     }
 
-    private List<Offer> createQueryAndFind(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private Query buildQueryByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria
@@ -234,7 +239,16 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
                 query.addCriteria(Criteria.where("boolAttrs." + filter.getKey() + ".selected").is(filter.getVal()));
             }
         }
-        query.with(pageable);
+        return query.with(pageable);
+    }
+
+    private long countOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+        Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
+        return mongoTemplate.count(query, Offer.class);
+    }
+
+    private List<Offer> findOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+        Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.find(query, Offer.class);
     }
 

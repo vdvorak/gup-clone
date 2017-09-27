@@ -21,6 +21,8 @@ public interface EmailService {
 
     void removeMessage(EmailMessage message);
 
+    EmailMessage updateLastAttemptTimestamp(EmailMessage message);
+
     EmailMessage prepareRegistrationMessageAndAddToQueue(Profile profile);
 
     /**

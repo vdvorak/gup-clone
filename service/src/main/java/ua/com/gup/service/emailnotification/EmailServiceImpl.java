@@ -82,6 +82,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public EmailMessage updateLastAttemptTimestamp(EmailMessage message) {
+        return emailRepository.updateLastAttemptTimestamp(message);
+    }
+    @Override
     public EmailMessage prepareRegistrationMessageAndAddToQueue(final Profile profile) {
         EmailMessage emailMessage = new EmailMessage();
         emailMessage.setLastAttemptTimestamp(new Date().getTime());

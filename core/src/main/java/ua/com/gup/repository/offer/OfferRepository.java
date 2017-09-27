@@ -13,6 +13,7 @@ import java.util.Optional;
  */
 public interface OfferRepository extends MongoRepository<Offer, String>, OfferRepositoryCustom {
 
+
     Optional<Offer> findOneBySeoUrl(String seoUrl);
 
     Page<Offer> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);

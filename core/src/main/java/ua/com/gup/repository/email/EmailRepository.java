@@ -10,4 +10,6 @@ public interface EmailRepository {
     EmailMessage findOneMessage();
 
     void removeMessage(EmailMessage message);
+
+    EmailMessage updateLastAttemptTimestamp(EmailMessage message);
 }
