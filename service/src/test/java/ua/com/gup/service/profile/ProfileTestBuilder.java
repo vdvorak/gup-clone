@@ -61,7 +61,6 @@ public class ProfileTestBuilder {
     private static Set<String> favoriteOffers = new HashSet<>();
 
 
-    // block of static initialization
     static {
         phoneNumbers.add(PROFILE_USERCONTACTINFO_PHONENUMBER);
 
