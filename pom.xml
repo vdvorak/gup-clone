@@ -122,11 +122,11 @@
                 <version>${commons-io.version}</version>
             </dependency>
             <!--Spring Boot dependencies -->
-           <!-- <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <scope>provided</scope>
-            </dependency>-->
+            <!-- <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-tomcat</artifactId>
+                 <scope>provided</scope>
+             </dependency>-->
             <!-- Spring framework-->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -249,17 +249,7 @@
                 <version>${spring-test.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-mock</artifactId>
-                <version>${spring-mock.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

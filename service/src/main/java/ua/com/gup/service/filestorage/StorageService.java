@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.util.CreatedObjResp;
 
-import java.util.List;
 import java.util.Set;
 
 public interface StorageService {
@@ -89,8 +88,4 @@ public interface StorageService {
      */
     String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
 
-
-    MultipartFile[] imageDownloader(List<String> imagesUrlList);
-
-    MultipartFile imageDownloader(String imageUrl);
 }
