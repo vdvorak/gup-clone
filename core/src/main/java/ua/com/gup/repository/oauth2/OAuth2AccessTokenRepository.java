@@ -15,7 +15,7 @@ import java.util.List;
 public interface OAuth2AccessTokenRepository extends MongoRepository<OAuth2AuthenticationAccessToken, Serializable> {
     OAuth2AuthenticationAccessToken findByTokenId(String tokenId);
 
-    OAuth2AuthenticationAccessToken findByRefreshToken(String refreshToken);
+    List<OAuth2AuthenticationAccessToken> findByRefreshToken(String refreshToken);
 
     OAuth2AuthenticationAccessToken findByAuthenticationId(String authenticationId);
 

@@ -80,4 +80,19 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
     public OAuth2Authentication getAuthentication(OAuth2Authentication authentication) {
        return this.authentication;
     }
+
+    @Override
+    public String toString() {
+        return "OAuth2AuthenticationAccessToken{" +
+                "id='" + id + '\'' +
+                ", tokenId='" + tokenId + '\'' +
+                ", oAuth2AccessToken=" + oAuth2AccessToken +
+                ", authenticationId='" + authenticationId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", clientId='" + clientId + '\'' +
+                ", authentication=" + authentication +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }
