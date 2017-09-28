@@ -7,11 +7,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.ProfileRating;
-import ua.com.gup.model.profiles.UserRole;
-import ua.com.gup.config.mongo.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -72,39 +71,21 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public boolean profilePublicExists(String id) {
-        Query query = new Query(Criteria.where("publicId").is(id));
-        return mongoTemplate.exists(query, Profile.class);
-    }
-
-    @Override
     public boolean profileExistsWithEmail(String email) {
 //        Query query = new Query(Criteria.where("email").is(email));
 //        return mongoTemplate.exists(query, Profile.class);
         ////////////////////////////////////////////////////////////////
-        Query queryX = new Query( Criteria.where("email").regex(email.toString(), "i"));
+        Query queryX = new Query(Criteria.where("email").regex(email.toString(), "i"));
         List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
         long count = profiles.stream()
                 .filter(p -> p.getEmail().toUpperCase().equals(email.toUpperCase()))
                 .count();
-        return (0<count) ? true : false;
+        return (0 < count) ? true : false;
     }
 
     @Override
     public boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber) {
         Query query = new Query(Criteria.where("mainPhoneNumber").is(mainPhoneNumber));
-        return mongoTemplate.exists(query, Profile.class);
-    }
-
-    @Override
-    public boolean profileExistsWithSocWendor(String socWendor) {
-        Query query = new Query(Criteria.where("socWendor").is(socWendor));
-        return mongoTemplate.exists(query, Profile.class);
-    }
-
-    @Override
-    public boolean profileExistsWithUid(String uid) {
-        Query query = new Query(Criteria.where("uid").is(uid));
         return mongoTemplate.exists(query, Profile.class);
     }
 
@@ -224,7 +205,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public String getAdminId() {
-        Query            query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
+        Query query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
         Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
 
         return getRandomObj(IdAdminAll);
@@ -244,7 +225,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     private String getRandomObj(Collection from) {
         Random rnd = new Random();
         int i = rnd.nextInt(from.size());
-        return (String)from.toArray()[i];
+        return (String) from.toArray()[i];
     }
 
 
@@ -275,40 +256,28 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.find(query, Profile.class);
     }
 
-
     @Override
-    public void addContactToContactList(String profileOwnerContactListId, String contactId) {
-        Query addContactQuery = new Query(Criteria.where("id").is(profileOwnerContactListId));
-
-        Query existsContactInListQuery = new Query()
-                .addCriteria(Criteria.where("id").is(profileOwnerContactListId))
-                .addCriteria(Criteria.where("contactList").in(contactId));
-
-        Update update = new Update();
-        if (mongoTemplate.exists(existsContactInListQuery, Profile.class)) {
-            update.pull("contactList", contactId);
-        } else {
-            update.push("contactList", contactId);
-        }
-
-        mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
-    }
-
-    @Override
-    public void addSocialToSocialList(String userId, String profileId) {
-        Query addContactQuery = new Query(Criteria.where("id").is(userId));
+    public boolean profileExistsInUserSocialList(String userId, String profileId) {
         Query existsSocialInListQuery = new Query()
                 .addCriteria(Criteria.where("id").is(userId))
                 .addCriteria(Criteria.where("socialList").in(profileId));
+        return mongoTemplate.exists(existsSocialInListQuery, Profile.class);
+    }
 
+    @Override
+    public void addProfileToUserSocialList(String userId, String profileId) {
+        Query query = new Query(Criteria.where("id").is(userId));
         Update update = new Update();
-        if (mongoTemplate.exists(existsSocialInListQuery, Profile.class)) {
-            update.pull("socialList", profileId);
-        } else {
-            update.push("socialList", profileId);
-        }
+        update.push("socialList", profileId);
+        mongoTemplate.updateFirst(query, update, Profile.class);
+    }
 
-        mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
+    @Override
+    public void deleteProfileFromUserSocialList(String userId, String profileId) {
+        Query query = new Query(Criteria.where("id").is(userId));
+        Update update = new Update();
+        update.pull("socialList", profileId);
+        mongoTemplate.updateFirst(query, update, Profile.class);
     }
 
     @Override
@@ -323,14 +292,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 //        Query query = new Query( Criteria.where("email").regex(email.toString(), "i")); //TODO // db.getCollection('users').find({ email: { $regex: "ololosh@mail.ru", $options: '-i' }})
 //        return mongoTemplate.findOne(query, Profile.class);
         ////////////////////////////////////////////////////////////////
-        Query queryX = new Query( Criteria.where("email").regex(email.toString(), "i"));
+        Query queryX = new Query(Criteria.where("email").regex(email.toString(), "i"));
         List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
         Optional<Profile> profile = profiles.stream()
                 .filter(p -> p.getEmail().toUpperCase().equals(email.toUpperCase()))
                 .findFirst();
         try {
             return profile.get();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -373,18 +342,18 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
+
     @Override
-    public void addUserRole(String profileId, UserRole userRole) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(profileId)),
-                new Update().push("userRoles", userRole), Profile.class);
+    public void incrementProfileStatistic(String profileId, String field) {
+        Update update = new Update();
+        update.inc("profileStatistic." + field, 1);
+        mongoTemplate.findAndModify(new Query(Criteria.where("id").is(profileId)), update, Profile.class);
     }
 
     @Override
-    public void deleteUserRole(String profileId, UserRole userRole) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(profileId)),
-                new Update().pull("userRoles", userRole), Profile.class);
+    public void decrementProfileStatistic(String profileId, String field) {
+        Update update = new Update();
+        update.inc("profileStatistic." + field, -1);
+        mongoTemplate.findAndModify(new Query(Criteria.where("id").is(profileId)), update, Profile.class);
     }
-
 }

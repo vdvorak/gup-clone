@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.FavoriteOfferInfo;
-import ua.com.gup.dto.OfferRegistration;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
@@ -117,46 +116,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Profile createProfileFromOfferRegistration(OfferRegistration offerRegistration) {
-        Profile profile = new Profile();
-
-        Set<UserRole> offerUserRoleSet = new HashSet<>();
-        offerUserRoleSet.add(UserRole.ROLE_USER);
-
-        profile
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setEmail(offerRegistration.getEmail())
-                .setPassword(offerRegistration.getPassword())
-                .setUserRoles(offerUserRoleSet)
-                .setUserType(profile.getUserType())
-                .setBankCard(profile.getBankCard());
-
-        if (!StringUtils.isEmpty(offerRegistration.getUsername())) {
-            profile.setUsername(offerRegistration.getUsername());
-        }
-        if (!StringUtils.isEmpty(offerRegistration.getLastname())) {
-            profile.setLastname(offerRegistration.getLastname());
-        }
-        if (!StringUtils.isEmpty(offerRegistration.getFirstname())) {
-            profile.setFirstname(offerRegistration.getFirstname());
-        }
-
-        if (0 < offerRegistration.getContactPhones().size()) {
-            Contact contact = new Contact();
-            contact.setContactPhones(offerRegistration.getContactPhones());
-            profile.setContact(contact);
-        }
-
-        createProfile(profile);
-        verificationTokenService.generateEmailRegistrationToken(profile.getId());
-        return profile;
-    }
-
-    @Override
     public void facebookRegister(Profile profile) {
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
@@ -223,12 +182,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public boolean profilePublicExists(String id) {
-        return profileRepository.profilePublicExists(id);
-    }
-
-
-    @Override
     public boolean profileExistsWithEmail(String email) {
         return profileRepository.profileExistsWithEmail(email);
     }
@@ -238,27 +191,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileExistsWithMainPhoneNumber(mainPhoneNumber);
     }
 
-    @Override
-    public boolean profileExistsWithSocWendor(String socWendor) {
-        return profileRepository.profileExistsWithSocWendor(socWendor);
-    }
-
-
-    @Override
-    public boolean profileExistsWithUid(String uid) {
-        return profileRepository.profileExistsWithUid(uid);
-    }
-
 
     @Override
     public boolean profileExistsWithUidAndWendor(String uid, String socWendor) {
         return profileRepository.profileExistsWithUidAndWendor(uid, socWendor);
-    }
-
-
-    @Override
-    public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
-        return profileRepository.findAllProfiles(profileFilterOptions);
     }
 
 
@@ -296,25 +232,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public Profile findWholeProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
-    }
-
-
-    @Override
-    public boolean isUserModerator(Profile user) {
-        Set<UserRole> userRoleSet = user.getUserRoles();
-        for (UserRole userRole : userRoleSet) {
-            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    @Override
-    public boolean isUserAdminById(String userId) {
-        Profile profile = profileRepository.findById(userId);
-        return isUserModerator(profile);
     }
 
 
@@ -396,20 +313,14 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public void addContactToContactList(String profileOwnerContactListId, String contactId) {
-        profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
-    }
-
-    @Override
-    public void addSocialToSocialList(String userId, String profileId) {
-        profileRepository.addSocialToSocialList(userId, profileId);
-    }
-
-
-    //ToDo  make this work after we will repair oauth
-    @Override
-    public boolean isUserOnline(String userId) {
-        return false;
+    public void toggleProfileInUserSocialList(String userId, String profileId) {
+        if (profileRepository.profileExistsInUserSocialList(userId, profileId)) {
+            profileRepository.deleteProfileFromUserSocialList(userId, profileId);
+            profileRepository.decrementProfileStatistic(profileId, "inContactsCounter");
+        } else {
+            profileRepository.addProfileToUserSocialList(userId, profileId);
+            profileRepository.incrementProfileStatistic(profileId, "inContactsCounter");
+        }
     }
 
 
@@ -437,14 +348,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         Profile profile = findProfileByEmail(email);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
-        ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
-
-        return profileInfo;
-    }
-
-
-    @Override
-    public ProfileInfo findPrivateProfileByEmail(String email) {
         ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
 
         return profileInfo;
@@ -542,20 +445,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
         contactList.remove(profileId);
         profile.setContactList(contactList);
-
-        editProfile(profile);
-    }
-
-    @Override
-    public void deleteFromMySocialList(String profileId) {
-        String userId = SecurityOperations.getLoggedUserId();
-
-        Profile profile = findById(userId);
-
-        Set<String> socialList = profile.getSocialList();
-
-        socialList.remove(profileId);
-        profile.setSocialList(socialList);
 
         editProfile(profile);
     }

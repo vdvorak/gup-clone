@@ -139,69 +139,20 @@ public class ProfileRestController {
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
-        if (!profilesService.profileExists(profileId)) {//TODO: need make test...
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/toggle", method = RequestMethod.POST)
+    public ResponseEntity<String> toggleProfileInMyContactList(@PathVariable String profileId) {
+        if (!profilesService.profileExists(profileId)) {
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
         String userId = SecurityOperations.getLoggedUserId();
         if (userId != null) {
-            profilesService.addSocialToSocialList(userId, profileId);
-            return new ResponseEntity<>("{\"addFrom\":" + userId + ", \"addTo\":" + profileId + "}", HttpStatus.OK);
+            profilesService.toggleProfileInUserSocialList(userId, profileId);
+            return new ResponseEntity<>("{User: " + profileId + ", toggled to/from: " + userId + " contact list}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
     }
 
-
-    /**
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add/{userId}", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMyContactListMobile(@PathVariable String profileId, @PathVariable String userId) {
-        profilesService.addSocialToSocialList(userId, profileId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
-     * Delete one contact from user contact list.
-     *
-     * @param profileId - the ID of the profile which must be deleted.
-     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
-    public ResponseEntity<String> deleteFromMyContactList(@PathVariable String profileId) {
-
-        if (!profilesService.profileExists(profileId)) { //TODO: need make test...
-//        if (!profilesService.profilePublicExists(profileId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-
-        String userId = SecurityOperations.getLoggedUserId();
-
-        if (userId != null) {
-            profilesService.deleteFromMySocialList(profileId); //profilesService.deleteFromMySocialList(userId, profileId);
-            return new ResponseEntity<>("{'deleteFrom':'" + userId + "', 'deleteTo':'" + profileId + "'}", HttpStatus.RESET_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
-        }
-    }
-
-    /**
-     * @return
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/mySocialList/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMySocialList(@PathVariable String profileId) {
-        String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addContactToContactList(userId, profileId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     /**
      * Delete one contact from user contact list.

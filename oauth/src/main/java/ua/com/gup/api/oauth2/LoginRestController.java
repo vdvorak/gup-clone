@@ -20,10 +20,10 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ua.com.gup.util.LogUtil;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
+import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.login.FormChangePassword;
 import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
@@ -31,7 +31,6 @@ import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.UserType;
 import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
-import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
@@ -41,10 +40,7 @@ import ua.com.gup.service.profile.LockRemoteIPService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
 import ua.com.gup.service.security.SecurityUtils;
-import ua.com.gup.util.APIVendor;
-import ua.com.gup.util.CookieUtil;
-import ua.com.gup.util.Oauth2Util;
-import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -296,9 +292,9 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser,
-                                             HttpServletResponse response,
-                                             HttpServletRequest request) {
+    public ResponseEntity login(@RequestBody FormLoggedUser formLoggedUser,
+                                HttpServletResponse response,
+                                HttpServletRequest request) {
         ProfileInfo profileInfo = null;
         synchronized (profilesService) {
             LoggedUser loggedUser;
@@ -318,6 +314,9 @@ public class LoginRestController {
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            if (!loggedUser.isEnabled()) {
+                return new ResponseEntity<>("User is not active yet", HttpStatus.FORBIDDEN);
             }
 
             if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
