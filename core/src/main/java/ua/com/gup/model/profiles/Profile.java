@@ -94,6 +94,8 @@ public class Profile {
     private Set<String> emploeyrList;
     private DBStorePhones storePhones;
 
+    private ProfileStatistic profileStatistic;
+
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
@@ -485,6 +487,7 @@ public class Profile {
     public Boolean isBan() {
         return ban;
     }
+
     /*
      * Lawyer-Profile
      */
@@ -593,6 +596,17 @@ public class Profile {
 
     public void setStorePhones(DBStorePhones storePhones) {
         this.storePhones = storePhones;
+    }
+
+    public ProfileStatistic getProfileStatistic() {
+        if (profileStatistic == null) {
+            profileStatistic = new ProfileStatistic();
+        }
+        return profileStatistic;
+    }
+
+    public void setProfileStatistic(ProfileStatistic profileStatistic) {
+        this.profileStatistic = profileStatistic;
     }
 
     @Override

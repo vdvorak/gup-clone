@@ -43,8 +43,6 @@ public interface ProfileRepository {
      */
     boolean profileExists(String id);
 
-    boolean profilePublicExists(String id);
-
     /**
      * Profile exists with email boolean.
      *
@@ -54,22 +52,6 @@ public interface ProfileRepository {
     boolean profileExistsWithEmail(String email);
 
     boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
-
-    /**
-     * Profile exists with socWendor boolean.
-     *
-     * @param socWendor the socWendor
-     * @return the boolean
-     */
-    boolean profileExistsWithSocWendor(String socWendor);
-
-    /**
-     * Profile exists with uid boolean.
-     *
-     * @param uid the uid
-     * @return the boolean
-     */
-    boolean profileExistsWithUid(String uid);
 
     /**
      * Profile exists with tokenKey boolean.
@@ -108,6 +90,12 @@ public interface ProfileRepository {
      * @return                      - the list of relevant to filter profiles
      */
     List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
+
+    boolean profileExistsInUserSocialList(String userId, String profileId);
+
+    void addProfileToUserSocialList(String userId, String profileId);
+
+    void deleteProfileFromUserSocialList(String userId, String profileId);
 
     /**
      * Find by username profile.
@@ -163,22 +151,6 @@ public interface ProfileRepository {
     Profile findProfileRating(String profileId, String profileRatingId);
 
 
-    /**
-     * Add new role to user.
-     *
-     * @param profileId - the profile ID.
-     * @param userRole - the user role.
-     */
-    void addUserRole(String profileId, UserRole userRole);
-
-    /**
-     * Remove specific role from user.
-     *
-     * @param profileId     - the profile ID
-     * @param userRole      - the user role which need to be remove
-     */
-    void deleteUserRole(String profileId, UserRole userRole);
-
     Set<String> getMatchedNames(String term);
 
     /**
@@ -212,21 +184,6 @@ public interface ProfileRepository {
     List<Profile> getMatchedCompanies(String term);
 
     /**
-     * Add new contact to user's contact list.
-     *
-     * @param profileOwnerContactListId - the user ID in which contact list we will add another contact
-     * @param contactId                 - the contact ID of user which we want to add
-     */
-    void addContactToContactList(String profileOwnerContactListId, String contactId);
-
-    /**
-     *
-     * @param userId
-     * @param profileId
-     */
-    void addSocialToSocialList(String userId, String profileId);
-
-    /**
      * Find and return profile by it's ID.
      *
      * @param id    - the Profile ID
@@ -244,5 +201,8 @@ public interface ProfileRepository {
      */
     Profile findBySeoWord(String seoWord);
 
+    void incrementProfileStatistic(String profileId, String field);
+
+    void decrementProfileStatistic(String profileId, String field);
 }
 

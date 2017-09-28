@@ -23,7 +23,7 @@ public interface LockRemoteIPRepository {
      * Find lockRemoteIP.
      *
      * @param id the id
-     * @return the lockRemoteIP
+ * @return the lockRemoteIP
      */
     LockRemoteIP findLockRemoteIPById(String id);
 
