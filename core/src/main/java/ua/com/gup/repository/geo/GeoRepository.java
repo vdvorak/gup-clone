@@ -2,7 +2,7 @@ package ua.com.gup.repository.geo;
 
 
 
-import ua.com.gup.model.geo.GeoModel;
+import ua.com.gup.domain.geo.GeoModel;
 import ua.com.gup.util.Locale;
 
 import java.util.List;
