@@ -409,15 +409,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     //ToDo  make this work after we will repair oauth
     @Override
     public boolean isUserOnline(String userId) {
-//        Profile profile = findWholeProfileById(userId);
-//
-//        List<Object> principals = sessionRegistry.getAllPrincipals();
-//        User user;
-//        for (Object principal : principals) {
-//            user = (User) principal;
-//            if (user.getUsername().equals(profile.getEmail()))
-//                return true;
-//        }
         return false;
     }
 
@@ -432,10 +423,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileInfo incMainPhoneViewsAtOne(String id) {
-//        Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
-//        profile.setLastLoginDateEqualsToCurrentDate();
-//        profileRepository.findProfileAndUpdate(profile);
-//        return prepareAdditionalFieldForPrivate(profile);
         Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
         if (profile != null) {
             return prepareAdditionalFieldForPublic(profile);
@@ -523,16 +510,11 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public ProfileInfo getLoggedUser(HttpServletRequest request) {
-
         ProfileInfo profileInfo = null;
-
         if (request.getCookies() != null) {
-
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-
                 Object principal = null;
-
                 if (cookie.getName().equals("authToken")) {
                     principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                 } else if (cookie.getName().equals("refreshToken")) {

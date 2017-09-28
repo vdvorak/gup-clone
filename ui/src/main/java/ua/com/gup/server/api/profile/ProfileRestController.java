@@ -36,11 +36,11 @@ public class ProfileRestController {
     private ProfilesService profilesService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     /**
      * Gets profile by id.
@@ -91,9 +91,6 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
-
-    //TODO: add short-profile!!!
-
 
     /**
      * Gets user name by id.
@@ -200,12 +197,9 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/mySocialList/add", method = RequestMethod.POST)
-//    public ResponseEntity<String> addToMySocialList(@PathVariable String url) {
     public ResponseEntity<String> addToMySocialList(@PathVariable String profileId) {
-
         String userId = SecurityOperations.getLoggedUserId();
         profilesService.addContactToContactList(userId, profileId);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -220,7 +214,6 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/id/{profileId}/mySocialList/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFromMySocialList(@PathVariable String profileId) {
         if (!profilesService.profileExists(profileId)) { //TODO: need make test...
-//        if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         profilesService.deleteFromMyContactList(profileId);
@@ -238,16 +231,13 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
-
         ProfileInfo profileInfo = profilesService.getLoggedUser(request);
-
         if (profileInfo != null) {
             return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
-
 
     /**
      * Gets profile by username.
@@ -265,7 +255,6 @@ public class ProfileRestController {
         }
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
-
 
     /**
      * List all profiles response entity.
@@ -315,7 +304,6 @@ public class ProfileRestController {
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
-
     /* ************************************************************************************************************** */
     private Long parsePhone(String phone) {
         phone = phone.replaceAll("\\D+", "");
@@ -338,17 +326,14 @@ public class ProfileRestController {
     private ProfileStorePhones profileStorePhones(String userId) {
         Profile profile = profilesService.findById(userId);
         if (profile == null) return null;
-
         DBStorePhones dbStorePhones = profile.getStorePhones();
         if (dbStorePhones == null) return null;
-
         List<PhoneSynhronize> oContactPhones = dbStorePhones.getContactPhones().stream()
                 .map(x -> (profilesService.findProfileByMainPhone(String.valueOf(x)) != null) ? (new PhoneSynhronize(x, true)) : (new PhoneSynhronize(x, false)))
                 .collect(Collectors.toList());
 
         ProfileStorePhones profileStorePhones = new ProfileStorePhones();
         profileStorePhones.setContactPhones(oContactPhones);
-
         return profileStorePhones;
     }
 
@@ -359,11 +344,9 @@ public class ProfileRestController {
     public ResponseEntity<String> synchronizationPhones(@RequestBody StorePhones storePhones) {
         String userId = SecurityOperations.getLoggedUserId();
         storePhones.setIdUser(userId);
-
         ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
         DBStorePhones newStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
         System.err.println(newStorePhones); //TODO  DBStorePhones{idUser='591c5ee20f664e17d30eb225', mainPhones=[380991234567], contactPhones=[380994444444, 380934311043, 380970072837, 380939325476]}
-
         Profile profile = profilesService.findById(userId);
         if (profile.getId().equals(userId)) {
             if (profile.getStorePhones() == null) {
@@ -418,22 +401,15 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-//        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
-
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
-
-        // we cant't allow empty email field for some cases
         if (newProfile.getEmail() == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         if (newProfile.getEmail().equals("")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-
-        // check if someone profile already exist with new main email
         Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
         if (foundByEmailProfile != null) {
             if (!foundByEmailProfile.getId().equals(loggedUserId)) {
@@ -470,9 +446,6 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
-
-
-        // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
         }
@@ -497,9 +470,6 @@ public class ProfileRestController {
             throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
-
-
-        // we cant't allow empty email field for some cases
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
         }
@@ -523,9 +493,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
     public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-//        if (!Validator3Util.validate(newProfile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
-
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
@@ -544,9 +512,6 @@ public class ProfileRestController {
             /* Edit Profile */
             Profile profileEdit = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(newProfile.getUid(), newProfile.getSocWendor()).getProfile();
             String id = profileEdit.getId();
-//            String socWendor = profileEdit.getSocWendor();
-//            String username = profileEdit.getUsername();
-//            String imgId = profileEdit.getImgId();
             profileEdit = newProfile;
             profileEdit.setId(id);
             profileEdit.setImgUrl("");
@@ -569,11 +534,8 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
     public ResponseEntity<Void> updateStatus(@RequestBody Profile profile) {
-//        if (!Validator3Util.validate(profile)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String loggedUserId = SecurityOperations.getLoggedUserId();
-
         Profile oldProfile = profilesService.findById(loggedUserId);
-
         if (StringUtils.isEmpty(profile.getStatus())) {
             oldProfile.setStatus("");
         } else {
@@ -581,7 +543,6 @@ public class ProfileRestController {
         }
 
         profilesService.editProfile(oldProfile);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -610,7 +571,6 @@ public class ProfileRestController {
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance() {
-
         String loggedUserId = SecurityOperations.getLoggedUserId();
         return 0;
     }
@@ -646,9 +606,7 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/bank/financeInfo/read", method = RequestMethod.GET)
     public ResponseEntity<String> bankTest() {
-
         String loggedUserId = SecurityOperations.getLoggedUserId();
-
         return new ResponseEntity<>((String) null, HttpStatus.OK);
     }
 }
