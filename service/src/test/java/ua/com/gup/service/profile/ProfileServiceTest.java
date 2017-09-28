@@ -35,10 +35,6 @@ public class ProfileServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    // ToDo добавить фидбеки в тестовый профиль
-
-    // TODo добавить Contact в тестовый профиль
-
 
     @Test
     public void findPublicProfileById_shouldFindProfileAndDeleteSomeFieldsThenWrapItIntoProfileInfo() {

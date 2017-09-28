@@ -14,13 +14,11 @@
         infrastructure -->
     <!-- Enables the Spring MVC @Controller programming model -->
     <!-- Have Spring servlet handle all static content -->
-    <context:component-scan base-package="ua.com"/>
+    <context:component-scan base-package="ua.com.gup"/>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties" />
-
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
-
     <import resource="root-context.xml"/>
     <import resource="mail.xml"/>
     <import resource="db/mongo.xml"/>

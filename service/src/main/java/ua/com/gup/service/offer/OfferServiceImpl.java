@@ -87,7 +87,7 @@ public class OfferServiceImpl implements OfferService {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
         //todo vdvorak
-        //saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
@@ -485,7 +485,7 @@ public class OfferServiceImpl implements OfferService {
      * @param seoURL         the seo URL for name creation
      * @return the entity
      */
-    private void saveOfferImages(Set<String> offerImageIds, Set<OfferImageDTO> offerImageDTOS, String seoURL) {
+    private void saveOfferImages(Set<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
         if (offerImageIds == null) {
             offerImageIds = new LinkedHashSet<>();
         }

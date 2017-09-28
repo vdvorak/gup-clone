@@ -396,7 +396,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        ResponseEntity<String> success = new ResponseEntity<String>(HttpStatus.OK);
+        ResponseEntity<String> success = new ResponseEntity<>(HttpStatus.OK);
         if (request.getCookies() == null) {
             Cookie cookieAuthToken = new Cookie("authToken", null);
             cookieAuthToken.setMaxAge(0);

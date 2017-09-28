@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.FavoriteOfferInfo;
 import ua.com.gup.dto.ProfileInfo;
@@ -333,10 +334,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileInfo incMainPhoneViewsAtOne(String id) {
-//        Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
-//        profile.setLastLoginDateEqualsToCurrentDate();
-//        profileRepository.findProfileAndUpdate(profile);
-//        return prepareAdditionalFieldForPrivate(profile);
         Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
         if (profile != null) {
             return prepareAdditionalFieldForPublic(profile);
@@ -416,20 +413,18 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public ProfileInfo getLoggedUser(HttpServletRequest request) {
-
         ProfileInfo profileInfo = null;
-
         if (request.getCookies() != null) {
-
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-
                 Object principal = null;
-
                 if (cookie.getName().equals("authToken")) {
                     principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                 } else if (cookie.getName().equals("refreshToken")) {
-                    principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                   List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
+                   if(oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size()>0) {
+                       principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size()-1).getAuthentication().getUserAuthentication().getPrincipal();
+                   }
                 }
                 if (principal != null) {
                     profileInfo = profileInfoPreparatorFromPrincipal(principal);
