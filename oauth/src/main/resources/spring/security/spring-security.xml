@@ -89,11 +89,7 @@
     </bean>
 
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
-        <!--user-approval-handler-ref="userApprovalHandler">-->
-        <!--<oauth:authorization-code />-->
-        <!--<oauth:implicit />-->
         <oauth:refresh-token />
-        <!--<oauth:client-credentials />-->
         <oauth:password />
     </oauth:authorization-server>
 
@@ -105,30 +101,5 @@
 
     <oauth:expression-handler id="oauthExpressionHandler" />
     <oauth:web-expression-handler id="oauthWebExpressionHandler" />
-
-    <!--  ************************************************************************* -->
-    <!--<sec:global-method-security pre-post-annotations="enabled" />-->
-
-    <!--<sec:http auto-model="true" use-expressions="true">-->
-    <!--<sec:access-denied-handler error-page="/error403" />-->
-    <!--<sec:form-login login-page="/login" authentication-failure-url="/login?error=true"-->
-    <!--default-target-url="/account"-->
-    <!--username-parameter="email" password-parameter="password" />-->
-    <!--<sec:logout logout-success-url="/index" logout-url="/logout"/>-->
-
-    <!--<sec:anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />-->
-    <!--&lt;!&ndash;3.2.8&ndash;&gt;-->
-    <!--<sec:csrf disabled="true"/>-->
-    <!--</sec:http>-->
-
-    <!--<sec:authentication-manager>-->
-    <!--<sec:authentication-provider user-service-ref="userDetailsServiceImpl">-->
-    <!--<sec:password-encoder ref="bcrypt" />-->
-    <!--</sec:authentication-provider>-->
-    <!--</sec:authentication-manager>-->
-
-    <!--<bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">-->
-    <!--<constructor-arg name="strength" value="11" />-->
-    <!--</bean>-->
 
 </beans>

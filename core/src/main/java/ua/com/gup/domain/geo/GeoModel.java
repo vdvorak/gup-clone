@@ -1,8 +1,9 @@
-package ua.com.gup.model.geo;
+package ua.com.gup.domain.geo;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import ua.com.gup.model.geo.Common;
 
 @Document(collection = "geo")
 public class GeoModel {

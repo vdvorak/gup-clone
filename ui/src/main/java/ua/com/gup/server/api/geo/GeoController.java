@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.model.geo.GeoModel;
+import ua.com.gup.domain.geo.GeoModel;
 import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.util.Locale;
 import ua.com.gup.server.dto.CommonGeoDTO;
