@@ -20,8 +20,8 @@ public class LockRemoteIPRepositoryImpl implements LockRemoteIPRepository {
 
     @PostConstruct
     void init() {
-        if (!mongoTemplate.collectionExists(LockRemoteIPRepository.class)) {
-            mongoTemplate.createCollection(LockRemoteIPRepository.class);
+        if (!mongoTemplate.collectionExists(LockRemoteIP.class)) {
+            mongoTemplate.createCollection(LockRemoteIP.class);
         }
     }
 
