@@ -4,16 +4,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.OfferFilter;
-import ua.com.gup.model.offer.OfferStatistic;
-import ua.com.gup.model.file.FileWrapper;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
+import ua.com.gup.model.file.FileWrapper;
+import ua.com.gup.model.offer.OfferStatistic;
 
 import java.util.List;
 import java.util.Optional;
@@ -194,4 +194,13 @@ public interface OfferService {
      * @return the list of entities
      */
     List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
+
+    /**
+     * Get one offer  by search offerId and authorId.
+     *
+     * @param string the offerId
+     * @param string the authorId
+     * @return the single offer
+     */
+    Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
 }
