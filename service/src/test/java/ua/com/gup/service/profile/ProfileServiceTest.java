@@ -14,7 +14,7 @@ import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.offers.OffersServiceImpl;
-import ua.com.gup.util.EntityPage;
+import ua.com.gup.model.EntityPage;
 
 import static org.junit.Assert.assertNull;
 

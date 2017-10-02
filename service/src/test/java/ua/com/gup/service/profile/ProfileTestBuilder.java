@@ -6,7 +6,7 @@ import ua.com.gup.model.profiles.ProfileContactList;
 import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.model.profiles.order.OrderAddress;
 import ua.com.gup.util.OfferUserContactInfo;
-import ua.com.gup.util.TransportCompany;
+import ua.com.gup.model.TransportCompany;
 
 import java.util.*;
 

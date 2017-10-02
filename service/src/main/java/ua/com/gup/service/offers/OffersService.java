@@ -7,7 +7,7 @@ import ua.com.gup.dto.OfferRegistration;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.util.EntityPage;
+import ua.com.gup.model.EntityPage;
 
 import java.util.Set;
 

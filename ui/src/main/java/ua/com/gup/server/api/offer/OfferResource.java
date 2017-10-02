@@ -109,7 +109,7 @@ public class OfferResource {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         String authroId= SecurityUtils.getCurrentUserId();
-        log.debug("REST request to get Offer by ID : {} and  authorId:", id , authroId);
+        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id , authroId);
         if (offerService.hasPermissionForUpdate(id)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
