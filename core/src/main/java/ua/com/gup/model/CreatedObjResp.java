@@ -1,4 +1,4 @@
-package ua.com.gup.util;
+package ua.com.gup.model;
 
 
 public class CreatedObjResp {
