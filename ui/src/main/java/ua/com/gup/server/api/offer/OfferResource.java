@@ -104,9 +104,9 @@ public class OfferResource {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         String authroId= SecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id , authroId);
