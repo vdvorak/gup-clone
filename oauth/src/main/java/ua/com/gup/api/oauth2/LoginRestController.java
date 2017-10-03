@@ -1,14 +1,13 @@
 package ua.com.gup.api.oauth2;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.*;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -17,13 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import ua.com.gup.config.oauth2.TokenStoreService;
 import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
-import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.login.FormChangePassword;
 import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
@@ -33,6 +32,7 @@ import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.gup.service.event.OnForgetPasswordEvent;
 import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
@@ -40,19 +40,16 @@ import ua.com.gup.service.profile.LockRemoteIPService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
 import ua.com.gup.service.security.SecurityUtils;
-import ua.com.gup.util.*;
+import ua.com.gup.util.APIVendor;
+import ua.com.gup.util.CookieUtil;
+import ua.com.gup.util.Oauth2Util;
+import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/oauth")
@@ -91,6 +88,10 @@ public class LoginRestController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private TokenStoreService tokenStoreService;
+
+
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> register(@RequestBody @Validated Profile profile) {
@@ -126,63 +127,6 @@ public class LoginRestController {
             profilesService.editProfile(profile);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
-        // CHECK:
-        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
-
-            // REGISTER:
-            if (profile.getSocWendor() == null) {
-                profile.setSocWendor("GUP");
-            }
-            profile.setUserType(UserType.LEGAL_ENTITY);
-            profile.setActive(false);
-            profilesService.createProfile(profile);
-            // LOGIN:
-            LoggedUser loggedUser = null;
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-
-                AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-            } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return resp;
-    }
-
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/confirm-register-by-email", method = RequestMethod.POST)
-    public ResponseEntity<Void> confirmRegisterByEmail(HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-
-        Profile profile = profilesService.findById(loggedUserId);
-
-        // we cant't allow empty email field for some cases
-        if (profile.getEmail() == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        if (profile.getEmail().equals("")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        if (profile.getId().equals(loggedUserId)) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            profile.setActive(true);
-            profilesService.editProfile(profile);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 
@@ -293,8 +237,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody FormLoggedUser formLoggedUser,
-                                HttpServletResponse response,
-                                HttpServletRequest request) {
+                                HttpServletResponse response) {
         ProfileInfo profileInfo = null;
         synchronized (profilesService) {
             LoggedUser loggedUser;
@@ -328,7 +271,7 @@ public class LoginRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
             if (!SecurityUtils.isAuthenticated()) {
-                LOG.info("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
+                LOG.debug("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
                 authenticateByEmailAndPassword(loggedUser, response);
             }
         }
@@ -339,8 +282,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> vendorLogin(@RequestBody Profile profile,
-                                                   HttpServletResponse response,
-                                                   HttpServletRequest request) {
+                                                   HttpServletResponse response) {
         if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -433,16 +375,56 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
-    public String existEmailCheck(@RequestBody String email) {
-        email = email.split("=")[0];
+    public ResponseEntity existEmailCheck(@RequestBody String email) {
+        if (!EmailValidator.getInstance().isValid(email)) {
+            return new ResponseEntity<>("email is invalid", HttpStatus.BAD_REQUEST);
+        }
+        ResponseEntity entity = new ResponseEntity(profilesService.profileExistsWithEmail(email) ? Boolean.TRUE : Boolean.FALSE, HttpStatus.OK);
+        return (entity);
+    }
 
-        try {
-            email = URLDecoder.decode(email, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
+    @CrossOrigin
+    @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
+    public ResponseEntity resetPasswordByToken(@RequestParam("token") String token,
+                                               @RequestBody @Validated FormChangePassword fcp) {
+        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+        if (verificationToken == null) {
+            throw new VerificationTokenNotFoundException();
+        }
+        if (verificationToken.getExpiryDate().before(new Date())) {
+            throw new VerificationTokenExpiredException();
         }
 
-        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+        Profile profile = profilesService.findById(verificationToken.getUserId());
+        profile.setPassword(passwordEncoder.encode(fcp.getNewPassword()));
+        profilesService.editProfile(profile);
+
+        Collection<OAuth2AccessToken> tokensByClientId = tokenStoreService.findAccessTokensByUserName(profile.getId());
+        for (OAuth2AccessToken oAuth2AccessToken : tokensByClientId) {
+            tokenStoreService.removeRefreshToken(oAuth2AccessToken.getRefreshToken());
+            tokenStoreService.removeAccessToken(oAuth2AccessToken);
+        }
+
+        verificationTokenService.deleteToken(verificationToken);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/restore-password", method = RequestMethod.POST)
+    public ResponseEntity restorePassword(@RequestParam("email") String email) {
+        if (StringUtils.isEmpty(email)) {
+            return new ResponseEntity<>("email is empty", HttpStatus.BAD_REQUEST);
+        }
+        if (!EmailValidator.getInstance().isValid(email)) {
+            return new ResponseEntity<>("email is invalid", HttpStatus.BAD_REQUEST);
+        }
+        Profile profile = profilesService.findProfileByEmail(email);
+        if (profile != null) {
+            eventPublisher.publishEvent(new OnForgetPasswordEvent(profile));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(String.format("User with email: %s not found", email), HttpStatus.NOT_FOUND);
     }
 
     @CrossOrigin
@@ -491,48 +473,6 @@ public class LoginRestController {
 
     }
 
-    private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {
-        return new AuthenticateByEmailAndPasswordFromRegister(response, tokenServices.createAccessToken(new OAuth2Authentication(Oauth2Util.getOAuth2Request(), new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()))));
-    }
-
-    class AuthenticateByEmailAndPasswordFromRegister {
-
-        public AuthenticateByEmailAndPasswordFromRegister() {
-        }
-
-        public AuthenticateByEmailAndPasswordFromRegister(HttpServletResponse httpServletResponse, OAuth2AccessToken oAuth2AccessToken) {
-            this.httpServletResponse = httpServletResponse;
-            this.oAuth2AccessToken = oAuth2AccessToken;
-        }
-
-        private HttpServletResponse httpServletResponse;
-        private OAuth2AccessToken oAuth2AccessToken;
-
-        public HttpServletResponse getHttpServletResponse() {
-            return httpServletResponse;
-        }
-
-        public void setHttpServletResponse(HttpServletResponse httpServletResponse) {
-            this.httpServletResponse = httpServletResponse;
-        }
-
-        public OAuth2AccessToken getOAuth2AccessToken() {
-            return oAuth2AccessToken;
-        }
-
-        public void setOAuth2AccessToken(OAuth2AccessToken oAuth2AccessToken) {
-            this.oAuth2AccessToken = oAuth2AccessToken;
-        }
-
-        @Override
-        public String toString() {
-            return "AuthenticateByEmailAndPasswordFromRegister{" +
-                    "httpServletResponse=" + httpServletResponse +
-                    ", oAuth2AccessToken=" + oAuth2AccessToken +
-                    '}';
-        }
-    }
-
 
     private String authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
@@ -554,24 +494,5 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
-    private InputStream getImageProfile(String url) throws IOException {
-        List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-        messageConverters.add(new ByteArrayHttpMessageConverter());
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
-        RestTemplate restTemplate = new RestTemplate(messageConverters);
-        ResponseEntity<byte[]> profileImg = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class);
-        return new ByteArrayInputStream(profileImg.getBody());
-    }
-
-    private FileUploadWrapper getCachedImageProfile(String serviceName, InputStream img, String filename) throws IOException {
-        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-        fileUploadWrapper
-                .setServiceName(serviceName.toUpperCase())
-                .setInputStream(img)
-                .setContentType("")
-                .setFilename(filename);
-        return fileUploadWrapper;
-    }
 
 }

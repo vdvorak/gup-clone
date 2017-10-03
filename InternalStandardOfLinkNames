@@ -1,6 +1,0 @@
-[POST]/api/rest/serviceName/{entityServiceName}/create/
-[POST]/api/rest/serviceName/{entityServiceName}/read/id/{id}
-[POST]/api/rest/serviceName/{entityServiceName}/read/all/
-[POST]/api/rest/serviceName/{entityServiceName}/update/id/{id}
-[POST]/api/rest/serviceName/{entityServiceName}/update/id/{id}/addComment/
-[POST]/api/rest/serviceName/{entityServiceName}/delete/id/{id}

@@ -20,7 +20,7 @@ public class SendMailTask {
 
     @Autowired
 
-    @Scheduled(cron = "0 1 1 * * *")
+    @Scheduled(cron = "* * * * * *")
     public void printMessages() {
         EmailMessage message = emailService.findOneMessage();
         if (message != null) {

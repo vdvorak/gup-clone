@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.email.EmailMessage;
+import ua.com.gup.domain.email.EmailType;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.SubscribeOfferEmail;
 import ua.com.gup.model.profiles.Profile;
@@ -85,24 +86,42 @@ public class EmailServiceImpl implements EmailService {
     public EmailMessage updateLastAttemptTimestamp(EmailMessage message) {
         return emailRepository.updateLastAttemptTimestamp(message);
     }
+
     @Override
-    public EmailMessage prepareRegistrationMessageAndAddToQueue(final Profile profile) {
+    public EmailMessage prepareMessageAndAddToQueue(final Profile profile, EmailType emailType) {
         EmailMessage emailMessage = new EmailMessage();
         emailMessage.setLastAttemptTimestamp(new Date().getTime());
-        emailMessage.setText(emailVerificationSubjectText);
-        emailMessage.setSubject(emailRegistrationSubjectText);
         emailMessage.setReplyTo(emailReplyToAddress);
         emailMessage.setFrom(emailFromAddress);
         emailMessage.setRecipients(new String[]{profile.getEmail()});
         emailMessage.setUserId(profile.getId());
+        emailMessage.setEmailType(emailType);
         emailRepository.createMessage(emailMessage);
         return emailMessage;
     }
 
-
     @Override
     public void sendEmail(EmailMessage message) {
-        VerificationToken verificationToken = verificationTokenService.generateEmailRegistrationToken(message.getUserId());
+
+        VerificationToken verificationToken = null;
+        //TODO: EMAIL TEMPLATE MAY BE HERE
+        StringBuilder text = new StringBuilder("<a href=\"");
+        text.append(hostNameUrl);
+
+        switch (message.getEmailType()) {
+            case EMAIL_REGISTRATION:
+                verificationToken = verificationTokenService.generateEmailRegistrationToken(message.getUserId());
+                text.append(String.format("api/oauth/registerConfirm?token=%s", verificationToken.getToken()));
+                break;
+            case EMAIL_FORGET_PASSWORD:
+                verificationToken = verificationTokenService.generateForgetPasswordToken(message.getUserId());
+                text.append(String.format("api/oauth/reset-password?token=%s", verificationToken.getToken()));
+                break;
+        }
+        text.append("\">");
+        text.append("ЖМИ СЮДА");
+        text.append("</a>");
+
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
@@ -110,10 +129,7 @@ public class EmailServiceImpl implements EmailService {
                 messageHelper.setTo(message.getRecipients());
                 messageHelper.setFrom(message.getFrom());
                 messageHelper.setReplyTo(message.getReplyTo());
-                messageHelper.setSubject(message.getSubject());
-
-                StringBuilder text = new StringBuilder(hostNameUrl);
-                text.append(String.format("swagger/oauth/registerConfirm?token=%s", verificationToken.getToken()));
+                messageHelper.setSubject("TEST SUBJECT");
                 messageHelper.setText(text.toString(), true);
             }
         };
@@ -144,29 +160,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, final Map<String, String> resources) {
-
-
         throw new RuntimeException("Not implemented yet");
-//        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-//            public void prepare(MimeMessage mimeMessage) throws Exception {
-//                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
-//                        MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
-//                messageHelper.setTo(email);
-//                messageHelper.setFrom(emailFromAddress);
-//                messageHelper.setReplyTo(emailReplyToAddress);
-//                messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");
-//                Map<String, Object> model = new HashMap<>();
-//                model.put("model", subscribeEmailBodyPreparator(subscriptionId, email, offer));
-//                String text = "";//VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/OfferSubscriptionEmail.vm", "UTF-8", model);
-//                messageHelper.setText(text, true);
-//
-//                for (String resourceIdentifier : resources.keySet()) {
-//                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
-//                }
-//            }
-//        };
-//
-//        mailSender.send(preparator);
     }
 
 

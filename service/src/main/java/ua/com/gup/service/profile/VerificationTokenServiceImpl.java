@@ -40,8 +40,18 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
+    public VerificationToken generateForgetPasswordToken(String userId) {
+        return new VerificationToken(userId, VerificationTokenType.EMAIL_FORGET_PASSWORD, lostPasswordTokenExpiryTimeInMinutes);
+    }
+
+    @Override
     public void saveToken(VerificationToken token) {
         verificationTokenRepository.save(token);
+    }
+
+    @Override
+    public void deleteToken(VerificationToken token) {
+        verificationTokenRepository.delete(token);
     }
 
 

@@ -3,6 +3,8 @@ package ua.com.gup.domain.email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "mail.queue")
 public class EmailMessage {
 
@@ -17,6 +19,8 @@ public class EmailMessage {
     private String[] bcc;
     private String subject;
     private String text;
+    @NotNull
+    private EmailType emailType;
 
     public EmailMessage() {
     }
@@ -99,5 +103,13 @@ public class EmailMessage {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public EmailType getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(EmailType emailType) {
+        this.emailType = emailType;
     }
 }

@@ -12,7 +12,12 @@ public interface VerificationTokenService {
      */
     VerificationToken generateEmailRegistrationToken(String userId);
 
+    VerificationToken generateForgetPasswordToken(String userId);
+
+
     void saveToken(VerificationToken token);
+
+    void deleteToken(VerificationToken token);
 
     VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken);
 
@@ -25,12 +30,7 @@ public interface VerificationTokenService {
 
 //    VerificationToken generateEmailRegistrationToken(String userId);
 
-    /**
-     *
-     * @param email
-     * @return
-     */
-    VerificationToken sendLostPasswordToken(String email);
+
 
     /**
      *

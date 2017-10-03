@@ -1,8 +1,9 @@
 package ua.com.gup.service.emailnotification;
 
 
-import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.email.EmailMessage;
+import ua.com.gup.domain.email.EmailType;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.profiles.Profile;
 
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface EmailService {
 
     EmailMessage updateLastAttemptTimestamp(EmailMessage message);
 
-    EmailMessage prepareRegistrationMessageAndAddToQueue(Profile profile);
+    EmailMessage prepareMessageAndAddToQueue(Profile profile, EmailType emailType);
 
     /**
      * Send email for the verification.

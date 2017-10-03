@@ -7,17 +7,16 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
-import ua.com.gup.repository.oauth2.OAuth2RefreshTokenRepository;
 import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.domain.oauth2.OAuth2AuthenticationRefreshToken;
+import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
+import ua.com.gup.repository.oauth2.OAuth2RefreshTokenRepository;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TokenStoreService implements TokenStore {
+public class TokenStoreService implements GUPTokenStore {
     private final static Logger LOG = Logger.getLogger(TokenStoreService.class);
 
     @Autowired
@@ -47,19 +46,14 @@ public class TokenStoreService implements TokenStore {
     @Override
     public OAuth2AccessToken readAccessToken(String tokenId) {
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-           LOG.info(" AccessToken  : " + token);
+        LOG.info(" AccessToken  : " + token);
         return (token != null) ? token.getoAuth2AccessToken() : null;
     }
 
     @Override
     public void removeAccessToken(OAuth2AccessToken accessToken) {
-        List<OAuth2AuthenticationAccessToken> tokens = oAuth2AccessTokenRepository.findByRefreshToken(accessToken.getRefreshToken().getValue());
-        LOG.info("removeAccessTokens OAuth2AuthenticationAccessToken  : " + tokens);
-        if (tokens != null) {
-            for (OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken:tokens) {
-                oAuth2AccessTokenRepository.delete(oAuth2AuthenticationAccessToken);
-            }
-        }
+        OAuth2AuthenticationAccessToken authenticationAccessToken = oAuth2AccessTokenRepository.findByTokenId(accessToken.getValue());
+        oAuth2AccessTokenRepository.delete(authenticationAccessToken);
     }
 
     @Override
@@ -92,7 +86,7 @@ public class TokenStoreService implements TokenStore {
         List<OAuth2AuthenticationAccessToken> tokens = oAuth2AccessTokenRepository.findByRefreshToken(refreshToken.getValue());
         LOG.info("removeAccessTokenUsingRefreshToken OAuth2AuthenticationAccessToken  : " + tokens);
         if (tokens != null) {
-            for (OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken:tokens) {
+            for (OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken : tokens) {
                 oAuth2AccessTokenRepository.delete(oAuth2AuthenticationAccessToken);
             }
         }
@@ -113,6 +107,13 @@ public class TokenStoreService implements TokenStore {
         List<OAuth2AuthenticationAccessToken> accessTokens = oAuth2AccessTokenRepository.findByClientId(clientId);
         return extractAccessTokens(accessTokens);
     }
+
+    @Override
+    public Collection<OAuth2AccessToken> findAccessTokensByUserName(String userName) {
+        List<OAuth2AuthenticationAccessToken> accessTokens = oAuth2AccessTokenRepository.findByUserName(userName);
+        return extractAccessTokens(accessTokens);
+    }
+
 
     @Override
     public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId, String userName) {

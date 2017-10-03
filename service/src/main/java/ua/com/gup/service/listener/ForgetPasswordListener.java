@@ -6,20 +6,20 @@ import org.springframework.stereotype.Component;
 import ua.com.gup.domain.email.EmailType;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.service.emailnotification.EmailService;
-import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
+import ua.com.gup.service.event.OnForgetPasswordEvent;
 
 @Component
-public class InitialRegistrationByEmailListener implements ApplicationListener<OnInitialRegistrationByEmailEvent> {
+public class ForgetPasswordListener implements ApplicationListener<OnForgetPasswordEvent> {
 
     @Autowired
     private EmailService emailService;
 
     @Override
-    public void onApplicationEvent(OnInitialRegistrationByEmailEvent onInitialRegistrationByEmailEvent) {
-        prepareEmailMessage((Profile) onInitialRegistrationByEmailEvent.getSource());
+    public void onApplicationEvent(OnForgetPasswordEvent forgetPasswordEvent) {
+        prepareEmailMessage((Profile) forgetPasswordEvent.getSource());
     }
 
     private void prepareEmailMessage(Profile profile) {
-        emailService.prepareMessageAndAddToQueue(profile, EmailType.EMAIL_REGISTRATION);
+        emailService.prepareMessageAndAddToQueue(profile, EmailType.EMAIL_FORGET_PASSWORD);
     }
 }
