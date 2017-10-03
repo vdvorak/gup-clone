@@ -14,8 +14,6 @@ import java.util.Set;
 
 /**
  * Interface for working with offers.
- *
- * @author Koblyatskyy Alexander
  */
 public interface OffersService {
     /**
