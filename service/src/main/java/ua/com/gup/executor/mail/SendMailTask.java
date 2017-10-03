@@ -11,15 +11,12 @@ import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceImpl;
 
 @Component
-@Profile("mail")
 public class SendMailTask {
 
     private static Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Autowired
     private EmailService emailService;
-
-    @Autowired
 
     @Scheduled(cron = "* * * * * *")
     public void printMessages() {
