@@ -24,7 +24,7 @@
     <!--<sec:http pattern="/resources/**" security="none" />-->
     <!-- This is where we tells spring security what URL should be protected
      and what roles have access to them -->
-    <sec:http pattern="/api/**" create-session="never"
+    <sec:http pattern="/api/**" create-session="stateless"
               entry-point-ref="oauthAuthenticationEntryPoint"
               access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false" />

@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.enumeration.OfferStatus;
@@ -103,11 +104,16 @@ public class OfferResource {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
-        log.debug("REST request to get Offer by ID : {}", id);
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
+        String authroId= SecurityUtils.getCurrentUserId();
+        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id , authroId);
+        if (offerService.hasPermissionForUpdate(id)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
+        }
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authroId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 

@@ -17,7 +17,7 @@ import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.util.EntityPage;
+import ua.com.gup.model.EntityPage;
 import ua.com.gup.util.SecurityOperations;
 import ua.com.gup.util.Translit;
 

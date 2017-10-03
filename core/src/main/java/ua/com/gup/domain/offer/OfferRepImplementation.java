@@ -20,7 +20,7 @@ import ua.com.gup.model.xchangerate.service.ServiceException;
 import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.util.CurrencyConvertUtil;
-import ua.com.gup.util.EntityPage;
+import ua.com.gup.model.EntityPage;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.util.OfferUserContactInfo;
 

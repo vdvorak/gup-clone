@@ -1,9 +1,6 @@
 package ua.com.gup.util;
 
-import java.math.BigDecimal;
-
 import org.json.JSONException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +9,8 @@ import ua.com.gup.model.xchangerate.endpoint.EndpointException;
 import ua.com.gup.model.xchangerate.service.ServiceException;
 import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
-import ua.com.gup.util.CurrencyConvertUtil;
+
+import java.math.BigDecimal;
 
 
 public class ConversionMain {

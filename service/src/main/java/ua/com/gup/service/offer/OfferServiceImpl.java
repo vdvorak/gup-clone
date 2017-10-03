@@ -110,8 +110,7 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
         Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
-        //todo vdvorak
-        // saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+        saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
         offer.setLastModifiedDate(ZonedDateTime.now());
@@ -329,7 +328,7 @@ public class OfferServiceImpl implements OfferService {
         if (offer != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
             Set<OfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED));
+            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED,OfferStatus.ARCHIVED));
             return (offer.getAuthorId() == currentUserID && statuses.contains(offer.getStatus())) ||
                     (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && offer.getStatus() == OfferStatus.ON_MODERATION);
         } else {
@@ -447,6 +446,15 @@ public class OfferServiceImpl implements OfferService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId) {
+       Offer offer = offerRepository.findOfferByIdAndAuthorId(offerId,authorId);
+        if (offer == null) {
+            return Optional.empty();
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
     private String generateUniqueSeoUrl(String title) {
         // index number in 36 radix
         return SEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(sequenceService.getNextSequenceValue(OFFER_SEQUENCE_ID), 36));
@@ -485,9 +493,9 @@ public class OfferServiceImpl implements OfferService {
      * @param seoURL         the seo URL for name creation
      * @return the entity
      */
-    private void saveOfferImages(Set<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
+    private void saveOfferImages(List<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
         if (offerImageIds == null) {
-            offerImageIds = new LinkedHashSet<>();
+            offerImageIds = new LinkedList<>();
         }
         if (offerImageDTOS == null) {
             return;

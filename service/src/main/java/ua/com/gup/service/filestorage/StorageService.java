@@ -5,7 +5,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.model.file.FileUploadWrapper;
-import ua.com.gup.util.CreatedObjResp;
+import ua.com.gup.model.CreatedObjResp;
 
 import java.util.Set;
 

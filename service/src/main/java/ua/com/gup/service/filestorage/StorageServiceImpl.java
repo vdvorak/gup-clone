@@ -12,7 +12,7 @@ import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.repository.filestorage.StorageRepository;
 import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.util.CreatedObjResp;
+import ua.com.gup.model.CreatedObjResp;
 
 import java.io.IOException;
 import java.util.Set;
