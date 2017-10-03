@@ -17,7 +17,7 @@ public interface EmailService {
 
     EmailMessage findOneMessage();
 
-    void sendEmail(EmailMessage message);
+    void sendEmail(EmailMessage message) throws Exception;
 
 
     void removeMessage(EmailMessage message);

@@ -1,5 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -335,8 +335,8 @@
                                                                      font-weight: normal;
                                                                      font-family: Helvetica,Arial,sans-serif;
                                                                      display: block">
-                                                                 <a href="#"
-                                                                    style="
+                                                                  <a th:href="@{${confirmRegisterUrl}(token=${confirmRegisterToken})}"
+                                                                     style="
                                                                         color:#1976d2;
                                                                         text-decoration: none;
                                                                         font-size: 14px;
@@ -466,16 +466,16 @@
                                                      font-weight: normal;
                                                      font-family: Helvetica,Arial,sans-serif;
                                                      display: block">
-                                                <a href="#"
-                                                   style="
-                                                        color:#1976d2;
-                                                        text-decoration: none;
-                                                        font-size: 14px;
-                                                        line-height: 28px;
-                                                        font-weight: normal;
-                                                        font-family: Helvetica,Arial,sans-serif;">
-                                                        Отписаться от рассылки
-                                                </a>
+                                                <!--<a href="#"-->
+                                                <!--style="-->
+                                                <!--color:#1976d2;-->
+                                                <!--text-decoration: none;-->
+                                                <!--font-size: 14px;-->
+                                                <!--line-height: 28px;-->
+                                                <!--font-weight: normal;-->
+                                                <!--font-family: Helvetica,Arial,sans-serif;">-->
+                                                <!--Отписаться от рассылки-->
+                                                <!--</a>-->
                                             </span>
                                         </td>
                                     </tr>
@@ -502,16 +502,16 @@
                                                      font-weight: normal;
                                                      font-family: Helvetica,Arial,sans-serif;
                                                      display: block">
-                                                <a href="#"
-                                                   style="
-                                                        color:#1976d2;
-                                                        text-decoration: none;
-                                                        font-size: 14px;
-                                                        line-height: 28px;
-                                                        font-weight: normal;
-                                                        font-family: Helvetica,Arial,sans-serif;">
-                                                        Настройки рассылки
-                                                </a>
+                                                <!--<a href="#"-->
+                                                <!--style="-->
+                                                <!--color:#1976d2;-->
+                                                <!--text-decoration: none;-->
+                                                <!--font-size: 14px;-->
+                                                <!--line-height: 28px;-->
+                                                <!--font-weight: normal;-->
+                                                <!--font-family: Helvetica,Arial,sans-serif;">-->
+                                                <!--Настройки рассылки-->
+                                                <!--</a>-->
                                             </span>
                                         </td>
                                     </tr>

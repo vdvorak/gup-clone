@@ -112,7 +112,7 @@ public class LoginRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/registerConfirm", method = RequestMethod.GET)
+    @RequestMapping(value = "/register/confirm", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> registerConfirm(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
@@ -126,6 +126,7 @@ public class LoginRestController {
             profile.setActive(Boolean.TRUE);
             profilesService.editProfile(profile);
         }
+        verificationTokenService.deleteToken(verificationToken);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -384,7 +385,7 @@ public class LoginRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
+    @RequestMapping(value = "/password/reset", method = RequestMethod.POST)
     public ResponseEntity resetPasswordByToken(@RequestParam("token") String token,
                                                @RequestBody @Validated FormChangePassword fcp) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
@@ -411,7 +412,7 @@ public class LoginRestController {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/restore-password", method = RequestMethod.POST)
+    @RequestMapping(value = "/password/restore", method = RequestMethod.POST)
     public ResponseEntity restorePassword(@RequestParam("email") String email) {
         if (StringUtils.isEmpty(email)) {
             return new ResponseEntity<>("email is empty", HttpStatus.BAD_REQUEST);

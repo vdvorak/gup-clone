@@ -137,6 +137,17 @@
             <groupId>com.github.Ritaja</groupId>
             <artifactId>java-exchange-rates</artifactId>
         </dependency>
+
+        <!-- Template engine for mails -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>

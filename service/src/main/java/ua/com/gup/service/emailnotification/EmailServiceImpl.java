@@ -10,10 +10,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.domain.email.EmailType;
 import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.dto.SubscribeOfferEmail;
 import ua.com.gup.model.profiles.Profile;
 import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.repository.email.EmailRepository;
@@ -45,6 +46,9 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private EmailRepository emailRepository;
 
+    @Autowired
+    private TemplateEngine templateEngine;
+
 
     @Autowired
     private VerificationTokenService verificationTokenService;
@@ -66,10 +70,11 @@ public class EmailServiceImpl implements EmailService {
     private String emailReplyToAddress;
 
 
-    @Value("${hostName.url}")
-    private String hostNameUrl;
+    @Value("${email.services.register.confirm.url}")
+    private String registerConfirmUrl;
 
-//    emailService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
+    @Value("${email.services.reset.password.url}")
+    private String resetPasswordUrl;
 
 
     @Override
@@ -100,28 +105,42 @@ public class EmailServiceImpl implements EmailService {
         return emailMessage;
     }
 
+    /**
+     * TODO: After getting all templates and requirements, rewrite this piece of sh... (sendMail method)
+     *
+     * @param message
+     * @throws Exception
+     */
     @Override
-    public void sendEmail(EmailMessage message) {
-
+    public void sendEmail(EmailMessage message) throws Exception {
+        // Prepare the evaluation context for Thymeleaf
+        final Context ctx = new Context();
+        Profile profile = profilesService.findById(message.getUserId());
+        String templateContent = null;
         VerificationToken verificationToken = null;
-        //TODO: EMAIL TEMPLATE MAY BE HERE
-        StringBuilder text = new StringBuilder("<a href=\"");
-        text.append(hostNameUrl);
+        String mailSubject = "No theme";
 
         switch (message.getEmailType()) {
             case EMAIL_REGISTRATION:
                 verificationToken = verificationTokenService.generateEmailRegistrationToken(message.getUserId());
-                text.append(String.format("api/oauth/registerConfirm?token=%s", verificationToken.getToken()));
+                ctx.setVariable("confirmRegisterUrl", registerConfirmUrl);
+                ctx.setVariable("confirmRegisterToken", verificationToken.getToken());
+                templateContent = templateEngine.process("mail/registered.html", ctx);
+                mailSubject = emailRegistrationSubjectText;
                 break;
             case EMAIL_FORGET_PASSWORD:
                 verificationToken = verificationTokenService.generateForgetPasswordToken(message.getUserId());
-                text.append(String.format("api/oauth/reset-password?token=%s", verificationToken.getToken()));
+                ctx.setVariable("userName", profile.getUsername());
+                ctx.setVariable("resetPasswordUrl", resetPasswordUrl);
+                ctx.setVariable("resetPasswordToken", verificationToken.getToken());
+                templateContent = templateEngine.process("mail/password-reset.html", ctx);
+                mailSubject = emailRegistrationSubjectText;
                 break;
         }
-        text.append("\">");
-        text.append("ЖМИ СЮДА");
-        text.append("</a>");
 
+
+        String finalTemplateContent = templateContent;
+        String finalMailSubject = mailSubject;
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
@@ -129,8 +148,8 @@ public class EmailServiceImpl implements EmailService {
                 messageHelper.setTo(message.getRecipients());
                 messageHelper.setFrom(message.getFrom());
                 messageHelper.setReplyTo(message.getReplyTo());
-                messageHelper.setSubject("TEST SUBJECT");
-                messageHelper.setText(text.toString(), true);
+                messageHelper.setSubject(finalMailSubject);
+                messageHelper.setText(finalTemplateContent, true);
             }
         };
         this.mailSender.send(preparator);
@@ -161,33 +180,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, final Map<String, String> resources) {
         throw new RuntimeException("Not implemented yet");
-    }
-
-
-    /**
-     * Prepare email for body.
-     *
-     * @param subscriptionId - the subscription ID.
-     * @param email          - the email of the addressee.
-     * @param offer          - the Offer object.
-     * @return - the SubscribeOfferEmail object.
-     */
-    private SubscribeOfferEmail subscribeEmailBodyPreparator(String subscriptionId, String email, Offer offer) {
-        SubscribeOfferEmail subscribeOfferEmail = new SubscribeOfferEmail();
-
-        Profile profile = profilesService.findProfileByEmail(email);
-
-        if (profile != null && profile.getUsername() != null) {
-            subscribeOfferEmail.setUserName(profile.getUsername());
-        } else {
-            subscribeOfferEmail.setUserName("Уважаемый пользователь портала GUP");
-        }
-
-        subscribeOfferEmail.setOffer(offer);
-        subscribeOfferEmail.setDeleteThisSubscribeLink(deleteThisSubscribeLInk + subscriptionId);
-
-
-        return subscribeOfferEmail;
     }
 
 
