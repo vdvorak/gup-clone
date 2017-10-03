@@ -13,16 +13,11 @@ import java.util.Set;
 
 /**
  * Class describe options for searching offers.
- *
- * @author Kobylyatskyy Alexander
  */
 @Component
 public final class OfferFilterOptions extends Offer {
-
-
     @Autowired
     private Set<Address> addresses;
-
     private int skip;
     private int limit;
     private Long fromPrice;
