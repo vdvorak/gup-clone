@@ -16,7 +16,7 @@ public class SwaggerConfig {
     @Bean
     public Docket apiGPU() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("REST-API-GPU")
+                .groupName("REST_API_GUP")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ua.com.gup"))
                 .paths(PathSelectors.any())
