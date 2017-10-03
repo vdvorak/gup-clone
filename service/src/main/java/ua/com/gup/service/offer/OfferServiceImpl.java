@@ -322,18 +322,23 @@ public class OfferServiceImpl implements OfferService {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
-    public boolean hasPermissionForUpdate(String id) {
-        log.debug("Request has permission for update offer : {}", id);
-        Offer offer = offerRepository.findOne(id);
+    public boolean hasPermissionForUpdate(String offerId) {
+        if(log.isDebugEnabled()){log.debug("Request has permission for update offer : {}", offerId);}
+        Offer offer = offerRepository.findOne(offerId);
         if (offer != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
             Set<OfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED,OfferStatus.ARCHIVED));
-            return (offer.getAuthorId() == currentUserID && statuses.contains(offer.getStatus())) ||
-                    (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR.name()) && offer.getStatus() == OfferStatus.ON_MODERATION);
-        } else {
+            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ARCHIVED));
+            //if current user owner offer
+            if( (offer.getAuthorId() == currentUserID && statuses.contains(offer.getStatus())) ){
+                return  true;
+            }
+            //if current user it's moderator(admin role)
+            if(SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR) && offer.getStatus() == OfferStatus.ON_MODERATION){
+                return true;
+            }
+        }   //access denied
             return false;
-        }
     }
 
     /**
