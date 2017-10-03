@@ -232,16 +232,15 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {
-        Reservation newReservation = new Reservation()
+        //todo vdvorak this method not use
+/*        Reservation newReservation = new Reservation()
                 .setProfileId(reservation.getProfileId())
                 .setUserContactInfo(reservation.getUserContactInfo())
                 .setCreatedDateEqualsToCurrentDate();
-
         Offer newOffer = new Offer();
         newOffer.setId(offerId);
         //newOffer.setReservation(newReservation);
-
-        Offer updatedOffer = offerRepository.findAndUpdate(newOffer);
+        Offer updatedOffer = offerRepository.findAndUpdate(newOffer);*/
     }
 
     @Override
