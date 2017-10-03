@@ -141,7 +141,7 @@ public interface OfferService {
      * @return true if an user has permission for update, {@literal false} otherwise
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
-    boolean hasPermissionForUpdate(String id);
+    boolean hasPermissionForUpdate(String offerId);
 
     /**
      * Update active offers base price by current exchange rate.
