@@ -3,7 +3,7 @@ package ua.com.gup.executor.mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.com.gup.domain.email.EmailMessage;
@@ -11,6 +11,7 @@ import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceImpl;
 
 @Component
+@Profile("mail")
 public class SendMailTask {
 
     private static Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
@@ -27,7 +28,7 @@ public class SendMailTask {
             try {
                 emailService.sendEmail(message);
                 emailService.removeMessage(message);
-            } catch (MailException e) {
+            } catch (Exception e) {
                 LOG.info("Sending mail exception", e);
                 emailService.updateLastAttemptTimestamp(message);
             }

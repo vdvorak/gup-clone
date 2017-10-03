@@ -81,4 +81,10 @@
         <filter-name>gzipFilter</filter-name>
         <url-pattern>/api/categories/*</url-pattern>
     </filter-mapping>
+
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+        <!--<param-value>mail</param-value>-->
+    </context-param>
 </web-app>
