@@ -259,14 +259,12 @@ public class LoginRestController {
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            if (!loggedUser.isEnabled()) {
-                return new ResponseEntity<>("User is not active yet", HttpStatus.FORBIDDEN);
-            }
-
             if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-
+            if (!loggedUser.isEnabled()) {
+                return new ResponseEntity<>("User is not active yet", HttpStatus.FORBIDDEN);
+            }
             profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
