@@ -113,7 +113,7 @@ public class OfferResource {
         if (offerService.hasPermissionForUpdate(offerId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(offerId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
