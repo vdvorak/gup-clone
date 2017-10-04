@@ -400,6 +400,7 @@ public class LoginRestController {
         profile.setPassword(passwordEncoder.encode(fcp.getNewPassword()));
         profilesService.editProfile(profile);
 
+        //todo bad
         Collection<OAuth2AccessToken> tokensByClientId = tokenStoreService.findAccessTokensByUserName(profile.getId());
         for (OAuth2AccessToken oAuth2AccessToken : tokensByClientId) {
             tokenStoreService.removeRefreshToken(oAuth2AccessToken.getRefreshToken());
