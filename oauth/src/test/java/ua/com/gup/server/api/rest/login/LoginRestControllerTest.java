@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.rest.loginAndSignUp;
+package ua.com.gup.server.api.rest.login;
 
 import org.junit.Before;
 import org.junit.Test;

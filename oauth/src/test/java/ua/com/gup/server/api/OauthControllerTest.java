@@ -33,7 +33,7 @@ public class OauthControllerTest {
 
     @Test
     public void indexControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/loginTest").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post("/login").accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -42,28 +42,11 @@ public class OauthControllerTest {
 
     @Test
     public void helloControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/logoutTest").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post("/logout").accept(MediaType.APPLICATION_JSON))
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Logout")));
     }
 
-    @Test
-    public void indexGetControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Index Greeting")));
-    }
-
-    @Test
-    public void helloGetControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Hello Greeting!!")));
-    }
 }
