@@ -107,13 +107,13 @@ public class OfferResource {
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String offerId) {
+    public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
         String authorId = SecurityUtils.getCurrentUserId();
-        log.debug("REST request to get Offer by ID : {} and  authorId: {}", offerId, authorId);
-        if (offerService.hasPermissionForUpdate(offerId,authorId)) {
+        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
+        if (offerService.hasPermissionForUpdate(id,authorId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(offerId,authorId);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id,authorId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
