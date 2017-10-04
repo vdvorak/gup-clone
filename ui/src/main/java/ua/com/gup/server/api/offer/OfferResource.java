@@ -106,14 +106,23 @@ public class OfferResource {
 
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String offerId) {
         String authorId = SecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", offerId, authorId);
-        if (offerService.hasPermissionForUpdate(offerId)) {
+        if (offerService.hasPermissionForUpdate(offerId,authorId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(offerId);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(offerId,authorId);
+        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
+        log.debug("REST request to get Offer by ID : {}", id);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -159,7 +168,7 @@ public class OfferResource {
         if (!offerService.exists(offerUpdateDTO.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
         }
-        if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId())) {
+        if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId(),null)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
         OfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
