@@ -352,15 +352,14 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
+
+        if (StringUtils.isEmpty(newProfile.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
-        if (newProfile.getEmail() == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        if (newProfile.getEmail().equals("")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        newProfile.setId(loggedUserId);
+        newProfile.setActive(oldProfile.getActive());
         Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
         if (foundByEmailProfile != null) {
             if (!foundByEmailProfile.getId().equals(loggedUserId)) {
