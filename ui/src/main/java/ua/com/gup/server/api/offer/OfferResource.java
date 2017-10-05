@@ -133,9 +133,9 @@ public class OfferResource {
 
     @CrossOrigin
     @RequestMapping(value = "/offers/{seoUrl}/statistic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticById(@PathVariable String seoUrl,
-                                                                               @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
-                                                                               @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
+    public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
+                                                                                   @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
+                                                                                   @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
 
         log.debug("REST request to get Offer viewStatistic by seoUrl : {}", seoUrl);
         LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -317,8 +317,10 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @CrossOrigin
-    @RequestMapping(value = "/offers/{authorId}/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllProfileOffers(@PathVariable String authorId, @PathVariable OfferStatus status, Pageable pageable) {
+    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllProfileOffers(@PathVariable String authorId,
+                                                                                           @RequestParam(name = "status") OfferStatus status,
+                                                                                           Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status");
         if (authorId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
