@@ -3,10 +3,10 @@ package ua.com.gup.domain.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.model.offer.OfferStatistic;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApiModel(description = "Offer filter model")
 public class OfferFilter implements Serializable {
@@ -39,9 +39,6 @@ public class OfferFilter implements Serializable {
 
     @ApiModelProperty(value = "Filters for boolean attributes", position = 70)
     private List<BooleanAttributeFilter> boolAttrs = new ArrayList<>();
-
-    @ApiModelProperty(value = "Filter for statistic", position = 80)
-    private OfferStatistic statistic;
 
     public String getQuery() {
         return query;
@@ -115,11 +112,4 @@ public class OfferFilter implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public OfferStatistic getStatistic() {
-        return statistic;
-    }
-
-    public void setStatistic(OfferStatistic statistic) {
-        this.statistic = statistic;
-    }
 }

@@ -9,12 +9,13 @@ import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.model.file.FileWrapper;
-import ua.com.gup.model.offer.OfferStatistic;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,13 +79,6 @@ public interface OfferService {
 
     Optional<OfferViewDetailsDTO> findOne(String id);
 
-    /**
-     * Get the "id" offer.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    OfferViewDetailsDTO findOneWithViewIncrement(String id);
 
     /**
      * Get one OfferDetailsDTO by seoUrl.
@@ -103,20 +97,13 @@ public interface OfferService {
     Page<OfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable);
 
     /**
-     * Increment statistic phone views by id.
+     * Increment viewStatistic phone views by id.
      *
      * @param id the id of the entity
      * @return the entity
      */
     void incrementPhoneViews(String id);
 
-    /**
-     * Increment statistic favorites by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    void incrementFavorites(String id);
 
     /**
      * Delete the "id" offer.
@@ -137,7 +124,7 @@ public interface OfferService {
     /**
      * Returns whether an entity can be updated by current user.
      *
-     * @param id must not be {@literal null}.
+     * @param offerId not be {@literal null}.
      * @return true if an user has permission for update, {@literal false} otherwise
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
@@ -159,27 +146,11 @@ public interface OfferService {
      */
     Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
 
-    /**
-     * Update offer's statistic.
-     *
-     * @param id     the id of the entity
-     * @param statistic the status to be updated
-     * @return the entity
-     */
-    Optional<OfferViewDetailsDTO> updateStatistic(String id, OfferStatistic statistic);
-
-    /**
-     * Reset offer's statistic-views.
-     *
-     * @param id     the id of the entity
-     * @return the entity
-     */
-    Optional<OfferViewDetailsDTO> resetStatisticViews(String id);
 
     /**
      * Get offer image by id and size type.
      *
-     * @param id the id of the entity
+     * @param id       the id of the entity
      * @param sizeType the size type of image
      * @return the entity
      */
@@ -189,18 +160,11 @@ public interface OfferService {
      * Get one offer categories by search word.
      *
      * @param string the string
-     * @param page the page
-     * @param size the size
+     * @param page   the page
+     * @param size   the size
      * @return the list of entities
      */
     List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 
-    /**
-     * Get one offer  by search offerId and authorId.
-     *
-     * @param string the offerId
-     * @param string the authorId
-     * @return the single offer
-     */
-    Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
+    Optional<List<OfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd);
 }

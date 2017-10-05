@@ -10,6 +10,7 @@ import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.domain.offer.OfferRepository;
 import ua.com.gup.dto.OfferRegistration;
+import ua.com.gup.model.EntityPage;
 import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.Image;
@@ -17,7 +18,6 @@ import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.Reservation;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.model.EntityPage;
 import ua.com.gup.util.SecurityOperations;
 import ua.com.gup.util.Translit;
 
@@ -106,26 +106,6 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findBySeoKey(seoKey);
     }
 
-    @Override
-    public Offer findBySeoUrlAndIncViews(String seoUrl) {
-        String seoKey = seoUrl.substring(seoUrl.lastIndexOf("-") + 1);
-        Offer offer = offerRepository.findBySeoKey(seoKey);
-        offerRepository.incViewsAtOne(offer.getId());
-        return offer;
-    }
-
-    @Override
-    public Offer findOfferAndIncViews(String offerId) {
-        offerRepository.incViewsAtOne(offerId);
-        return offerRepository.findById(offerId);
-    }
-
-    @Override
-    public Offer findBySeoUrlAndIncPhoneViews(String seoUrl) {
-        Offer offer = offerRepository.findBySeoUrl(seoUrl);
-        offerRepository.incPhoneViewsAtOne(offer.getId());
-        return offer;
-    }
 
     @Override
     public boolean offerExists(String id) {

@@ -3,17 +3,18 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.model.offer.OfferCategory;
-import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
 import ua.com.gup.dto.offer.OfferPriceDTO;
+import ua.com.gup.model.offer.OfferCategory;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OfferViewBaseDTO implements Serializable {
 
@@ -56,9 +57,6 @@ public class OfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 130)
     private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
-
-    @ApiModelProperty(position = 140)
-    private OfferStatistic statistic;
 
     public String getId() {
         return id;
@@ -164,11 +162,4 @@ public class OfferViewBaseDTO implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public OfferStatistic getStatistic() {
-        return statistic;
-    }
-
-    public void setStatistic(OfferStatistic statistic) {
-        this.statistic = statistic;
-    }
 }

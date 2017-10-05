@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import ua.com.gup.config.mongo.MongoTemplateOperations;
+import ua.com.gup.model.EntityPage;
 import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
@@ -20,8 +22,6 @@ import ua.com.gup.model.xchangerate.service.ServiceException;
 import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.util.CurrencyConvertUtil;
-import ua.com.gup.model.EntityPage;
-import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.util.OfferUserContactInfo;
 
 import javax.annotation.PostConstruct;
@@ -230,21 +230,6 @@ public class OfferRepImplementation implements OfferRepository {
                 Offer.class);
     }
 
-    @Override
-    public void incViewsAtOne(String offerId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().inc("views", 1),
-                Offer.class);
-    }
-
-    @Override
-    public void incPhoneViewsAtOne(String offerId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().inc("statistic.phoneViews", 1),
-                Offer.class);
-    }
 
     @Override
     public void deleteRent(String offerId, String rentId) {

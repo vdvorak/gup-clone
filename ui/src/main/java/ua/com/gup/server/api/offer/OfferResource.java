@@ -22,6 +22,7 @@ import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -37,6 +38,7 @@ import ua.com.gup.service.security.SecurityUtils;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,7 +108,7 @@ public class OfferResource {
 
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/view/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String offerId) {
         String authorId = SecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", offerId, authorId);
@@ -115,6 +117,16 @@ public class OfferResource {
         }
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(offerId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{seoUrl}/statistic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticById(@PathVariable String seoUrl) {
+
+        log.debug("REST request to get Offer viewStatistic by seoUrl : {}", seoUrl);
+        Optional<List<OfferStatisticByDateDTO>> statistic = offerService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, LocalDate.now().minusDays(10), LocalDate.now());
+        return ResponseUtil.wrapOrNotFound(statistic);
     }
 
     @ApiImplicitParams({
@@ -391,23 +403,6 @@ public class OfferResource {
     }
 
     /**
-     * PUT  /offers/{id}/reset/views : reset views.
-     *
-     * @param id the offer id
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/{id}/reset/views", method = RequestMethod.PUT)
-    public ResponseEntity<Optional<OfferViewDetailsDTO>> resetViews(@PathVariable String id) {
-        log.debug("REST request to reset views");
-        Optional<OfferViewDetailsDTO> offerViewDetailsDTO = offerService.resetStatisticViews(id);
-//        return ResponseEntity.ok().build();
-        return offerViewDetailsDTO.isPresent()
-                ? new ResponseEntity<>(offerViewDetailsDTO, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
-
-    /**
      * PUT  /offers/{id}/increment/phone-views : increment phone views.
      *
      * @param id the offer id
@@ -418,20 +413,6 @@ public class OfferResource {
     public ResponseEntity<Void> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
         offerService.incrementPhoneViews(id);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * PUT  /offers/{id}/increment/phone-views : increment phone views statistic.
-     *
-     * @param id the offer id
-     * @return the ResponseEntity with status 200 (OK) and Void
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/{id}/increment/favorites", method = RequestMethod.PUT)
-    public ResponseEntity<Void> incrementFavorites(@PathVariable String id) {
-        log.debug("REST request to increment favorites");
-        offerService.incrementFavorites(id);
         return ResponseEntity.ok().build();
     }
 

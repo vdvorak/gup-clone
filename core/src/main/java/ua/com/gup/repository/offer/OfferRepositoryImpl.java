@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -18,7 +17,6 @@ import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.domain.filter.*;
@@ -77,33 +75,6 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
-    @Override
-    public void incrementViews(String id) {
-        incrementStatistic(new Query(Criteria.where("_id").is(id)), "views");
-    }
-
-    @Override
-    public void incrementViewsBySeoUrl(String seoUrl) {
-        incrementStatistic(new Query(Criteria.where("seoUrl").is(seoUrl)), "views");
-    }
-
-    @Override
-    public void incrementPhoneViews(String id) {
-        incrementStatistic(new Query(Criteria.where("_id").is(id)), "phoneViews");
-    }
-
-    @Override
-    public void incrementFavorites(String id) {
-        incrementStatistic(new Query(Criteria.where("_id").is(id)), "favorites");
-    }
-
-    private void incrementStatistic(Query query, String field) {
-        Update update = new Update();
-        update.inc("statistic." + field, 1);
-        FindAndModifyOptions options = new FindAndModifyOptions();
-        options.returnNew(false);
-        mongoTemplate.findAndModify(query, update, options, Offer.class);
-    }
 
     public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
         BasicDBObject query = new BasicDBObject();

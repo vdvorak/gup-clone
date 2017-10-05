@@ -1,29 +1,30 @@
 package ua.com.gup.mapper;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.category.attribute.value.*;
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
-import ua.com.gup.model.offer.Lands;
-import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
-import ua.com.gup.service.category.attribute.CategoryAttributeService;
+import ua.com.gup.model.offer.Lands;
+import ua.com.gup.model.statistic.OfferStatistic;
 import ua.com.gup.service.category.CategoryService;
+import ua.com.gup.service.category.attribute.CategoryAttributeService;
 import ua.com.gup.service.security.SecurityUtils;
+import ua.com.gup.util.DateUtil;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -31,8 +32,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class OfferMapper {
-
-    private final Logger log = LoggerFactory.getLogger(OfferMapper.class);
 
     @Autowired
     private PriceMapper priceMapper;
@@ -52,7 +51,6 @@ public class OfferMapper {
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
         fromOfferCreateDTOToOffer(offerCreateDTO, offer);
-        offer.setStatistic(new OfferStatistic());
         return offer;
     }
 
@@ -102,14 +100,6 @@ public class OfferMapper {
         return offerViewShortWithModerationReportDTO;
     }
 
-    private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
-        fromOfferToOfferViewBaseDTO(source, target);
-        target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
-        target.setStatistic(source.getStatistic());
-        if (source.getLands() != null) {
-            target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
-        }
-    }
 
     public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferViewDetailsDTO offerViewDetailsDTO = new OfferViewDetailsDTO();
@@ -118,13 +108,33 @@ public class OfferMapper {
         offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
-        offerViewDetailsDTO.setStatistic(offer.getStatistic());
 
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
         }
 
         return offerViewDetailsDTO;
+    }
+
+    private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
+        fromOfferToOfferViewBaseDTO(source, target);
+        target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
+        if (source.getLands() != null) {
+            target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
+        }
+    }
+
+    public List<OfferStatisticByDateDTO> offerStatisticToOfferStatisticDTO(OfferStatistic viewStatistic, LocalDate offerDtCreate, LocalDate dateStart, LocalDate dateEnd) {
+        List<LocalDate> dates = DateUtil.getDateRangeBetweenDates(dateStart, dateEnd, true);
+        List<OfferStatisticByDateDTO> statistic = new ArrayList<>();
+        for (LocalDate date : dates) {
+            OfferStatisticByDateDTO statisticByDateDTO = new OfferStatisticByDateDTO();
+            statisticByDateDTO.setDate(date.toString());
+            statisticByDateDTO.setOfferViews(viewStatistic.getOfferViewsCountByDate(offerDtCreate, date));
+            statisticByDateDTO.setOfferPhonesViews(viewStatistic.getOfferPhonesViewsCountByDate(offerDtCreate, date));
+            statistic.add(statisticByDateDTO);
+        }
+        return statistic;
     }
 
 
