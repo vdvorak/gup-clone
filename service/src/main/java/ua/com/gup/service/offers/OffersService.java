@@ -40,23 +40,7 @@ public interface OffersService {
      */
     Offer findBySeoKey(String seoKey);
 
-    /**
-     * Methods receive seoUrl as string. Return offer and increase it numbers of views.
-     *
-     * @param seoUrl - the Seo URL of the specific offer.
-     * @return - the Offer object
-     */
-    Offer findBySeoUrlAndIncViews(String seoUrl);
 
-    /**
-     * Return offer and increase it's views count.
-     *
-     * @param offerId - the offer ID.
-     * @return - the Offer object
-     */
-    Offer findOfferAndIncViews(String offerId);
-
-    Offer findBySeoUrlAndIncPhoneViews(String seoUrl);
 
     /**
      * Delete offer by it's id.

@@ -3,7 +3,6 @@ package ua.com.gup.dto.offer.view;
 
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
@@ -22,8 +21,6 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
     @ApiModelProperty(position = 105)
     private OfferContactInfoDTO contactInfo;
 
-    @ApiModelProperty(position = 140)
-    private OfferStatistic statistic;
 
     @ApiModelProperty(position = 150)
     private OfferLandsDTO lands;
@@ -60,13 +57,6 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
         this.contactInfo = contactInfo;
     }
 
-    public OfferStatistic getStatistic() {
-        return statistic;
-    }
-
-    public void setStatistic(OfferStatistic statistic) {
-        this.statistic = statistic;
-    }
 
     public OfferLandsDTO getLands() {
         return lands;

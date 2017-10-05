@@ -16,6 +16,7 @@ import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -24,7 +25,6 @@ import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.model.file.FileWrapper;
 import ua.com.gup.model.offer.OfferCategory;
 import ua.com.gup.model.offer.OfferCategoryCount;
-import ua.com.gup.model.offer.OfferStatistic;
 import ua.com.gup.model.profiles.UserRole;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.service.currency.CurrencyConverterService;
@@ -34,6 +34,7 @@ import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.service.util.SEOFriendlyUrlUtil;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -214,21 +215,13 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public OfferViewDetailsDTO findOneWithViewIncrement(String id) {
-        log.debug("Request to get Offer by seoUrl: {}", id);
-        offerRepository.incrementViews(id);
-        Offer offer = offerRepository.findOne(id);
-        OfferViewDetailsDTO offerViewDetailsDTO = offerMapper.offerToOfferDetailsDTO(offer);
-        return offerViewDetailsDTO;
-    }
-
-    @Override
     public Optional<OfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Offer : {}", seoUrl);
-        offerRepository.incrementViewsBySeoUrl(seoUrl);
         Optional<Offer> offer = offerRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final Offer o = offer.get();
+            o.incrementView(true, false);
+            offerRepository.save(o);
             Set<OfferStatus> statuses = new HashSet<>();
             statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
@@ -264,7 +257,7 @@ public class OfferServiceImpl implements OfferService {
             return result.map(o -> offerMapper.offerToOfferShortDTO(o));
 
         }
-        return new PageImpl<OfferViewShortDTO>(new ArrayList<>());
+        return new PageImpl<>(new ArrayList<>());
     }
 
     /**
@@ -275,19 +268,11 @@ public class OfferServiceImpl implements OfferService {
      */
     @Override
     public void incrementPhoneViews(String id) {
-        offerRepository.incrementPhoneViews(id);
+        Offer offer = offerRepository.findOne(id);
+        offer.incrementView(false, true);
+        offerRepository.save(offer);
     }
 
-    /**
-     * Increment statistic favorites by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    public void incrementFavorites(String id) {
-        offerRepository.incrementFavorites(id);
-    }
 
     /**
      * Delete the  offer by id.
@@ -317,16 +302,16 @@ public class OfferServiceImpl implements OfferService {
     /**
      * Returns whether an entity can be updated by current user.
      *
-     * @param id must not be {@literal null}.
+     * @param offerId must not be {@literal null}.
      * @return true if an user has permission for update, {@literal false} otherwise
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
-    public boolean hasPermissionForUpdate(String offerId,String authorId) {
+    public boolean hasPermissionForUpdate(String offerId, String authorId) {
         Offer offer = null;
-        if (offerId != null && authorId != null){
-         offer = offerRepository.findOfferByIdAndAuthorId(offerId,authorId);
-        }else if(offer != null){
+        if (offerId != null && authorId != null) {
+            offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
+        } else if (offer != null) {
             offer = offerRepository.findOne(offerId);
         }
         if (log.isDebugEnabled()) {
@@ -395,47 +380,6 @@ public class OfferServiceImpl implements OfferService {
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
-    /**
-     * Update offer's statistic.
-     *
-     * @param id        the id of the entity
-     * @param statistic the status to be updated
-     * @return the entity
-     */
-    @Override
-    public Optional<OfferViewDetailsDTO> updateStatistic(String id, OfferStatistic statistic) {
-        log.debug("Request to update update offer's statistic : {}", id);
-        Offer offer = offerRepository.findOne(id);
-        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId())) {
-            offer.setStatistic(statistic);
-            offer = offerRepository.save(offer);
-        } else {
-            return Optional.empty();
-        }
-        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
-    }
-
-    /**
-     * Reset offer's statistic-views.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    public Optional<OfferViewDetailsDTO> resetStatisticViews(String id) {
-        log.debug("Request to update update offer's statistic : {}", id);
-        Offer offer = offerRepository.findOne(id);
-        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId())) {
-            OfferViewDetailsDTO offerViewDetailsDTO = findOneWithViewIncrement(id);
-            OfferStatistic statistic = offerViewDetailsDTO.getStatistic();
-            statistic.setViews(0);
-            offer.setStatistic(statistic);
-            offer = offerRepository.save(offer);
-        } else {
-            return Optional.empty();
-        }
-        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
-    }
 
     /**
      * Get offer image by id and size type.
@@ -468,6 +412,17 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public Optional<List<OfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd) {
+        Optional<Offer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offerOptional.isPresent()) {
+            Offer offer = offerOptional.get();
+            return Optional.of(offer.getStatistic())
+                    .map(o -> offerMapper.offerStatisticToOfferStatisticDTO(o, offer.getCreatedDate().toLocalDate(), dateStart, dateEnd));
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId) {
         Offer offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
         if (offer == null) {
@@ -475,6 +430,7 @@ public class OfferServiceImpl implements OfferService {
         }
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
+
 
     private String generateUniqueSeoUrl(String title) {
         // index number in 36 radix

@@ -22,6 +22,7 @@ import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -37,6 +38,9 @@ import ua.com.gup.service.security.SecurityUtils;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -110,10 +114,10 @@ public class OfferResource {
     public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
         String authorId = SecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        if (offerService.hasPermissionForUpdate(id,authorId)) {
+        if (offerService.hasPermissionForUpdate(id, authorId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id,authorId);
+        Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -124,6 +128,21 @@ public class OfferResource {
         log.debug("REST request to get Offer by ID : {}", id);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/{seoUrl}/statistic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticById(@PathVariable String seoUrl,
+                                                                               @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
+                                                                               @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
+
+        log.debug("REST request to get Offer viewStatistic by seoUrl : {}", seoUrl);
+        LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dateEnd = Instant.ofEpochMilli(dateEndInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
+
+        Optional<List<OfferStatisticByDateDTO>> statistic = offerService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
+        return ResponseUtil.wrapOrNotFound(statistic);
     }
 
     @ApiImplicitParams({
@@ -168,7 +187,7 @@ public class OfferResource {
         if (!offerService.exists(offerUpdateDTO.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
         }
-        if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId(),null)) {
+        if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId(), null)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
         OfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
@@ -400,23 +419,6 @@ public class OfferResource {
     }
 
     /**
-     * PUT  /offers/{id}/reset/views : reset views.
-     *
-     * @param id the offer id
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/{id}/reset/views", method = RequestMethod.PUT)
-    public ResponseEntity<Optional<OfferViewDetailsDTO>> resetViews(@PathVariable String id) {
-        log.debug("REST request to reset views");
-        Optional<OfferViewDetailsDTO> offerViewDetailsDTO = offerService.resetStatisticViews(id);
-//        return ResponseEntity.ok().build();
-        return offerViewDetailsDTO.isPresent()
-                ? new ResponseEntity<>(offerViewDetailsDTO, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
-
-    /**
      * PUT  /offers/{id}/increment/phone-views : increment phone views.
      *
      * @param id the offer id
@@ -427,20 +429,6 @@ public class OfferResource {
     public ResponseEntity<Void> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
         offerService.incrementPhoneViews(id);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * PUT  /offers/{id}/increment/phone-views : increment phone views statistic.
-     *
-     * @param id the offer id
-     * @return the ResponseEntity with status 200 (OK) and Void
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/{id}/increment/favorites", method = RequestMethod.PUT)
-    public ResponseEntity<Void> incrementFavorites(@PathVariable String id) {
-        log.debug("REST request to increment favorites");
-        offerService.incrementFavorites(id);
         return ResponseEntity.ok().build();
     }
 

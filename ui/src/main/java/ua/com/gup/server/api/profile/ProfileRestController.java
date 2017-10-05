@@ -1,6 +1,8 @@
 package ua.com.gup.server.api.profile;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
+
+    private final Logger log = LoggerFactory.getLogger(ProfileRestController.class);
 
     @Autowired
     private ProfilesService profilesService;
@@ -147,7 +151,8 @@ public class ProfileRestController {
         String userId = SecurityOperations.getLoggedUserId();
         if (userId != null) {
             profilesService.toggleProfileInUserSocialList(userId, profileId);
-            return new ResponseEntity<>("{User: " + profileId + ", toggled to/from: " + userId + " contact list}", HttpStatus.OK);
+            log.debug("{User: " + profileId + ", toggled to/from: " + userId + " contact list}");
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }

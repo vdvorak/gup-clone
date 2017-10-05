@@ -23,14 +23,6 @@ public interface OfferRepositoryCustom {
 
     List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable);
 
-    void incrementViews(String id);
-
-    void incrementViewsBySeoUrl(String seoUrl);
-
-    void incrementPhoneViews(String id);
-
-    void incrementFavorites(String id);
-
     void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);

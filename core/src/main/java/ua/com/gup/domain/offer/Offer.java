@@ -11,6 +11,7 @@ import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeV
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
 import ua.com.gup.domain.enumeration.OfferStatus;
 import ua.com.gup.model.offer.*;
+import ua.com.gup.model.statistic.OfferStatistic;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -264,7 +265,18 @@ public class Offer implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
+    public Lands getLands() {
+        return lands;
+    }
+
+    public void setLands(Lands lands) {
+        this.lands = lands;
+    }
+
     public OfferStatistic getStatistic() {
+        if (statistic == null) {
+            statistic = new OfferStatistic();
+        }
         return statistic;
     }
 
@@ -272,12 +284,10 @@ public class Offer implements Serializable {
         this.statistic = statistic;
     }
 
-
-    public Lands getLands() {
-        return lands;
-    }
-
-    public void setLands(Lands lands) {
-        this.lands = lands;
+    public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
+        if (incrementOfferViews)
+            getStatistic().incrementTodayViewStatistic(getCreatedDate().toLocalDate());
+        if (incrementOfferPhoneViews)
+            getStatistic().incrementTodayViewPhoneStatistic(getCreatedDate().toLocalDate());
     }
 }

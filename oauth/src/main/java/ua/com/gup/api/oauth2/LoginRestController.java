@@ -36,7 +36,6 @@ import ua.com.gup.service.event.OnForgetPasswordEvent;
 import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
-import ua.com.gup.service.profile.LockRemoteIPService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
 import ua.com.gup.service.security.SecurityUtils;
@@ -80,10 +79,6 @@ public class LoginRestController {
 
     @Autowired
     private EmailService emailService;
-
-
-    @Autowired
-    private LockRemoteIPService lockRemoteIPService;
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -243,28 +238,19 @@ public class LoginRestController {
         synchronized (profilesService) {
             LoggedUser loggedUser;
             try {
-
-                //tempory delete block user for login
-                /*LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
-                if (lockRemoteIP == null) {
-                    lockRemoteIP = new LockRemoteIP();
-                    lockRemoteIP.setIp(request.getRemoteAddr());
-                    lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
-                }
-                if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }*/
-
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
+            if (!loggedUser.isEnabled()) {
+                LOG.debug("User is not active yet");
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
             if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            if (!loggedUser.isEnabled()) {
-                return new ResponseEntity<>("User is not active yet", HttpStatus.FORBIDDEN);
-            }
+
             profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
             if (profileInfo.getProfile().isBan())
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -398,8 +384,7 @@ public class LoginRestController {
         profile.setPassword(passwordEncoder.encode(fcp.getNewPassword()));
         profilesService.editProfile(profile);
 
-        //todo bad
-        Collection<OAuth2AccessToken> tokensByClientId = tokenStoreService.findAccessTokensByUserName(profile.getId());
+        Collection<OAuth2AccessToken> tokensByClientId = tokenStoreService.findAccessTokensByUserName(profile.getEmail());
         for (OAuth2AccessToken oAuth2AccessToken : tokensByClientId) {
             tokenStoreService.removeRefreshToken(oAuth2AccessToken.getRefreshToken());
             tokenStoreService.removeAccessToken(oAuth2AccessToken);

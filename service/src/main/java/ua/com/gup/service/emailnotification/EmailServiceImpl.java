@@ -49,10 +49,8 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
-
     @Autowired
     private VerificationTokenService verificationTokenService;
-    private final String deleteThisSubscribeLInk = "http://gup.com.ua:8184/swagger/rest/subscription/delete/";
 
     @Value("${email.services.emailVerificationSubjectText}")
     private String emailVerificationSubjectText;
