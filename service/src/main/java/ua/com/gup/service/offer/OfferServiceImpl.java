@@ -261,7 +261,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     /**
-     * Increment viewStatistic phone views by id.
+     * Increment statistic phone views by id.
      *
      * @param id the id of the entity
      * @return the entity
@@ -307,11 +307,17 @@ public class OfferServiceImpl implements OfferService {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
-    public boolean hasPermissionForUpdate(String offerId) {
-        if (log.isDebugEnabled()) {
-            log.debug("Request has permission for update offer : {}", offerId);
+    public boolean hasPermissionForUpdate(String offerId, String authorId) {
+        Offer offer = null;
+        if (offerId != null && authorId != null) {
+            offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
+        } else if (offer != null) {
+            offer = offerRepository.findOne(offerId);
         }
-        Offer offer = offerRepository.findOne(offerId);
+        if (log.isDebugEnabled()) {
+            log.debug("Request has permission for update offer : {}", offer);
+        }
+
         if (offer != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
             Set<OfferStatus> statuses = new HashSet<>();
@@ -327,6 +333,14 @@ public class OfferServiceImpl implements OfferService {
         }   //access denied
         return false;
     }
+
+    /**
+     * Returns whether an entity can be updated by current user.
+     *
+     * @param id must not be {@literal null}.
+     * @return true if an user has permission for update, {@literal false} otherwise
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
 
     /**
      * Update active offers base price by current exchange rate.
@@ -406,6 +420,15 @@ public class OfferServiceImpl implements OfferService {
                     .map(o -> offerMapper.offerStatisticToOfferStatisticDTO(o, offer.getCreatedDate().toLocalDate(), dateStart, dateEnd));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId) {
+        Offer offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
+        if (offer == null) {
+            return Optional.empty();
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
 

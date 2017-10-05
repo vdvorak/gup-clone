@@ -10,9 +10,10 @@
                       http://www.springframework.org/schema/security
 					  http://www.springframework.org/schema/security/spring-security.xsd">
 
-
+<!-- use-expressions="true" disable-url-rewriting="false" -->
     <sec:http pattern="/oauth/token" create-session="stateless"
               authentication-manager-ref="clientAuthenticationManager">
+
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
@@ -20,6 +21,7 @@
         <sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
         <sec:csrf disabled="true"/>
+
     </sec:http>
     <!--<sec:http pattern="/resources/**" security="none" />-->
     <!-- This is where we tells spring security what URL should be protected
@@ -28,7 +30,6 @@
               entry-point-ref="oauthAuthenticationEntryPoint"
               access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false" />
-        <!--<sec:intercept-url pattern="/swagger/rest/**" access="ROLE_USER" />-->
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
         <sec:csrf disabled="true"/>

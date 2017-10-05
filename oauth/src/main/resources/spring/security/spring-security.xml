@@ -10,7 +10,7 @@
                       http://www.springframework.org/schema/security
 					  http://www.springframework.org/schema/security/spring-security.xsd">
 
-
+    <!-- use-expressions="true" disable-url-rewriting="false" -->
     <sec:http pattern="/oauth/token" create-session="stateless"   authentication-manager-ref="clientAuthenticationManager">
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
