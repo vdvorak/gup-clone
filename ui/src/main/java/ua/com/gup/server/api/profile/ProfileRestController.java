@@ -355,8 +355,7 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request)
-            throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
 
         if (StringUtils.isEmpty(newProfile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
