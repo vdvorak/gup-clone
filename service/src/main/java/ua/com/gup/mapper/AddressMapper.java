@@ -13,8 +13,8 @@ public class AddressMapper {
         OfferAddressDTO offerAddressDTO = new OfferAddressDTO();
         if (address != null) {
             if (address.getLocation()!=null) {
-                offerAddressDTO.setLat(address.getLocation().getX());
-                offerAddressDTO.setLng(address.getLocation().getY());
+                offerAddressDTO.setLat(address.getLocation().getY());
+                offerAddressDTO.setLng(address.getLocation().getX());
             }
             offerAddressDTO.setCountry(address.getCountry());
             offerAddressDTO.setDistrict(address.getDistrict());
@@ -39,7 +39,7 @@ public class AddressMapper {
 
     public Address addressDTOToAddress(OfferAddressDTO offerAddressDTO) {
         Address address = new Address();
-        address.setLocation(new GeoJsonPoint(offerAddressDTO.getLat(), offerAddressDTO.getLng()));
+        address.setLocation(new GeoJsonPoint(offerAddressDTO.getLng(), offerAddressDTO.getLat()));
         address.setCountry(offerAddressDTO.getCountry());
         address.setDistrict(offerAddressDTO.getDistrict());
         address.setCity(offerAddressDTO.getCity());
