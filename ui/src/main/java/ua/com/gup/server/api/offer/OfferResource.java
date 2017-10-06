@@ -100,7 +100,7 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
     @CrossOrigin
-    @RequestMapping(value = "/offers/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
@@ -132,7 +132,7 @@ public class OfferResource {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/{seoUrl}/statistic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
                                                                                    @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
                                                                                    @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
@@ -164,7 +164,7 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
     @CrossOrigin
-    @RequestMapping(value = "/offers/{seoUrl}/relevant", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/seo/relevant/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
         Page<OfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
@@ -319,8 +319,7 @@ public class OfferResource {
     @CrossOrigin
     @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllProfileOffers(@PathVariable String authorId,
-                                                                                           @RequestParam(name = "status") OfferStatus status,
-                                                                                           Pageable pageable) {
+                                                                                           @RequestParam(name = "status") OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status");
         if (authorId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
@@ -441,8 +440,9 @@ public class OfferResource {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @CrossOrigin
-    @RequestMapping(value = "/offers/image/{id}/{sizeType}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @PathVariable OfferImageSizeType sizeType) {
+    @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id,
+                                                                   @RequestParam("sizeType") OfferImageSizeType sizeType) {
         log.debug("REST request to get offer image by id and size type");
 
         final FileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);

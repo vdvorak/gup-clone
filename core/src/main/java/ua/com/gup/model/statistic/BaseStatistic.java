@@ -26,7 +26,7 @@ public abstract class BaseStatistic {
         LocalDate today = LocalDate.now();
         int numOfDaysBetween = (int) DateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
         Integer[] offerViewsArray = getViewStatistic().getTotalOfferViews();
-        if (offerViewsArray.length < numOfDaysBetween || offerViewsArray.length == 0) {
+        if (offerViewsArray.length <= numOfDaysBetween || offerViewsArray.length == 0) {
             Integer[] newViews = new Integer[numOfDaysBetween + 1];
             System.arraycopy(offerViewsArray, 0, newViews, 0, offerViewsArray.length);
             newViews[numOfDaysBetween] = 1;
@@ -42,7 +42,7 @@ public abstract class BaseStatistic {
         LocalDate today = LocalDate.now();
         int numOfDaysBetween = (int) DateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
         Integer[] phoneViewsArray = getViewStatistic().getTotalOfferPhonesViews();
-        if (phoneViewsArray.length < numOfDaysBetween || phoneViewsArray.length == 0) {
+        if (phoneViewsArray.length <= numOfDaysBetween || phoneViewsArray.length == 0) {
             Integer[] newPhoneViewsArray = new Integer[numOfDaysBetween + 1];
             System.arraycopy(phoneViewsArray, 0, newPhoneViewsArray, 0, phoneViewsArray.length);
             newPhoneViewsArray[numOfDaysBetween] = 1;
