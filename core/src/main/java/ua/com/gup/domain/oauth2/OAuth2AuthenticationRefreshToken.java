@@ -51,4 +51,15 @@ public class OAuth2AuthenticationRefreshToken implements Serializable {
     public OAuth2Authentication getAuthentication() {
         return authentication;
     }
+
+    @Override
+    public String toString() {
+        return "OAuth2AuthenticationRefreshToken{" +
+                "id='" + id + '\'' +
+                ", tokenId='" + tokenId + '\'' +
+                ", oAuth2RefreshToken=" + oAuth2RefreshToken +
+                ", authentication=" + authentication +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }
