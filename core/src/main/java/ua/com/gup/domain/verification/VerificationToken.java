@@ -1,10 +1,11 @@
-package ua.com.gup.model.profiles.verification;
+package ua.com.gup.domain.verification;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.model.VerificationTokenType;
 
 import java.util.Date;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package ua.com.gup.model.profiles.verification;
+package ua.com.gup.model;
 
 
 public enum VerificationTokenType {

@@ -1,6 +1,6 @@
 package ua.com.gup.service.profile;
 
-import ua.com.gup.model.profiles.verification.VerificationToken;
+import ua.com.gup.domain.verification.VerificationToken;
 
 
 public interface VerificationTokenService {

@@ -16,7 +16,7 @@ import ua.com.gup.domain.email.EmailMessage;
 import ua.com.gup.domain.email.EmailType;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.profiles.Profile;
-import ua.com.gup.model.profiles.verification.VerificationToken;
+import ua.com.gup.domain.verification.VerificationToken;
 import ua.com.gup.repository.email.EmailRepository;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
