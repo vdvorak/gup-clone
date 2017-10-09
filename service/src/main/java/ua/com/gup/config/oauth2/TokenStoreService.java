@@ -75,7 +75,7 @@ public class TokenStoreService implements GUPTokenStore {
     @Override
     public void removeRefreshToken(OAuth2RefreshToken refreshToken) {
         OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(refreshToken.getValue());
-        LOG.info("remove RefreshToken RefreshToken  : " + token);
+        LOG.info("remove RefreshToken  : " + token);
         if (token != null) {
             oAuth2RefreshTokenRepository.delete(token);
         }
@@ -84,7 +84,7 @@ public class TokenStoreService implements GUPTokenStore {
     @Override
     public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
         List<OAuth2AuthenticationAccessToken> tokens = oAuth2AccessTokenRepository.findByRefreshToken(refreshToken.getValue());
-        LOG.info("removeAccessTokenUsingRefreshToken OAuth2AuthenticationAccessToken  : " + tokens);
+        LOG.info("remove AccessTokenUsingRefreshToken OAuth2AuthenticationAccessToken  : " + tokens);
         if (tokens != null) {
             for (OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken : tokens) {
                 oAuth2AccessTokenRepository.delete(oAuth2AuthenticationAccessToken);
@@ -113,7 +113,6 @@ public class TokenStoreService implements GUPTokenStore {
         List<OAuth2AuthenticationAccessToken> accessTokens = oAuth2AccessTokenRepository.findByUserName(userName);
         return extractAccessTokens(accessTokens);
     }
-
 
     @Override
     public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId, String userName) {
