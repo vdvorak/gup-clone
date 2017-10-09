@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.complaint.ComplaintOffer;
 import ua.com.gup.domain.complaint.ComplaintOfferStatus;
 import ua.com.gup.domain.complaint.ComplaintOfferType;
-import ua.com.gup.model.profiles.UserRole;
+import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.service.complaint.ComplaintOfferService;
 import ua.com.gup.service.security.SecurityUtils;

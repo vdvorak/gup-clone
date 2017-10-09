@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.enumeration.Currency;
 
 import java.math.BigDecimal;
 

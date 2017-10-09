@@ -2,6 +2,7 @@ package ua.com.gup.domain.email;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.model.enumeration.EmailType;
 
 import javax.validation.constraints.NotNull;
 

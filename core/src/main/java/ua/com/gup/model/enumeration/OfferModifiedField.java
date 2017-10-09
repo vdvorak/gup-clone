@@ -1,4 +1,4 @@
-package ua.com.gup.domain.enumeration;
+package ua.com.gup.model.enumeration;
 
 /**
  * @author Kobylyatskyy Alexander

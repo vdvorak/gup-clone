@@ -1,9 +1,9 @@
-package ua.com.gup.domain.filter;
+package ua.com.gup.model.filter;
 
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.enumeration.Currency;
 
 import javax.validation.constraints.NotNull;
 

@@ -9,7 +9,7 @@ import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValu
 import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
 import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
-import ua.com.gup.domain.enumeration.OfferStatus;
+import ua.com.gup.model.enumeration.OfferStatus;
 import ua.com.gup.model.offer.*;
 import ua.com.gup.model.statistic.OfferStatistic;
 

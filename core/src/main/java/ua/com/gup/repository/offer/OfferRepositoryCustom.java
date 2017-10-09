@@ -2,9 +2,9 @@ package ua.com.gup.repository.offer;
 
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.domain.filter.OfferFilter;
 import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.model.enumeration.OfferStatus;
+import ua.com.gup.model.filter.OfferFilter;
 import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
 
@@ -26,6 +26,8 @@ public interface OfferRepositoryCustom {
     void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
+
+    Offer findById(String offerId);
 }
 
 

@@ -1,7 +1,7 @@
 package ua.com.gup.service.currency;
 
 
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.enumeration.Currency;
 
 import java.math.BigDecimal;
 

@@ -1,5 +1,6 @@
 package ua.com.gup.model.profiles;
 
+import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.util.SocialNetwork;
 
 import javax.validation.constraints.Size;

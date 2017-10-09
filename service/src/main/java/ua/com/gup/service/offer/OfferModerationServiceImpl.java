@@ -15,7 +15,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
     @Autowired
-    private OffersService offersService;
+    private OfferService offerService;
 
     @Autowired
     private ProfilesService profilesService;
@@ -24,24 +24,20 @@ public class OfferModerationServiceImpl implements OfferModerationService {
     @Override
     public HttpStatus editOfferByModerator(Offer inputOffer) {
         String moderatorId = SecurityOperations.getLoggedUserId();
-        System.err.println("#1");
         if (profilesService.findById(moderatorId) == null) {
             return HttpStatus.BAD_REQUEST;
         }
-        System.err.println("#2");
-        Offer offerAfterUpdate = offersService.findById(inputOffer.getId());
-        System.err.println("#3");
+        Offer offerAfterUpdate = offerService.findById(inputOffer.getId());
         if (inputOffer.getLastOfferModerationReport() == null) {
             return HttpStatus.BAD_REQUEST;
         }
-        System.err.println("#6");
         if (offerAfterUpdate == null) {
             return HttpStatus.NOT_FOUND;
         }
         if (inputOffer.getCategories() != null) {
             offerAfterUpdate.setCategories(inputOffer.getCategories());
         }
-        offersService.edit(offerAfterUpdate);
+        offerService.edit(offerAfterUpdate);
         return HttpStatus.OK;
     }
 }

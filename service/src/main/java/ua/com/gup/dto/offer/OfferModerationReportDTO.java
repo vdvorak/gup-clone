@@ -2,7 +2,7 @@ package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.enumeration.OfferRefusalReason;
+import ua.com.gup.model.enumeration.OfferRefusalReason;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

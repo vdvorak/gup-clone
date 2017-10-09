@@ -1,8 +1,8 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.model.offer;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ua.com.gup.domain.enumeration.OfferRefusalReason;
+import ua.com.gup.model.enumeration.OfferRefusalReason;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;

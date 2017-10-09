@@ -3,7 +3,7 @@ package ua.com.gup.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.enumeration.Currency;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
