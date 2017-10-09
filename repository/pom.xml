@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>DAO</name>
+    <groupId>ua.com.gup</groupId>
+    <artifactId>repository</artifactId>
+    <version>${version}</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>ua.com.gup</groupId>
+        <artifactId>GUP</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <!-- CORE -->
+        <dependency>
+            <groupId>ua.com.gup</groupId>
+            <artifactId>service</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <!-- Image scale library -->
+        <!-- <dependency>
+             <groupId>org.imgscalr</groupId>
+             <artifactId>imgscalr-lib</artifactId>
+             <version>${imgscalr-lib.version}</version>
+         </dependency>
+         &lt;!&ndash;Google JSON &ndash;&gt;
+         <dependency>
+             <groupId>com.google.code.gson</groupId>
+             <artifactId>gson</artifactId>
+         </dependency>
+         &lt;!&ndash; validation-api &ndash;&gt;
+         <dependency>
+             <groupId>javax.validation</groupId>
+             <artifactId>validation-api</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.hibernate</groupId>
+             <artifactId>hibernate-validator</artifactId>
+         </dependency>
+         &lt;!&ndash; commons library slf4j &ndash;&gt;
+         <dependency>
+             <groupId>org.apache.commons</groupId>
+             <artifactId>commons-lang3</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.commons</groupId>
+             <artifactId>commons-io</artifactId>
+         </dependency>
+         &lt;!&ndash; Spring &ndash;&gt;
+         <dependency>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-webmvc</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-context</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-web</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-context-support</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.data</groupId>
+             <artifactId>spring-data-mongodb</artifactId>
+         </dependency>
+         &lt;!&ndash;Security&ndash;&gt;
+         <dependency>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-web</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-config</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-taglibs</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-test</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.security.oauth</groupId>
+             <artifactId>spring-security-oauth2</artifactId>
+         </dependency>
+         &lt;!&ndash;JSON translator&ndash;&gt;
+         <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-databind</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>com.fasterxml.jackson.datatype</groupId>
+             <artifactId>jackson-datatype-jsr310</artifactId>
+         </dependency>
+         &lt;!&ndash;Servlet swagger&ndash;&gt;
+         <dependency>
+             <groupId>javax.servlet</groupId>
+             <artifactId>javax.servlet-api</artifactId>
+         </dependency>
+         &lt;!&ndash; DATA-TIME Library &ndash;&gt;
+         <dependency>
+             <groupId>joda-time</groupId>
+             <artifactId>joda-time</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpclient</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpmime</artifactId>
+         </dependency>
+         &lt;!&ndash; Mongo for Mongo test &ndash;&gt;
+         <dependency>
+             <groupId>org.mongodb</groupId>
+             <artifactId>mongo-java-driver</artifactId>
+             <version>3.3.0</version>
+         </dependency>
+         &lt;!&ndash; RSA Library &ndash;&gt;
+         <dependency>
+             <groupId>org.bouncycastle</groupId>
+             <artifactId>bcprov-jdk15on</artifactId>
+         </dependency>
+         &lt;!&ndash; Spring Mongo data library &ndash;&gt;
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+         </dependency>
+         &lt;!&ndash; Swagger ui &ndash;&gt;
+         <dependency>
+             <groupId>io.springfox</groupId>
+             <artifactId>springfox-swagger2</artifactId>
+         </dependency>
+         &lt;!&ndash; Test &ndash;&gt;
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.mockito</groupId>
+             <artifactId>mockito-core</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-test</artifactId>
+         </dependency>
+ -->
+    </dependencies>
+
+    <build>
+        <finalName>repository##${project.version}</finalName>
+        <defaultGoal>package</defaultGoal>
+    </build>
+</project>
