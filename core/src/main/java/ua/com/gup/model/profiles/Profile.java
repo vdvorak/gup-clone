@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.annotation.Password;
+import ua.com.gup.config.annotation.Password;
 import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.GeneralPhone;
 import ua.com.gup.model.profiles.order.OrderAddress;

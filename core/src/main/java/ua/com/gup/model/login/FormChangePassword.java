@@ -1,6 +1,6 @@
 package ua.com.gup.model.login;
 
-import ua.com.gup.annotation.Password;
+import ua.com.gup.config.annotation.Password;
 
 public class FormChangePassword {
     private String password;
