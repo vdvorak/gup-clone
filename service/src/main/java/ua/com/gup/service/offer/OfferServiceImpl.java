@@ -44,38 +44,22 @@ import java.util.stream.Collectors;
  */
 @Service
 public class OfferServiceImpl implements OfferService {
-
     private static final String OFFER_SEQUENCE_ID = "offer_sequence";
-
     private final Logger log = LoggerFactory.getLogger(OfferServiceImpl.class);
 
-    private final OfferRepository offerRepository;
-
-    private final ImageService imageService;
-
-    private final SequenceService sequenceService;
-
-    private final CurrencyConverterService currencyConverterService;
-
-    private final OfferMapper offerMapper;
-
-    private final OfferCategoryCountMapper offerCategoryCountMapper;
-
     @Autowired
-    public OfferServiceImpl(
-            OfferRepository offerRepository,
-            ImageService imageService,
-            SequenceService sequenceService,
-            CurrencyConverterService currencyConverterService,
-            OfferMapper offerMapper,
-            OfferCategoryCountMapper offerCategoryCountMapper) {
-        this.offerRepository = offerRepository;
-        this.imageService = imageService;
-        this.sequenceService = sequenceService;
-        this.currencyConverterService = currencyConverterService;
-        this.offerMapper = offerMapper;
-        this.offerCategoryCountMapper = offerCategoryCountMapper;
-    }
+    private  OfferRepository offerRepository;
+    @Autowired
+    private  ImageService imageService;
+    @Autowired
+    private  SequenceService sequenceService;
+    @Autowired
+    private  CurrencyConverterService currencyConverterService;
+    @Autowired
+    private  OfferMapper offerMapper;
+    @Autowired
+    private  OfferCategoryCountMapper offerCategoryCountMapper;
+
 
     /**
      * Save a offer.
