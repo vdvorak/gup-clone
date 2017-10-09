@@ -1,4 +1,4 @@
-package ua.com.gup.model.seosequence;
+package ua.com.gup.domain.seosequence;
 
 
 import org.springframework.data.annotation.Id;
