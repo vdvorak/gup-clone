@@ -27,7 +27,6 @@ public interface OfferRepositoryCustom {
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
 
-    Offer findById(String offerId);
 }
 
 

@@ -18,9 +18,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.util.StringUtils;
-import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.domain.filter.*;
 import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.model.enumeration.OfferStatus;
+import ua.com.gup.model.filter.*;
 import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
 
@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
-public class OfferRepositoryImpl implements OfferRepositoryCustom {
+public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
-    private final Logger log = LoggerFactory.getLogger(OfferRepositoryImpl.class);
+    private final Logger log = LoggerFactory.getLogger(OfferRepositoryCustomerImpl.class);
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -75,7 +75,7 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
-
+    @Override
     public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
         BasicDBObject query = new BasicDBObject();
         query.put("status", status.name());
@@ -247,4 +247,6 @@ public class OfferRepositoryImpl implements OfferRepositoryCustom {
         List<OfferCategoryCount> result = groupResults.getMappedResults();
         return result;
     }
+
+
 }
