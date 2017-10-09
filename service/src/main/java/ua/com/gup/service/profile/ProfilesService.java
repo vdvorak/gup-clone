@@ -1,7 +1,7 @@
 package ua.com.gup.service.profile;
 
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.ProfileRating;
 

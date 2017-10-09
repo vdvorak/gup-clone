@@ -2,8 +2,12 @@ package ua.com.gup.service.offer;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.domain.enumeration.OfferStatus;
-import ua.com.gup.domain.filter.OfferFilter;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.model.EntityPage;
+import ua.com.gup.model.enumeration.OfferStatus;
+import ua.com.gup.model.filter.OfferFilter;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -14,10 +18,15 @@ import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.model.file.FileWrapper;
+import ua.com.gup.model.offer.OfferRegistration;
+import ua.com.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.model.offer.Reservation;
+import ua.com.gup.model.offer.filter.OfferFilterOptions;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Interface for managing Offer.
@@ -169,4 +178,120 @@ public interface OfferService {
     Optional<List<OfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd);
 
     Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
+
+
+    //------------------------------------------- OLD SERVICE FUNCTION ----------------------------------------------//
+    /**
+     * Create one offer and return it.
+     *
+     * @param offer - the offer object.
+     */
+    void create(Offer offer);
+
+
+    /**
+     * Return one offer by it's id.
+     *
+     * @param offerId - the offer id
+     * @return - the offer object
+     */
+    Offer findById(String offerId);
+
+    /**
+     * Return one offer by it's seo Key.
+     *
+     * @param seoKey - the seo key of the offer.
+     * @return - the offer.
+     */
+    Offer findBySeoKey(String seoKey);
+
+
+    /**
+     * Return true if offer exist.
+     *
+     * @param id - the offer id.
+     * @return - the true or false.
+     */
+    boolean offerExists(String id);
+
+    /**
+     * Return EntityPage of Offers that received with offer filter options.
+     *
+     * @param offerFilterOptions - the OfferFilterOptions object.
+     * @return - the EntityPage of Offers.
+     */
+    EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
+
+    /**
+     * Edit offer and return new updated one.
+     *
+     * @param oldOffer - the Offer which we need to update from.
+     * @return - the new Offer.
+     */
+    Offer edit(Offer oldOffer);
+
+    /**
+     * This method edit offer and previously check specific fields for update and can change moderator status if some
+     * of the field were updated.
+     *
+     * @param offerRegistration - the OfferRegistration object.
+     * @param files             - the array fo MultiPartFile - images from client side.
+     * @return - the ResponseEntity object for the REST controller.
+     */
+    ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files);
+
+    /**
+     * Reservation of the one offer.
+     *
+     * @param offerId     - the Offer id.
+     * @param reservation - the Reservation object.
+     */
+    void reserveOffer(String offerId, Reservation reservation);
+
+    /**
+     * Delete reservation by offer id.
+     *
+     * @param offerId - the offer's ID which must be deleted.
+     */
+    void deleteReservation(String offerId);
+
+    /**
+     * Rent offer for specific period.
+     *
+     * @param offerId               - the offer's ID.
+     * @param rentedOfferPeriodInfo - the period of offer rent.
+     */
+    void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo);
+
+    /**
+     * Delete specific rent from offer.
+     *
+     * @param offerId - the offer's ID.
+     * @param rentId  - the id of rent.
+     */
+    void deleteRent(String offerId, String rentId);
+
+    /**
+     * Change the active status of the offer.
+     *
+     * @param offerId  - the offer ID.
+     * @param isActive - the true or false.
+     */
+    void setActive(String offerId, boolean isActive);
+
+    /**
+     * Method for autocomplete input in frontend for searching offers.
+     *
+     * @param name - the String input part.
+     * @return - the Set of results string.
+     */
+    Set<String> getMatchedNames(String name);
+
+
+    /**
+     * Return id if main offer image
+     *
+     * @return - the ID of the main image.
+     */
+    String getMainOfferImage(Offer offer);
 }

@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.dto.FavoriteOfferInfo;
 import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.model.enumeration.UserRole;
+import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
-import ua.com.gup.service.offer.OffersService;
+import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.SecurityOperations;
 
@@ -30,7 +33,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private OffersService offersService;
+    private OfferService offerService;
     @Autowired
     private VerificationTokenService verificationTokenService;
     @Autowired
@@ -39,11 +42,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileRepository profileRepository;
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
-
-    //ToDo need use 'bank_session.properties'
-    //BankSession bankSession = new BankSession("http://93.73.109.38:8087");
-    /*@Autowired
-    private BankSession bankSession;*/
 
     @Override
     public void createProfile(Profile profile) {
@@ -66,9 +64,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
                 .setNotCompletedFields(11)
-                //.setPublicKey(profile.getPublicKey())
-                //.setPrivateKey(profile.getPrivateKey())
-                //.setPublicHash(profile.getPublicHash())
                 .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
         setEmptyFieldsForNewUser(newProfile);
 
@@ -610,12 +605,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     private FavoriteOfferInfo favoriteOfferInfoPreparator(String favoriteOfferId) {
         FavoriteOfferInfo favoriteOfferInfo = new FavoriteOfferInfo();
 
-        Offer offer = offersService.findById(favoriteOfferId);
+        Offer offer = offerService.findById(favoriteOfferId);
 
         favoriteOfferInfo.setFavoriteOfferId(favoriteOfferId);
         favoriteOfferInfo.setFavoriteOfferSeoUrl(offer.getSeoUrl());
         favoriteOfferInfo.setFavoriteOfferTitle(offer.getTitle());
-        favoriteOfferInfo.setFavoriteOfferImage(offersService.getMainOfferImage(offer));
+        favoriteOfferInfo.setFavoriteOfferImage(offerService.getMainOfferImage(offer));
 
         return favoriteOfferInfo;
     }
