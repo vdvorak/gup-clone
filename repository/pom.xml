@@ -19,7 +19,7 @@
         <!-- CORE -->
         <dependency>
             <groupId>ua.com.gup</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>core</artifactId>
             <version>${version}</version>
         </dependency>
         <!-- Image scale library -->
