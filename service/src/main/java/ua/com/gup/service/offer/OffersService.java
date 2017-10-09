@@ -1,4 +1,4 @@
-package ua.com.gup.service.offers;
+package ua.com.gup.service.offer;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

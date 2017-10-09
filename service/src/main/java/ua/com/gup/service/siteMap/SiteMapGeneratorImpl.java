@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.domain.offer.OfferModerationReport;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.offer.OffersService;
 import ua.com.gup.service.siteMap.siteMapContent.ChangeFreq;
 import ua.com.gup.service.siteMap.siteMapContent.ImageMap;
 import ua.com.gup.service.siteMap.siteMapContent.Url;

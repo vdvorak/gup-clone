@@ -15,7 +15,7 @@ import ua.com.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.gup.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
-import ua.com.gup.service.offers.OffersService;
+import ua.com.gup.service.offer.OffersService;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.SecurityOperations;
 
