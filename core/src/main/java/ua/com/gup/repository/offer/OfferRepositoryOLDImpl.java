@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.domain.offer.OfferRepository;
 import ua.com.gup.model.EntityPage;
 import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
@@ -35,7 +34,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class OfferRepImplementation implements OfferRepository {
+public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
 
 
     @Autowired

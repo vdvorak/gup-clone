@@ -1,6 +1,7 @@
-package ua.com.gup.domain.offer;
+package ua.com.gup.repository.offer;
 
 
+import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.EntityPage;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
@@ -13,7 +14,7 @@ import java.util.Set;
  *
  * @author Kobylyatskyy Alexander
  */
-public interface OfferRepository {
+public interface OfferRepositoryOLD {
     void create(Offer offer);
 
     /**
