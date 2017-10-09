@@ -1,4 +1,4 @@
-package ua.com.gup.service.event;
+package ua.com.gup.event;
 
 import org.springframework.context.ApplicationEvent;
 import ua.com.gup.model.profiles.Profile;

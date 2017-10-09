@@ -21,6 +21,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
 import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.event.OnForgetPasswordEvent;
+import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
 import ua.com.gup.model.login.FormChangePassword;
@@ -32,9 +34,6 @@ import ua.com.gup.model.profiles.verification.VerificationToken;
 import ua.com.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
-import ua.com.gup.service.event.OnForgetPasswordEvent;
-import ua.com.gup.service.event.OnInitialRegistrationByEmailEvent;
-import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
@@ -74,8 +73,8 @@ public class LoginRestController {
     @Autowired
     private APIVendor profileVendor;
 
-    @Autowired
-    private StorageService storageService;
+    /*@Autowired
+    private StorageService storageService;*/
 
     @Autowired
     private EmailService emailService;
@@ -124,9 +123,6 @@ public class LoginRestController {
         verificationTokenService.deleteToken(verificationToken);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-    //ToDo hide this controller under @PreAuthorize annotation
 
     /**
      * Controller for registration new users under admin panel.
