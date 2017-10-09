@@ -1,4 +1,4 @@
-package ua.com.gup.model.profiles;
+package ua.com.gup.model.enumeration;
 
 
 public enum CardType {

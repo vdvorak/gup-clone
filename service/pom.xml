@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <name>Service REST-Service</name>
+    <name>Business Logic Layer</name>
     <artifactId>service</artifactId>
     <groupId>ua.com.gup</groupId>
     <version>${version}</version>
@@ -13,10 +13,10 @@
     </parent>
 
     <dependencies>
-        <!-- Core -->
+        <!-- DAO -->
         <dependency>
             <groupId>ua.com.gup</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>repository</artifactId>
             <version>${version}</version>
         </dependency>
         <!--Servlet api-->

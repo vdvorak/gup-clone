@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import ua.com.gup.exception.VKException;
-import ua.com.gup.model.VkProfile;
 
 import java.io.BufferedReader;
 import java.io.IOException;

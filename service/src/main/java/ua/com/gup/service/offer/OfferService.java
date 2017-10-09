@@ -21,7 +21,7 @@ import ua.com.gup.model.file.FileWrapper;
 import ua.com.gup.model.offer.OfferRegistration;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.model.offer.Reservation;
-import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.filter.OfferFilterOptions;
 
 import java.time.LocalDate;
 import java.util.List;

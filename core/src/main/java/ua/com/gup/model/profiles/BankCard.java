@@ -1,6 +1,8 @@
 package ua.com.gup.model.profiles;
 
 
+import ua.com.gup.model.enumeration.CardType;
+
 public class BankCard {
 
     private long number;     // 1234567812345678l;

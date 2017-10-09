@@ -1,9 +1,6 @@
 package ua.com.gup.util;
 
 import org.springframework.stereotype.Service;
-import ua.com.gup.model.FacebookProfile;
-import ua.com.gup.model.GooglePlusProfile;
-import ua.com.gup.model.VkProfile;
 
 import java.util.Map;
 import java.util.TreeMap;

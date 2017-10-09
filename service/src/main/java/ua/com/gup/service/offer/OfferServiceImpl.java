@@ -32,7 +32,7 @@ import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.model.file.FileWrapper;
 import ua.com.gup.model.offer.*;
 import ua.com.gup.model.enumeration.UserRole;
-import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.filter.OfferFilterOptions;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.service.filestorage.StorageService;

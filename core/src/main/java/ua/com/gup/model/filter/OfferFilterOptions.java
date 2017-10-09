@@ -1,4 +1,4 @@
-package ua.com.gup.model.offer.filter;
+package ua.com.gup.model.filter;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

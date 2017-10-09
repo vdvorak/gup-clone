@@ -1,4 +1,4 @@
-package ua.com.gup.util;
+package ua.com.gup.model;
 
 
 import javax.validation.constraints.Size;

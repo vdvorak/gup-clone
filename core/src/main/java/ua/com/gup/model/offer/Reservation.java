@@ -1,7 +1,7 @@
 package ua.com.gup.model.offer;
 
 
-import ua.com.gup.util.OfferUserContactInfo;
+import ua.com.gup.model.OfferUserContactInfo;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

@@ -1,7 +1,6 @@
 package ua.com.gup.util;
 
 import com.google.gson.Gson;
-import ua.com.gup.model.FacebookProfile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

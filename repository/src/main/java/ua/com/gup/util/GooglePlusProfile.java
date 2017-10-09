@@ -1,4 +1,4 @@
-package ua.com.gup.model;
+package ua.com.gup.util;
 
 import java.util.Collection;
 import java.util.Map;

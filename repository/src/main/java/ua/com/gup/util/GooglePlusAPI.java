@@ -2,7 +2,6 @@ package ua.com.gup.util;
 
 import com.google.gson.Gson;
 import ua.com.gup.exception.GooglePlusException;
-import ua.com.gup.model.GooglePlusProfile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

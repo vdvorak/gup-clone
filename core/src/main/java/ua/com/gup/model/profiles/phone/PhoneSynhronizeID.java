@@ -1,7 +1,5 @@
 package ua.com.gup.model.profiles.phone;
 
-import com.google.gson.Gson;
-
 public class PhoneSynhronizeID {
 
     private Long numberPhone;
@@ -31,9 +29,4 @@ public class PhoneSynhronizeID {
         this.userId=userId;
     }
 
-    @Override
-    public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
 }

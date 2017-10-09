@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.config.annotation.Password;
+import ua.com.gup.model.OfferUserContactInfo;
 import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.model.offer.Address;
@@ -12,7 +13,6 @@ import ua.com.gup.model.offer.GeneralPhone;
 import ua.com.gup.model.profiles.*;
 import ua.com.gup.model.profiles.order.OrderAddress;
 import ua.com.gup.model.profiles.phone.DBStorePhones;
-import ua.com.gup.util.OfferUserContactInfo;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

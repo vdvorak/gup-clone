@@ -1,7 +1,5 @@
 package ua.com.gup.model.profiles.phone;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 public class StorePhones {
@@ -50,10 +48,5 @@ public class StorePhones {
         this.contactPhones = contactPhones;
     }
 
-    @Override
-    public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
 }
 

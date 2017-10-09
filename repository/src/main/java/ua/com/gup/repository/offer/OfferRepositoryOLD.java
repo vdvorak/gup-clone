@@ -4,7 +4,7 @@ package ua.com.gup.repository.offer;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.EntityPage;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.filter.OfferFilterOptions;
 
 import java.util.Collection;
 import java.util.Set;

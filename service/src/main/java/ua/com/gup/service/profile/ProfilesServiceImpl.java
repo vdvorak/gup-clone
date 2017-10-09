@@ -14,7 +14,7 @@ import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.model.login.LoggedUser;
-import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.filter.OfferFilterOptions;
 import ua.com.gup.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;

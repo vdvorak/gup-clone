@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.offer.OfferModerationReport;
-import ua.com.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.gup.model.filter.OfferFilterOptions;
 import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.service.siteMap.siteMapContent.ChangeFreq;
 import ua.com.gup.service.siteMap.siteMapContent.ImageMap;
