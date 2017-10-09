@@ -31,12 +31,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void delete(String serviceName, String fileId) {
-
-        //ToDo логика подстановки filePath
-        // Сейчас тут костыль
-        String kostyl = null;
-
-        storageRepository.delete(serviceName, kostyl, fileId);
+        storageRepository.delete(serviceName, null, fileId);
     }
 
     @Override

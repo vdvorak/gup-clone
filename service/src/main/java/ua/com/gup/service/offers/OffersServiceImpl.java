@@ -283,7 +283,6 @@ public class OffersServiceImpl implements OffersService {
             offerFilterOptions
                     .getAddress()
                     .setCity(offer.getAddress().getCity());
-            /*offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());*/
         }
 
         return offerFilterOptions;
