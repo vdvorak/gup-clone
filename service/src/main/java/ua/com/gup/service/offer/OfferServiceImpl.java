@@ -71,7 +71,6 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
-        //todo vdvorak
         saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);
