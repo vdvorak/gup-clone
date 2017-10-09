@@ -3,7 +3,7 @@ package ua.com.gup.domain.subscription;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.model.filter.OfferFilter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

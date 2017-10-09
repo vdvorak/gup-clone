@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.domain.offer.OfferModerationReport;
+import ua.com.gup.model.offer.OfferModerationReport;
 import ua.com.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.gup.service.offer.OffersService;
+import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.service.siteMap.siteMapContent.ChangeFreq;
 import ua.com.gup.service.siteMap.siteMapContent.ImageMap;
 import ua.com.gup.service.siteMap.siteMapContent.Url;
@@ -34,7 +34,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     private final String MAIN_SITEMAP_DESTINATION = "C:\\My Downloads\\file.xml";
 
     @Autowired
-    OffersService offersService;
+    private OfferService offerService;
 
 
     @Override
@@ -57,8 +57,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
         offerFilterOptions.setLastOfferModerationReport(offerModerationReport);
 
 
-
-        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+        List<Offer> offerList = offerService.findOffersWihOptions(offerFilterOptions).getEntities();
 
 
         // Посчитать кол-во объявлений. Если до 50 000 - делать обычный siteMap, если больше - генерировать
@@ -106,7 +105,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
 
             urlList.add(url);
 
-            String mainImage = offersService.getMainOfferImage(offer);
+            String mainImage = offerService.getMainOfferImage(offer);
 
             if (!StringUtils.isEmpty(mainImage)) {
                 ImageMap imageMap = new ImageMap();

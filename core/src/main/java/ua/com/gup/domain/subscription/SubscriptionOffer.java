@@ -1,7 +1,7 @@
 package ua.com.gup.domain.subscription;
 
 
-import ua.com.gup.domain.filter.OfferFilter;
+import ua.com.gup.model.filter.OfferFilter;
 
 public class SubscriptionOffer {
 
