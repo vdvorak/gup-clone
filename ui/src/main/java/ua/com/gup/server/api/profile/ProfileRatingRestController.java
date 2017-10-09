@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.model.profiles.ProfileRating;
 import ua.com.gup.service.profile.ProfilesService;
 

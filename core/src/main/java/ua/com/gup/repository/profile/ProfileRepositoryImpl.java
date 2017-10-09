@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
-import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.ProfileRating;
 

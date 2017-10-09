@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.gup.model.profiles.Profile;
+import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 
 import java.util.ArrayList;

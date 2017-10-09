@@ -1,5 +1,7 @@
 package ua.com.gup.model.profiles;
 
+import ua.com.gup.domain.profile.Profile;
+
 /**
  * The type Profile filter options, use for pagination.
  */

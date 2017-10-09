@@ -3,7 +3,7 @@ package ua.com.gup.model.offer;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
-import ua.com.gup.domain.enumeration.Currency;
+import ua.com.gup.model.enumeration.Currency;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
