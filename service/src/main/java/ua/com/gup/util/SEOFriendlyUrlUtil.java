@@ -1,4 +1,4 @@
-package ua.com.gup.service.util;
+package ua.com.gup.util;
 
 
 import com.github.slugify.Slugify;
