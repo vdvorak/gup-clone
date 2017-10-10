@@ -74,7 +74,6 @@ public class ProfileInfo {
         return this;
     }
 
-
     public String getInternalTransactionHistory() {
         return internalTransactionHistory;
     }
@@ -83,9 +82,6 @@ public class ProfileInfo {
         this.internalTransactionHistory = internalTransactionHistory;
         return this;
     }
-
-
-
 
     public int getTotalFeedbackAmount() {
         return totalFeedbackAmount;

@@ -204,7 +204,7 @@ public class OfferDTOValidator implements Validator {
             if (address.getLat() == null || address.getLng() == null) {
                 errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
             }
-            if (!(-90d <= address.getLat() && address.getLat() <= 90 && -180d <= address.getLng() && address.getLng() <= 180)) {
+            if (!(-90d <= address.getLat().doubleValue() && address.getLat().doubleValue() <= 90 && -180d <= address.getLng().doubleValue() && address.getLng().doubleValue() <= 180)) {
                 errors.rejectValue("address.coordinates", "address.format", null, "Lat in [-90;90] Lng in [-180;180]");
             }
             if (address.getCountry() == null) {

@@ -3,18 +3,19 @@ package ua.com.gup.model.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @ApiModel(description = "Address Object")
 @Component
 public class Address {
 
     @ApiModelProperty(position = 10)
-    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
-    private GeoJsonPoint location;
+    private BigDecimal lat;
+
+    @ApiModelProperty(position = 15)
+    private BigDecimal lng;
 
     @ApiModelProperty(position = 20)
     private Integer level;
@@ -37,12 +38,20 @@ public class Address {
     @ApiModelProperty(position = 80)
     private String fullAddress;
 
-    public GeoJsonPoint getLocation() {
-        return location;
+    public BigDecimal getLat() {
+        return lat;
     }
 
-    public void setLocation(GeoJsonPoint location) {
-        this.location = location;
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
     }
 
     public Integer getLevel() {
@@ -104,7 +113,8 @@ public class Address {
     @Override
     public String toString() {
         return "Address{" +
-                "location=" + location +
+                "lat=" + lat +
+                ", lng=" + lng +
                 ", level=" + level +
                 ", country=" + country +
                 ", region=" + region +

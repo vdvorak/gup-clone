@@ -5,14 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.model.offer.AddressArea;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class OfferAddressDTO implements Serializable{
 
     @ApiModelProperty(position = 10, example = "50")
-    private Double lat;
+    private BigDecimal lat;
 
     @ApiModelProperty(position = 20, example = "30")
-    private Double lng;
+    private BigDecimal lng;
 
     @ApiModelProperty(position = 30, example = "30")
     private Integer level;
@@ -35,19 +36,19 @@ public class OfferAddressDTO implements Serializable{
     @ApiModelProperty(position = 90,value = "street PeryAveny 23")
     private String fullAddress;
 
-    public Double getLat() {
+    public BigDecimal getLat() {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(BigDecimal lat) {
         this.lat = lat;
     }
 
-    public Double getLng() {
+    public BigDecimal getLng() {
         return lng;
     }
 
-    public void setLng(Double lng) {
+    public void setLng(BigDecimal lng) {
         this.lng = lng;
     }
 

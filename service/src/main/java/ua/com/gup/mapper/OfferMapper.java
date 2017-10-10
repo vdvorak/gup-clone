@@ -118,7 +118,7 @@ public class OfferMapper {
 
     private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
-        target.setAddress(addressMapper.addressToAddressShortDTO(source.getAddress()));
+        target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
         if (source.getLands() != null) {
             target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
         }
