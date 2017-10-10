@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.enumeration.OfferStatus;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-
+@Repository
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
     private final Logger log = LoggerFactory.getLogger(OfferRepositoryCustomerImpl.class);
