@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 import ua.com.gup.domain.sequence.Sequence;
 
 
-public class SequenceRepositoryImpl implements SequenceRepositoryCustom {
+@Repository
+public class SequenceRepositoryCustomerImplement implements SequenceRepositoryCustomer {
 
     @Autowired
     private MongoOperations mongoOperation;

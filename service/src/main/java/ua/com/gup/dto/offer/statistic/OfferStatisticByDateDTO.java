@@ -1,8 +1,5 @@
 package ua.com.gup.dto.offer.statistic;
 
-import java.time.LocalDate;
-
-
 public class OfferStatisticByDateDTO {
 
     private String date;

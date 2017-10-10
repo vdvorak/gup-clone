@@ -14,16 +14,16 @@ import org.springframework.stereotype.Repository;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.domain.offer.Offer;
 import ua.com.gup.model.EntityPage;
+import ua.com.gup.model.OfferUserContactInfo;
+import ua.com.gup.model.filter.OfferFilterOptions;
 import ua.com.gup.model.offer.Address;
 import ua.com.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.gup.model.filter.OfferFilterOptions;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
 import ua.com.gup.model.xchangerate.endpoint.EndpointException;
 import ua.com.gup.model.xchangerate.service.ServiceException;
 import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.util.CurrencyConvertUtil;
-import ua.com.gup.model.OfferUserContactInfo;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -97,15 +97,6 @@ public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
 
         if (offerFilterOptions.getPrice() != null && offerFilterOptions.getPrice().getCurrency() != null) {
             try {
-//TODO: to the currency conver..:
-//                offerFilterOptions.setCurrency(ua.com.gup.model.offer.Currency.UAH);
-//                Long fromPriceUSD = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.USD).longValue();
-//                Long   toPriceUSD = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.USD).longValue();
-//                Long fromPriceEUR = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.EUR).longValue();
-//                Long   toPriceEUR = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.EUR).longValue();
-//                Long fromPriceUAH = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.UAH).longValue();
-//                Long   toPriceUAH = CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.UAH).longValue();
-//
                 if (offerFilterOptions.getPrice().getCurrency().toString().equals("USD")) {
                     if (offerFilterOptions.getFromPrice() != null)
                         offerFilterOptions.setFromPrice(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.USD, Currency.USD).longValue());

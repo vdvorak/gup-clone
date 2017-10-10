@@ -7,7 +7,7 @@ import ua.com.gup.domain.sequence.Sequence;
  * Repository for the sequence entity.
  */
 
-public interface SequenceRepository extends MongoRepository<Sequence, String>, SequenceRepositoryCustom {
+public interface SequenceRepository extends MongoRepository<Sequence, String> {
 
 
 }

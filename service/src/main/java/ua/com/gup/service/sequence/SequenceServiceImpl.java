@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.domain.sequence.Sequence;
 import ua.com.gup.repository.sequence.SequenceRepository;
+import ua.com.gup.repository.sequence.SequenceRepositoryCustomer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,14 +15,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class SequenceServiceImpl implements SequenceService {
 
+
     private final SequenceRepository sequenceRepository;
+    private final SequenceRepositoryCustomer sequenceRepositoryCustomer;
 
     private final ConcurrentHashMap<String, Boolean> sequenceExists = new ConcurrentHashMap<>();
 
     @Autowired
-    public SequenceServiceImpl(SequenceRepository sequenceRepository) {
+    public SequenceServiceImpl(SequenceRepository sequenceRepository, SequenceRepositoryCustomer sequenceRepositoryCustomer) {
         this.sequenceRepository = sequenceRepository;
+        this.sequenceRepositoryCustomer = sequenceRepositoryCustomer;
     }
+
 
     @Override
     public long getNextSequenceValue(String sequenceId) {
@@ -36,6 +41,6 @@ public class SequenceServiceImpl implements SequenceService {
                 sequenceExists.put(sequenceId, sequenceRepository.exists(sequenceId));
             }
         }
-        return sequenceRepository.getNextSequenceValue(sequenceId);
+        return sequenceRepositoryCustomer.getNextSequenceValue(sequenceId);
     }
 }

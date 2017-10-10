@@ -1,7 +1,7 @@
 package ua.com.gup.repository.sequence;
 
 
-public interface SequenceRepositoryCustom {
+public interface SequenceRepositoryCustomer {
 
     long getNextSequenceValue(String sequenceId);
 

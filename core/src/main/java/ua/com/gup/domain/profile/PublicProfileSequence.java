@@ -1,4 +1,4 @@
-package ua.com.gup.domain.seosequence;
+package ua.com.gup.domain.profile;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
