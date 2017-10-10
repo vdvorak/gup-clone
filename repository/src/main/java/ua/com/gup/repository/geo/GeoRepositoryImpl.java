@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.domain.geo.GeoModel;
-import ua.com.gup.util.Locale;
+import ua.com.gup.model.enumeration.Locale;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

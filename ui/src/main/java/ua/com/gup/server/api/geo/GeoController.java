@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.geo.GeoModel;
 import ua.com.gup.repository.geo.GeoRepository;
-import ua.com.gup.util.Locale;
+import ua.com.gup.model.enumeration.Locale;
 import ua.com.gup.server.dto.CommonGeoDTO;
 import ua.com.gup.server.dto.converter.GeoDTOConverter;
 

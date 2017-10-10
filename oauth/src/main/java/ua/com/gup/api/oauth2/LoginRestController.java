@@ -73,9 +73,6 @@ public class LoginRestController {
     @Autowired
     private APIVendor profileVendor;
 
-    /*@Autowired
-    private StorageService storageService;*/
-
     @Autowired
     private EmailService emailService;
 
