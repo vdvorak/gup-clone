@@ -76,6 +76,7 @@ public class OfferServiceImpl implements OfferService {
     @Autowired
     private OfferRepositoryOLD offerRepositoryOLD;
 
+    @Autowired
     private OfferRepositoryCustom offerRepositoryCustom;
 
     @Autowired
