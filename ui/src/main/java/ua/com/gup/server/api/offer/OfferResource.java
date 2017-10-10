@@ -33,7 +33,7 @@ import ua.com.gup.server.util.PaginationUtil;
 import ua.com.gup.server.util.ResponseUtil;
 import ua.com.gup.server.validator.OfferDTOValidator;
 import ua.com.gup.service.offer.OfferService;
-import ua.com.gup.service.security.SecurityUtils;
+import ua.com.gup.util.security.SecurityUtils;
 
 import javax.validation.Valid;
 import java.net.URI;

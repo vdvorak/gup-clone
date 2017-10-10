@@ -37,11 +37,11 @@ import ua.com.gup.repository.offer.OfferRepositoryOLD;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.image.ImageService;
-import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
 import ua.com.gup.util.SecurityOperations;
 import ua.com.gup.util.Translit;
+import ua.com.gup.util.security.SecurityUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;

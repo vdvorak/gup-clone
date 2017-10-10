@@ -30,7 +30,7 @@ import ua.com.gup.server.validator.CategoryAttributeDTOValidator;
 import ua.com.gup.server.validator.CategoryDTOValidator;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.category.attribute.CategoryAttributeService;
-import ua.com.gup.service.security.SecurityUtils;
+import ua.com.gup.util.security.SecurityUtils;
 
 import javax.validation.Valid;
 import java.net.URI;

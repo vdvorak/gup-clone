@@ -21,8 +21,8 @@ import ua.com.gup.model.offer.OfferModerationReport;
 import ua.com.gup.model.statistic.OfferStatistic;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.category.attribute.CategoryAttributeService;
-import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.util.DateUtil;
+import ua.com.gup.util.security.SecurityUtils;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;

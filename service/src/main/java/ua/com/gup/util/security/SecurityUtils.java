@@ -1,4 +1,4 @@
-package ua.com.gup.service.security;
+package ua.com.gup.util.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

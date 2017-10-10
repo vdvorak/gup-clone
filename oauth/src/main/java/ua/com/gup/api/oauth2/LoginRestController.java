@@ -37,11 +37,11 @@ import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
-import ua.com.gup.service.security.SecurityUtils;
 import ua.com.gup.util.APIVendor;
 import ua.com.gup.util.CookieUtil;
 import ua.com.gup.util.Oauth2Util;
 import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.security.SecurityUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
