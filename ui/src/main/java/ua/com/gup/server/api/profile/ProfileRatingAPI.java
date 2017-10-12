@@ -17,7 +17,7 @@ import ua.com.gup.service.profile.ProfilesService;
  */
 @RestController
 @RequestMapping("/api/rest/profilesService")
-public class ProfileRatingRestController {
+public class ProfileRatingAPI {
     /**
      * The Profiles service.
      */

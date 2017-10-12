@@ -28,10 +28,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api")
-public class ComplaintOfferResource {
+public class ComplaintOfferAPI {
 
     private static final String ENTITY_NAME = "complaint";
-    private final Logger log = LoggerFactory.getLogger(ComplaintOfferResource.class);
+    private final Logger log = LoggerFactory.getLogger(ComplaintOfferAPI.class);
 
     @Autowired
     private ComplaintOfferService complaintOfferService;

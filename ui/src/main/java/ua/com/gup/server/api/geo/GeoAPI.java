@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.geo.GeoModel;
-import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.model.enumeration.Locale;
+import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.server.dto.CommonGeoDTO;
 import ua.com.gup.server.dto.converter.GeoDTOConverter;
 
@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
-public class GeoController {
+public class GeoAPI {
 
     @Autowired
     private GeoRepository repository;

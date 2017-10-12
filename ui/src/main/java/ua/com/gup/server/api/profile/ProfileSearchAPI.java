@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-public class ProfileSearchRestController {
+public class ProfileSearchAPI {
 
     @Autowired
     private ProfilesService profilesService;

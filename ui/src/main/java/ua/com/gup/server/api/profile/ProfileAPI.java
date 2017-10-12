@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rest/profilesService")
-public class ProfileRestController {
+public class ProfileAPI {
 
-    private final Logger log = LoggerFactory.getLogger(ProfileRestController.class);
+    private final Logger log = LoggerFactory.getLogger(ProfileAPI.class);
 
     @Autowired
     private ProfilesService profilesService;

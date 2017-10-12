@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/rest/admin")
-public class ProfileRestAdminController {
+public class ProfileAdminAPI {
 
     @Autowired
     private ProfilesService profilesService;

@@ -18,7 +18,7 @@ import ua.com.gup.service.profile.ProfilesService;
  * This class designed for shorten images url.
  */
 @Controller
-public class FileStorageForReadRestController {
+public class FileStorageForReadApi {
 
 
     @Autowired
