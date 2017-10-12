@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.model.enumeration.UserRole;
+import ua.com.gup.server.dto.BalanceDTO;
 import ua.com.gup.util.security.SecurityUtils;
 
 import java.util.HashMap;
@@ -21,8 +22,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/payment")
 @PropertySource("classpath:properties/payment.properties")
-public class ExternalPaymentApi {
-    private final Logger log = LoggerFactory.getLogger(ExternalPaymentApi.class);
+public class ExternalPaymentAPI {
+    private final Logger log = LoggerFactory.getLogger(ExternalPaymentAPI.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -41,7 +42,7 @@ public class ExternalPaymentApi {
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/admin/addBalance", method = RequestMethod.POST,
                                                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity putBalanceUserFormAdmin(@RequestBody Integer amount) {
+    public ResponseEntity putBalanceUserFormAdmin(@RequestBody BalanceDTO balanceDTO) {
         //check access
         if (SecurityUtils.getCurrentUserId() == null || SecurityUtils.getCurrentUserId().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -55,7 +56,7 @@ public class ExternalPaymentApi {
         //Query parameters
         Map<String, Object> params = new HashMap<>();
         params.put("user_id", SecurityUtils.getCurrentUserId());
-        params.put("amount", amount);
+        params.put("amount", balanceDTO.getAmount());
 
         HttpEntity<Map<String,Object>> requestBody = new HttpEntity<>(params);
 
@@ -120,4 +121,5 @@ public class ExternalPaymentApi {
         params.forEach((key, value) -> builder.queryParam(key, value));
         return builder;
     }
+
 }
