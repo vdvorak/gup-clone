@@ -50,19 +50,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getEmail(), profile.getPassword(),
-                profile.getActive(), true, true, true, authorities,
+                profile.getActive(), profile.getBan(), true, true, true, authorities,
                 profile.getId());
     }
 
     private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getUid(), profile.getSocWendor(),
-                true, true, true, true, authorities,
+                true, profile.getBan(), true, true, true, authorities,
                 profile.getId());
     }
 
     private LoggedUser buildPhoneUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-        return new LoggedUser(profile.getMainPhoneNumber(), profile.getSocWendor(),
-                true, true, true, true, authorities,
+        return new LoggedUser(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor(),
+                true, profile.getBan(), true, true, true, authorities,
                 profile.getId());
     }
 
