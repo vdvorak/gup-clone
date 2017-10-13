@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.domain.profile.PublicProfileSequence;
 import ua.com.gup.exception.PublicProfileSequenceException;
+import ua.com.gup.mongo.composition.domain.profile.sequence.ProfileSequence;
 
 @Repository
 public class PublicProfileSequenceImpl implements PublicProfileSequenceService {
@@ -25,7 +25,7 @@ public class PublicProfileSequenceImpl implements PublicProfileSequenceService {
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.returnNew(true);
 
-        PublicProfileSequence sequence = mongoOperations.findAndModify(query, update, options, PublicProfileSequence.class);
+        ProfileSequence sequence = mongoOperations.findAndModify(query, update, options, ProfileSequence.class);
 
         if(sequence == null) throw new PublicProfileSequenceException("Unable to get sequence for key: " + key);
 

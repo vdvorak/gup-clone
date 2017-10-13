@@ -3,13 +3,13 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.domain.category.attribute.value.OfferCategoryBoolAttributeValue;
-import ua.com.gup.domain.category.attribute.value.OfferCategoryMultiAttributeValue;
-import ua.com.gup.domain.category.attribute.value.OfferCategoryNumericAttributeValue;
-import ua.com.gup.domain.category.attribute.value.OfferCategorySingleAttributeValue;
 import ua.com.gup.dto.offer.OfferAuthorDTO;
 import ua.com.gup.dto.offer.OfferPriceDTO;
-import ua.com.gup.model.offer.OfferCategory;
+import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
+import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
+import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
+import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
+import ua.com.gup.mongo.model.offer.OfferCategory;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;

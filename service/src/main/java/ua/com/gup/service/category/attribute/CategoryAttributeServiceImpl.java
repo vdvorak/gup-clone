@@ -4,15 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.category.attribute.CategoryAttribute;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
-import ua.com.gup.repository.category.attribute.CategoryAttributeRepository;
 import ua.com.gup.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.mapper.CategoryAttributeMapper;
+import ua.com.gup.mongo.composition.domain.category.attribute.CategoryAttribute;
+import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
+import ua.com.gup.repository.category.attribute.CategoryAttributeRepository;
 import ua.com.gup.service.category.CategoryServiceImpl;
 
 import java.util.LinkedHashSet;

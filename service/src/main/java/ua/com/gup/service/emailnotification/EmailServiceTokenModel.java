@@ -2,8 +2,8 @@ package ua.com.gup.service.emailnotification;
 
 
 import org.apache.commons.codec.binary.Base64;
-import ua.com.gup.domain.verification.VerificationToken;
-import ua.com.gup.model.VerificationTokenType;
+import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
+import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
 
 import java.io.Serializable;
 

@@ -3,9 +3,9 @@ package ua.com.gup.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
-import ua.com.gup.model.enumeration.EmailType;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.enumeration.EmailType;
 import ua.com.gup.service.emailnotification.EmailService;
 
 @Component

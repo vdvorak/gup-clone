@@ -20,20 +20,20 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.domain.verification.VerificationToken;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.dto.profile.SocialLoginDTO;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
-import ua.com.gup.model.VerificationTokenType;
-import ua.com.gup.model.enumeration.UserRole;
-import ua.com.gup.model.enumeration.UserType;
-import ua.com.gup.model.login.FormChangePassword;
-import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.mongo.model.enumeration.UserRole;
+import ua.com.gup.mongo.model.enumeration.UserType;
+import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
+import ua.com.gup.mongo.model.login.FormChangePassword;
+import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
@@ -229,7 +229,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
     public ResponseEntity<ProfileDTO> vendorLogin(@RequestBody SocialLoginDTO socialLoginDTO,
-                                                   HttpServletResponse response) {
+                                                  HttpServletResponse response) {
         if (!profilesService.profileExistsWithUidAndWendor(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor()))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

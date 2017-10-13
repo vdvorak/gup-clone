@@ -1,11 +1,11 @@
 package ua.com.gup.server.dto.converter;
 
 import org.springframework.util.CollectionUtils;
-import ua.com.gup.domain.geo.GeoModel;
+import ua.com.gup.mongo.composition.domain.geo.GeoModel;
+import ua.com.gup.server.dto.CommonGeoDTO;
 import ua.com.gup.server.dto.GeoDto;
 import ua.com.gup.server.dto.NameDto;
 import ua.com.gup.server.dto.TypeDto;
-import ua.com.gup.server.dto.CommonGeoDTO;
 
 import java.util.List;
 

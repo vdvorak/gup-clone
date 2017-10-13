@@ -3,14 +3,14 @@ package ua.com.gup.service.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.PublicProfileDTO;
-import ua.com.gup.model.enumeration.UserRole;
-import ua.com.gup.model.login.LoggedUser;
-import ua.com.gup.model.profiles.*;
+import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.enumeration.UserRole;
+import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
@@ -32,8 +32,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileRepository profileRepository;
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
-
-
 
     @Override
     public void createProfile(Profile profile) {

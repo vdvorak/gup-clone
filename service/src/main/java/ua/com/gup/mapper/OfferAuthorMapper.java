@@ -2,8 +2,8 @@ package ua.com.gup.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.dto.offer.OfferAuthorDTO;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 
 @Component

@@ -1,7 +1,7 @@
 package ua.com.gup.repository.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
-import ua.com.gup.model.file.FileUploadWrapper;
+import ua.com.gup.mongo.model.file.FileUploadWrapper;
 
 import java.util.Set;
 

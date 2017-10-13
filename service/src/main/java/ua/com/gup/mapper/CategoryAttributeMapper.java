@@ -2,10 +2,10 @@ package ua.com.gup.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.domain.category.attribute.CategoryAttribute;
-import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.dto.category.CategoryAttributeUpdateDTO;
+import ua.com.gup.mongo.composition.domain.category.attribute.CategoryAttribute;
+import ua.com.gup.service.sequence.SequenceService;
 
 @Component
 public class CategoryAttributeMapper {

@@ -1,8 +1,8 @@
 package ua.com.gup.repository.profile;
 
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.profiles.ProfileFilterOptions;
-import ua.com.gup.model.profiles.ProfileRating;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
+import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import java.util.List;
 import java.util.Set;

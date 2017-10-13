@@ -8,7 +8,7 @@ import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.model.file.FileUploadWrapper;
+import ua.com.gup.mongo.model.file.FileUploadWrapper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

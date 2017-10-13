@@ -1,9 +1,8 @@
 package ua.com.gup.repository.complaint;
 
 
-import ua.com.gup.domain.complaint.ComplaintOffer;
-import ua.com.gup.domain.complaint.ComplaintOfferStatus;
-import ua.com.gup.domain.complaint.ComplaintOfferType;
+import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
+import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
 
 import java.util.List;
 

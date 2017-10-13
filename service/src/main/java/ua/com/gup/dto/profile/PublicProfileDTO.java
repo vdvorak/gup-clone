@@ -2,8 +2,8 @@ package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.StringUtils;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.profiles.phone.Phone;
+import ua.com.gup.mongo.model.profiles.phone.Phone;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 
 public class PublicProfileDTO extends DetailProfileDTO {
 

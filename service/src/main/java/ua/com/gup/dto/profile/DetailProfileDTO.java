@@ -1,8 +1,9 @@
 package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.profiles.ProfileStatistic;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.profiles.ProfileStatistic;
+
 
 import java.util.Set;
 

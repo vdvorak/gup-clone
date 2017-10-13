@@ -1,7 +1,7 @@
 package ua.com.gup.repository.sequence;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.domain.sequence.Sequence;
+import ua.com.gup.mongo.composition.domain.sequence.Sequence;
 
 /**
  * Repository for the sequence entity.

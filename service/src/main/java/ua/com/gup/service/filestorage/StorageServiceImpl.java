@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.CreatedObjResp;
-import ua.com.gup.model.file.FileUploadWrapper;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.file.FileUploadWrapper;
+import ua.com.gup.mongo.model.other.CreatedObjResp;
 import ua.com.gup.repository.filestorage.StorageRepository;
 import ua.com.gup.service.profile.ProfilesService;
 

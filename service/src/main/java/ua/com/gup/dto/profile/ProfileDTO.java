@@ -1,11 +1,11 @@
 package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.enumeration.UserType;
-import ua.com.gup.model.offer.Address;
-import ua.com.gup.model.profiles.Contact;
-import ua.com.gup.model.profiles.ProfileContactList;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.enumeration.UserType;
+import ua.com.gup.mongo.model.offer.Address;
+import ua.com.gup.mongo.model.profiles.Contact;
+import ua.com.gup.mongo.model.profiles.ProfileContactList;
 
 import java.util.Set;
 
@@ -148,7 +148,6 @@ public abstract class ProfileDTO {
     public void setContact(Contact contact) {
         this.contact = contact;
     }
-
 
 
 }

@@ -1,9 +1,8 @@
 package ua.com.gup.repository.geo;
 
 
-
-import ua.com.gup.domain.geo.GeoModel;
-import ua.com.gup.model.enumeration.Locale;
+import ua.com.gup.mongo.composition.domain.geo.GeoModel;
+import ua.com.gup.mongo.model.enumeration.Locale;
 
 import java.util.List;
 

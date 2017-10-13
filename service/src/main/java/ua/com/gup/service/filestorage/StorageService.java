@@ -4,8 +4,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.model.file.FileUploadWrapper;
-import ua.com.gup.model.CreatedObjResp;
+import ua.com.gup.mongo.model.file.FileUploadWrapper;
+import ua.com.gup.mongo.model.other.CreatedObjResp;
 
 import java.util.Set;
 

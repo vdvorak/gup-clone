@@ -2,11 +2,11 @@ package ua.com.gup.repository.offer;
 
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.model.enumeration.OfferStatus;
-import ua.com.gup.model.filter.OfferFilter;
-import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.model.enumeration.OfferStatus;
+import ua.com.gup.mongo.model.filter.OfferFilter;
+import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;

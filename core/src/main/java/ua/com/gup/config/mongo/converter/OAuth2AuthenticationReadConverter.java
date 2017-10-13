@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
-import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.mongo.model.login.LoggedUser;
 
 import java.util.Collection;
 import java.util.HashSet;

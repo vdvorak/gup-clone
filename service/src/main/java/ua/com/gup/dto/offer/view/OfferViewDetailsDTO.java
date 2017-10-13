@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
-import ua.com.gup.model.enumeration.OfferStatus;
+import ua.com.gup.mongo.model.enumeration.OfferStatus;
 
 public class OfferViewDetailsDTO extends OfferViewBaseDTO {
 

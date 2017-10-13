@@ -27,14 +27,14 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-        <!-- BEGIN Module dependency other moduules -->
+        <!-- BEGIN Module composition other moduules -->
         <dependency>
             <groupId>ua.com.gup</groupId>
             <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
 
-        <!-- END Module dependency other modules -->
+        <!-- END Module composition other modules -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>

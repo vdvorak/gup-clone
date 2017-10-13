@@ -1,10 +1,10 @@
 package ua.com.gup.service.emailnotification;
 
 
-import ua.com.gup.domain.email.EmailMessage;
-import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.enumeration.EmailType;
+import ua.com.gup.mongo.composition.domain.email.EmailMessage;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.enumeration.EmailType;
 
 import java.util.Map;
 

@@ -2,7 +2,7 @@ package ua.com.gup.service.offer;
 
 
 import org.springframework.http.HttpStatus;
-import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
 
 /**
  * This interface describe

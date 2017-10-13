@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.complaint.ComplaintOffer;
-import ua.com.gup.domain.complaint.ComplaintOfferStatus;
-import ua.com.gup.domain.complaint.ComplaintOfferType;
+import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
+import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
+import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 import ua.com.gup.repository.complaint.ComplaintOfferRepository;
 
 import java.time.ZonedDateTime;

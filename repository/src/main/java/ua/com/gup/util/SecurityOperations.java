@@ -2,7 +2,7 @@ package ua.com.gup.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ua.com.gup.model.login.LoggedUser;
+import ua.com.gup.mongo.model.login.LoggedUser;
 
 public final class SecurityOperations {
 

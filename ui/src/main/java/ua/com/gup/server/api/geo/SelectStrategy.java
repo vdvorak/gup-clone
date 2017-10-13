@@ -1,7 +1,7 @@
 package ua.com.gup.server.api.geo;
 
 
-import ua.com.gup.domain.geo.GeoModel;
+import ua.com.gup.mongo.composition.domain.geo.GeoModel;
 import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.server.dto.CommonGeoDTO;
 import ua.com.gup.server.dto.converter.GeoDTOConverter;
