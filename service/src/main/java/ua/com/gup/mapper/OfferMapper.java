@@ -43,6 +43,9 @@ public class OfferMapper {
     private OfferContactInfoMapper contactInfoMapper;
 
     @Autowired
+    private OfferAuthorMapper authorMapper;
+
+    @Autowired
     private CategoryService categoryService;
 
     @Autowired
@@ -141,7 +144,7 @@ public class OfferMapper {
     private void fromOfferToOfferViewBaseDTO(Offer source, OfferViewBaseDTO target) {
         target.setId(source.getId());
         target.setLastModifiedDate(source.getLastModifiedDate());
-        target.setAuthorId(source.getAuthorId());
+        target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         target.setCategories(source.getCategories());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
