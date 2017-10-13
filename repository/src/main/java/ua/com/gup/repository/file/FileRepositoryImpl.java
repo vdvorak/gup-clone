@@ -9,8 +9,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.model.file.FileWrapper;
-import ua.com.gup.model.offer.Image;
+import ua.com.gup.mongo.model.file.FileWrapper;
+import ua.com.gup.mongo.model.offer.Image;
 
 import java.util.Map;
 

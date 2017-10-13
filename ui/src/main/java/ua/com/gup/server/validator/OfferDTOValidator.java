@@ -8,15 +8,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.attribute.CategoryAttributeType;
-import ua.com.gup.service.category.attribute.CategoryAttributeService;
-import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
+import ua.com.gup.service.category.CategoryService;
+import ua.com.gup.service.category.attribute.CategoryAttributeService;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

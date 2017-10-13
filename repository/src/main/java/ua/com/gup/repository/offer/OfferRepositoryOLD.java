@@ -1,10 +1,10 @@
 package ua.com.gup.repository.offer;
 
 
-import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.model.EntityPage;
-import ua.com.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.gup.model.filter.OfferFilterOptions;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.model.filter.OfferFilterOptions;
+import ua.com.gup.mongo.model.offer.RentedOfferPeriodInfo;
+import ua.com.gup.mongo.model.other.EntityPage;
 
 import java.util.Collection;
 import java.util.Set;

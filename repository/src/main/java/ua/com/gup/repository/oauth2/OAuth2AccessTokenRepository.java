@@ -6,7 +6,7 @@
 package ua.com.gup.repository.oauth2;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
 
 import java.io.Serializable;
 import java.util.List;

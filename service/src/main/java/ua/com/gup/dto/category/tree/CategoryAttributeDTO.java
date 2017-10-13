@@ -1,7 +1,7 @@
 package ua.com.gup.dto.category.tree;
 
 
-import ua.com.gup.domain.category.attribute.CategoryAttributeType;
+import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 
 import java.util.HashMap;
 import java.util.Map;

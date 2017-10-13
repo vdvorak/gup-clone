@@ -19,11 +19,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import ua.com.gup.domain.offer.Offer;
-import ua.com.gup.model.enumeration.OfferStatus;
-import ua.com.gup.model.filter.*;
-import ua.com.gup.model.offer.OfferCategoryCount;
 import ua.com.gup.model.xchangerate.util.Currency;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.model.enumeration.OfferStatus;
+import ua.com.gup.mongo.model.filter.*;
+import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;

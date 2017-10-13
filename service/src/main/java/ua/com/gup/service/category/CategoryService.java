@@ -1,11 +1,11 @@
 package ua.com.gup.service.category;
 
 
-import ua.com.gup.model.offer.OfferCategory;
-import ua.com.gup.domain.category.Category;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryTreeDTO;
+import ua.com.gup.mongo.composition.domain.category.Category;
+import ua.com.gup.mongo.model.offer.OfferCategory;
 
 import java.util.Collection;
 import java.util.LinkedList;

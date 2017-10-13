@@ -3,7 +3,7 @@ package ua.com.gup.service.offer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.SecurityOperations;
 

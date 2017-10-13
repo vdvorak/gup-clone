@@ -1,7 +1,7 @@
 package ua.com.gup.repository.profile;
 
 
-import ua.com.gup.model.profiles.LockRemoteIP;
+import ua.com.gup.mongo.model.profiles.LockRemoteIP;
 
 public interface LockRemoteIPRepository {
 

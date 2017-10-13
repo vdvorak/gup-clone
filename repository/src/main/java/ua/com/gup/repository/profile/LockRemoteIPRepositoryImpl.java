@@ -6,10 +6,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import ua.com.gup.mongo.model.profiles.LockRemoteIP;
 
 import javax.annotation.PostConstruct;
-
-import ua.com.gup.model.profiles.LockRemoteIP;
 
 
 @Repository

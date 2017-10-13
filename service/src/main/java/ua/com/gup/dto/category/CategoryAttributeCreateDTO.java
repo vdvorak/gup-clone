@@ -1,9 +1,9 @@
 package ua.com.gup.dto.category;
 
 
-import ua.com.gup.domain.category.attribute.CategoryAttributeType;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValidator;
-import ua.com.gup.domain.category.attribute.CategoryAttributeValue;
+import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
+import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
+import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 
 import java.util.*;
 

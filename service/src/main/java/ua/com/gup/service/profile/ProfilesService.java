@@ -1,9 +1,9 @@
 package ua.com.gup.service.profile;
 
 import ua.com.gup.dto.ProfileInfo;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.profiles.ProfileFilterOptions;
-import ua.com.gup.model.profiles.ProfileRating;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
+import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

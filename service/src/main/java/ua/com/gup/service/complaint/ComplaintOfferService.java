@@ -1,10 +1,9 @@
 package ua.com.gup.service.complaint;
 
 
-import ua.com.gup.domain.complaint.ComplaintOffer;
-import ua.com.gup.domain.complaint.ComplaintOfferDescription;
-import ua.com.gup.domain.complaint.ComplaintOfferStatus;
-import ua.com.gup.domain.complaint.ComplaintOfferType;
+import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
+import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
+import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 
 import java.util.List;
 

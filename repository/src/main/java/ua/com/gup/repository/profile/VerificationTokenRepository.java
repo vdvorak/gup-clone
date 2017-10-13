@@ -1,8 +1,8 @@
 package ua.com.gup.repository.profile;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.domain.verification.VerificationToken;
-import ua.com.gup.model.VerificationTokenType;
+import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
+import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
 
 import java.util.List;
 

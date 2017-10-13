@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.domain.seosequence.SeoSequence;
 import ua.com.gup.exception.SequenceException;
+import ua.com.gup.mongo.composition.domain.seosequence.SeoSequence;
 
 @Repository
 public class SeoSequenceRepositoryImplement implements SeoSequenceRepository {

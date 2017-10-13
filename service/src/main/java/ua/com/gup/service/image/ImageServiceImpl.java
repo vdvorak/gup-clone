@@ -9,9 +9,9 @@ import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import ua.com.gup.dto.offer.OfferImageDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
-import ua.com.gup.model.offer.Image;
+import ua.com.gup.mongo.model.file.FileWrapper;
+import ua.com.gup.mongo.model.offer.Image;
 import ua.com.gup.repository.file.FileRepository;
-import ua.com.gup.model.file.FileWrapper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

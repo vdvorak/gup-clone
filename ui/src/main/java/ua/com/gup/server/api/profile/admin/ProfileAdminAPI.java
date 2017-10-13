@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.model.profiles.ProfileFilterOptions;
-import ua.com.gup.model.profiles.admin.Admin;
-import ua.com.gup.model.profiles.admin.Admins;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
+import ua.com.gup.mongo.model.profiles.admin.Admin;
+import ua.com.gup.mongo.model.profiles.admin.Admins;
 import ua.com.gup.service.profile.ProfilesService;
 
 import java.util.List;

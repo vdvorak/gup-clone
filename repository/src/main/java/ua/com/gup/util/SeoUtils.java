@@ -1,6 +1,6 @@
 package ua.com.gup.util;
 
-import ua.com.gup.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.offer.Offer;
 
 public class SeoUtils {
 

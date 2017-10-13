@@ -1,6 +1,6 @@
 package ua.com.gup.dto;
 
-import ua.com.gup.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 
 public class ProfileInfo {
 

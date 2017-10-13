@@ -9,7 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.model.enumeration.UserRole;
+import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.server.dto.BalanceDTO;
 import ua.com.gup.util.security.SecurityUtils;
 

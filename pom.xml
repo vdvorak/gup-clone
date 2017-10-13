@@ -131,11 +131,11 @@
                 <version>${commons-io.version}</version>
             </dependency>
             <!--Spring Boot dependencies -->
-            <!-- <dependency>
+            <!-- <composition>
                  <groupId>org.springframework.boot</groupId>
                  <artifactId>spring-boot-starter-tomcat</artifactId>
                  <scope>provided</scope>
-             </dependency>-->
+             </composition>-->
             <!-- Spring framework-->
             <dependency>
                 <groupId>org.springframework</groupId>

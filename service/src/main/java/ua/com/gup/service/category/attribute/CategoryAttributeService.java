@@ -1,9 +1,9 @@
 package ua.com.gup.service.category.attribute;
 
-import ua.com.gup.domain.category.attribute.CategoryAttribute;
 import ua.com.gup.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
+import ua.com.gup.mongo.composition.domain.category.attribute.CategoryAttribute;
 
 import java.util.LinkedHashSet;
 import java.util.List;

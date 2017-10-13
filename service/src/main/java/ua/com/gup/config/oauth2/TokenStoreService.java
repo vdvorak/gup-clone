@@ -7,8 +7,8 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
-import ua.com.gup.domain.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.gup.domain.oauth2.OAuth2AuthenticationRefreshToken;
+import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationRefreshToken;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.oauth2.OAuth2RefreshTokenRepository;
 

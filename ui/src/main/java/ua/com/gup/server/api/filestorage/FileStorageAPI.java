@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.model.CreatedObjResp;
+import ua.com.gup.mongo.model.other.CreatedObjResp;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.util.SecurityOperations;
 

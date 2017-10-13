@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.domain.category.Category;
-import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.dto.category.CategoryCreateDTO;
 import ua.com.gup.dto.category.CategoryUpdateDTO;
+import ua.com.gup.mongo.composition.domain.category.Category;
+import ua.com.gup.service.category.CategoryService;
 
 import java.util.Optional;
 

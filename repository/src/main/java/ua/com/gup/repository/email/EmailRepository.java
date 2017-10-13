@@ -1,6 +1,6 @@
 package ua.com.gup.repository.email;
 
-import ua.com.gup.domain.email.EmailMessage;
+import ua.com.gup.mongo.composition.domain.email.EmailMessage;
 
 public interface EmailRepository {
 

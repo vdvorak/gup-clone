@@ -2,7 +2,7 @@ package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.model.offer.AddressArea;
+import ua.com.gup.mongo.model.offer.AddressArea;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

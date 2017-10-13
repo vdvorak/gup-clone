@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.domain.email.EmailMessage;
+import ua.com.gup.mongo.composition.domain.email.EmailMessage;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
