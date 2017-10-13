@@ -1,9 +1,9 @@
 package ua.com.gup.service.profile;
 
-import ua.com.gup.dto.ProfileInfo;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.dto.profile.ProfileDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,12 +20,6 @@ public interface ProfilesService {
      */
     void createProfile(Profile profile);
 
-    /**
-     * Used for create profile with special roles i.e. admin, moderator, spectator.
-     *
-     * @param profile - the Profile object with email, password and role.
-     */
-    void createProfileWithRoles(Profile profile);
 
     /**
      * Create profile.
@@ -248,54 +242,54 @@ public interface ProfilesService {
      * @param id - the profile ID.
      * @return - the profile.
      */
-    ProfileInfo findPublicProfileById(String id);
+    ProfileDTO findPublicProfileById(String id);
 
-    ProfileInfo findPublicProfileByPublicId(String id);
+    ProfileDTO findPublicProfileByPublicId(String id);
 
     /**
      * Find private profile by ID and update login date.
      *
      * @param id - the profile ID.
-     * @return - the ProfileInfo object.
+     * @return - the ProfileDTO object.
      */
-    ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id);
+    ProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id);
 
-    ProfileInfo incMainPhoneViewsAtOne(String id);
+    ProfileDTO incMainPhoneViewsAtOne(String id);
 
     /**
      * Find private profile by email and update login date.
      *
      * @param email - the profile email.
-     * @return - the ProfileInfo object.
+     * @return - the ProfileDTO object.
      */
-    ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
+    ProfileDTO findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
 
     /**
      * Find private profile by UID and socVendor and update login date.
      *
      * @param uid       - the profile UID.
      * @param socWendor - the profile socVendor.
-     * @return - the ProfileInfo object.
+     * @return - the ProfileDTO object.
      */
-    ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor);
+    ProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor);
 
-    ProfileInfo findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(String PhoneNumberd, String socWendor);
+    ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
 
     /**
      * Find public profiles with filter options.
      *
      * @param profileFilterOptions - the ProfileFilterOptions object.
-     * @return - the list of the ProfileInfo objects.
+     * @return - the list of the ProfileDTO objects.
      */
-    List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
+    List<ProfileDTO> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
 
     /**
      * If User is logged in - return Profile Info, if not - return null;
      *
      * @param request - the HttpServletRequest object.
-     * @return - the ProfileInfo object if user is loggedIn, or null if not.
+     * @return - the ProfileDTO object if user is loggedIn, or null if not.
      */
-    ProfileInfo getLoggedUser(HttpServletRequest request);
+    ProfileDTO getLoggedUser(HttpServletRequest request);
 
 
     /**

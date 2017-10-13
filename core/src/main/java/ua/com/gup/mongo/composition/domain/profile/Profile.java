@@ -4,20 +4,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.config.annotation.Email;
 import ua.com.gup.config.annotation.Password;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.offer.Address;
-import ua.com.gup.mongo.model.offer.GeneralPhone;
 import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.mongo.model.profiles.order.OrderAddress;
 import ua.com.gup.mongo.model.profiles.phone.DBStorePhones;
+import ua.com.gup.mongo.model.profiles.phone.Phone;
 
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,8 +27,6 @@ import java.util.Set;
 @Document(collection = Profile.COLLECTION_NAME)
 public class Profile {
     public static final String COLLECTION_NAME = "users";
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     @Id
     private String id;
@@ -36,8 +35,10 @@ public class Profile {
     @Indexed
     private String idSeoWord;
     private boolean active;
-    @Pattern(regexp = EMAIL_PATTERN, message = "{profile.email.invalidFormat}")
+
+
     @Indexed
+    @Email
     private String email;
     private String socWendor = "gup.com.ua";
     private String uid;
@@ -45,10 +46,7 @@ public class Profile {
     private String password;
     private String passwordRestore;
     private String tokenKey;
-    private String mainPhoneNumber;
-    private Integer mainPhoneNumberViews;
-    private Boolean mainPhoneNumberHide;
-    private GeneralPhone generalPhone;
+    private Phone mainPhone;
     @Indexed
     @Size(min = 2, max = 70)
     private String username;
@@ -76,7 +74,6 @@ public class Profile {
     private Long createdDate;
     private Long lastLoginDate;
     private boolean online;
-    private int notCompletedFields;
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
     private BankCard bankCard;
@@ -185,41 +182,18 @@ public class Profile {
         return this;
     }
 
-    public String getMainPhoneNumber() {
-        return mainPhoneNumber;
+    public Phone getMainPhone() {
+        if (mainPhone == null) {
+            mainPhone = new Phone();
+        }
+        return mainPhone;
     }
 
-    public Profile setMainPhoneNumber(String mainPhoneNumber) {
-        this.mainPhoneNumber = mainPhoneNumber;
+    public Profile setMainPhone(Phone mainPhone) {
+        this.mainPhone = mainPhone;
         return this;
     }
 
-    public Integer getMainPhoneNumberViews() {
-        return mainPhoneNumberViews;
-    }
-
-    public Profile setMainPhoneNumberViews(Integer mainPhoneNumberViews) {
-        this.mainPhoneNumberViews = mainPhoneNumberViews;
-        return this;
-    }
-
-    public Boolean isMainPhoneNumberHide() {
-        return mainPhoneNumberHide;
-    }
-
-    public Profile setMainPhoneNumberHide(Boolean mainPhoneNumberHide) {
-        this.mainPhoneNumberHide = mainPhoneNumberHide;
-        return this;
-    }
-
-    public GeneralPhone getGeneralPhone() {
-        return generalPhone;
-    }
-
-    public Profile setGeneralPhone(GeneralPhone generalPhone) {
-        this.generalPhone = generalPhone;
-        return this;
-    }
 
     public String getUsername() {
         return username;
@@ -321,6 +295,9 @@ public class Profile {
     }
 
     public Set<UserRole> getUserRoles() {
+        if (userRoles == null) {
+            userRoles = new HashSet<>();
+        }
         return userRoles;
     }
 
@@ -459,14 +436,6 @@ public class Profile {
         return this;
     }
 
-    public int getNotCompletedFields() {
-        return notCompletedFields;
-    }
-
-    public Profile setNotCompletedFields(int notCompletedFields) {
-        this.notCompletedFields = notCompletedFields;
-        return this;
-    }
 
     public BankCard getBankCard() {
         return bankCard;
@@ -626,9 +595,6 @@ public class Profile {
                 ", password='" + password + '\'' +
                 ", passwordRestore='" + passwordRestore + '\'' +
                 ", tokenKey='" + tokenKey + '\'' +
-                ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
-                ", mainPhoneNumberViews=" + mainPhoneNumberViews +
-                ", mainPhoneNumberHide=" + mainPhoneNumberHide +
                 ", username='" + username + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
@@ -650,7 +616,6 @@ public class Profile {
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
                 ", online=" + online +
-                ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
                 ", bankCard=" + bankCard +

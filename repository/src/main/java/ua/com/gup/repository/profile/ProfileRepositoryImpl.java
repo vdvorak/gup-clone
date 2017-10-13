@@ -121,8 +121,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
         }
 
-        if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
+        if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
+            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
         }
 
         query.fields().exclude("email");
@@ -161,8 +161,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("userRoles").in(profileFilterOptions.getUserRoles()));
         }
 
-        if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
+        if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
+            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
         }
 
         query.fields().exclude("password");

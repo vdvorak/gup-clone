@@ -1,24 +1,18 @@
 package ua.com.gup.service.profile;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import ua.com.gup.dto.FavoriteOfferInfo;
-import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.dto.profile.PrivateProfileDTO;
+import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.PublicProfileDTO;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.enumeration.UserType;
-import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
-import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.SecurityOperations;
 
@@ -33,10 +27,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private OfferService offerService;
-    @Autowired
-    private VerificationTokenService verificationTokenService;
-    @Autowired
     private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
@@ -46,10 +36,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
-            add(UserRole.ROLE_USER);
-        }};
-
         Profile newProfile = new Profile()
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
                 .setExecutive(profile.getExecutive())
@@ -57,13 +43,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setAddress(profile.getAddress())
                 .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
-                .setMainPhoneNumber(profile.getMainPhoneNumber())
+                .setMainPhone(profile.getMainPhone())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
-                .setUserRoles(userRoles) //TODO ?
+                .setUserRoles(profile.getUserRoles()) //TODO ?
                 .setUserType(profile.getUserType())
                 .setCreatedDateEqualsToCurrentDate()
-                .setNotCompletedFields(11)
                 .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
         setEmptyFieldsForNewUser(newProfile);
 
@@ -71,40 +56,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         // create new balance for user in the bank
         //bankSession.createBalanceRecord(newProfile.getId(), 3); //TODO for banking
-
-        profile.setId(newProfile.getId());
-    }
-
-
-    @Override
-    public void createProfileWithRoles(Profile profile) {
-        String hashedPassword = passwordEncoder.encode(profile.getPassword());
-
-        Profile newProfile = new Profile()
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setEmail(profile.getEmail())
-                .setMainPhoneNumber(profile.getMainPhoneNumber())
-                .setSocWendor(profile.getSocWendor())
-                .setPassword(hashedPassword)
-                .setUserRoles(profile.getUserRoles())
-                .setUserType(profile.getUserType())
-                .setCreatedDateEqualsToCurrentDate()
-                .setNotCompletedFields(11)
-                // .setPublicKey(profile.getPublicKey())
-                // .setPrivateKey(profile.getPrivateKey())
-                // .setPublicHash(profile.getPublicHash())  // strange and magic number. Actually it is total number of fields, that you can manually filled.
-                .setBankCard(profile.getBankCard());
-
-        setEmptyFieldsForNewUser(newProfile);
-
-        profileRepository.createProfile(newProfile);
-
-        // create new balance for user in the bank
-        //bankSession.createBalanceRecord(newProfile.getId(), 3);//TODO for banking
 
         profile.setId(newProfile.getId());
     }
@@ -159,7 +110,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile editProfile(Profile profile) {
-        profile.setNotCompletedFields(countEmptyFields(profile));
         return profileRepository.findProfileAndUpdate(profile);
     }
 
@@ -320,18 +270,18 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
+    public ProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
         Profile profile = findById(id);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
-        return prepareAdditionalFieldForPrivate(profile);
+        return new PrivateProfileDTO(profile);
     }
 
     @Override
-    public ProfileInfo incMainPhoneViewsAtOne(String id) {
+    public ProfileDTO incMainPhoneViewsAtOne(String id) {
         Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
         if (profile != null) {
-            return prepareAdditionalFieldForPublic(profile);
+            return new PublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -339,22 +289,21 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
+    public ProfileDTO findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
         Profile profile = findProfileByEmail(email);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
-        ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
-
+        ProfileDTO profileInfo = new PrivateProfileDTO(findProfileByEmail(email));
         return profileInfo;
     }
 
 
     @Override
-    public ProfileInfo findPublicProfileById(String id) {
+    public ProfileDTO findPublicProfileById(String id) {
 
         Profile profile = findById(id);
         if (profile != null) {
-            return prepareAdditionalFieldForPublic(profile);
+            return new PublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -362,11 +311,11 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public ProfileInfo findPublicProfileByPublicId(String id) {
+    public ProfileDTO findPublicProfileByPublicId(String id) {
 
         Profile profile = findByPublicId(id);
         if (profile != null) {
-            return prepareAdditionalFieldForPublic(profile);
+            return new PublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -374,19 +323,19 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
+    public List<ProfileDTO> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
         return getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 
 
     @Override
-    public ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor) {
-        return prepareAdditionalFieldForPrivate(profileRepository.findProfileByUidAndWendor(uid, socWendor));
+    public ProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor) {
+        return new PrivateProfileDTO(profileRepository.findProfileByUidAndWendor(uid, socWendor));
     }
 
     @Override
-    public ProfileInfo findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(String PhoneNumberd, String socWendor) {
-        return prepareAdditionalFieldForPrivate(profileRepository.findProfileByPhoneNumberAndWendor(PhoneNumberd, socWendor));
+    public ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor) {
+        return new PrivateProfileDTO(profileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor));
     }
 
 
@@ -404,11 +353,11 @@ public class ProfilesServiceImpl implements ProfilesService {
      * If User is logged in - return Profile Info, if not - return null;
      *
      * @param request - the HttpServletRequest object.
-     * @return - the ProfileInfo object if user is loggedIn, or null if not.
+     * @return - the ProfileDTO object if user is loggedIn, or null if not.
      */
     @Override
-    public ProfileInfo getLoggedUser(HttpServletRequest request) {
-        ProfileInfo profileInfo = null;
+    public ProfileDTO getLoggedUser(HttpServletRequest request) {
+        ProfileDTO profileInfo = null;
         if (request.getCookies() != null) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
@@ -416,10 +365,10 @@ public class ProfilesServiceImpl implements ProfilesService {
                 if (cookie.getName().equals("authToken")) {
                     principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                 } else if (cookie.getName().equals("refreshToken")) {
-                   List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
-                   if(oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size()>0) {
-                       principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size()-1).getAuthentication().getUserAuthentication().getPrincipal();
-                   }
+                    List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
+                    if (oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size() > 0) {
+                        principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size() - 1).getAuthentication().getUserAuthentication().getPrincipal();
+                    }
                 }
                 if (principal != null) {
                     profileInfo = profileInfoPreparatorFromPrincipal(principal);
@@ -460,61 +409,19 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     * Create and prepare ProfileInfo object from Principal object.
+     * Create and prepare ProfileDTO object from Principal object.
      *
      * @param principal - the principal object.
      * @return - the Profile info object.
      */
-    private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
+    private ProfileDTO profileInfoPreparatorFromPrincipal(Object principal) {
 
-        ProfileInfo profileInfo = new ProfileInfo();
+        ProfileDTO profileInfo = new PrivateProfileDTO();
 
         if (principal instanceof LoggedUser) {
             String userId = ((LoggedUser) principal).getProfileId();
             profileInfo = findPrivateProfileByIdAndUpdateLastLoginDate(userId);
         }
-        return profileInfo;
-    }
-
-
-    /**
-     * Add additional field to ProfileInfo object.
-     *
-     * @param profile - the profile.
-     * @return - the ProfileInfo object.
-     */
-    private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
-        ProfileInfo profileInfo = new ProfileInfo(profile);
-        OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
-        offerFilterOptionsForAuthor.setAuthorId(profile.getId());
-        profileInfo.getProfile().setFavoriteOffers(null);
-        profileInfo.getProfile().setPassword(null);
-        return profileInfo;
-    }
-
-    /**
-     * @param profile - the profile.
-     * @return - the ProfileInfo object.
-     */
-    private ProfileInfo prepareAdditionalFieldForPublic(Profile profile) {
-        ProfileInfo profileInfo = new ProfileInfo(profile);
-
-        profileInfo.getProfile()
-                .setEmail(null)
-                .setPassword(null)
-                .setContactList(null)
-                .setSocialList(null)
-                .setFinanceInfo(null)
-                .setOrderAddressList(null)
-                .setUserRoles(null)
-                .setOfferUserContactInfoList(null)
-                .setFavoriteOffers(null);
-
-
-        profileInfo.setUserBalance(null)
-                .setUserBonusBalance(null)
-                .setUnreadMessages(null)
-                .setUnreadEventsCount(null);
         return profileInfo;
     }
 
@@ -536,7 +443,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                     .setOfferUserContactInfoList(null)
                     .setFavoriteOffers(null)
                     .setBirthDate(null)
-                    .setMainPhoneNumber(null)
+                    .setMainPhone(null)
                     .setLastLoginDate(null)
                     .setProfileRating(null)
                     .setStatus(null);
@@ -549,10 +456,10 @@ public class ProfilesServiceImpl implements ProfilesService {
      * @param profileList
      * @return
      */
-    private List<ProfileInfo> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
-        List<ProfileInfo> profileInfoList = new ArrayList<>();
+    private List<ProfileDTO> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
+        List<ProfileDTO> profileInfoList = new ArrayList<>();
         for (Profile profile : profileList) {
-            profileInfoList.add(prepareAdditionalFieldForPublic(profile));
+            profileInfoList.add(new PublicProfileDTO(profile));
         }
         return profileInfoList;
     }
@@ -564,10 +471,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         newProfile.setFavoriteOffers(new HashSet<>());
 
         Contact contact = new Contact();
-        contact.setType(UserType.INDIVIDUAL);
         contact.setContactEmails(new HashSet<>());
         contact.setContactPhones(new HashSet<>());
-        contact.setNaceId(new ArrayList<>());
         contact.setSocNetLink(new HashMap<>());
 
         newProfile.setPoint(0)
@@ -577,103 +482,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
-    }
-
-    /**
-     * @param profile
-     * @return
-     */
-    private List<FavoriteOfferInfo> favoriteOfferInfoListPreparator(Profile profile) {
-        List<FavoriteOfferInfo> favoriteOfferInfoList = new ArrayList<>();
-
-        Set<String> favoriteOffers = profile.getFavoriteOffers();
-
-        if (favoriteOffers == null) {
-            return null;
-        }
-
-        for (String favoriteOfferId : favoriteOffers) {
-            favoriteOfferInfoList.add(favoriteOfferInfoPreparator(favoriteOfferId));
-        }
-        return favoriteOfferInfoList;
-    }
-
-    /**
-     * @param favoriteOfferId
-     * @return
-     */
-    private FavoriteOfferInfo favoriteOfferInfoPreparator(String favoriteOfferId) {
-        FavoriteOfferInfo favoriteOfferInfo = new FavoriteOfferInfo();
-
-        Offer offer = offerService.findById(favoriteOfferId);
-
-        favoriteOfferInfo.setFavoriteOfferId(favoriteOfferId);
-        favoriteOfferInfo.setFavoriteOfferSeoUrl(offer.getSeoUrl());
-        favoriteOfferInfo.setFavoriteOfferTitle(offer.getTitle());
-        favoriteOfferInfo.setFavoriteOfferImage(offerService.getMainOfferImage(offer));
-
-        return favoriteOfferInfo;
-    }
-
-    /**
-     * Count empty field for profile
-     *
-     * @param profile
-     * @return
-     */
-    private int countEmptyFields(Profile profile) {
-        int result = 0;
-
-        // 1
-        if (StringUtils.isEmpty(profile.getMainPhoneNumber())) {
-            result++;
-        }
-
-        // 1
-        if (StringUtils.isEmpty(profile.getUsername())) {
-            result++;
-        }
-
-        // 1
-        if (StringUtils.isEmpty(profile.getImgId()) && StringUtils.isEmpty(profile.getImgUrl())) {
-            result++;
-        }
-
-        // 1
-        if (profile.getBirthDate() == null) {
-            result++;
-        }
-
-        // 8 maximum
-        if (profile.getContact() == null) {
-            result = result + 8;
-        } else {
-            if (StringUtils.isEmpty(profile.getContact().getPosition())) {
-                result++;
-            }
-            if (StringUtils.isEmpty(profile.getContact().getCompanyName())) {
-                result++;
-            }
-            if (StringUtils.isEmpty(profile.getContact().getAboutUs())) {
-                result++;
-            }
-            if (StringUtils.isEmpty(profile.getContact().getSkypeUserName())) {
-                result++;
-            }
-            if (StringUtils.isEmpty(profile.getContact().getLinkToWebSite())) {
-                result++;
-            }
-            if (CollectionUtils.isEmpty(profile.getContact().getContactEmails())) {
-                result++;
-            }
-            if (CollectionUtils.isEmpty(profile.getContact().getContactPhones())) {
-                result++;
-            }
-            if (MapUtils.isEmpty(profile.getContact().getSocNetLink())) {
-                result++;
-            }
-        }
-        return result;
     }
 
 

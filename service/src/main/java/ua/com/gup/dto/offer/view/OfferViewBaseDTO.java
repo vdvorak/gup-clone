@@ -3,6 +3,7 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.dto.offer.OfferAuthorDTO;
 import ua.com.gup.dto.offer.OfferPriceDTO;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
@@ -26,7 +27,7 @@ public class OfferViewBaseDTO implements Serializable {
     private ZonedDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
-    private String authorId;
+    private OfferAuthorDTO author;
 
     @ApiModelProperty(position = 30)
     private LinkedList<OfferCategory> categories;
@@ -74,12 +75,12 @@ public class OfferViewBaseDTO implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public OfferAuthorDTO getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setAuthor(OfferAuthorDTO author) {
+        this.author = author;
     }
 
     public LinkedList<OfferCategory> getCategories() {
