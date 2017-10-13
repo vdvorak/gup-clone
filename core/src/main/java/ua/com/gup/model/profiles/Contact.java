@@ -1,18 +1,14 @@
 package ua.com.gup.model.profiles;
 
+import ua.com.gup.model.profiles.phone.Phone;
 import ua.com.gup.model.SocialNetwork;
-import ua.com.gup.model.enumeration.UserType;
 
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Contact {
-    private boolean member;
-    private List<String> naceId;
 
-    private UserType type;
     @Size(min = 2, max = 70)
     private String position;
     @Size(min = 2, max = 70)
@@ -29,7 +25,7 @@ public class Contact {
     private Set<String> contactEmails;
 
     @Size(max = 5)
-    private Set<String> contactPhones;
+    private Set<Phone> contactPhones;
 
     private Map<SocialNetwork, String> socNetLink;
 
@@ -60,14 +56,6 @@ public class Contact {
         this.linkToWebSite = linkToWebSite;
     }
 
-    public UserType getType() {
-        return type;
-    }
-
-    public void setType(UserType type) {
-        this.type = type;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -84,11 +72,11 @@ public class Contact {
         this.contactEmails = contactEmails;
     }
 
-    public Set<String> getContactPhones() {
+    public Set<Phone> getContactPhones() {
         return contactPhones;
     }
 
-    public void setContactPhones(Set<String> contactPhones) {
+    public void setContactPhones(Set<Phone> contactPhones) {
         this.contactPhones = contactPhones;
     }
 
@@ -108,26 +96,10 @@ public class Contact {
         this.aboutUs = aboutUs;
     }
 
-    public boolean isMember() {
-        return member;
-    }
-
-    public void setMember(boolean member) {
-        this.member = member;
-    }
-
-    public List<String> getNaceId() {
-        return naceId;
-    }
-
-    public void setNaceId(List<String> naceId) {
-        this.naceId = naceId;
-    }
 
     @Override
     public String toString() {
         return "Contact{" +
-                "type=" + type +
                 ", position='" + position + '\'' +
                 ", contactEmails=" + contactEmails +
                 ", contactPhones=" + contactPhones +
@@ -135,8 +107,6 @@ public class Contact {
                 ", skypeUserName='" + skypeUserName + '\'' +
                 ", linkToWebSite=" + linkToWebSite +
                 ", aboutUs='" + aboutUs + '\'' +
-                ", member=" + member +
-                ", naceId=" + naceId +
                 '}';
     }
 }

@@ -22,15 +22,17 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
 import ua.com.gup.domain.profile.Profile;
 import ua.com.gup.domain.verification.VerificationToken;
-import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.RegisterProfileDTO;
+import ua.com.gup.dto.profile.SocialLoginDTO;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
 import ua.com.gup.model.VerificationTokenType;
+import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.model.login.FormChangePassword;
-import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
@@ -85,16 +87,18 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> register(@RequestBody @Validated Profile profile) {
+    public ResponseEntity<ProfileDTO> register(@RequestBody @Validated RegisterProfileDTO registerProfileDTO) {
 
         // email exists check:
-        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
+        if (!profilesService.profileExistsWithEmail(registerProfileDTO.getEmail())) {
             // REGISTER:
-            if (profile.getSocWendor() == null) {
-                profile.setSocWendor("GUP");
-            }
+            Profile profile = new Profile();
+            profile.setPassword(registerProfileDTO.getPassword());
+            profile.setEmail(registerProfileDTO.getEmail());
+            profile.setSocWendor("GUP");
             profile.setUserType(UserType.LEGAL_ENTITY);
             profile.setActive(false);
+            profile.getUserRoles().add(UserRole.ROLE_USER);
             profilesService.createProfile(profile);
             eventPublisher.publishEvent(new OnInitialRegistrationByEmailEvent(profile));
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -104,7 +108,7 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register/confirm", method = RequestMethod.GET)
-    public ResponseEntity<ProfileInfo> registerConfirm(@RequestParam("token") String token) {
+    public ResponseEntity<ProfileDTO> registerConfirm(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
             throw new VerificationTokenNotFoundException();
@@ -121,36 +125,9 @@ public class LoginRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * Controller for registration new users under admin panel.
-     *
-     * @param profile the Profile object with email, password and role.
-     * @return status '200' (Ok) if user was created; return status '409' (Conflict) if user with current email already exist.
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerForAdminPanel(@RequestBody Profile profile) {
-        // CHECK:
-        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
-
-            // REGISTER:
-            if (profile.getSocWendor() == null) {
-                profile.setSocWendor("GUP");
-            }
-            profile.setUserType(UserType.LEGAL_ENTITY);
-            profile.setActive(false);
-            profilesService.createProfileWithRoles(profile);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-    }
-
     @CrossOrigin
     @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> vendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
+    public ResponseEntity<ProfileDTO> vendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
         // CHECK:
         if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor())) {
             // REGISTER:
@@ -172,27 +149,21 @@ public class LoginRestController {
             try {
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
             } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             authenticateByUidAndToken(loggedUser, profile.getSocWendor(), response); //TODO: fix collizion
-            ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-            Profile getProfile = profileInfo.getProfile();
-            //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
-            profileInfo.setProfile(getProfile);
-            resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+            ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByUid(profile.getUid(), profile.getSocWendor());
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         }
-        return resp;
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-phone", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
+    public ResponseEntity<ProfileDTO> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
         // CHECK:
-        if (!profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhoneNumber())) {
+        if (!profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhone().getPhoneNumber())) {
             // REGISTER:
             if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
@@ -201,37 +172,34 @@ public class LoginRestController {
             profile.setActive(false);
             profilesService.createProfile(profile);
             // LOGIN:
-            LoggedUser loggedUser = null;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
+                LoggedUser loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
                 //////////////////////////////////////////////////////////////////////////////////////////
-                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
-
-                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
+                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
+                ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
+                return new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-        return resp;
+
     }
 
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody FormLoggedUser formLoggedUser,
+    public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,
                                 HttpServletResponse response) {
-        ProfileInfo profileInfo = null;
+        ProfileDTO profileInfo = null;
         synchronized (profilesService) {
             LoggedUser loggedUser;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
@@ -239,14 +207,15 @@ public class LoginRestController {
                 LOG.debug("User is not active yet");
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            if (loggedUser.isBanned())
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-            if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
+            if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
-            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
-            if (profileInfo.getProfile().isBan())
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
+
 
             if (!SecurityUtils.isAuthenticated()) {
                 LOG.debug("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
@@ -259,9 +228,9 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> vendorLogin(@RequestBody Profile profile,
+    public ResponseEntity<ProfileDTO> vendorLogin(@RequestBody SocialLoginDTO socialLoginDTO,
                                                    HttpServletResponse response) {
-        if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()))
+        if (!profilesService.profileExistsWithUidAndWendor(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor()))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
@@ -276,39 +245,38 @@ public class LoginRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }*/
 
-            loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-        if (profileInfo.getProfile().isBan())
+        if (loggedUser.isBanned())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByUid(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
         //Profile getProfile = profileInfo.getProfile();
         //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
         //profileInfo.setProfile(getProfile);,
-        authenticateByUidAndToken(loggedUser, profileInfo.getProfile().getSocWendor(), response);
+        authenticateByUidAndToken(loggedUser, socialLoginDTO.getSocWendor(), response);
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
-        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) == null)
+    public ResponseEntity<ProfileDTO> phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
+        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor()) == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
         try {
             /* Edit Profile */
-            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
-        if (profileInfo.getProfile().isBan())
+        if (loggedUser.isBanned())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
+        ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
+
+        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }

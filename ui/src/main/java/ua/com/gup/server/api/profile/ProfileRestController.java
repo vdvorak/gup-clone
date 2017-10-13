@@ -4,23 +4,21 @@ package ua.com.gup.server.api.profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.dto.profile.EditProfileDTO;
+import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.model.profiles.CheckMainPhone;
 import ua.com.gup.model.profiles.ProfileFilterOptions;
 import ua.com.gup.model.profiles.phone.*;
-import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.SecurityOperations;
 
@@ -39,24 +37,28 @@ public class ProfileRestController {
     @Autowired
     private ProfilesService profilesService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
     /**
      * Gets profile by id.
      *
-     * @param id the id
+     * @param publicId the id
      * @return the profile by id
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(id);
+    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("id") String publicId) {
+        ProfileDTO profileInfo = profilesService.findPublicProfileByPublicId(publicId);
+        if (profileInfo == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/profile/mainPhoneViews/{id}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileDTO> countPhoneViewsProfileById(@PathVariable String id) {
+        ProfileDTO profileInfo = profilesService.incMainPhoneViewsAtOne(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -64,75 +66,6 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
-
-    @CrossOrigin
-    @RequestMapping(value = "/profile/mainPhoneViews/id/{id}", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> countPhoneViewsProfileById(@PathVariable String id) {
-        ProfileInfo profileInfo = profilesService.incMainPhoneViewsAtOne(id);
-
-        if (profileInfo == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-    }
-
-    /**
-     * Gets profile by public-id.
-     *
-     * @param id the id
-     * @return the profile by public-id
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/read/publicid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(profilesService.findPublicProfileByPublicId(id).getProfile().getId()); //ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
-
-        if (profileInfo == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-    }
-
-    /**
-     * Gets user name by id.
-     *
-     * @param id - the user ID.
-     * @return - the user profile.
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
-        Profile profile = profilesService.findById(id);
-
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(profile.getUsername() + " " + profile.getLastname(), HttpStatus.OK);
-    }
-
-    /**
-     * Gets user name by public-id.
-     *
-     * @param id - the user ID.
-     * @return - the user profile.
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/publicinfo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProfileNameByPublicId(@PathVariable String id) {
-        Profile profile = profilesService.findByPublicId(id);
-
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(profile.getUsername() + " " + profile.getLastname(), HttpStatus.OK);
-    }
-
 
     /**
      * Add one contact (user) to the current user contact list.
@@ -181,35 +114,18 @@ public class ProfileRestController {
      * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
      *
      * @param request - the HttpServletRequest object.
-     * @return - in any case return status 200 (OK), but it will be with ProfileInfo object in the response body if
+     * @return - in any case return status 200 (OK), but it will be with ProfileDTO object in the response body if
      * the user is loggedIn, and there will empty response body if the user is not loggedIn.
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
-    public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
-        ProfileInfo profileInfo = profilesService.getLoggedUser(request);
+    public ResponseEntity<ProfileDTO> getLoggedUser(HttpServletRequest request) {
+        ProfileDTO profileInfo = profilesService.getLoggedUser(request);
         if (profileInfo != null) {
             return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-    }
-
-    /**
-     * Gets profile by username.
-     *
-     * @param username the username
-     * @return the profile by username
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
-        Profile profile = profilesService.findProfileByUsername(username);
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     /**
@@ -222,8 +138,8 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
-        List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
+    public ResponseEntity<List<ProfileDTO>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
+        List<ProfileDTO> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
@@ -249,7 +165,7 @@ public class ProfileRestController {
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
-    public ResponseEntity<List<Profile>> idByMainPhone(@RequestBody CheckMainPhone checkMainPhone, HttpServletRequest request) {
+    public ResponseEntity<List<Profile>> idByMainPhone(@RequestBody CheckMainPhone checkMainPhone) {
         List<Profile> profiles = new ArrayList<>();
         for (String mainPhone : checkMainPhone.getMainPhones()) {
             System.err.println(mainPhone);
@@ -348,48 +264,32 @@ public class ProfileRestController {
     /**
      * Update profile.
      *
-     * @param newProfile the new profile with id of entity in request body
+     * @param editProfileDTO the new profile with id of entity in request body
      * @return the response status, Forbidden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
      * 403 can also be if someone profile already exist with new email.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
 
-        if (StringUtils.isEmpty(newProfile.getEmail())) {
+        if (StringUtils.isEmpty(editProfileDTO.getEmail())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        Profile oldProfile = profilesService.findById(loggedUserId);
-        newProfile.setId(loggedUserId);
-        newProfile.setActive(oldProfile.getActive());
-        Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
+        Profile foundByEmailProfile = profilesService.findProfileByEmail(editProfileDTO.getEmail());
+
         if (foundByEmailProfile != null) {
-            if (!foundByEmailProfile.getId().equals(loggedUserId)) {
+            if (!foundByEmailProfile.getId().equals(loggedUserId) || foundByEmailProfile.isBan() || !foundByEmailProfile.getActive()) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
-        if (newProfile.getIdSeoWord() != null) {
-            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-                    changeUserType(newProfile, oldProfile);
-                    profilesService.editProfile(newProfile);
-                    return new ResponseEntity<>(HttpStatus.OK);
-                }
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        Profile oldProfile = profilesService.findById(loggedUserId);
+        profilesService.editProfile(editProfileDTO.updateModel(oldProfile));
 
-        if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            changeUserType(newProfile, oldProfile);
-            profilesService.editProfile(newProfile);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -463,12 +363,12 @@ public class ProfileRestController {
         }
         try {
             /* Edit Profile */
-            Profile profileEdit = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(newProfile.getUid(), newProfile.getSocWendor()).getProfile();
-            String id = profileEdit.getId();
-            profileEdit = newProfile;
-            profileEdit.setId(id);
-            profileEdit.setImgUrl("");
-            profilesService.editProfile(profileEdit);
+//            Profile profileEdit = profilesService.findPrivateProfileDTOByUid(newProfile.getUid(), newProfile.getSocWendor()).getProfile();
+//            String id = profileEdit.getId();
+//            profileEdit = newProfile;
+//            profileEdit.setId(id);
+//            profileEdit.setImgUrl("");
+//            profilesService.editProfile(profileEdit);
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -536,8 +436,8 @@ public class ProfileRestController {
      * @param oldProfile - the old profile.
      */
     private void changeUserType(Profile newProfile, Profile oldProfile) {
-        if (!newProfile.getContact().getType().equals(oldProfile.getContact().getType())) {
-            switch (newProfile.getContact().getType()) {
+        if (!newProfile.getUserType().equals(oldProfile.getUserType())) {
+            switch (newProfile.getUserType()) {
                 case LEGAL_ENTITY:
                     break;
                 case INDIVIDUAL:

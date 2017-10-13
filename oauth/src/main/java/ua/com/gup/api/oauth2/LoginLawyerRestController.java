@@ -18,13 +18,14 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import ua.com.gup.dto.profile.RegisterProfileDTO;
+import ua.com.gup.model.profiles.phone.Phone;
 import ua.com.gup.domain.profile.Profile;
-import ua.com.gup.dto.ProfileInfo;
+import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.model.enumeration.UserRole;
 import ua.com.gup.model.enumeration.UserType;
 import ua.com.gup.model.file.FileUploadWrapper;
 import ua.com.gup.model.login.FormChangePassword;
-import ua.com.gup.model.login.FormLoggedUser;
 import ua.com.gup.model.login.LoggedUser;
 import ua.com.gup.model.oauth2.AuthenticateByEmailAndPasswordFromRegister;
 import ua.com.gup.service.emailnotification.EmailService;
@@ -77,14 +78,14 @@ public class LoginLawyerRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
+    public ResponseEntity<ProfileDTO> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileDTO> resp = null;
 
         // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+        if (!profilesService.profileExistsWithEmail(profile.getEmail())) {
 
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.ENTREPRENEUR);
@@ -120,7 +121,7 @@ public class LoginLawyerRestController {
 //                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString()); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
                 //////////////////////////////////////////////////////////////////////////////////////////
 
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
+                ProfileDTO profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
                 resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -148,7 +149,7 @@ public class LoginLawyerRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if( profile.getId().equals(loggedUserId) ) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+        if (profile.getId().equals(loggedUserId)) { //TODO: if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profile.setActive(true);
             profilesService.editProfile(profile);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -159,14 +160,14 @@ public class LoginLawyerRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-phone", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
+    public ResponseEntity<ProfileDTO> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileDTO> resp = null;
 
         // CHECK:
-        if( !profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhoneNumber()) ){
+        if (!profilesService.profileExistsWithMainPhoneNumber(profile.getMainPhone().getPhoneNumber())) {
 
             // REGISTER:
-            if( profile.getSocWendor()==null ){
+            if (profile.getSocWendor() == null) {
                 profile.setSocWendor("GUP");
             }
             profile.setUserType(UserType.ENTREPRENEUR);
@@ -187,13 +188,13 @@ public class LoginLawyerRestController {
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
+                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
                 //////////////////////////////////////////////////////////////////////////////////////////
-                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
+                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
+                ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
 
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
@@ -208,8 +209,8 @@ public class LoginLawyerRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
-//        if (!Validator3Util.validate(formLoggedUser)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ProfileDTO> login(@RequestBody RegisterProfileDTO registerProfileDTO, HttpServletResponse response) {
+//        if (!Validator3Util.validate(registerProfileDTO)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        System.out.println("------------------------------------------------------------------------------------------");
 
         LoggedUser loggedUser;
@@ -219,44 +220,44 @@ public class LoginLawyerRestController {
 //            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 ////            System.out.println("loggedUserId="+loggedUserId);
 ////            System.out.println("------------------------------------------------------------------------------------------");
-//            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
+//            System.out.println("Email=" + registerProfileDTO.getEmail() + " Password=" + registerProfileDTO.getPassword());
 //            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
             //TODO
-//            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(formLoggedUser.getEmail())){
+//            if(!profilesService.findPrivateProfileByEmailAndUpdateLastTryLoginDate(registerProfileDTO.getEmail())){
 //                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //            }
 
-            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
+        if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         authenticateByEmailAndPassword(loggedUser, response);
 
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
+        ProfileDTO profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
 
     @CrossOrigin
     @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo>phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
-        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhoneNumber(), profile.getSocWendor()) == null )
+    public ResponseEntity<ProfileDTO> phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
+        if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor()) == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
         try {
             /* Edit Profile */
-            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhoneNumber(), profile.getSocWendor());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhoneNumber(), response);
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByPhoneNumberdAndUpdateLastLoginDate(profile.getMainPhoneNumber(), profile.getSocWendor());
+        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
+        ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -282,7 +283,7 @@ public class LoginLawyerRestController {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
 
         /* Edit Profile | change password */
-        if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
+        if (passwordEncoder.matches(formChangePassword.getPassword(), profile.getPassword())) {
             profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
             profilesService.editProfile(profile);
 //            emailService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword())); //TODO ...HTTP Status 500 - Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Can't send command to SMTP host;
@@ -355,7 +356,9 @@ public class LoginLawyerRestController {
         }
 
         if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            profile.setMainPhoneNumber(mainPhoneNumber);
+            Phone phone = new Phone();
+            phone.setPhoneNumber(mainPhoneNumber);
+            profile.setMainPhone(phone);
             profilesService.editProfile(profile);
             return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
         }
