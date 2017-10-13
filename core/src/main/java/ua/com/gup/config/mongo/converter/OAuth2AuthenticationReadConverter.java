@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
+    public OAuth2AuthenticationReadConverter() {
+    }
+
     public static Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
         return authorities.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.get("role")))
