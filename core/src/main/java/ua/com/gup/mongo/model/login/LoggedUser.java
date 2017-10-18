@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class LoggedUser extends User {
     private final String profileId;
-    private Boolean banned;
+    private final Boolean banned;
 
     public LoggedUser(DBObject dbObject) {
         super((String) dbObject.get("username"),
