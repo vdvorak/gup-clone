@@ -194,10 +194,12 @@ public class LoginEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,
-                                HttpServletResponse response) {
+                                HttpServletResponse response,
+                                HttpServletRequest request) {
         ProfileDTO profileInfo = null;
         synchronized (profilesService) {
             LoggedUser loggedUser;
+    if (!SecurityUtils.isAuthenticated()) {
             try {
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
@@ -213,14 +215,11 @@ public class LoginEndpoint {
             if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-
-            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
-
-
-            if (!SecurityUtils.isAuthenticated()) {
-                LOG.debug("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
+                profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
                 authenticateByEmailAndPassword(loggedUser, response);
-            }
+            }else {
+                    profileInfo = profilesService.getLoggedUser(request);
+                  }
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -235,16 +234,6 @@ public class LoginEndpoint {
 
         LoggedUser loggedUser;
         try {
-            /*LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
-            if (lockRemoteIP == null) {
-                lockRemoteIP = new LockRemoteIP();
-                lockRemoteIP.setIp(request.getRemoteAddr());
-                lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
-            }
-            if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }*/
-
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -252,9 +241,6 @@ public class LoginEndpoint {
         if (loggedUser.isBanned())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByUid(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
-        //Profile getProfile = profileInfo.getProfile();
-        //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
-        //profileInfo.setProfile(getProfile);,
         authenticateByUidAndToken(loggedUser, socialLoginDTO.getSocWendor(), response);
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
