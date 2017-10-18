@@ -1,10 +1,29 @@
 package ua.com.gup.config.mongo;
 
+import com.mongodb.Mongo;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+
 //@Configuration
 //@EnableMongoAuditing
 //@EnableMongoRepositories(basePackages = "ua.com.gup")
 //@PropertySource("classpath:properties/mongo.properties")
-public class MongoDBConfiguration {
+public class MongoDBConfiguration extends AbstractMongoConfiguration {
+    private final String mappingBasePackage = "ua.com.gup";
+
+    @Override
+    protected String getDatabaseName() {
+        return null;
+    }
+
+    @Override
+    public Mongo mongo() throws Exception {
+        return null;
+    }
+
+    @Override
+    protected String getMappingBasePackage() {
+        return mappingBasePackage;
+    }
 
 /*    @Value("${mongo.remote.db.uri}")
     private String mongoClientURI;
