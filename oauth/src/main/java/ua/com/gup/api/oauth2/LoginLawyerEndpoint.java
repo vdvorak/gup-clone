@@ -48,8 +48,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/oauth-lawyer")
-public class LoginLawyerRestController {
-    private final static Logger LOG = Logger.getLogger(LoginLawyerRestController.class);
+public class LoginLawyerEndpoint {
+    private final static Logger LOG = Logger.getLogger(LoginLawyerEndpoint.class);
 
     @Autowired
     PasswordEncoder passwordEncoder;

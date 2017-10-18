@@ -3,22 +3,24 @@ package ua.com.gup.mongo.composition.domain.complaint;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.mongo.model.complaint.ComplaintInitiator;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Document(collection = ComplaintOffer.COLLECTION_NAME, language = "russian")
-public class ComplaintOffer {
+public class ComplaintOffer implements Serializable {
 
     public static final String COLLECTION_NAME = "complaint";
-    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
+    //private String initiatorId;
 
-    private String initiatorId;
+    private ComplaintInitiator initiator;
 
     @Indexed
     private String offerId;
@@ -31,11 +33,8 @@ public class ComplaintOffer {
     private ComplaintOfferStatus status;
 
     private Date createdDate; //private ZonedDateTime createdDate;
-//    private long createdDateLong;
 
     private Date lastModifiedDate; //private ZonedDateTime lastModifiedDate;
-//    @Indexed
-//    private long lastModifiedDateLong;
 
     public ComplaintOffer(){
         createdDate = new Date(); //createdDate = ZonedDateTime.now();
@@ -51,12 +50,20 @@ public class ComplaintOffer {
         this.id = id;
     }
 
-    public String getInitiatorId() {
+    /*public String getInitiatorId() {
         return initiatorId;
     }
 
     public void setInitiatorId(String initiatorId) {
         this.initiatorId = initiatorId;
+    }*/
+
+    public ComplaintInitiator getInitiator() {
+        return initiator;
+    }
+
+    public void setInitiator(ComplaintInitiator initiator) {
+        this.initiator = initiator;
     }
 
     public String getOfferId() {
@@ -95,33 +102,19 @@ public class ComplaintOffer {
         this.status = status;
     }
 
-    public Date getCreatedDate() { //public ZonedDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-//    public void setCreatedDateLong(long createdDateLong) {
-//        this.createdDateLong = createdDateLong;
-//    }
-//
-//    public long getCreatedDateLong() {
-//        return createdDateLong;
-//    }
 
-    public void setCreatedDate(Date createdDate) { //public void setCreatedDate(ZonedDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getLastModifiedDate() { //public ZonedDateTime getLastModifiedDate() {
+    public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-//    public void setLastModifiedDateLong(long lastModifiedDateLong) {
-//        this.lastModifiedDateLong = lastModifiedDateLong;
-//    }
-//
-//    public long getLastModifiedDateLong() {
-//        return lastModifiedDateLong;
-//    }
 
     public void setLastModifiedDate(Date lastModifiedDate) { //public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
@@ -135,15 +128,13 @@ public class ComplaintOffer {
     public String toString() {
         return "ComplaintOffer{" +
                 "id='" + id + '\'' +
-                ", initiatorId='" + initiatorId + '\'' +
+                ", initiator=" + initiator +
                 ", offerId='" + offerId + '\'' +
                 ", description='" + description + '\'' +
                 ", types=" + types +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
-//                ", createdDateLong=" + createdDateLong +
                 ", lastModifiedDate=" + lastModifiedDate +
-//                ", lastModifiedDateLong=" + lastModifiedDateLong +
                 '}';
     }
 }

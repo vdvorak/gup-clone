@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-public class ProfileSearchAPI {
+public class ProfileSearchEndpoint {
 
     @Autowired
     private ProfilesService profilesService;
@@ -47,7 +47,6 @@ public class ProfileSearchAPI {
     @CrossOrigin
     @RequestMapping("/profile/isseowordfree")
     public boolean isProfileSeoWordFree(@RequestParam String seoWord) {
-        System.err.println("azaza: " + seoWord);
         return profilesService.isSeoWordFree(seoWord);
     }
 }

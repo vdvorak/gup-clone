@@ -23,12 +23,12 @@ import ua.com.gup.config.oauth2.TokenStoreService;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.dto.profile.SocialLoginDTO;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
@@ -53,8 +53,8 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/oauth")
-public class LoginRestController {
-    private final static Logger LOG = Logger.getLogger(LoginRestController.class);
+public class LoginEndpoint {
+    private final static Logger LOG = Logger.getLogger(LoginEndpoint.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;

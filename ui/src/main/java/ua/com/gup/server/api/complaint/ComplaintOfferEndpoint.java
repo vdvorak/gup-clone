@@ -28,10 +28,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api")
-public class ComplaintOfferAPI {
+public class ComplaintOfferEndpoint {
 
     private static final String ENTITY_NAME = "complaint";
-    private final Logger log = LoggerFactory.getLogger(ComplaintOfferAPI.class);
+    private final Logger log = LoggerFactory.getLogger(ComplaintOfferEndpoint.class);
 
     @Autowired
     private ComplaintOfferService complaintOfferService;
@@ -56,8 +56,7 @@ public class ComplaintOfferAPI {
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
-
-        complaintOffer.setInitiatorId(SecurityUtils.getLoggedUser().getProfileId());
+        complaintOffer.setInitiator(complaintOfferService.formatInitiatorProfile(SecurityUtils.getCurrentUserId()));
         complaintOfferService.save(complaintOffer);
 
         return new ResponseEntity(HttpStatus.CREATED);
@@ -154,10 +153,6 @@ public class ComplaintOfferAPI {
                     .body(null);
         }
 
-
-        /*final Map<String, String> types =
-                Arrays.stream(ComplaintOfferType.values())
-                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));*/
         final List<ComplaintOfferType> types =
                 Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toList());

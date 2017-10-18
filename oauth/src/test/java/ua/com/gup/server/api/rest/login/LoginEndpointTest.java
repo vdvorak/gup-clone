@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ua.com.gup.api.oauth2.LoginRestController;
+import ua.com.gup.api.oauth2.LoginEndpoint;
 import ua.com.gup.server.config.TestConfig;
 import ua.com.gup.service.profile.ProfilesService;
 
@@ -23,21 +23,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
-public class LoginRestControllerTest {
+public class LoginEndpointTest {
 
     private MockMvc mockMvc;
 
     @Mock
     private ProfilesService profilesService;
     @InjectMocks
-    private LoginRestController loginRestController;
+    private LoginEndpoint loginEndpoint;
 
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders
-                .standaloneSetup(loginRestController)
+                .standaloneSetup(loginEndpoint)
                 .build();
     }
 

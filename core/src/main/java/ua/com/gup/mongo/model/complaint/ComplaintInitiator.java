@@ -1,18 +1,59 @@
 package ua.com.gup.mongo.model.complaint;
 
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.ZonedDateTime;
+public class ComplaintInitiator {
 
-public class ComplaintOfferDescription {
+    private String id;
 
-    @NotNull
-    @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
+    private String firstName;
+
+    private String lastName;
+
+    private String imageId;
+
+    private String imageUrl;
+
     private String description;
 
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getDescription() {
         return description;
@@ -22,20 +63,15 @@ public class ComplaintOfferDescription {
         this.description = description;
     }
 
-    public ZonedDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-
     @Override
     public String toString() {
-        return "ComplaintOfferDescription{" +
-                "description='" + description + '\'' +
-                ", createdDate=" + createdDate +
+        return "ComplaintInitiator{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", imageId='" + imageId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
