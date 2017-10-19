@@ -203,7 +203,7 @@ public class LoginEndpoint {
     //    synchronized (profilesService) {
     if (!SecurityUtils.isAuthenticated()) {
         try {
-                 LoggedUser loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
+                  loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
