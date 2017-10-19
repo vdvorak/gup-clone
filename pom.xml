@@ -14,10 +14,10 @@
     <packaging>pom</packaging>
     <name>GUP</name>
     <description>Global Ukraine Portal</description>
-    <url>www.dev.gup.com.ua</url>
+    <url>www.dev.gup.ua</url>
     <organization>
         <name>GUP</name>
-        <url>http://www.gup.com.ua</url>
+        <url>http://www.gup.ua</url>
     </organization>
     <!-- repository -->
     <repositories>
