@@ -15,11 +15,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <target.jdk>1.8</target.jdk>
-        <surefire.version>2.19</surefire.version>
-        <junit.version>4.12</junit.version>
-    </properties>
 
     <dependencies>
         <!-- Servlet -->
@@ -117,16 +112,6 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <!-- Aspectj -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.8.7</version>
-        </dependency>
         <!-- mapping JSON object To java class  -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -160,7 +145,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -186,12 +170,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
+       <!-- API build swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>

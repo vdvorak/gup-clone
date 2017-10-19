@@ -1,6 +1,7 @@
 package ua.com.gup.api.oauth2;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -49,29 +50,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/oauth-lawyer")
 public class LoginLawyerEndpoint {
-    private final static Logger LOG = Logger.getLogger(LoginLawyerEndpoint.class);
+    private final Logger log = LoggerFactory.getLogger(LoginLawyerEndpoint.class);
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private  UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private VerificationTokenService verificationTokenService;
 
     @Autowired
     private DefaultTokenServices tokenServices;
 
     @Autowired
-    APIVendor profileVendor;
+    private APIVendor profileVendor;
 
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     @Autowired
     private EmailService emailService;
@@ -270,7 +271,7 @@ public class LoginLawyerEndpoint {
         try {
             email = URLDecoder.decode(email, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
+            log.error(LogUtil.getExceptionStackTrace(ex));
         }
 
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();

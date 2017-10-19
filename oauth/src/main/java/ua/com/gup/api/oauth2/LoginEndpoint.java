@@ -1,7 +1,8 @@
 package ua.com.gup.api.oauth2;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -55,7 +56,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/oauth")
 public class LoginEndpoint {
-    private final static Logger LOG = Logger.getLogger(LoginEndpoint.class);
+    private final Logger log = LoggerFactory.getLogger(LoginEndpoint.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -204,7 +205,7 @@ public class LoginEndpoint {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             if (!loggedUser.isEnabled()) {
-                LOG.debug("User is not active yet");
+                log.debug("User is not active yet");
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             if (loggedUser.isBanned())
@@ -285,7 +286,7 @@ public class LoginEndpoint {
 
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
-                LOG.info("authToken remove : " + cookie.getValue());
+                log.info("authToken remove : " + cookie.getValue());
                 tokenServices.revokeToken(cookie.getValue());
             }
         }
