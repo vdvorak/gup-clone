@@ -46,10 +46,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @RestController
 @RequestMapping("/api")
-public class CategoryAPI {
+public class CategoryEndpoint {
 
     private static final String ENTITY_NAME = "category";
-    private final Logger log = LoggerFactory.getLogger(CategoryAPI.class);
+    private final Logger log = LoggerFactory.getLogger(CategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
     private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 

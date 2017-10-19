@@ -44,11 +44,8 @@ public class ComplaintOfferEndpoint {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer)
-            throws URISyntaxException {
+    @RequestMapping(value = "/complaints", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer) throws URISyntaxException {
         log.debug("REST request to save new ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -72,8 +69,7 @@ public class ComplaintOfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/status", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferStaus(@Valid @RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferStaus(@Valid @RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -96,8 +92,7 @@ public class ComplaintOfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/type", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", type);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -120,8 +115,7 @@ public class ComplaintOfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/types", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);

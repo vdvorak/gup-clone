@@ -14,8 +14,8 @@ import ua.com.gup.util.SecurityOperations;
 
 @RestController
 @RequestMapping("/api/rest/fileStorage")
-public class FileStorageAPI {
-    private static final Logger LOG = Logger.getLogger(FileStorageAPI.class);
+public class FileStorageEndpoint {
+    private static final Logger LOG = Logger.getLogger(FileStorageEndpoint.class);
 
     @Autowired
     private StorageService storageService;
@@ -28,14 +28,10 @@ public class FileStorageAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource>
-    getById(@PathVariable String serviceName, @PathVariable String fileId,
-            @RequestParam(defaultValue = "large") String cachedSize) {
-
+    public ResponseEntity<InputStreamResource> getById(@PathVariable String serviceName, @PathVariable String fileId, @RequestParam(defaultValue = "large") String cachedSize) {
         if (!isServiceNameAndRequestParamValid(serviceName, cachedSize)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         return storageService.readCachedImage(serviceName, fileId, cachedSize);
     }
 
@@ -49,10 +45,7 @@ public class FileStorageAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "profile/photo/read/user/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource>
-    getAvatarPictureByUserId(@PathVariable String userId,
-                             @RequestParam(defaultValue = "large") String cachedSize) {
-
+    public ResponseEntity<InputStreamResource> getAvatarPictureByUserId(@PathVariable String userId, @RequestParam(defaultValue = "large") String cachedSize) {
         return storageService.readProfileCachedImage(userId, cachedSize);
     }
 
@@ -61,11 +54,11 @@ public class FileStorageAPI {
      * @param file
      * @return id of uploaded files
      */
-    @PreAuthorize("isAuthenticated()")
+
     @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp>
-    photoUpload(@RequestParam MultipartFile file) {
+    public ResponseEntity<CreatedObjResp> photoUpload(@RequestParam MultipartFile file) {
         if (file.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -82,8 +75,8 @@ public class FileStorageAPI {
      *
      * @return - status Ok or Bad Request
      */
-    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProfilePhoto() {
         String userId = SecurityOperations.getLoggedUserId();
@@ -99,11 +92,10 @@ public class FileStorageAPI {
      *
      * @return - status Ok or Bad Request
      */
-    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/justDelete", method = RequestMethod.POST)
-    public ResponseEntity<Void>
-    justDeleteProfilePhoto(@RequestParam MultipartFile file) {
+    public ResponseEntity<Void> justDeleteProfilePhoto(@RequestParam MultipartFile file) {
         String userId = SecurityOperations.getLoggedUserId();
         if (userId != null) {
             storageService.deleteProfileImage(userId);

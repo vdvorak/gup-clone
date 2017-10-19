@@ -89,7 +89,6 @@ public class LoginEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<ProfileDTO> register(@RequestBody @Validated RegisterProfileDTO registerProfileDTO) {
-
         // email exists check:
         if (!profilesService.profileExistsWithEmail(registerProfileDTO.getEmail())) {
             // REGISTER:
@@ -178,7 +177,6 @@ public class LoginEndpoint {
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
-                //////////////////////////////////////////////////////////////////////////////////////////
                 authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
                 ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
                 return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -187,8 +185,6 @@ public class LoginEndpoint {
             }
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
-
-
     }
 
 
@@ -199,9 +195,9 @@ public class LoginEndpoint {
                                 HttpServletRequest request) {
 
         ProfileDTO profileInfo = new PrivateProfileDTO();
-        LoggedUser loggedUser = null
-    //    synchronized (profilesService) {
+//    synchronized (profilesService) {
     if (!SecurityUtils.isAuthenticated()) {
+        LoggedUser loggedUser = null;
         try {
                   loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
@@ -222,7 +218,7 @@ public class LoginEndpoint {
             }else {
                     profileInfo = profilesService.getLoggedUser(request);
                   }
-      //  }
+        //  }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -400,6 +396,7 @@ public class LoginEndpoint {
 
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
@@ -411,6 +408,7 @@ public class LoginEndpoint {
     private String authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
@@ -422,11 +420,10 @@ public class LoginEndpoint {
     private void authenticateByPhoneAndPassword(User user, String phone, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, phone, user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
-
-
 }
