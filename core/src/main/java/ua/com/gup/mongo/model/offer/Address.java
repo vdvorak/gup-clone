@@ -1,6 +1,5 @@
 package ua.com.gup.mongo.model.offer;
 
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Component;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 @ApiModel(description = "Address Object")
-@Component
 public class Address {
 
     @ApiModelProperty(position = 10)
