@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
+import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.dto.profile.SocialLoginDTO;
@@ -196,7 +197,8 @@ public class LoginEndpoint {
     public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,
                                 HttpServletResponse response,
                                 HttpServletRequest request) {
-        ProfileDTO profileInfo = null;
+
+        ProfileDTO profileInfo = new PrivateProfileDTO();
         synchronized (profilesService) {
             LoggedUser loggedUser;
     if (!SecurityUtils.isAuthenticated()) {
