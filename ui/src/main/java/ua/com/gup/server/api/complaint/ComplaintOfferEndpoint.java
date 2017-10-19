@@ -28,10 +28,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api")
-public class ComplaintOfferAPI {
+public class ComplaintOfferEndpoint {
 
     private static final String ENTITY_NAME = "complaint";
-    private final Logger log = LoggerFactory.getLogger(ComplaintOfferAPI.class);
+    private final Logger log = LoggerFactory.getLogger(ComplaintOfferEndpoint.class);
 
     @Autowired
     private ComplaintOfferService complaintOfferService;
@@ -44,11 +44,8 @@ public class ComplaintOfferAPI {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer)
-            throws URISyntaxException {
+    @RequestMapping(value = "/complaints", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer) throws URISyntaxException {
         log.debug("REST request to save new ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -56,11 +53,10 @@ public class ComplaintOfferAPI {
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
-
-        complaintOffer.setInitiatorId(SecurityUtils.getLoggedUser().getProfileId());
+        complaintOffer.setInitiator(complaintOfferService.formatInitiatorProfile(SecurityUtils.getCurrentUserId()));
         complaintOfferService.save(complaintOffer);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(complaintOffer,HttpStatus.CREATED);
     }
 
 
@@ -73,8 +69,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/status", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferStaus(@Valid @RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity updateComplaintOfferStaus(@Valid @RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -97,8 +92,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/type", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", type);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -121,8 +115,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}/types", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -143,9 +136,7 @@ public class ComplaintOfferAPI {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/types",
-            method = RequestMethod.GET,
-            produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferTypes() throws URISyntaxException {
         log.info("REST request to get Types");
         if (!SecurityUtils.isAuthenticated()) {
@@ -154,10 +145,6 @@ public class ComplaintOfferAPI {
                     .body(null);
         }
 
-
-        /*final Map<String, String> types =
-                Arrays.stream(ComplaintOfferType.values())
-                        .collect(Collectors.toMap(ComplaintOfferType::name, ComplaintOfferType::toString));*/
         final List<ComplaintOfferType> types =
                 Arrays.stream(ComplaintOfferType.values())
                         .collect(Collectors.toList());
@@ -172,19 +159,15 @@ public class ComplaintOfferAPI {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/complaints/statuses",
-            method = RequestMethod.GET,
-            produces = "application/json;charset=UTF-8")
-    public ResponseEntity<String> getComplaintOfferStatuses()
-            throws URISyntaxException {
+    @RequestMapping(value = "/complaints/statuses", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> getComplaintOfferStatuses() throws URISyntaxException {
         log.debug("REST request to get Statuses");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
 
-        final Map<String, String> statuses =
-                Arrays.stream(ComplaintOfferStatus.values())
-                        .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
+        final Map<String, String> statuses = Arrays.stream(ComplaintOfferStatus.values())
+                                                   .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
         return new ResponseEntity(statuses, HttpStatus.OK);
     }
 
@@ -198,8 +181,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ComplaintOffer> getComplaintOfferById(@PathVariable("id") String id)
-            throws URISyntaxException {
+    public ResponseEntity<ComplaintOffer> getComplaintOfferById(@PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer : {}", id);
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -220,8 +202,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferAll()
-            throws URISyntaxException {
+    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferAll() throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -242,8 +223,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/offer/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByOfferId(@PathVariable("offerId") String offerId)
-            throws URISyntaxException {
+    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByOfferId(@PathVariable("offerId") String offerId) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -264,8 +244,7 @@ public class ComplaintOfferAPI {
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/initiator/{initiatorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByInitiatorId(@PathVariable("initiatorId") String initiatorId)
-            throws URISyntaxException {
+    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByInitiatorId(@PathVariable("initiatorId") String initiatorId) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -273,8 +252,6 @@ public class ComplaintOfferAPI {
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
-
-//        return new ResponseEntity(complaintOfferService.findAllByInitiatorId(initiatorId), HttpStatus.OK);
         List<ComplaintOffer> complaints = complaintOfferService.findAllByInitiatorId(initiatorId);
         if (complaints.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -284,16 +261,14 @@ public class ComplaintOfferAPI {
 
 
     /**
-     * GET  /complaints : get a status complaintOffer.
+     * GET  /complaints/status/{status} : get a status complaintOffer.
      *
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
     @RequestMapping(value = "/complaints/status/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") ComplaintOfferStatus status)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") String status)
-            throws URISyntaxException {
+    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") String status) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
@@ -302,13 +277,11 @@ public class ComplaintOfferAPI {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
-        final Map<String, String> statuses =
-                Arrays.stream(ComplaintOfferStatus.values())
-                        .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
+        final Map<String, String> statuses = Arrays.stream(ComplaintOfferStatus.values())
+                                                   .collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
         if (statuses.containsKey(status)) {
             return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
 }

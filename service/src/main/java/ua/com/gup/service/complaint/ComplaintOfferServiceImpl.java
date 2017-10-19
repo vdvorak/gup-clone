@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.mapper.ComplaintMapper;
 import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
+import ua.com.gup.mongo.model.complaint.ComplaintInitiator;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 import ua.com.gup.repository.complaint.ComplaintOfferRepository;
@@ -20,28 +22,23 @@ import java.util.List;
  */
 @Service
 public class ComplaintOfferServiceImpl implements ComplaintOfferService {
-
-
-    private static final String OFFER_SEQUENCE_ID = "complaint_sequence";
-
     private final Logger log = LoggerFactory.getLogger(ComplaintOfferServiceImpl.class);
 
     @Autowired
     private ComplaintOfferRepository complaintRepository;
+    @Autowired
+    private ComplaintMapper complaintMapper;
 
 
     @Override
     public void save(ComplaintOffer complaintOffer) {
         log.debug("Request to save ComplaintOffer : {}", complaintOffer);
-
         ComplaintOffer newComplaintOffer = new ComplaintOffer();
         newComplaintOffer.setOfferId(complaintOffer.getOfferId());
-//        newComplaintOffer.setDescriptions(complaintOffer.getDescriptions());
         newComplaintOffer.setDescription(complaintOffer.getDescription());
         newComplaintOffer.setTypes(complaintOffer.getTypes());
-        newComplaintOffer.setInitiatorId(complaintOffer.getInitiatorId());
+        newComplaintOffer.setInitiator(complaintOffer.getInitiator());
         newComplaintOffer.setStatus(ComplaintOfferStatus.NEW);
-//        newComplaintOffer.setCreatedDateLong( toDateTime(newComplaintOffer.getCreatedDate()).getMillis() );
         complaintRepository.save(newComplaintOffer);
     }
 
@@ -89,7 +86,6 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.addType(type);
             updateComplaintOffer.updateLastModifiedDate();
-//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -97,12 +93,10 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
     @Override
     public void updateTypes(String id, List<ComplaintOfferType> types) {
         log.debug("Request to update update complaintOffer types : {}", id);
-
         if(exists(id)) {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setTypes(types);
             updateComplaintOffer.updateLastModifiedDate();
-//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
     }
@@ -110,14 +104,17 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
     @Override
     public void updateStatus(String id, ComplaintOfferStatus status) {
         log.debug("Request to update update complaintOffer status : {}", id);
-
         if(exists(id)) {
             ComplaintOffer updateComplaintOffer = findOne(id);
             updateComplaintOffer.setStatus(status);
             updateComplaintOffer.updateLastModifiedDate();
-//            updateComplaintOffer.setLastModifiedDateLong(toDateTime(updateComplaintOffer.getLastModifiedDate()).getMillis());
             complaintRepository.update(updateComplaintOffer);
         }
+    }
+
+    @Override
+    public ComplaintInitiator formatInitiatorProfile(String authorId) {
+        return complaintMapper.formatInitiatorProfile(authorId);
     }
 
     private DateTime toDateTime(final ZonedDateTime zdt) {

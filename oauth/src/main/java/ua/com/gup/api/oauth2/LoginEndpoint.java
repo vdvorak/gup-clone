@@ -1,7 +1,8 @@
 package ua.com.gup.api.oauth2;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,15 +21,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
+import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.dto.profile.SocialLoginDTO;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.exception.VerificationTokenExpiredException;
 import ua.com.gup.exception.VerificationTokenNotFoundException;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
@@ -53,8 +55,8 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/oauth")
-public class LoginRestController {
-    private final static Logger LOG = Logger.getLogger(LoginRestController.class);
+public class LoginEndpoint {
+    private final Logger log = LoggerFactory.getLogger(LoginEndpoint.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -88,7 +90,6 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<ProfileDTO> register(@RequestBody @Validated RegisterProfileDTO registerProfileDTO) {
-
         // email exists check:
         if (!profilesService.profileExistsWithEmail(registerProfileDTO.getEmail())) {
             // REGISTER:
@@ -177,7 +178,6 @@ public class LoginRestController {
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
-                //////////////////////////////////////////////////////////////////////////////////////////
                 authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
                 ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
                 return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -186,25 +186,26 @@ public class LoginRestController {
             }
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
-
-
     }
 
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,
-                                HttpServletResponse response) {
-        ProfileDTO profileInfo = null;
-        synchronized (profilesService) {
-            LoggedUser loggedUser;
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
+                                HttpServletResponse response,
+                                HttpServletRequest request) {
+
+        ProfileDTO profileInfo = new PrivateProfileDTO();
+//    synchronized (profilesService) {
+    if (!SecurityUtils.isAuthenticated()) {
+        LoggedUser loggedUser = null;
+        try {
+                  loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             if (!loggedUser.isEnabled()) {
-                LOG.debug("User is not active yet");
+                log.debug("User is not active yet");
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             if (loggedUser.isBanned())
@@ -213,15 +214,12 @@ public class LoginRestController {
             if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-
-            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
-
-
-            if (!SecurityUtils.isAuthenticated()) {
-                LOG.debug("----------- user isAuthenticated  :=  " + SecurityUtils.isAuthenticated());
+                profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
                 authenticateByEmailAndPassword(loggedUser, response);
-            }
-        }
+            }else {
+                    profileInfo = profilesService.getLoggedUser(request);
+                  }
+        //  }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -235,16 +233,6 @@ public class LoginRestController {
 
         LoggedUser loggedUser;
         try {
-            /*LockRemoteIP lockRemoteIP = lockRemoteIPService.findLockRemoteIPByIp(request.getRemoteAddr());
-            if (lockRemoteIP == null) {
-                lockRemoteIP = new LockRemoteIP();
-                lockRemoteIP.setIp(request.getRemoteAddr());
-                lockRemoteIPService.createLockRemoteIP(lockRemoteIP);
-            }
-            if (!lockRemoteIPService.findLockRemoteIPByIpAndUpdateLastTryLoginDate(request.getRemoteAddr())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }*/
-
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -252,9 +240,6 @@ public class LoginRestController {
         if (loggedUser.isBanned())
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByUid(socialLoginDTO.getUid(), socialLoginDTO.getSocWendor());
-        //Profile getProfile = profileInfo.getProfile();
-        //getProfile.setRefreshToken(authenticateByUidAndToken(loggedUser, getProfile.getSocWendor(), response));
-        //profileInfo.setProfile(getProfile);,
         authenticateByUidAndToken(loggedUser, socialLoginDTO.getSocWendor(), response);
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
@@ -301,7 +286,7 @@ public class LoginRestController {
 
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
-                LOG.info("authToken remove : " + cookie.getValue());
+                log.info("authToken remove : " + cookie.getValue());
                 tokenServices.revokeToken(cookie.getValue());
             }
         }
@@ -412,6 +397,7 @@ public class LoginRestController {
 
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
@@ -423,6 +409,7 @@ public class LoginRestController {
     private String authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
@@ -434,11 +421,10 @@ public class LoginRestController {
     private void authenticateByPhoneAndPassword(User user, String phone, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, phone, user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
-
-
 }

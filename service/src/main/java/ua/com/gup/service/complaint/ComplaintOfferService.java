@@ -2,6 +2,7 @@ package ua.com.gup.service.complaint;
 
 
 import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
+import ua.com.gup.mongo.model.complaint.ComplaintInitiator;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 
@@ -96,5 +97,7 @@ public interface ComplaintOfferService {
      * @return the entity
      */
     void updateStatus(String id, ComplaintOfferStatus status);
+
+    ComplaintInitiator formatInitiatorProfile(String authorId);
 
 }

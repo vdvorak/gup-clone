@@ -14,18 +14,6 @@
     </parent>
 
     <dependencies>
-        <!-- Image scale library -->
-        <!--<composition>
-            <groupId>org.imgscalr</groupId>
-            <artifactId>imgscalr-lib</artifactId>
-            <version>${imgscalr-lib.version}</version>
-        </composition>-->
-        <!--Google JSON -->
-        <!-- <composition>
-             <groupId>com.google.code.gson</groupId>
-             <artifactId>gson</artifactId>
-         </composition>-->
-        <!-- validation-api -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -34,34 +22,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
-        <!-- commons library slf4j -->
-        <!-- <composition>
-             <groupId>org.apache.commons</groupId>
-             <artifactId>commons-lang3</artifactId>
-         </composition>
-         <composition>
-             <groupId>org.apache.commons</groupId>
-             <artifactId>commons-io</artifactId>
-         </composition>-->
-        <!-- Logging with SLF4J & Log4j -->
-
-        <!-- Spring -->
-        <!--<composition>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </composition>
-        <composition>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </composition>
-        <composition>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </composition>
-        <composition>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </composition>-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
@@ -85,48 +45,16 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-        <!-- Test -->
-        <!-- <composition>
-             <groupId>junit</groupId>
-             <artifactId>junit</artifactId>
-         </composition>
-         <composition>
-             <groupId>org.mockito</groupId>
-             <artifactId>mockito-core</artifactId>
-         </composition>
-         <composition>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-test</artifactId>
-         </composition>
-         <composition>
-             <groupId>joda-time</groupId>
-             <artifactId>joda-time</artifactId>
-         </composition>
-         <composition>
-             <groupId>org.apache.httpcomponents</groupId>
-             <artifactId>httpclient</artifactId>
-         </composition>
-         <composition>
-             <groupId>org.apache.httpcomponents</groupId>
-             <artifactId>httpmime</artifactId>
-         </composition>-->
-        <!-- Mongo for Mongo test -->
-        <!-- <composition>
-             <groupId>org.mongodb</groupId>
-             <artifactId>mongo-java-driver</artifactId>
-             <version>3.3.0</version>
-         </composition>-->
-        <!-- RSA Library -->
-        <!--<composition>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-        </composition>-->
         <!-- Spring Mongo data library -->
-        <!-- <composition>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-         </composition>-->
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <!-- Mongo DB -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+        </dependency>
         <!-- Swagger ui -->
         <dependency>
             <groupId>io.springfox</groupId>
