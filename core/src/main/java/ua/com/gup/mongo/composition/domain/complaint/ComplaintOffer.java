@@ -18,7 +18,6 @@ public class ComplaintOffer implements Serializable {
 
     @Id
     private String id;
-    //private String initiatorId;
 
     private ComplaintInitiator initiator;
 
@@ -49,14 +48,6 @@ public class ComplaintOffer implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
-    /*public String getInitiatorId() {
-        return initiatorId;
-    }
-
-    public void setInitiatorId(String initiatorId) {
-        this.initiatorId = initiatorId;
-    }*/
 
     public ComplaintInitiator getInitiator() {
         return initiator;
