@@ -18,8 +18,9 @@ import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
-import ua.com.gup.mapper.OfferCategoryCountMapper;
+import ua.com.gup.mapper.OfferCategoryMapper;
 import ua.com.gup.mapper.OfferMapper;
+import ua.com.gup.mongo.composition.domain.category.Category;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.enumeration.Currency;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
@@ -34,6 +35,7 @@ import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.repository.offer.OfferRepositoryCustom;
 import ua.com.gup.repository.offer.OfferRepositoryOLD;
+import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.image.ImageService;
@@ -69,7 +71,9 @@ public class OfferServiceImpl implements OfferService {
     @Autowired
     private OfferMapper offerMapper;
     @Autowired
-    private OfferCategoryCountMapper offerCategoryCountMapper;
+    private OfferCategoryMapper offerCategoryMapper;
+    @Autowired
+    private CategoryService categoryService;
 
 
     //-------------------- OLD -----------------------------//
@@ -248,13 +252,16 @@ public class OfferServiceImpl implements OfferService {
         if (offerOptional.isPresent()) {
             final Offer offer = offerOptional.get();
             StringBuilder search = new StringBuilder();
-            for (OfferCategory category : offer.getCategories()) {
+
+            List<Category> categories = categoryService.findByCodeInOrderByCodeAsc(offer.getCategories());
+            for (Category category : categories) {
                 final Map<String, String> titles = category.getTitle();
                 for (String lang : titles.keySet()) {
                     search.append(titles.get(lang) + " ");
                     break;
                 }
             }
+
             search.append(offer.getTitle());
             OfferFilter filter = new OfferFilter();
             filter.setQuery(search.toString());
@@ -412,7 +419,7 @@ public class OfferServiceImpl implements OfferService {
         final List<OfferCategoryCount> offerCategoryCounts = offerRepositoryCustom.searchCategoriesByString(string, page, size);
         return offerCategoryCounts
                 .stream()
-                .map(c -> offerCategoryCountMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
+                .map(c -> offerCategoryMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
                 .collect(Collectors.toList());
     }
 

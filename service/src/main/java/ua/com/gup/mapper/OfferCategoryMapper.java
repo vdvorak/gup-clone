@@ -7,10 +7,10 @@ import ua.com.gup.mongo.model.offer.OfferCategory;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 import ua.com.gup.service.category.CategoryService;
 
-import java.util.LinkedList;
+import java.util.*;
 
 @Component
-public class OfferCategoryCountMapper {
+public class OfferCategoryMapper {
     @Autowired
     private CategoryService categoryService;
 
@@ -26,4 +26,11 @@ public class OfferCategoryCountMapper {
         offerCategoryCountDTO.setTitle(offerCategory.getTitle());
         return offerCategoryCountDTO;
     }
+
+    public LinkedList<OfferCategory> offerCategoriesByCategoriesIds(List<Integer> ids) {
+        LinkedList<OfferCategory> offerCategories = new LinkedList<>();
+        categoryService.findByCodeInOrderByCodeAsc(ids).forEach(e -> offerCategories.add(new OfferCategory(e)));
+        return offerCategories;
+    }
+
 }

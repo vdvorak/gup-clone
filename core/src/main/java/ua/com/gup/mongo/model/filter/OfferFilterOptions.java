@@ -16,7 +16,7 @@ import java.util.Set;
  */
 @Component
 public final class OfferFilterOptions extends Offer {
-    @Autowired
+
     private Set<Address> addresses;
     private int skip;
     private int limit;

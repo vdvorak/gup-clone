@@ -79,6 +79,9 @@ public interface ProfilesService {
      */
     boolean profileExists(String id);
 
+    boolean profileExistsByPublicId(String id);
+
+
     /**
      * Profile exists with email boolean.
      *
@@ -225,7 +228,7 @@ public interface ProfilesService {
     List<Profile> getMatchedCompanies(String term);
 
 
-    void toggleProfileInUserSocialList(String userId, String profileId);
+    void toggleProfileInUserSocialList(String userId, String publicProfileId);
 
 
     /**

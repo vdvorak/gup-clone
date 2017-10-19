@@ -49,10 +49,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api")
-public class OfferAPI {
+public class OfferEndpoint {
 
     private static final String ENTITY_NAME = "offer";
-    private final Logger log = LoggerFactory.getLogger(OfferAPI.class);
+    private final Logger log = LoggerFactory.getLogger(OfferEndpoint.class);
 
     @Autowired
     private OfferService offerService;

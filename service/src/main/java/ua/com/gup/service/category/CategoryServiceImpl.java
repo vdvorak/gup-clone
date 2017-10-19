@@ -148,18 +148,22 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findOne(id);
     }
 
-    /**
-     * Get the "code" category.
-     *
-     * @param code the code of the entity
-     * @return the entity
-     */
+
     @Override
     public Optional<Category> findOneByCode(int code) {
         log.debug("Request to get Category : {}", code);
         return categoryRepository.findOneByCode(code);
     }
 
+    @Override
+    public List<Category> findByCodeInOrderByCodeAsc(List<Integer> codes) {
+        log.debug("Request to get Categories : {}", codes);
+        Optional<List<Category>> optional = categoryRepository.findByCodeInOrderByCodeAsc(codes);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return Collections.EMPTY_LIST;
+    }
 
     /**
      * Delete the "id" category.
@@ -184,6 +188,15 @@ public class CategoryServiceImpl implements CategoryService {
             warmCache();
         }
         return offerCategoryCache.get(code);
+    }
+
+
+    @Override
+    public List<Integer> getOfferCategoriesIds(int code) {
+        if (offerCategoryCache.size() == 0) {
+            warmCache();
+        }
+        return offerCategoryCache.get(code).stream().map(offerCategory -> offerCategory.getCode()).collect(Collectors.toList());
     }
 
     /**

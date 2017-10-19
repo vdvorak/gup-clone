@@ -77,9 +77,14 @@
         <filter-name>gzipFilter</filter-name>
         <filter-class>ua.com.gup.config.filter.GZIPFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>gzipFilter</filter-name>
         <url-pattern>/api/categories/*</url-pattern>
     </filter-mapping>
 
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
 </web-app>

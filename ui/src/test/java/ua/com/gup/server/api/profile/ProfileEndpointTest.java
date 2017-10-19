@@ -21,21 +21,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context.xml", "classpath:dispatcherServlet.xml"})
 @WebAppConfiguration
-public class ProfileAPITest {
+public class ProfileEndpointTest {
 
     private MockMvc mockMvc;
 
     @Mock
     private ProfilesService profilesService;
     @InjectMocks
-    private ProfileAPI profileAPI;
+    private ProfileEndpoint profileEndpoint;
 
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders
-                .standaloneSetup(profileAPI)
+                .standaloneSetup(profileEndpoint)
                 .build();
     }
 
