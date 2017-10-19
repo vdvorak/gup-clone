@@ -38,6 +38,7 @@
         <target.jdk>1.8</target.jdk>
         <!-- library -->
         <spring-data-mongodb.version>1.8.4.RELEASE</spring-data-mongodb.version>
+        <mongodb.version>3.3.0</mongodb.version>
         <springframework.security.test.version>4.0.3.RELEASE</springframework.security.test.version>
         <spring-test.version>4.2.5.RELEASE</spring-test.version>
         <spring-mock.version>2.0.8</spring-mock.version>
@@ -48,6 +49,7 @@
         <commons-validator.version>1.4.0</commons-validator.version>
         <log4j-slf4j-impl.version>2.9.1</log4j-slf4j-impl.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
+        <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
         <bcprov-jdk15on.version>1.51</bcprov-jdk15on.version>
         <gson.version>2.2.4</gson.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
@@ -95,7 +97,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>5.2.1.Final</version>
+                <version>${hibernate-validator.version}</version>
             </dependency>
             <!-- common lang -->
             <dependency>
@@ -118,7 +120,6 @@
                 <artifactId>commons-validator</artifactId>
                 <version>${commons-validator.version}</version>
             </dependency>
-
             <!--Servlet api-->
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -130,12 +131,6 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-            <!--Spring Boot dependencies -->
-            <!-- <composition>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-starter-tomcat</artifactId>
-                 <scope>provided</scope>
-             </composition>-->
             <!-- Spring framework-->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -222,10 +217,16 @@
                 <artifactId>httpasyncclient</artifactId>
                 <version>${httpasyncclient.version}</version>
             </dependency>
+            <!-- Spring mongo dependency -->
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-mongodb</artifactId>
                 <version>${spring-data-mongodb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>${mongodb.version}</version>
             </dependency>
             <!-- Third Part dependencies library -->
             <!--<url>https://jitpack.io</url> Exchnage currency-->
@@ -240,7 +241,6 @@
                 <artifactId>slugify</artifactId>
                 <version>${slugify.version}</version>
             </dependency>
-
             <!-- Template engine for mails -->
             <dependency>
                 <groupId>org.thymeleaf</groupId>
