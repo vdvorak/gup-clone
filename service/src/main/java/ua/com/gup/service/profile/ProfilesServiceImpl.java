@@ -125,6 +125,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileExists(id);
     }
 
+    @Override
+    public boolean profileExistsByPublicId(String id) {
+        return profileRepository.profileExistsByPublicId(id);
+    }
 
     @Override
     public boolean profileExistsWithEmail(String email) {
@@ -258,13 +262,13 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public void toggleProfileInUserSocialList(String userId, String profileId) {
-        if (profileRepository.profileExistsInUserSocialList(userId, profileId)) {
-            profileRepository.deleteProfileFromUserSocialList(userId, profileId);
-            profileRepository.decrementProfileStatistic(profileId, "inContactsCounter");
+    public void toggleProfileInUserSocialList(String userId, String publicProfileId) {
+        if (profileRepository.profileExistsInUserSocialList(userId, publicProfileId)) {
+            profileRepository.deleteProfileFromUserSocialList(userId, publicProfileId);
+            profileRepository.decrementProfileStatistic(publicProfileId, "inContactsCounter");
         } else {
-            profileRepository.addProfileToUserSocialList(userId, profileId);
-            profileRepository.incrementProfileStatistic(profileId, "inContactsCounter");
+            profileRepository.addProfileToUserSocialList(userId, publicProfileId);
+            profileRepository.incrementProfileStatistic(publicProfileId, "inContactsCounter");
         }
     }
 

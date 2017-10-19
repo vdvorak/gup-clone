@@ -70,21 +70,21 @@ public class ProfileAPI {
     /**
      * Add one contact (user) to the current user contact list.
      *
-     * @param profileId - the profile ID of the user, which must be added to the contact list.
+     * @param publicProfileId - the public profile ID of the user, which must be added to the contact list.
      * @return - the status code Not_Found if target user was not fount,
      * status code OK if user was successfully deleted.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/toggle", method = RequestMethod.POST)
-    public ResponseEntity<String> toggleProfileInMyContactList(@PathVariable String profileId) {
-        if (!profilesService.profileExists(profileId)) {
+    @RequestMapping(value = "/profile/contacts/toggle/{publicProfileId}", method = RequestMethod.POST)
+    public ResponseEntity<String> toggleProfileInMyContactList(@PathVariable String publicProfileId) {
+        if (!profilesService.profileExistsByPublicId(publicProfileId)) {
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
         String userId = SecurityOperations.getLoggedUserId();
         if (userId != null) {
-            profilesService.toggleProfileInUserSocialList(userId, profileId);
-            log.debug("{User: " + profileId + ", toggled to/from: " + userId + " contact list}");
+            profilesService.toggleProfileInUserSocialList(userId, publicProfileId);
+            log.debug("{User: " + publicProfileId + ", toggled to/from: " + userId + " contact list}");
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);

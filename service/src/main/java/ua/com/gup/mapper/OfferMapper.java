@@ -46,6 +46,9 @@ public class OfferMapper {
     private OfferAuthorMapper authorMapper;
 
     @Autowired
+    private OfferCategoryMapper offerCategoryMapper;
+
+    @Autowired
     private CategoryService categoryService;
 
     @Autowired
@@ -60,7 +63,7 @@ public class OfferMapper {
     public void offerUpdateDTOToOffer(OfferUpdateDTO source, Offer target) {
         fromOfferCreateDTOToOffer(source, target);
         if (source.getCategory() != null) {
-            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
+            target.setCategories(categoryService.getOfferCategoriesIds(source.getCategory()));
         }
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
@@ -80,7 +83,7 @@ public class OfferMapper {
 
     public void offerModeratorDTOToOffer(OfferModerationReportDTO source, Offer target) {
         if (source.getCategory() != null) {
-            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
+            target.setCategories(categoryService.getOfferCategoriesIds(source.getCategory()));
         }
         OfferModerationReport moderationReport = new OfferModerationReport();
         moderationReport.setDescription(source.getDescription());
@@ -145,7 +148,10 @@ public class OfferMapper {
         target.setId(source.getId());
         target.setLastModifiedDate(source.getLastModifiedDate());
         target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
-        target.setCategories(source.getCategories());
+        if (source.getCategories() != null) {
+            target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
+        }
+
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         if (source.getPrice() != null) {
@@ -166,7 +172,7 @@ public class OfferMapper {
     private void fromOfferCreateDTOToOffer(OfferCreateDTO source, Offer target) {
 
         if (source.getCategory() != null) {
-            target.setCategories(categoryService.getOfferCategories(source.getCategory()));
+            target.setCategories(categoryService.getOfferCategoriesIds(source.getCategory()));
         }
 
         if (source.getTitle() != null) {

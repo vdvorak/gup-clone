@@ -54,13 +54,18 @@ public interface CategoryService {
      */
     Category findOne(String id);
 
+
+    Optional<Category> findOneByCode(int code);
+
     /**
-     * Get the "code" category.
+     * Get categories by "codes".
+     * Order by key.asc
      *
-     * @param code the id of the entity
+     * @param codes the codes list of the entity
      * @return the entity
      */
-    Optional<Category> findOneByCode(int code);
+
+    List<Category> findByCodeInOrderByCodeAsc(List<Integer> codes);
 
 
     /**
@@ -76,6 +81,13 @@ public interface CategoryService {
      * @param code the code of the entity
      */
     LinkedList<OfferCategory> getOfferCategories(int code);
+
+    /**
+     * Get set of ids offer categories from cache.
+     *
+     * @param code the code of the entity
+     */
+    List<Integer> getOfferCategoriesIds(int code);
 
     /**
      * Exists in cache.

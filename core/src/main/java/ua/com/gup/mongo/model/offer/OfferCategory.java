@@ -1,13 +1,14 @@
 package ua.com.gup.mongo.model.offer;
 
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.mongo.composition.domain.category.Category;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class OfferCategory {
 
-    @ApiModelProperty(example = "ode")
+    @ApiModelProperty(example = "code")
     private int code;
     @ApiModelProperty(example = "key")
     private String key;
@@ -15,13 +16,13 @@ public class OfferCategory {
     private Map<String, String> title = new HashMap<>();
 
 
-    public OfferCategory(int code, String key, Map<String, String> title) {
-        this.code = code;
-        this.key = key;
-        this.title = title;
+    public OfferCategory() {
     }
 
-    public OfferCategory() {
+    public OfferCategory(Category category) {
+        this.code = category.getCode();
+        this.key = category.getKey();
+        this.title = category.getTitle();
 
     }
 

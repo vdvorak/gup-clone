@@ -203,5 +203,7 @@ public interface ProfileRepository {
     void incrementProfileStatistic(String profileId, String field);
 
     void decrementProfileStatistic(String profileId, String field);
+
+    boolean profileExistsByPublicId(String profilePublicId);
 }
 

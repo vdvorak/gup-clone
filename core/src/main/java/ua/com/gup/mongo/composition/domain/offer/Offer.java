@@ -18,9 +18,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Database table entity Offer.
@@ -48,9 +46,7 @@ public class Offer implements Serializable {
 
     private OfferStatus status;
 
-    private String categoriesRegExp;
-
-    private LinkedList<OfferCategory> categories;
+    private List<Integer> categories;
 
     @NotNull
     @Size(min = 2, max = 70, message = "The length of field 'title' should be in range 2-70")
@@ -144,21 +140,13 @@ public class Offer implements Serializable {
         this.status = status;
     }
 
-    public String getCategoriesRegExp() {
-        return categoriesRegExp;
-    }
 
-    public void setCategoriesRegExp(String categoriesRegExp) {
-        this.categoriesRegExp = categoriesRegExp;
-    }
-
-    public LinkedList<OfferCategory> getCategories() {
+    public List<Integer> getCategories() {
         return categories;
     }
 
-    public void setCategories(LinkedList<OfferCategory> categories) {
+    public void setCategories(List<Integer> categories) {
         this.categories = categories;
-        this.categoriesRegExp = categories.stream().map(c -> "" + c.getCode()).collect(Collectors.joining("/")) + "/";
     }
 
     public String getTitle() {

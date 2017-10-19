@@ -230,9 +230,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         for (int i = 0; i < words.length; i++) {
             criterias[i] = Criteria.where("title").regex("(?i:.*" + words[i] + ".*)");
         }
-        TextCriteria textCriteria = TextCriteria
-                .forLanguage("russian");
-        textCriteria.matchingPhrase(query);
+
         Aggregation agg = newAggregation(
                 match(Criteria.where("status").is(OfferStatus.ACTIVE.toString())),
                 match(new Criteria().andOperator(criterias)),

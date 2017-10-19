@@ -356,4 +356,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         update.inc("profileStatistic." + field, -1);
         mongoTemplate.findAndModify(new Query(Criteria.where("id").is(profileId)), update, Profile.class);
     }
+
+    @Override
+    public boolean profileExistsByPublicId(String profilePublicId) {
+        Query query = new Query(Criteria.where("publicId").is(profilePublicId));
+        return mongoTemplate.exists(query, Profile.class);
+    }
 }
