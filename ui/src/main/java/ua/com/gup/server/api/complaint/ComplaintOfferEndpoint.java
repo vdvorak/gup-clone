@@ -53,7 +53,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
-        complaintOffer.setInitiator(complaintOfferService.formatInitiatorProfile(SecurityUtils.getCurrentUserId()));
+        complaintOffer.setInitiator(complaintOfferService.getInitiatorProfile(SecurityUtils.getCurrentUserId()));
         complaintOfferService.save(complaintOffer);
 
         return new ResponseEntity(complaintOffer,HttpStatus.CREATED);

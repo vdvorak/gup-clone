@@ -98,6 +98,6 @@ public interface ComplaintOfferService {
      */
     void updateStatus(String id, ComplaintOfferStatus status);
 
-    ComplaintInitiator formatInitiatorProfile(String authorId);
+    ComplaintInitiator getInitiatorProfile(String authorId);
 
 }

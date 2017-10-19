@@ -113,8 +113,8 @@ public class ComplaintOfferServiceImpl implements ComplaintOfferService {
     }
 
     @Override
-    public ComplaintInitiator formatInitiatorProfile(String authorId) {
-        return complaintMapper.formatInitiatorProfile(authorId);
+    public ComplaintInitiator getInitiatorProfile(String authorId) {
+        return complaintMapper.getInitiatorProfile(authorId);
     }
 
     private DateTime toDateTime(final ZonedDateTime zdt) {

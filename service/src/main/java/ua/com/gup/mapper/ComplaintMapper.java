@@ -14,7 +14,7 @@ public class ComplaintMapper {
     @Autowired
     private ProfilesService profilesService;
 
-    public ComplaintInitiator formatInitiatorProfile(String authorId) {
+    public ComplaintInitiator getInitiatorProfile(String authorId) {
         Profile initiatorProfile = profilesService.findById(authorId);
         ComplaintInitiator complaintInitiator = new ComplaintInitiator();
         if (initiatorProfile != null) {
@@ -23,6 +23,7 @@ public class ComplaintMapper {
             complaintInitiator.setLastName(initiatorProfile.getLastname());
             complaintInitiator.setImageId(initiatorProfile.getImgId());
             complaintInitiator.setImageUrl(initiatorProfile.getImgUrl());
+            complaintInitiator.setEmail(initiatorProfile.getEmail());
         }
         return complaintInitiator;
     }

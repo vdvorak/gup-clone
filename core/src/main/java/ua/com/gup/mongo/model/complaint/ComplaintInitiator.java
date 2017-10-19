@@ -13,7 +13,7 @@ public class ComplaintInitiator {
 
     private String imageUrl;
 
-    private String description;
+    private String email;
 
     public String getId() {
         return id;
@@ -55,12 +55,12 @@ public class ComplaintInitiator {
         this.imageUrl = imageUrl;
     }
 
-    public String getDescription() {
-        return description;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ComplaintInitiator {
                 ", lastName='" + lastName + '\'' +
                 ", imageId='" + imageId + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
