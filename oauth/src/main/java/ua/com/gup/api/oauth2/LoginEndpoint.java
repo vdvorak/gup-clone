@@ -199,11 +199,11 @@ public class LoginEndpoint {
                                 HttpServletRequest request) {
 
         ProfileDTO profileInfo = new PrivateProfileDTO();
-        synchronized (profilesService) {
-            LoggedUser loggedUser;
+        LoggedUser loggedUser = null
+    //    synchronized (profilesService) {
     if (!SecurityUtils.isAuthenticated()) {
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
+        try {
+                 LoggedUser loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
@@ -222,7 +222,7 @@ public class LoginEndpoint {
             }else {
                     profileInfo = profilesService.getLoggedUser(request);
                   }
-        }
+      //  }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
