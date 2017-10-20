@@ -28,6 +28,11 @@
             <artifactId>xchange-rate</artifactId>
             <version>${version}</version>
         </dependency>
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
         <!-- Image scale library -->
          <dependency>
              <groupId>org.imgscalr</groupId>

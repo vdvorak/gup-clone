@@ -23,7 +23,12 @@
             <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
-        <!-- library -->
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <!-- commons library -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
