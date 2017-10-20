@@ -6,7 +6,7 @@
     <groupId>ua.com.gup</groupId>
     <version>${version}</version>
     <packaging>jar</packaging>
-    
+
     <parent>
         <groupId>ua.com.gup</groupId>
         <artifactId>GUP</artifactId>

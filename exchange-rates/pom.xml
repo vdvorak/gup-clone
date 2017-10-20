@@ -14,17 +14,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <jdk.version>1.8</jdk.version>
-    </properties>
-
 	<dependencies>
-		<!-- TestNG used for testing-->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.9.6</version>
-		</dependency>
 		<!-- used for backward compatibility, for versions less than java 8-->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -44,24 +34,11 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20090211</version>
 		</dependency>
 	</dependencies>
 
     <build>
         <finalName>xchange-ratei##${project.version}</finalName>
         <defaultGoal>package</defaultGoal>
-       <!-- <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>-->
     </build>
 </project>
