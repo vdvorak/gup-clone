@@ -193,7 +193,7 @@ public class LoginEndpoint {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,
                                 HttpServletResponse response,
-                                HttpServletRequest request) {
+                                HttpServletRequest request) throws Exception {
 
         ProfileDTO profileInfo = new PrivateProfileDTO();
 //    synchronized (profilesService) {

@@ -1,5 +1,7 @@
 package ua.com.gup.service.profile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
+import ua.com.gup.util.LogUtil;
 import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
@@ -23,6 +26,7 @@ import java.util.*;
 
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
+    private final Logger log = LoggerFactory.getLogger(ProfilesServiceImpl.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -360,16 +364,27 @@ public class ProfilesServiceImpl implements ProfilesService {
      * @return - the ProfileDTO object if user is loggedIn, or null if not.
      */
     @Override
-    public ProfileDTO getLoggedUser(HttpServletRequest request) {
+    public ProfileDTO getLoggedUser(HttpServletRequest request) throws Exception {
         ProfileDTO profileInfo = null;
         if (request.getCookies() != null) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
                 Object principal = null;
                 if (cookie.getName().equals("authToken")) {
-                    principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    try {
+                        principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    } catch (Exception e) {
+                       log.info("{}", LogUtil.getExceptionStackTrace(e));
+                       return null;
+                    }
                 } else if (cookie.getName().equals("refreshToken")) {
-                    List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
+                    List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = null;
+                    try {
+                        oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
+                    } catch (Exception e) {
+                        log.info(LogUtil.getExceptionStackTrace(e));
+                        return null;
+                    }
                     if (oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size() > 0) {
                         principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size() - 1).getAuthentication().getUserAuthentication().getPrincipal();
                     }

@@ -292,7 +292,7 @@ public interface ProfilesService {
      * @param request - the HttpServletRequest object.
      * @return - the ProfileDTO object if user is loggedIn, or null if not.
      */
-    ProfileDTO getLoggedUser(HttpServletRequest request);
+    ProfileDTO getLoggedUser(HttpServletRequest request) throws Exception;
 
 
     /**

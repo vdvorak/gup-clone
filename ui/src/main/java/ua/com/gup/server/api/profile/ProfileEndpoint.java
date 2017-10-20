@@ -119,7 +119,7 @@ public class ProfileEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
-    public ResponseEntity<ProfileDTO> getLoggedUser(HttpServletRequest request) {
+    public ResponseEntity<ProfileDTO> getLoggedUser(HttpServletRequest request) throws Exception {
         ProfileDTO profileInfo = profilesService.getLoggedUser(request);
         if (profileInfo != null) {
             return new ResponseEntity<>(profileInfo, HttpStatus.OK);
