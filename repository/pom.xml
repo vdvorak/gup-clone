@@ -8,6 +8,7 @@
     <groupId>ua.com.gup</groupId>
     <version>${version}</version>
     <packaging>jar</packaging>
+
     <parent>
         <groupId>ua.com.gup</groupId>
         <artifactId>GUP</artifactId>
@@ -37,94 +38,6 @@
              <groupId>com.google.code.gson</groupId>
              <artifactId>gson</artifactId>
          </dependency>
-         <!-- validation-api -->
-         <dependency>
-             <groupId>javax.validation</groupId>
-             <artifactId>validation-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.hibernate</groupId>
-             <artifactId>hibernate-validator</artifactId>
-         </dependency>
-         <!-- commons library -->
-         <dependency>
-             <groupId>org.apache.commons</groupId>
-             <artifactId>commons-lang3</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.apache.commons</groupId>
-             <artifactId>commons-io</artifactId>
-         </dependency>
-         <!-- Spring -->
-         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-webmvc</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-web</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context-support</artifactId>
-         </dependency>
-         <!--Security-->
-         <dependency>
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-web</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-config</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-taglibs</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-test</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.security.oauth</groupId>
-             <artifactId>spring-security-oauth2</artifactId>
-         </dependency>
-         <!--JSON translator-->
-         <dependency>
-             <groupId>com.fasterxml.jackson.core</groupId>
-             <artifactId>jackson-databind</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>com.fasterxml.jackson.datatype</groupId>
-             <artifactId>jackson-datatype-jsr310</artifactId>
-         </dependency>
-         <!--Servlet swagger-->
-         <dependency>
-             <groupId>javax.servlet</groupId>
-             <artifactId>javax.servlet-api</artifactId>
-         </dependency>
-         <!-- DATA-TIME Library -->
-         <dependency>
-             <groupId>joda-time</groupId>
-             <artifactId>joda-time</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.apache.httpcomponents</groupId>
-             <artifactId>httpclient</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.apache.httpcomponents</groupId>
-             <artifactId>httpmime</artifactId>
-         </dependency>
-         <!-- RSA Library -->
-         <dependency>
-             <groupId>org.bouncycastle</groupId>
-             <artifactId>bcprov-jdk15on</artifactId>
-         </dependency>
          <!-- Swagger ui -->
          <dependency>
              <groupId>io.springfox</groupId>
@@ -134,14 +47,6 @@
          <dependency>
              <groupId>junit</groupId>
              <artifactId>junit</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.mockito</groupId>
-             <artifactId>mockito-core</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-test</artifactId>
          </dependency>
     </dependencies>
 
