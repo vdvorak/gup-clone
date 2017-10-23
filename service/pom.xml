@@ -49,11 +49,10 @@
             <artifactId>java-exchange-rates</artifactId>
         </dependency>
         <!-- Swagger model(core) -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <!-- Template engine for mails -->
         <dependency>
             <groupId>org.thymeleaf</groupId>

@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="ua.com.gup">
-        <context:exclude-filter type="regex" expression="ua.com.gup.config.swagger.SwaggerConfig"/>
+        <!--<context:exclude-filter type="regex" expression="ua.com.gup.config.swagger.SwaggerConfig"/>-->
     </context:component-scan>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:properties/*.properties"/>

@@ -44,10 +44,10 @@
              <artifactId>gson</artifactId>
          </dependency>
          <!-- Swagger model(core) -->
-         <dependency>
+        <!-- <dependency>
              <groupId>io.springfox</groupId>
              <artifactId>springfox-swagger2</artifactId>
-         </dependency>
+         </dependency>-->
          <!-- Test -->
          <dependency>
              <groupId>junit</groupId>
