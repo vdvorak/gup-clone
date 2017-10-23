@@ -58,6 +58,10 @@
             <artifactId>httpasyncclient</artifactId>
         </dependency>
         <!--JSON translator-->
+         <dependency>
+           <groupId>com.fasterxml.jackson.datatype</groupId>
+           <artifactId>jackson-datatype-jsr310</artifactId>
+       </dependency>
         <!-- Swagger API create host:port/war/swagger-ui.html#/ -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -79,16 +83,6 @@
         <finalName>ui-api##${project.version}</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
