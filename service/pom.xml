@@ -29,7 +29,6 @@
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.5.0-b01</version>
         </dependency>
         <!-- Spring Mail Context Support -->
         <dependency>
@@ -48,6 +47,12 @@
         <dependency>
             <groupId>com.github.Ritaja</groupId>
             <artifactId>java-exchange-rates</artifactId>
+        </dependency>
+        <!-- Swagger model(core) -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- Template engine for mails -->
         <dependency>
