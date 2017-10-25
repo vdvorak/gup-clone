@@ -51,32 +51,32 @@ public class HttpClientConfiguration {
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
         restTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
-                                                        request.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                                                        request.getHeaders().add("token", token);
-                                                        return execution.execute(request, body);
-                                                      })
-                                    );
+                    request.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+                    request.getHeaders().add("token", token);
+                    return execution.execute(request, body);
+                })
+        );
 
         return restTemplate;
     }
 
     @Bean
     public CloseableHttpClient httpClient() {
-  try {
+        try {
             PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
             connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
             connectionManager.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE);
             connectionManager.setMaxPerRoute(new HttpRoute(new HttpHost("payment.dev.gup.ua")), 20);
 
             RequestConfig config = RequestConfig.custom()
-                                                .setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                                                .setConnectionRequestTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                                                .setSocketTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                                                .build();
+                    .setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                    .setConnectionRequestTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                    .setSocketTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                    .build();
 
             CloseableHttpClient defaultHttpClient = HttpClientBuilder.create()
-                                                                        .setConnectionManager(connectionManager)
-                                                                        .setDefaultRequestConfig(config).build();
+                    .setConnectionManager(connectionManager)
+                    .setDefaultRequestConfig(config).build();
             return defaultHttpClient;
         } catch (Exception e) {
             throw Throwables.propagate(e);

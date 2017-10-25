@@ -12,7 +12,6 @@ import java.util.TreeMap;
  * email | UID | ACCESS_TOKEN | socWendor [gup.com.ua : graph.facebook.com : www.googleapis.com : vk.ru]
  */
 
-@Service
 public class APIVendor {
 
     private String id;

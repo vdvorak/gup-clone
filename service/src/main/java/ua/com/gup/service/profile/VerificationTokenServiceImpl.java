@@ -2,7 +2,6 @@ package ua.com.gup.service.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
@@ -21,11 +20,6 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Autowired
     private ProfilesService profilesService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Value("${verification.token.emailVerification.timeToLive.inMinutes}")
-    private int emailVerificationTokenExpiryTimeInMinutes;
 
     @Value("${verification.token.lostPassword.timeToLive.inMinutes}")
     private int lostPasswordTokenExpiryTimeInMinutes;
@@ -187,10 +181,6 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return activeToken;
     }
 
-
-    public void setEmailVerificationTokenExpiryTimeInMinutes(int emailVerificationTokenExpiryTimeInMinutes) {
-        this.emailVerificationTokenExpiryTimeInMinutes = emailVerificationTokenExpiryTimeInMinutes;
-    }
 
     public void setEmailRegistrationTokenExpiryTimeInMinutes(int emailRegistrationTokenExpiryTimeInMinutes) {
         this.emailRegistrationTokenExpiryTimeInMinutes = emailRegistrationTokenExpiryTimeInMinutes;

@@ -29,12 +29,12 @@ import ua.com.gup.mongo.model.login.FormChangePassword;
 import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.mongo.model.oauth2.AuthenticateByEmailAndPasswordFromRegister;
 import ua.com.gup.mongo.model.profiles.phone.Phone;
-import ua.com.gup.service.emailnotification.EmailService;
-import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.login.UserDetailsServiceImpl;
 import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.service.profile.VerificationTokenService;
-import ua.com.gup.util.*;
+import ua.com.gup.util.CookieUtil;
+import ua.com.gup.util.LogUtil;
+import ua.com.gup.util.Oauth2Util;
+import ua.com.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -57,25 +57,15 @@ public class LoginLawyerEndpoint {
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
-    private  UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private ProfilesService profilesService;
 
-    @Autowired
-    private VerificationTokenService verificationTokenService;
 
     @Autowired
     private DefaultTokenServices tokenServices;
 
-    @Autowired
-    private APIVendor profileVendor;
-
-    @Autowired
-    private StorageService storageService;
-
-    @Autowired
-    private EmailService emailService;
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)

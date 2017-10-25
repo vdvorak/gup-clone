@@ -21,7 +21,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.config.oauth2.TokenStoreService;
-import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.dto.profile.SocialLoginDTO;
@@ -73,9 +72,6 @@ public class LoginEndpoint {
 
     @Autowired
     private DefaultTokenServices tokenServices;
-
-    @Autowired
-    private APIVendor profileVendor;
 
     @Autowired
     private EmailService emailService;
@@ -134,6 +130,7 @@ public class LoginEndpoint {
             // REGISTER:
             profilesService.facebookRegister(profile);
             // EDIT:
+            APIVendor profileVendor = new APIVendor();
             profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
             /* Edit Photo Profile */
             profile.setImgUrl(profileVendor.getImage().get("url"));
@@ -195,12 +192,11 @@ public class LoginEndpoint {
                                 HttpServletResponse response,
                                 HttpServletRequest request) throws Exception {
 
-        ProfileDTO profileInfo = new PrivateProfileDTO();
-//    synchronized (profilesService) {
-    if (!SecurityUtils.isAuthenticated()) {
-        LoggedUser loggedUser = null;
-        try {
-                  loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
+        ProfileDTO profileInfo = null;
+        if (!SecurityUtils.isAuthenticated()) {
+            LoggedUser loggedUser = null;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(registerProfileDTO.getEmail());
             } catch (UsernameNotFoundException ex) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
@@ -214,11 +210,11 @@ public class LoginEndpoint {
             if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-                profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
-                authenticateByEmailAndPassword(loggedUser, response);
-            }else {
-                    profileInfo = profilesService.getLoggedUser(request);
-                  }
+            profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
+            authenticateByEmailAndPassword(loggedUser, response);
+        } else {
+            profileInfo = profilesService.getLoggedUser(request);
+        }
         //  }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);

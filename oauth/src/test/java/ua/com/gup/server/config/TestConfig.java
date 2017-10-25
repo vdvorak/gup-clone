@@ -5,6 +5,6 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 //@TestPropertySource(locations = {"classpath:properties/*.properties"})
-@ImportResource({"classpath:appContext.xml"})
+//@ImportResource({"classpath:appContext.xml"})
 public class TestConfig {
 }
