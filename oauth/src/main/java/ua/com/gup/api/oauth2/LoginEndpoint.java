@@ -308,7 +308,7 @@ public class LoginEndpoint {
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public ResponseEntity existEmailCheck(@RequestBody String email) {
         if (!EmailValidator.getInstance().isValid(email)) {
-            return new ResponseEntity<>("email is invalid", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("invalid", HttpStatus.BAD_REQUEST);
         }
         ResponseEntity entity = new ResponseEntity(profilesService.profileExistsWithEmail(email) ? Boolean.TRUE : Boolean.FALSE, HttpStatus.OK);
         return (entity);
