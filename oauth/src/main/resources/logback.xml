@@ -63,3 +63,5 @@
     <root level="error">
         <appender-ref ref="FILE-ERROR" />
     </root>
+
+</configuration>
