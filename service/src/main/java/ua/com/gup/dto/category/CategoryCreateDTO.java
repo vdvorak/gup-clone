@@ -12,6 +12,8 @@ public class CategoryCreateDTO {
 
     private String key;
 
+    private String color;
+
     private Map<String, String> title = new HashMap<>();
 
     private Map<String, String> description = new HashMap<>();
@@ -54,5 +56,13 @@ public class CategoryCreateDTO {
 
     public void setDescription(Map<String, String> description) {
         this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
