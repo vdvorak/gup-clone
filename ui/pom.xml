@@ -5,7 +5,7 @@
     <artifactId>ui</artifactId>
     <version>${version}</version>
     <groupId>ua.com.gup</groupId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>ua.com.gup</groupId>
