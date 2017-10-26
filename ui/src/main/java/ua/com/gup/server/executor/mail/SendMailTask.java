@@ -11,7 +11,7 @@ import ua.com.gup.service.emailnotification.EmailService;
 import ua.com.gup.service.emailnotification.EmailServiceImpl;
 
 @Component
-@Profile({"pre-prod"})
+@Profile("pre-prod")
 public class SendMailTask {
 
     private static Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
