@@ -81,7 +81,7 @@
     </dependencies>
 
     <build>
-        <finalName>oauth2-api##${project.version}</finalName>
+        <finalName>oauth2-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
