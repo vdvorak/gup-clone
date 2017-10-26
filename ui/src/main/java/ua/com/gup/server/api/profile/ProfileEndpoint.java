@@ -300,8 +300,7 @@ public class ProfileEndpoint {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
-            throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)  throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(id);
         if (id.equals(loggedUserId)) {
