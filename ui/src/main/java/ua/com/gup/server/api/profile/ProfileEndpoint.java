@@ -273,23 +273,28 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> updateProfile(@RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
 
-        if (StringUtils.isEmpty(editProfileDTO.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        if (SecurityOperations.getCtxAuthentication().isAuthenticated()) {
 
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-        Profile foundByEmailProfile = profilesService.findProfileByEmail(editProfileDTO.getEmail());
-
-        if (foundByEmailProfile != null) {
-            if (!foundByEmailProfile.getId().equals(loggedUserId) || foundByEmailProfile.isBan() || !foundByEmailProfile.getActive()) {
+            if (StringUtils.isEmpty(editProfileDTO.getEmail())) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+
+            String loggedUserId = SecurityOperations.getLoggedUserId();
+            Profile foundByEmailProfile = profilesService.findProfileByEmail(editProfileDTO.getEmail());
+
+            if (foundByEmailProfile != null) {
+                if (!foundByEmailProfile.getId().equals(loggedUserId) || foundByEmailProfile.isBan() || !foundByEmailProfile.getActive()) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
+
+                Profile oldProfile = profilesService.findById(loggedUserId);
+                profilesService.editProfile(editProfileDTO.updateModel(oldProfile));
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
-        Profile oldProfile = profilesService.findById(loggedUserId);
-        profilesService.editProfile(editProfileDTO.updateModel(oldProfile));
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin

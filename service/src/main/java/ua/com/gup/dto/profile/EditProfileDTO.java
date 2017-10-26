@@ -25,7 +25,12 @@ public class EditProfileDTO extends ProfileDTO {
         profile.setFirstname(this.firstName);
         profile.setLastname(this.lastName);
         profile.setUserType(this.userType);
-        profile.setEmail(this.email);
+
+        //check email not Update if exists
+        if(profile.getEmail().isEmpty() && !this.email.isEmpty()) {
+            profile.setEmail(this.email);
+        }
+
         profile.setExecutive(this.executive);
         profile.setAddress(this.address);
         profile.setContactPerson(this.contactPerson);
