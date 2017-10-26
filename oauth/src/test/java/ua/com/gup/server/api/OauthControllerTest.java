@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/appContext.xml"})
+//@ContextConfiguration({"/appContext.xml"})
 @WebAppConfiguration
 public class OauthControllerTest {
 
@@ -41,7 +41,7 @@ public class OauthControllerTest {
     }
 
     @Test
-    public void helloControllerTest() throws Exception {
+    public void logoutControllerTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/logout").accept(MediaType.APPLICATION_JSON))
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
