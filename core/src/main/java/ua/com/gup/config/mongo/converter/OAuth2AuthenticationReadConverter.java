@@ -44,7 +44,7 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         } catch (Exception e){
             userAuthentication = new UsernamePasswordAuthenticationToken(principal, getAuthorities((List) userAuthorization.get("authorities")));
         }
-
+       //maybe need  SecurityContextHolder.getContext().setAuthentication(userAuthentication);
         return new OAuth2Authentication(oAuth2Request, userAuthentication);
     }
 
