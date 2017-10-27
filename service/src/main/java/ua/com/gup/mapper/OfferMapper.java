@@ -10,6 +10,7 @@ import ua.com.gup.dto.offer.OfferLandsDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
+import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
 import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
@@ -114,7 +115,7 @@ public class OfferMapper {
         offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
-
+        offerViewDetailsDTO.setOfferStatistic(new OfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
         }

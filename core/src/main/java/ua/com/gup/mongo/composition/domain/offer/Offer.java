@@ -35,8 +35,6 @@ public class Offer implements Serializable {
     @Id
     private String id;
 
-    private String createdBy;
-
     private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
@@ -90,14 +88,6 @@ public class Offer implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public ZonedDateTime getCreatedDate() {

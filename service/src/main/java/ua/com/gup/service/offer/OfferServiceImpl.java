@@ -22,6 +22,7 @@ import ua.com.gup.mapper.OfferCategoryMapper;
 import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.mongo.composition.domain.category.Category;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.enumeration.Currency;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.enumeration.UserRole;
@@ -35,6 +36,7 @@ import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.repository.offer.OfferRepositoryCustom;
 import ua.com.gup.repository.offer.OfferRepositoryOLD;
+import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.currency.CurrencyConverterService;
 import ua.com.gup.service.filestorage.StorageService;
@@ -74,6 +76,8 @@ public class OfferServiceImpl implements OfferService {
     private OfferCategoryMapper offerCategoryMapper;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProfileRepository profileRepository;
 
 
     //-------------------- OLD -----------------------------//
@@ -102,7 +106,6 @@ public class OfferServiceImpl implements OfferService {
         offer.setStatus(OfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = SecurityUtils.getCurrentUserId();
-        offer.setCreatedBy(userID);
         offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
         offer = offerRepository.save(offer);
@@ -179,15 +182,19 @@ public class OfferServiceImpl implements OfferService {
     /**
      * Get all the offers by status and author id.
      *
-     * @param status   the offer status
-     * @param authorId the offer authorId
-     * @param pageable the offer filter
+     * @param status       the offer status
+     * @param userPublicId the offer authorId
+     * @param pageable     the offer filter
      * @return the list of entities
      */
     @Override
-    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable) {
-        log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
-        Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, authorId, pageable);
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<OfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
+        }
+        Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
