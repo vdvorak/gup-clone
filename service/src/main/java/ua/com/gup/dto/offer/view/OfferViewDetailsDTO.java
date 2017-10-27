@@ -1,10 +1,12 @@
 package ua.com.gup.dto.offer.view;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
+import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
 
 public class OfferViewDetailsDTO extends OfferViewBaseDTO {
@@ -21,9 +23,12 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
     @ApiModelProperty(position = 105)
     private OfferContactInfoDTO contactInfo;
 
-
     @ApiModelProperty(position = 150)
     private OfferLandsDTO lands;
+
+    @ApiModelProperty(position = 160)
+    @JsonProperty(value = "statistic")
+    private OfferStatisticDTO offerStatistic;
 
     public OfferStatus getStatus() {
         return status;
@@ -64,5 +69,13 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
 
     public void setLands(OfferLandsDTO lands) {
         this.lands = lands;
+    }
+
+    public OfferStatisticDTO getOfferStatistic() {
+        return offerStatistic;
+    }
+
+    public void setOfferStatistic(OfferStatisticDTO offerStatistic) {
+        this.offerStatistic = offerStatistic;
     }
 }

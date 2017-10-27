@@ -72,4 +72,22 @@ public abstract class BaseStatistic {
         Integer phoneViewsAtDay = phoneViewsArray[numOfDaysBetween];
         return phoneViewsAtDay == null ? 0 : phoneViewsAtDay;
     }
+
+    public Integer getTotalOfferViewsCount() {
+        int count = 0;
+        Integer[] totalOfferViews = getViewStatistic().getTotalOfferViews();
+        for (Integer dayOfferViews : totalOfferViews) {
+            count += dayOfferViews != null ? dayOfferViews : 0;
+        }
+        return count;
+    }
+
+    public Integer getTotalOfferPhonesViewsCount() {
+        int count = 0;
+        Integer[] totalOfferPhonesViews = getViewStatistic().getTotalOfferPhonesViews();
+        for (Integer dayPhonesViews : totalOfferPhonesViews) {
+            count += dayPhonesViews != null ? dayPhonesViews : 0;
+        }
+        return count;
+    }
 }

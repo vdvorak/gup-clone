@@ -1,13 +1,11 @@
 package ua.com.gup.dto.offer.statistic;
 
-public class OfferStatisticByDateDTO {
+public class OfferStatisticByDateDTO extends OfferStatisticDTO {
 
     private String date;
-    private Integer offerViews;
-    private Integer offerPhonesViews;
-
 
     public OfferStatisticByDateDTO() {
+        super();
     }
 
     public String getDate() {
@@ -18,19 +16,5 @@ public class OfferStatisticByDateDTO {
         this.date = date;
     }
 
-    public Integer getOfferViews() {
-        return offerViews;
-    }
 
-    public void setOfferViews(Integer offerViews) {
-        this.offerViews = offerViews;
-    }
-
-    public Integer getOfferPhonesViews() {
-        return offerPhonesViews;
-    }
-
-    public void setOfferPhonesViews(Integer offerPhonesViews) {
-        this.offerPhonesViews = offerPhonesViews;
-    }
 }
