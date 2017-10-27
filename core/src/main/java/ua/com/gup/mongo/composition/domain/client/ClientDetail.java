@@ -1,18 +1,21 @@
-package ua.com.gup.mongo.model.client;
+package ua.com.gup.mongo.composition.domain.client;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Victor Dvorak
+ *  Database table entity oauth2 client.
  **/
-@Document(collection = "oauth2_client")
-public class ClientDetail {
+@Document(collection = ClientDetail.COLLECTION_NAME, language = "russian")
+public class ClientDetail implements Serializable {
+    public static final String COLLECTION_NAME = "oauth2_client";
     @Id
     private String id;
     @Indexed
@@ -62,16 +65,16 @@ public class ClientDetail {
         return secretRequired;
     }
 
+    public void setSecretRequired(boolean secretRequired) {
+        this.secretRequired = secretRequired;
+    }
+
     public Set<String> getScope() {
         return scope;
     }
 
     public void setScope(Set<String> scope) {
         this.scope = scope;
-    }
-
-    public void setSecretRequired(boolean secretRequired) {
-        this.secretRequired = secretRequired;
     }
 
     public String getClientSecret() {
