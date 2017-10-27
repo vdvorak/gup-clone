@@ -11,5 +11,5 @@ import java.util.Optional;
  **/
 
 public interface ClientDetailRepository extends MongoRepository<ClientDetail, String> {
-     Optional<ClientDetail>findByClientId(String clientId);
+     Optional<ClientDetail> findByClientId(String clientId);
 }
