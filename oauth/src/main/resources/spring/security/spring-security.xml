@@ -32,7 +32,7 @@
         <sec:csrf  disabled="true"/>
     </sec:http>
 
-    <bean id="oauthAuthenticationEntryPoint"
+   <!-- <bean id="oauthAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="test" />
     </bean>
@@ -40,10 +40,10 @@
     <bean id="clientAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="typeName" value="Basic" />
-    </bean>
+    </bean>-->
 
-    <bean id="oauthAccessDeniedHandler"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+   <!-- <bean id="oauthAccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />-->
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
@@ -70,9 +70,9 @@
         </sec:authentication-provider>
     </sec:authentication-manager>
 
-    <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+   <!-- <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11" />
-    </bean>
+    </bean>-->
 
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
