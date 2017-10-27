@@ -74,7 +74,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndAuthorId(OfferStatus status, String authorId, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable);
 
     /**
      * Get all the offers by status.

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
@@ -308,7 +309,7 @@ public class OfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, SecurityUtils.getCurrentUserId(), pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, SecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -330,19 +331,19 @@ public class OfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, authorId, pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, authorId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/author/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String authorId, Pageable pageable) {
+    @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
+    public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
-        if (authorId == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
+        if (StringUtils.isEmpty(userPublicId)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(OfferStatus.ACTIVE, authorId, pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(OfferStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -379,7 +380,7 @@ public class OfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndAuthorId(status, iserid, pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, iserid, pageable);
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
 
