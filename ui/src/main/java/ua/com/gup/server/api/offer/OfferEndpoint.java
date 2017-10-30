@@ -309,7 +309,7 @@ public class OfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, SecurityUtils.getCurrentUserId(), pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, SecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
