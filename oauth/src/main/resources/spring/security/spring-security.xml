@@ -11,9 +11,10 @@
 					  http://www.springframework.org/schema/security/spring-security.xsd">
 
     <import resource="client-details.xml"></import>
-    <!-- use-expressions="true" disable-url-rewriting="false" -->
+
     <sec:http pattern="/oauth/token" create-session="stateless"   authentication-manager-ref="clientAuthenticationManager">
-        <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+        <!--<sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />-->
+        <sec:intercept-url pattern="/oauth/token" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
         <!-- include this only if you need to authenticate clients via request parameters -->
         <sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
@@ -21,18 +22,21 @@
         <sec:anonymous enabled="false" />
         <sec:csrf disabled="true"/>
     </sec:http>
-    <!--<sec:http pattern="/resources/**" security="none" />-->
+    <sec:http auto-config="true"  pattern="/oauth/check_token"  create-session="stateless" authentication-manager-ref="authenticationManager">
+        <sec:intercept-url pattern="/oauth/check_token" access="IS_AUTHENTICATED_FULLY" />
+        <sec:anonymous enabled="false"/>
+        <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+        <sec:csrf disabled="true"/>
+    </sec:http>
     <!-- This is where we tells spring security what URL should be protected and what roles have access to them -->
     <sec:http pattern="/api/**" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager">
-
-        <!--<sec:intercept-url pattern="/swagger/rest/**" access="ROLE_USER" />-->
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
         <sec:anonymous enabled="false" />
         <sec:csrf  disabled="true"/>
     </sec:http>
 
-    <bean id="oauthAuthenticationEntryPoint"
+   <!-- <bean id="oauthAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="test" />
     </bean>
@@ -40,10 +44,10 @@
     <bean id="clientAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="typeName" value="Basic" />
-    </bean>
+    </bean>-->
 
-    <bean id="oauthAccessDeniedHandler"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+   <!-- <bean id="oauthAccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />-->
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
@@ -70,16 +74,16 @@
         </sec:authentication-provider>
     </sec:authentication-manager>
 
-    <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+   <!-- <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11" />
-    </bean>
+    </bean>-->
 
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails" />
     </bean>
 
-    <bean id="tokenStore" class="ua.com.gup.config.oauth2.TokenStoreService" />
+    <!--<bean id="tokenStore" class="ua.com.gup.config.oauth2.TokenStoreService" />-->
 
     <!-- This is where we defined token based configurations, token validity and other things -->
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">

@@ -15,6 +15,7 @@
 
         <!-- Allow access to test client -->
         <oauth:client
+
                 client-id="353b302c44574f565045687e534e7d6a"
                 secret="286924697e615a672a646a493545646c"
                 authorized-grant-types="password,refresh_token"
