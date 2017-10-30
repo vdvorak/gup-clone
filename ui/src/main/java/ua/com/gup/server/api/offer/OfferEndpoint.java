@@ -5,7 +5,6 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
@@ -456,17 +454,5 @@ public class OfferEndpoint {
     }
 
 
-    /**
-     * GET  /offers/search/category : get offer category by query.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        log.debug("REST request to get offer categories by word string");
-        final List<OfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
-        return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
-    }
 }
 

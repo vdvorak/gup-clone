@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,7 +20,6 @@ import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.filter.*;
-import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -32,7 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 @Repository
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
@@ -220,29 +215,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     private List<Offer> findOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.find(query, Offer.class);
-    }
-
-    public List<OfferCategoryCount> searchCategoriesByString(String query, int page, int size) {
-        final String[] words = query.split(" ");
-        final Criteria[] criterias = new Criteria[words.length];
-        for (int i = 0; i < words.length; i++) {
-            criterias[i] = Criteria.where("title").regex("(?i:.*" + words[i] + ".*)");
-        }
-
-        Aggregation agg = newAggregation(
-                match(Criteria.where("status").is(OfferStatus.ACTIVE.toString())),
-                match(new Criteria().andOperator(criterias)),
-                group("categoriesRegExp").count().as("count"),
-                project("count").and("categoriesRegExp").previousOperation(),
-                sort(Sort.Direction.DESC, "count"),
-                skip(page * size),
-                limit(size)
-        );
-        //Convert the aggregation result into a List
-        AggregationResults<OfferCategoryCount> groupResults
-                = mongoTemplate.aggregate(agg, Offer.class, OfferCategoryCount.class);
-        List<OfferCategoryCount> result = groupResults.getMappedResults();
-        return result;
     }
 
 
