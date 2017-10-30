@@ -5,24 +5,30 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
-import org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.vote.ScopeVoter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import ua.com.gup.config.oauth2.TokenStoreService;
 import ua.com.gup.service.client.ClientDetailService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -48,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
-    @Autowired
-    private ClientDetailsUserDetailsService clientDetailsUserDetailsService;
+   /* @Autowired
+    private ClientDetailsUserDetailsService clientDetailsUserDetailsService;*/
 
-    @Override
+  /*  @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().maximumSessions(1);
         http
@@ -62,31 +68,50 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(oauthAuthenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
                 .and();
-    }
-    @Override
+
+    }*/
+   /* @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-    }
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder);
+
+    }*/
+
 
     // ################################ dependencies  Bean for OAuth2 ###############################################
 
-   /* @Bean
-    public UnanimousBased accessDecisionManager(){
+    @Bean(name = "resourceServerFilter")
+    public OAuth2AuthenticationProcessingFilter qOAuth2AuthenticationProcessingFilter() {
+        OAuth2AuthenticationProcessingFilter processingFilter = new OAuth2AuthenticationProcessingFilter();
+        processingFilter.setAuthenticationManager(this.auth2AM());
 
-    }*/
+        return processingFilter;
+    }
+    private OAuth2AuthenticationManager auth2AM() {
+        OAuth2AuthenticationManager oAuth2AuthenticationManager = new OAuth2AuthenticationManager();
+        //oAuth2AuthenticationManager.setResourceId("crophub_oauth_server");
+        oAuth2AuthenticationManager.setTokenServices(tokenServices());
+        return oAuth2AuthenticationManager;
+    }
 
 
-   /* @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManagerBean();
-    }*/
-
-
-    //get ClientDetails from DB oath2_client
-   /*@Bean
-    public ClientDetailsUserDetailsService clientDetailsUserService(){
-     return  new ClientDetailsUserDetailsService(clientDetailService);
-    }*/
+@Bean
+public UnanimousBased accessDecisionManager(){
+    List<AccessDecisionVoter<? extends Object>> decisionVoters = new ArrayList<>();
+    decisionVoters.add(new ScopeVoter());
+    decisionVoters.add(new RoleVoter());
+    decisionVoters.add(new AuthenticatedVoter());
+    UnanimousBased accessDecisionManager =new UnanimousBased(decisionVoters);
+    return accessDecisionManager;
+}
+    @Bean
+   public DefaultTokenServices tokenServices(){
+       DefaultTokenServices tokenServices = new DefaultTokenServices();
+       tokenServices.setSupportRefreshToken(true);
+       tokenServices.setTokenStore(tokenStore());
+       tokenServices.setClientDetailsService(clientDetailService);
+       return tokenServices;
+   }
 
     @Bean
     public TokenStore tokenStore() {
@@ -96,12 +121,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
-    }
-
-    @Bean
-    public ClientCredentialsTokenEndpointFilter clientCredentialsTokenEndpointFilter(){
-        ClientCredentialsTokenEndpointFilter clientCredentialsTokenEndpointFilter = new ClientCredentialsTokenEndpointFilter();
-        return clientCredentialsTokenEndpointFilter;
     }
 
     @Bean
