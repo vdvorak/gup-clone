@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
+import org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -32,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
-
     @Autowired
     private ClientDetailService clientDetailService;
 
@@ -42,11 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationEntryPoint oauthAuthenticationEntryPoint;
 
-     @Autowired
-    private AuthenticationEntryPoint clientAuthenticationEntryPoint;
+    /* @Autowired
+    private AuthenticationEntryPoint clientAuthenticationEntryPoint;*/
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
+    private ClientDetailsUserDetailsService clientDetailsUserDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -65,11 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder);
-    }
-    //dependencies  Bean for OAuth2
+    // ################################ dependencies  Bean for OAuth2 ###############################################
 
    /* @Bean
     public UnanimousBased accessDecisionManager(){
@@ -82,6 +81,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }*/
 
+
+    //get ClientDetails from DB oath2_client
+   /*@Bean
+    public ClientDetailsUserDetailsService clientDetailsUserService(){
+     return  new ClientDetailsUserDetailsService(clientDetailService);
+    }*/
 
     @Bean
     public TokenStore tokenStore() {
@@ -107,14 +112,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public OAuth2AuthenticationEntryPoint oauthAuthenticationEntryPoint(){
         OAuth2AuthenticationEntryPoint  oauthAuthenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
-       // oauthAuthenticationEntryPoint.setRealmName("test");
+        oauthAuthenticationEntryPoint.setRealmName("test");
         return oauthAuthenticationEntryPoint;
     }
 
     @Bean
     public OAuth2AuthenticationEntryPoint clientAuthenticationEntryPoint(){
         OAuth2AuthenticationEntryPoint  oauthAuthenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
-       // oauthAuthenticationEntryPoint.setTypeName("Basic");
+        oauthAuthenticationEntryPoint.setTypeName("Basic");
         return oauthAuthenticationEntryPoint;
     }
 
