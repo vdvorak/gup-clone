@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().maximumSessions(2);
+        http.sessionManagement().maximumSessions(1);
     }
 
     @Override
