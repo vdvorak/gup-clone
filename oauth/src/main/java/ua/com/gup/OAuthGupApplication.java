@@ -15,6 +15,7 @@ public class OAuthGupApplication {
         SpringApplication.run(new Object[]{WebConfig.class
                 , RootConfig.class
                 , SecurityConfig.class
+                // , MethodSecurityConfig.class
                 , SwaggerConfig.class
                 , MailConfig.class
                 , MongoConfig.class

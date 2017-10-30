@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,12 +17,14 @@ import org.springframework.security.oauth2.provider.client.ClientCredentialsToke
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import ua.com.gup.config.oauth2.TokenStoreService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ImportResource(value = {"classpath:spring/security/spring-security.xml"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,21 +32,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationEntryPoint oauthAuthenticationEntryPoint;
+
+   /*  @Autowired
+    private AuthenticationEntryPoint clientAuthenticationEntryPoint;*/
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().maximumSessions(1);
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(oauthAuthenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+                .and();
+    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return userDetailsService;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder);
     }
     //dependencies  Bean for OAuth2
-    @Bean
+
+   /* @Bean
+    public UnanimousBased accessDecisionManager(){
+
+    }*/
+
+
+   /* @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManagerBean();
-    }
+    }*/
+
     @Bean
     public TokenStore tokenStore() {
         return new TokenStoreService();
