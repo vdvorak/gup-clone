@@ -58,8 +58,6 @@ public class OfferEndpoint {
 
     @Autowired
     private OfferService offerService;
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private OfferDTOValidator offerDTOValidator;
