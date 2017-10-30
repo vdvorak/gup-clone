@@ -8,6 +8,7 @@ public class CategoryTreeDTO implements Serializable {
     private int code;
     private boolean active;
     private String key;
+    private String color;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
     private Set<CategoryAttributeDTO> attrs;
@@ -85,5 +86,13 @@ public class CategoryTreeDTO implements Serializable {
 
     public void setPrivateAttr(boolean privateAttr) {
         this.privateAttr = privateAttr;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

@@ -72,9 +72,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public boolean profileExistsWithEmail(String email) {
-//        Query query = new Query(Criteria.where("email").is(email));
-//        return mongoTemplate.exists(query, Profile.class);
-        ////////////////////////////////////////////////////////////////
         Query queryX = new Query(Criteria.where("email").regex(email.toString(), "i"));
         List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
         long count = profiles.stream()
