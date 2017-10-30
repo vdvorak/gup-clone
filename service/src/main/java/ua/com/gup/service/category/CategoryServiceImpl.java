@@ -50,6 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryTreeDTO.setKey(category.getKey());
         categoryTreeDTO.setTitle(category.getTitle());
         categoryTreeDTO.setDescription(category.getDescription());
+        categoryTreeDTO.setColor(category.getColor());
         return categoryTreeDTO;
     }
 

@@ -4,6 +4,7 @@ package ua.com.gup.mongo.composition.domain.category;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,9 @@ public class Category implements Serializable {
     private boolean active;
 
     private String key;
+
+    @Size(min = 1, max = 8)
+    private String color;
 
     private Map<String, String> title = new HashMap<>();
 
@@ -84,6 +88,14 @@ public class Category implements Serializable {
 
     public void setDescription(Map<String, String> description) {
         this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override
