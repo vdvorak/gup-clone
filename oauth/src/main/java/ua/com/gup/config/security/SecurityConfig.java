@@ -21,10 +21,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import ua.com.gup.config.oauth2.TokenStoreService;
+import ua.com.gup.service.client.ClientDetailService;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ImportResource(value = {"classpath:spring/security/spring-security.xml"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -32,14 +32,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
+
+    @Autowired
+    private ClientDetailService clientDetailService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuthenticationEntryPoint oauthAuthenticationEntryPoint;
 
-   /*  @Autowired
-    private AuthenticationEntryPoint clientAuthenticationEntryPoint;*/
+     @Autowired
+    private AuthenticationEntryPoint clientAuthenticationEntryPoint;
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -77,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManagerBean();
     }*/
+
 
     @Bean
     public TokenStore tokenStore() {
