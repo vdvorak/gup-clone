@@ -16,13 +16,11 @@ public class PriceMapper {
     @Autowired
     private CurrencyConverterService currencyConverterService;
 
-    public OfferPriceDTO moneyToMoneyDTO(Price price) {
-        OfferPriceDTO offerPriceDTO = new OfferPriceDTO();
+    public void moneyToMoneyDTO(Price price, OfferPriceDTO offerPriceDTO) {
         offerPriceDTO.setAmount(price.getAmount());
         offerPriceDTO.setCurrency(price.getCurrency());
         offerPriceDTO.setPriceWithVAT(price.getPriceWithVAT());
         offerPriceDTO.setBargainingPossible(price.getBargainingPossible());
-        return offerPriceDTO;
     }
 
     public Price moneyDTOToMoney(OfferPriceDTO offerPriceDTO) {

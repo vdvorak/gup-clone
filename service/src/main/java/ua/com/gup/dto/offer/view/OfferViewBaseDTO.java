@@ -5,15 +5,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.dto.offer.OfferAuthorDTO;
 import ua.com.gup.dto.offer.OfferPriceDTO;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
 import ua.com.gup.mongo.model.offer.OfferCategory;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,17 +42,6 @@ public class OfferViewBaseDTO implements Serializable {
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
 
-    @ApiModelProperty(position = 110)
-    private LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
-
-    @ApiModelProperty(position = 115)
-    private LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
-
-    @ApiModelProperty(position = 120)
-    private LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
-
-    @ApiModelProperty(position = 130)
-    private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
     public String getId() {
         return id;
@@ -131,36 +115,5 @@ public class OfferViewBaseDTO implements Serializable {
         this.seoUrl = seoUrl;
     }
 
-    public LinkedHashMap<String, OfferCategorySingleAttributeValue> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs) {
-        this.attrs = attrs;
-    }
-
-    public LinkedHashMap<String, OfferCategoryMultiAttributeValue> getMultiAttrs() {
-        return multiAttrs;
-    }
-
-    public void setMultiAttrs(LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs) {
-        this.multiAttrs = multiAttrs;
-    }
-
-    public LinkedHashMap<String, OfferCategoryNumericAttributeValue> getNumAttrs() {
-        return numAttrs;
-    }
-
-    public void setNumAttrs(LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs) {
-        this.numAttrs = numAttrs;
-    }
-
-    public LinkedHashMap<String, OfferCategoryBoolAttributeValue> getBoolAttrs() {
-        return boolAttrs;
-    }
-
-    public void setBoolAttrs(LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs) {
-        this.boolAttrs = boolAttrs;
-    }
 
 }

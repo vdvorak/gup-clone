@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.dto.offer.OfferCreateDTO;
-import ua.com.gup.dto.offer.OfferLandsDTO;
-import ua.com.gup.dto.offer.OfferModerationReportDTO;
-import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
 import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
@@ -54,6 +51,8 @@ public class OfferMapper {
 
     @Autowired
     private CategoryAttributeService categoryAttributeService;
+
+    private static final int PRICE_ATTRIBUTE_CODE = 1;
 
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
         Offer offer = new Offer();
@@ -111,8 +110,17 @@ public class OfferMapper {
     public OfferViewDetailsDTO offerToOfferDetailsDTO(Offer offer) {
         OfferViewDetailsDTO offerViewDetailsDTO = new OfferViewDetailsDTO();
         fromOfferToOfferViewBaseDTO(offer, offerViewDetailsDTO);
+        offerViewDetailsDTO.setAttrs(offer.getAttrs());
+        offerViewDetailsDTO.setMultiAttrs(offer.getMultiAttrs());
+        offerViewDetailsDTO.setNumAttrs(offer.getNumAttrs());
+        offerViewDetailsDTO.setBoolAttrs(offer.getBoolAttrs());
         offerViewDetailsDTO.setStatus(offer.getStatus());
         offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
+        if (offer.getPrice() != null) {
+            OfferPriceDTO priceDTO = new OfferPriceDTO();
+            priceMapper.moneyToMoneyDTO(offer.getPrice(), priceDTO);
+            offerViewDetailsDTO.setPrice(priceDTO);
+        }
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
         offerViewDetailsDTO.setOfferStatistic(new OfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
@@ -126,6 +134,17 @@ public class OfferMapper {
     private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
+        if (source.getPrice() != null) {
+            OfferPriceShortDTO priceDTO = new OfferPriceShortDTO();
+            priceMapper.moneyToMoneyDTO(source.getPrice(), priceDTO);
+            Optional<OfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
+            if (collect.isPresent()) {
+                OfferCategorySingleAttributeValue priceAttributes = collect.get();
+                priceDTO.setSelected(priceAttributes.getSelected());
+                priceDTO.setTitle(priceAttributes.getTitle());
+            }
+            target.setPrice(priceDTO);
+        }
         if (source.getLands() != null) {
             target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
         }
@@ -152,22 +171,15 @@ public class OfferMapper {
         if (source.getCategories() != null) {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
         }
-
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
-        if (source.getPrice() != null) {
-            target.setPrice(priceMapper.moneyToMoneyDTO(source.getPrice()));
-        }
         if (source.getImageIds() != null && source.getImageIds().size() > 0) {
             LinkedList<String> imageIds = new LinkedList<String>();
             source.getImageIds().forEach(i -> imageIds.add(i));
             target.setImageIds(imageIds);
         }
         target.setSeoUrl(source.getSeoUrl());
-        target.setAttrs(source.getAttrs());
-        target.setMultiAttrs(source.getMultiAttrs());
-        target.setNumAttrs(source.getNumAttrs());
-        target.setBoolAttrs(source.getBoolAttrs());
+
     }
 
     private void fromOfferCreateDTOToOffer(OfferCreateDTO source, Offer target) {

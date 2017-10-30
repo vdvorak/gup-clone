@@ -179,14 +179,27 @@ public class OfferServiceImpl implements OfferService {
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
 
+
     /**
      * Get all the offers by status and author id.
      *
-     * @param status       the offer status
-     * @param userPublicId the offer authorId
-     * @param pageable     the offer filter
+     * @param status   the offer status
+     * @param authorId the offer authorId
+     * @param pageable the offer filter
      * @return the list of entities
      */
+    @Override
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(OfferStatus status, String authorId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
+        Profile profile = profileRepository.findById(authorId);
+        if (profile == null) {
+            return new PageImpl<OfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
+        }
+        Page<Offer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
+    }
+
+
     @Override
     public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);

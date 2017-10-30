@@ -149,11 +149,9 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             query.addCriteria(Criteria.where("status").is(OfferStatus.ACTIVE));
         }
         if (offerFilter.getCategories() != null) {
-            String regex = "^" + offerFilter.getCategories().replace(",", "/");
-            if (!regex.endsWith("/")) {
-                regex = regex + "/";
-            }
-            query.addCriteria(Criteria.where("categoriesRegExp").regex(regex, "i"));
+
+
+            query.addCriteria(Criteria.where("categories").all(offerFilter.getCategories()));
         }
         if (offerFilter.getAddress() != null) {
             AddressFilter addressFilter = offerFilter.getAddress();

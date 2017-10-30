@@ -17,7 +17,7 @@ public class OfferFilter implements Serializable {
     private String query;
 
     @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
-    private String categories;
+    private Integer[] categories;
 
     @ApiModelProperty(value = "Filter for creation date [from; to] optional", position = 20)
     private DateFilter date;
@@ -48,11 +48,11 @@ public class OfferFilter implements Serializable {
         this.query = query;
     }
 
-    public String getCategories() {
+    public Integer[] getCategories() {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(Integer[] categories) {
         this.categories = categories;
     }
 
