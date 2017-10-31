@@ -63,7 +63,7 @@
     </springProfile>
 
     <springProfile name="pre-prod">
-        <!--<property name="DEV_HOME" value="/var/log/gup/ui"/>-->
+        <property name="DEV_HOME" value="/var/log/gup/ui"/>
 
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <layout class="ch.qos.logback.classic.PatternLayout">
