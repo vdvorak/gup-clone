@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>full-text-search</name>
+    <name>Search Module</name>
     <description>Full Text Search for GUP</description>
 
     <parent>
@@ -70,6 +70,7 @@
     </dependencies>
 
     <build>
+        <finalName>search-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
