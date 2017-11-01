@@ -1,20 +1,15 @@
 package ua.com.gup.search.repository.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.search.model.ESCategory;
-import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.repository.ESCategoryRepository;
 import ua.com.gup.search.util.Locale;
 
@@ -35,23 +30,23 @@ public class ESCategoryRepositoryImpl implements ESCategoryRepository {
     ObjectMapper objectMapper = new ObjectMapper();
     public void createOffer() throws IOException {
 
-        String id = UUID.randomUUID().toString();
-
-        IndexRequest indexRequest = new IndexRequest("heroku_lktlmxlq_offer","offer");
-
-
-
-        for (int j = 0; j < 10; j++) {
-            List<Integer> randoms = new ArrayList<>(3);
-            for (int i = 0; i < 3; i++) {
-                randoms.add(new Random().nextInt(999));
-            }
-
-            ESOffer esOffer = new ESOffer(id, "demo_title", "demo_desc", randoms);
-            indexRequest.source(objectMapper.writeValueAsString(esOffer));
-        }
-
-        IndexResponse response = esClient.index(indexRequest);
+//        String id = UUID.randomUUID().toString();
+//
+//        IndexRequest indexRequest = new IndexRequest("heroku_lktlmxlq_offer","offer");
+//
+//
+//
+//        for (int j = 0; j < 10; j++) {
+//            List<Integer> randoms = new ArrayList<>(3);
+//            for (int i = 0; i < 3; i++) {
+//                randoms.add(new Random().nextInt(999));
+//            }
+//
+//            ESOffer esOffer = new ESOffer(id, "demo_title", "demo_desc", randoms);
+//            indexRequest.source(objectMapper.writeValueAsString(esOffer));
+//        }
+//
+//        IndexResponse response = esClient.index(indexRequest);
 
 
     }
