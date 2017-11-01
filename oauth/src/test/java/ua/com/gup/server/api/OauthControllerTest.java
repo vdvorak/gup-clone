@@ -32,7 +32,7 @@ public class OauthControllerTest {
     }
 
     @Test
-    public void indexControllerTest() throws Exception {
+    public void loginControllerTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/login").accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
