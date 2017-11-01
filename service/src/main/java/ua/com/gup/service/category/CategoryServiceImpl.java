@@ -194,10 +194,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Integer> getOfferCategoriesIds(int code) {
-        if (offerCategoryCache.size() == 0) {
-            warmCache();
-        }
-        return offerCategoryCache.get(code).stream().map(offerCategory -> offerCategory.getCode()).collect(Collectors.toList());
+        if (exists(code))
+            return offerCategoryCache.get(code).stream().map(offerCategory -> offerCategory.getCode()).collect(Collectors.toList());
+        return Collections.EMPTY_LIST;
     }
 
     /**
