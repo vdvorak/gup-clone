@@ -1,5 +1,6 @@
 package ua.com.gup.server.api.payment;
 
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.server.dto.BalanceDTO;
 import ua.com.gup.util.security.SecurityUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,17 +39,30 @@ public class ExternalPaymentAPI {
     @Value("${payment.url.user.historyBalance}")
     private String historyBalance;
 
+    @Value("${payment.url.user.token}")
+    private String token;
+
+    @PostConstruct
+    public void initialize() {
+        restTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
+                    request.getHeaders().add(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+                    request.getHeaders().add("token", token);
+                    return execution.execute(request, body);
+                })
+        );
+
+    }
 
     @CrossOrigin
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/admin/addBalance", method = RequestMethod.POST,
-                                                    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity putBalanceUserFormAdmin(@RequestBody BalanceDTO balanceDTO) {
         //check access
         if (SecurityUtils.getCurrentUserId() == null || SecurityUtils.getCurrentUserId().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN)||!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
+        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN) || !SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         //url
@@ -58,7 +73,7 @@ public class ExternalPaymentAPI {
         params.put("user_id", SecurityUtils.getCurrentUserId());
         params.put("amount", balanceDTO.getAmount());
 
-        HttpEntity<Map<String,Object>> requestBody = new HttpEntity<>(params);
+        HttpEntity<Map<String, Object>> requestBody = new HttpEntity<>(params);
 
         ResponseEntity responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, requestBody, Object.class);
         log.info("response {}", responseEntity);
@@ -68,7 +83,7 @@ public class ExternalPaymentAPI {
     @CrossOrigin
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/user-balance/balance", method = RequestMethod.GET,
-                                                        produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getUserBalance() {
         //check access
         if (SecurityUtils.getCurrentUserId() == null || SecurityUtils.getCurrentUserId().isEmpty()) {
@@ -90,7 +105,7 @@ public class ExternalPaymentAPI {
     @CrossOrigin
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/user-balance/history", method = RequestMethod.GET,
-                                                        produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity checkHistoryBalance(@RequestParam Integer limit,
                                               @RequestParam(required = false) Integer offset) {
         //check access
