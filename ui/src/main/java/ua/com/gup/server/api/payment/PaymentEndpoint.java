@@ -24,8 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/payment")
 @PropertySource("classpath:properties/payment.properties")
-public class ExternalPaymentAPI {
-    private final Logger log = LoggerFactory.getLogger(ExternalPaymentAPI.class);
+public class PaymentEndpoint {
+    private final Logger log = LoggerFactory.getLogger(PaymentEndpoint.class);
 
     @Autowired
     private RestTemplate restTemplate;
