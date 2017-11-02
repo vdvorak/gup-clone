@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AuthenticateByEmailAndPasswordFromRegister {
 
+    private HttpServletResponse httpServletResponse;
+    private OAuth2AccessToken oAuth2AccessToken;
+
     public AuthenticateByEmailAndPasswordFromRegister(){
     }
 
@@ -14,8 +17,6 @@ public class AuthenticateByEmailAndPasswordFromRegister {
         this.oAuth2AccessToken = oAuth2AccessToken;
     }
 
-    private HttpServletResponse httpServletResponse;
-    private OAuth2AccessToken oAuth2AccessToken;
 
     public HttpServletResponse getHttpServletResponse() {
         return httpServletResponse;
