@@ -52,14 +52,14 @@
     </appender>
 
     <!-- Send logs to both console and file audit -->
-    <logger name="ua.com.gup" level="debug"
-            additivity="false">
+    <logger name="ua.com.gup" level="INFO" additivity="false">
         <appender-ref ref="FILE-AUDIT"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root level="error">
+    <root level="INFO">
         <appender-ref ref="FILE-ERROR"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 
 </configuration>
