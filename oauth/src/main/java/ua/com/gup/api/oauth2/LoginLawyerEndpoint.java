@@ -3,7 +3,6 @@ package ua.com.gup.api.oauth2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -50,18 +49,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/oauth-lawyer")
 public class LoginLawyerEndpoint {
-    private final Logger log = LoggerFactory.getLogger(LoginLawyerEndpoint.class);
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private ProfilesService profilesService;
-
 
     @Autowired
     private DefaultTokenServices tokenServices;
@@ -151,7 +148,7 @@ public class LoginLawyerEndpoint {
 
     @CrossOrigin
     @RequestMapping(value = "/register-by-phone", method = RequestMethod.POST)
-    public ResponseEntity<ProfileDTO> registerByPhone(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<ProfileDTO> registerByPhone(@RequestBody Profile profile,HttpServletRequest request, HttpServletResponse response) {
         ResponseEntity<ProfileDTO> resp = null;
 
         // CHECK:
@@ -179,12 +176,12 @@ public class LoginLawyerEndpoint {
             // LOGIN:
             LoggedUser loggedUser = null;
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
+                loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
                 if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
                     resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
                 //////////////////////////////////////////////////////////////////////////////////////////
-                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
+                authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(),request ,response);
                 ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
 
                 resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -200,7 +197,7 @@ public class LoginLawyerEndpoint {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileDTO> login(@RequestBody RegisterProfileDTO registerProfileDTO, HttpServletResponse response) {
+    public ResponseEntity<ProfileDTO> login(@RequestBody RegisterProfileDTO registerProfileDTO,HttpServletRequest request ,HttpServletResponse response) {
 //        if (!Validator3Util.validate(registerProfileDTO)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        System.out.println("------------------------------------------------------------------------------------------");
 
@@ -227,7 +224,7 @@ public class LoginLawyerEndpoint {
         if (!passwordEncoder.matches(registerProfileDTO.getPassword(), loggedUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        authenticateByEmailAndPassword(loggedUser, response);
+        authenticateByEmailAndPassword(loggedUser, request,response);
 
         ProfileDTO profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(registerProfileDTO.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -236,18 +233,18 @@ public class LoginLawyerEndpoint {
 
     @CrossOrigin
     @RequestMapping(value = "/phone-login", method = RequestMethod.POST)
-    public ResponseEntity<ProfileDTO> phoneLogin(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<ProfileDTO> phoneLogin(@RequestBody Profile profile,HttpServletRequest request,HttpServletResponse response) {
         if (profilesService.findProfileByPhoneNumberAndWendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor()) == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         LoggedUser loggedUser;
         try {
             /* Edit Profile */
-            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneNumberdAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByPhoneAndVendor(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(), response);
+        authenticateByPhoneAndPassword(loggedUser, profile.getMainPhone().getPhoneNumber(),request, response);
         ProfileDTO profileInfo = profilesService.findPrivateProfileDTOByPhoneNumberd(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor());
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -358,35 +355,35 @@ public class LoginLawyerEndpoint {
     }
 
 
-    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+    private void authenticateByEmailAndPassword(User user,HttpServletRequest request, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
-        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
     private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {
         return new AuthenticateByEmailAndPasswordFromRegister(response, tokenServices.createAccessToken(new OAuth2Authentication(Oauth2Util.getOAuth2Request(), new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()))));
     }
 
-    private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
+    private void authenticateByUidAndToken(User user, String socWendor,HttpServletRequest request ,HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, socWendor, user.getAuthorities()); // "password":socWendor
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
-        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
-    private void authenticateByPhoneAndPassword(User user, String phone, HttpServletResponse response) {
+    private void authenticateByPhoneAndPassword(User user, String phone,HttpServletRequest request, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, phone, user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
-        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(request,response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
     private InputStream getImageProfile(String url) throws IOException {

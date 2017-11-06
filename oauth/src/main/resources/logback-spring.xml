@@ -52,14 +52,24 @@
     </appender>
 
     <!-- Send logs to both console and file audit -->
-    <logger name="ua.com.gup" level="INFO" additivity="false">
-        <appender-ref ref="FILE-AUDIT"/>
+    <logger name="ua.com.gup" level="DEBUG" additivity="false">
+        <!--<appender-ref ref="FILE-AUDIT"/>-->
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root level="INFO">
+    <logger name="org.springframework" level="DEBUG" additivity="false">
+        <!--<appender-ref ref="FILE-AUDIT"/>-->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="org.springframework.boot" level="DEBUG" additivity="false">
+        <!--<appender-ref ref="FILE-AUDIT"/>-->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+   <!-- <root level="INFO">
         <appender-ref ref="FILE-ERROR"/>
         <appender-ref ref="STDOUT"/>
-    </root>
+    </root>-->
 
 </configuration>
