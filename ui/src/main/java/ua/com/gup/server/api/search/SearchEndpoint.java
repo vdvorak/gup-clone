@@ -88,7 +88,7 @@ public class SearchEndpoint {
 
     @Deprecated
     @CrossOrigin
-    @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
+    @RequestMapping(value = "/offers/category", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity countOffersByCategoryAndQuery(@RequestParam(name = "q") String query) {
 
