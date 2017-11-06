@@ -16,5 +16,5 @@ public interface ESSearchService {
 
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId (String offerStatus, String profileId) throws IOException;
 
-    List<String> suggestByOffersTitlesAndDescriptions(String query);
+    List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 }

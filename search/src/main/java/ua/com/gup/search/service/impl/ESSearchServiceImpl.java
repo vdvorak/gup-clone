@@ -42,7 +42,7 @@ public class ESSearchServiceImpl implements ESSearchService {
     }
 
     @Override
-    public List<String> suggestByOffersTitlesAndDescriptions(String query) {
+    public List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
         return esOfferRepository.suggestByOffersTitlesAndDescriptions(query);
     }
 

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.service.ESSearchService;
 import ua.com.gup.search.util.Locale;
 
@@ -48,10 +47,11 @@ public class SearchEndpoint {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "suggest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ESOffer> suggest(@RequestParam("q") String query,
-                                           @RequestParam(name = "lang", defaultValue = "ua") Locale locale) throws IOException {
-        if (!StringUtils.isEmpty(query) && query.length() >= 2) {
+    @RequestMapping(value = "offers/suggest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> suggest(@RequestParam("q") String query,
+                                                @RequestParam(name = "lang", defaultValue = "ua") Locale locale) throws IOException {
+        if (!StringUtils.isEmpty(query) && query.length() >= 3) {
+            return new ResponseEntity<>(esSearchService.suggestByOffersTitlesAndDescriptions(query), HttpStatus.OK);
 //            Iterable<ESOffer> esOfferIterable = esSearchService.findByQueryAndCategoriesIds(query, categoriesIds);
 
 
