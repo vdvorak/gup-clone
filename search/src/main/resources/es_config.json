@@ -2,15 +2,6 @@
   "settings": {
     "analysis": {
       "filter": {
-        "gramFilter": {
-          "type": "nGram",
-          "min_gram": 1,
-          "max_gram": 50,
-          "token_chars": [
-            "letter",
-            "digit"
-          ]
-        },
         "russian_stop": {
           "type": "stop",
           "stopwords": "_russian_"
@@ -33,12 +24,11 @@
         }
       },
       "analyzer": {
-        "gramAnalyzer": {
+        "autocomplete": {
           "type": "custom",
-          "tokenizer": "whitespace",
+          "tokenizer": "standard",
           "filter": [
-            "lowercase",
-            "gramFilter"
+            "lowercase"
           ]
         },
         "russian": {
@@ -49,7 +39,6 @@
             "russian_stemmer"
           ]
         },
-
         "english": {
           "tokenizer": "standard",
           "filter": [
@@ -67,7 +56,6 @@
       "properties": {
         "title": {
           "type": "text",
-
           "copy_to": [
             "title_ua",
             "title_ru",
@@ -76,40 +64,41 @@
         },
         "title_ua": {
           "type": "text",
-          "analyzer": "ukrainian"
+          "analyzer": "ukrainian",
+          "store": true
         },
         "title_ru": {
           "type": "text",
-          "analyzer": "russian"
+          "analyzer": "russian",
+          "store": true
         },
         "title_en": {
           "type": "text",
-          "analyzer": "english"
+          "analyzer": "english",
+          "store": true
         },
         "description": {
           "type": "text",
           "copy_to": [
             "description_ua",
             "description_ru",
-            "description_en",
-            "suggest"
+            "description_en"
           ]
         },
         "description_ua": {
           "type": "text",
-          "analyzer": "ukrainian"
+          "analyzer": "ukrainian",
+          "store": true
         },
         "description_ru": {
           "type": "text",
-          "analyzer": "russian"
+          "analyzer": "russian",
+          "store": true
         },
         "description_en": {
           "type": "text",
-          "analyzer": "english"
-        },
-        "suggest":{
-          "analyzer": "gramAnalyzer",
-          "type": "text"
+          "analyzer": "english",
+          "store": true
         }
       }
     }

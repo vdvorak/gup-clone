@@ -14,7 +14,7 @@ public interface ESOfferRepository {
 
     Iterable<ESOffer> findByQueryAndCategoriesIds(String query, Integer[] categoriesIds);
 
-    List<String> suggestByOffersTitlesAndDescriptions(String query);
+    List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException;
 }

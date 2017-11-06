@@ -11,6 +11,9 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.search.model.ESCategoriesStatistic;
@@ -67,6 +70,7 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
         searchRequest.indices(ES_INDEX);
         searchRequest.types(ES_TYPE);
 
+
         return null;
 //        AggregationBuilder aggregationBuilder = new AggregationBuilder() {
 //        }
@@ -79,8 +83,50 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
     }
 
     @Override
-    public List<String> suggestByOffersTitlesAndDescriptions(String query) {
-        return null;
+    public List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(ES_INDEX);
+        searchRequest.types(ES_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.fetchSource(false);
+
+        SuggestBuilder suggestBuilder = new SuggestBuilder();
+        suggestBuilder.setGlobalText(query);
+        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(5));
+        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(5));
+
+        searchSourceBuilder.suggest(suggestBuilder);
+        searchRequest.source(searchSourceBuilder);
+
+        SearchResponse searchResponse = esClient.search(searchRequest);
+        Suggest suggest = searchResponse.getSuggest();
+        if (suggest != null) {
+
+            List<String> suggestList = new ArrayList<>();
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionUa = suggest.getSuggestion("ua-suggest");
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionRu = suggest.getSuggestion("ru-suggest");
+
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> uaEntries = suggestionUa.getEntries();
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> ruEntries = suggestionRu.getEntries();
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> uaEntry : uaEntries) {
+                for (Suggest.Suggestion.Entry.Option option : uaEntry.getOptions()) {
+                    suggestList.add(option.getText().toString());
+                }
+            }
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> ruEntry : ruEntries) {
+                for (Suggest.Suggestion.Entry.Option option : ruEntry.getOptions()) {
+                    suggestList.add(option.getText().toString());
+                }
+            }
+            return suggestList;
+
+
+        }
+        return Collections.emptyList();
     }
 
     @Override

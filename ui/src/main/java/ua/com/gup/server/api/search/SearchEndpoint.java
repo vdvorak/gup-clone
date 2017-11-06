@@ -71,6 +71,21 @@ public class SearchEndpoint {
         return new ResponseEntity(categoriesCount, HttpStatus.OK);
     }
 
+
+    @CrossOrigin
+    @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity suggestWordsByDescription(@RequestParam(name = "q") String query) {
+
+        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
+                .path("/offers/suggest")
+                .queryParam("q", query)
+                .build();
+        String[] suggests = restTemplate.getForObject(uriComponents.toUri(), String[].class);
+        return new ResponseEntity(suggests, HttpStatus.OK);
+
+    }
+
     @Deprecated
     @CrossOrigin
     @RequestMapping(value = "/offers/category", method = RequestMethod.GET,
