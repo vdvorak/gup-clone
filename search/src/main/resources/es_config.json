@@ -1,0 +1,106 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "russian_stop": {
+          "type": "stop",
+          "stopwords": "_russian_"
+        },
+        "russian_stemmer": {
+          "type": "stemmer",
+          "language": "russian"
+        },
+        "english_stop": {
+          "type": "stop",
+          "stopwords": "_english_"
+        },
+        "english_stemmer": {
+          "type": "stemmer",
+          "language": "english"
+        },
+        "english_possessive_stemmer": {
+          "type": "stemmer",
+          "language": "possessive_english"
+        }
+      },
+      "analyzer": {
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase"
+          ]
+        },
+        "russian": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "russian_stop",
+            "russian_stemmer"
+          ]
+        },
+        "english": {
+          "tokenizer": "standard",
+          "filter": [
+            "english_possessive_stemmer",
+            "lowercase",
+            "english_stop",
+            "english_stemmer"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "offer": {
+      "properties": {
+        "title": {
+          "type": "text",
+          "copy_to": [
+            "title_ua",
+            "title_ru",
+            "title_en"
+          ]
+        },
+        "title_ua": {
+          "type": "text",
+          "analyzer": "ukrainian",
+          "store": true
+        },
+        "title_ru": {
+          "type": "text",
+          "analyzer": "russian",
+          "store": true
+        },
+        "title_en": {
+          "type": "text",
+          "analyzer": "english",
+          "store": true
+        },
+        "description": {
+          "type": "text",
+          "copy_to": [
+            "description_ua",
+            "description_ru",
+            "description_en"
+          ]
+        },
+        "description_ua": {
+          "type": "text",
+          "analyzer": "ukrainian",
+          "store": true
+        },
+        "description_ru": {
+          "type": "text",
+          "analyzer": "russian",
+          "store": true
+        },
+        "description_en": {
+          "type": "text",
+          "analyzer": "english",
+          "store": true
+        }
+      }
+    }
+  }
+}
