@@ -13,18 +13,22 @@ import ua.com.gup.search.repository.ESOfferRepository;
 @ComponentScan(basePackageClasses = ESOfferRepository.class)
 public class ElasticSearchConfig {
 
+
     @Value("${elasticsearch.host}")
     private String esHost;
 
     @Value("${elasticsearch.port}")
     private int esPort;
 
+    @Value("${elasticsearch.scheme}")
+    private String esScheme;
+
     @Value("${elasticsearch.clustername}")
     private String esClusterName;
 
     @Bean
     public RestHighLevelClient devClient() throws Exception {
-        RestClient client = RestClient.builder(new HttpHost(esHost, esPort)).build();
+        RestClient client = RestClient.builder(new HttpHost(esHost, esPort, esScheme)).build();
         RestHighLevelClient restHighLevelClient = new RestHighLevelClient(client);
         return restHighLevelClient;
     }

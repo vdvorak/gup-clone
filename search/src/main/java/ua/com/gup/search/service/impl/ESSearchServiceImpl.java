@@ -2,7 +2,7 @@ package ua.com.gup.search.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.search.model.ESCategoriesCount;
+import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.repository.ESCategoryRepository;
 import ua.com.gup.search.repository.ESOfferRepository;
@@ -27,13 +27,23 @@ public class ESSearchServiceImpl implements ESSearchService {
     }
 
     @Override
-    public List<ESCategoriesCount> countMatchesInCategories(String query, Locale locale) throws IOException {
-        List<ESCategoriesCount> categories = esOfferRepository.countAggregatedOffersCategories(query);
-        for (ESCategoriesCount c : categories) {
+    public List<ESCategoriesStatistic> countOffersInCategoriesByQuery(String query, Locale locale) throws IOException {
+        List<ESCategoriesStatistic> categories = esOfferRepository.countAggregatedOffersCategories(query);
+        for (ESCategoriesStatistic c : categories) {
             String title = esCategoryRepository.findOneByCode(c.getCode(), locale).getTitle();
             c.setTitle(title);
         }
         return categories;
+    }
+
+    @Override
+    public List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException {
+        return esOfferRepository.countOffersInCategoriesByStatusAndProfileId(offerStatus, profileId);
+    }
+
+    @Override
+    public List<String> suggestByOffersTitlesAndDescriptions(String query) {
+        return esOfferRepository.suggestByOffersTitlesAndDescriptions(query);
     }
 
 }
