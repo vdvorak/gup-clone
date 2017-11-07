@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/oauth-lawyer")
+@RequestMapping("/api/lawyer")
 public class LoginLawyerEndpoint {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
