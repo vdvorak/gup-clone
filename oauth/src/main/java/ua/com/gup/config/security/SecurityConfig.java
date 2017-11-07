@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleVoter;
@@ -33,7 +32,6 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@ImportResource(value = {"classpath:spring/security/spring-security.xml"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
