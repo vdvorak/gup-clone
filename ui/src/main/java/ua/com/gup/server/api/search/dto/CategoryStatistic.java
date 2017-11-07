@@ -1,5 +1,8 @@
 package ua.com.gup.server.api.search.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryStatistic {
     private Long code;
     private Long count;

@@ -18,8 +18,8 @@ public final class CookieUtil {
     public static void addCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, int maxAge) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setMaxAge(maxAge);
-        cookie.setPath(getCookiePath(request));
-        //cookie.setDomain(".dev.gup.ua");
+        cookie.setPath("/");
+        cookie.setHttpOnly(Boolean.TRUE);
         response.addCookie(cookie);
     }
 
@@ -27,8 +27,4 @@ public final class CookieUtil {
         addCookie(request, response, cookieName, null, 0);
     }
 
-    private static String getCookiePath(HttpServletRequest request) {
-        String contextPath = request.getContextPath();
-        return contextPath.length() > 0 ? contextPath : "/";
     }
-}
