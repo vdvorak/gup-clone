@@ -2,42 +2,19 @@ package ua.com.gup.mongo.composition.domain.category.attribute;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 
 import java.io.Serializable;
-import java.util.*;
 
 @Document(collection = CategoryAttributeSort.COLLECTION_NAME)
 public class CategoryAttributeSort implements Serializable {
 
-    public static final String COLLECTION_NAME = "category_attribute";
-
-    private static final long serialVersionUID = 1L;
+    public static final String COLLECTION_NAME = "category_attribute_sort";
 
     @Id
     private String id;
-
-    private int code;
-
-    private boolean active;
-
-    private String key;
-
-    private Map<String, String> title = new HashMap<>();
-
-    private Map<String, String> unit = new HashMap<>();
-
-    private Set<Integer> categories = new HashSet<>();
-
-    private CategoryAttributeType type;
-
-    private CategoryAttributeValidator validator;
-
-    private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
-
-    private boolean privateAttr;
+    private int attribute_code;
+    private int category_code;
+    private int order;
 
     public String getId() {
         return id;
@@ -47,101 +24,46 @@ public class CategoryAttributeSort implements Serializable {
         this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public int getAttribute_code() {
+        return attribute_code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setAttribute_code(int attribute_code) {
+        this.attribute_code = attribute_code;
     }
 
-    public boolean isActive() {
-        return active;
+    public int getCategory_code() {
+        return category_code;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setCategory_code(int category_code) {
+        this.category_code = category_code;
     }
 
-    public String getKey() {
-        return key;
+    public int getOrder() {
+        return order;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public Map<String, String> getTitle() {
-        return title;
-    }
-
-    public void setTitle(Map<String, String> title) {
-        this.title = title;
-    }
-
-    public Map<String, String> getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Map<String, String> unit) {
-        this.unit = unit;
-    }
-
-    public Set<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Integer> categories) {
-        this.categories = categories;
-    }
-
-    public CategoryAttributeType getType() {
-        return type;
-    }
-
-    public void setType(CategoryAttributeType type) {
-        this.type = type;
-    }
-
-    public CategoryAttributeValidator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(CategoryAttributeValidator validator) {
-        this.validator = validator;
-    }
-
-    public LinkedHashSet<CategoryAttributeValue> getValues() {
-        return values;
-    }
-
-    public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
-        this.values = values;
-    }
-
-    public boolean isPrivateAttr() {
-        return privateAttr;
-    }
-
-    public void setPrivateAttr(boolean privateAttr) {
-        this.privateAttr = privateAttr;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        CategoryAttributeSort categoryAttributeSort = (CategoryAttributeSort) o;
 
-        CategoryAttributeSort that = (CategoryAttributeSort) o;
-
-        if (code != that.code) return false;
-        return id != null ? id.equals(that.id) : that.id == null;
+        if (attribute_code != categoryAttributeSort.attribute_code) {
+            return false;
+        }
+        return id != null ? id.equals(categoryAttributeSort.id) : categoryAttributeSort.id == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + code;
+        result = 31 * result +  attribute_code;
         return result;
     }
 }
