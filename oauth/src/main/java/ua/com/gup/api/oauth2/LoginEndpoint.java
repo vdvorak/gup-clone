@@ -53,7 +53,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/oauth")
+@RequestMapping("/api/")
 public class LoginEndpoint {
     private final Logger log = LoggerFactory.getLogger(LoginEndpoint.class);
 

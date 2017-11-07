@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/search/")
+@RequestMapping("/api/")
 public class SearchEndpoint {
 
     @Autowired

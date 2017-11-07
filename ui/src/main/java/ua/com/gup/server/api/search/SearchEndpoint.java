@@ -51,7 +51,7 @@ public class SearchEndpoint {
                 })
         );
         uriComponentsBuilder = UriComponentsBuilder.newInstance().scheme(e.getProperty("search.host.scheme"))
-                .host(e.getProperty("search.host.address")).port(e.getProperty("search.host.port")).path("/api/search");
+                .host(e.getProperty("search.host.address")).port(e.getProperty("search.host.port")).path("/search/api");
 
     }
 
