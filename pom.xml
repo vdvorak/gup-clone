@@ -188,5 +188,6 @@
         <module>oauth</module>
         <module>ui</module>
         <module>storage</module>
+        <module>search</module>
     </modules>
 </project>
