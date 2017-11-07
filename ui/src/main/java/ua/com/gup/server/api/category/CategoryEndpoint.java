@@ -187,7 +187,7 @@ public class CategoryEndpoint {
         }
         Category result = categoryService.save(categoryCreateDTO);
         clearCache();
-        return ResponseEntity.created(new URI("/swagger/categories/" + result.getId()))
+        return ResponseEntity.created(new URI("/categories/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
@@ -295,10 +295,7 @@ public class CategoryEndpoint {
             log.error("Json processing exception", e);
         }
         categoriesTreeViewETagMap.put(lang, MD5Util.getMD5Hex(json));
-        cacheCategoriesTreeViewResponseMap.put(lang, ResponseEntity
-                .ok()
-                .eTag(categoriesTreeViewETagMap.get(lang))
-                .body(categoriesTreeView));
+        cacheCategoriesTreeViewResponseMap.put(lang, ResponseEntity.ok().eTag(categoriesTreeViewETagMap.get(lang)).body(categoriesTreeView));
     }
 
     private void clearCache() {
