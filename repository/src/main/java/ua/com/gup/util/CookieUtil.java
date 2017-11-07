@@ -19,7 +19,7 @@ public final class CookieUtil {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
-        cookie.setHttpOnly(Boolean.TRUE);
+//        cookie.setHttpOnly(Boolean.TRUE);
         response.addCookie(cookie);
     }
 
