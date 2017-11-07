@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.*;
 
-public class CustomParametersRequest extends HttpServletRequestWrapper {
+public class CustomParametersHttpServletRequest extends HttpServletRequestWrapper {
     private Map<String, String[]> modifiableParameters;
     private Map<String, String[]> allParameters;
 
-    public CustomParametersRequest(HttpServletRequest request) {
+    public CustomParametersHttpServletRequest(HttpServletRequest request) {
         super(request);
         modifiableParameters = new TreeMap<>();
     }
@@ -21,8 +21,8 @@ public class CustomParametersRequest extends HttpServletRequestWrapper {
      * @param request
      * @param additionalParams
      */
-    public CustomParametersRequest(final HttpServletRequest request,
-                                   final Map<String, String[]> additionalParams) {
+    public CustomParametersHttpServletRequest(final HttpServletRequest request,
+                                              final Map<String, String[]> additionalParams) {
         super(request);
         modifiableParameters = new HashMap<>();
         modifiableParameters.putAll(additionalParams);

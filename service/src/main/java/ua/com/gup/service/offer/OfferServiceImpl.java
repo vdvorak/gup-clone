@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.dto.offer.OfferCreateDTO;
-import ua.com.gup.dto.offer.OfferImageDTO;
-import ua.com.gup.dto.offer.OfferModerationReportDTO;
-import ua.com.gup.dto.offer.OfferUpdateDTO;
+import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
@@ -428,6 +425,23 @@ public class OfferServiceImpl implements OfferService {
         return imageService.findOne(id, sizeType);
     }
 
+    /**
+     * Get one offer categories by search word.
+     *
+     * @param string the string
+     * @param page   the page
+     * @param size   the size
+     * @return the list of entities
+     */
+    @Override
+    public List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size) {
+        log.debug("Request to search category by string : {}", string);
+        final List<OfferCategoryCount> offerCategoryCounts = offerRepositoryCustom.searchCategoriesByString(string, page, size);
+        return offerCategoryCounts
+                .stream()
+                .map(c -> offerCategoryMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public Optional<List<OfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd) {

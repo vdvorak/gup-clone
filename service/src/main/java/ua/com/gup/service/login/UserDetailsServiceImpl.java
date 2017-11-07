@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements GupUserDetailsService {
 
     @Autowired
     private ProfilesService profileService;
@@ -31,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
     }
-
+    @Override
     public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
         Profile profile = profileService.findProfileByUidAndWendor(uid, vendor);
         if (profile == null) {
@@ -39,8 +38,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
     }
-
-    public UserDetails loadUserByPhoneNumberdAndVendor(String phoneNumber, String vendor) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByPhoneAndVendor(String phoneNumber, String vendor) throws UsernameNotFoundException {
         Profile profile = profileService.findProfileByPhoneNumberAndWendor(phoneNumber, vendor);
         if (profile == null) {
             throw new UsernameNotFoundException("PHONE_NUMBER / VENDOR: [" + phoneNumber + " / " + vendor + "]");

@@ -58,11 +58,11 @@
                 <version>${imgscalr-lib.version}</version>
             </dependency>
             <!-- RSA Library -->
-            <!-- <dependency>
-                 <groupId>org.bouncycastle</groupId>
-                 <artifactId>bcprov-jdk15on</artifactId>
-                 <version>${bcprov-jdk15on.version}</version>
-             </dependency>-->
+           <!-- <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov-jdk15on.version}</version>
+            </dependency>-->
             <!--Google JSON -->
             <!-- validation-api -->
             <!-- common lang -->
@@ -187,7 +187,5 @@
         <module>service</module>
         <module>oauth</module>
         <module>ui</module>
-        <module>storage</module>
-        <module>search</module>
     </modules>
 </project>

@@ -18,7 +18,7 @@ import java.util.List;
  * Service Interface for managing Oauth2 ClientDetails.
  **/
 @Service
-public class ClientDetailService implements ClientDetailsService, ClientRegistrationService {
+public class GupClientDetailsService implements ClientDetailsService, ClientRegistrationService {
 
     @Autowired
     private MongoTemplate mongoTemplate;

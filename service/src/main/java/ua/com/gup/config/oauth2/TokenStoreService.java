@@ -1,12 +1,14 @@
 package ua.com.gup.config.oauth2;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
+import org.springframework.stereotype.Service;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationRefreshToken;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
@@ -16,15 +18,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class TokenStoreService implements GUPTokenStore {
-    private final static Logger LOG = Logger.getLogger(TokenStoreService.class);
-
+    private final static Logger logger = LoggerFactory.getLogger(TokenStoreService.class);
+    private final AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
     @Autowired
     private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private OAuth2RefreshTokenRepository oAuth2RefreshTokenRepository;
-
-    private final AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
 
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
@@ -46,7 +47,7 @@ public class TokenStoreService implements GUPTokenStore {
     @Override
     public OAuth2AccessToken readAccessToken(String tokenId) {
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-        LOG.info(" AccessToken  : " + token);
+        logger.info(" Read  AccessToken  : {} ", token);
         return (token != null) ? token.getoAuth2AccessToken() : null;
     }
 
@@ -75,7 +76,7 @@ public class TokenStoreService implements GUPTokenStore {
     @Override
     public void removeRefreshToken(OAuth2RefreshToken refreshToken) {
         OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(refreshToken.getValue());
-        LOG.info("remove RefreshToken  : " + token);
+        logger.info("Remove RefreshToken  : {}", token);
         if (token != null) {
             oAuth2RefreshTokenRepository.delete(token);
         }
@@ -84,9 +85,10 @@ public class TokenStoreService implements GUPTokenStore {
     @Override
     public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
         List<OAuth2AuthenticationAccessToken> tokens = oAuth2AccessTokenRepository.findByRefreshToken(refreshToken.getValue());
-        LOG.info("remove AccessTokenUsingRefreshToken OAuth2AuthenticationAccessToken  : " + tokens);
+        logger.info("remove All  AccessToken Using RefreshToken  size  : {} ", tokens.size());
         if (tokens != null) {
             for (OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken : tokens) {
+                logger.info("remove  AccessToken  : {} ", oAuth2AuthenticationAccessToken);
                 oAuth2AccessTokenRepository.delete(oAuth2AuthenticationAccessToken);
             }
         }
@@ -125,5 +127,4 @@ public class TokenStoreService implements GUPTokenStore {
                 .map(OAuth2AuthenticationAccessToken::getoAuth2AccessToken)
                 .collect(Collectors.toList());
     }
-
 }

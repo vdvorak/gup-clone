@@ -134,18 +134,17 @@ public class OfferMapper {
     private void fromOfferToOfferViewShortDTO(Offer source, OfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
         target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
-
-        OfferPriceShortDTO priceDTO = new OfferPriceShortDTO();
         if (source.getPrice() != null) {
+            OfferPriceShortDTO priceDTO = new OfferPriceShortDTO();
             priceMapper.moneyToMoneyDTO(source.getPrice(), priceDTO);
+            Optional<OfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
+            if (collect.isPresent()) {
+                OfferCategorySingleAttributeValue priceAttributes = collect.get();
+                priceDTO.setSelected(priceAttributes.getSelected());
+                priceDTO.setTitle(priceAttributes.getTitle());
+            }
+            target.setPrice(priceDTO);
         }
-        Optional<OfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
-        if (collect.isPresent()) {
-            OfferCategorySingleAttributeValue priceAttributes = collect.get();
-            priceDTO.setSelected(priceAttributes.getSelected());
-            priceDTO.setTitle(priceAttributes.getTitle());
-        }
-        target.setPrice(priceDTO);
         if (source.getLands() != null) {
             target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
         }

@@ -6,6 +6,7 @@ import ua.com.gup.config.MailConfig;
 import ua.com.gup.config.MongoConfig;
 import ua.com.gup.config.RootConfig;
 import ua.com.gup.config.WebConfig;
+import ua.com.gup.config.security.MethodSecurityConfig;
 import ua.com.gup.config.security.SecurityConfig;
 import ua.com.gup.config.swagger.SwaggerConfig;
 
@@ -15,7 +16,7 @@ public class OAuthGupApplication {
         SpringApplication.run(new Object[]{WebConfig.class
                 , RootConfig.class
                 , SecurityConfig.class
-                // , MethodSecurityConfig.class
+                , MethodSecurityConfig.class
                 , SwaggerConfig.class
                 , MailConfig.class
                 , MongoConfig.class

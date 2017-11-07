@@ -176,6 +176,16 @@ public interface OfferService {
      */
     FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType);
 
+    /**
+     * Get one offer categories by search word.
+     *
+     * @param string the string
+     * @param page   the page
+     * @param size   the size
+     * @return the list of entities
+     */
+    List<OfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
+
     Optional<List<OfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd);
 
     Optional<OfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);

@@ -6,7 +6,6 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.mongo.model.other.CreatedObjResp;
@@ -60,10 +59,10 @@ public class FileStorageEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp> photoUpload(@RequestParam MultipartFile file) {
-        if (file.isEmpty() || StringUtils.isEmpty(file.getName()) || file.getName().contains("..")) {
+        if (file.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (StringUtils.isEmpty(file.getContentType()) || !file.getContentType().startsWith("image/")) {
+        if (!file.getContentType().startsWith("image/")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
