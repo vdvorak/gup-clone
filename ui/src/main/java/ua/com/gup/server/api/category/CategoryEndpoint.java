@@ -49,7 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CategoryEndpoint {
 
     private static final String ENTITY_NAME = "category";
-    private final Logger log = LoggerFactory.getLogger(CategoryEndpoint.class);
+    private final Logger logger = LoggerFactory.getLogger(CategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
     private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 
@@ -88,7 +88,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
-        log.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
+        logger.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -108,7 +108,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> getCategoryAttributes(@PathVariable String id) {
-        log.debug("REST request to get CategoryAttribute : {}", id);
+        logger.debug("REST request to get CategoryAttribute : {}", id);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -128,7 +128,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
-        log.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
+        logger.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -146,7 +146,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategoryAttribute(@PathVariable String id) {
-        log.debug("REST request to delete CategoryAttribute : {}", id);
+        logger.debug("REST request to delete CategoryAttribute : {}", id);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -163,7 +163,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/category-attributes/", method = RequestMethod.GET)
     public ResponseEntity<List<CategoryAttribute>> getAllCategoryAttributes() {
-        log.debug("REST request to get a page of Categories");
+        logger.debug("REST request to get a page of Categories");
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -181,7 +181,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) throws URISyntaxException {
-        log.debug("REST request to save new Category : {}", categoryCreateDTO);
+        logger.debug("REST request to save new Category : {}", categoryCreateDTO);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -201,7 +201,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> getCategory(@PathVariable String id) {
-        log.debug("REST request to get Category : {}", id);
+        logger.debug("REST request to get Category : {}", id);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -221,7 +221,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO) throws URISyntaxException {
-        log.debug("REST request to update Category : {}", categoryUpdateDTO);
+        logger.debug("REST request to update Category : {}", categoryUpdateDTO);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -239,7 +239,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
-        log.debug("REST request to delete Category : {}", id);
+        logger.debug("REST request to delete Category : {}", id);
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -256,7 +256,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
-        log.debug("REST request to get all Categories");
+        logger.debug("REST request to get all Categories");
         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
         }
@@ -272,7 +272,7 @@ public class CategoryEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
-        log.debug("REST request to get categories in tree view");
+        logger.debug("REST request to get categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETagMap.getOrDefault(lang, "defaultValue"))) {
             return null;
         }
@@ -292,7 +292,7 @@ public class CategoryEndpoint {
         try {
             json = ow.writeValueAsString(categoriesTreeView);
         } catch (JsonProcessingException e) {
-            log.error("Json processing exception", e);
+            logger.error("Json processing exception", e);
         }
         categoriesTreeViewETagMap.put(lang, MD5Util.getMD5Hex(json));
         cacheCategoriesTreeViewResponseMap.put(lang, ResponseEntity.ok().eTag(categoriesTreeViewETagMap.get(lang)).body(categoriesTreeView));
