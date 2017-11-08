@@ -94,7 +94,7 @@ public class CategoryEndpoint {
         }
         CategoryAttribute result = categoryAttributeService.save(categoryAttribute);
         clearCache();
-        return ResponseEntity.created(new URI("/swagger/categoryAttribute/" + result.getId()))
+        return ResponseEntity.created(new URI("/categoryAttribute/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
