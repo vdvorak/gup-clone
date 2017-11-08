@@ -14,6 +14,9 @@ public class CategoryCreateDTO {
 
     private String color;
 
+    //todo order category  
+    private int order;
+
     private Map<String, String> title = new HashMap<>();
 
     private Map<String, String> description = new HashMap<>();
@@ -64,5 +67,13 @@ public class CategoryCreateDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
