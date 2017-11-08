@@ -9,6 +9,11 @@ public class CategoryTreeDTO implements Serializable {
     private boolean active;
     private String key;
     private String color;
+
+    //order 100 is higher level 1 is low level
+    private int order;
+
+
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
     private Set<CategoryAttributeDTO> attrs;
@@ -94,5 +99,13 @@ public class CategoryTreeDTO implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
