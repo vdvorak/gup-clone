@@ -10,10 +10,6 @@ import java.util.Optional;
  * Repository for the category entity.
  */
 public interface CategoryRepository extends MongoRepository<Category, String> {
-
-
     Optional<Category> findOneByCode(Integer code);
-
     Optional<List<Category>> findByCodeInOrderByCodeAsc(List<Integer> codes);
-
 }
