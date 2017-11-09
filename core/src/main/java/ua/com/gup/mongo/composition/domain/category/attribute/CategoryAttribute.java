@@ -32,7 +32,7 @@ public class CategoryAttribute implements Serializable {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<CategoriesSort>();
+    private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<CategoriesSort>();
 
     private CategoryAttributeType type;
 
@@ -99,11 +99,11 @@ public class CategoryAttribute implements Serializable {
     }
 
     public LinkedHashSet<CategoriesSort> getCategoriesSort() {
-        return categoriesSort;
+        return categories_sort;
     }
 
     public void setCategoriesSort(LinkedHashSet<CategoriesSort> categoriesSort) {
-        this.categoriesSort = categoriesSort;
+        this.categories_sort = categoriesSort;
     }
 
     public CategoryAttributeType getType() {
