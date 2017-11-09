@@ -9,15 +9,11 @@ public class CategoryTreeDTO implements Serializable {
     private boolean active;
     private String key;
     private String color;
-
-    //order 100 is higher level 1 is low level
-    private int order;
-
-
+    private Integer order;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
-    private Set<CategoryAttributeDTO> attrs;
-    private Set<CategoryTreeDTO> children;
+    private SortedSet<CategoryAttributeDTO> attrs;
+    private SortedSet<CategoryTreeDTO> children;
     private boolean privateAttr;
 
     public CategoryTreeDTO(String lang) {
@@ -26,11 +22,13 @@ public class CategoryTreeDTO implements Serializable {
     }
 
     public static Comparator<CategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
-        return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
+        //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
+        return Comparator.comparing(c -> c.getOrder() == null ? -1 : c.getOrder());
     }
 
     private Comparator<CategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
-        return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
+        //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
+        return Comparator.comparing(c -> c.getCategory_sort() == null ? -1  : c.getCategory_sort());
     }
 
     public int getCode() {
@@ -73,16 +71,12 @@ public class CategoryTreeDTO implements Serializable {
         this.description = description;
     }
 
-    public Set<CategoryAttributeDTO> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(Set<CategoryAttributeDTO> attrs) {
-        this.attrs = attrs;
-    }
-
-    public Set<CategoryTreeDTO> getChildren() {
+    public SortedSet<CategoryTreeDTO> getChildren() {
         return children;
+    }
+
+    public void setChildren(SortedSet<CategoryTreeDTO> children) {
+        this.children = children;
     }
 
     public boolean isPrivateAttr() {
@@ -101,11 +95,19 @@ public class CategoryTreeDTO implements Serializable {
         this.color = color;
     }
 
-    public int getOrder() {
+    public Integer getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public SortedSet<CategoryAttributeDTO> getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(SortedSet<CategoryAttributeDTO> attrs) {
+        this.attrs = attrs;
     }
 }

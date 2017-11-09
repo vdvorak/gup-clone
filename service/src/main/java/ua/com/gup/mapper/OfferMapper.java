@@ -222,11 +222,17 @@ public class OfferMapper {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
         if (source.getCategory() != null) {
-            final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
+
+            final SortedSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
+
             final Map<String, CategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(CategoryAttributeDTO::getKey, Function.identity()));
+
             if (source.getAttrs() != null) {
+
                 LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+
                 for (String key : source.getAttrs().keySet()) {
+
                     final String value = source.getAttrs().get(key);
                     final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                     OfferCategorySingleAttributeValue attributeValue = new OfferCategorySingleAttributeValue();

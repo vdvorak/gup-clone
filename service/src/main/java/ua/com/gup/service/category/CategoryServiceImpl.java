@@ -51,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryTreeDTO.setTitle(category.getTitle());
         categoryTreeDTO.setDescription(category.getDescription());
         categoryTreeDTO.setColor(category.getColor());
+        categoryTreeDTO.setOrder(category.getOrder());
         return categoryTreeDTO;
     }
 
@@ -101,40 +102,56 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Collection<CategoryTreeDTO> findAllTreeView(String lang) {
         log.debug("Request to get all Categories in tree view");
+
+        //get all category
         final List<Category> categoriesList = categoryRepository.findAll();
+
+        //remove if active false
         categoriesList.removeIf(c -> !c.isActive());
+
         final Map<Integer, CategoryTreeDTO> categories = new LinkedHashMap<>();
+
         for (Category category : categoriesList) {
             categories.put(category.getCode(), categoryToCategoryTreeDTO(category, lang));
         }
+
         for (Category category : categoriesList) {
             if (categories.containsKey(category.getParent()))
                 categories.get(category.getParent()).getChildren().add(categories.get(category.getCode()));
         }
-        final Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
+
+        //get all category_attribute
+        final Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
+
+       //for by  category code in array
         for (Integer code : categoryAttributeDTOs.keySet()) {
-            final LinkedHashSet<CategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+
+         final SortedSet<CategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+
             for (CategoryAttributeDTO attributeDTO : attributes) {
-                TreeSet<CategoryAttributeValueDTO> sortedSet = new TreeSet<>(
-                        Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
+                TreeSet<CategoryAttributeValueDTO> sortedSet =
+                        new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
         }
+
         for (Integer code : categories.keySet()) {
             if (categoryAttributeDTOs.containsKey(code)) {
                 categories.get(code).setAttrs(categoryAttributeDTOs.get(code));
             }
         }
+
         final Set<Integer> firstLevelCategories = categoriesList.stream()
-                .filter((Category c) -> c.getParent() == 0)
-                .map(Category::getCode)
-                .collect(Collectors.toSet());
+                                                                  .filter((Category c) -> c.getParent() == 0)
+                                                                  .map(Category::getCode)
+                                                                  .collect(Collectors.toSet());
+
         return categories.entrySet().stream()
-                .filter(e -> firstLevelCategories.contains(e.getKey()))
-                .map(e -> e.getValue())
-                .sorted(CategoryTreeDTO.getCategoryTreeDTOComparator(lang))
-                .collect(Collectors.toList());
+                                        .filter(e -> firstLevelCategories.contains(e.getKey()))
+                                        .map(e -> e.getValue())
+                                        .sorted(CategoryTreeDTO.getCategoryTreeDTOComparator(lang))
+                                        .collect(Collectors.toList());
     }
 
     /**

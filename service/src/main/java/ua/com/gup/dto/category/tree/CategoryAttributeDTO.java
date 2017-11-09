@@ -13,6 +13,9 @@ public class CategoryAttributeDTO {
     private String key;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
+
+    private Integer category_sort;
+
     private CategoryAttributeType type;
     private CategoryAttributeValidatorDTO validator;
     private Set<CategoryAttributeValueDTO> values;
@@ -56,6 +59,14 @@ public class CategoryAttributeDTO {
 
     public void setUnit(Map<String, String> unit) {
         this.unit = unit;
+    }
+
+    public Integer getCategory_sort() {
+        return category_sort;
+    }
+
+    public void setCategory_sort(Integer category_sort) {
+        this.category_sort = category_sort;
     }
 
     public CategoryAttributeType getType() {
