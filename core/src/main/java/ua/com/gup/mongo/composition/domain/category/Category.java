@@ -29,7 +29,7 @@ public class Category implements Serializable {
 
     @Size(min = 1, max = 8)
     private String color;
-    //todo order category     
+
     private int order;
 
     private Map<String, String> title = new HashMap<>();

@@ -30,8 +30,8 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     private final CategoryAttributeRepository categoryAttributeRepository;
 
     private final CategoryAttributeMapper categoryAttributeMapper;
-
-    private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
+    //use for sorted category_sort asc
+    private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<CategoryAttributeDTO>>();
 
     @Autowired
     public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository, CategoryAttributeMapper categoryAttributeMapper) {
@@ -132,15 +132,15 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     private void warmCache() {
         //get all category_attribute
         final List<CategoryAttribute> categoryAttributes = categoryAttributeRepository.findAll();
-         //remove if is not active
+         //remove category_attribute if is not active
         categoryAttributes.removeIf(c -> !c.isActive());
           //get category attribute
         for (CategoryAttribute categoryAttribute : categoryAttributes) {
-           //for (Integer category : categoryAttribute.getCategories()) {
             for (CategoriesSort categorySort : categoryAttribute.getCategoriesSort()) {
-
+                //if not exists put categoryAttribute to cache
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
-                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<CategoryAttributeDTO>());
+                    //sort by category_sort asc
+                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<CategoryAttributeDTO>(Comparator.comparing(CategoryAttributeDTO::getCategory_sort)));
                 }
 
                 CategoryAttributeDTO attributeDTO = new CategoryAttributeDTO();
@@ -151,13 +151,15 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
                 attributeDTO.setTitle(categoryAttribute.getTitle());
                 attributeDTO.setUnit(categoryAttribute.getUnit());
                 attributeDTO.setType(categoryAttribute.getType());
+                //add sorted number [1-hight 100-low]
                 attributeDTO.setCategory_sort(categorySort.getOrder_category());
 
                 CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
-
                 validatorDTO.setMin(categoryAttribute.getValidator().getMin());
                 validatorDTO.setMax(categoryAttribute.getValidator().getMax());
+
                 boolean exceptThis = categoryAttribute.getValidator().getExcept().contains(categorySort.getCode_category());
+
                 validatorDTO.setRequired(categoryAttribute.getValidator().isRequired() ^ exceptThis);
                 attributeDTO.setValidator(validatorDTO);
 
@@ -165,11 +167,9 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
 
                 for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
                     if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
-
                         CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
                         valueDTO.setKey(attributeValue.getKey());
                         valueDTO.setTitle(attributeValue.getTitle());
-
                         valueDTOS.add(valueDTO);
                     }
                 }

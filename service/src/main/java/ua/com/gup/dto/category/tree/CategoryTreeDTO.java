@@ -23,12 +23,12 @@ public class CategoryTreeDTO implements Serializable {
 
     public static Comparator<CategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
         //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
-        return Comparator.comparing(c -> c.getOrder() == null ? -1 : c.getOrder());
+        return Comparator.comparing(CategoryTreeDTO::getOrder);
     }
 
     private Comparator<CategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
         //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
-        return Comparator.comparing(c -> c.getCategory_sort() == null ? -1  : c.getCategory_sort());
+        return Comparator.comparing(CategoryAttributeDTO::getCategory_sort);
     }
 
     public int getCode() {
