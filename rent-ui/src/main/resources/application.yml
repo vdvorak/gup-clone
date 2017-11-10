@@ -1,0 +1,33 @@
+server:
+  port: 8080
+  context-path: /rent
+  session:
+        cookie:
+          name: UISESSION
+
+mongo:
+    db:
+      uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
+spring:
+  profiles:
+    active: dev
+oauth:
+  token:
+    access:
+      expiresInSeconds: 900
+    refresh:
+      expiresInSeconds: 2678400
+
+
+#Mail Server Configuration for production
+email:
+  services:
+    smtp:
+      host: corp.gup.ua
+      port: 25
+      username: website@corp.gup.ua
+      password: aJpDgDxPGX40Yf3H
+      auth: true
+      starttls:
+        enable: true
+

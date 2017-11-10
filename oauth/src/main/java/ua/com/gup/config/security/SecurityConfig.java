@@ -3,12 +3,11 @@ package ua.com.gup.config.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,13 +21,9 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.vote.ScopeVoter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import ua.com.gup.config.oauth2.GUPTokenStore;
 import ua.com.gup.config.oauth2.TokenStoreService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
+    @Qualifier(value = "GupClientDetailsService")
     private ClientDetailsService clientDetailService;
 
   /*
@@ -108,21 +104,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Bean
-    public UnanimousBased accessDecisionManager() {
-        List<AccessDecisionVoter<? extends Object>> decisionVoters = new ArrayList<>();
-        decisionVoters.add(new ScopeVoter());
-        decisionVoters.add(new RoleVoter());
-        decisionVoters.add(new AuthenticatedVoter());
-        UnanimousBased accessDecisionManager = new UnanimousBased(decisionVoters);
-        return accessDecisionManager;
-    }
+//    @Bean
+//    public UnanimousBased accessDecisionManager() {
+//        List<AccessDecisionVoter<? extends Object>> decisionVoters = new ArrayList<>();
+//        decisionVoters.add(new ScopeVoter());
+//        decisionVoters.add(new RoleVoter());
+//        decisionVoters.add(new AuthenticatedVoter());
+//        UnanimousBased accessDecisionManager = new UnanimousBased(decisionVoters);
+//        return accessDecisionManager;
+//    }
 
     @Bean
-    public DefaultTokenServices tokenServices() {
+    public DefaultTokenServices tokenServices(GUPTokenStore tokenStore) {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setSupportRefreshToken(true);
-        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setTokenStore(tokenStore);
         tokenServices.setClientDetailsService(clientDetailService);
         return tokenServices;
     }
@@ -158,6 +154,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //session manager bean
     @Bean
+    @Profile("dev")
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
