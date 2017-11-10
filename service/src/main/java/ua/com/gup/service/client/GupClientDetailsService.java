@@ -1,6 +1,7 @@
 package ua.com.gup.service.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.*;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Victor Dvorak
  * Service Interface for managing Oauth2 ClientDetails.
  **/
-@Service
+@Service(value = "GupClientDetailsService")
 public class GupClientDetailsService implements ClientDetailsService, ClientRegistrationService {
 
     @Autowired
