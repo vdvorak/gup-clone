@@ -57,8 +57,9 @@
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <root level="error">
+        <root level="debug">
             <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
 
