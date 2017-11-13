@@ -149,8 +149,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             query.addCriteria(Criteria.where("status").is(OfferStatus.ACTIVE));
         }
         if (offerFilter.getCategories() != null) {
-
-
             query.addCriteria(Criteria.where("categories").all(offerFilter.getCategories()));
         }
         if (offerFilter.getAddress() != null) {
