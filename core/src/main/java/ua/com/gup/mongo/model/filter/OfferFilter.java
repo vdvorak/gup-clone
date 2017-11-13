@@ -25,6 +25,9 @@ public class OfferFilter implements Serializable {
     @ApiModelProperty(value = "Filter for address", position = 30)
     private AddressFilter address;
 
+    @ApiModelProperty(value = "Coordinates for address", position = 30)
+    private CoordinatesFilter coordinates;
+
     @ApiModelProperty(value = "Filter for price", position = 40)
     private MoneyFilter price;
 
@@ -39,6 +42,9 @@ public class OfferFilter implements Serializable {
 
     @ApiModelProperty(value = "Filters for boolean attributes", position = 70)
     private List<BooleanAttributeFilter> boolAttrs = new ArrayList<>();
+
+    @ApiModelProperty(value = "Seo url's with ',' delimiter", position = 80)
+    private String[] seoUrls;
 
     public String getQuery() {
         return query;
@@ -112,4 +118,19 @@ public class OfferFilter implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
+    public String[] getSeoUrls() {
+        return seoUrls;
+    }
+
+    public void setSeoUrls(String[] seoUrls) {
+        this.seoUrls = seoUrls;
+    }
+
+    public CoordinatesFilter getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(CoordinatesFilter coordinates) {
+        this.coordinates = coordinates;
+    }
 }
