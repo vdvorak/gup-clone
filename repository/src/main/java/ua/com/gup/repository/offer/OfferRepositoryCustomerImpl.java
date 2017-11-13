@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -162,17 +161,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             query.addCriteria(Criteria.where("authorId").in(offerFilter.getAuthorFilter().getAuthorId()));
         }
         //todo vdvorak
-        if (offerFilter.getAddress() != null) {
-            AddressFilter addressFilter = offerFilter.getAddress();
-            if (addressFilter.getCountries() != null) {
-                query.addCriteria(Criteria.where("address.country.code").in(addressFilter.getCountries().split(",")));
-            }
-            if (addressFilter.getDistricts() != null) {
-                query.addCriteria(Criteria.where("address.district.code").in(addressFilter.getDistricts().split(",")));
-            }
-            if (addressFilter.getCities() != null) {
-                query.addCriteria(Criteria.where("address.city.code").in(addressFilter.getCities().split(",")));
-
         CoordinatesFilter coordinates = offerFilter.getCoordinates();
         AddressFilter addressFilter = offerFilter.getAddress();
         if (coordinates != null || addressFilter != null) {
@@ -198,7 +186,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
             }
         }
-
 
         if (offerFilter.getPrice() != null) {
             MoneyFilter price = offerFilter.getPrice();

@@ -18,7 +18,7 @@ public class OfferFilter implements Serializable {
     private String query;
 
     @ApiModelProperty(value = "Field form object Profile", position = 5)
-    private  AuthorFilter authorFilter;
+    private AuthorFilter authorFilter;
 
     @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
     private Integer[] categories;
@@ -130,8 +130,7 @@ public class OfferFilter implements Serializable {
         this.authorFilter = authorFilter;
     }
 
-    
-                
+
     public String[] getSeoUrls() {
         return seoUrls;
     }
@@ -148,7 +147,7 @@ public class OfferFilter implements Serializable {
         this.coordinates = coordinates;
 
     }
- 
+
     @Override
     public String toString() {
         return "OfferFilter{" +
@@ -162,5 +161,6 @@ public class OfferFilter implements Serializable {
                 ", multiAttrs=" + multiAttrs +
                 ", numAttrs=" + numAttrs +
                 ", boolAttrs=" + boolAttrs +
-                '}';    
+                '}';
+    }
 }
