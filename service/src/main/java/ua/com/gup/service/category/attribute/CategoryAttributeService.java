@@ -5,10 +5,7 @@ import ua.com.gup.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.mongo.composition.domain.category.attribute.CategoryAttribute;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Service Interface for managing CategoryAttribute.
@@ -66,5 +63,5 @@ public interface CategoryAttributeService {
      *
      * @return the entity
      */
-    Map<Integer, LinkedHashSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO();
+    Map<Integer, SortedSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO();
 }

@@ -37,5 +37,6 @@ public class CategoryMapper {
         target.setKey(source.getKey());
         target.setParent(source.getParent());
         target.setColor(source.getColor());
+        target.setOrder(source.getOrder());
     }
 }

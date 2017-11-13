@@ -19,10 +19,7 @@ import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.category.attribute.CategoryAttributeService;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -85,7 +82,7 @@ public class OfferDTOValidator implements Validator {
                         (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size()) +
                         (offerCreateDTO.getAttrs() == null ? 0 : offerCreateDTO.getAttrs().size());
                 if (!isUpdateDTO || (isUpdateDTO && numberOfAllAttrs > 0)) {
-                    final LinkedHashSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(offerCreateDTO.getCategory());
+                    final SortedSet<CategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(offerCreateDTO.getCategory());
                     final Map<String, CategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(CategoryAttributeDTO::getKey, Function.identity()));
                     // checking values of attrs
                     if (offerCreateDTO.getAttrs() != null) {

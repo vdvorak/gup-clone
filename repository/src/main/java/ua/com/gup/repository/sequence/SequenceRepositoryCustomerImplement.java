@@ -30,8 +30,7 @@ public class SequenceRepositoryCustomerImplement implements SequenceRepositoryCu
         options.returnNew(true);
 
         //this is the magic happened.
-        Sequence sequence =
-                mongoOperation.findAndModify(query, update, options, Sequence.class);
+        Sequence sequence =  mongoOperation.findAndModify(query, update, options, Sequence.class);
 
         //if no sequence, throws RuntimeException
         //optional, just a way to tell user when the sequence is failed to generate.

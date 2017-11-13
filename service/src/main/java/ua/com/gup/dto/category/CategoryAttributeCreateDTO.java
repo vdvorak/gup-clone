@@ -1,6 +1,7 @@
 package ua.com.gup.dto.category;
 
 
+import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
 import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
@@ -18,6 +19,8 @@ public class CategoryAttributeCreateDTO {
     private Map<String, String> unit = new HashMap<>();
 
     private Set<Integer> categories = new HashSet<>();
+
+    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<CategoriesSort>();
 
     private CategoryAttributeType type;
 
@@ -65,6 +68,14 @@ public class CategoryAttributeCreateDTO {
 
     public void setCategories(Set<Integer> categories) {
         this.categories = categories;
+    }
+
+    public LinkedHashSet<CategoriesSort> getCategoriesSort() {
+        return categoriesSort;
+    }
+
+    public void setCategoriesSort(LinkedHashSet<CategoriesSort> categoriesSort) {
+        this.categoriesSort = categoriesSort;
     }
 
     public CategoryAttributeType getType() {

@@ -285,9 +285,9 @@ public class CategoryEndpoint {
     private void findAllTreeView(String lang) {
         Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView(lang);
         final ObjectWriter ow = Jackson2ObjectMapperBuilder.json()
-                .serializationInclusion(JsonInclude.Include.NON_NULL) // Don’t include null values
-                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
-                .modules(new JavaTimeModule()).build().writer();
+                                                                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                                                                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
+                                                                .modules(new JavaTimeModule()).build().writer();
         String json = "";
         try {
             json = ow.writeValueAsString(categoriesTreeView);

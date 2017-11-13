@@ -11,14 +11,12 @@ import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.mapper.CategoryAttributeMapper;
 import ua.com.gup.mongo.composition.domain.category.attribute.CategoryAttribute;
+import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
 import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
 import ua.com.gup.repository.category.attribute.CategoryAttributeRepository;
 import ua.com.gup.service.category.CategoryServiceImpl;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,13 +25,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class CategoryAttributeServiceImpl implements CategoryAttributeService {
 
-    private final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     private final CategoryAttributeRepository categoryAttributeRepository;
 
     private final CategoryAttributeMapper categoryAttributeMapper;
-
-    private Map<Integer, LinkedHashSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
+    //use for sorted category_sort asc
+    private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<CategoryAttributeDTO>>();
 
     @Autowired
     public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository, CategoryAttributeMapper categoryAttributeMapper) {
@@ -49,7 +47,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public CategoryAttribute save(CategoryAttributeCreateDTO categoryAttributeCreateDTO) {
-        log.debug("Request to save CategoryAttribute : {}", categoryAttributeCreateDTO);
+        logger.debug("Request to save CategoryAttribute : {}", categoryAttributeCreateDTO);
         final CategoryAttribute attribute = categoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(categoryAttributeCreateDTO);
         final CategoryAttribute saved = categoryAttributeRepository.save(attribute);
         clearCache();
@@ -64,7 +62,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public CategoryAttribute save(CategoryAttributeUpdateDTO categoryAttributeUpdateDTO) {
-        log.debug("Request to save CategoryAttribute : {}", categoryAttributeUpdateDTO);
+        logger.debug("Request to save CategoryAttribute : {}", categoryAttributeUpdateDTO);
         final CategoryAttribute categoryAttribute = categoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(categoryAttributeUpdateDTO);
         final CategoryAttribute saved = categoryAttributeRepository.save(categoryAttribute);
         clearCache();
@@ -78,7 +76,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public List<CategoryAttribute> findAll() {
-        log.debug("Request to get all Categories by filter");
+        logger.debug("Request to get all Categories by filter");
         return categoryAttributeRepository.findAll();
     }
 
@@ -90,7 +88,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public CategoryAttribute findOne(String id) {
-        log.debug("Request to get CategoryAttribute : {}", id);
+        logger.debug("Request to get CategoryAttribute : {}", id);
         return categoryAttributeRepository.findOne(id);
     }
 
@@ -102,7 +100,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public Optional<CategoryAttribute> findOneByCode(int code) {
-        log.debug("Request to get CategoryAttribute : {}", code);
+        logger.debug("Request to get CategoryAttribute : {}", code);
         return categoryAttributeRepository.findOneByCode(code);
     }
 
@@ -113,7 +111,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      */
     @Override
     public void delete(String id) {
-        log.debug("Request to delete CategoryAttribute : {}", id);
+        logger.debug("Request to delete CategoryAttribute : {}", id);
         categoryAttributeRepository.delete(id);
         clearCache();
     }
@@ -124,7 +122,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
      * @return the entity
      */
     @Override
-    public Map<Integer, LinkedHashSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO() {
+    public Map<Integer, SortedSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO() {
         if (categoryAttributeCache.size() == 0) {
             warmCache();
         }
@@ -132,29 +130,43 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     }
 
     private void warmCache() {
+        //get all category_attribute
         final List<CategoryAttribute> categoryAttributes = categoryAttributeRepository.findAll();
+         //remove category_attribute if is not active
         categoryAttributes.removeIf(c -> !c.isActive());
+          //get category attribute
         for (CategoryAttribute categoryAttribute : categoryAttributes) {
-            for (Integer category : categoryAttribute.getCategories()) {
-                if (!categoryAttributeCache.containsKey(category)) {
-                    categoryAttributeCache.put(category, new LinkedHashSet<>());
+            for (CategoriesSort categorySort : categoryAttribute.getCategoriesSort()) {
+                //if not exists put categoryAttribute to cache
+                if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
+                    //sort by category_sort asc
+                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<CategoryAttributeDTO>(Comparator.comparing(CategoryAttributeDTO::getCategory_sort)));
                 }
+
                 CategoryAttributeDTO attributeDTO = new CategoryAttributeDTO();
+
                 attributeDTO.setCode(categoryAttribute.getCode());
                 attributeDTO.setActive(categoryAttribute.isActive());
                 attributeDTO.setKey(categoryAttribute.getKey());
                 attributeDTO.setTitle(categoryAttribute.getTitle());
                 attributeDTO.setUnit(categoryAttribute.getUnit());
                 attributeDTO.setType(categoryAttribute.getType());
+                //add sorted number [1-hight 100-low]
+                attributeDTO.setCategory_sort(categorySort.getOrder_category());
+
                 CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
                 validatorDTO.setMin(categoryAttribute.getValidator().getMin());
                 validatorDTO.setMax(categoryAttribute.getValidator().getMax());
-                boolean exceptThis = categoryAttribute.getValidator().getExcept().contains(category);
+
+                boolean exceptThis = categoryAttribute.getValidator().getExcept().contains(categorySort.getCode_category());
+
                 validatorDTO.setRequired(categoryAttribute.getValidator().isRequired() ^ exceptThis);
                 attributeDTO.setValidator(validatorDTO);
+
                 LinkedHashSet<CategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
+
                 for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
-                    if (!attributeValue.getExceptCategory().contains(category)) {
+                    if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
                         CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
                         valueDTO.setKey(attributeValue.getKey());
                         valueDTO.setTitle(attributeValue.getTitle());
@@ -162,7 +174,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
                     }
                 }
                 attributeDTO.setValues(valueDTOS);
-                categoryAttributeCache.get(category).add(attributeDTO);
+                categoryAttributeCache.get(categorySort.getCode_category()).add(attributeDTO);
             }
         }
     }
