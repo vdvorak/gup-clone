@@ -168,7 +168,13 @@ public class OfferServiceImpl implements OfferService {
      */
     @Override
     public Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable) {
-        log.debug("Request to get all Offers by filter");
+        //set authorId by exists publicId for OfferFilter
+        if (offerFilter.getAuthorFilter() != null) {
+            if (offerFilter.getAuthorFilter().getPublicId() != null && offerFilter.getAuthorFilter().getAuthorId() == null) {
+                offerFilter.getAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getAuthorFilter().getPublicId().trim()).getId());
+            }
+        }
+        log.debug("Request to get all Offers by filter  {} " , offerFilter);
         calculatePriceInBaseCurrency(offerFilter.getPrice());
         long count = offerRepositoryCustom.countByFilter(offerFilter, OfferStatus.ACTIVE);
         List<Offer> offers = Collections.EMPTY_LIST;
