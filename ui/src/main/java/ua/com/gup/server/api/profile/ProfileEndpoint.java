@@ -44,8 +44,7 @@ public class ProfileEndpoint {
      * @return the profile by id
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("id") String publicId) {
         ProfileDTO profileInfo = profilesService.findPublicProfileByPublicId(publicId);
         if (profileInfo == null) {
@@ -53,10 +52,8 @@ public class ProfileEndpoint {
         }
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
-
     @CrossOrigin
-    @RequestMapping(value = "/profile/mainPhoneViews/{id}", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/mainPhoneViews/{id}", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDTO> countPhoneViewsProfileById(@PathVariable String id) {
         ProfileDTO profileInfo = profilesService.incMainPhoneViewsAtOne(id);
 
@@ -66,7 +63,6 @@ public class ProfileEndpoint {
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
-
     /**
      * Add one contact (user) to the current user contact list.
      *
@@ -90,8 +86,6 @@ public class ProfileEndpoint {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
     }
-
-
     /**
      * Delete one contact from user contact list.
      *
