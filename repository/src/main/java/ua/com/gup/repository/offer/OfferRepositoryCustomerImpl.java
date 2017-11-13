@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 @Repository
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
@@ -121,6 +123,9 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         if (excludedIds != null && excludedIds.size() > 0) {
             query.addCriteria(Criteria.where("_id").nin(excludedIds));
         }
+        if (offerFilter.getSeoUrls() != null && offerFilter.getSeoUrls().length > 0) {
+            query.addCriteria(Criteria.where("seoUrl").in(offerFilter.getSeoUrls()));
+        }
         if (offerFilter.getDate() != null) {
             final DateFilter dateFilter = offerFilter.getDate();
             if (dateFilter.getFrom() != null && dateFilter.getTo() != null) {
@@ -151,6 +156,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         if (offerFilter.getCategories() != null) {
             query.addCriteria(Criteria.where("categories").all(offerFilter.getCategories()));
         }
+
         //filter by authorId
         if (offerFilter.getAuthorFilter() != null && offerFilter.getAuthorFilter().getAuthorId() != null) {
             query.addCriteria(Criteria.where("authorId").in(offerFilter.getAuthorFilter().getAuthorId()));
@@ -166,8 +172,34 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             }
             if (addressFilter.getCities() != null) {
                 query.addCriteria(Criteria.where("address.city.code").in(addressFilter.getCities().split(",")));
+
+        CoordinatesFilter coordinates = offerFilter.getCoordinates();
+        AddressFilter addressFilter = offerFilter.getAddress();
+        if (coordinates != null || addressFilter != null) {
+
+            if (coordinates != null
+                    && coordinates.getMaxXY() != null
+                    && coordinates.getMaxXY().length == 2
+                    && coordinates.getMaxXY() != null
+                    && coordinates.getMinXY().length == 2) {
+                query.addCriteria(Criteria.where("address.lat").gte(coordinates.getMinXY()[0]).lte(coordinates.getMaxXY()[0]));
+                query.addCriteria(Criteria.where("address.lng").gte(coordinates.getMinXY()[1]).lte(coordinates.getMaxXY()[1]));
+            } else if (addressFilter != null) {
+
+                if (addressFilter.getCountries() != null) {
+                    query.addCriteria(Criteria.where("address.country.code").in(addressFilter.getCountries().split(",")));
+                }
+                if (addressFilter.getDistricts() != null) {
+                    query.addCriteria(Criteria.where("address.district.code").in(addressFilter.getDistricts().split(",")));
+                }
+                if (addressFilter.getCities() != null) {
+                    query.addCriteria(Criteria.where("address.city.code").in(addressFilter.getCities().split(",")));
+                }
+
             }
         }
+
+
         if (offerFilter.getPrice() != null) {
             MoneyFilter price = offerFilter.getPrice();
             if (price.getCurrency() != null) {

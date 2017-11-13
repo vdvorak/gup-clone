@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
+import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -183,6 +184,17 @@ public class OfferServiceImpl implements OfferService {
         }
         Page<Offer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
+
+    @Override
+    public List<OfferViewCoordinatesDTO> findCoordinatesByFilter(OfferFilter offerFilter, Pageable pageable) {
+        log.debug("Request to get offers coordinates by filter");
+
+        List<Offer> offers = offerRepositoryCustom.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable);
+
+        List<OfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
+        offers.forEach(offer -> coordinatesList.add(offerMapper.offerToOfferCoordinatesDTO(offer)));
+        return coordinatesList;
     }
 
 

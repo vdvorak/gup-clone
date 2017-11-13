@@ -10,6 +10,7 @@ import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
+import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -65,6 +66,8 @@ public interface OfferService {
      * @return the list of entities
      */
     Page<OfferViewShortDTO> findAll(OfferFilter offerFilter, Pageable pageable);
+
+    List<OfferViewCoordinatesDTO> findCoordinatesByFilter(OfferFilter offerFilter, Pageable pageable);
 
     /**
      * Get all the offers by status and author id.

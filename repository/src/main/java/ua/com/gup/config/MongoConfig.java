@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ua.com.gup.config.mongo.converter.JSR310DateConverters;
 import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
 
@@ -23,6 +24,7 @@ import java.util.Arrays;
 
 @Configuration
 @ComponentScan(basePackages = {"ua.com.gup.repository", /* какой-то костыль */"ua.com.gup.config.mongo"})
+@EnableMongoRepositories(basePackages = "ua.com.gup.repository")
 @PropertySource("classpath:mongo.properties")
 public class MongoConfig {
 

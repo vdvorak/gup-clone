@@ -16,19 +16,19 @@ import javax.servlet.Filter;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
-    public FilterRegistrationBean characterEncodingFilterRegistration() {
-        return registerFilter(new CharacterEncodingFilter("UTF-8", true), "CharacterEncodingFilter", 1, "/*");
-    }
+        public FilterRegistrationBean characterEncodingFilterRegistration() {
+            return registerFilter(new CharacterEncodingFilter("UTF-8", true), "CharacterEncodingFilter", 1, "/*");
+        }
 
-    @Bean
-    public FilterRegistrationBean oauthFilterRegistration() {
-        return registerFilter(new OAuthFilter(), "OAuthFilter", 2, "/*");
-    }
+        @Bean
+        public FilterRegistrationBean oauthFilterRegistration() {
+            return registerFilter(new OAuthFilter(), "OAuthFilter", 2, "/*");
+        }
 
-    @Bean
-    public FilterRegistrationBean springSecurityFilterRegistration() {
-        return registerFilter(new DelegatingFilterProxy(), "springSecurityFilterChain", 3, "/*");
-    }
+        @Bean
+        public FilterRegistrationBean springSecurityFilterRegistration() {
+            return registerFilter(new DelegatingFilterProxy(), "springSecurityFilterChain", 3, "/*");
+        }
 
 
     private FilterRegistrationBean registerFilter(Filter filter, String name, int order, String... urlPatterns) {

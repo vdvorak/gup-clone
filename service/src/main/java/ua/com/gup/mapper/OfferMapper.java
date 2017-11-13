@@ -8,10 +8,7 @@ import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
-import ua.com.gup.dto.offer.view.OfferViewBaseDTO;
-import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
-import ua.com.gup.dto.offer.view.OfferViewShortDTO;
-import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
+import ua.com.gup.dto.offer.view.*;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.category.attribute.*;
 import ua.com.gup.mongo.model.offer.Lands;
@@ -22,6 +19,7 @@ import ua.com.gup.service.category.attribute.CategoryAttributeService;
 import ua.com.gup.util.DateUtil;
 import ua.com.gup.util.security.SecurityUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -97,6 +95,18 @@ public class OfferMapper {
         OfferViewShortDTO offerViewShortDTO = new OfferViewShortDTO();
         fromOfferToOfferViewShortDTO(offer, offerViewShortDTO);
         return offerViewShortDTO;
+    }
+
+    public OfferViewCoordinatesDTO offerToOfferCoordinatesDTO(Offer offer) {
+        OfferViewCoordinatesDTO coordinatesDTO = null;
+
+
+        if (offer.getAddress() != null
+                && offer.getAddress().getLat() != null
+                && offer.getAddress().getLng() != null) {
+            coordinatesDTO = new OfferViewCoordinatesDTO(offer.getSeoUrl(), new BigDecimal[]{offer.getAddress().getLat(), offer.getAddress().getLng()});
+        }
+        return coordinatesDTO;
     }
 
     public OfferViewShortWithModerationReportDTO offerToOfferViewShortWithModerationReportDTO(Offer offer) {

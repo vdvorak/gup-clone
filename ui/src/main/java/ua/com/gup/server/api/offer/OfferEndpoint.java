@@ -5,7 +5,6 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +22,7 @@ import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
+import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
@@ -289,6 +289,20 @@ public class OfferEndpoint {
         Page<OfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
+    @ApiOperation(
+            value = "Get offers coordinates by filter",
+            notes = "List all offers coordinates using paging",
+            response = OfferViewCoordinatesDTO.class
+    )
+    @CrossOrigin
+    @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
+    public ResponseEntity<List> getOffersCoordinatesByFilter(OfferFilter offerFilter, Pageable pageable) {
+        log.debug("REST request to get a list of Offers");
+        List<OfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 
     /**
      * GET  /offers : get all my offers by status.
