@@ -320,7 +320,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileDTO findPublicProfileByPublicId(String id) {
-
         Profile profile = findByPublicId(id);
         if (profile != null) {
             return new PublicProfileDTO(profile);
