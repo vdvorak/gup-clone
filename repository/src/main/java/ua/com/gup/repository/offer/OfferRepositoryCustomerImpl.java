@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -39,6 +38,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
     private final Logger log = LoggerFactory.getLogger(OfferRepositoryCustomerImpl.class);
+    private final Integer COORDINATES_MAX_DIFF_LAT = 6;
+    private final Integer COORDINATES_MAX_DIFF_LON = 3;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -160,11 +161,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         AddressFilter addressFilter = offerFilter.getAddress();
         if (coordinates != null || addressFilter != null) {
 
-            if (coordinates != null
-                    && coordinates.getMaxXY() != null
-                    && coordinates.getMaxXY().length == 2
-                    && coordinates.getMaxXY() != null
-                    && coordinates.getMinXY().length == 2) {
+            if (isValidCoordinates(coordinates)) {
                 query.addCriteria(Criteria.where("address.lat").gte(coordinates.getMinXY()[0]).lte(coordinates.getMaxXY()[0]));
                 query.addCriteria(Criteria.where("address.lng").gte(coordinates.getMinXY()[1]).lte(coordinates.getMaxXY()[1]));
             } else if (addressFilter != null) {
@@ -262,5 +259,14 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         return result;
     }
 
+    private boolean isValidCoordinates(CoordinatesFilter coordinates) {
+        return coordinates != null
+                && coordinates.getMaxXY() != null
+                && coordinates.getMaxXY().length == 2
+                && coordinates.getMaxXY() != null
+                && coordinates.getMinXY().length == 2
+                && Math.abs(coordinates.getMaxXY()[0].doubleValue()) - Math.abs(coordinates.getMinXY()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
+                && Math.abs(coordinates.getMaxXY()[1].doubleValue()) - Math.abs(coordinates.getMinXY()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
+    }
 
 }
