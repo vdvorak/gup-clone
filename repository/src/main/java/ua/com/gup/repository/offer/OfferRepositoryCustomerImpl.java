@@ -113,8 +113,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     private Query buildQueryByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
-            TextCriteria textCriteria = TextCriteria
-                    .forLanguage("russian");
+            TextCriteria textCriteria = TextCriteria.forLanguage("russian");
             if (pageable != null && pageable.getSort() != null) {
                 textCriteria.matchingPhrase(offerFilter.getQuery());
             } else {
@@ -154,9 +153,16 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         } else {
             query.addCriteria(Criteria.where("status").is(OfferStatus.ACTIVE));
         }
+        //todo maybe need change how as new  categories with sort vdvorak
         if (offerFilter.getCategories() != null) {
             query.addCriteria(Criteria.where("categories").all(offerFilter.getCategories()));
         }
+
+        //filter by authorId
+        if (offerFilter.getAuthorFilter() != null && offerFilter.getAuthorFilter().getAuthorId() != null) {
+            query.addCriteria(Criteria.where("authorId").in(offerFilter.getAuthorFilter().getAuthorId()));
+        }
+        //todo vdvorak
         CoordinatesFilter coordinates = offerFilter.getCoordinates();
         AddressFilter addressFilter = offerFilter.getAddress();
         if (coordinates != null || addressFilter != null) {
@@ -175,9 +181,9 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 if (addressFilter.getCities() != null) {
                     query.addCriteria(Criteria.where("address.city.code").in(addressFilter.getCities().split(",")));
                 }
+
             }
         }
-
 
         if (offerFilter.getPrice() != null) {
             MoneyFilter price = offerFilter.getPrice();
@@ -253,8 +259,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 limit(size)
         );
         //Convert the aggregation result into a List
-        AggregationResults<OfferCategoryCount> groupResults
-                = mongoTemplate.aggregate(agg, Offer.class, OfferCategoryCount.class);
+        AggregationResults<OfferCategoryCount> groupResults = mongoTemplate.aggregate(agg, Offer.class, OfferCategoryCount.class);
         List<OfferCategoryCount> result = groupResults.getMappedResults();
         return result;
     }

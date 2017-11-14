@@ -31,11 +31,10 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
     @Override
     public OAuth2Authentication convert(DBObject source) {
         DBObject storedRequest = (DBObject) source.get("storedRequest");
-        OAuth2Request oAuth2Request = new OAuth2Request((Map<String, String>) storedRequest.get("requestParameters"),
-                (String) storedRequest.get("clientId"), null, true, new HashSet((List) storedRequest.get("scope")),
-                null, null, null, null);
+        OAuth2Request oAuth2Request = new OAuth2Request((Map<String, String>) storedRequest.get("requestParameters"), (String) storedRequest.get("clientId"),
+                                                               null, true, new HashSet((List) storedRequest.get("scope")),
+                                                               null, null, null, null);
         DBObject userAuthorization = (DBObject) source.get("userAuthentication");
-
         Object principal = getPrincipalObject(userAuthorization.get("principal"));
 
         Authentication userAuthentication = null;

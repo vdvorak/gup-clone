@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ApiModel(description = "Offer filter model")
@@ -15,6 +16,9 @@ public class OfferFilter implements Serializable {
 
     @ApiModelProperty(value = "String for full text search", position = 0)
     private String query;
+
+    @ApiModelProperty(value = "Field form object Profile", position = 5)
+    private AuthorFilter authorFilter;
 
     @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
     private Integer[] categories;
@@ -118,6 +122,15 @@ public class OfferFilter implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
+    public AuthorFilter getAuthorFilter() {
+        return authorFilter;
+    }
+
+    public void setAuthorFilter(AuthorFilter authorFilter) {
+        this.authorFilter = authorFilter;
+    }
+
+
     public String[] getSeoUrls() {
         return seoUrls;
     }
@@ -132,5 +145,22 @@ public class OfferFilter implements Serializable {
 
     public void setCoordinates(CoordinatesFilter coordinates) {
         this.coordinates = coordinates;
+
+    }
+
+    @Override
+    public String toString() {
+        return "OfferFilter{" +
+                "query='" + query + '\'' +
+                ", authorFilter=" + authorFilter +
+                ", categories=" + Arrays.toString(categories) +
+                ", date=" + date +
+                ", address=" + address +
+                ", price=" + price +
+                ", attrs=" + attrs +
+                ", multiAttrs=" + multiAttrs +
+                ", numAttrs=" + numAttrs +
+                ", boolAttrs=" + boolAttrs +
+                '}';
     }
 }

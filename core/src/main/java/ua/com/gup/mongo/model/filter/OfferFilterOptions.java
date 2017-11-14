@@ -1,7 +1,6 @@
 package ua.com.gup.mongo.model.filter;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.offer.Address;
