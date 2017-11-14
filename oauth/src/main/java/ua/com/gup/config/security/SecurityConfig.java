@@ -65,13 +65,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.antMatcher("/api/**").httpBasic();
+//        http.antMatcher("/api/**").();
         //http.addFilterAfter(new OAuthFilter(), BasicAuthenticationFilter.class);
-        http.sessionManagement().enableSessionUrlRewriting(true);
+//        http.sessionManagement().enableSessionUrlRewriting(true);
         //http.securityContext().securityContextRepository(new NullSecurityContextRepository());
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.sessionManagement().disable();
-        http.anonymous().disable();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.sessionManagement().disable();
+//        http.anonymous().disable();
+//        http.requestMatchers().antMatchers("/api/").
+        http.authorizeRequests().antMatchers("/api/**").permitAll();
         http.csrf().disable();
     }
 

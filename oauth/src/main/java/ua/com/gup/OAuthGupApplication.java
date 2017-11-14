@@ -11,7 +11,7 @@ import ua.com.gup.config.security.SecurityConfig;
 import ua.com.gup.config.swagger.SwaggerConfig;
 
 @EnableAutoConfiguration
-@EnableResourceServer
+//@EnableResourceServer
 public class OAuthGupApplication {
     public static void main(String[] args) {
         SpringApplication.run(new Object[]{WebConfig.class
