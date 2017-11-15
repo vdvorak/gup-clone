@@ -6,9 +6,14 @@ import java.io.Serializable;
  * @author Victor Dvorak
  **/
 public class CategoriesSort implements Serializable{
+
     private Integer code_category;
     private Integer order_category;
 
+    public CategoriesSort() {
+        this.code_category = null;
+        this.order_category = null;
+    }
     public CategoriesSort(Integer code_category, Integer order_category) {
         this.code_category = code_category;
         this.order_category = order_category;
