@@ -20,7 +20,7 @@ public class CategoryAttributeCreateDTO {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<CategoriesSort>();
+    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<>();
 
     private CategoryAttributeType type;
 
