@@ -45,7 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(path = "/api/categories")
 public class CategoryEndpoint {
 
-    private static final String ENTITY_NAME = "category";
+    private static final String ENTITY_NAME = "rent.category";
     private final Logger logger = LoggerFactory.getLogger(CategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
     private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();

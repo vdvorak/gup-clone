@@ -10,7 +10,7 @@ import ua.com.gup.rent.service.sequence.SequenceService;
 @Component
 public class CategoryMapper {
 
-    private static final String CATEGORY_SEQUENCE_ID = "category_sequence";
+    private static final String CATEGORY_SEQUENCE_ID = "rent_category_sequence";
 
     @Autowired
     private SequenceService sequenceService;
