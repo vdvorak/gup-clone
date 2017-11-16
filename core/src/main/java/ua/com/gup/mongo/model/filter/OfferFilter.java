@@ -38,7 +38,7 @@ public class OfferFilter implements Serializable {
     @ApiModelProperty(value = "Filters for attributes", position = 50)
     private List<AttributeFilter> attrs = new ArrayList<>();
 
-    @ApiModelProperty(value = "Filters for attributes", position = 50)
+    @ApiModelProperty(value = "Filters for attributes", position = 55)
     private List<AttributeFilter> multiAttrs = new ArrayList<>();
 
     @ApiModelProperty(value = "Filters for numeric attributes", position = 60)

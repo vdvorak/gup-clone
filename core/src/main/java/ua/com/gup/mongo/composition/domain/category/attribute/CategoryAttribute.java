@@ -32,7 +32,7 @@ public class CategoryAttribute implements Serializable {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<CategoriesSort>();
+    private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<>();
 
     private CategoryAttributeType type;
 
