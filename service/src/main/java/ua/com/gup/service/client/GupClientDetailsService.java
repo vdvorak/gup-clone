@@ -1,7 +1,6 @@
 package ua.com.gup.service.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.*;
@@ -11,6 +10,7 @@ import ua.com.gup.mongo.composition.domain.client.ClientDetail;
 import ua.com.gup.repository.client.ClientDetailsRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,6 +42,7 @@ public class GupClientDetailsService implements ClientDetailsService, ClientRegi
         if (null == clientDetails) {
             throw new ClientRegistrationException("Client not found with id '" + clientId + "'");
         }
+        clientDetails.setAutoApprove(true);
         return getClientFromMongoDBClientDetails(clientDetails);
     }
 
@@ -106,6 +107,7 @@ public class GupClientDetailsService implements ClientDetailsService, ClientRegi
         bc.setRegisteredRedirectUri(clientDetails.getRegisteredRedirectUri());
         bc.setResourceIds(clientDetails.getResourceIds());
         bc.setScope(clientDetails.getScope());
+        bc.setAutoApproveScopes(Arrays.asList("read", "write"));
         return bc;
     }
 

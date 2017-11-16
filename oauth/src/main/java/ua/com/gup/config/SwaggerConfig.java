@@ -1,4 +1,4 @@
-package ua.com.gup.config.swagger;
+package ua.com.gup.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
