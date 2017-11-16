@@ -1,26 +1,14 @@
-package ua.com.gup.rent.model.mongo.category.attribute;
+package ua.com.gup.rent.dto.category;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 import ua.com.gup.rent.dto.category.attribute.CategoriesSort;
 import ua.com.gup.rent.dto.category.attribute.CategoryAttributeValue;
 import ua.com.gup.rent.dto.category.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeType;
 
-import java.io.Serializable;
 import java.util.*;
 
-@Document(collection = CategoryAttribute.COLLECTION_NAME)
-public class CategoryAttribute implements Serializable {
-
-    public static final String COLLECTION_NAME = "rent.category_attribute";
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    private String id;
-
-    private int code;
+public class CategoryAttributeCreateDTO {
 
     private boolean active;
 
@@ -32,7 +20,7 @@ public class CategoryAttribute implements Serializable {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<>();
+    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<>();
 
     private CategoryAttributeType type;
 
@@ -41,22 +29,6 @@ public class CategoryAttribute implements Serializable {
     private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
 
     private boolean privateAttr;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public boolean isActive() {
         return active;
@@ -99,11 +71,11 @@ public class CategoryAttribute implements Serializable {
     }
 
     public LinkedHashSet<CategoriesSort> getCategoriesSort() {
-        return categories_sort;
+        return categoriesSort;
     }
 
     public void setCategoriesSort(LinkedHashSet<CategoriesSort> categoriesSort) {
-        this.categories_sort = categoriesSort;
+        this.categoriesSort = categoriesSort;
     }
 
     public CategoryAttributeType getType() {
@@ -136,23 +108,5 @@ public class CategoryAttribute implements Serializable {
 
     public void setPrivateAttr(boolean privateAttr) {
         this.privateAttr = privateAttr;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CategoryAttribute that = (CategoryAttribute) o;
-
-        if (code != that.code) return false;
-        return id != null ? id.equals(that.id) : that.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + code;
-        return result;
     }
 }

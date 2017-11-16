@@ -3,7 +3,7 @@ package ua.com.gup.rent.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.rent.model.LoggedUser;
 import ua.com.gup.rent.repository.RentObjectRepository;
 
 import java.io.Serializable;

@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
-import ua.com.gup.config.filter.OAuthFilter;
 import ua.com.gup.rent.api.RentEndpoint;
+import ua.com.gup.rent.config.filter.OAuthFilter;
 
 import javax.servlet.Filter;
 

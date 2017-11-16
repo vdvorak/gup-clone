@@ -14,8 +14,8 @@ public class RentUiApplication {
         SpringApplication.run(new Object[]{RentWebConfig.class,
                 RentSwaggerConfig.class,
                 RentRootConfig.class,
-                ua.com.gup.config.MongoConfig.class, // костыль,
-                ua.com.gup.config.RootConfig.class, // пока не вынесен SSO
+                MongoConfig.class, // костыль,
+                RootConfig.class, // пока не вынесен SSO
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,
 //                RentMethodSecurityConfig.class,
