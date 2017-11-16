@@ -10,7 +10,7 @@ mongo:
       uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
 spring:
   profiles:
-    active: dev
+    active: pre-prod
   thymeleaf:
     cache: false
 
@@ -28,10 +28,10 @@ security:
     client:
       clientId: 7b5a38705d7b3562655925406a652e32
       clientSecret: 655f523128212d6e70634446224c2a48
-      accessTokenUri: http://localhost:8081/oauth/oauth/token
-      userAuthorizationUri: http://localhost:8081/oauth/oauth/authorize
+      accessTokenUri: http://tomcat-test-2:8080/oauth/oauth/token
+      userAuthorizationUri: http://tomcat-test-2:8080/oauth/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8081/oauth/api/user/principal
+      userInfoUri: http://tomcat-test-2:8080/oauth/api/user/principal
 
 
 #Mail Server Configuration for production

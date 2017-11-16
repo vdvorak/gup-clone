@@ -1,16 +1,16 @@
 package ua.com.gup.rent.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.RentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
+import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.mongo.RentObject;
 import ua.com.gup.rent.repository.RentObjectRepository;
 import ua.com.gup.rent.service.RentObjectService;
-import ua.com.gup.util.security.SecurityUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     @Override
     public void create(CreateRentObjectDTO t) {
         RentObject rentObject = rentObjectMapper.fromCreateDTOToRentObject(t);
-        rentObject.setOwnerId(SecurityUtils.getCurrentUserId());
+//        rentObject.setOwnerId(SecurityContextHolder.);
         getRepository().create(rentObject);
     }
 

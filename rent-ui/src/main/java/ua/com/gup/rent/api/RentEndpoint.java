@@ -22,17 +22,15 @@ public class RentEndpoint {
     @Autowired
     private RentObjectService rentObjectService;
 
-
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {
-
         List<ShortDetailsRentObjectDTO> rentObjects = rentObjectService.findAll();
-        return new ResponseEntity(rentObjects, HttpStatus.CREATED);
+        return new ResponseEntity(rentObjects, HttpStatus.OK);
     }
 
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.RentObject).CLASS_NAME, 'create')")
     public ResponseEntity createRentObject(CreateRentObjectDTO createRentObjectDTO) {
 
         rentObjectService.create(createRentObjectDTO);
@@ -40,10 +38,11 @@ public class RentEndpoint {
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
+    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.RentObject).CLASS_NAME, 'edit')")
     public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, EditRentObjectDTO editRentObjectDTO) {
 
         rentObjectService.update(editRentObjectDTO);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 

@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import ua.com.gup.rent.repository.GenericRepository;
 
-@Profile("ivalex")
 @Configuration
 @ComponentScan(basePackageClasses = GenericRepository.class)
 public class RentMongoConfig {

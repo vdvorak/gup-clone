@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Document(collection = "rent.object")
 public class RentObject {
 
-    public static final String CLASS_NAME = RentObject.class.getName();
+    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.RentObject";
 
     @Id
     private String id;
