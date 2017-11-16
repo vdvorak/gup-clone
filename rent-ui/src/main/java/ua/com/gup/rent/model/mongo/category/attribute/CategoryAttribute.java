@@ -13,7 +13,7 @@ import java.util.*;
 @Document(collection = CategoryAttribute.COLLECTION_NAME)
 public class CategoryAttribute implements Serializable {
 
-    public static final String COLLECTION_NAME = "category_attribute";
+    public static final String COLLECTION_NAME = "rent.category_attribute";
 
     private static final long serialVersionUID = 1L;
 

@@ -12,7 +12,7 @@ import java.util.Map;
 @Document(collection = Category.COLLECTION_NAME)
 public class Category implements Serializable {
 
-    public static final String COLLECTION_NAME = "category";
+    public static final String COLLECTION_NAME = "rent.category";
 
     private static final long serialVersionUID = 1L;
 
