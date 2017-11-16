@@ -4,7 +4,6 @@ package ua.com.gup.rent.model;
 import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import ua.com.gup.rent.config.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
 import java.util.List;

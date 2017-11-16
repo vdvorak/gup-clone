@@ -11,11 +11,15 @@ import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import ua.com.gup.rent.config.converter.JSR310DateConverters;
 import ua.com.gup.rent.repository.GenericRepository;
+
+import java.util.Arrays;
 
 @Configuration
 @ComponentScan(basePackageClasses = GenericRepository.class)
@@ -40,11 +44,10 @@ public class RentMongoConfig {
     public MongoConverter mongoConverter(MongoDbFactory mongoDbFactory) throws Exception {
         MappingContext mappingContext = new MongoMappingContext();
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), mappingContext);
-//        mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
-//                new OAuth2AuthenticationReadConverter(),
-//                new JSR310DateConverters.DateToZonedDateTimeConverter(),
-//                new JSR310DateConverters.ZonedDateTimeToDateConverter()
-//        )));
+        mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
+                new JSR310DateConverters.DateToZonedDateTimeConverter(),
+                new JSR310DateConverters.ZonedDateTimeToDateConverter()
+        )));
         return mappingMongoConverter;
     }
 

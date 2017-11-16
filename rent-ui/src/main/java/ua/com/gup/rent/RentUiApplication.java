@@ -8,7 +8,6 @@ import ua.com.gup.rent.config.*;
 import ua.com.gup.rent.repository.GenericRepository;
 
 @EnableAutoConfiguration
-//@ComponentScan(basePackageClasses = GenericRepository.class) //  костыль, пока не вынесен SSO
 public class RentUiApplication {
 
     public static void main(String[] args) {
@@ -18,8 +17,6 @@ public class RentUiApplication {
                 RentRootConfig.class,
                 RentMongoConfig.class,
                 RentRootConfig.class,
-                MongoConfig.class, // костыль,
-                RootConfig.class, // пока не вынесен SSO
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,
                 RentMethodSecurityConfig.class,
