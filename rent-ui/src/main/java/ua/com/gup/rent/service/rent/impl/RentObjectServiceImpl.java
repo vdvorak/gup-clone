@@ -1,7 +1,6 @@
-package ua.com.gup.rent.service.impl;
+package ua.com.gup.rent.service.rent.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
@@ -9,8 +8,9 @@ import ua.com.gup.rent.dto.rentobject.RentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
 import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.mongo.RentObject;
-import ua.com.gup.rent.repository.RentObjectRepository;
-import ua.com.gup.rent.service.RentObjectService;
+import ua.com.gup.rent.repository.rent.RentObjectRepository;
+import ua.com.gup.rent.service.rent.RentObjectService;
+import ua.com.gup.rent.service.abstracted.GenericServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,8 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     @Autowired
     private RentObjectMapper rentObjectMapper;
 
-    public RentObjectServiceImpl(@Autowired RentObjectRepository rentObjectRepository) {
+    @Autowired
+    public RentObjectServiceImpl( RentObjectRepository rentObjectRepository) {
         super(rentObjectRepository);
     }
 

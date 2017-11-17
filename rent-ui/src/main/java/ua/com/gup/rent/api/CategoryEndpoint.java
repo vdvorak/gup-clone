@@ -29,8 +29,8 @@ import ua.com.gup.rent.util.HeaderUtil;
 import ua.com.gup.rent.util.MD5Util;
 import ua.com.gup.rent.util.ResponseUtil;
 import ua.com.gup.rent.util.security.SecurityUtils;
-import ua.com.gup.rent.validator.CategoryAttributeDTOValidator;
-import ua.com.gup.rent.validator.CategoryDTOValidator;
+import ua.com.gup.rent.validator.category.attribute.CategoryAttributeDTOValidator;
+import ua.com.gup.rent.validator.category.CategoryDTOValidator;
 
 import javax.validation.Valid;
 import java.net.URI;

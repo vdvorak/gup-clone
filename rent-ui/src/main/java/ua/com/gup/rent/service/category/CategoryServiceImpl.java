@@ -25,24 +25,19 @@ import java.util.stream.Collectors;
  * Service Implementation for managing Category.
  */
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl  implements CategoryService {
 
-    private final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
-    private final CategoryRepository categoryRepository;
-
-    private final CategoryAttributeService categoryAttributeService;
-
-    private final CategoryMapper categoryMapper;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private  CategoryAttributeService categoryAttributeService;
+    @Autowired
+    private  CategoryMapper categoryMapper;
 
     private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryAttributeService categoryAttributeService, CategoryMapper categoryMapper) {
-        this.categoryRepository = categoryRepository;
-        this.categoryAttributeService = categoryAttributeService;
-        this.categoryMapper = categoryMapper;
-    }
 
     private CategoryTreeDTO categoryToCategoryTreeDTO(Category category, String lang) {
         CategoryTreeDTO categoryTreeDTO = new CategoryTreeDTO(lang);
@@ -64,8 +59,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category save(CategoryCreateDTO categoryCreateDTO) {
-        log.debug("Request to save Category : {}", categoryCreateDTO);
-        final Category category = categoryRepository.save(categoryMapper.categoryCreateDTOToCategory(categoryCreateDTO));
+        logger.debug("Request to save Category : {}", categoryCreateDTO);
+        final Category category =  categoryRepository.save(categoryMapper.categoryCreateDTOToCategory(categoryCreateDTO));
         clearCache();
         return category;
     }
@@ -78,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category save(CategoryUpdateDTO categoryUpdateDTO) {
-        log.debug("Request to save Category : {}", categoryUpdateDTO);
+        logger.debug("Request to save Category : {}", categoryUpdateDTO);
         final Category category = categoryRepository.save(categoryMapper.categoryUpdateDTOToCategory(categoryUpdateDTO));
         clearCache();
         return category;
@@ -91,7 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Category> findAll() {
-        log.debug("Request to get all Categories by filter");
+        logger.debug("Request to get all Categories by filter");
         return categoryRepository.findAll();
     }
 
@@ -102,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Collection<CategoryTreeDTO> findAllTreeView(String lang) {
-        log.debug("Request to get all Categories in tree view");
+        logger.debug("Request to get all Categories in tree view");
         //get all category and sort asc by field order
         final List<Category> categoriesList = categoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         //remove if active false
@@ -158,20 +153,20 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category findOne(String id) {
-        log.debug("Request to get Category : {}", id);
+        logger.debug("Request to get Category : {}", id);
         return categoryRepository.findOne(id);
     }
 
 
     @Override
     public Optional<Category> findOneByCode(int code) {
-        log.debug("Request to get Category : {}", code);
+        logger.debug("Request to get Category : {}", code);
         return categoryRepository.findOneByCode(code);
     }
 
     @Override
     public List<Category> findByCodeInOrderByCodeAsc(List<Integer> codes) {
-        log.debug("Request to get Categories : {}", codes);
+        logger.debug("Request to get Categories : {}", codes);
         Optional<List<Category>> optional = categoryRepository.findByCodeInOrderByCodeAsc(codes);
         if (optional.isPresent()) {
             return optional.get();
@@ -186,7 +181,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public void delete(String id) {
-        log.debug("Request to delete Category : {}", id);
+        logger.debug("Request to delete Category : {}", id);
         categoryRepository.delete(id);
         clearCache();
     }

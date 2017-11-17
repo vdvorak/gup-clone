@@ -1,4 +1,4 @@
-package ua.com.gup.rent.validator;
+package ua.com.gup.rent.validator.category.attribute;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

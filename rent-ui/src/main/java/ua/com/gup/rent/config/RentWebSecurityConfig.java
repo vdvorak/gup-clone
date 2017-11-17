@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableOAuth2Sso
-//@ImportResource(value = {"classpath:security/spring-security.xml"})
 public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override

@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Service Interface for managing Category.
  */
-public interface CategoryService {
+public interface CategoryService  {
     /**
      * Save a category.
      *

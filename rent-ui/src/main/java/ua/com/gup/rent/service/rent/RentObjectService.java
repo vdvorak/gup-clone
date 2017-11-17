@@ -1,9 +1,10 @@
-package ua.com.gup.rent.service;
+package ua.com.gup.rent.service.rent;
 
 import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.RentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
+import ua.com.gup.rent.service.abstracted.generic.GenericService;
 
 import java.util.List;
 
