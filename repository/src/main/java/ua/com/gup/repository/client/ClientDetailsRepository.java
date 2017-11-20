@@ -1,7 +1,7 @@
 package ua.com.gup.repository.client;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.mongo.composition.domain.client.ClientDetail;
+import ua.com.gup.mongo.composition.domain.oauth2.client.ClientDetail;
 
 /**
  * @author Victor Dvorak

@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.composition.domain.client;
+package ua.com.gup.mongo.composition.domain.oauth2.client;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
