@@ -29,6 +29,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/api/calendar/**")
                 .permitAll()
+                .antMatchers("/api/categories/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 
