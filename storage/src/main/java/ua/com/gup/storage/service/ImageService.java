@@ -8,15 +8,17 @@ import java.io.InputStream;
 public interface ImageService {
 
     /**
-     * @param imageId
+     * @param imageKey
      * @param contentType
      * @param inputStream
      * @return md5 hash
      * @throws IOException
      */
-    String saveImage(String imageId, String contentType, InputStream inputStream) throws IOException;
+    String saveImage(String imageKey, String contentType, InputStream inputStream) throws IOException;
 
-    ImageDTO getImageByKey(String imageId);
+    ImageDTO getImageByKey(String imageKey);
 
-    void deleteImageByKey(String imageId);
+    void deleteImageByKey(String imageKey);
+
+    Boolean doesObjectExists(String imageKey);
 }
