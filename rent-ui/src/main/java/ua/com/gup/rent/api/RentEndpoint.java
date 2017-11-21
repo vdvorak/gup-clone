@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
-import ua.com.gup.rent.service.RentObjectService;
+import ua.com.gup.rent.service.rent.RentObjectService;
 
 import java.util.List;
 

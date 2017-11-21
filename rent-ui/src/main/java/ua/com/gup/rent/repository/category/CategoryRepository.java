@@ -11,5 +11,6 @@ import java.util.Optional;
  */
 public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findOneByCode(Integer code);
+
     Optional<List<Category>> findByCodeInOrderByCodeAsc(List<Integer> codes);
 }

@@ -5,6 +5,7 @@ import ua.com.gup.rent.dto.category.CategoryAttributeCreateDTO;
 import ua.com.gup.rent.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
+import ua.com.gup.rent.service.abstracted.generic.GenericService;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.SortedSet;
 /**
  * Service Interface for managing CategoryAttribute.
  */
-public interface CategoryAttributeService {
+public interface CategoryAttributeService extends GenericService<CategoryAttributeCreateDTO, String> {
     /**
      * Save a categoryAttribute.
      *

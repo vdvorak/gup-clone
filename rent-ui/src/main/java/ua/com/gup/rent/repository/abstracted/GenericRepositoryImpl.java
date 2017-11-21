@@ -1,8 +1,8 @@
-package ua.com.gup.rent.repository.impl;
+package ua.com.gup.rent.repository.abstracted;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ua.com.gup.rent.repository.GenericRepository;
+import ua.com.gup.rent.repository.abstracted.generic.GenericRepository;
 
 import java.io.Serializable;
 import java.util.List;

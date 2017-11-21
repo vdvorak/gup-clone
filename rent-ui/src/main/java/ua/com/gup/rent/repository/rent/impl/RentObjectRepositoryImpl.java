@@ -1,10 +1,11 @@
-package ua.com.gup.rent.repository.impl;
+package ua.com.gup.rent.repository.rent.impl;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.rent.model.mongo.RentObject;
-import ua.com.gup.rent.repository.RentObjectRepository;
+import ua.com.gup.rent.repository.abstracted.GenericRepositoryImpl;
+import ua.com.gup.rent.repository.rent.RentObjectRepository;
 
 import javax.annotation.PostConstruct;
 

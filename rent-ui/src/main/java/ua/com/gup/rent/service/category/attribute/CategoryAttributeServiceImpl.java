@@ -14,6 +14,7 @@ import ua.com.gup.rent.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.rent.mapper.CategoryAttributeMapper;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.repository.category.attribute.CategoryAttributeRepository;
+import ua.com.gup.rent.service.abstracted.GenericServiceImpl;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,22 +23,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing CategoryAttribute.
  */
 @Service
-public class CategoryAttributeServiceImpl implements CategoryAttributeService {
+public class CategoryAttributeServiceImpl extends GenericServiceImpl<CategoryAttributeCreateDTO,String> implements CategoryAttributeService {
 
     private final Logger logger = LoggerFactory.getLogger(CategoryAttributeServiceImpl.class);
 
-    private final CategoryAttributeRepository categoryAttributeRepository;
-
-    private final CategoryAttributeMapper categoryAttributeMapper;
+    @Autowired
+    private  CategoryAttributeMapper categoryAttributeMapper;
     //use for sorted category_sort asc
     private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<CategoryAttributeDTO>>();
 
     @Autowired
-    public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository, CategoryAttributeMapper categoryAttributeMapper) {
-        this.categoryAttributeRepository = categoryAttributeRepository;
-        this.categoryAttributeMapper = categoryAttributeMapper;
+    public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository) {
+        super(categoryAttributeRepository);
     }
-
     /**
      * Save a categoryAttribute.
      *
@@ -48,7 +46,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     public CategoryAttribute save(CategoryAttributeCreateDTO categoryAttributeCreateDTO) {
         logger.debug("Request to save CategoryAttribute : {}", categoryAttributeCreateDTO);
         final CategoryAttribute attribute = categoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(categoryAttributeCreateDTO);
-        final CategoryAttribute saved = categoryAttributeRepository.save(attribute);
+        final CategoryAttribute saved = ((CategoryAttributeRepository)getRepository()).save(attribute);
         clearCache();
         return saved;
     }
@@ -63,7 +61,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     public CategoryAttribute save(CategoryAttributeUpdateDTO categoryAttributeUpdateDTO) {
         logger.debug("Request to save CategoryAttribute : {}", categoryAttributeUpdateDTO);
         final CategoryAttribute categoryAttribute = categoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(categoryAttributeUpdateDTO);
-        final CategoryAttribute saved = categoryAttributeRepository.save(categoryAttribute);
+        final CategoryAttribute saved =  ((CategoryAttributeRepository)getRepository()).save(categoryAttribute);
         clearCache();
         return saved;
     }
@@ -76,7 +74,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     @Override
     public List<CategoryAttribute> findAll() {
         logger.debug("Request to get all Categories by filter");
-        return categoryAttributeRepository.findAll();
+        return  ((CategoryAttributeRepository)getRepository()).findAll();
     }
 
     /**
@@ -88,7 +86,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     @Override
     public CategoryAttribute findOne(String id) {
         logger.debug("Request to get CategoryAttribute : {}", id);
-        return categoryAttributeRepository.findOne(id);
+        return  ((CategoryAttributeRepository)getRepository()).findOne(id);
     }
 
     /**
@@ -100,7 +98,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     @Override
     public Optional<CategoryAttribute> findOneByCode(int code) {
         logger.debug("Request to get CategoryAttribute : {}", code);
-        return categoryAttributeRepository.findOneByCode(code);
+        return  ((CategoryAttributeRepository)getRepository()).findOneByCode(code);
     }
 
     /**
@@ -111,7 +109,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
     @Override
     public void delete(String id) {
         logger.debug("Request to delete CategoryAttribute : {}", id);
-        categoryAttributeRepository.delete(id);
+        ((CategoryAttributeRepository)getRepository()).delete(id);
         clearCache();
     }
 
@@ -130,7 +128,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService {
 
     private void warmCache() {
         //get all category_attribute
-        final List<CategoryAttribute> categoryAttributes = categoryAttributeRepository.findAll();
+        final List<CategoryAttribute> categoryAttributes =  ((CategoryAttributeRepository)getRepository()).findAll();
          //remove category_attribute if is not active
         categoryAttributes.removeIf(c -> !c.isActive());
           //get category attribute

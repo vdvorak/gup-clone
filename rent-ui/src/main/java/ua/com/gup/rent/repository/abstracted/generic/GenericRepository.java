@@ -1,4 +1,4 @@
-package ua.com.gup.rent.repository;
+package ua.com.gup.rent.repository.abstracted.generic;
 
 import java.util.List;
 
