@@ -4,8 +4,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.Price;
 import ua.com.gup.rent.model.RentStatus;
+import ua.com.gup.rent.model.mongo.image.ImageInfo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "rent.object")
 public class RentObject {
@@ -21,6 +23,7 @@ public class RentObject {
     //    private List<Category> categories;
     private RentStatus status;
     private Price price;
+    private List<ImageInfo> images;
 
     public RentObject() {
         createdDate = LocalDateTime.now();
@@ -32,6 +35,14 @@ public class RentObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<ImageInfo> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageInfo> images) {
+        this.images = images;
     }
 
     public String getTitle() {

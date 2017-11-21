@@ -13,18 +13,18 @@ public class LoggedUser extends User {
     private final String profileId;
     private final Boolean banned;
 
-    public LoggedUser(DBObject dbObject) {
-        super((String) dbObject.get("username"),
-                (String) dbObject.get("password"),
-                (Boolean) dbObject.get("enabled"),
-                (Boolean) dbObject.get("accountNonExpired"),
-                (Boolean) dbObject.get("credentialsNonExpired"),
-                (Boolean) dbObject.get("accountNonLocked"),
-                OAuth2AuthenticationReadConverter.getAuthorities((List<Map<String, String>>) dbObject.get("authorities")));
-
-        this.profileId = (String) dbObject.get("profileId");
-        this.banned = (Boolean) dbObject.get("ban");
-    }
+//    public LoggedUser(DBObject dbObject) {
+//        super((String) dbObject.get("username"),
+//                (String) dbObject.get("password"),
+//                (Boolean) dbObject.get("enabled"),
+//                (Boolean) dbObject.get("accountNonExpired"),
+//                (Boolean) dbObject.get("credentialsNonExpired"),
+//                (Boolean) dbObject.get("accountNonLocked"),
+//                OAuth2AuthenticationReadConverter.getAuthorities((List<Map<String, String>>) dbObject.get("authorities")));
+//
+//        this.profileId = (String) dbObject.get("profileId");
+//        this.banned = (Boolean) dbObject.get("ban");
+//    }
 
 
     public LoggedUser(String username, String password, boolean enabled, boolean banned,
