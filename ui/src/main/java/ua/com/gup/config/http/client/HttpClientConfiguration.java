@@ -1,6 +1,7 @@
 package ua.com.gup.config.http.client;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -16,7 +17,8 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.nio.client.HttpAsyncClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
@@ -74,7 +76,13 @@ public class HttpClientConfiguration {
 
     @Bean
     public AsyncRestTemplate asyncRestTemplate(AsyncClientHttpRequestFactory asyncClientHttpRequestFactory, RestTemplate restTemplate) {
-        return new AsyncRestTemplate(asyncClientHttpRequestFactory, restTemplate);
+        AsyncRestTemplate asyncRestTemplate = new AsyncRestTemplate(asyncClientHttpRequestFactory, restTemplate);
+        asyncRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
+                    request.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+                    return execution.executeAsync(request, body);
+                })
+        );
+        return asyncRestTemplate;
     }
 
     @Bean
