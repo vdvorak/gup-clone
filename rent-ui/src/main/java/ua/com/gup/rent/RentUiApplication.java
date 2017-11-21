@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import ua.com.gup.rent.config.*;
 
 @EnableAutoConfiguration
-//@ComponentScan(basePackageClasses = GenericRepository.class) //  костыль, пока не вынесен SSO
 public class RentUiApplication {
 
     public static void main(String[] args) {
@@ -18,6 +17,9 @@ public class RentUiApplication {
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,
                 RentMethodSecurityConfig.class,
+                RestTemplatesConfig.class,
+//                RentOAuth2ResourceDefaultServerConfig.class,
+//                RentOAuth2ResourceMongoServerConfig.class,
                 RentUiApplication.class}, args);
     }
 

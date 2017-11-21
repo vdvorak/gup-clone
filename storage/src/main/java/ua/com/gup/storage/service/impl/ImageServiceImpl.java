@@ -29,4 +29,9 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImageByKey(String imageKey) {
         imageRepository.deleteImageByKey(imageKey);
     }
+
+    @Override
+    public Boolean doesObjectExists(String imageKey) {
+        return imageRepository.doesObjectExists(imageKey);
+    }
 }

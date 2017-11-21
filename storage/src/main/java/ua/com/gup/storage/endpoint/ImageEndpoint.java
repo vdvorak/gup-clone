@@ -15,15 +15,15 @@ import java.io.IOException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/api/storage")
+@RequestMapping(path = "/api/images")
 public class ImageEndpoint {
 
 
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping(path = "/images", method = RequestMethod.POST)
-    public ResponseEntity<String> saveImage(@RequestParam(name = "image") MultipartFile multipartFile) throws BadRequestException, IOException {
+    @RequestMapping(path = "/", method = RequestMethod.POST)
+    public ResponseEntity<ImageDTO> saveImage(@RequestParam(name = "image") MultipartFile multipartFile) throws BadRequestException, IOException {
 
 
         if (StringUtils.isEmpty(multipartFile.getContentType()) || !multipartFile.getContentType().startsWith("image/")) {
@@ -33,19 +33,24 @@ public class ImageEndpoint {
             throw new BadRequestException("Original file name is empty.");
         }
         if (multipartFile.getOriginalFilename().contains("..")) {
-            throw new BadRequestException(String.format("Unacceptable (relative) path detected %s.", multipartFile.getOriginalFilename()));
+            throw new BadRequestException(String.format("Unacceptable (relative) path detected %s3id.", multipartFile.getOriginalFilename()));
         }
         if (multipartFile.isEmpty()) {
             throw new BadRequestException("File body is empty.");
         }
 
-        String s = UUID.randomUUID().toString();
-        String contentMD5 = imageService.saveImage(s, multipartFile.getContentType(), multipartFile.getInputStream());
-        return new ResponseEntity<>(contentMD5, HttpStatus.CREATED);
+        String s3id = UUID.randomUUID().toString();
+        while (imageService.doesObjectExists(s3id)) {
+            s3id = UUID.randomUUID().toString();
+        }
+
+        String contentMD5 = imageService.saveImage(s3id, multipartFile.getContentType(), multipartFile.getInputStream());
+        ImageDTO imageDTO = new ImageDTO(s3id, contentMD5);
+        return new ResponseEntity<>(imageDTO, HttpStatus.CREATED);
     }
 
 
-    @RequestMapping(path = {"/images/{imageKey}"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/{imageKey}"}, method = RequestMethod.GET)
     public ResponseEntity<ImageDTO> findImageByKey(@PathVariable("imageKey") String imageKey)
             throws ImageNotFoundException {
 
@@ -57,7 +62,7 @@ public class ImageEndpoint {
     }
 
 
-    @RequestMapping(path = {"/images/{imageKey}"}, method = RequestMethod.DELETE)
+    @RequestMapping(path = {"/{imageKey}"}, method = RequestMethod.DELETE)
     public ResponseEntity<ImageDTO> deleteImageByName(@PathVariable("imageKey") String imageKey) {
 
         imageService.deleteImageByKey(imageKey);

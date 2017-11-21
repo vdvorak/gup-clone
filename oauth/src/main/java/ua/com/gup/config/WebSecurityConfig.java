@@ -3,9 +3,11 @@ package ua.com.gup.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +21,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -31,12 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/images/**");
     }
 
-    @Override
+        @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .headers().frameOptions().sameOrigin().and()
                 .requestMatchers()
-                .antMatchers("/login", "/oauth/authorize")
+                .antMatchers("/","/login", "/oauth/authorize")
                 .and()
                 .authorizeRequests()
                 .antMatchers(
@@ -52,6 +56,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .permitAll();
     }
+//    @Override
+//    protected void configure(final HttpSecurity http) throws Exception {
+//        // @formatter:off
+//        http
+//                .csrf().disable()
+//                .headers().frameOptions().sameOrigin().and()
+//                .requestMatchers()
+//                .antMatchers("/login", "/oauth/authorize")
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/login")
+//                .permitAll();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

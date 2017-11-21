@@ -8,6 +8,8 @@ import java.io.InputStream;
 
 public interface ImageRepository {
 
+    Boolean doesObjectExists(String imageKey);
+
     String saveImage(String imageKey, String contentType, InputStream inputStream) throws AmazonS3Exception, IOException;
 
     void deleteImageByKey(String imageKey) throws AmazonS3Exception;

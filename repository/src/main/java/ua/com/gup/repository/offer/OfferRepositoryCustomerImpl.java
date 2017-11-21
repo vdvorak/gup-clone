@@ -168,8 +168,8 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         if (coordinates != null || addressFilter != null) {
 
             if (isValidCoordinates(coordinates)) {
-                query.addCriteria(Criteria.where("address.lat").gte(coordinates.getMinXY()[0]).lte(coordinates.getMaxXY()[0]));
-                query.addCriteria(Criteria.where("address.lng").gte(coordinates.getMinXY()[1]).lte(coordinates.getMaxXY()[1]));
+                query.addCriteria(Criteria.where("address.lat").gte(coordinates.getMinYX()[0]).lte(coordinates.getMaxYX()[0]));
+                query.addCriteria(Criteria.where("address.lng").gte(coordinates.getMinYX()[1]).lte(coordinates.getMaxYX()[1]));
             } else if (addressFilter != null) {
 
                 if (addressFilter.getCountries() != null) {
@@ -266,12 +266,12 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
     private boolean isValidCoordinates(CoordinatesFilter coordinates) {
         return coordinates != null
-                && coordinates.getMaxXY() != null
-                && coordinates.getMaxXY().length == 2
-                && coordinates.getMaxXY() != null
-                && coordinates.getMinXY().length == 2
-                && Math.abs(coordinates.getMaxXY()[0].doubleValue()) - Math.abs(coordinates.getMinXY()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
-                && Math.abs(coordinates.getMaxXY()[1].doubleValue()) - Math.abs(coordinates.getMinXY()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
+                && coordinates.getMaxYX() != null
+                && coordinates.getMaxYX().length == 2
+                && coordinates.getMaxYX() != null
+                && coordinates.getMinYX().length == 2
+                && Math.abs(coordinates.getMaxYX()[0].doubleValue()) - Math.abs(coordinates.getMinYX()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
+                && Math.abs(coordinates.getMaxYX()[1].doubleValue()) - Math.abs(coordinates.getMinYX()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
     }
 
 }

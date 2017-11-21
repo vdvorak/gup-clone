@@ -9,27 +9,27 @@ import java.math.BigDecimal;
 public class CoordinatesFilter {
 
     @ApiModelProperty("Min coordinates with ',' delimiter")
-    private BigDecimal[] minXY;
+    private BigDecimal[] minYX;
 
     @ApiModelProperty("Max coordinates with ',' delimiter")
-    private BigDecimal[] maxXY;
+    private BigDecimal[] maxYX;
 
     public CoordinatesFilter() {
     }
 
-    public BigDecimal[] getMinXY() {
-        return minXY;
+    public BigDecimal[] getMinYX() {
+        return minYX;
     }
 
-    public void setMinXY(BigDecimal[] minXY) {
-        this.minXY = minXY;
+    public void setMinYX(BigDecimal[] minYX) {
+        this.minYX = minYX;
     }
 
-    public BigDecimal[] getMaxXY() {
-        return maxXY;
+    public BigDecimal[] getMaxYX() {
+        return maxYX;
     }
 
-    public void setMaxXY(BigDecimal[] maxXY) {
-        this.maxXY = maxXY;
+    public void setMaxYX(BigDecimal[] maxYX) {
+        this.maxYX = maxYX;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
-import ua.com.gup.mongo.composition.domain.client.ClientDetail;
+import ua.com.gup.mongo.composition.domain.oauth2.client.ClientDetail;
 import ua.com.gup.repository.client.ClientDetailsRepository;
 
 import javax.annotation.PostConstruct;
