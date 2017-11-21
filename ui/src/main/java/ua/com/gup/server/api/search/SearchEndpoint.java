@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.server.api.search.dto.CategoryStatistic;
 import ua.com.gup.server.api.search.dto.SearchResponseDTO;
+import ua.com.gup.server.util.CompletableFutureUtil;
 import ua.com.gup.service.profile.ProfilesService;
 
 import javax.annotation.PostConstruct;
@@ -45,11 +46,6 @@ public class SearchEndpoint {
 
     @PostConstruct
     public void initialize() {
-        asyncRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
-                    request.getHeaders().add(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                    return execution.executeAsync(request, body);
-                })
-        );
         uriComponentsBuilder = UriComponentsBuilder.newInstance().scheme(e.getProperty("search.host.scheme"))
                 .host(e.getProperty("search.host.address")).port(e.getProperty("search.host.port")).path("/search/api");
 
@@ -95,7 +91,7 @@ public class SearchEndpoint {
         SearchResponseDTO searchResponseDTO = new SearchResponseDTO();
         UriComponents aggregateUriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/count").queryParam("q", query).build();
 
-        CompletableFuture<ResponseEntity<CategoryStatistic[]>> aggregateResponse = toCompletableFuture(asyncRestTemplate.getForEntity(aggregateUriComponents.toUri(), CategoryStatistic[].class));
+        CompletableFuture<ResponseEntity<CategoryStatistic[]>> aggregateResponse = CompletableFutureUtil.toCompletableFuture(asyncRestTemplate.getForEntity(aggregateUriComponents.toUri(), CategoryStatistic[].class));
         aggregateResponse.whenCompleteAsync(((responseEntity, throwable) -> searchResponseDTO.setAggregations(responseEntity.getBody())));
 
         CompletableFuture.allOf(aggregateResponse).join();
@@ -103,23 +99,6 @@ public class SearchEndpoint {
     }
 
 
-    public <T> CompletableFuture<ResponseEntity<T>> toCompletableFuture(ListenableFuture<ResponseEntity<T>> listenableFuture) {
-        final CompletableFuture<ResponseEntity<T>> completableFuture = new CompletableFuture<>();
 
-        listenableFuture.addCallback(new ListenableFutureCallback<ResponseEntity<T>>() {
-            @Override
-            public void onSuccess(ResponseEntity<T> responseEntity) {
-                completableFuture.complete(responseEntity);
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                completableFuture.completeExceptionally(throwable);
-            }
-        });
-
-        return completableFuture;
-    }
 
 }

@@ -7,20 +7,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
+//@ImportResource(value = {"classpath:security/spring-security.xml"})
 public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .headers()
-//                    .frameOptions().disable()
-//                .and()
+                .headers()
+                    .frameOptions().disable()
+                .and()
 //                .antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST)
-                .authenticated()
+                //.authenticated()
+                .permitAll()
 
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
@@ -28,11 +30,10 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
 
                 .antMatchers(HttpMethod.GET, "/api/calendar/**")
-                .permitAll()
-                .antMatchers("/api/categories/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+                .permitAll();
+
+//                .anyRequest()
+//                .authenticated();
 
     }
 

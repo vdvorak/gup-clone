@@ -1,11 +1,7 @@
-package ua.com.gup.config.http.client;
+package ua.com.gup.rent.config;
 
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
-import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -15,10 +11,11 @@ import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.nio.client.HttpAsyncClient;
+import org.apache.http.nio.reactor.IOReactorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
@@ -27,7 +24,10 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class HttpClientConfiguration {
+public class RestTemplatesConfig {
+    private final Logger log = LoggerFactory.getLogger(RestTemplatesConfig.class);
+
+
     private static final int DEFAULT_MAX_TOTAL_CONNECTIONS = 100;
     private static final int DEFAULT_MAX_CONNECTIONS_PER_ROUTE = 5;
     private static final int DEFAULT_READ_TIMEOUT_MILLISECONDS = (60 * 1000);
@@ -47,25 +47,22 @@ public class HttpClientConfiguration {
 
     @Bean
     public CloseableHttpClient httpClient() {
-        try {
-            PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-            connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
-            connectionManager.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE);
-            connectionManager.setMaxPerRoute(new HttpRoute(new HttpHost("payment.dev.gup.ua")), 20);
 
-            RequestConfig config = RequestConfig.custom()
-                    .setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                    .setConnectionRequestTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                    .setSocketTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
-                    .build();
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
+        connectionManager.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE);
 
-            CloseableHttpClient defaultHttpClient = HttpClientBuilder.create()
-                    .setConnectionManager(connectionManager)
-                    .setDefaultRequestConfig(config).build();
-            return defaultHttpClient;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                .setConnectionRequestTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                .setSocketTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS)
+                .build();
+
+        CloseableHttpClient defaultHttpClient = HttpClientBuilder.create()
+                .setConnectionManager(connectionManager)
+                .setDefaultRequestConfig(config).build();
+        return defaultHttpClient;
+
     }
 
     // ################################################### ASYNC  ####################################################
@@ -77,28 +74,21 @@ public class HttpClientConfiguration {
     @Bean
     public AsyncRestTemplate asyncRestTemplate(AsyncClientHttpRequestFactory asyncClientHttpRequestFactory, RestTemplate restTemplate) {
         AsyncRestTemplate asyncRestTemplate = new AsyncRestTemplate(asyncClientHttpRequestFactory, restTemplate);
-        asyncRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
-                    request.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                    return execution.executeAsync(request, body);
-                })
-        );
         return asyncRestTemplate;
     }
 
     @Bean
-    public CloseableHttpAsyncClient asyncHttpClient() {
-        try {
-            PoolingNHttpClientConnectionManager connectionManager =
-                    new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor(IOReactorConfig.DEFAULT));
+    public CloseableHttpAsyncClient asyncHttpClient() throws IOReactorException {
 
-            connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
-            connectionManager.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE);
-            connectionManager.setMaxPerRoute(new HttpRoute(new HttpHost("payment.dev.gup.ua")), 20);
-            RequestConfig config = RequestConfig.custom().setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS).build();
-            CloseableHttpAsyncClient httpclient = HttpAsyncClientBuilder.create().setConnectionManager(connectionManager).setDefaultRequestConfig(config).build();
-            return httpclient;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
+        PoolingNHttpClientConnectionManager connectionManager =
+                new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor(IOReactorConfig.DEFAULT));
+
+        connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
+        connectionManager.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE);
+
+        RequestConfig config = RequestConfig.custom().setConnectTimeout(DEFAULT_READ_TIMEOUT_MILLISECONDS).build();
+        CloseableHttpAsyncClient httpclient = HttpAsyncClientBuilder.create().setConnectionManager(connectionManager).setDefaultRequestConfig(config).build();
+        return httpclient;
+
     }
 }
