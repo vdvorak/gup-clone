@@ -7,7 +7,6 @@ import ua.com.gup.config.*;
 
 @EnableAutoConfiguration
 @EnableResourceServer
-//@EnableZuulProxy
 public class OAuthServerGupApplication {
     public static void main(String[] args) {
         SpringApplication.run(new Object[]{WebConfig.class

@@ -1,4 +1,4 @@
-package ua.com.gup.rent.service.impl;
+package ua.com.gup.rent.service.rent.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,15 +24,14 @@ import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
 import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.mongo.RentObject;
 import ua.com.gup.rent.model.mongo.image.ImageInfo;
-import ua.com.gup.rent.repository.RentObjectRepository;
-import ua.com.gup.rent.service.RentObjectService;
+import ua.com.gup.rent.repository.rent.RentObjectRepository;
+import ua.com.gup.rent.service.abstracted.GenericServiceImpl;
+import ua.com.gup.rent.service.rent.RentObjectService;
 import ua.com.gup.rent.util.CompletableFutureUtil;
 
 import javax.annotation.PostConstruct;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
