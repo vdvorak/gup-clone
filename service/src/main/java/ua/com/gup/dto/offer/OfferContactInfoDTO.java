@@ -3,7 +3,7 @@ package ua.com.gup.dto.offer;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class OfferContactInfoDTO implements Serializable{
 
@@ -11,7 +11,7 @@ public class OfferContactInfoDTO implements Serializable{
     private String contactName;
 
     @ApiModelProperty(position = 20, dataType="java.util.LinkedHashSet<String>", value = "['380501234567','380507654321']")
-    private LinkedHashSet<String> phoneNumbers;
+    private Set<String> phoneNumbers;
 
     public String getContactName() {
         return contactName;
@@ -21,11 +21,11 @@ public class OfferContactInfoDTO implements Serializable{
         this.contactName = contactName;
     }
 
-    public LinkedHashSet<String> getPhoneNumbers() {
+    public Set<String> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(LinkedHashSet<String> phoneNumbers) {
+    public void setPhoneNumbers(Set<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 }

@@ -187,8 +187,8 @@ public class OfferDTOValidator implements Validator {
                 errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.size", null, "At least one phone number should be");
             } else {
                 for (String phoneNo : offerCreateDTO.getContactInfo().getPhoneNumbers()) {
-                    if (phoneNo == null || !phoneNo.matches("^[0-9]{12,15}$")) {
-                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "Phone number format is ^[0-9]{12,15}$");
+                    if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
+                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "Phone number format is ^380[0-9]{9}$");
                     }
                 }
             }

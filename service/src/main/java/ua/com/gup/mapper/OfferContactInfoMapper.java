@@ -1,5 +1,7 @@
 package ua.com.gup.mapper;
 
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.mongo.model.offer.OfferContactInfo;
@@ -10,7 +12,12 @@ public class OfferContactInfoMapper {
     public OfferContactInfoDTO contactInfoToContactInfoDTO(OfferContactInfo contactInfo) {
         OfferContactInfoDTO contactInfoDTO = new OfferContactInfoDTO();
         contactInfoDTO.setContactName(contactInfo.getContactName());
-        contactInfoDTO.setPhoneNumbers(contactInfo.getPhoneNumbers());
+        
+        Set<String> phoneNumbers = contactInfo.getPhoneNumbers().stream().map(u -> {
+            return u.substring(0, 5) + "*******";
+        }).collect(Collectors.toSet());        
+        contactInfoDTO.setPhoneNumbers(phoneNumbers);      
+        
         return contactInfoDTO;
     }
 
