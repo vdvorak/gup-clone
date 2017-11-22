@@ -443,10 +443,11 @@ public class OfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
-    public ResponseEntity<Void> incrementPhoneViews(@PathVariable String id) {
+    public ResponseEntity<List<String>> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
         offerService.incrementPhoneViews(id);
-        return ResponseEntity.ok().build();
+        Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
+        return new ResponseEntity(phoneNumbers, HttpStatus.OK);
     }
 
     /**

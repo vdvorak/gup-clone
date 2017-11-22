@@ -9,13 +9,15 @@ import ua.com.gup.mongo.model.offer.OfferContactInfo;
 @Component
 public class OfferContactInfoMapper {
 
-    public OfferContactInfoDTO contactInfoToContactInfoDTO(OfferContactInfo contactInfo) {
+    public OfferContactInfoDTO contactInfoToContactInfoDTO(OfferContactInfo contactInfo, boolean hidePhoneNumber) {
         OfferContactInfoDTO contactInfoDTO = new OfferContactInfoDTO();
         contactInfoDTO.setContactName(contactInfo.getContactName());
-        
-        Set<String> phoneNumbers = contactInfo.getPhoneNumbers().stream().map(u -> {
-            return u.substring(0, 5) + "*******";
-        }).collect(Collectors.toSet());        
+        Set<String> phoneNumbers = contactInfo.getPhoneNumbers();
+        if(hidePhoneNumber){
+            phoneNumbers = phoneNumbers.stream().map(u -> {
+                return u.substring(0, 5) + "*******";
+            }).collect(Collectors.toSet());        
+        }
         contactInfoDTO.setPhoneNumbers(phoneNumbers);      
         
         return contactInfoDTO;

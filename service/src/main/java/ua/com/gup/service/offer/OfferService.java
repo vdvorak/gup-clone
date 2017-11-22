@@ -25,6 +25,7 @@ import ua.com.gup.mongo.model.offer.Reservation;
 import ua.com.gup.mongo.model.other.EntityPage;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -308,4 +309,6 @@ public interface OfferService {
      * @return - the ID of the main image.
      */
     String getMainOfferImage(Offer offer);
+    
+    Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 }
