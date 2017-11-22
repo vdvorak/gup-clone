@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -32,7 +33,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     private final String xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9";
     private final String xmlnsImage = "http://www.google.com/schemas/sitemap-image/1.1";
-    private final String host = "http://gup.com.ua/";
+    private final String host = "https://www.dev.gup.ua/";
     private final String imageHost = "https://www.dev.gup.ua/ui/rest/fileStorage/offers/photo/read/id/";
     private final String fileName = "sitemap.xml";
 
@@ -73,7 +74,8 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
             url.setChangefreq(ChangeFreq.WEEKLY.toString());
             //check priority get bussiness
             Double lastPriority = ThreadLocalRandom.current().nextDouble(0.5D, 0.9D);
-            url.setPriority(lastPriority.toString());
+            DecimalFormat df = new DecimalFormat("0.0");
+            url.setPriority(df.format(lastPriority).toString());
             url.setLoc(host + offer.getSeoUrl());
             urlList.add(url);
             String mainImage = offerService.getMainOfferImage(offer);
