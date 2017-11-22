@@ -72,7 +72,7 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     }
 
 
-    private void handleMultipartFile(){
+    private void handleMultipartFile() {
 
     }
 

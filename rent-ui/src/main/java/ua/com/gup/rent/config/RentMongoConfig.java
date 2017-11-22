@@ -16,12 +16,11 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import ua.com.gup.rent.config.converter.JSR310DateConverters;
-import ua.com.gup.rent.repository.abstracted.generic.GenericRepository;
 
 import java.util.Arrays;
 
 @Configuration
-@ComponentScan(basePackageClasses = GenericRepository.class)
+@ComponentScan(basePackages = "ua.com.gup.rent.repository")
 public class RentMongoConfig {
 
     @Autowired
