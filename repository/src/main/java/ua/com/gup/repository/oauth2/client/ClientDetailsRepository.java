@@ -1,4 +1,4 @@
-package ua.com.gup.repository.client;
+package ua.com.gup.repository.oauth2.client;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.mongo.composition.domain.oauth2.client.ClientDetail;
