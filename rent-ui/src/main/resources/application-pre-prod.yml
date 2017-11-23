@@ -4,9 +4,17 @@ server:
   session:
         cookie:
           name: UISESSION
+          path: /
   compression:
       enabled: true
       mime-types: application/json,application/xml,text/html,text/xml,text/plain
+
+storage:
+  host:
+    scheme: http
+    address: localhost
+    port: 8086
+    context-path: /storage
 
 mongo:
     db:
@@ -25,10 +33,11 @@ security:
       clientId: 7b5a38705d7b3562655925406a652e32
       clientSecret: 655f523128212d6e70634446224c2a48
       accessTokenUri: https://oauth.dev.gup.ua/oauth/oauth/token
+      checkTokenUri: https://oauth.dev.gup.ua/oauth/api/oauth/check_token
       userAuthorizationUri: https://oauth.dev.gup.ua/oauth/oauth/authorize
     resource:
       userInfoUri: https://oauth.dev.gup.ua/oauth/api/user/principal
-
+    sso: /api/user/login
 
 #Mail Server Configuration for production
 email:
