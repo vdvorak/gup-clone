@@ -43,6 +43,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .pathMapping("/oauth/token", "/api/oauth/token")
+                .pathMapping("/oauth/check_token", "/api/oauth/check_token")
                 .pathMapping("/oauth/authorize", "/api/oauth/authorize")
                 .authenticationManager(authenticationManager);
     }
@@ -58,6 +59,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         oauthAuthenticationEntryPoint.setRealmName("GupRealmName");
         return oauthAuthenticationEntryPoint;
     }
+
+
 
 
 }

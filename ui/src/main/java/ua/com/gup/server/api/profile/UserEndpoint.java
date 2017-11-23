@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class UserEndpoint {
         if ("anonymousUser".equals(principal)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(principal.toString());
+        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(((LoggedUser)principal).getUsername());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }
