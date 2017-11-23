@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
-@RequestMapping(path = "/api/categories")
+@RequestMapping(path = "/api")
 public class CategoryEndpoint {
 
     private static final String ENTITY_NAME = "rent.category";
