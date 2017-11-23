@@ -24,9 +24,7 @@ import ua.com.gup.config.security.GupOauth2UserAuthenticationConverter;
 import java.util.Arrays;
 
 @Configuration
-//@EnableOAuth2Client
 @EnableOAuth2Sso
-//@EnableResourceServer
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -47,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
 
+                .antMatchers(HttpMethod.DELETE)
+                .authenticated()
+
                 .antMatchers(HttpMethod.GET, "/api/users/authenticate")
                 .authenticated()
 
@@ -54,11 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .anyRequest()
-                .authenticated()
-
-                .and();
-//                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
-
+                .authenticated();
     }
 
     @Bean
