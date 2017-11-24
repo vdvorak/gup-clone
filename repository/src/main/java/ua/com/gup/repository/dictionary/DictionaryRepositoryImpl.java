@@ -49,7 +49,7 @@ public class DictionaryRepositoryImpl implements DictionaryRepository {
     public String get(Locale locale, String key) {
         String field = "messages." + key;
         Criteria criteria = Criteria.where("_id").is(locale.name())
-                .andOperator(Criteria.where(field).exists(true));        
+                .andOperator(Criteria.where(field).exists(true));
         Query query = new Query(criteria);
         query.fields().include(field);
         Dictionary dictionary = mongoTemplate.findOne(query, Dictionary.class);
@@ -57,6 +57,23 @@ public class DictionaryRepositoryImpl implements DictionaryRepository {
             return null;
         }
         return dictionary.getMessages().get(key);
+    }
+
+    @Override
+    public void delete(Locale locale, String key) {
+        Dictionary dictionary = mongoTemplate.findById(locale.name(), Dictionary.class);
+        dictionary.getMessages().remove(key);
+        mongoTemplate.save(dictionary);
+    }
+
+    @Override
+    public boolean isExists(Locale locale, String key) {
+        Dictionary dictionary = findOne(locale);
+        if (dictionary == null) {
+            return false;
+        } else {
+            return dictionary.getMessages().containsKey(key);
+        }
     }
 
 }

@@ -13,4 +13,8 @@ public interface DictionaryRepository {
     public void save(Dictionary dictionary);
 
     public String get(Locale locale, String key);
+    
+    public void delete(Locale locale, String key);
+
+    public boolean isExists(Locale locale, String key);
 }
