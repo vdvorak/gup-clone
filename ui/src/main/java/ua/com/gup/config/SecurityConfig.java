@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .cors()
                 .and()
                 .authorizeRequests()
@@ -77,35 +79,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Bean
-    public UserAuthenticationConverter userAuthenticationConverter () {
-        DefaultUserAuthenticationConverter converter =
-                new DefaultUserAuthenticationConverter();
-        converter.setUserDetailsService(userDetailsService);
-        return converter;
-    }
-
-    @Bean
-    @Primary
-    public AccessTokenConverter accessTokenConverter() {
-        DefaultAccessTokenConverter datc
-                = new DefaultAccessTokenConverter();
-        datc.setUserTokenConverter(userAuthenticationConverter());
-        return datc;
-    }
-
-    @Bean
-    @Primary
-    public RemoteTokenServices getPreProdRemoteTokenServices () {
-        RemoteTokenServices rts = new RemoteTokenServices();
-        rts.setCheckTokenEndpointUrl(e.getRequiredProperty("security.oauth2.client.check-token"));
-        rts.setClientId(e.getRequiredProperty("security.oauth2.client.client-id"));
-        rts.setClientSecret(e.getRequiredProperty("security.oauth2.client.client-secret"));
-
-        rts.setAccessTokenConverter(accessTokenConverter());
-
-        return rts;
-    }
+//    @Bean
+//    public UserAuthenticationConverter userAuthenticationConverter () {
+//        DefaultUserAuthenticationConverter converter =
+//                new DefaultUserAuthenticationConverter();
+//        converter.setUserDetailsService(userDetailsService);
+//        return converter;
+//    }
+//
+//    @Bean
+//    @Primary
+//    public AccessTokenConverter accessTokenConverter() {
+//        DefaultAccessTokenConverter datc
+//                = new DefaultAccessTokenConverter();
+//        datc.setUserTokenConverter(userAuthenticationConverter());
+//        return datc;
+//    }
+//
+//    @Bean
+//    @Primary
+//    public RemoteTokenServices getPreProdRemoteTokenServices () {
+//        RemoteTokenServices rts = new RemoteTokenServices();
+//        rts.setCheckTokenEndpointUrl(e.getRequiredProperty("security.oauth2.client.check-token"));
+//        rts.setClientId(e.getRequiredProperty("security.oauth2.client.client-id"));
+//        rts.setClientSecret(e.getRequiredProperty("security.oauth2.client.client-secret"));
+//
+//        rts.setAccessTokenConverter(accessTokenConverter());
+//
+//        return rts;
+//    }
 
 //    private Filter ssoFilter() {
 //        OAuth2ClientAuthenticationProcessingFilter filter = new GupOAuth2ClientAuthenticationProcessingFilter("/api/users/authenticate");

@@ -17,6 +17,7 @@ public class UIGupApplication {
                 , MailConfig.class
                 , SchedulerConfig.class
                 , MongoConfig.class
+                , SaleSessionConfig.class
                 , UIGupApplication.class
         }, args);
     }

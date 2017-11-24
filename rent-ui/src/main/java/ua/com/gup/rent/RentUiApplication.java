@@ -18,6 +18,7 @@ public class RentUiApplication {
                 RentWebSecurityConfig.class,
                 RentMethodSecurityConfig.class,
                 RestTemplatesConfig.class,
+                RentSessionConfig.class,
 //                RentOAuth2ResourceDefaultServerConfig.class,
 //                RentOAuth2ResourceMongoServerConfig.class,
                 RentUiApplication.class}, args);
