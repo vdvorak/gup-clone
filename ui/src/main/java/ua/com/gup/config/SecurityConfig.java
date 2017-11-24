@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ua.com.gup.config.security.GupOauth2UserAuthenticationConverter;
+//import ua.com.gup.config.security.GupOauth2UserAuthenticationConverter;
 
 import java.util.Arrays;
 
@@ -48,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
 
                 .antMatchers(HttpMethod.GET, "/api/users/authenticate")
+                .authenticated()
+                
+                .antMatchers(HttpMethod.DELETE)
                 .authenticated()
 
                 .antMatchers(HttpMethod.GET, "/api/**")
