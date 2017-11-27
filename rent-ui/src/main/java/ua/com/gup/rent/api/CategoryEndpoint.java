@@ -28,7 +28,6 @@ import ua.com.gup.rent.service.category.attribute.CategoryAttributeService;
 import ua.com.gup.rent.util.HeaderUtil;
 import ua.com.gup.rent.util.MD5Util;
 import ua.com.gup.rent.util.ResponseUtil;
-import ua.com.gup.rent.util.security.SecurityUtils;
 import ua.com.gup.rent.validator.category.attribute.CategoryAttributeDTOValidator;
 import ua.com.gup.rent.validator.category.CategoryDTOValidator;
 
@@ -82,13 +81,15 @@ public class CategoryEndpoint {
      * @return the ResponseEntity with status 201 (Created) and with body the new categoryAttribute, or with status 400 (Bad Request) if the categoryAttribute has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    /**
+     *  if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         CategoryAttribute result = categoryAttributeService.save(categoryAttribute);
         clearCache();
         return ResponseEntity.created(new URI("/categoryAttribute/" + result.getId()))
@@ -102,13 +103,15 @@ public class CategoryEndpoint {
      * @param id the id of the CategoryAttribute to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the CategoryAttribute, or with status 404 (Not Found)
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *     if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<CategoryAttribute> getCategoryAttributes(@PathVariable String id) {
         logger.debug("REST request to get CategoryAttribute : {}", id);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         final CategoryAttribute categoryAttribute = categoryAttributeService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(categoryAttribute));
     }
@@ -122,13 +125,15 @@ public class CategoryEndpoint {
      * or with status 500 (Internal Server Error) if the categoryAttribute couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+
+     */
     public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         CategoryAttribute result = categoryAttributeService.save(categoryAttribute);
         clearCache();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
@@ -140,13 +145,14 @@ public class CategoryEndpoint {
      * @param id the id of the categoryAttribute to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @CrossOrigin
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *  if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<Void> deleteCategoryAttribute(@PathVariable String id) {
         logger.debug("REST request to delete CategoryAttribute : {}", id);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         categoryAttributeService.delete(id);
         clearCache();
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -157,13 +163,17 @@ public class CategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/category-attributes/", method = RequestMethod.GET)
+    /**
+     *         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+
+     */
+
     public ResponseEntity<List<CategoryAttribute>> getAllCategoryAttributes() {
         logger.debug("REST request to get a page of Categories");
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         final List<CategoryAttribute> categoryAttribute = categoryAttributeService.findAll();
         return ResponseEntity.ok().body(categoryAttribute);
     }
@@ -175,13 +185,15 @@ public class CategoryEndpoint {
      * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *  if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) throws URISyntaxException {
         logger.debug("REST request to save new Category : {}", categoryCreateDTO);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         Category result = categoryService.save(categoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/categories/" + result.getId()))
@@ -195,13 +207,17 @@ public class CategoryEndpoint {
      * @param id the id of the Category to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the Category, or with status 404 (Not Found)
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *         if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+
+     */
     public ResponseEntity<Category> getCategory(@PathVariable String id) {
         logger.debug("REST request to get Category : {}", id);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
+
         final Category category = categoryService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(category));
     }
@@ -215,13 +231,16 @@ public class CategoryEndpoint {
      * or with status 500 (Internal Server Error) if the category couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *  if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO) throws URISyntaxException {
         logger.debug("REST request to update Category : {}", categoryUpdateDTO);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
+
         Category result = categoryService.save(categoryUpdateDTO);
         clearCache();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
@@ -233,13 +252,15 @@ public class CategoryEndpoint {
      * @param id the id of the category to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     *   if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
         logger.debug("REST request to delete Category : {}", id);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
         categoryService.delete(id);
         clearCache();
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -250,13 +271,16 @@ public class CategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
+    /**
+     *  if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
+     return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
+     }
+     */
     public ResponseEntity<List<Category>> getAllCategories() {
         logger.debug("REST request to get all Categories");
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_ADMIN.name())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
-        }
+
         final List<Category> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
@@ -266,7 +290,7 @@ public class CategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
+
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         logger.debug("REST request to get categories in tree view");

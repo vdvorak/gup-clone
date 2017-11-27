@@ -15,25 +15,11 @@ import javax.servlet.Filter;
 @ComponentScan(basePackageClasses = {RentEndpoint.class, CategoryEndpoint.class, CalendarEndpoint.class})
 public class RentWebConfig {
 
-//    @Bean
-//    public OAuthFilter oAuthFilter() {
-//        return new OAuthFilter();
-//    }
 
     @Bean
     public FilterRegistrationBean characterEncodingFilterRegistration() {
         return registerFilter(new CharacterEncodingFilter("UTF-8", true), "CharacterEncodingFilter", 1, "/*");
     }
-
-//    @Bean
-//    public FilterRegistrationBean oauthFilterRegistration(@Autowired OAuthFilter oAuthFilter) {
-//        return registerFilter(oAuthFilter, "OAuthFilter", 2, "/*");
-//    }
-//
-//    @Bean
-//    public FilterRegistrationBean springSecurityFilterRegistration() {
-//        return registerFilter(new DelegatingFilterProxy(), "springSecurityFilterChain", 3, "/*");
-//    }
 
 
     private FilterRegistrationBean registerFilter(Filter filter, String name, int order, String... urlPatterns) {

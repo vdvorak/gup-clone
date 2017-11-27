@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import ua.com.gup.token.CustomTokenEnhancer;
 
 @Configuration
 @EnableAuthorizationServer
@@ -45,6 +47,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .pathMapping("/oauth/token", "/api/oauth/token")
                 .pathMapping("/oauth/check_token", "/api/oauth/check_token")
                 .pathMapping("/oauth/authorize", "/api/oauth/authorize")
+                .tokenEnhancer(tokenEnhancer())
                 .authenticationManager(authenticationManager);
     }
 
@@ -60,7 +63,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         return oauthAuthenticationEntryPoint;
     }
 
-
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
+    }
 
 
 }

@@ -38,7 +38,7 @@ public class RentPermissionEvaluator implements PermissionEvaluator {
 
 //        return hasPrivilege(auth, targetType.toUpperCase(),
 //                permission.toString().toUpperCase());
-        return true;//isOwner((String) targetId, ((LoggedUser) auth.getPrincipal()).getProfileId());
+        return true;//isOwner((String) targetId, ((RentUserAuthentication) auth.getPrincipal()).getProfileId());
     }
 
 

@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
 import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
+import ua.com.gup.rent.model.mongo.RentObject;
 import ua.com.gup.rent.service.rent.RentObjectService;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class RentEndpoint {
     @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
     public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
         List<ShortDetailsRentObjectDTO> rentObjects = rentObjectService.findAll();
-        return new ResponseEntity(rentObjects.get(1), HttpStatus.OK);
+        return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -40,7 +42,7 @@ public class RentEndpoint {
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
-//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.RentObject).CLASS_NAME, 'edit')")
+    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.RentObject).CLASS_NAME, 'edit')")
     public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, EditRentObjectDTO editRentObjectDTO) {
 
         rentObjectService.update(editRentObjectDTO);

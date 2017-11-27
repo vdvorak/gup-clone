@@ -43,7 +43,7 @@ public class UserEndpoint {
         if ("anonymousUser".equals(principal)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(((LoggedUser)principal).getUsername());
+        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(principal.toString());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }

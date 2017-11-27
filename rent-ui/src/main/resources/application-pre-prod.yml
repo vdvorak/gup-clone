@@ -1,13 +1,19 @@
 server:
   port: 8080
   context-path: /rent
-  session:
-        cookie:
-          name: UISESSION
-          path: /
   compression:
       enabled: true
       mime-types: application/json,application/xml,text/html,text/xml,text/plain
+
+application:
+  url: http://localhost
+  session:
+    redis:
+      host: 62.80.167.165
+      port: 6379
+    cookie:
+      name: UISESSION
+      path: /
 
 storage:
   host:
@@ -20,6 +26,8 @@ mongo:
     db:
       uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
 spring:
+  session:
+    store-type: redis
   profiles:
     active: pre-prod
   thymeleaf:

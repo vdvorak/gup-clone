@@ -26,6 +26,8 @@ mongo:
     db:
       uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
 spring:
+  session:
+    store-type: redis
   profiles:
     active: dev
   thymeleaf:
