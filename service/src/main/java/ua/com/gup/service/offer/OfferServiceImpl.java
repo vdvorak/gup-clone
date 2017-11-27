@@ -860,5 +860,16 @@ public class OfferServiceImpl implements OfferService {
         }
         storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }
+    
+    /**
+     *
+     * @param offerId
+     * @return Collection of  phone numbers from offer's contactinfo
+     */
+    @Override
+    public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId){
+        Offer offer = offerRepository.findOne(offerId);
+        return offer.getContactInfo().getPhoneNumbers();
+    }
 
 }

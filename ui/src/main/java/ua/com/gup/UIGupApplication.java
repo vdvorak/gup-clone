@@ -13,6 +13,7 @@ public class UIGupApplication {
                 , RootConfig.class
                 , HttpClientConfiguration.class
                 , SecurityConfig.class
+                , WebSecurityConfig.class
                 , SwaggerConfig.class
                 , MailConfig.class
                 , SchedulerConfig.class

@@ -132,7 +132,11 @@ public class OfferMapper {
             offerViewDetailsDTO.setPrice(priceDTO);
         }
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
-        offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo()));
+        
+        //owner ? doesn't hide phone number : hide phone number
+        boolean hidePhoneNumber = !(SecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));        
+        offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
+        
         offerViewDetailsDTO.setOfferStatistic(new OfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));

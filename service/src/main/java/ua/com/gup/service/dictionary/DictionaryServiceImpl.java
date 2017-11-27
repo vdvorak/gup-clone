@@ -43,4 +43,15 @@ public class DictionaryServiceImpl implements DictionaryService {
     public String get(Locale locale, String key) {
         return dictionaryRepository.get(locale, key);
     }
+    
+    @Override
+    public void delete(Locale locale, String key){
+        dictionaryRepository.delete(locale, key);
+    }
+    
+    
+    @Override
+    public boolean isExists(Locale locale, String key){
+        return dictionaryRepository.isExists(locale, key);
+    }
 }
