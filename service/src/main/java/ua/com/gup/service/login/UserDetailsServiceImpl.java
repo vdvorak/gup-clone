@@ -1,6 +1,7 @@
 package ua.com.gup.service.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,19 +51,19 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getEmail(), profile.getPassword(),
                 profile.getActive(), profile.getBan(), true, true, true, authorities,
-                profile.getId());
+                profile.getId(), profile.getPublicId(), profile.getEmail());
     }
 
     private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getUid(), profile.getSocWendor(),
                 true, profile.getBan(), true, true, true, authorities,
-                profile.getId());
+                profile.getId(), profile.getPublicId(), profile.getEmail());
     }
 
     private LoggedUser buildPhoneUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor(),
                 true, profile.getBan(), true, true, true, authorities,
-                profile.getId());
+                profile.getId(), profile.getPublicId(), profile.getEmail());
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {

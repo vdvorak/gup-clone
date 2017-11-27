@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class LoggedUser extends User {
     private final String profileId;
+    private final String publicId;
+    private final String email;
     private final Boolean banned;
 
     public LoggedUser(DBObject dbObject) {
@@ -24,6 +26,8 @@ public class LoggedUser extends User {
                 OAuth2AuthenticationReadConverter.getAuthorities((List<Map<String, String>>) dbObject.get("authorities")));
 
         this.profileId = (String) dbObject.get("profileId");
+        this.publicId = (String) dbObject.get("publicId");
+        this.email = (String) dbObject.get("email");
         this.banned = (Boolean) dbObject.get("ban");
     }
 
@@ -31,11 +35,13 @@ public class LoggedUser extends User {
     public LoggedUser(String username, String password, boolean enabled, boolean banned,
                       boolean accountNonExpired, boolean credentialsNonExpired,
                       boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
-                      String profileId) {
+                      String profileId, String publicId, String email) {
 
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 
         this.profileId = profileId;
+        this.publicId = publicId;
+        this.email = email;
         this.banned = banned;
     }
 
@@ -46,4 +52,13 @@ public class LoggedUser extends User {
     public Boolean isBanned() {
         return banned;
     }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
 }
