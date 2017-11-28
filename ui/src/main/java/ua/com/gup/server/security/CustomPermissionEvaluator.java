@@ -44,23 +44,23 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         switch (collectionName) {
             case Offer.COLLECTION_NAME:
 
-                ObjectPermissionEvaluater permissionEvaluater = null;
+                ObjectPermissionEvaluator permissionEvaluator = null;
                 Permission permission = Permission.valueOf((String) o);
                 switch (permission) {
                     case CHANGE_STATUS:
-                        permissionEvaluater = new OfferChangeStatusPermissionEvaluator(objId, userId, currentUserRoles);
+                        permissionEvaluator = new OfferChangeStatusPermissionEvaluator(objId, userId, currentUserRoles);
                         break;
                     case EDIT:
-                        permissionEvaluater = new OfferEditPermissionEvaluator(objId, userId, currentUserRoles);
+                        permissionEvaluator = new OfferEditPermissionEvaluator(objId, userId, currentUserRoles);
                         break;
                     case DELETE:
-                        permissionEvaluater = new OfferDeletePermissionEvaluator(objId, userId, currentUserRoles);
+                        permissionEvaluator = new OfferDeletePermissionEvaluator(objId, userId, currentUserRoles);
                         break;
                     default:
                         throw new UnsupportedOperationException("No permission validator: " + collectionName + "." + o);
                 }
-                permissionEvaluater.setAccessService(accessService);
-                return permissionEvaluater.hasAccess();
+                permissionEvaluator.setAccessService(accessService);
+                return permissionEvaluator.hasAccess();
             default:
                 throw new UnsupportedOperationException("No permission validator:" + collectionName);
         }
