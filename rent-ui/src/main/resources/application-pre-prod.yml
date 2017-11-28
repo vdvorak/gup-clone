@@ -9,7 +9,7 @@ application:
   url: http://localhost
   session:
     redis:
-      host: 62.80.167.165
+      host: redis.dev.gup.ua
       port: 6379
     cookie:
       name: UISESSION
