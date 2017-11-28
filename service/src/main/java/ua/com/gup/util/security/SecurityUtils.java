@@ -13,35 +13,19 @@ import ua.com.gup.mongo.model.login.LoggedUser;
 public final class SecurityUtils {
 
     private SecurityUtils() {
-    }
-
-    /**
-     * Get the login of the current user.
-     *
-     * @return the login of the current user
-     */
-    public static String getCurrentUserLogin() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        String userName = null;
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                userName = springSecurityUser.getUsername();
-            } else if (authentication.getPrincipal() instanceof String) {
-                userName = (String) authentication.getPrincipal();
-            }
-        }
-        return userName;
-    }
+    }   
 
     /**
      * Get the id of the current user.
      *
      * @return the id of the current user
      */
-    public static String getCurrentUserId() {
-        return (getLoggedUser() == null) ? null : getLoggedUser().getProfileId();
+    public static String getCurrentUserId() {      
+        if(isAuthenticated()){
+            LoggedUser user = (LoggedUser) getCtxAuthentication().getPrincipal();
+            return user.getProfileId();
+        }
+        return null;
     }
 
     /**
@@ -51,7 +35,7 @@ public final class SecurityUtils {
      */
     public static LoggedUser getLoggedUser() {
         Authentication auth = getCtxAuthentication();
-        return (auth == null) ? null : (LoggedUser) auth.getPrincipal();
+        return !isAuthenticated() ? null : (LoggedUser) auth.getPrincipal();
     }
 
     /**
@@ -68,14 +52,8 @@ public final class SecurityUtils {
      *
      * @return true if the user is authenticated, false otherwise
      */
-    public static boolean isAuthenticated() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            return authentication.getAuthorities().stream()
-                    .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(UserRole.ROLE_SPECTATOR));
-        }
-        return false;
+    public static boolean isAuthenticated() {        
+        return !isCurrentUserInRole(UserRole.ROLE_ANONYMOUS);
     }
 
     /**
@@ -92,7 +70,7 @@ public final class SecurityUtils {
         if (authentication != null) {
             return authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
-        }
+                }
         return false;
     }
 

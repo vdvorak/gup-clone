@@ -20,12 +20,11 @@ import ua.com.gup.mongo.model.profiles.CheckMainPhone;
 import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.mongo.model.profiles.phone.*;
 import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.util.SecurityOperations;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import ua.com.gup.util.security.SecurityUtils;
 
 
 @RestController
@@ -77,7 +76,7 @@ public class ProfileEndpoint {
         if (!profilesService.profileExistsByPublicId(publicProfileId)) {
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
         if (userId != null) {
             profilesService.toggleProfileInUserSocialList(userId, publicProfileId);
             log.debug("{User: " + publicProfileId + ", toggled to/from: " + userId + " contact list}");
@@ -208,7 +207,7 @@ public class ProfileEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.POST)
     public ResponseEntity<String> synchronizationPhones(@RequestBody StorePhones storePhones) {
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
         storePhones.setIdUser(userId);
         ProfileStorePhones profileStorePhones = new ProfileStorePhones(storePhones.getContactPhones());
         DBStorePhones newStorePhones = dbStorePhones(storePhones.getIdUser(), storePhones.getMainPhones(), profileStorePhones);
@@ -238,7 +237,7 @@ public class ProfileEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/synchronization-phones", method = RequestMethod.GET)
     public ResponseEntity<ProfileIdStorePhones> synchronizationPhones() {
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
 
         ProfileStorePhones profileStorePhones = profileStorePhones(userId);
         List<PhoneSynhronizeID> contactIdPhones = new ArrayList<>();
@@ -271,7 +270,7 @@ public class ProfileEndpoint {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         Profile foundByEmailProfile = profilesService.findProfileByEmail(editProfileDTO.getEmail());
 
         if (foundByEmailProfile != null) {
@@ -291,7 +290,7 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/ban/id/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         Profile profile = profilesService.findById(id);
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
@@ -315,7 +314,7 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/unban/id/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> unbanProfileByID(@PathVariable("id") String id, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         Profile profile = profilesService.findById(id);
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN); //TODO: 403
@@ -340,7 +339,7 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
     public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request)
             throws AuthenticationCredentialsNotFoundException {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
@@ -381,7 +380,7 @@ public class ProfileEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
     public ResponseEntity<Void> updateStatus(@RequestBody Profile profile) {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         Profile oldProfile = profilesService.findById(loggedUserId);
         if (StringUtils.isEmpty(profile.getStatus())) {
             oldProfile.setStatus("");
@@ -418,7 +417,7 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance() {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         return 0;
     }
 
@@ -453,7 +452,7 @@ public class ProfileEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/bank/financeInfo/read", method = RequestMethod.GET)
     public ResponseEntity<String> bankTest() {
-        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityUtils.getCurrentUserId();
         return new ResponseEntity<>((String) null, HttpStatus.OK);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.security.SecurityUtils;
 
 /**
  * Implementation of the OfferModerationService interface.
@@ -23,7 +23,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
     @Override
     public HttpStatus editOfferByModerator(Offer inputOffer) {
-        String moderatorId = SecurityOperations.getLoggedUserId();
+        String moderatorId = SecurityUtils.getCurrentUserId();
         if (profilesService.findById(moderatorId) == null) {
             return HttpStatus.BAD_REQUEST;
         }

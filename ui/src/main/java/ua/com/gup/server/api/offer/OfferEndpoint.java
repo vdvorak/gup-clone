@@ -80,15 +80,11 @@ public class OfferEndpoint {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO) throws URISyntaxException {
-        log.debug("REST request to save new Offer : {}", offerCreateDTO);
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
-        }
+        log.debug("REST request to save new Offer : {}", offerCreateDTO);        
+        
         OfferViewDetailsDTO result = offerService.save(offerCreateDTO);
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -108,24 +104,20 @@ public class OfferEndpoint {
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
-
-
-    @PreAuthorize("isAuthenticated()")
+    
     @CrossOrigin
+    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
         String authorId = SecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        if (offerService.hasPermissionForUpdate(id, authorId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
-        }
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)    
     public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
@@ -184,13 +176,11 @@ public class OfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
     public ResponseEntity<OfferViewDetailsDTO> updateOffer(@Valid @RequestBody OfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
         if (!offerService.exists(offerUpdateDTO.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
-        }
-        if (offerService.hasPermissionForUpdate(offerUpdateDTO.getId(), null)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User hasn't permission for update")).body(null);
         }
         OfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
@@ -206,12 +196,10 @@ public class OfferEndpoint {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) throws URISyntaxException {
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")    
+    @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
+    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in 'ROLE_MODERATOR'")).body(null);
-        }
         OfferViewDetailsDTO result = offerService.save(offerModerationReportDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
@@ -226,17 +214,18 @@ public class OfferEndpoint {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
+    @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable OfferStatus status) throws URISyntaxException {
-        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
-        Optional<OfferViewDetailsDTO> result = offerService.updateStatus(id, status);
-        if (!result.isPresent()) {
-            if (!offerService.exists(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)")).body(null);
-            }
+        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);        
+        if(!offerService.exists(id)){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);                   
         }
+        if(!offerService.isCanUpdateStatus(id, status)){
+            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)",HttpStatus.BAD_REQUEST);
+        }        
+        Optional<OfferViewDetailsDTO> result = offerService.updateStatus(id, status);
+        
         return ResponseUtil.wrapOrNotFound(result);
     }
 
@@ -247,6 +236,7 @@ public class OfferEndpoint {
      * @return the ResponseEntity with status 200 (OK)
      */
     @CrossOrigin
+    @PreAuthorize("hasPermission(#id, 'offer', 'DELETE')")
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
@@ -311,42 +301,14 @@ public class OfferEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
+    @CrossOrigin    
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
-        log.debug("REST request to get a page of my Offers by status");
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User isn't authenticated")).body(null);
-        }
-        if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
-        }
+        log.debug("REST request to get a page of my Offers by status");        
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, SecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
-    /**
-     * GET  /offers : get all authorId offers by status.
-     *
-     * @param status   the offer status
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllProfileOffers(@PathVariable String authorId,
-                                                                                           @RequestParam(name = "status") OfferStatus status, Pageable pageable) {
-        log.debug("REST request to get a page of authorId Offers by status");
-        if (authorId == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "authorId", "Status required")).body(null);
-        }
-        if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
-        }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, authorId, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + authorId + "/" + status.name());
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
+    }   
 
     @CrossOrigin
     @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
@@ -358,25 +320,7 @@ public class OfferEndpoint {
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(OfferStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-
-    @CrossOrigin
-    @RequestMapping(value = "/offers/statuses",
-            method = RequestMethod.GET,
-            produces = "application/json;charset=UTF-8")
-    public ResponseEntity<String> getOfferStatuses()
-            throws URISyntaxException {
-        log.debug("REST request to get Statuses");
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
-
-
-        final Map<String, String> statuses =
-                Arrays.stream(OfferStatus.values())
-                        .collect(Collectors.toMap(OfferStatus::name, OfferStatus::toString));
-
-        return new ResponseEntity(statuses, HttpStatus.OK);
-    }
+  
 
     /**
      * GET  /offers : get all my offers by status.
@@ -408,12 +352,10 @@ public class OfferEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
     public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_MODERATOR'")).body(null);
-        }
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }

@@ -134,7 +134,7 @@ public class OfferMapper {
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         
         //owner ? doesn't hide phone number : hide phone number
-        boolean hidePhoneNumber = !(SecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));        
+        boolean hidePhoneNumber =   !SecurityUtils.isAuthenticated() || !(SecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));        
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
         
         offerViewDetailsDTO.setOfferStatistic(new OfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));

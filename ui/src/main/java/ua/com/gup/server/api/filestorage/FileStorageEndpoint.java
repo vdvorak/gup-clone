@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.mongo.model.other.CreatedObjResp;
 import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.util.SecurityOperations;
+import ua.com.gup.util.security.SecurityUtils;
 
 @RestController
 @RequestMapping("/api/rest/fileStorage")
@@ -79,7 +79,7 @@ public class FileStorageEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProfilePhoto() {
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
         if (userId != null) {
             storageService.deleteProfileImage(userId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -96,7 +96,7 @@ public class FileStorageEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "profile/photo/justDelete", method = RequestMethod.POST)
     public ResponseEntity<Void> justDeleteProfilePhoto(@RequestParam MultipartFile file) {
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
         if (userId != null) {
             storageService.deleteProfileImage(userId);
             if (file.isEmpty()) {

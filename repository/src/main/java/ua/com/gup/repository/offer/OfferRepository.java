@@ -20,5 +20,7 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
     Page<Offer> findAllByStatus(OfferStatus status, Pageable pageable);
 
     Optional<Offer> findOfferByIdAndAuthorId(String offerId, String authorId);
+    
+    Boolean existsByIdAndStatus(String id, OfferStatus status);
 
 }

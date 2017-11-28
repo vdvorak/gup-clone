@@ -152,6 +152,7 @@ public interface OfferService {
      * @return true if an user has permission for update, {@literal false} otherwise
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
+    @Deprecated
     boolean hasPermissionForUpdate(String offerId,String authrorId);
 
     /**
@@ -169,6 +170,8 @@ public interface OfferService {
      * @return the entity
      */
     Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
+    
+    Boolean isCanUpdateStatus(String id, OfferStatus status);
 
 
     /**
@@ -311,4 +314,6 @@ public interface OfferService {
     String getMainOfferImage(Offer offer);
     
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
+    
+    boolean existsByIdAndStatus(String id, OfferStatus status);
 }

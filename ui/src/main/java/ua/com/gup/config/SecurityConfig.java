@@ -81,6 +81,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+    
+    @Bean
+    public UserAuthenticationConverter userAuthenticationConverter() {
+        UserAuthenticationConverter converter
+                = new CustomUserAuthenticationConverter();
+        return converter;
+    }
+
+    @Bean
+    @Primary
+    public AccessTokenConverter accessTokenConverter() {
+        DefaultAccessTokenConverter datc
+                = new DefaultAccessTokenConverter();
+        datc.setUserTokenConverter(userAuthenticationConverter());
+        return datc;
+    }
+    
+    
+    @Bean
+    @Primary
+    public RemoteTokenServices getPreProdRemoteTokenServices() {
+        RemoteTokenServices rts = new RemoteTokenServices();
+        rts.setCheckTokenEndpointUrl(e.getRequiredProperty("security.oauth2.client.check-token"));
+        rts.setClientId(e.getRequiredProperty("security.oauth2.client.client-id"));
+        rts.setClientSecret(e.getRequiredProperty("security.oauth2.client.client-secret"));
+        rts.setAccessTokenConverter(accessTokenConverter());
+        return rts;
+    }
 
 //    @Bean
 //    public UserAuthenticationConverter userAuthenticationConverter () {

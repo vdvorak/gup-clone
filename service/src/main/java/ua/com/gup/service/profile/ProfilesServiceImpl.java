@@ -17,11 +17,10 @@ import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.LogUtil;
-import ua.com.gup.util.SecurityOperations;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import ua.com.gup.util.security.SecurityUtils;
 
 
 @Service
@@ -400,7 +399,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void deleteFromMyContactList(String profileId) {
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
 
         Profile profile = findById(userId);
 
@@ -414,7 +413,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void updateFavoriteOffers(String offerId) {
-        Profile profile = findById(SecurityOperations.getLoggedUserId());
+        Profile profile = findById(SecurityUtils.getCurrentUserId());
         Set<String> favoriteOffers = profile.getFavoriteOffers();
         for (String favoriteOffer : favoriteOffers) {
             if (favoriteOffer.equals(offerId)) {

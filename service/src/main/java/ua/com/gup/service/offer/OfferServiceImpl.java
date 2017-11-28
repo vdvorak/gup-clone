@@ -44,7 +44,6 @@ import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.image.ImageService;
 import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
-import ua.com.gup.util.SecurityOperations;
 import ua.com.gup.util.Translit;
 import ua.com.gup.util.security.SecurityUtils;
 
@@ -357,6 +356,7 @@ public class OfferServiceImpl implements OfferService {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
+    @Deprecated
     public boolean hasPermissionForUpdate(String offerId, String authorId) {
         Optional<Offer> offer = null;
         if (offerId != null && authorId != null) {
@@ -418,16 +418,24 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status) {
         log.debug("Request to update update offer's status : {}", id);
-        Offer offer = offerRepository.findOne(id);
-        if (offer != null && offer.getAuthorId().equals(SecurityUtils.getCurrentUserId()) &&
-                (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED) &&
-                (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED)) {
-            offer.setStatus(status);
-            offer = offerRepository.save(offer);
-        } else {
-            return Optional.empty();
-        }
+        Offer offer = offerRepository.findOne(id);       
+        offer.setStatus(status);
+        offer = offerRepository.save(offer);        
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+    /**
+     * Can user changge offer's status.
+     *
+     * @param id     the id of the offer entity
+     * @param status the status to be changed
+     * @return the entity
+     */
+    @Override
+    public Boolean isCanUpdateStatus(String id, OfferStatus status){
+        Offer offer = offerRepository.findOne(id);
+        Boolean fromStatus = (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED) ;
+        Boolean toStatus = (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED);
+        return fromStatus && toStatus;
     }
 
 
@@ -695,7 +703,7 @@ public class OfferServiceImpl implements OfferService {
 
         Offer oldOffer = findById(updatedOffer.getId());
 
-        String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityUtils.getCurrentUserId();
 
 
         // Check if current user is not an author
@@ -870,6 +878,11 @@ public class OfferServiceImpl implements OfferService {
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId){
         Offer offer = offerRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
+    }
+    
+    @Override
+    public boolean existsByIdAndStatus(String id, OfferStatus status){
+        return offerRepository.existsByIdAndStatus(id, status);
     }
 
 }

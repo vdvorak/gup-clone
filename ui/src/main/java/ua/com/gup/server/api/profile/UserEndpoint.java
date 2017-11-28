@@ -5,19 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.gup.dto.profile.ProfileDTO;
-import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import ua.com.gup.util.security.SecurityUtils;
 
 @Controller
 @RequestMapping(path = "/api/users")
@@ -36,14 +33,12 @@ public class UserEndpoint {
     }
 
     @GetMapping(path = "/current")
-    public ResponseEntity getPrincipal() throws IOException {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if ("anonymousUser".equals(principal)) {
+    public ResponseEntity getPrincipal() throws IOException {                
+        if(!SecurityUtils.isAuthenticated()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(principal.toString());
+        String username = SecurityUtils.getLoggedUser().getUsername();
+        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(username);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }
