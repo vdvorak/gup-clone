@@ -5,10 +5,6 @@
  */
 package ua.com.gup.config;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +13,12 @@ import org.springframework.security.oauth2.provider.token.UserAuthenticationConv
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.login.LoggedUser;
 
-public class CustomUserAuthenticationConverter implements UserAuthenticationConverter {
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class SalesUserAuthenticationConverter implements UserAuthenticationConverter {
 
     private final String USERNAME = "user_name";
     private final String PROFILE_ID = "profile_id";
