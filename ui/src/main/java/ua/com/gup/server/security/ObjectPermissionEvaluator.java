@@ -9,13 +9,13 @@ import java.util.Set;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.service.security.UserSecurityAccessService;
 
-public abstract class ObjectPermissionEvaluater {
+public abstract class ObjectPermissionEvaluator {
     
     protected UserSecurityAccessService accessService;
     protected String userId;
     protected Set<UserRole> authorities;
 
-    public ObjectPermissionEvaluater(String userId, Set<UserRole> authorities) {
+    public ObjectPermissionEvaluator(String userId, Set<UserRole> authorities) {
         this.authorities = authorities;
         this.userId = userId;
     }
