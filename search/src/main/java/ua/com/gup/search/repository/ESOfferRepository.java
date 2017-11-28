@@ -1,5 +1,6 @@
 package ua.com.gup.search.repository;
 
+import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
 
@@ -17,4 +18,6 @@ public interface ESOfferRepository {
     List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException;
+
+    List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
 }

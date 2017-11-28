@@ -1,6 +1,5 @@
 package ua.com.gup.server.api.search;
 
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +7,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.server.api.search.dto.CategoryOffersStatistic;
 import ua.com.gup.server.api.search.dto.CategoryStatistic;
 import ua.com.gup.server.api.search.dto.SearchResponseDTO;
 import ua.com.gup.server.util.CompletableFutureUtil;
@@ -67,6 +65,13 @@ public class SearchEndpoint {
         return new ResponseEntity(categoriesCount, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "offers/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) {
+        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/categories/status").queryParam("status", status).build();
+        return new ResponseEntity(restTemplate.getForObject(uriComponents.toUri(), CategoryOffersStatistic[].class), HttpStatus.OK);
+    }
+
 
     @CrossOrigin
     @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
@@ -97,8 +102,6 @@ public class SearchEndpoint {
         CompletableFuture.allOf(aggregateResponse).join();
         return new ResponseEntity(searchResponseDTO, HttpStatus.OK);
     }
-
-
 
 
 }
