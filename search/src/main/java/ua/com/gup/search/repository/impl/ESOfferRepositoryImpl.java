@@ -16,6 +16,7 @@ import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.repository.ESOfferRepository;
@@ -160,4 +161,34 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
         return Collections.EMPTY_LIST;
     }
 
+    @Override
+    public List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(ES_INDEX);
+        searchRequest.types(ES_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.fetchSource(false);
+
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        boolQueryBuilder.must(new TermQueryBuilder("status", offerStatus));
+
+        searchSourceBuilder.query(boolQueryBuilder);
+
+        TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_category").field("categories").size(Integer.MAX_VALUE);
+        searchSourceBuilder.aggregation(aggregation);
+
+        searchRequest.source(searchSourceBuilder);
+
+        SearchResponse searchResponse = esClient.search(searchRequest);
+        Aggregations aggregations = searchResponse.getAggregations();
+
+        if (aggregations != null) {
+            Terms byCategoryAgg = aggregations.get("by_category");
+            List<ESCategoriesOffersStatistic> categoriesOffers = new ArrayList<>(byCategoryAgg.getBuckets().size());
+            byCategoryAgg.getBuckets().forEach(b -> categoriesOffers.add(new ESCategoriesOffersStatistic(b.getKeyAsNumber().longValue(), b.getDocCount())));
+            return categoriesOffers;
+        }
+        return Collections.EMPTY_LIST;
+    }
 }

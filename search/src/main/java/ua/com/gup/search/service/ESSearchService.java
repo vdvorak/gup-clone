@@ -1,5 +1,6 @@
 package ua.com.gup.search.service;
 
+import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.util.Locale;
@@ -15,7 +16,11 @@ public interface ESSearchService {
 
     List<ESCategoriesStatistic> countOffersInCategoriesByQuery(String query, Locale locale) throws IOException;
 
-    List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId (String offerStatus, String profileId) throws IOException;
+    List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException;
 
     Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
+
+    List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
+
+
 }

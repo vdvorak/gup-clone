@@ -2,6 +2,7 @@ package ua.com.gup.search.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.repository.ESCategoryRepository;
@@ -40,6 +41,11 @@ public class ESSearchServiceImpl implements ESSearchService {
     @Override
     public List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException {
         return esOfferRepository.countOffersInCategoriesByStatusAndProfileId(offerStatus, profileId);
+    }
+
+    @Override
+    public List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException {
+        return esOfferRepository.countOffersInCategoriesByStatus(offerStatus);
     }
 
     @Override

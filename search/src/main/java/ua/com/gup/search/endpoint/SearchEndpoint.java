@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.service.ESSearchService;
 import ua.com.gup.search.util.Locale;
@@ -37,6 +38,10 @@ public class SearchEndpoint {
 
     }
 
+    @RequestMapping(value = "offers/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ESCategoriesOffersStatistic>> countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) throws IOException {
+        return new ResponseEntity(esSearchService.countOffersInCategoriesByStatus(status), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "offers/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ESCategoriesStatistic>> countOffersInCategories(@RequestParam("q") String query,
