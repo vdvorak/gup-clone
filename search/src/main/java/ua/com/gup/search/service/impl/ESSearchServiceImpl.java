@@ -11,6 +11,7 @@ import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ESSearchServiceImpl implements ESSearchService {
@@ -42,7 +43,7 @@ public class ESSearchServiceImpl implements ESSearchService {
     }
 
     @Override
-    public List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
+    public Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
         return esOfferRepository.suggestByOffersTitlesAndDescriptions(query);
     }
 

@@ -21,9 +21,7 @@ import ua.com.gup.search.model.ESOffer;
 import ua.com.gup.search.repository.ESOfferRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class ESOfferRepositoryImpl implements ESOfferRepository {
@@ -83,7 +81,7 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
     }
 
     @Override
-    public List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
+    public Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices(ES_INDEX);
@@ -94,8 +92,8 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
 
         SuggestBuilder suggestBuilder = new SuggestBuilder();
         suggestBuilder.setGlobalText(query);
-        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(5));
-        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(5));
+        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(10));
+        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(10));
 
         searchSourceBuilder.suggest(suggestBuilder);
         searchRequest.source(searchSourceBuilder);
@@ -104,7 +102,7 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
         Suggest suggest = searchResponse.getSuggest();
         if (suggest != null) {
 
-            List<String> suggestList = new ArrayList<>();
+            Set<String> suggests = new HashSet<>();
             Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionUa = suggest.getSuggestion("ua-suggest");
             Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionRu = suggest.getSuggestion("ru-suggest");
 
@@ -113,20 +111,20 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
 
             for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> uaEntry : uaEntries) {
                 for (Suggest.Suggestion.Entry.Option option : uaEntry.getOptions()) {
-                    suggestList.add(option.getText().toString());
+                    suggests.add(option.getText().toString());
                 }
             }
 
             for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> ruEntry : ruEntries) {
                 for (Suggest.Suggestion.Entry.Option option : ruEntry.getOptions()) {
-                    suggestList.add(option.getText().toString());
+                    suggests.add(option.getText().toString());
                 }
             }
-            return suggestList;
+            return suggests;
 
 
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 
     @Override

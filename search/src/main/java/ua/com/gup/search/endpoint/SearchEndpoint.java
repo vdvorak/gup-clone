@@ -15,6 +15,7 @@ import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/")
@@ -48,8 +49,8 @@ public class SearchEndpoint {
     }
 
     @RequestMapping(value = "offers/suggest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<String>> suggest(@RequestParam("q") String query,
-                                                @RequestParam(name = "lang", defaultValue = "ua") Locale locale) throws IOException {
+    public ResponseEntity<Set<String>> suggest(@RequestParam("q") String query,
+                                               @RequestParam(name = "lang", defaultValue = "ua") Locale locale) throws IOException {
         if (!StringUtils.isEmpty(query) && query.length() >= 3) {
             return new ResponseEntity<>(esSearchService.suggestByOffersTitlesAndDescriptions(query), HttpStatus.OK);
         }

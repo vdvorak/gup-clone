@@ -6,6 +6,7 @@ import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public interface ESSearchService {
 
@@ -16,5 +17,5 @@ public interface ESSearchService {
 
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId (String offerStatus, String profileId) throws IOException;
 
-    List<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
+    Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 }
