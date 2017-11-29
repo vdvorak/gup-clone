@@ -18,6 +18,12 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping(path = {"/register", "/register/"})
+    public String register(Model model) {
+        model.addAttribute("title", "title.authorization");
+        return "register";
+    }
+
     @GetMapping(path = "/api/user/principal")
     public @ResponseBody
     LoggedUser getUser(OAuth2Authentication oAuth2Authentication) {

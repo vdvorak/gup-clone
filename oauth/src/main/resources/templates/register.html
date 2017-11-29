@@ -1,22 +1,14 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
+<head th:replace="fragments/header :: header" />
 
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
-
-    <title>Регистрация</title>
-</head>
 <body class="login">
 
 <div class="login-wrapper">
 
     <div class="logo">
-        <img src="img/logo-small.svg" alt="logo">
+        <img src="images/logo-small.svg" alt="logo">
         <div class="title">
             <div class="top">Global</div>
             <div class="bot">Ukrainian portal</div>
@@ -25,7 +17,7 @@
 
     <h1>Регистрация</h1>
 
-    <form class='flex' action="" name="login">
+    <form class='flex' th:action="@{/register}" name="login">
         <div class="input flex-full-width">
             <input class="flex-full-width" type="text" placeholder="E-mail или телефон" required>
         </div>
@@ -43,14 +35,14 @@
 
     <div class="register">
         <p>Уже зарегистрированы?</p>
-        <a href="#">Войти</a>
+        <a href="#" th:href="@{/login}">Войти</a>
     </div>
 
     <div class="social">
-        <div class="social-elem"><img src="img/facebook.svg" alt="facebook"></div>
-        <div class="social-elem"><img src="img/twitter.svg" alt="twitter"></div>
-        <div class="social-elem"><img src="img/linkedin.svg" alt="linkedin"></div>
-        <div class="social-elem"><img src="img/pinterest.svg" alt="pinterest"></div>
+        <div class="social-elem"><img src="images/facebook.svg" alt="facebook"></div>
+        <div class="social-elem"><img src="images/twitter.svg" alt="twitter"></div>
+        <div class="social-elem"><img src="images/linkedin.svg" alt="linkedin"></div>
+        <div class="social-elem"><img src="images/pinterest.svg" alt="pinterest"></div>
     </div>
 
     <div class="rights">
