@@ -3,24 +3,29 @@ package ua.com.gup.util.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.login.LoggedUser;
 
 /**
  * Utility class for Spring Security.
  */
+
+/**
+ * @author vdvorak
+ * @deprecated this class  used maybe anywhere but in future maybe delete!
+ */
+@Deprecated
 public final class SecurityUtils {
 
     private SecurityUtils() {
-    }   
+    }
 
     /**
      * Get the id of the current user.
      *
      * @return the id of the current user
      */
-    public static String getCurrentUserId() {      
+    public static String getCurrentUserId() {
         if(isAuthenticated()){
             LoggedUser user = (LoggedUser) getCtxAuthentication().getPrincipal();
             return user.getProfileId();
@@ -52,7 +57,7 @@ public final class SecurityUtils {
      *
      * @return true if the user is authenticated, false otherwise
      */
-    public static boolean isAuthenticated() {        
+    public static boolean isAuthenticated() {
         return !isCurrentUserInRole(UserRole.ROLE_ANONYMOUS);
     }
 
@@ -70,7 +75,7 @@ public final class SecurityUtils {
         if (authentication != null) {
             return authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
-                }
+        }
         return false;
     }
 
