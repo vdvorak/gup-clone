@@ -1,6 +1,6 @@
-package ua.com.gup.service.siteMap;
+package ua.com.gup.service.sitemap;
 
-import ua.com.gup.service.siteMap.siteMapContent.UrlSet;
+import ua.com.gup.service.sitemap.content.UrlSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +15,8 @@ public interface SiteMapGeneratorService {
 
 
     /**
-     * Generate simple siteMap file.
+     * Generate simple sitemap file.
      */
-    UrlSet generateSiteMap(HttpServletRequest request, HttpServletResponse response)  throws JAXBException;
+    UrlSet generateSiteMap(HttpServletRequest request, HttpServletResponse response) throws JAXBException;
 
 }

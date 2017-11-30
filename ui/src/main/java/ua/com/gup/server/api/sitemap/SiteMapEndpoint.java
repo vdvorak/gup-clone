@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.gup.service.siteMap.SiteMapGeneratorService;
-import ua.com.gup.service.siteMap.siteMapContent.UrlSet;
+import ua.com.gup.service.sitemap.SiteMapGeneratorService;
+import ua.com.gup.service.sitemap.content.UrlSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

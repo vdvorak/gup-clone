@@ -1,4 +1,4 @@
-package ua.com.gup.service.siteMap.siteMapContent;
+package ua.com.gup.service.sitemap.content;
 
 public enum ChangeFreq {
     ALWAYS,
@@ -11,7 +11,7 @@ public enum ChangeFreq {
 
     String lowerCase;
 
-    private ChangeFreq() {
+    ChangeFreq() {
         lowerCase = this.name().toLowerCase();
     }
 

@@ -1,4 +1,4 @@
-package ua.com.gup.service.siteMap.siteMapContent;
+package ua.com.gup.service.sitemap.content;
 
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,7 +13,7 @@ public class UrlSet {
 
     private String xmlns; // attribute
     private String xmlnsImage; // attribute
-    
+
     public List<Url> getUrlList() {
         return urlList;
     }

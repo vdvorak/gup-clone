@@ -1,4 +1,4 @@
-package ua.com.gup.service.siteMap;
+package ua.com.gup.service.sitemap;
 
 
 import org.slf4j.Logger;
@@ -11,10 +11,10 @@ import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.OfferModerationReport;
 import ua.com.gup.service.offer.OfferService;
-import ua.com.gup.service.siteMap.siteMapContent.ChangeFreq;
-import ua.com.gup.service.siteMap.siteMapContent.ImageMap;
-import ua.com.gup.service.siteMap.siteMapContent.Url;
-import ua.com.gup.service.siteMap.siteMapContent.UrlSet;
+import ua.com.gup.service.sitemap.content.ChangeFreq;
+import ua.com.gup.service.sitemap.content.ImageMap;
+import ua.com.gup.service.sitemap.content.Url;
+import ua.com.gup.service.sitemap.content.UrlSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
