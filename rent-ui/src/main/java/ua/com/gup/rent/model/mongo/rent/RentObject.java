@@ -2,6 +2,8 @@ package ua.com.gup.rent.model.mongo.rent;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.rent.model.image.RentImageInfo;
+import ua.com.gup.rent.model.rent.RentPrice;
 import ua.com.gup.rent.model.rent.RentStatus;
 
 import java.time.LocalDateTime;
@@ -18,10 +20,10 @@ public class RentObject {
     private String description;
     private LocalDateTime createdDate;
     private String ownerId;
-    //    private List<RentCategory> categories;
+    private List<Integer> categories;
     private RentStatus status;
-    private ua.com.gup.rent.model.rent.RentPrice rentPrice;
-    private List<ua.com.gup.rent.model.image.RentImageInfo> images;
+    private RentPrice rentPrice;
+    private List<RentImageInfo> images;
 
     public RentObject() {
         createdDate = LocalDateTime.now();
@@ -67,13 +69,13 @@ public class RentObject {
         this.createdDate = createdDate;
     }
 
-//    public List<RentCategory> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<RentCategory> categories) {
-//        this.categories = categories;
-//    }
+    public List<Integer> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Integer> categories) {
+        this.categories = categories;
+    }
 
     public RentStatus getStatus() {
         return status;
