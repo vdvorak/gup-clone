@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model;
+package ua.com.gup.rent.model.rent;
 
 import java.math.BigDecimal;
 

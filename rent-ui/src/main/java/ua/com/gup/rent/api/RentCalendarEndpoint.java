@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(path = "/api/calendars")
 public class RentCalendarEndpoint {
 
-    private static final Map<Integer, ua.com.gup.rent.model.RentCalendarYear> calendarsMap = new ConcurrentHashMap<>();
+    private static final Map<Integer, ua.com.gup.rent.model.rent.RentCalendarYear> calendarsMap = new ConcurrentHashMap<>();
 
 
     @PostConstruct
@@ -30,7 +30,7 @@ public class RentCalendarEndpoint {
     @RequestMapping(path = "/default", method = RequestMethod.GET)
     public ResponseEntity getDefaultCalendar() {
         LocalDate now = LocalDate.now();
-        ua.com.gup.rent.model.RentCalendarYear rentCalendarYear = null;
+        ua.com.gup.rent.model.rent.RentCalendarYear rentCalendarYear = null;
         if (calendarsMap.containsKey(now.getYear())) {
             rentCalendarYear = calendarsMap.get(now.getYear());
             return new ResponseEntity(rentCalendarYear, HttpStatus.OK);
@@ -45,7 +45,7 @@ public class RentCalendarEndpoint {
     @RequestMapping(path = "/year/{year}", method = RequestMethod.GET)
     public ResponseEntity getCalendarForYear(@PathVariable(name = "year") Integer year) {
         LocalDate now = LocalDate.of(year, Month.JANUARY, 1);
-        ua.com.gup.rent.model.RentCalendarYear rentCalendarYear = null;
+        ua.com.gup.rent.model.rent.RentCalendarYear rentCalendarYear = null;
         if (calendarsMap.containsKey(now.getYear())) {
             rentCalendarYear = calendarsMap.get(now.getYear());
             return new ResponseEntity(rentCalendarYear, HttpStatus.OK);

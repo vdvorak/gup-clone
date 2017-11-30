@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model.mongo.image;
+package ua.com.gup.rent.model.image;
 
 public class RentImageInfo {
 

@@ -1,8 +1,8 @@
-package ua.com.gup.rent.model.mongo;
+package ua.com.gup.rent.model.mongo.rent;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.rent.model.RentStatus;
+import ua.com.gup.rent.model.rent.RentStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @Document(collection = "rent.object")
 public class RentObject {
 
-    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.RentObject";
+    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentObject";
 
     @Id
     private String id;
@@ -20,8 +20,8 @@ public class RentObject {
     private String ownerId;
     //    private List<RentCategory> categories;
     private RentStatus status;
-    private ua.com.gup.rent.model.RentPrice rentPrice;
-    private List<ua.com.gup.rent.model.mongo.image.RentImageInfo> images;
+    private ua.com.gup.rent.model.rent.RentPrice rentPrice;
+    private List<ua.com.gup.rent.model.image.RentImageInfo> images;
 
     public RentObject() {
         createdDate = LocalDateTime.now();
@@ -35,11 +35,11 @@ public class RentObject {
         this.id = id;
     }
 
-    public List<ua.com.gup.rent.model.mongo.image.RentImageInfo> getImages() {
+    public List<ua.com.gup.rent.model.image.RentImageInfo> getImages() {
         return images;
     }
 
-    public void setImages(List<ua.com.gup.rent.model.mongo.image.RentImageInfo> images) {
+    public void setImages(List<ua.com.gup.rent.model.image.RentImageInfo> images) {
         this.images = images;
     }
 
@@ -83,11 +83,11 @@ public class RentObject {
         this.status = status;
     }
 
-    public ua.com.gup.rent.model.RentPrice getRentPrice() {
+    public ua.com.gup.rent.model.rent.RentPrice getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(ua.com.gup.rent.model.RentPrice rentPrice) {
+    public void setRentPrice(ua.com.gup.rent.model.rent.RentPrice rentPrice) {
         this.rentPrice = rentPrice;
     }
 

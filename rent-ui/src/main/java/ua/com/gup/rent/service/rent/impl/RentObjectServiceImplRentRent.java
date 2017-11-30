@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.mapper.RentObjectMapper;
-import ua.com.gup.rent.model.mongo.RentObject;
+import ua.com.gup.rent.model.mongo.rent.RentObject;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
 
 import javax.annotation.PostConstruct;
@@ -75,7 +75,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
         //if images exists save it's async
         if (files != null && files.length > 0) {
             int length = files.length;
-            List<ua.com.gup.rent.model.mongo.image.RentImageInfo> images = new ArrayList<>(length);
+            List<ua.com.gup.rent.model.image.RentImageInfo> images = new ArrayList<>(length);
 
             HttpHeaders commonHeader = new HttpHeaders();
             commonHeader.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -102,7 +102,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
                 completableFuture.whenCompleteAsync(((responseEntity, throwable) -> {
                     PostImageResponse response = responseEntity.getBody();
-                    ua.com.gup.rent.model.mongo.image.RentImageInfo info = new ua.com.gup.rent.model.mongo.image.RentImageInfo();
+                    ua.com.gup.rent.model.image.RentImageInfo info = new ua.com.gup.rent.model.image.RentImageInfo();
                     info.setS3id(response.getS3id());
                     info.setContentType(multipartFile.getContentType());
                     info.setFileName(multipartFile.getOriginalFilename());
