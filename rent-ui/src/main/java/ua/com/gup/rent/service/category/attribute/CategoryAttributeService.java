@@ -1,7 +1,6 @@
 package ua.com.gup.rent.service.category.attribute;
 
 
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.service.abstracted.generic.GenericService;
 
@@ -66,5 +65,5 @@ public interface CategoryAttributeService extends GenericService<ua.com.gup.rent
      *
      * @return the entity
      */
-    Map<Integer, SortedSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO();
+    Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO();
 }

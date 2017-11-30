@@ -1,11 +1,6 @@
 package ua.com.gup.rent.dto.category;
 
 
-import ua.com.gup.rent.dto.category.attribute.CategoriesSort;
-import ua.com.gup.rent.dto.category.attribute.CategoryAttributeValue;
-import ua.com.gup.rent.dto.category.attribute.validator.CategoryAttributeValidator;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeType;
-
 import java.util.*;
 
 public class RentCategoryAttributeCreateDTO {
@@ -20,13 +15,13 @@ public class RentCategoryAttributeCreateDTO {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<>();
+    private LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoriesSort> rentCategoriesSort = new LinkedHashSet<>();
 
-    private CategoryAttributeType type;
+    private ua.com.gup.rent.dto.category.tree.RentCategoryAttributeType type;
 
-    private CategoryAttributeValidator validator;
+    private ua.com.gup.rent.dto.category.attribute.validator.RentCategoryAttributeValidator validator;
 
-    private LinkedHashSet<CategoryAttributeValue> values = new LinkedHashSet<>();
+    private LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoryAttributeValue> values = new LinkedHashSet<>();
 
     private boolean privateAttr;
 
@@ -70,35 +65,35 @@ public class RentCategoryAttributeCreateDTO {
         this.categories = categories;
     }
 
-    public LinkedHashSet<CategoriesSort> getCategoriesSort() {
-        return categoriesSort;
+    public LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoriesSort> getRentCategoriesSort() {
+        return rentCategoriesSort;
     }
 
-    public void setCategoriesSort(LinkedHashSet<CategoriesSort> categoriesSort) {
-        this.categoriesSort = categoriesSort;
+    public void setRentCategoriesSort(LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoriesSort> rentCategoriesSort) {
+        this.rentCategoriesSort = rentCategoriesSort;
     }
 
-    public CategoryAttributeType getType() {
+    public ua.com.gup.rent.dto.category.tree.RentCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(ua.com.gup.rent.dto.category.tree.RentCategoryAttributeType type) {
         this.type = type;
     }
 
-    public CategoryAttributeValidator getValidator() {
+    public ua.com.gup.rent.dto.category.attribute.validator.RentCategoryAttributeValidator getValidator() {
         return validator;
     }
 
-    public void setValidator(CategoryAttributeValidator validator) {
+    public void setValidator(ua.com.gup.rent.dto.category.attribute.validator.RentCategoryAttributeValidator validator) {
         this.validator = validator;
     }
 
-    public LinkedHashSet<CategoryAttributeValue> getValues() {
+    public LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(LinkedHashSet<CategoryAttributeValue> values) {
+    public void setValues(LinkedHashSet<ua.com.gup.rent.dto.category.attribute.RentCategoryAttributeValue> values) {
         this.values = values;
     }
 

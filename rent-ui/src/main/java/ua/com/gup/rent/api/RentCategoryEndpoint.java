@@ -14,7 +14,6 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.service.category.CategoryService;
@@ -41,7 +40,7 @@ public class RentCategoryEndpoint {
     private static final String ENTITY_NAME = "rent.category";
     private final Logger logger = LoggerFactory.getLogger(RentCategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
-    private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
+    private Map<String, ResponseEntity<Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 
     @Autowired
     private CategoryService categoryService;
@@ -286,7 +285,7 @@ public class RentCategoryEndpoint {
      */
 
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
+    public ResponseEntity<Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         logger.debug("REST request to get categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETagMap.getOrDefault(lang, "defaultValue"))) {
             return null;
@@ -298,7 +297,7 @@ public class RentCategoryEndpoint {
     }
 
     private void findAllTreeView(String lang) {
-        Collection<CategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView(lang);
+        Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> categoriesTreeView = categoryService.findAllTreeView(lang);
         final ObjectWriter ow = Jackson2ObjectMapperBuilder.json()
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)

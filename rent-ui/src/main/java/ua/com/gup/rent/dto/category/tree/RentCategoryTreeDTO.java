@@ -4,7 +4,7 @@ package ua.com.gup.rent.dto.category.tree;
 import java.io.Serializable;
 import java.util.*;
 
-public class CategoryTreeDTO implements Serializable {
+public class RentCategoryTreeDTO implements Serializable {
     private int code;
     private boolean active;
     private String key;
@@ -12,23 +12,23 @@ public class CategoryTreeDTO implements Serializable {
     private Integer order;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
-    private SortedSet<CategoryAttributeDTO> attrs;
-    private SortedSet<CategoryTreeDTO> children;
+    private SortedSet<RentCategoryAttributeDTO> attrs;
+    private SortedSet<RentCategoryTreeDTO> children;
     private boolean privateAttr;
 
-    public CategoryTreeDTO(String lang) {
-        attrs = new TreeSet<CategoryAttributeDTO>(getCategoryAttributeDTOComparator(lang));
-        children = new TreeSet<CategoryTreeDTO>(getCategoryTreeDTOComparator(lang));
+    public RentCategoryTreeDTO(String lang) {
+        attrs = new TreeSet<RentCategoryAttributeDTO>(getCategoryAttributeDTOComparator(lang));
+        children = new TreeSet<RentCategoryTreeDTO>(getCategoryTreeDTOComparator(lang));
     }
 
-    public static Comparator<CategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
+    public static Comparator<RentCategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
         //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
-        return Comparator.comparing(CategoryTreeDTO::getOrder);
+        return Comparator.comparing(RentCategoryTreeDTO::getOrder);
     }
 
-    private Comparator<CategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
+    private Comparator<RentCategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
         //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
-        return Comparator.comparing(CategoryAttributeDTO::getCategory_sort);
+        return Comparator.comparing(RentCategoryAttributeDTO::getCategory_sort);
     }
 
     public int getCode() {
@@ -71,11 +71,11 @@ public class CategoryTreeDTO implements Serializable {
         this.description = description;
     }
 
-    public SortedSet<CategoryTreeDTO> getChildren() {
+    public SortedSet<RentCategoryTreeDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(SortedSet<CategoryTreeDTO> children) {
+    public void setChildren(SortedSet<RentCategoryTreeDTO> children) {
         this.children = children;
     }
 
@@ -103,11 +103,11 @@ public class CategoryTreeDTO implements Serializable {
         this.order = order;
     }
 
-    public SortedSet<CategoryAttributeDTO> getAttrs() {
+    public SortedSet<RentCategoryAttributeDTO> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(SortedSet<CategoryAttributeDTO> attrs) {
+    public void setAttrs(SortedSet<RentCategoryAttributeDTO> attrs) {
         this.attrs = attrs;
     }
 }

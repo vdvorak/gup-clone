@@ -6,16 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class CategoryAttributeDTO implements Serializable {
+public class RentCategoryAttributeDTO implements Serializable {
     private int code;
     private boolean active;
     private String key;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private Integer category_sort;
-    private CategoryAttributeType type;
-    private CategoryAttributeValidatorDTO validator;
-    private Set<CategoryAttributeValueDTO> values;
+    private RentCategoryAttributeType type;
+    private RentCategoryAttributeValidatorDTO validator;
+    private Set<RentCategoryAttributeValueDTO> values;
     private boolean privateAttr;
 
     public int getCode() {
@@ -66,27 +66,27 @@ public class CategoryAttributeDTO implements Serializable {
         this.category_sort = category_sort;
     }
 
-    public CategoryAttributeType getType() {
+    public RentCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(RentCategoryAttributeType type) {
         this.type = type;
     }
 
-    public CategoryAttributeValidatorDTO getValidator() {
+    public RentCategoryAttributeValidatorDTO getValidator() {
         return validator;
     }
 
-    public void setValidator(CategoryAttributeValidatorDTO validator) {
+    public void setValidator(RentCategoryAttributeValidatorDTO validator) {
         this.validator = validator;
     }
 
-    public Set<CategoryAttributeValueDTO> getValues() {
+    public Set<RentCategoryAttributeValueDTO> getValues() {
         return values;
     }
 
-    public void setValues(Set<CategoryAttributeValueDTO> values) {
+    public void setValues(Set<RentCategoryAttributeValueDTO> values) {
         this.values = values;
     }
 
@@ -103,7 +103,7 @@ public class CategoryAttributeDTO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CategoryAttributeDTO that = (CategoryAttributeDTO) o;
+        RentCategoryAttributeDTO that = (RentCategoryAttributeDTO) o;
 
         return code == that.code;
     }

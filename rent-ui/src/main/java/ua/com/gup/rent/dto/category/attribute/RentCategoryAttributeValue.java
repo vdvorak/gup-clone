@@ -3,7 +3,7 @@ package ua.com.gup.rent.dto.category.attribute;
 import java.util.Map;
 import java.util.Set;
 
-public class CategoryAttributeValue {
+public class RentCategoryAttributeValue {
 
     private String key;
 
@@ -40,7 +40,7 @@ public class CategoryAttributeValue {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CategoryAttributeValue that = (CategoryAttributeValue) o;
+        RentCategoryAttributeValue that = (RentCategoryAttributeValue) o;
 
         return key != null ? key.equals(that.key) : that.key == null;
     }

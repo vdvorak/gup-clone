@@ -1,11 +1,17 @@
-package ua.com.gup.rent.dto.category.tree;
-
+package ua.com.gup.rent.dto.category.attribute.validator;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
-public class CategoryAttributeValidatorDTO {
+public class RentCategoryAttributeValidator {
+
     private boolean required;
+
+    private Set<Integer> except = new HashSet<>();
+
     private BigDecimal min;
+
     private BigDecimal max;
 
     public boolean isRequired() {
@@ -14,6 +20,14 @@ public class CategoryAttributeValidatorDTO {
 
     public void setRequired(boolean required) {
         this.required = required;
+    }
+
+    public Set<Integer> getExcept() {
+        return except;
+    }
+
+    public void setExcept(Set<Integer> except) {
+        this.except = except;
     }
 
     public BigDecimal getMin() {

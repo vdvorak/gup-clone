@@ -5,9 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.rent.RentCategory;
@@ -37,16 +34,16 @@ public class CategoryServiceImpl  implements CategoryService {
     private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
 
-    private CategoryTreeDTO categoryToCategoryTreeDTO(Category category, String lang) {
-        CategoryTreeDTO categoryTreeDTO = new CategoryTreeDTO(lang);
-        categoryTreeDTO.setCode(category.getCode());
-        categoryTreeDTO.setActive(category.isActive());
-        categoryTreeDTO.setKey(category.getKey());
-        categoryTreeDTO.setTitle(category.getTitle());
-        categoryTreeDTO.setDescription(category.getDescription());
-        categoryTreeDTO.setColor(category.getColor());
-        categoryTreeDTO.setOrder(category.getOrder());
-        return categoryTreeDTO;
+    private ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO categoryToCategoryTreeDTO(Category category, String lang) {
+        ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO rentCategoryTreeDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO(lang);
+        rentCategoryTreeDTO.setCode(category.getCode());
+        rentCategoryTreeDTO.setActive(category.isActive());
+        rentCategoryTreeDTO.setKey(category.getKey());
+        rentCategoryTreeDTO.setTitle(category.getTitle());
+        rentCategoryTreeDTO.setDescription(category.getDescription());
+        rentCategoryTreeDTO.setColor(category.getColor());
+        rentCategoryTreeDTO.setOrder(category.getOrder());
+        return rentCategoryTreeDTO;
     }
 
     /**
@@ -94,14 +91,14 @@ public class CategoryServiceImpl  implements CategoryService {
      * @return the list of entities
      */
     @Override
-    public Collection<CategoryTreeDTO> findAllTreeView(String lang) {
+    public Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang) {
         logger.debug("Request to get all Categories in tree view");
         //get all category and sort asc by field order
         final List<Category> categoriesList = categoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         //remove if active false
         categoriesList.removeIf(c -> !c.isActive());
 
-        final Map<Integer, CategoryTreeDTO> categories = new LinkedHashMap<>();
+        final Map<Integer, ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> categories = new LinkedHashMap<>();
 
         for (Category category : categoriesList) {
             categories.put(category.getCode(), categoryToCategoryTreeDTO(category, lang));
@@ -113,12 +110,12 @@ public class CategoryServiceImpl  implements CategoryService {
                 categories.get(category.getParent()).getChildren().add(categories.get(category.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeDTOs = categoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
-         final SortedSet<CategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
-            for (CategoryAttributeDTO attributeDTO : attributes) {
-                SortedSet<CategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
+         final SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            for (ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO attributeDTO : attributes) {
+                SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
@@ -139,7 +136,7 @@ public class CategoryServiceImpl  implements CategoryService {
         return categories.entrySet().stream()
                                         .filter(e -> firstLevelCategories.contains(e.getKey()))
                                         .map(e -> e.getValue())
-                                        .sorted(CategoryTreeDTO.getCategoryTreeDTOComparator(lang))
+                                        .sorted(ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO.getCategoryTreeDTOComparator(lang))
                                         .collect(Collectors.toList());
     }
 

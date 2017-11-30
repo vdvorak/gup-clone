@@ -1,7 +1,6 @@
 package ua.com.gup.rent.service.category;
 
 
-import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.rent.RentCategory;
 
@@ -42,7 +41,7 @@ public interface CategoryService  {
      *
      * @return the list of entities
      */
-    Collection<CategoryTreeDTO> findAllTreeView(String lang);
+    Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang);
 
     /**
      * Get the "id" category.

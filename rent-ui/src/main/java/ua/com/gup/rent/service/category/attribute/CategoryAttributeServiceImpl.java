@@ -4,11 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.dto.category.attribute.CategoriesSort;
-import ua.com.gup.rent.dto.category.attribute.CategoryAttributeValue;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeValidatorDTO;
-import ua.com.gup.rent.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.rent.mapper.RentCategoryAttributeMapper;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.repository.category.attribute.CategoryAttributeRepository;
@@ -28,7 +23,7 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.
     @Autowired
     private RentCategoryAttributeMapper rentCategoryAttributeMapper;
     //use for sorted category_sort asc
-    private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<CategoryAttributeDTO>>();
+    private Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>>();
 
     @Autowired
     public CategoryAttributeServiceImpl(CategoryAttributeRepository categoryAttributeRepository) {
@@ -117,7 +112,7 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.
      * @return the entity
      */
     @Override
-    public Map<Integer, SortedSet<CategoryAttributeDTO>> findAllCategoryAttributeDTO() {
+    public Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
         if (categoryAttributeCache.size() == 0) {
             warmCache();
         }
@@ -131,14 +126,14 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.
         categoryAttributes.removeIf(c -> !c.isActive());
           //get category attribute
         for (CategoryAttribute categoryAttribute : categoryAttributes) {
-            for (CategoriesSort categorySort : categoryAttribute.getCategoriesSort()) {
+            for (ua.com.gup.rent.dto.category.attribute.RentCategoriesSort categorySort : categoryAttribute.getCategoriesSort()) {
                 //if not exists put categoryAttribute to cache
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
                     //sort by category_sort asc
-                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<CategoryAttributeDTO>(Comparator.comparing(CategoryAttributeDTO::getCategory_sort)));
+                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>(Comparator.comparing(ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO::getCategory_sort)));
                 }
 
-                CategoryAttributeDTO attributeDTO = new CategoryAttributeDTO();
+                ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO attributeDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO();
 
                 attributeDTO.setCode(categoryAttribute.getCode());
                 attributeDTO.setActive(categoryAttribute.isActive());
@@ -149,7 +144,7 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.
                 //add sorted number [1-hight 100-low]
                 attributeDTO.setCategory_sort(categorySort.getOrder_category());
 
-                CategoryAttributeValidatorDTO validatorDTO = new CategoryAttributeValidatorDTO();
+                ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValidatorDTO validatorDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValidatorDTO();
                 validatorDTO.setMin(categoryAttribute.getValidator().getMin());
                 validatorDTO.setMax(categoryAttribute.getValidator().getMax());
 
@@ -158,11 +153,11 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.
                 validatorDTO.setRequired(categoryAttribute.getValidator().isRequired() ^ exceptThis);
                 attributeDTO.setValidator(validatorDTO);
 
-                LinkedHashSet<CategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
+                LinkedHashSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
 
-                for (CategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
+                for (ua.com.gup.rent.dto.category.attribute.RentCategoryAttributeValue attributeValue : categoryAttribute.getValues()) {
                     if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
-                        CategoryAttributeValueDTO valueDTO = new CategoryAttributeValueDTO();
+                        ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO valueDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO();
                         valueDTO.setKey(attributeValue.getKey());
                         valueDTO.setTitle(attributeValue.getTitle());
                         valueDTOS.add(valueDTO);
