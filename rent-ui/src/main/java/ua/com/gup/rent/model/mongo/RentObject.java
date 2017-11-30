@@ -2,9 +2,7 @@ package ua.com.gup.rent.model.mongo;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.rent.model.Price;
 import ua.com.gup.rent.model.RentStatus;
-import ua.com.gup.rent.model.mongo.image.ImageInfo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,10 +18,10 @@ public class RentObject {
     private String description;
     private LocalDateTime createdDate;
     private String ownerId;
-    //    private List<Category> categories;
+    //    private List<RentCategory> categories;
     private RentStatus status;
-    private Price price;
-    private List<ImageInfo> images;
+    private ua.com.gup.rent.model.RentPrice rentPrice;
+    private List<ua.com.gup.rent.model.mongo.image.RentImageInfo> images;
 
     public RentObject() {
         createdDate = LocalDateTime.now();
@@ -37,11 +35,11 @@ public class RentObject {
         this.id = id;
     }
 
-    public List<ImageInfo> getImages() {
+    public List<ua.com.gup.rent.model.mongo.image.RentImageInfo> getImages() {
         return images;
     }
 
-    public void setImages(List<ImageInfo> images) {
+    public void setImages(List<ua.com.gup.rent.model.mongo.image.RentImageInfo> images) {
         this.images = images;
     }
 
@@ -69,11 +67,11 @@ public class RentObject {
         this.createdDate = createdDate;
     }
 
-//    public List<Category> getCategories() {
+//    public List<RentCategory> getCategories() {
 //        return categories;
 //    }
 //
-//    public void setCategories(List<Category> categories) {
+//    public void setCategories(List<RentCategory> categories) {
 //        this.categories = categories;
 //    }
 
@@ -85,12 +83,12 @@ public class RentObject {
         this.status = status;
     }
 
-    public Price getPrice() {
-        return price;
+    public ua.com.gup.rent.model.RentPrice getRentPrice() {
+        return rentPrice;
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setRentPrice(ua.com.gup.rent.model.RentPrice rentPrice) {
+        this.rentPrice = rentPrice;
     }
 
     public String getOwnerId() {

@@ -82,11 +82,11 @@ public class RentObjectFilter implements Serializable {
 //        this.address = address;
 //    }
 //
-//    public MoneyFilter getPrice() {
+//    public MoneyFilter getRentPrice() {
 //        return price;
 //    }
 //
-//    public void setPrice(MoneyFilter price) {
+//    public void setRentPrice(MoneyFilter price) {
 //        this.price = price;
 //    }
 //

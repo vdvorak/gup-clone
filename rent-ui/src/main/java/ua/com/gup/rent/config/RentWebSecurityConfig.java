@@ -17,8 +17,6 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ua.com.gup.rent.security.filter.CsrfTokenRequestBindingFilter;
-import ua.com.gup.rent.security.filter.CsrfTokenResponseHeaderBindingFilter;
 import ua.com.gup.rent.security.RentUserAuthenticationConverter;
 
 import java.util.Arrays;
@@ -57,8 +55,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest()
                 .authenticated();
-        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
-        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
+        http.addFilterBefore(new ua.com.gup.rent.security.filter.RentCsrfTokenRequestBindingFilter(), CsrfFilter.class);
+        http.addFilterAfter(new ua.com.gup.rent.security.filter.RentCsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
 
     @Bean

@@ -1,7 +1,6 @@
 package ua.com.gup.rent.model.rent;
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.rent.model.mongo.category.Category;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +18,10 @@ public class RentCategory {
     public RentCategory() {
     }
 
-    public RentCategory(Category category) {
-        this.code = category.getCode();
-        this.key = category.getKey();
-        this.title = category.getTitle();
+    public RentCategory(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory) {
+        this.code = rentCategory.getCode();
+        this.key = rentCategory.getKey();
+        this.title = rentCategory.getTitle();
 
     }
 

@@ -4,13 +4,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.rent.model.mongo.RentObject;
-import ua.com.gup.rent.repository.abstracted.GenericRepositoryImpl;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
 
 import javax.annotation.PostConstruct;
 
 @Repository
-public class RentObjectRepositoryImpl extends GenericRepositoryImpl<RentObject, String> implements RentObjectRepository {
+public class RentObjectRepositoryImpl extends ua.com.gup.rent.repository.abstracted.RentGenericRepositoryImpl<ua.com.gup.rent.model.mongo.RentObject, String> implements RentObjectRepository {
 
     public RentObjectRepositoryImpl() {
         super(RentObject.class);

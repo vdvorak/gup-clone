@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.service.rent.RentObjectService;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class RentEndpoint {
 
     @Autowired
-    private RentObjectService rentObjectService;
+    private ua.com.gup.rent.service.rent.RentObjectServiceRent rentObjectService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {

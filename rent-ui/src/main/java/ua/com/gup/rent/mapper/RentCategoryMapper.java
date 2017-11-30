@@ -2,8 +2,6 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.model.mongo.category.Category;
-import ua.com.gup.rent.service.sequence.SequenceService;
 
 @Component
 public class RentCategoryMapper {
@@ -11,24 +9,24 @@ public class RentCategoryMapper {
     private static final String CATEGORY_SEQUENCE_ID = "rent_category_sequence";
 
     @Autowired
-    private SequenceService sequenceService;
+    private ua.com.gup.rent.service.sequence.RentSequenceService rentSequenceService;
 
-    public Category categoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
-        Category category = new Category();
-        fromCategoryCreateDTOToCategory(rentCategoryCreateDTO, category);
-        category.setCode((int) sequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
-        return category;
+    public ua.com.gup.rent.model.mongo.category.RentCategory categoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+        ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = new ua.com.gup.rent.model.mongo.category.RentCategory();
+        fromCategoryCreateDTOToCategory(rentCategoryCreateDTO, rentCategory);
+        rentCategory.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
+        return rentCategory;
     }
 
-    public Category categoryUpdateDTOToCategory(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
-        Category category = new Category();
-        fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, category);
-        category.setCode(rentCategoryUpdateDTO.getCode());
-        category.setId(rentCategoryUpdateDTO.getId());
-        return category;
+    public ua.com.gup.rent.model.mongo.category.RentCategory categoryUpdateDTOToCategory(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+        ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = new ua.com.gup.rent.model.mongo.category.RentCategory();
+        fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, rentCategory);
+        rentCategory.setCode(rentCategoryUpdateDTO.getCode());
+        rentCategory.setId(rentCategoryUpdateDTO.getId());
+        return rentCategory;
     }
 
-    private void fromCategoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO source, Category target) {
+    private void fromCategoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO source, ua.com.gup.rent.model.mongo.category.RentCategory target) {
         target.setActive(source.isActive());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());

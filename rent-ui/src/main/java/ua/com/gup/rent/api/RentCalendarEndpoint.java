@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.gup.rent.model.CalendarYear;
-import ua.com.gup.rent.util.CalendarUtil;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -19,44 +17,44 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(path = "/api/calendars")
 public class RentCalendarEndpoint {
 
-    private static final Map<Integer, CalendarYear> calendarsMap = new ConcurrentHashMap<>();
+    private static final Map<Integer, ua.com.gup.rent.model.RentCalendarYear> calendarsMap = new ConcurrentHashMap<>();
 
 
     @PostConstruct
     public void initialize() {
         LocalDate now = LocalDate.now();
-        calendarsMap.put(now.getYear(), CalendarUtil.generateForYear(now));
+        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
     }
 
 
     @RequestMapping(path = "/default", method = RequestMethod.GET)
     public ResponseEntity getDefaultCalendar() {
         LocalDate now = LocalDate.now();
-        CalendarYear calendarYear = null;
+        ua.com.gup.rent.model.RentCalendarYear rentCalendarYear = null;
         if (calendarsMap.containsKey(now.getYear())) {
-            calendarYear = calendarsMap.get(now.getYear());
-            return new ResponseEntity(calendarYear, HttpStatus.OK);
+            rentCalendarYear = calendarsMap.get(now.getYear());
+            return new ResponseEntity(rentCalendarYear, HttpStatus.OK);
         }
 
-        calendarYear = CalendarUtil.generateForYear(now);
-        calendarsMap.put(now.getYear(), CalendarUtil.generateForYear(now));
+        rentCalendarYear = ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now);
+        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
 
-        return new ResponseEntity(calendarYear, HttpStatus.CREATED);
+        return new ResponseEntity(rentCalendarYear, HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/year/{year}", method = RequestMethod.GET)
     public ResponseEntity getCalendarForYear(@PathVariable(name = "year") Integer year) {
         LocalDate now = LocalDate.of(year, Month.JANUARY, 1);
-        CalendarYear calendarYear = null;
+        ua.com.gup.rent.model.RentCalendarYear rentCalendarYear = null;
         if (calendarsMap.containsKey(now.getYear())) {
-            calendarYear = calendarsMap.get(now.getYear());
-            return new ResponseEntity(calendarYear, HttpStatus.OK);
+            rentCalendarYear = calendarsMap.get(now.getYear());
+            return new ResponseEntity(rentCalendarYear, HttpStatus.OK);
         }
 
-        calendarYear = CalendarUtil.generateForYear(now);
-        calendarsMap.put(now.getYear(), CalendarUtil.generateForYear(now));
+        rentCalendarYear = ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now);
+        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
 
-        return new ResponseEntity(calendarYear, HttpStatus.CREATED);
+        return new ResponseEntity(rentCalendarYear, HttpStatus.CREATED);
     }
 
 }
