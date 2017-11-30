@@ -1,8 +1,6 @@
 package ua.com.gup.rent.service.category.attribute;
 
 
-import ua.com.gup.rent.dto.category.CategoryAttributeCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.service.abstracted.generic.GenericService;
@@ -15,22 +13,22 @@ import java.util.SortedSet;
 /**
  * Service Interface for managing CategoryAttribute.
  */
-public interface CategoryAttributeService extends GenericService<CategoryAttributeCreateDTO, String> {
+public interface CategoryAttributeService extends GenericService<ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO, String> {
     /**
      * Save a categoryAttribute.
      *
-     * @param categoryAttributeCreateDTO the entity to save
+     * @param rentCategoryAttributeCreateDTO the entity to save
      * @return the persisted entity
      */
-    CategoryAttribute save(CategoryAttributeCreateDTO categoryAttributeCreateDTO);
+    CategoryAttribute save(ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO);
 
     /**
      * Save a categoryAttribute.
      *
-     * @param categoryAttributeUpdateDTO the entity to save
+     * @param rentCategoryAttributeUpdateDTO the entity to save
      * @return the persisted entity
      */
-    CategoryAttribute save(CategoryAttributeUpdateDTO categoryAttributeUpdateDTO);
+    CategoryAttribute save(ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO);
 
     /**
      * Get all the categoryAttributes.

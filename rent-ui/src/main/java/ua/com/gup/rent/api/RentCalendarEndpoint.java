@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping(path = "/api/calendars")
-public class CalendarEndpoint {
+public class RentCalendarEndpoint {
 
     private static final Map<Integer, CalendarYear> calendarsMap = new ConcurrentHashMap<>();
 

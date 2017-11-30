@@ -2,13 +2,13 @@ package ua.com.gup.rent.dto;
 
 import java.math.BigDecimal;
 
-public class PriceDTO {
+public class RentPriceDTO {
 
     private BigDecimal businessDayCost;
     private BigDecimal weekendDayCost;
     private BigDecimal holidayDayCost;
 
-    public PriceDTO() {
+    public RentPriceDTO() {
     }
 
     public BigDecimal getBusinessDayCost() {

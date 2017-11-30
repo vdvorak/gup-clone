@@ -8,7 +8,7 @@ import ua.com.gup.rent.dto.category.tree.CategoryAttributeType;
 
 import java.util.*;
 
-public class CategoryAttributeCreateDTO {
+public class RentCategoryAttributeCreateDTO {
 
     private boolean active;
 

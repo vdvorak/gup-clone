@@ -8,19 +8,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import ua.com.gup.rent.dto.category.CategoryAttributeCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryAttributeUpdateDTO;
-import ua.com.gup.rent.dto.category.CategoryCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryUpdateDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
-import ua.com.gup.rent.model.enumeration.UserRole;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.service.category.CategoryService;
@@ -42,10 +36,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping(path = "/api")
-public class CategoryEndpoint {
+public class RentCategoryEndpoint {
 
     private static final String ENTITY_NAME = "rent.category";
-    private final Logger logger = LoggerFactory.getLogger(CategoryEndpoint.class);
+    private final Logger logger = LoggerFactory.getLogger(RentCategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
     private Map<String, ResponseEntity<Collection<CategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 
@@ -65,10 +59,10 @@ public class CategoryEndpoint {
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() != null) {
             final Class<?> clazz = binder.getTarget().getClass();
-            if (CategoryCreateDTO.class.equals(clazz) || CategoryUpdateDTO.class.equals(clazz)) {
+            if (ua.com.gup.rent.dto.category.RentCategoryCreateDTO.class.equals(clazz) || ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO.class.equals(clazz)) {
                 binder.addValidators(categoryDTOValidator);
             }
-            if (CategoryAttributeCreateDTO.class.equals(clazz) || CategoryAttributeUpdateDTO.class.equals(clazz)) {
+            if (ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz)) {
                 binder.addValidators(categoryAttributeDTOValidator);
             }
         }
@@ -88,7 +82,7 @@ public class CategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody CategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> createCategory(@Valid @RequestBody ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to save new CategoryAttribute : {}", categoryAttribute);
         CategoryAttribute result = categoryAttributeService.save(categoryAttribute);
         clearCache();
@@ -132,7 +126,7 @@ public class CategoryEndpoint {
      }
 
      */
-    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody CategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<CategoryAttribute> updateCategory(@Valid @RequestBody ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to update CategoryAttribute : {}", categoryAttribute);
         CategoryAttribute result = categoryAttributeService.save(categoryAttribute);
         clearCache();
@@ -181,7 +175,7 @@ public class CategoryEndpoint {
     /**
      * POST  /categories : Create a new category.
      *
-     * @param categoryCreateDTO the category to create
+     * @param rentCategoryCreateDTO the category to create
      * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -192,9 +186,9 @@ public class CategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) throws URISyntaxException {
-        logger.debug("REST request to save new Category : {}", categoryCreateDTO);
-        Category result = categoryService.save(categoryCreateDTO);
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) throws URISyntaxException {
+        logger.debug("REST request to save new Category : {}", rentCategoryCreateDTO);
+        Category result = categoryService.save(rentCategoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/categories/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -225,7 +219,7 @@ public class CategoryEndpoint {
     /**
      * PUT  /categories : Updates an existing category.
      *
-     * @param categoryUpdateDTO the category to update
+     * @param rentCategoryUpdateDTO the category to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated category,
      * or with status 400 (Bad Request) if the category is not valid,
      * or with status 500 (Internal Server Error) if the category couldn't be updated
@@ -238,10 +232,10 @@ public class CategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryUpdateDTO categoryUpdateDTO) throws URISyntaxException {
-        logger.debug("REST request to update Category : {}", categoryUpdateDTO);
+    public ResponseEntity<Category> updateCategory(@Valid @RequestBody ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) throws URISyntaxException {
+        logger.debug("REST request to update Category : {}", rentCategoryUpdateDTO);
 
-        Category result = categoryService.save(categoryUpdateDTO);
+        Category result = categoryService.save(rentCategoryUpdateDTO);
         clearCache();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

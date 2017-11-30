@@ -5,12 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.dto.category.CategoryCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryUpdateDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
-import ua.com.gup.rent.mapper.CategoryMapper;
+import ua.com.gup.rent.mapper.RentCategoryMapper;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.rent.RentCategory;
 import ua.com.gup.rent.repository.category.CategoryRepository;
@@ -34,7 +32,7 @@ public class CategoryServiceImpl  implements CategoryService {
     @Autowired
     private  CategoryAttributeService categoryAttributeService;
     @Autowired
-    private  CategoryMapper categoryMapper;
+    private RentCategoryMapper rentCategoryMapper;
 
     private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
@@ -54,13 +52,13 @@ public class CategoryServiceImpl  implements CategoryService {
     /**
      * Save a category.
      *
-     * @param categoryCreateDTO the entity to save
+     * @param rentCategoryCreateDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public Category save(CategoryCreateDTO categoryCreateDTO) {
-        logger.debug("Request to save Category : {}", categoryCreateDTO);
-        final Category category =  categoryRepository.save(categoryMapper.categoryCreateDTOToCategory(categoryCreateDTO));
+    public Category save(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+        logger.debug("Request to save Category : {}", rentCategoryCreateDTO);
+        final Category category =  categoryRepository.save(rentCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
         clearCache();
         return category;
     }
@@ -68,13 +66,13 @@ public class CategoryServiceImpl  implements CategoryService {
     /**
      * Save a category.
      *
-     * @param categoryUpdateDTO the entity to save
+     * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public Category save(CategoryUpdateDTO categoryUpdateDTO) {
-        logger.debug("Request to save Category : {}", categoryUpdateDTO);
-        final Category category = categoryRepository.save(categoryMapper.categoryUpdateDTOToCategory(categoryUpdateDTO));
+    public Category save(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+        logger.debug("Request to save Category : {}", rentCategoryUpdateDTO);
+        final Category category = categoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
         return category;
     }

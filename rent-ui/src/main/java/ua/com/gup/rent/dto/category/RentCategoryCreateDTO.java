@@ -4,7 +4,7 @@ package ua.com.gup.rent.dto.category;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryCreateDTO {
+public class RentCategoryCreateDTO {
 
     private int parent;
 

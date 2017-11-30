@@ -1,8 +1,6 @@
 package ua.com.gup.rent.service.category;
 
 
-import ua.com.gup.rent.dto.category.CategoryCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryUpdateDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryTreeDTO;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.model.rent.RentCategory;
@@ -19,18 +17,18 @@ public interface CategoryService  {
     /**
      * Save a category.
      *
-     * @param categoryCreateDTO the entity to save
+     * @param rentCategoryCreateDTO the entity to save
      * @return the persisted entity
      */
-    Category save(CategoryCreateDTO categoryCreateDTO);
+    Category save(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO);
 
     /**
      * Save a category.
      *
-     * @param categoryUpdateDTO the entity to save
+     * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
-    Category save(CategoryUpdateDTO categoryUpdateDTO);
+    Category save(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO);
 
     /**
      * Get all the categories.

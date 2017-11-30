@@ -4,14 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.dto.category.CategoryAttributeCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.rent.dto.category.attribute.CategoriesSort;
 import ua.com.gup.rent.dto.category.attribute.CategoryAttributeValue;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.rent.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.rent.mapper.CategoryAttributeMapper;
+import ua.com.gup.rent.mapper.RentCategoryAttributeMapper;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.repository.category.attribute.CategoryAttributeRepository;
 import ua.com.gup.rent.service.abstracted.GenericServiceImpl;
@@ -23,12 +21,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing CategoryAttribute.
  */
 @Service
-public class CategoryAttributeServiceImpl extends GenericServiceImpl<CategoryAttributeCreateDTO,String> implements CategoryAttributeService {
+public class CategoryAttributeServiceImpl extends GenericServiceImpl<ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO,String> implements CategoryAttributeService {
 
     private final Logger logger = LoggerFactory.getLogger(CategoryAttributeServiceImpl.class);
 
     @Autowired
-    private  CategoryAttributeMapper categoryAttributeMapper;
+    private RentCategoryAttributeMapper rentCategoryAttributeMapper;
     //use for sorted category_sort asc
     private Map<Integer, SortedSet<CategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<CategoryAttributeDTO>>();
 
@@ -39,13 +37,13 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<CategoryAtt
     /**
      * Save a categoryAttribute.
      *
-     * @param categoryAttributeCreateDTO the entity to save
+     * @param rentCategoryAttributeCreateDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public CategoryAttribute save(CategoryAttributeCreateDTO categoryAttributeCreateDTO) {
-        logger.debug("Request to save CategoryAttribute : {}", categoryAttributeCreateDTO);
-        final CategoryAttribute attribute = categoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(categoryAttributeCreateDTO);
+    public CategoryAttribute save(ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
+        logger.debug("Request to save CategoryAttribute : {}", rentCategoryAttributeCreateDTO);
+        final CategoryAttribute attribute = rentCategoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(rentCategoryAttributeCreateDTO);
         final CategoryAttribute saved = ((CategoryAttributeRepository)getRepository()).save(attribute);
         clearCache();
         return saved;
@@ -54,13 +52,13 @@ public class CategoryAttributeServiceImpl extends GenericServiceImpl<CategoryAtt
     /**
      * Save a categoryAttribute.
      *
-     * @param categoryAttributeUpdateDTO the entity to save
+     * @param rentCategoryAttributeUpdateDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public CategoryAttribute save(CategoryAttributeUpdateDTO categoryAttributeUpdateDTO) {
-        logger.debug("Request to save CategoryAttribute : {}", categoryAttributeUpdateDTO);
-        final CategoryAttribute categoryAttribute = categoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(categoryAttributeUpdateDTO);
+    public CategoryAttribute save(ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO) {
+        logger.debug("Request to save CategoryAttribute : {}", rentCategoryAttributeUpdateDTO);
+        final CategoryAttribute categoryAttribute = rentCategoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(rentCategoryAttributeUpdateDTO);
         final CategoryAttribute saved =  ((CategoryAttributeRepository)getRepository()).save(categoryAttribute);
         clearCache();
         return saved;

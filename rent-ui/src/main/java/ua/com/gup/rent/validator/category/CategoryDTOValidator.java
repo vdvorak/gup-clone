@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.dto.category.CategoryCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryUpdateDTO;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.service.category.CategoryService;
 
@@ -24,32 +22,32 @@ public class CategoryDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return CategoryCreateDTO.class.equals(clazz) || CategoryUpdateDTO.class.equals(clazz);
+        return ua.com.gup.rent.dto.category.RentCategoryCreateDTO.class.equals(clazz) || ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        boolean isUpdateDTO = CategoryUpdateDTO.class.isInstance(target);
-        CategoryCreateDTO categoryCreateDTO = (CategoryCreateDTO) target;
+        boolean isUpdateDTO = ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO.class.isInstance(target);
+        ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO = (ua.com.gup.rent.dto.category.RentCategoryCreateDTO) target;
 
         if (isUpdateDTO) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-            CategoryUpdateDTO categoryUpdateDTO = (CategoryUpdateDTO) target;
-            if (categoryUpdateDTO.getCode() == 0) {
+            ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO = (ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO) target;
+            if (rentCategoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
-            final Optional<Category> categoryOptional = categoryService.findOneByCode(categoryUpdateDTO.getCode());
-            if (categoryOptional.isPresent() && !categoryOptional.get().getId().equals(categoryUpdateDTO.getId())) {
+            final Optional<Category> categoryOptional = categoryService.findOneByCode(rentCategoryUpdateDTO.getCode());
+            if (categoryOptional.isPresent() && !categoryOptional.get().getId().equals(rentCategoryUpdateDTO.getId())) {
                 errors.rejectValue("code", "code.inUse", null, "Code already used by " + categoryOptional.get().getId());
             }
         }
 
-        if (categoryCreateDTO.getParent() != 0) {
-            if (!categoryService.findOneByCode(categoryCreateDTO.getParent()).isPresent()) {
-                errors.rejectValue("parent", "parent.notexist", null, "Parent <" + categoryCreateDTO.getParent() + "> doesn't exist");
+        if (rentCategoryCreateDTO.getParent() != 0) {
+            if (!categoryService.findOneByCode(rentCategoryCreateDTO.getParent()).isPresent()) {
+                errors.rejectValue("parent", "parent.notexist", null, "Parent <" + rentCategoryCreateDTO.getParent() + "> doesn't exist");
             }
         }
-        if (categoryCreateDTO.getTitle() == null || categoryCreateDTO.getTitle().size() == 0) {
+        if (rentCategoryCreateDTO.getTitle() == null || rentCategoryCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }
     }

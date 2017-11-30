@@ -8,8 +8,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.dto.category.CategoryAttributeCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryAttributeUpdateDTO;
 import ua.com.gup.rent.model.mongo.category.attribute.CategoryAttribute;
 import ua.com.gup.rent.service.category.attribute.CategoryAttributeService;
 
@@ -26,17 +24,17 @@ public class CategoryAttributeDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return CategoryAttributeCreateDTO.class.equals(clazz) || CategoryAttributeUpdateDTO.class.equals(clazz);
+        return ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        boolean isUpdateDTO = CategoryAttributeUpdateDTO.class.isInstance(target);
-        CategoryAttributeCreateDTO categoryAttributeCreateDTO = (CategoryAttributeCreateDTO) target;
+        boolean isUpdateDTO = ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO.class.isInstance(target);
+        ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO = (ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO) target;
         if (isUpdateDTO) {
 
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-            CategoryAttributeUpdateDTO categoryUpdateDTO = (CategoryAttributeUpdateDTO) target;
+            ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO categoryUpdateDTO = (ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO) target;
             if (categoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
@@ -45,10 +43,10 @@ public class CategoryAttributeDTOValidator implements Validator {
                 errors.rejectValue("code", "code.inUse", null, "Code already used by " + categoryAttributeOptional.get().getId());
             }
         }
-        if (categoryAttributeCreateDTO.getTitle() == null || categoryAttributeCreateDTO.getTitle().size() == 0) {
+        if (rentCategoryAttributeCreateDTO.getTitle() == null || rentCategoryAttributeCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }
-        if (!StringUtils.isEmpty(categoryAttributeCreateDTO.getKey())) {
+        if (!StringUtils.isEmpty(rentCategoryAttributeCreateDTO.getKey())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "key.required");
         }
     }

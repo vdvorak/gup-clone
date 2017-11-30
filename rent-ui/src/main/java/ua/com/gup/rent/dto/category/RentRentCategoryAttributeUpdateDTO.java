@@ -1,6 +1,6 @@
 package ua.com.gup.rent.dto.category;
 
-public class CategoryAttributeUpdateDTO extends CategoryAttributeCreateDTO {
+public class RentRentCategoryAttributeUpdateDTO extends RentCategoryAttributeCreateDTO {
 
     private String id;
 

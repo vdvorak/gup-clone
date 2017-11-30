@@ -3,14 +3,13 @@ package ua.com.gup.rent.dto.rentobject;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.rent.dto.PriceDTO;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateRentObjectDTO extends RentObjectDTO {
 
     private Integer category;
-    private PriceDTO price;
+    private ua.com.gup.rent.dto.RentPriceDTO price;
     private MultipartFile[] images;
 
     public CreateRentObjectDTO() {
@@ -24,11 +23,11 @@ public class CreateRentObjectDTO extends RentObjectDTO {
         this.category = category;
     }
 
-    public PriceDTO getPrice() {
+    public ua.com.gup.rent.dto.RentPriceDTO getPrice() {
         return price;
     }
 
-    public void setPrice(PriceDTO price) {
+    public void setPrice(ua.com.gup.rent.dto.RentPriceDTO price) {
         this.price = price;
     }
 

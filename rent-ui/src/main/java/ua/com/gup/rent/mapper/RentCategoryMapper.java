@@ -2,35 +2,33 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.dto.category.CategoryCreateDTO;
-import ua.com.gup.rent.dto.category.CategoryUpdateDTO;
 import ua.com.gup.rent.model.mongo.category.Category;
 import ua.com.gup.rent.service.sequence.SequenceService;
 
 @Component
-public class CategoryMapper {
+public class RentCategoryMapper {
 
     private static final String CATEGORY_SEQUENCE_ID = "rent_category_sequence";
 
     @Autowired
     private SequenceService sequenceService;
 
-    public Category categoryCreateDTOToCategory(CategoryCreateDTO categoryCreateDTO) {
+    public Category categoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
         Category category = new Category();
-        fromCategoryCreateDTOToCategory(categoryCreateDTO, category);
+        fromCategoryCreateDTOToCategory(rentCategoryCreateDTO, category);
         category.setCode((int) sequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
         return category;
     }
 
-    public Category categoryUpdateDTOToCategory(CategoryUpdateDTO categoryUpdateDTO) {
+    public Category categoryUpdateDTOToCategory(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
         Category category = new Category();
-        fromCategoryCreateDTOToCategory(categoryUpdateDTO, category);
-        category.setCode(categoryUpdateDTO.getCode());
-        category.setId(categoryUpdateDTO.getId());
+        fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, category);
+        category.setCode(rentCategoryUpdateDTO.getCode());
+        category.setId(rentCategoryUpdateDTO.getId());
         return category;
     }
 
-    private void fromCategoryCreateDTOToCategory(CategoryCreateDTO source, Category target) {
+    private void fromCategoryCreateDTOToCategory(ua.com.gup.rent.dto.category.RentCategoryCreateDTO source, Category target) {
         target.setActive(source.isActive());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
