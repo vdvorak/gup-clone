@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.rentobject;
+package ua.com.gup.rent.dto.rent;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

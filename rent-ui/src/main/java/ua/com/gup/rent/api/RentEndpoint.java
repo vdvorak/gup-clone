@@ -6,10 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
-import ua.com.gup.rent.model.mongo.RentObject;
+import ua.com.gup.rent.dto.rent.CreateRentObjectDTO;
+import ua.com.gup.rent.dto.rent.EditRentObjectDTO;
+import ua.com.gup.rent.dto.rent.ShortDetailsRentObjectDTO;
 import ua.com.gup.rent.service.rent.RentObjectService;
 
 import java.util.List;

@@ -2,8 +2,8 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
+import ua.com.gup.rent.dto.rent.CreateRentObjectDTO;
+import ua.com.gup.rent.dto.rent.ShortDetailsRentObjectDTO;
 import ua.com.gup.rent.model.RentStatus;
 import ua.com.gup.rent.model.mongo.RentObject;
 
