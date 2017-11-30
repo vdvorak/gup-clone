@@ -17,10 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.rent.dto.rent.CreateRentObjectDTO;
-import ua.com.gup.rent.dto.rent.EditRentObjectDTO;
 import ua.com.gup.rent.dto.rent.RentObjectDTO;
-import ua.com.gup.rent.dto.rent.ShortDetailsRentObjectDTO;
 import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.mongo.RentObject;
 import ua.com.gup.rent.model.mongo.image.ImageInfo;
@@ -77,7 +74,7 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     }
 
     @Override
-    public void create(CreateRentObjectDTO t) {
+    public void create(ua.com.gup.rent.dto.rent.RentCreateObjectDTO t) {
         RentObject rentObject = rentObjectMapper.fromCreateDTOToRentObject(t);
         MultipartFile[] files = t.getImages();
         //if images exists save it's async
@@ -131,7 +128,7 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     }
 
     @Override
-    public void update(EditRentObjectDTO editRentObjectDTO) {
+    public void update(ua.com.gup.rent.dto.rent.RentEditObjectDTO rentEditObjectDTO) {
         getRepository().update(null);
     }
 
@@ -141,7 +138,7 @@ public class RentObjectServiceImpl extends GenericServiceImpl<RentObjectDTO, Str
     }
 
     @Override
-    public List<ShortDetailsRentObjectDTO> findAll() {
+    public List<ua.com.gup.rent.dto.rent.RentShortDetailsObjectDTO> findAll() {
         List<RentObject> rentObjects = getRepository().findAll();
         return rentObjects.stream().map(rentObject -> rentObjectMapper.fromRentObjectToShortDTO(rentObject)).collect(Collectors.toList());
     }

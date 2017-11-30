@@ -6,13 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateRentObjectDTO extends RentObjectDTO {
+public class RentCreateObjectDTO extends RentObjectDTO {
 
     private Integer category;
     private ua.com.gup.rent.dto.RentPriceDTO price;
     private MultipartFile[] images;
 
-    public CreateRentObjectDTO() {
+    public RentCreateObjectDTO() {
     }
 
     public Integer getCategory() {
