@@ -21,7 +21,6 @@ import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.Address;
 import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
-import ua.com.gup.mongo.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.util.CurrencyConvertUtil;
 
@@ -211,23 +210,6 @@ public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(offerId)),
                 new Update().set("reservation", null),
-                Offer.class);
-    }
-
-    @Override
-    public void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().push("rent.rentedOfferPeriodInfo", rentedOfferPeriodInfo),
-                Offer.class);
-    }
-
-
-    @Override
-    public void deleteRent(String offerId, String rentId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().pull("rent.rentedOfferPeriodInfo", Query.query(Criteria.where("id").is(rentId))),
                 Offer.class);
     }
 

@@ -751,15 +751,6 @@ public class OfferServiceImpl implements OfferService {
         offerRepositoryOLD.deleteReservation(offerId);
     }
 
-    @Override
-    public void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo) {
-        offerRepositoryOLD.rentOffer(offerId, rentedOfferPeriodInfo);
-    }
-
-    @Override
-    public void deleteRent(String offerId, String rentId) {
-        offerRepositoryOLD.deleteRent(offerId, rentId);
-    }
 
     @Override
     public void setActive(String offerId, boolean isActive) {

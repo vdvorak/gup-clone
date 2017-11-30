@@ -20,7 +20,6 @@ import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.OfferRegistration;
-import ua.com.gup.mongo.model.offer.RentedOfferPeriodInfo;
 import ua.com.gup.mongo.model.offer.Reservation;
 import ua.com.gup.mongo.model.other.EntityPage;
 
@@ -272,22 +271,6 @@ public interface OfferService {
      * @param offerId - the offer's ID which must be deleted.
      */
     void deleteReservation(String offerId);
-
-    /**
-     * Rent offer for specific period.
-     *
-     * @param offerId               - the offer's ID.
-     * @param rentedOfferPeriodInfo - the period of offer rent.
-     */
-    void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo);
-
-    /**
-     * Delete specific rent from offer.
-     *
-     * @param offerId - the offer's ID.
-     * @param rentId  - the id of rent.
-     */
-    void deleteRent(String offerId, String rentId);
 
     /**
      * Change the active status of the offer.
