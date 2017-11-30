@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.category.tree;
+package ua.com.gup.rent.service.dto.category.tree;
 
 
 public enum RentCategoryAttributeType {

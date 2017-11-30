@@ -30,8 +30,8 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     private final Map<Integer, LinkedList<ua.com.gup.rent.model.rent.RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
 
-    private ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO categoryToCategoryTreeDTO(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory, String lang) {
-        ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO rentCategoryTreeDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO(lang);
+    private ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO categoryToCategoryTreeDTO(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory, String lang) {
+        ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO rentCategoryTreeDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO(lang);
         rentCategoryTreeDTO.setCode(rentCategory.getCode());
         rentCategoryTreeDTO.setActive(rentCategory.isActive());
         rentCategoryTreeDTO.setKey(rentCategory.getKey());
@@ -49,7 +49,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryCreateDTO);
         final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory =  rentCategoryRepository.save(rentCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
         clearCache();
@@ -63,7 +63,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryUpdateDTO);
         final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
@@ -87,14 +87,14 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the list of entities
      */
     @Override
-    public Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang) {
+    public Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang) {
         logger.debug("Request to get all Categories in tree view");
         //get all category and sort asc by field order
         final List<ua.com.gup.rent.model.mongo.category.RentCategory> categoriesList = rentCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         //remove if active false
         categoriesList.removeIf(c -> !c.isActive());
 
-        final Map<Integer, ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> categories = new LinkedHashMap<>();
+        final Map<Integer, ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> categories = new LinkedHashMap<>();
 
         for (ua.com.gup.rent.model.mongo.category.RentCategory rentCategory : categoriesList) {
             categories.put(rentCategory.getCode(), categoryToCategoryTreeDTO(rentCategory, lang));
@@ -106,12 +106,12 @@ public class RentCategoryServiceImpl implements RentCategoryService {
                 categories.get(rentCategory.getParent()).getChildren().add(categories.get(rentCategory.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
-         final SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
-            for (ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO attributeDTO : attributes) {
-                SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
+         final SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            for (ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO attributeDTO : attributes) {
+                SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
@@ -132,7 +132,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
         return categories.entrySet().stream()
                                         .filter(e -> firstLevelCategories.contains(e.getKey()))
                                         .map(e -> e.getValue())
-                                        .sorted(ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO.getCategoryTreeDTOComparator(lang))
+                                        .sorted(ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO.getCategoryTreeDTOComparator(lang))
                                         .collect(Collectors.toList());
     }
 

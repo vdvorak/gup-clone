@@ -13,14 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing RentCategoryAttribute.
  */
 @Service
-public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO,String> implements RentCategoryAttributeServiceRent {
+public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO,String> implements RentCategoryAttributeServiceRent {
 
     private final Logger logger = LoggerFactory.getLogger(RentCategoryAttributeServiceImplRentRent.class);
 
     @Autowired
     private RentCategoryAttributeMapper rentCategoryAttributeMapper;
     //use for sorted category_sort asc
-    private Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>>();
+    private Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>>();
 
     @Autowired
     public RentCategoryAttributeServiceImplRentRent(ua.com.gup.rent.repository.category.attribute.RentCategoryAttributeRepository rentCategoryAttributeRepository) {
@@ -33,7 +33,7 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
+    public ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
         logger.debug("Request to save RentCategoryAttribute : {}", rentCategoryAttributeCreateDTO);
         final ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute attribute = rentCategoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(rentCategoryAttributeCreateDTO);
         final ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute saved = ((ua.com.gup.rent.repository.category.attribute.RentCategoryAttributeRepository)getRepository()).save(attribute);
@@ -48,7 +48,7 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO) {
+    public ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO) {
         logger.debug("Request to save RentCategoryAttribute : {}", rentCategoryAttributeUpdateDTO);
         final ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute rentCategoryAttribute = rentCategoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(rentCategoryAttributeUpdateDTO);
         final ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute saved =  ((ua.com.gup.rent.repository.category.attribute.RentCategoryAttributeRepository)getRepository()).save(rentCategoryAttribute);
@@ -109,7 +109,7 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
      * @return the entity
      */
     @Override
-    public Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
+    public Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
         if (categoryAttributeCache.size() == 0) {
             warmCache();
         }
@@ -123,14 +123,14 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
         rentCategoryAttributes.removeIf(c -> !c.isActive());
           //get category attribute
         for (ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute rentCategoryAttribute : rentCategoryAttributes) {
-            for (ua.com.gup.rent.dto.category.attribute.RentCategoriesSort categorySort : rentCategoryAttribute.getCategoriesSort()) {
+            for (ua.com.gup.rent.service.dto.category.attribute.RentCategoriesSort categorySort : rentCategoryAttribute.getCategoriesSort()) {
                 //if not exists put rentCategoryAttribute to cache
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
                     //sort by category_sort asc
-                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>(Comparator.comparing(ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO::getCategory_sort)));
+                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>(Comparator.comparing(ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO::getCategory_sort)));
                 }
 
-                ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO attributeDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO();
+                ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO attributeDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO();
 
                 attributeDTO.setCode(rentCategoryAttribute.getCode());
                 attributeDTO.setActive(rentCategoryAttribute.isActive());
@@ -141,7 +141,7 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
                 //add sorted number [1-hight 100-low]
                 attributeDTO.setCategory_sort(categorySort.getOrder_category());
 
-                ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValidatorDTO validatorDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValidatorDTO();
+                ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValidatorDTO validatorDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValidatorDTO();
                 validatorDTO.setMin(rentCategoryAttribute.getValidator().getMin());
                 validatorDTO.setMax(rentCategoryAttribute.getValidator().getMax());
 
@@ -150,11 +150,11 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
                 validatorDTO.setRequired(rentCategoryAttribute.getValidator().isRequired() ^ exceptThis);
                 attributeDTO.setValidator(validatorDTO);
 
-                LinkedHashSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
+                LinkedHashSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
 
-                for (ua.com.gup.rent.dto.category.attribute.RentCategoryAttributeValue attributeValue : rentCategoryAttribute.getValues()) {
+                for (ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValue attributeValue : rentCategoryAttribute.getValues()) {
                     if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
-                        ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO valueDTO = new ua.com.gup.rent.dto.category.tree.RentCategoryAttributeValueDTO();
+                        ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO valueDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO();
                         valueDTO.setKey(attributeValue.getKey());
                         valueDTO.setTitle(attributeValue.getTitle());
                         valueDTOS.add(valueDTO);

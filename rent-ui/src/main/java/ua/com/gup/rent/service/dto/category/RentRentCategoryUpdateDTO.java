@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.category;
+package ua.com.gup.rent.service.dto.category;
 
 public class RentRentCategoryUpdateDTO extends RentCategoryCreateDTO {
 

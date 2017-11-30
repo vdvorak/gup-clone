@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto;
+package ua.com.gup.rent.service.dto;
 
 import java.math.BigDecimal;
 

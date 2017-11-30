@@ -18,19 +18,19 @@ public class RentEndpoint {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {
-        List<ua.com.gup.rent.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
+        List<ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
         return new ResponseEntity(rentObjects, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
     public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
-        List<ua.com.gup.rent.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
+        List<ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
         return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'create')")
-    public ResponseEntity createRentObject(ua.com.gup.rent.dto.rent.RentCreateObjectDTO rentCreateObjectDTO) {
+    public ResponseEntity createRentObject(ua.com.gup.rent.service.dto.rent.RentCreateObjectDTO rentCreateObjectDTO) {
 
         rentObjectService.create(rentCreateObjectDTO);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -38,7 +38,7 @@ public class RentEndpoint {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
     @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'edit')")
-    public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, ua.com.gup.rent.dto.rent.RentEditObjectDTO rentEditObjectDTO) {
+    public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, ua.com.gup.rent.service.dto.rent.RentEditObjectDTO rentEditObjectDTO) {
 
         rentObjectService.update(rentEditObjectDTO);
         return new ResponseEntity(HttpStatus.OK);

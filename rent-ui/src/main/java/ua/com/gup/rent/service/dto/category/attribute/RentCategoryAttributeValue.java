@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.category.attribute;
+package ua.com.gup.rent.service.dto.category.attribute;
 
 import java.util.Map;
 import java.util.Set;

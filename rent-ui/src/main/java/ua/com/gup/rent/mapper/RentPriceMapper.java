@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class RentPriceMapper {
 
-    public ua.com.gup.rent.dto.RentPriceDTO fromModelToDTO(ua.com.gup.rent.model.rent.RentPrice p) {
-        ua.com.gup.rent.dto.RentPriceDTO rentPriceDTO = new ua.com.gup.rent.dto.RentPriceDTO();
+    public ua.com.gup.rent.service.dto.RentPriceDTO fromModelToDTO(ua.com.gup.rent.model.rent.RentPrice p) {
+        ua.com.gup.rent.service.dto.RentPriceDTO rentPriceDTO = new ua.com.gup.rent.service.dto.RentPriceDTO();
         if (p != null) {
             rentPriceDTO.setBusinessDayCost(p.getBusinessDayCost());
             rentPriceDTO.setWeekendDayCost(p.getWeekendDayCost());
@@ -15,7 +15,7 @@ public class RentPriceMapper {
         return rentPriceDTO;
     }
 
-    public ua.com.gup.rent.model.rent.RentPrice fromDTOToModel(ua.com.gup.rent.dto.RentPriceDTO rentPriceDto) {
+    public ua.com.gup.rent.model.rent.RentPrice fromDTOToModel(ua.com.gup.rent.service.dto.RentPriceDTO rentPriceDto) {
         ua.com.gup.rent.model.rent.RentPrice rentPrice = null;
         if (rentPriceDto != null) {
             rentPrice = new ua.com.gup.rent.model.rent.RentPrice();

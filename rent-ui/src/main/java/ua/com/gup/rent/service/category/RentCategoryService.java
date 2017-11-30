@@ -16,7 +16,7 @@ public interface RentCategoryService {
      * @param rentCategoryCreateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO);
+    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO);
 
     /**
      * Save a category.
@@ -24,7 +24,7 @@ public interface RentCategoryService {
      * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO);
+    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO);
 
     /**
      * Get all the categories.
@@ -38,7 +38,7 @@ public interface RentCategoryService {
      *
      * @return the list of entities
      */
-    Collection<ua.com.gup.rent.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang);
+    Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang);
 
     /**
      * Get the "id" category.

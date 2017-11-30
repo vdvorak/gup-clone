@@ -22,17 +22,17 @@ public class RentCategoryAttributeDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz);
+        return ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        boolean isUpdateDTO = ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO.class.isInstance(target);
-        ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO = (ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO) target;
+        boolean isUpdateDTO = ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO.class.isInstance(target);
+        ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO = (ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO) target;
         if (isUpdateDTO) {
 
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-            ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO categoryUpdateDTO = (ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO) target;
+            ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO categoryUpdateDTO = (ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO) target;
             if (categoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }

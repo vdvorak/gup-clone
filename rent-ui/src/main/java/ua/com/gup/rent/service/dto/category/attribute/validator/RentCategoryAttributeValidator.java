@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.category.attribute.validator;
+package ua.com.gup.rent.service.dto.category.attribute.validator;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

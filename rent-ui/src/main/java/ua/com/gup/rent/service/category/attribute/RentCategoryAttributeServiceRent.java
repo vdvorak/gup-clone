@@ -9,14 +9,14 @@ import java.util.SortedSet;
 /**
  * Service Interface for managing RentCategoryAttribute.
  */
-public interface RentCategoryAttributeServiceRent extends ua.com.gup.rent.service.abstracted.generic.RentGenericService<ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO, String> {
+public interface RentCategoryAttributeServiceRent extends ua.com.gup.rent.service.abstracted.generic.RentGenericService<ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO, String> {
     /**
      * Save a categoryAttribute.
      *
      * @param rentCategoryAttributeCreateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO);
+    ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO);
 
     /**
      * Save a categoryAttribute.
@@ -24,7 +24,7 @@ public interface RentCategoryAttributeServiceRent extends ua.com.gup.rent.servic
      * @param rentCategoryAttributeUpdateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO);
+    ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute save(ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO);
 
     /**
      * Get all the categoryAttributes.
@@ -62,5 +62,5 @@ public interface RentCategoryAttributeServiceRent extends ua.com.gup.rent.servic
      *
      * @return the entity
      */
-    Map<Integer, SortedSet<ua.com.gup.rent.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO();
+    Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> findAllCategoryAttributeDTO();
 }

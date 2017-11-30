@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.rent;
+package ua.com.gup.rent.service.dto.rent;
 
 public class RentShortDetailsObjectDTO extends RentDetailsObjectDTO {
 }
