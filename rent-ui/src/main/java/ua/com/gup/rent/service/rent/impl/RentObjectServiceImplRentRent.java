@@ -20,6 +20,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.mongo.rent.RentObject;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
+import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
+import ua.com.gup.rent.service.dto.rent.RentDTO;
+import ua.com.gup.rent.service.dto.rent.RentEditDTO;
+import ua.com.gup.rent.service.dto.rent.RentShortDetailsDTO;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
@@ -30,7 +34,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
-public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<ua.com.gup.rent.service.dto.rent.RentObjectDTO, String> implements ua.com.gup.rent.service.rent.RentObjectServiceRent {
+public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<RentDTO, String> implements ua.com.gup.rent.service.rent.RentObjectServiceRent {
 
     @Autowired
     private Environment e;
@@ -69,7 +73,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
     }
 
     @Override
-    public void create(ua.com.gup.rent.service.dto.rent.RentCreateObjectDTO t) {
+    public void create(RentCreateDTO t) {
         RentObject rentObject = rentObjectMapper.fromCreateDTOToRentObject(t);
         MultipartFile[] files = t.getImages();
         //if images exists save it's async
@@ -123,7 +127,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
     }
 
     @Override
-    public void update(ua.com.gup.rent.service.dto.rent.RentEditObjectDTO rentEditObjectDTO) {
+    public void update(RentEditDTO rentEditObjectDTO) {
         getRepository().update(null);
     }
 
@@ -133,7 +137,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
     }
 
     @Override
-    public List<ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO> findAll() {
+    public List<RentShortDetailsDTO> findAll() {
         List<RentObject> rentObjects = getRepository().findAll();
         return rentObjects.stream().map(rentObject -> rentObjectMapper.fromRentObjectToShortDTO(rentObject)).collect(Collectors.toList());
     }

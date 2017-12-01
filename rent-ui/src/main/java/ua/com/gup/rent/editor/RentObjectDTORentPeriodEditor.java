@@ -2,7 +2,7 @@ package ua.com.gup.rent.editor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import ua.com.gup.rent.dto.rentobject.period.RentPeriodDTO;
+import ua.com.gup.rent.service.dto.period.RentPeriodDTO;
 
 import java.io.IOException;
 

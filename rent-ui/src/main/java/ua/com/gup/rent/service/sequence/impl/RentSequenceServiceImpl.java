@@ -2,6 +2,9 @@ package ua.com.gup.rent.service.sequence.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.rent.repository.sequence.RentSequenceRepository;
+import ua.com.gup.rent.repository.sequence.RentSequenceRepositoryCustomer;
+import ua.com.gup.rent.service.sequence.RentSequenceService;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,12 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  */
 @Service
-public class RentSequenceServiceImpl implements ua.com.gup.rent.service.sequence.RentSequenceService {
+public class RentSequenceServiceImpl implements RentSequenceService {
 
     @Autowired
-    private ua.com.gup.rent.repository.sequence.RentSequenceRepository rentSequenceRepository;
+    private RentSequenceRepository rentSequenceRepository;
     @Autowired
-    private ua.com.gup.rent.repository.sequence.RentSequenceRepositoryCustomer rentSequenceRepositoryCustomer;
+    private RentSequenceRepositoryCustomer rentSequenceRepositoryCustomer;
 
     private final ConcurrentHashMap<String, Boolean> sequenceExists = new ConcurrentHashMap<>();
 

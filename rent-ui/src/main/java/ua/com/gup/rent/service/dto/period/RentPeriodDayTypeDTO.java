@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.rentobject.period;
+package ua.com.gup.rent.service.dto.period;
 
 public enum RentPeriodDayTypeDTO {
 

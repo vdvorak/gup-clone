@@ -1,4 +1,4 @@
-package ua.com.gup.rent.dto.rentobject.period;
+package ua.com.gup.rent.service.dto.period;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

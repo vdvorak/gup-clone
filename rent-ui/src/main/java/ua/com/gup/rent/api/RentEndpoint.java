@@ -6,6 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
+import ua.com.gup.rent.service.dto.rent.RentEditDTO;
+import ua.com.gup.rent.service.dto.rent.RentShortDetailsDTO;
 
 import java.util.List;
 
@@ -18,19 +21,19 @@ public class RentEndpoint {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {
-        List<ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
+        List<RentShortDetailsDTO> rentObjects = rentObjectService.findAll();
         return new ResponseEntity(rentObjects, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
     public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
-        List<ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO> rentObjects = rentObjectService.findAll();
+        List<RentShortDetailsDTO> rentObjects = rentObjectService.findAll();
         return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'create')")
-    public ResponseEntity createRentObject(ua.com.gup.rent.service.dto.rent.RentCreateObjectDTO rentCreateObjectDTO) {
+    public ResponseEntity createRentObject(RentCreateDTO rentCreateObjectDTO) {
 
         rentObjectService.create(rentCreateObjectDTO);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -38,7 +41,7 @@ public class RentEndpoint {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
     @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'edit')")
-    public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, ua.com.gup.rent.service.dto.rent.RentEditObjectDTO rentEditObjectDTO) {
+    public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, RentEditDTO rentEditObjectDTO) {
 
         rentObjectService.update(rentEditObjectDTO);
         return new ResponseEntity(HttpStatus.OK);
