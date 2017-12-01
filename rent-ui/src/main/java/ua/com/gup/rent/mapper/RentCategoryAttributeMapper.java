@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RentCategoryAttributeMapper {
 
-    private static final String CATEGORY_ATTRIBUTE_SEQUENCE_ID = "category_attribute_sequence";
+    private static final String CATEGORY_ATTRIBUTE_SEQUENCE_ID = "rent_category_attribute_sequence";
 
     @Autowired
     private ua.com.gup.rent.service.sequence.RentSequenceService rentSequenceService;
