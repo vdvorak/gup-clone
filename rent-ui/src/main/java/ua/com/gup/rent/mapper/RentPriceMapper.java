@@ -1,14 +1,14 @@
 package ua.com.gup.rent.mapper;
 
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.dto.rentobject.price.RentObjectPriceDTO;
 import ua.com.gup.rent.model.rent.RentPrice;
+import ua.com.gup.rent.service.dto.price.RentPriceDTO;
 
 @Component
 public class RentPriceMapper {
 
-    public RentObjectPriceDTO fromModelToDTO(RentPrice p) {
-        RentObjectPriceDTO rentObjectPriceDTO = new RentObjectPriceDTO();
+    public RentPriceDTO fromModelToDTO(RentPrice p) {
+        RentPriceDTO rentObjectPriceDTO = new RentPriceDTO();
         if (p != null) {
             rentObjectPriceDTO.setBusinessDayCost(p.getBusinessDayCost());
             rentObjectPriceDTO.setWeekendDayCost(p.getWeekendDayCost());
@@ -17,7 +17,7 @@ public class RentPriceMapper {
         return rentObjectPriceDTO;
     }
 
-    public RentPrice fromDTOToModel(RentObjectPriceDTO rentObjectPriceDto) {
+    public RentPrice fromDTOToModel(RentPriceDTO rentObjectPriceDto) {
         RentPrice price = null;
         if (rentObjectPriceDto != null) {
             price = new RentPrice();
