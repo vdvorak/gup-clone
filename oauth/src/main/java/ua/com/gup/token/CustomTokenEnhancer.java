@@ -8,6 +8,7 @@ import ua.com.gup.mongo.model.login.LoggedUser;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CustomTokenEnhancer implements TokenEnhancer {
 
@@ -19,6 +20,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         additionalInfo.put("profile_id", user.getProfileId());
         additionalInfo.put("public_id", user.getPublicId());
         additionalInfo.put("email", user.getEmail());
+        additionalInfo.put("authorities", user.getAuthorities().stream().map(a -> a.toString()).collect(Collectors.toList()));
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

@@ -187,5 +187,7 @@
         <module>service</module>
         <module>oauth</module>
         <module>ui</module>
+        <module>rent-ui</module>
+        <module>common</module>
     </modules>
 </project>

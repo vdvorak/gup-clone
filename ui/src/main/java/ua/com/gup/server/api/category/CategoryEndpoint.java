@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.security.access.prepost.PreAuthorize;
+import ua.com.gup.util.security.SecurityUtils;
 
 /**
  * REST controller for managing Category.
@@ -242,12 +244,11 @@ public class CategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin//?????????????????????
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
         logger.debug("REST request to get all Categories");
-        
+        Authentication authentication = SecurityUtils.getCtxAuthentication();
         final List<Category> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
@@ -257,7 +258,6 @@ public class CategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         logger.debug("REST request to get categories in tree view");

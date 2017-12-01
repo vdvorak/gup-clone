@@ -3,8 +3,8 @@ package ua.com.gup.util.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.login.LoggedUser;
 
 /**
  * Utility class for Spring Security.
@@ -27,8 +27,8 @@ public final class SecurityUtils {
      */
     public static String getCurrentUserId() {
         if(isAuthenticated()){
-            LoggedUser user = (LoggedUser) getCtxAuthentication().getPrincipal();
-            return user.getProfileId();
+            GupLoggedUser user = (GupLoggedUser) getCtxAuthentication().getPrincipal();
+            return user.getId();
         }
         return null;
     }
@@ -38,9 +38,10 @@ public final class SecurityUtils {
      *
      * @return the LoggedUser of the current user
      */
-    public static LoggedUser getLoggedUser() {
+
+    public static GupLoggedUser getLoggedUser() {
         Authentication auth = getCtxAuthentication();
-        return !isAuthenticated() ? null : (LoggedUser) auth.getPrincipal();
+        return !isAuthenticated() ? null : (GupLoggedUser) auth.getPrincipal();
     }
 
     /**

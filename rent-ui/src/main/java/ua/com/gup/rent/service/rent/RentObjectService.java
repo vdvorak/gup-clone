@@ -1,22 +1,23 @@
 package ua.com.gup.rent.service.rent;
 
-import ua.com.gup.rent.dto.rentobject.CreateRentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.EditRentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.RentObjectDTO;
-import ua.com.gup.rent.dto.rentobject.ShortDetailsRentObjectDTO;
-import ua.com.gup.rent.service.abstracted.generic.GenericService;
+
+import ua.com.gup.rent.service.abstracted.generic.RentGenericService;
+import ua.com.gup.rent.service.dto.rent.RentCreateObjectDTO;
+import ua.com.gup.rent.service.dto.rent.RentEditObjectDTO;
+import ua.com.gup.rent.service.dto.rent.RentObjectDTO;
+import ua.com.gup.rent.service.dto.rent.RentShortDetailsObjectDTO;
 
 import java.util.List;
 
-public interface RentObjectService extends GenericService<RentObjectDTO, String> {
+public interface RentObjectService extends RentGenericService<RentObjectDTO, String> {
 
-    void create(CreateRentObjectDTO t);
+    void create(RentCreateObjectDTO t);
 
-    void update(EditRentObjectDTO t);
+    void update(RentEditObjectDTO t);
 
     void deleteById(String rentObjectId);
 
-    List<ShortDetailsRentObjectDTO> findAll();
+    List<RentShortDetailsObjectDTO> findAll();
 
 //    List<ShortDetailsRentObjectDTO> findByFilter();
 }

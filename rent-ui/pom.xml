@@ -5,16 +5,16 @@
 
     <groupId>ua.com.gup</groupId>
     <artifactId>rent-ui</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>${version}</version>
     <packaging>jar</packaging>
 
     <name>rent-ui</name>
     <description>RENT project for GUP</description>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.8.RELEASE</version>
+        <groupId>ua.com.gup</groupId>
+        <artifactId>GUP</artifactId>
+        <version>2.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -46,8 +46,6 @@
         </dependency>
 
 
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -69,13 +67,6 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-redis -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-redis</artifactId>-->
-            <!--<version>1.4.7.RELEASE</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -121,16 +112,11 @@
             <artifactId>httpcore-nio</artifactId>
             <version>4.4.6</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>ua.com.gup</groupId>-->
-        <!--<artifactId>repository</artifactId>-->
-        <!--<version>${version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>ua.com.gup</groupId>-->
-        <!--<artifactId>service</artifactId>-->
-        <!--<version>${version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>ua.com.gup</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
@@ -145,35 +131,35 @@
                 </configuration>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<version>3.0.2</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<payId>analyze</payId>-->
-                        <!--<goals>-->
-                            <!--<goal>analyze-only</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<failOnWarning>true</failOnWarning>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-dependency-plugin</artifactId>-->
+            <!--<version>3.0.2</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<payId>analyze</payId>-->
+            <!--<goals>-->
+            <!--<goal>analyze-only</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+            <!--<failOnWarning>true</failOnWarning>-->
 
-                            <!--&lt;!&ndash; ignore jsr305 for both "used but undeclared" and "declared but unused" &ndash;&gt;-->
-                            <!--&lt;!&ndash;<ignoredDependencies>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ignoredDependency>com.google.code.findbugs:jsr305</ignoredDependency>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</ignoredDependencies>&ndash;&gt;-->
+            <!--&lt;!&ndash; ignore jsr305 for both "used but undeclared" and "declared but unused" &ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredDependencies>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredDependency>com.google.code.findbugs:jsr305</ignoredDependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ignoredDependencies>&ndash;&gt;-->
 
-                            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "used but undeclared" warnings &ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ignoredUsedUndeclaredDependency>com.google.code.findbugs:annotations</ignoredUsedUndeclaredDependency>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "used but undeclared" warnings &ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependency>com.google.code.findbugs:annotations</ignoredUsedUndeclaredDependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
 
-                            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "unused but declared" warnings &ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ignoredUnusedDeclaredDependency>com.google.code.findbugs:annotations</ignoredUnusedDeclaredDependency>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "unused but declared" warnings &ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependency>com.google.code.findbugs:annotations</ignoredUnusedDeclaredDependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
+            <!--</configuration>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
         </plugins>
     </build>

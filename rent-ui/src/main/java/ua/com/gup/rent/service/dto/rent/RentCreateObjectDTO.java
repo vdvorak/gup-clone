@@ -1,21 +1,22 @@
-package ua.com.gup.rent.dto.rentobject;
+package ua.com.gup.rent.service.dto.rent;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.rent.dto.rentobject.price.RentObjectPriceDTO;
 import ua.com.gup.rent.dto.rentobject.period.RentPeriodDTO;
+import ua.com.gup.rent.dto.rentobject.price.RentObjectPriceDTO;
+import ua.com.gup.rent.service.dto.rent.RentObjectDTO;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateRentObjectDTO extends RentObjectDTO {
+public class RentCreateObjectDTO extends RentObjectDTO {
 
     private Integer category;
     private RentObjectPriceDTO price;
     private MultipartFile[] images;
     private RentPeriodDTO period;
 
-    public CreateRentObjectDTO() {
+    public RentCreateObjectDTO() {
     }
 
     public Integer getCategory() {

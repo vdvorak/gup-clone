@@ -1,16 +1,7 @@
 package ua.com.gup.rent.service.user;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import ua.com.gup.rent.model.mongo.user.RentProfile;
-import ua.com.gup.rent.repository.profile.RentProfileRepository;
-import ua.com.gup.rent.security.RentLoggedUser;
-
-import java.util.Collections;
 
 //@Service
 public abstract class RentUserDetailsServiceImpl implements UserDetailsService {
