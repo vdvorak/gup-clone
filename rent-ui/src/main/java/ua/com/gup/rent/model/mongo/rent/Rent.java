@@ -1,12 +1,18 @@
 package ua.com.gup.rent.model.mongo.rent;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.image.RentImageInfo;
 import ua.com.gup.rent.model.rent.RentPrice;
 import ua.com.gup.rent.model.rent.RentStatus;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryBoolAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryMultiAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryNumericAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategorySingleAttributeValue;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Document(collection = "rent.object")
@@ -24,6 +30,17 @@ public class Rent {
     private RentStatus status;
     private RentPrice rentPrice;
     private List<RentImageInfo> images;
+
+    @Indexed(unique = true)
+    private String seoUrl;
+
+    private LinkedHashMap<String, RentCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, RentCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, RentCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, RentCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
     public Rent() {
         createdDate = LocalDateTime.now();
@@ -100,4 +117,5 @@ public class Rent {
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
+
 }
