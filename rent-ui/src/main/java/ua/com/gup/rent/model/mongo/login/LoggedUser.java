@@ -1,14 +1,10 @@
 package ua.com.gup.rent.model.mongo.login;
 
 
-import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public class LoggedUser extends User {
     private final String profileId;
@@ -16,7 +12,7 @@ public class LoggedUser extends User {
     private final String email;
     private final Boolean banned;
 
-    public LoggedUser(DBObject dbObject) {
+    /*public LoggedUser(DBObject dbObject) {
         super((String) dbObject.get("username"),
                 (String) dbObject.get("password"),
                 (Boolean) dbObject.get("enabled"),
@@ -29,7 +25,7 @@ public class LoggedUser extends User {
         this.publicId = (String) dbObject.get("publicId");
         this.email = (String) dbObject.get("email");
         this.banned = (Boolean) dbObject.get("ban");
-    }
+    }*/
 
 
     public LoggedUser(String username, String password, boolean enabled, boolean banned,
