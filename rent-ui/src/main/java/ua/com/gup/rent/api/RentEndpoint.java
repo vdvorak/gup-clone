@@ -32,7 +32,7 @@ public class RentEndpoint {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'create')")
+//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.Rent).CLASS_NAME, 'create')")
     public ResponseEntity createRentObject(RentCreateDTO rentCreateObjectDTO) {
 
         rentObjectService.create(rentCreateObjectDTO);
@@ -40,7 +40,7 @@ public class RentEndpoint {
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
-    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'edit')")
+    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.Rent).CLASS_NAME, 'edit')")
     public ResponseEntity updateRentObject(@PathVariable(name = "id") String rentObjectId, RentEditDTO rentEditObjectDTO) {
 
         rentObjectService.update(rentEditObjectDTO);
@@ -49,7 +49,7 @@ public class RentEndpoint {
 
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentObject).CLASS_NAME, 'delete')")
+//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.Rent).CLASS_NAME, 'delete')")
     public ResponseEntity deleteRentObject(@PathVariable(name = "id") String rentObjectId) {
 
         rentObjectService.deleteById(rentObjectId);

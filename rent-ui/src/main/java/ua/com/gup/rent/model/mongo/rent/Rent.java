@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "rent.object")
-public class RentObject {
+public class Rent {
 
-    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentObject";
+    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.Rent";
 
     @Id
     private String id;
@@ -25,7 +25,7 @@ public class RentObject {
     private RentPrice rentPrice;
     private List<RentImageInfo> images;
 
-    public RentObject() {
+    public Rent() {
         createdDate = LocalDateTime.now();
     }
 

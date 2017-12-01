@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.mapper.RentObjectMapper;
-import ua.com.gup.rent.model.mongo.rent.RentObject;
+import ua.com.gup.rent.model.mongo.rent.Rent;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
 import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
 import ua.com.gup.rent.service.dto.rent.RentDTO;
@@ -74,7 +74,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
     @Override
     public void create(RentCreateDTO t) {
-        RentObject rentObject = rentObjectMapper.fromCreateDTOToRentObject(t);
+        Rent rent = rentObjectMapper.fromCreateDTOToRentObject(t);
         MultipartFile[] files = t.getImages();
         //if images exists save it's async
         if (files != null && files.length > 0) {
@@ -118,12 +118,12 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
             }
             //wait for all (which save images) responses complete
             CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
-            rentObject.setImages(images);
+            rent.setImages(images);
         }
 
 
-//        rentObject.setOwnerId(SecurityContextHolder.);
-        getRepository().create(rentObject);
+//        rent.setOwnerId(SecurityContextHolder.);
+        getRepository().create(rent);
     }
 
     @Override
@@ -138,8 +138,8 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
     @Override
     public List<RentShortDetailsDTO> findAll() {
-        List<RentObject> rentObjects = getRepository().findAll();
-        return rentObjects.stream().map(rentObject -> rentObjectMapper.fromRentObjectToShortDTO(rentObject)).collect(Collectors.toList());
+        List<Rent> rents = getRepository().findAll();
+        return rents.stream().map(rent -> rentObjectMapper.fromRentObjectToShortDTO(rent)).collect(Collectors.toList());
     }
 
     @Override

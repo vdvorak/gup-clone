@@ -30,7 +30,7 @@ public class RentPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
 //        switch (targetType){
-//            case RentObject.class.getName():{
+//            case Rent.class.getName():{
 //
 //            }
 //
