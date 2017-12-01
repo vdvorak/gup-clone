@@ -11,15 +11,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.provider.token.*;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ua.com.gup.rent.security.filter.CsrfTokenRequestBindingFilter;
-import ua.com.gup.rent.security.filter.CsrfTokenResponseHeaderBindingFilter;
 import ua.com.gup.rent.security.RentUserAuthenticationConverter;
+import ua.com.gup.rent.security.filter.RentCsrfTokenRequestBindingFilter;
+import ua.com.gup.rent.security.filter.RentCsrfTokenResponseHeaderBindingFilter;
 
 import java.util.Arrays;
 
@@ -34,14 +37,14 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()//csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .cors()
                 .and()
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.POST)
-                .permitAll()
+                .authenticated()
 
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
@@ -57,8 +60,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest()
                 .authenticated();
-//        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
-//        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
+        http.addFilterBefore(new RentCsrfTokenRequestBindingFilter(), CsrfFilter.class);
+        http.addFilterAfter(new RentCsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
 
     @Bean

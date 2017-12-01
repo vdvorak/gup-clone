@@ -16,7 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+/**
+ * @author vdvorak
+ * @deprecated this class converter used maybe anywhere but in future maybe delete!
+ */
+@Deprecated
 public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
     public OAuth2AuthenticationReadConverter() {
@@ -39,7 +43,7 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
 
         Authentication userAuthentication = null;
         try {
-            userAuthentication = new UsernamePasswordAuthenticationToken(principal, (String) userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
+            userAuthentication = new UsernamePasswordAuthenticationToken(principal, userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
         } catch (Exception e){
             userAuthentication = new UsernamePasswordAuthenticationToken(principal, getAuthorities((List) userAuthorization.get("authorities")));
         }

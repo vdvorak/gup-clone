@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.login.LoggedUser;
 
@@ -42,19 +43,16 @@ public class SalesUserAuthenticationConverter implements UserAuthenticationConve
             List<String> authorities = (List<String>) map.get(AUTHORITIES);
             
             Set<UserRole> collect = authorities.stream().map(as -> UserRole.valueOf(as)).collect(Collectors.toSet());
-            List<GrantedAuthority> buildUserAuthority = buildUserAuthority(collect);           
-            
-            LoggedUser user = buildUserForAuthentication(profileId,username,publicId, email, buildUserAuthority);
+            List<GrantedAuthority> buildUserAuthority = buildUserAuthority(collect);
+
+            GupLoggedUser user = buildUserForAuthentication(profileId,username,publicId, email, buildUserAuthority);
             return new UsernamePasswordAuthenticationToken(user, "N/A", buildUserAuthority);
         }
         return null;
     }
 
-    private LoggedUser buildUserForAuthentication(String id, String username, String publiId, String email, List<GrantedAuthority> authorities) {
-        String password = "";
-        return new LoggedUser(username, password,
-                true, false, true, true, true, authorities,
-                id, publiId, email);
+    private GupLoggedUser buildUserForAuthentication(String id, String username, String publicId, String email, List<GrantedAuthority> authorities) {
+        return new GupLoggedUser(id, publicId, username, email, authorities);
     }
     
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {

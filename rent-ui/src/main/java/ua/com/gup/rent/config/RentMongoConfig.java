@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
-import ua.com.gup.rent.config.converter.JSR310DateConverters;
 
 import java.util.Arrays;
 
@@ -43,8 +42,8 @@ public class RentMongoConfig {
         MappingContext mappingContext = new MongoMappingContext();
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), mappingContext);
         mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
-                new JSR310DateConverters.DateToZonedDateTimeConverter(),
-                new JSR310DateConverters.ZonedDateTimeToDateConverter()
+                new ua.com.gup.rent.config.converter.RentJSR310DateConverters.DateToZonedDateTimeConverter(),
+                new ua.com.gup.rent.config.converter.RentJSR310DateConverters.ZonedDateTimeToDateConverter()
         )));
         return mappingMongoConverter;
     }

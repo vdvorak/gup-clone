@@ -85,18 +85,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Bean
     public UserAuthenticationConverter userAuthenticationConverter() {
-        UserAuthenticationConverter converter
-                = new SalesUserAuthenticationConverter();
+        UserAuthenticationConverter converter = new SalesUserAuthenticationConverter();
         return converter;
     }
 
     @Bean
     @Primary
     public AccessTokenConverter accessTokenConverter() {
-        DefaultAccessTokenConverter datc
-                = new DefaultAccessTokenConverter();
-        datc.setUserTokenConverter(userAuthenticationConverter());
-        return datc;
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        accessTokenConverter.setUserTokenConverter(userAuthenticationConverter());
+        return accessTokenConverter;
     }
     
     
