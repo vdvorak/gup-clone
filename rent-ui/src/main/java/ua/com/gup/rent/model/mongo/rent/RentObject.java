@@ -37,11 +37,11 @@ public class RentObject {
         this.id = id;
     }
 
-    public List<ua.com.gup.rent.model.image.RentImageInfo> getImages() {
+    public List<RentImageInfo> getImages() {
         return images;
     }
 
-    public void setImages(List<ua.com.gup.rent.model.image.RentImageInfo> images) {
+    public void setImages(List<RentImageInfo> images) {
         this.images = images;
     }
 
@@ -85,11 +85,11 @@ public class RentObject {
         this.status = status;
     }
 
-    public ua.com.gup.rent.model.rent.RentPrice getRentPrice() {
+    public RentPrice getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(ua.com.gup.rent.model.rent.RentPrice rentPrice) {
+    public void setRentPrice(RentPrice rentPrice) {
         this.rentPrice = rentPrice;
     }
 
