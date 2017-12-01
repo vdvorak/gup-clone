@@ -12,7 +12,7 @@ import java.util.List;
 @Document(collection = "rent.object")
 public class RentObject {
 
-    public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.RentObject";
+    public static final String CLASS_NAME = RentObject.class.getName();
 
     @Id
     private String id;

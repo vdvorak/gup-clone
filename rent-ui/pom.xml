@@ -144,6 +144,37 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-dependency-plugin</artifactId>-->
+                <!--<version>3.0.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<payId>analyze</payId>-->
+                        <!--<goals>-->
+                            <!--<goal>analyze-only</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<failOnWarning>true</failOnWarning>-->
+
+                            <!--&lt;!&ndash; ignore jsr305 for both "used but undeclared" and "declared but unused" &ndash;&gt;-->
+                            <!--&lt;!&ndash;<ignoredDependencies>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<ignoredDependency>com.google.code.findbugs:jsr305</ignoredDependency>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ignoredDependencies>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "used but undeclared" warnings &ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<ignoredUsedUndeclaredDependency>com.google.code.findbugs:annotations</ignoredUsedUndeclaredDependency>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "unused but declared" warnings &ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<ignoredUnusedDeclaredDependency>com.google.code.findbugs:annotations</ignoredUnusedDeclaredDependency>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

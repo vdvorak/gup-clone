@@ -1,29 +1,29 @@
 package ua.com.gup.rent.mapper;
 
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.dto.PriceDTO;
+import ua.com.gup.rent.dto.rentobject.price.RentObjectPriceDTO;
 import ua.com.gup.rent.model.Price;
 
 @Component
 public class RentPriceMapper {
 
-    public PriceDTO fromModelToDTO(Price p) {
-        PriceDTO priceDTO = new PriceDTO();
+    public RentObjectPriceDTO fromModelToDTO(Price p) {
+        RentObjectPriceDTO rentObjectPriceDTO = new RentObjectPriceDTO();
         if (p != null) {
-            priceDTO.setBusinessDayCost(p.getBusinessDayCost());
-            priceDTO.setWeekendDayCost(p.getWeekendDayCost());
-            priceDTO.setHolidayDayCost(p.getHolidayDayCost());
+            rentObjectPriceDTO.setBusinessDayCost(p.getBusinessDayCost());
+            rentObjectPriceDTO.setWeekendDayCost(p.getWeekendDayCost());
+            rentObjectPriceDTO.setHolidayDayCost(p.getHolidayDayCost());
         }
-        return priceDTO;
+        return rentObjectPriceDTO;
     }
 
-    public Price fromDTOToModel(PriceDTO priceDto) {
+    public Price fromDTOToModel(RentObjectPriceDTO rentObjectPriceDto) {
         Price price = null;
-        if (priceDto != null) {
+        if (rentObjectPriceDto != null) {
             price = new Price();
-            price.setBusinessDayCost(priceDto.getBusinessDayCost());
-            price.setWeekendDayCost(priceDto.getWeekendDayCost());
-            price.setHolidayDayCost(priceDto.getHolidayDayCost());
+            price.setBusinessDayCost(rentObjectPriceDto.getBusinessDayCost());
+            price.setWeekendDayCost(rentObjectPriceDto.getWeekendDayCost());
+            price.setHolidayDayCost(rentObjectPriceDto.getHolidayDayCost());
         }
         return price;
     }

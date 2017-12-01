@@ -1,14 +1,19 @@
-package ua.com.gup.rent.dto;
+package ua.com.gup.rent.dto.rentobject.price;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 
-public class PriceDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class RentObjectPriceDTO {
 
     private BigDecimal businessDayCost;
     private BigDecimal weekendDayCost;
     private BigDecimal holidayDayCost;
 
-    public PriceDTO() {
+    public RentObjectPriceDTO() {
     }
 
     public BigDecimal getBusinessDayCost() {

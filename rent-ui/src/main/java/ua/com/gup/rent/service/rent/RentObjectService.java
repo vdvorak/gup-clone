@@ -17,4 +17,6 @@ public interface RentObjectService extends GenericService<RentObjectDTO, String>
     void deleteById(String rentObjectId);
 
     List<ShortDetailsRentObjectDTO> findAll();
+
+//    List<ShortDetailsRentObjectDTO> findByFilter();
 }

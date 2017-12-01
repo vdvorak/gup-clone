@@ -34,14 +34,14 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                .csrf().disable()//csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+
                 .cors()
                 .and()
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.POST)
-                .authenticated()
+                .permitAll()
 
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
@@ -57,8 +57,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest()
                 .authenticated();
-        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
-        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
+//        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
+//        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
 
     @Bean
