@@ -7,20 +7,21 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import ua.com.gup.rent.model.mongo.sequence.RentSequence;
 
 import javax.annotation.PostConstruct;
 
 
 @Repository
-public class RentSequenceRepositoryCustomerImplement implements RentSequenceRepositoryCustomer {
+public class RentSequenceRepositoryCustomerImpl implements RentSequenceRepositoryCustomer {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @PostConstruct
     void init() {
-        if (!mongoTemplate.collectionExists(ua.com.gup.rent.model.mongo.sequence.RentSequence.class)) {
-            mongoTemplate.createCollection(ua.com.gup.rent.model.mongo.sequence.RentSequence.class);
+        if (!mongoTemplate.collectionExists(RentSequence.class)) {
+            mongoTemplate.createCollection(RentSequence.class);
         }
     }
 
@@ -38,7 +39,7 @@ public class RentSequenceRepositoryCustomerImplement implements RentSequenceRepo
         options.returnNew(true);
 
         //this is the magic happened.
-        ua.com.gup.rent.model.mongo.sequence.RentSequence rentSequence =  mongoTemplate.findAndModify(query, update, options, ua.com.gup.rent.model.mongo.sequence.RentSequence.class);
+        RentSequence rentSequence =  mongoTemplate.findAndModify(query, update, options, RentSequence.class);
 
         //if no rentSequence, throws RuntimeException
         //optional, just a way to tell user when the rentSequence is failed to generate.

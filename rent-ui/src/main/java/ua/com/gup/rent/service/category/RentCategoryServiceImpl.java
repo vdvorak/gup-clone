@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
+import ua.com.gup.rent.model.mongo.category.RentCategory;
 import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValueDTO;
+import ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,11 +33,11 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Autowired
     private RentCategoryMapper rentCategoryMapper;
 
-    private final Map<Integer, LinkedList<ua.com.gup.rent.model.rent.RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
+    private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
 
-    private ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO categoryToCategoryTreeDTO(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory, String lang) {
-        ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO rentCategoryTreeDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO(lang);
+    private RentCategoryTreeDTO categoryToCategoryTreeDTO(RentCategory rentCategory, String lang) {
+        RentCategoryTreeDTO rentCategoryTreeDTO = new RentCategoryTreeDTO(lang);
         rentCategoryTreeDTO.setCode(rentCategory.getCode());
         rentCategoryTreeDTO.setActive(rentCategory.isActive());
         rentCategoryTreeDTO.setKey(rentCategory.getKey());
@@ -187,7 +189,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @param code the code of the entity
      */
     @Override
-    public LinkedList<ua.com.gup.rent.model.rent.RentCategory> getRentCategories(int code) {
+    public LinkedList<RentCategory> getRentCategories(int code) {
         if (rentCategoryCache.size() == 0) {
             warmCache();
         }
@@ -217,17 +219,17 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     }
 
     private void warmCache() {
-        final List<ua.com.gup.rent.model.mongo.category.RentCategory> categories = rentCategoryRepository.findAll();
-        final Set<Integer> parentCategories = categories.stream().map(ua.com.gup.rent.model.mongo.category.RentCategory::getParent).collect(Collectors.toSet());
+        final List<RentCategory> categories = rentCategoryRepository.findAll();
+        final Set<Integer> parentCategories = categories.stream().map(RentCategory::getParent).collect(Collectors.toSet());
         final Map<Integer, ua.com.gup.rent.model.mongo.category.RentCategory> categoriesMap = categories.stream().collect(Collectors.toMap(ua.com.gup.rent.model.mongo.category.RentCategory::getCode, Function.identity()));
         categories.removeIf(c -> parentCategories.contains(c.getCode()));
-        final Map<Integer, LinkedList<ua.com.gup.rent.model.rent.RentCategory>> rentCategoriesMap = new HashMap();
+        final Map<Integer, LinkedList<RentCategory>> rentCategoriesMap = new HashMap();
         for (ua.com.gup.rent.model.mongo.category.RentCategory category : categories) {
             int code = category.getCode();
-            LinkedList<ua.com.gup.rent.model.rent.RentCategory> linkedList = new LinkedList<>();
+            LinkedList<RentCategory> linkedList = new LinkedList<>();
             while (code != 0) {
-                ua.com.gup.rent.model.mongo.category.RentCategory current = categoriesMap.get(code);
-                ua.com.gup.rent.model.rent.RentCategory rentCategory = new ua.com.gup.rent.model.rent.RentCategory();
+                RentCategory current = categoriesMap.get(code);
+                RentCategory rentCategory = new RentCategory();
                 rentCategory.setCode(current.getCode());
                 rentCategory.setKey(current.getKey());
                 rentCategory.setTitle(current.getTitle());

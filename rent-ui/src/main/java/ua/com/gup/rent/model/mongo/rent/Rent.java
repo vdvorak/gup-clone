@@ -42,6 +42,7 @@ public class Rent {
 
     private LinkedHashMap<String, RentCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
+
     public Rent() {
         createdDate = LocalDateTime.now();
     }
@@ -118,4 +119,43 @@ public class Rent {
         this.ownerId = ownerId;
     }
 
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public void setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+    }
+
+    public LinkedHashMap<String, RentCategorySingleAttributeValue> getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(LinkedHashMap<String, RentCategorySingleAttributeValue> attrs) {
+        this.attrs = attrs;
+    }
+
+    public LinkedHashMap<String, RentCategoryMultiAttributeValue> getMultiAttrs() {
+        return multiAttrs;
+    }
+
+    public void setMultiAttrs(LinkedHashMap<String, RentCategoryMultiAttributeValue> multiAttrs) {
+        this.multiAttrs = multiAttrs;
+    }
+
+    public LinkedHashMap<String, RentCategoryNumericAttributeValue> getNumAttrs() {
+        return numAttrs;
+    }
+
+    public void setNumAttrs(LinkedHashMap<String, RentCategoryNumericAttributeValue> numAttrs) {
+        this.numAttrs = numAttrs;
+    }
+
+    public LinkedHashMap<String, RentCategoryBoolAttributeValue> getBoolAttrs() {
+        return boolAttrs;
+    }
+
+    public void setBoolAttrs(LinkedHashMap<String, RentCategoryBoolAttributeValue> boolAttrs) {
+        this.boolAttrs = boolAttrs;
+    }
 }

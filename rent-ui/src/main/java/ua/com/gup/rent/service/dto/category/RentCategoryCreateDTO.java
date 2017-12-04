@@ -14,7 +14,6 @@ public class RentCategoryCreateDTO {
 
     private String color;
 
-    //todo order category  
     private int order;
 
     private Map<String, String> title = new HashMap<>();
