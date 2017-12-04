@@ -17,6 +17,7 @@ public class OAuthServerGupApplication {
                 , MongoConfig.class
                 , OAuth2AuthorizationServerConfig.class
                 , OAuthServerGupApplication.class
+                , SchedulerConfig.class
         }, args);
     }
 }

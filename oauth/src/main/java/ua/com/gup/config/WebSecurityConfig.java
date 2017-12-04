@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -36,8 +37,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/", "/login", "/register", "/api/oauth/authorize").permitAll()
+                .antMatchers("/",
+                        "/login",
+                        "/logout",
+                        "/register",
+                        "/register/confirm",
+                        "/register/password/restore",
+                        "/register/password/reset",
+                        "/api/users/exists/**",
+                        "/api/oauth/authorize")
+                .permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login")
                 .and()
                 .formLogin()
                 .loginPage("/login")

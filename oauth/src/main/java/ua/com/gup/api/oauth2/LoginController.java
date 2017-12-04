@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.gup.mongo.model.login.LoggedUser;
 
-import java.security.Principal;
 
 @Controller
 public class LoginController {
@@ -16,12 +15,6 @@ public class LoginController {
     public String login(Model model) {
         model.addAttribute("title", "title.authorization");
         return "login";
-    }
-
-    @GetMapping(path = {"/register", "/register/"})
-    public String register(Model model) {
-        model.addAttribute("title", "title.authorization");
-        return "register";
     }
 
     @GetMapping(path = "/api/user/principal")

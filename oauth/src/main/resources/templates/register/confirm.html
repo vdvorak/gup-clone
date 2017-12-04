@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
+    <head th:replace="fragments/header :: header(#{register.title})" />
+
+    <body class="login">
+        <div class="login-wrapper">
+
+            <div th:include="fragments/content :: locale"></div>
+
+            <div th:include="fragments/content :: logo"></div>    
+
+            <div th:if="${error}">
+                <div th:text="#{account.confirm.fail}"></div> 
+
+                <div class="error-message"  th:if="${error}" th:text="#{${error}}">
+                   confirm messages error text
+                </div>
+            </div>
+            
+            <div th:if="not ${error}">
+                <div th:text="#{account.confirm.successfull}"></div>
+                <a href="#" th:href="@{/login}" th:text="#{login}">Войти</a>                
+            </div>
+
+
+
+            <div th:include="fragments/content :: social"></div>
+
+            <div th:include="fragments/content :: licens"></div>
+
+        </div>
+
+    </body>
+</html>

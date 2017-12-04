@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
+    <head th:replace="fragments/header :: header(#{restore.title})" />
+
+    <body class="login">
+        <div class="login-wrapper">
+
+            <div th:include="fragments/content :: locale"></div>
+
+            <div th:include="fragments/content :: logo"></div>    
+
+
+
+            <!--            <div th:if="not ${error}">
+                            <div th:text="#{account.restore.successfull}"></div>
+                            <a href="#" th:href="@{/login}" th:text="#{login}">Войти</a>                
+                        </div>-->
+
+            <form class='flex' th:action="@{/register/password/restore}" method="POST"  >
+                <div class="input flex-full-width" th:classappend="${error} ? error">
+                    <input type="text"  name="email" th:placeholder="#{emailorphone}"  required>
+                    <div class="error-message" th:if="${error}" th:text="#{${error}}">errors</div>
+                </div>                  
+                <button class="flex-full-width submit" type="submit" th:text="#{account.restore.button.label}">Восстановить пароль</button>
+            </form>
+
+
+
+
+            <div th:include="fragments/content :: social"></div>
+
+            <div th:include="fragments/content :: licens"></div>
+
+        </div>
+
+    </body>
+</html>

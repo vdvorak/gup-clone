@@ -1,55 +1,37 @@
 <!DOCTYPE html>
 <!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
 <html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
-<head th:replace="fragments/header :: header" />
+    <head th:replace="fragments/header :: header(#{register.title})" />
 
-<body class="login">
+    <body class="login">        
+        <div class="login-wrapper">
 
-<div class="login-wrapper">
+            <div th:include="fragments/content :: locale"></div>
 
-    <div class="logo">
-        <img src="images/logo-small.svg" alt="logo">
-        <div class="title">
-            <div class="top">Global</div>
-            <div class="bot">Ukrainian portal</div>
+            <div th:include="fragments/content :: logo"></div>    
+
+            <form class='flex' th:action="@{/register}" method="POST" th:object="${user}" >
+                <div class="input flex-full-width" th:classappend="${#fields.hasErrors('email')} ? error">
+                    <input type="text" th:field="*{email}" th:placeholder="#{emailorphone}"  required>
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">errors</div>
+                </div>
+                <div class="input flex-full-width" th:classappend="${#fields.hasErrors('password')} ? error">
+                    <input type="password" th:field="*{password}" th:placeholder="#{password}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">errors</div>
+                </div>
+                <button class="flex-full-width submit" type="submit" th:text="#{register.title}">Регистрация</button>
+            </form>
+
+            <div class="register">
+                <p th:text="#{allreadyRegisteredQuestion}">Уже зарегистрированы?</p>
+                <a href="#" th:href="@{/login}" th:text="#{login}">Войти</a>
+            </div>
+
+            <div th:include="fragments/content :: social"></div>
+
+            <div th:include="fragments/content :: licens"></div>
+
         </div>
-    </div>
 
-    <h1>Регистрация</h1>
-
-    <form class='flex' th:action="@{/register}" name="login">
-        <div class="input flex-full-width">
-            <input class="flex-full-width" type="text" placeholder="E-mail или телефон" required>
-        </div>
-        <div class="input flex-half-width">
-            <input type="text" placeholder="Имя" required>
-        </div>
-        <div class="input flex-half-width error">
-            <input type="text" placeholder="Фамилия" required>
-        </div>
-        <div class="input flex-full-width ">
-            <input type="password" placeholder="Пароль" required>
-        </div>
-        <button class="flex-full-width submit" type="submit">Регистрация</button>
-    </form>
-
-    <div class="register">
-        <p>Уже зарегистрированы?</p>
-        <a href="#" th:href="@{/login}">Войти</a>
-    </div>
-
-    <div class="social">
-        <div class="social-elem"><img src="images/facebook.svg" alt="facebook"></div>
-        <div class="social-elem"><img src="images/twitter.svg" alt="twitter"></div>
-        <div class="social-elem"><img src="images/linkedin.svg" alt="linkedin"></div>
-        <div class="social-elem"><img src="images/pinterest.svg" alt="pinterest"></div>
-    </div>
-
-    <div class="rights">
-        <p>Создавая новый аккаунт вы завещаете нам почку и&nbsp;соглашаетесь с <a href="#">Лицензионным Соглашением</a></p>
-    </div>
-
-</div>
-
-</body>
+    </body>
 </html>

@@ -11,6 +11,7 @@ import ua.com.gup.mongo.composition.domain.email.EmailMessage;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 
 @Repository
 public class EmailRepositoryImpl implements EmailRepository {
@@ -38,6 +39,16 @@ public class EmailRepositoryImpl implements EmailRepository {
         query.with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
         return mongoTemplate.findOne(query, EmailMessage.class);
     }
+    
+    @Override
+    public EmailMessage findOneMessageInQueue(){
+        Query query = new Query();
+        Criteria isQueue = Criteria.where("status").is(EmailStatus.QUEUE);
+        query.addCriteria(isQueue);
+        query.limit(1);
+        query.with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
+        return mongoTemplate.findOne(query, EmailMessage.class);
+    }
 
     private EmailMessage findById(EmailMessage message) {
         return mongoTemplate.findById(message.getId(), EmailMessage.class);
@@ -54,5 +65,10 @@ public class EmailRepositoryImpl implements EmailRepository {
         update.set("lastAttemptTimestamp", new Date().getTime());
         Query query = new Query(Criteria.where("_id").is(message.getId()));
         return mongoTemplate.findAndModify(query, update, EmailMessage.class);
+    }
+    
+    @Override
+    public void save(EmailMessage message){
+        mongoTemplate.save(message);
     }
 }

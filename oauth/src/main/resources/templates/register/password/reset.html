@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
+    <head th:replace="fragments/header :: header(#{reset.title})" />
+
+    <body class="login">
+        <div class="login-wrapper">
+
+            <div th:include="fragments/content :: locale"></div>
+
+            <div th:include="fragments/content :: logo"></div>    
+
+            <div class="error-message" th:if="${error}" th:text="#{${error}}">errors</div>
+
+            <div th:if="not ${error}">
+                <form class='flex' th:action="@{/register/password/reset}" method="POST" th:object="${formChangePassword}" >
+                    <input type="hidden" th:field="*{token}" />
+                    <div class="input flex-full-width" th:classappend="${#fields.hasErrors('password')} ? error">
+                        <input type="password" th:field="*{password}" th:placeholder="#{password}"  required>
+                        <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">errors</div>
+                    </div>  
+                    <div class="input flex-full-width" th:classappend="${#fields.hasErrors('newPassword')} ? error">
+                        <input type="password" th:field="*{newPassword}" th:placeholder="#{confirmPassword}"  required>
+                        <div class="error-message" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}">errors</div>
+
+                        <div class="error-message" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">errors</div>
+                    </div>                  
+
+                    <button class="flex-full-width submit" type="submit" th:text="#{account.reset.button.label}">Сменить пароль</button>
+                </form>
+            </div>
+
+            <div th:include="fragments/content :: social"></div>
+
+            <div th:include="fragments/content :: licens"></div>
+
+        </div>
+
+    </body>
+</html>

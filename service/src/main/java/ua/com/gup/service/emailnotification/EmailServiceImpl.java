@@ -27,6 +27,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 
 /**
  * Implementation of the mail service.
@@ -81,6 +82,11 @@ public class EmailServiceImpl implements EmailService {
     public EmailMessage findOneMessage() {
         return emailRepository.findOneMessage();
     }
+    
+    @Override
+    public EmailMessage findOneMessageInQueue(){
+        return emailRepository.findOneMessageInQueue();
+    }
 
     @Override
     public void removeMessage(EmailMessage message) {
@@ -101,6 +107,7 @@ public class EmailServiceImpl implements EmailService {
         emailMessage.setRecipients(new String[]{profile.getEmail()});
         emailMessage.setUserId(profile.getId());
         emailMessage.setEmailType(emailType);
+        emailMessage.setStatus(EmailStatus.QUEUE);
         emailRepository.createMessage(emailMessage);
         return emailMessage;
     }
@@ -125,7 +132,7 @@ public class EmailServiceImpl implements EmailService {
                 verificationToken = verificationTokenService.generateEmailRegistrationToken(message.getUserId());
                 ctx.setVariable("confirmRegisterUrl", registerConfirmUrl);
                 ctx.setVariable("confirmRegisterToken", verificationToken.getToken());
-                templateContent = templateEngine.process("mail/registered.html", ctx);
+                templateContent = templateEngine.process("mail/registered", ctx);
                 mailSubject = emailRegistrationSubjectText;
                 break;
             case EMAIL_FORGET_PASSWORD:
@@ -133,7 +140,7 @@ public class EmailServiceImpl implements EmailService {
                 ctx.setVariable("userName", profile.getUsername());
                 ctx.setVariable("resetPasswordUrl", resetPasswordUrl);
                 ctx.setVariable("resetPasswordToken", verificationToken.getToken());
-                templateContent = templateEngine.process("mail/password-reset.html", ctx);
+                templateContent = templateEngine.process("mail/password-reset", ctx);
                 mailSubject = emailRegistrationSubjectText;
                 break;
         }
@@ -153,6 +160,10 @@ public class EmailServiceImpl implements EmailService {
             }
         };
         this.mailSender.send(preparator);
+        
+        message.setStatus(EmailStatus.SENDED);
+        emailRepository.save(message);
+        
         this.verificationTokenService.saveToken(verificationToken);
     }
 

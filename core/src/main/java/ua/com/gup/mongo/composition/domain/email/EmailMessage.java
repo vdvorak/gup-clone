@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.mongo.model.enumeration.EmailType;
 
 import javax.validation.constraints.NotNull;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 
 @Document(collection = "mail.queue")
 public class EmailMessage {
@@ -22,6 +23,8 @@ public class EmailMessage {
     private String text;
     @NotNull
     private EmailType emailType;
+    @NotNull
+    private EmailStatus status;
 
     public EmailMessage() {
     }
@@ -113,4 +116,13 @@ public class EmailMessage {
     public void setEmailType(EmailType emailType) {
         this.emailType = emailType;
     }
+
+    public EmailStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmailStatus status) {
+        this.status = status;
+    }
+
 }

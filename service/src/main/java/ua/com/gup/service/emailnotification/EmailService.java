@@ -16,9 +16,10 @@ import java.util.Map;
 public interface EmailService {
 
     EmailMessage findOneMessage();
+    
+    EmailMessage findOneMessageInQueue();
 
     void sendEmail(EmailMessage message) throws Exception;
-
 
     void removeMessage(EmailMessage message);
 
@@ -32,6 +33,7 @@ public interface EmailService {
      * @param emailServiceTokenModel - the EmailServiceTokenModel object.
      * @return - the EmailServiceTokenModel object.
      */
+    @Deprecated
     EmailServiceTokenModel sendVerificationEmail(EmailServiceTokenModel emailServiceTokenModel);
 
     /**
@@ -40,6 +42,7 @@ public interface EmailService {
      * @param emailServiceTokenModel - the EmailServiceTokenModel object.
      * @return - the EmailServiceTokenModel object.
      */
+    @Deprecated
     EmailServiceTokenModel sendRegistrationEmail(EmailServiceTokenModel emailServiceTokenModel);
 
     /**
@@ -48,6 +51,7 @@ public interface EmailService {
      * @param emailServiceTokenModel - the EmailServiceTokenModel object.
      * @return - the EmailServiceTokenModel object.
      */
+    @Deprecated
     EmailServiceTokenModel sendLostPasswordEmail(EmailServiceTokenModel emailServiceTokenModel);
 
     /**

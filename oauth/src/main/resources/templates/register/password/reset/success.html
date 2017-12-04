@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html xmlns:th="http://www.thymeleaf.org" th:lang="ru">
+    <head th:replace="fragments/header :: header(#{restore.title})" />
+
+    <body class="login">
+         <div class="login-wrapper">
+
+            <div th:include="fragments/content :: locale"></div>
+
+            <div th:include="fragments/content :: logo"></div>    
+
+            <div th:text="#{account.password.reset.successfull}"></div>
+
+            <div th:include="fragments/content :: social"></div>
+
+            <div th:include="fragments/content :: licens"></div>
+
+        </div>
+
+    </body>
+</html>

@@ -1,4 +1,4 @@
-package ua.com.gup.server.executor.mail;
+package ua.com.gup.listener.executor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +21,10 @@ public class SendMailTask {
 
     @Scheduled(cron = "0 * * * * *")
     public void printMessages() {
-        EmailMessage message = emailService.findOneMessage();
+        EmailMessage message = emailService.findOneMessageInQueue();
         if (message != null) {
             try {
-                emailService.sendEmail(message);
-                emailService.removeMessage(message);
+                emailService.sendEmail(message);                
             } catch (Exception e) {
                 LOG.info("Sending mail exception", e);
                 emailService.updateLastAttemptTimestamp(message);
