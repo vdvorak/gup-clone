@@ -21,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -39,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/",
                         "/login",
-                        "/logout",
                         "/register",
                         "/register/confirm",
                         "/register/password/restore",
@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/users/exists/**",
                         "/api/oauth/authorize")
                 .permitAll()
+                .antMatchers("/logout").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
