@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryAttributeMapper;
+import ua.com.gup.rent.service.abstracted.RentGenericServiceImpl;
+import ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing RentCategoryAttribute.
  */
 @Service
-public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO,String> implements RentCategoryAttributeServiceRent {
+public class RentCategoryAttributeServiceImplRent extends RentGenericServiceImpl<RentCategoryAttributeCreateDTO,String> implements RentCategoryAttributeServiceRent {
 
-    private final Logger logger = LoggerFactory.getLogger(RentCategoryAttributeServiceImplRentRent.class);
+    private final Logger logger = LoggerFactory.getLogger(RentCategoryAttributeServiceImplRent.class);
 
     @Autowired
     private RentCategoryAttributeMapper rentCategoryAttributeMapper;
@@ -23,7 +25,7 @@ public class RentCategoryAttributeServiceImplRentRent extends ua.com.gup.rent.se
     private Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>>();
 
     @Autowired
-    public RentCategoryAttributeServiceImplRentRent(ua.com.gup.rent.repository.category.attribute.RentCategoryAttributeRepository rentCategoryAttributeRepository) {
+    public RentCategoryAttributeServiceImplRent(ua.com.gup.rent.repository.category.attribute.RentCategoryAttributeRepository rentCategoryAttributeRepository) {
         super(rentCategoryAttributeRepository);
     }
     /**

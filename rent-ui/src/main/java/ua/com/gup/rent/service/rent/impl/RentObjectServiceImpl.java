@@ -21,12 +21,12 @@ import ua.com.gup.rent.mapper.RentObjectMapper;
 import ua.com.gup.rent.model.image.RentImageInfo;
 import ua.com.gup.rent.model.mongo.rent.Rent;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
-import ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl;
+import ua.com.gup.rent.service.abstracted.RentGenericServiceImpl;
 import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
 import ua.com.gup.rent.service.dto.rent.RentDTO;
 import ua.com.gup.rent.service.dto.rent.RentEditDTO;
 import ua.com.gup.rent.service.dto.rent.RentShortDetailsDTO;
-import ua.com.gup.rent.service.rent.RentObjectServiceRent;
+import ua.com.gup.rent.service.rent.RentObjectService;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class RentObjectServiceImplRent extends RentRentGenericServiceImpl<RentDTO, String> implements RentObjectServiceRent {
+public class RentObjectServiceImpl extends RentGenericServiceImpl<RentDTO, String> implements RentObjectService {
 
     @Autowired
     private Environment e;
@@ -68,7 +68,7 @@ public class RentObjectServiceImplRent extends RentRentGenericServiceImpl<RentDT
 
     }
 
-    public RentObjectServiceImplRent(@Autowired RentObjectRepository rentObjectRepository) {
+    public RentObjectServiceImpl(@Autowired RentObjectRepository rentObjectRepository) {
         super(rentObjectRepository);
     }
 
@@ -124,8 +124,7 @@ public class RentObjectServiceImplRent extends RentRentGenericServiceImpl<RentDT
             rent.setImages(images);
         }
 
-
-//        rent.setOwnerId(SecurityContextHolder.);
+        //rent.setOwnerId(SecurityContextHolder.);
         getRepository().create(rent);
     }
 
