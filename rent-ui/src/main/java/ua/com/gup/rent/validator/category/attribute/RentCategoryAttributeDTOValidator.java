@@ -8,8 +8,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
+import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
 
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class RentCategoryAttributeDTOValidator implements Validator {
     private final Logger log = LoggerFactory.getLogger(RentCategoryAttributeDTOValidator.class);
 
     @Autowired
-    private ua.com.gup.rent.service.category.attribute.RentCategoryAttributeServiceRent rentCategoryAttributeService;
+    private RentCategoryAttributeService rentCategoryAttributeService;
 
     @Override
     public boolean supports(Class<?> clazz) {

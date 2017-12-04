@@ -14,11 +14,12 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
+import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
-import ua.com.gup.rent.validator.category.attribute.RentCategoryAttributeDTOValidator;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.validator.category.RentCategoryDTOValidator;
+import ua.com.gup.rent.validator.category.attribute.RentCategoryAttributeDTOValidator;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -42,7 +43,7 @@ public class RentCategoryEndpoint {
     private ua.com.gup.rent.service.category.RentCategoryService rentCategoryService;
 
     @Autowired
-    private ua.com.gup.rent.service.category.attribute.RentCategoryAttributeServiceRent rentCategoryAttributeService;
+    private RentCategoryAttributeService rentCategoryAttributeService;
 
     @Autowired
     private RentCategoryDTOValidator rentCategoryDTOValidator;

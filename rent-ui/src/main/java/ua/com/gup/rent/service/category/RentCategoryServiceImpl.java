@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
+import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValueDTO;
@@ -26,7 +27,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Autowired
     private ua.com.gup.rent.repository.category.RentCategoryRepository rentCategoryRepository;
     @Autowired
-    private ua.com.gup.rent.service.category.attribute.RentCategoryAttributeServiceRent rentCategoryAttributeService;
+    private RentCategoryAttributeService rentCategoryAttributeService;
     @Autowired
     private RentCategoryMapper rentCategoryMapper;
 
