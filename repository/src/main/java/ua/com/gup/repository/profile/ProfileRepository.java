@@ -205,5 +205,7 @@ public interface ProfileRepository {
     void decrementProfileStatistic(String profileId, String field);
 
     boolean profileExistsByPublicId(String profilePublicId);
+    
+    void  save(Profile profile);
 }
 

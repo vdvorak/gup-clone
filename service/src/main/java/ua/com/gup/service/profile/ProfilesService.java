@@ -308,4 +308,6 @@ public interface ProfilesService {
      * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
      */
     void updateFavoriteOffers(String offerId);
+    
+    void updateChatUID(String profileId, String uid);    
 }

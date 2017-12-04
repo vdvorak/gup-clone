@@ -95,6 +95,8 @@ public class Profile {
     private DBStorePhones storePhones;
 
     private ProfileStatistic profileStatistic;
+    
+    private String chatUID;
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -579,6 +581,14 @@ public class Profile {
 
     public void setProfileStatistic(ProfileStatistic profileStatistic) {
         this.profileStatistic = profileStatistic;
+    }
+
+    public String getChatUID() {
+        return chatUID;
+    }
+
+    public void setChatUID(String chatUID) {
+        this.chatUID = chatUID;
     }
 
     @Override

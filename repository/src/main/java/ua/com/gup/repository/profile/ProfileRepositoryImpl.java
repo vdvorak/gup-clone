@@ -355,4 +355,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query query = new Query(Criteria.where("publicId").is(profilePublicId));
         return mongoTemplate.exists(query, Profile.class);
     }
+    public void  save(Profile profile){
+        mongoTemplate.save(profile);
+    }
 }

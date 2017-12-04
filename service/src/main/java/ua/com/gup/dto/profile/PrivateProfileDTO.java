@@ -9,12 +9,16 @@ public class PrivateProfileDTO extends DetailProfileDTO {
     @JsonProperty("mainPhone")
     private Phone mainPhone;
 
+    @JsonProperty("chatUID")
+    private String chatUID;
+
     public PrivateProfileDTO() {
     }
 
     public PrivateProfileDTO(Profile profile) {
         super(profile);
         this.mainPhone = profile.getMainPhone();
+        this.chatUID = profile.getChatUID();
     }
 
     public Phone getMainPhone() {
@@ -23,6 +27,14 @@ public class PrivateProfileDTO extends DetailProfileDTO {
 
     public void setMainPhone(Phone mainPhone) {
         this.mainPhone = mainPhone;
+    }
+
+    public String getChatUID() {
+        return chatUID;
+    }
+
+    public void setChatUID(String chatUID) {
+        this.chatUID = chatUID;
     }
 
 }

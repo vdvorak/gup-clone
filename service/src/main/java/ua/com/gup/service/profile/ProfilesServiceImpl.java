@@ -500,6 +500,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
     }
-
-
+    
+    @Override
+    public void updateChatUID(String profileId, String uid){
+        Profile profile = profileRepository.findById(profileId);
+        profile.setChatUID(uid);
+        profileRepository.save(profile);
+    
+    }
 }
