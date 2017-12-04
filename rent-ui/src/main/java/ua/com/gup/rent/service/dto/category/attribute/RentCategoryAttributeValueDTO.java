@@ -1,15 +1,11 @@
 package ua.com.gup.rent.service.dto.category.attribute;
 
+
 import java.util.Map;
-import java.util.Set;
 
-public class RentCategoryAttributeValue {
-
+public class RentCategoryAttributeValueDTO {
     private String key;
-
     private Map<String, String> title;
-
-    private Set<Integer> exceptCategory;
 
     public String getKey() {
         return key;
@@ -27,20 +23,12 @@ public class RentCategoryAttributeValue {
         this.title = title;
     }
 
-    public Set<Integer> getExceptCategory() {
-        return exceptCategory;
-    }
-
-    public void setExceptCategory(Set<Integer> exceptCategory) {
-        this.exceptCategory = exceptCategory;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RentCategoryAttributeValue that = (RentCategoryAttributeValue) o;
+        RentCategoryAttributeValueDTO that = (RentCategoryAttributeValueDTO) o;
 
         return key != null ? key.equals(that.key) : that.key == null;
     }

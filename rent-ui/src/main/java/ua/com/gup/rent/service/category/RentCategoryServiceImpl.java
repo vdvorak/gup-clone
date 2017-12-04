@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValueDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,7 +66,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public ua.com.gup.rent.model.mongo.category.RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryUpdateDTO);
         final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
@@ -106,12 +109,12 @@ public class RentCategoryServiceImpl implements RentCategoryService {
                 categories.get(rentCategory.getParent()).getChildren().add(categories.get(rentCategory.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, SortedSet<RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
-         final SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
-            for (ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO attributeDTO : attributes) {
-                SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
+         final SortedSet<RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            for (RentCategoryAttributeDTO attributeDTO : attributes) {
+                SortedSet<RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
