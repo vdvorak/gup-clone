@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model.rent.category;
+package ua.com.gup.rent.model.rent.category.attribute;
 
 import java.util.Map;
 import java.util.Set;

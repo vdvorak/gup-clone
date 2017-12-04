@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model.rent.category.attribute;
+package ua.com.gup.rent.model.rent.category;
 
 import java.io.Serializable;
 
