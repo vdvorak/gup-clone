@@ -2,6 +2,10 @@ package ua.com.gup.rent.model.mongo.category.attribute;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.rent.model.rent.category.RentCategoriesSort;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeType;
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.validator.RentCategoryAttributeValidator;
 
 import java.io.Serializable;
 import java.util.*;
@@ -28,13 +32,13 @@ public class RentCategoryAttribute implements Serializable {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoriesSort> categories_sort = new LinkedHashSet<>();
+    private LinkedHashSet<RentCategoriesSort> categories_sort = new LinkedHashSet<>();
 
-    private ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeType type;
+    private RentCategoryAttributeType type;
 
-    private ua.com.gup.rent.service.dto.category.attribute.validator.RentCategoryAttributeValidator validator;
+    private RentCategoryAttributeValidator validator;
 
-    private LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValue> values = new LinkedHashSet<>();
+    private LinkedHashSet<RentCategoryAttributeValue> values = new LinkedHashSet<>();
 
     private boolean privateAttr;
 
@@ -94,35 +98,35 @@ public class RentCategoryAttribute implements Serializable {
         this.categories = categories;
     }
 
-    public LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoriesSort> getCategoriesSort() {
+    public LinkedHashSet<RentCategoriesSort> getCategoriesSort() {
         return categories_sort;
     }
 
-    public void setCategoriesSort(LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoriesSort> rentCategoriesSort) {
+    public void setCategoriesSort(LinkedHashSet<RentCategoriesSort> rentCategoriesSort) {
         this.categories_sort = rentCategoriesSort;
     }
 
-    public ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeType getType() {
+    public RentCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeType type) {
+    public void setType(RentCategoryAttributeType type) {
         this.type = type;
     }
 
-    public ua.com.gup.rent.service.dto.category.attribute.validator.RentCategoryAttributeValidator getValidator() {
+    public RentCategoryAttributeValidator getValidator() {
         return validator;
     }
 
-    public void setValidator(ua.com.gup.rent.service.dto.category.attribute.validator.RentCategoryAttributeValidator validator) {
+    public void setValidator(RentCategoryAttributeValidator validator) {
         this.validator = validator;
     }
 
-    public LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValue> getValues() {
+    public LinkedHashSet<RentCategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(LinkedHashSet<ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValue> values) {
+    public void setValues(LinkedHashSet<RentCategoryAttributeValue> values) {
         this.values = values;
     }
 

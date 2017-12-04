@@ -1,6 +1,8 @@
 package ua.com.gup.rent.service.category;
 
 
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +26,7 @@ public interface RentCategoryService {
      * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO);
+    ua.com.gup.rent.model.mongo.category.RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO);
 
     /**
      * Get all the categories.

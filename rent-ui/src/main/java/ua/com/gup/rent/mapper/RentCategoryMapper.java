@@ -2,6 +2,7 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 
 @Component
 public class RentCategoryMapper {
@@ -18,7 +19,7 @@ public class RentCategoryMapper {
         return rentCategory;
     }
 
-    public ua.com.gup.rent.model.mongo.category.RentCategory categoryUpdateDTOToCategory(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public ua.com.gup.rent.model.mongo.category.RentCategory categoryUpdateDTOToCategory(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
         ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = new ua.com.gup.rent.model.mongo.category.RentCategory();
         fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, rentCategory);
         rentCategory.setCode(rentCategoryUpdateDTO.getCode());

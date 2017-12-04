@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
 
 import java.util.Optional;
 
@@ -22,17 +24,17 @@ public class RentCategoryAttributeDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz);
+        return RentCategoryAttributeCreateDTO.class.equals(clazz) || RentCategoryAttributeUpdateDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        boolean isUpdateDTO = ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO.class.isInstance(target);
-        ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO = (ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO) target;
+        boolean isUpdateDTO = RentCategoryAttributeUpdateDTO.class.isInstance(target);
+        RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO = (RentCategoryAttributeCreateDTO) target;
         if (isUpdateDTO) {
 
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-            ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO categoryUpdateDTO = (ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO) target;
+            RentCategoryAttributeUpdateDTO categoryUpdateDTO = (RentCategoryAttributeUpdateDTO) target;
             if (categoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
