@@ -47,7 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register/password/restore",
                         "/register/password/reset",
                         "/api/users/exists/**",
-                        "/api/oauth/authorize")
+                        "/api/oauth/authorize",
+                        "/api/chat/tokens/**")
                 .permitAll()
                 .antMatchers("/logout").authenticated()
                 .anyRequest().authenticated()
