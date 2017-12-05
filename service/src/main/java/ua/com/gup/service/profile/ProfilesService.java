@@ -309,7 +309,5 @@ public interface ProfilesService {
      */
     void updateFavoriteOffers(String offerId);
     
-    void updateChatUID(String profileId, String uid);  
-    
-    Boolean isExistsByChatUID(String uid);  
+    void updateChatUID(String profileId, String uid);    
 }

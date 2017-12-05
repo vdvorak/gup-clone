@@ -355,15 +355,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query query = new Query(Criteria.where("publicId").is(profilePublicId));
         return mongoTemplate.exists(query, Profile.class);
     }
-    
-    @Override
     public void  save(Profile profile){
         mongoTemplate.save(profile);
-    }
-    
-    @Override
-    public Boolean isExistsByChatUID(String chatUID){
-        Query query = new Query().addCriteria(Criteria.where("chatUID").is(chatUID));        
-        return mongoTemplate.exists(query, Profile.class);
     }
 }

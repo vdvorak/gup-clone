@@ -505,11 +505,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     public void updateChatUID(String profileId, String uid){
         Profile profile = profileRepository.findById(profileId);
         profile.setChatUID(uid);
-        profileRepository.save(profile);    
-    }
+        profileRepository.save(profile);
     
-    @Override
-    public Boolean isExistsByChatUID(String cahtUid){
-        return profileRepository.isExistsByChatUID(cahtUid);
     }
 }
