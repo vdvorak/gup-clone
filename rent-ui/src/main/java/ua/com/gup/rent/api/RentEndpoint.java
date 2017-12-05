@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
 import ua.com.gup.rent.service.dto.rent.RentEditDTO;
 import ua.com.gup.rent.service.dto.rent.RentShortDetailsDTO;
+import ua.com.gup.rent.service.rent.RentObjectService;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class RentEndpoint {
 
     @Autowired
-    private ua.com.gup.rent.service.rent.RentObjectServiceRent rentObjectService;
+    private RentObjectService rentObjectService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {

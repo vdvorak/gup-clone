@@ -2,6 +2,7 @@ package ua.com.gup.rent.service.sequence.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.rent.model.mongo.sequence.RentSequence;
 import ua.com.gup.rent.repository.sequence.RentSequenceRepository;
 import ua.com.gup.rent.repository.sequence.RentSequenceRepositoryCustomer;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
@@ -29,7 +30,7 @@ public class RentSequenceServiceImpl implements RentSequenceService {
             if (rentSequenceRepository.exists(sequenceId)) {
                 sequenceExists.put(sequenceId, true);
             } else {
-                ua.com.gup.rent.model.mongo.sequence.RentSequence rentSequence = new ua.com.gup.rent.model.mongo.sequence.RentSequence();
+                RentSequence rentSequence = new RentSequence();
                 rentSequence.setId(sequenceId);
                 rentSequence.setValue(0);
                 rentSequenceRepository.save(rentSequence);

@@ -1,11 +1,11 @@
-package ua.com.gup.rent.model.rent;
+package ua.com.gup.rent.service.dto.category;
 
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RentCategory {
+public class RentCategoryDTO {
 
     @ApiModelProperty(example = "code")
     private int code;
@@ -15,10 +15,10 @@ public class RentCategory {
     private Map<String, String> title = new HashMap<>();
 
 
-    public RentCategory() {
+    public RentCategoryDTO() {
     }
 
-    public RentCategory(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory) {
+    public RentCategoryDTO(RentCategoryDTO rentCategory) {
         this.code = rentCategory.getCode();
         this.key = rentCategory.getKey();
         this.title = rentCategory.getTitle();

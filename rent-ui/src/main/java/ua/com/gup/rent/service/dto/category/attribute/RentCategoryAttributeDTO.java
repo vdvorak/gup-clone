@@ -1,5 +1,7 @@
-package ua.com.gup.rent.service.dto.category.tree;
+package ua.com.gup.rent.service.dto.category.attribute;
 
+
+import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.HashMap;

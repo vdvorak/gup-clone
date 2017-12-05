@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
+import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValueDTO;
+import ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,15 +29,15 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Autowired
     private ua.com.gup.rent.repository.category.RentCategoryRepository rentCategoryRepository;
     @Autowired
-    private ua.com.gup.rent.service.category.attribute.RentCategoryAttributeServiceRent rentCategoryAttributeService;
+    private RentCategoryAttributeService rentCategoryAttributeService;
     @Autowired
     private RentCategoryMapper rentCategoryMapper;
 
-    private final Map<Integer, LinkedList<ua.com.gup.rent.model.rent.RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
+    private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
 
-    private ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO categoryToCategoryTreeDTO(ua.com.gup.rent.model.mongo.category.RentCategory rentCategory, String lang) {
-        ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO rentCategoryTreeDTO = new ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO(lang);
+    private RentCategoryTreeDTO categoryToCategoryTreeDTO(RentCategory rentCategory, String lang) {
+        RentCategoryTreeDTO rentCategoryTreeDTO = new RentCategoryTreeDTO(lang);
         rentCategoryTreeDTO.setCode(rentCategory.getCode());
         rentCategoryTreeDTO.setActive(rentCategory.isActive());
         rentCategoryTreeDTO.setKey(rentCategory.getKey());
@@ -63,7 +69,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public ua.com.gup.rent.model.mongo.category.RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryUpdateDTO);
         final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
@@ -106,12 +112,12 @@ public class RentCategoryServiceImpl implements RentCategoryService {
                 categories.get(rentCategory.getParent()).getChildren().add(categories.get(rentCategory.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, SortedSet<RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
-         final SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
-            for (ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeDTO attributeDTO : attributes) {
-                SortedSet<ua.com.gup.rent.service.dto.category.tree.RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
+         final SortedSet<RentCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            for (RentCategoryAttributeDTO attributeDTO : attributes) {
+                SortedSet<RentCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
                 attributeDTO.setValues(sortedSet);
             }
@@ -183,7 +189,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @param code the code of the entity
      */
     @Override
-    public LinkedList<ua.com.gup.rent.model.rent.RentCategory> getRentCategories(int code) {
+    public LinkedList<RentCategory> getRentCategories(int code) {
         if (rentCategoryCache.size() == 0) {
             warmCache();
         }
@@ -213,17 +219,17 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     }
 
     private void warmCache() {
-        final List<ua.com.gup.rent.model.mongo.category.RentCategory> categories = rentCategoryRepository.findAll();
-        final Set<Integer> parentCategories = categories.stream().map(ua.com.gup.rent.model.mongo.category.RentCategory::getParent).collect(Collectors.toSet());
+        final List<RentCategory> categories = rentCategoryRepository.findAll();
+        final Set<Integer> parentCategories = categories.stream().map(RentCategory::getParent).collect(Collectors.toSet());
         final Map<Integer, ua.com.gup.rent.model.mongo.category.RentCategory> categoriesMap = categories.stream().collect(Collectors.toMap(ua.com.gup.rent.model.mongo.category.RentCategory::getCode, Function.identity()));
         categories.removeIf(c -> parentCategories.contains(c.getCode()));
-        final Map<Integer, LinkedList<ua.com.gup.rent.model.rent.RentCategory>> rentCategoriesMap = new HashMap();
+        final Map<Integer, LinkedList<RentCategory>> rentCategoriesMap = new HashMap();
         for (ua.com.gup.rent.model.mongo.category.RentCategory category : categories) {
             int code = category.getCode();
-            LinkedList<ua.com.gup.rent.model.rent.RentCategory> linkedList = new LinkedList<>();
+            LinkedList<RentCategory> linkedList = new LinkedList<>();
             while (code != 0) {
-                ua.com.gup.rent.model.mongo.category.RentCategory current = categoriesMap.get(code);
-                ua.com.gup.rent.model.rent.RentCategory rentCategory = new ua.com.gup.rent.model.rent.RentCategory();
+                RentCategory current = categoriesMap.get(code);
+                RentCategory rentCategory = new RentCategory();
                 rentCategory.setCode(current.getCode());
                 rentCategory.setKey(current.getKey());
                 rentCategory.setTitle(current.getTitle());

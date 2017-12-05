@@ -14,8 +14,12 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import ua.com.gup.rent.validator.category.attribute.RentCategoryAttributeDTOValidator;
+import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.validator.category.RentCategoryDTOValidator;
+import ua.com.gup.rent.validator.category.attribute.RentCategoryAttributeDTOValidator;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -39,7 +43,7 @@ public class RentCategoryEndpoint {
     private ua.com.gup.rent.service.category.RentCategoryService rentCategoryService;
 
     @Autowired
-    private ua.com.gup.rent.service.category.attribute.RentCategoryAttributeServiceRent rentCategoryAttributeService;
+    private RentCategoryAttributeService rentCategoryAttributeService;
 
     @Autowired
     private RentCategoryDTOValidator rentCategoryDTOValidator;
@@ -51,10 +55,10 @@ public class RentCategoryEndpoint {
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() != null) {
             final Class<?> clazz = binder.getTarget().getClass();
-            if (ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO.class.equals(clazz) || ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO.class.equals(clazz)) {
+            if (ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO.class.equals(clazz) || RentCategoryUpdateDTO.class.equals(clazz)) {
                 binder.addValidators(rentCategoryDTOValidator);
             }
-            if (ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO.class.equals(clazz) || ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO.class.equals(clazz)) {
+            if (RentCategoryAttributeCreateDTO.class.equals(clazz) || RentCategoryAttributeUpdateDTO.class.equals(clazz)) {
                 binder.addValidators(rentCategoryAttributeDTOValidator);
             }
         }
@@ -74,7 +78,7 @@ public class RentCategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute> createCategory(@Valid @RequestBody ua.com.gup.rent.service.dto.category.RentCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute> createCategory(@Valid @RequestBody RentCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to save new RentCategoryAttribute : {}", categoryAttribute);
         ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute result = rentCategoryAttributeService.save(categoryAttribute);
         clearCache();
@@ -118,7 +122,7 @@ public class RentCategoryEndpoint {
      }
 
      */
-    public ResponseEntity<ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute> updateCategory(@Valid @RequestBody ua.com.gup.rent.service.dto.category.RentRentCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute> updateCategory(@Valid @RequestBody RentCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to update RentCategoryAttribute : {}", categoryAttribute);
         ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute result = rentCategoryAttributeService.save(categoryAttribute);
         clearCache();
@@ -224,7 +228,7 @@ public class RentCategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<ua.com.gup.rent.model.mongo.category.RentCategory> updateCategory(@Valid @RequestBody ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO) throws URISyntaxException {
+    public ResponseEntity<ua.com.gup.rent.model.mongo.category.RentCategory> updateCategory(@Valid @RequestBody RentCategoryUpdateDTO rentCategoryUpdateDTO) throws URISyntaxException {
         logger.debug("REST request to update RentCategory : {}", rentCategoryUpdateDTO);
 
         ua.com.gup.rent.model.mongo.category.RentCategory result = rentCategoryService.save(rentCategoryUpdateDTO);

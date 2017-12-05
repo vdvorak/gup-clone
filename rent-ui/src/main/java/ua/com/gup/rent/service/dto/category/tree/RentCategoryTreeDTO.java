@@ -1,6 +1,8 @@
 package ua.com.gup.rent.service.dto.category.tree;
 
 
+import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
+
 import java.io.Serializable;
 import java.util.*;
 

@@ -18,12 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.mapper.RentObjectMapper;
+import ua.com.gup.rent.model.image.RentImageInfo;
 import ua.com.gup.rent.model.mongo.rent.Rent;
 import ua.com.gup.rent.repository.rent.RentObjectRepository;
+import ua.com.gup.rent.service.abstracted.RentGenericServiceImpl;
 import ua.com.gup.rent.service.dto.rent.RentCreateDTO;
 import ua.com.gup.rent.service.dto.rent.RentDTO;
 import ua.com.gup.rent.service.dto.rent.RentEditDTO;
 import ua.com.gup.rent.service.dto.rent.RentShortDetailsDTO;
+import ua.com.gup.rent.service.rent.RentObjectService;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
@@ -33,8 +36,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+
 @Service
-public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstracted.RentRentGenericServiceImpl<RentDTO, String> implements ua.com.gup.rent.service.rent.RentObjectServiceRent {
+public class RentObjectServiceImpl extends RentGenericServiceImpl<RentDTO, String> implements RentObjectService {
 
     @Autowired
     private Environment e;
@@ -44,6 +48,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -63,7 +68,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
     }
 
-    public RentObjectServiceImplRentRent(@Autowired RentObjectRepository rentObjectRepository) {
+    public RentObjectServiceImpl(@Autowired RentObjectRepository rentObjectRepository) {
         super(rentObjectRepository);
     }
 
@@ -79,7 +84,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
         //if images exists save it's async
         if (files != null && files.length > 0) {
             int length = files.length;
-            List<ua.com.gup.rent.model.image.RentImageInfo> images = new ArrayList<>(length);
+            List<RentImageInfo> images = new ArrayList<>(length);
 
             HttpHeaders commonHeader = new HttpHeaders();
             commonHeader.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -92,12 +97,10 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
 
                 LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
 
-
                 Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(multipartFile.getOriginalFilename());
-//                Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+              //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
                 multipartRequest.add("image", new FileSystemResource(path.toString()));
-
 
                 HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, commonHeader);
 
@@ -121,8 +124,7 @@ public class RentObjectServiceImplRentRent extends ua.com.gup.rent.service.abstr
             rent.setImages(images);
         }
 
-
-//        rent.setOwnerId(SecurityContextHolder.);
+        //rent.setOwnerId(SecurityContextHolder.);
         getRepository().create(rent);
     }
 

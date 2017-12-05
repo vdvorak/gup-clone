@@ -1,6 +1,11 @@
 package ua.com.gup.rent.service.category;
 
 
+import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
+import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +21,7 @@ public interface RentCategoryService {
      * @param rentCategoryCreateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO);
+    RentCategory save(RentCategoryCreateDTO rentCategoryCreateDTO);
 
     /**
      * Save a category.
@@ -24,21 +29,21 @@ public interface RentCategoryService {
      * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentRentCategoryUpdateDTO rentCategoryUpdateDTO);
+    RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO);
 
     /**
      * Get all the categories.
      *
      * @return the list of entities
      */
-    List<ua.com.gup.rent.model.mongo.category.RentCategory> findAll();
+    List<RentCategory> findAll();
 
     /**
      * Get all the categories.
      *
      * @return the list of entities
      */
-    Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang);
+    Collection<RentCategoryTreeDTO> findAllTreeView(String lang);
 
     /**
      * Get the "id" category.
@@ -46,10 +51,10 @@ public interface RentCategoryService {
      * @param id the id of the entity
      * @return the entity
      */
-    ua.com.gup.rent.model.mongo.category.RentCategory findOne(String id);
+    RentCategory findOne(String id);
 
 
-    Optional<ua.com.gup.rent.model.mongo.category.RentCategory> findOneByCode(int code);
+    Optional<RentCategory> findOneByCode(int code);
 
     /**
      * Get categories by "codes".
@@ -59,7 +64,7 @@ public interface RentCategoryService {
      * @return the entity
      */
 
-    List<ua.com.gup.rent.model.mongo.category.RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes);
+    List<RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes);
 
 
     /**
@@ -74,7 +79,7 @@ public interface RentCategoryService {
      *
      * @param code the code of the entity
      */
-    LinkedList<ua.com.gup.rent.model.rent.RentCategory> getRentCategories(int code);
+    LinkedList<RentCategory> getRentCategories(int code);
 
     /**
      * Get set of ids rent categories from cache.
