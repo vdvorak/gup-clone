@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service.category;
 
 
-import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing RentCategory.
+ * Service Interface for managing RentOfferCategory.
  */
 public interface RentCategoryService {
     /**
@@ -21,7 +21,7 @@ public interface RentCategoryService {
      * @param rentCategoryCreateDTO the entity to save
      * @return the persisted entity
      */
-    RentCategory save(RentCategoryCreateDTO rentCategoryCreateDTO);
+    RentOfferCategory save(RentCategoryCreateDTO rentCategoryCreateDTO);
 
     /**
      * Save a category.
@@ -29,14 +29,14 @@ public interface RentCategoryService {
      * @param rentCategoryUpdateDTO the entity to save
      * @return the persisted entity
      */
-    RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO);
+    RentOfferCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO);
 
     /**
      * Get all the categories.
      *
      * @return the list of entities
      */
-    List<RentCategory> findAll();
+    List<RentOfferCategory> findAll();
 
     /**
      * Get all the categories.
@@ -51,10 +51,10 @@ public interface RentCategoryService {
      * @param id the id of the entity
      * @return the entity
      */
-    RentCategory findOne(String id);
+    RentOfferCategory findOne(String id);
 
 
-    Optional<RentCategory> findOneByCode(int code);
+    Optional<RentOfferCategory> findOneByCode(int code);
 
     /**
      * Get categories by "codes".
@@ -64,7 +64,7 @@ public interface RentCategoryService {
      * @return the entity
      */
 
-    List<RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes);
+    List<RentOfferCategory> findByCodeInOrderByCodeAsc(List<Integer> codes);
 
 
     /**
@@ -79,7 +79,7 @@ public interface RentCategoryService {
      *
      * @param code the code of the entity
      */
-    LinkedList<RentCategory> getRentCategories(int code);
+    LinkedList<RentOfferCategory> getRentCategories(int code);
 
     /**
      * Get set of ids rent categories from cache.

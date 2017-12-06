@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.rent.model.mongo.sequence.RentSequence;
+import ua.com.gup.rent.model.mongo.sequence.RentOfferSequence;
 
 import javax.annotation.PostConstruct;
 
@@ -20,17 +20,17 @@ public class RentSequenceRepositoryCustomerImpl implements RentSequenceRepositor
 
     @PostConstruct
     void init() {
-        if (!mongoTemplate.collectionExists(RentSequence.class)) {
-            mongoTemplate.createCollection(RentSequence.class);
+        if (!mongoTemplate.collectionExists(RentOfferSequence.class)) {
+            mongoTemplate.createCollection(RentOfferSequence.class);
         }
     }
 
     @Override
     public long getNextSequenceValue(String sequenceId) {
-        //get rentSequence id
+        //get rentOfferSequence id
         Query query = new Query(Criteria.where("_id").is(sequenceId));
 
-        //increase rentSequence id by 1
+        //increase rentOfferSequence id by 1
         Update update = new Update();
         update.inc("value", 1);
 
@@ -39,14 +39,14 @@ public class RentSequenceRepositoryCustomerImpl implements RentSequenceRepositor
         options.returnNew(true);
 
         //this is the magic happened.
-        RentSequence rentSequence =  mongoTemplate.findAndModify(query, update, options, RentSequence.class);
+        RentOfferSequence rentOfferSequence =  mongoTemplate.findAndModify(query, update, options, RentOfferSequence.class);
 
-        //if no rentSequence, throws RuntimeException
-        //optional, just a way to tell user when the rentSequence is failed to generate.
-        if (rentSequence == null) {
-            throw new RuntimeException("Unable to get rentSequence value for id : " + sequenceId);
+        //if no rentOfferSequence, throws RuntimeException
+        //optional, just a way to tell user when the rentOfferSequence is failed to generate.
+        if (rentOfferSequence == null) {
+            throw new RuntimeException("Unable to get rentOfferSequence value for id : " + sequenceId);
         }
 
-        return rentSequence.getValue();
+        return rentOfferSequence.getValue();
     }
 }

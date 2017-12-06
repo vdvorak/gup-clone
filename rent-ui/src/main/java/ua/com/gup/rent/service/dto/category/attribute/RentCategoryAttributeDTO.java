@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service.dto.category.attribute;
 
 
-import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeType;
+import ua.com.gup.rent.model.enumeration.RentOfferCategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class RentCategoryAttributeDTO implements Serializable {
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private Integer category_sort;
-    private RentCategoryAttributeType type;
+    private RentOfferCategoryAttributeType type;
     private RentCategoryAttributeValidatorDTO validator;
     private Set<RentCategoryAttributeValueDTO> values;
     private boolean privateAttr;
@@ -68,11 +68,11 @@ public class RentCategoryAttributeDTO implements Serializable {
         this.category_sort = category_sort;
     }
 
-    public RentCategoryAttributeType getType() {
+    public RentOfferCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(RentCategoryAttributeType type) {
+    public void setType(RentOfferCategoryAttributeType type) {
         this.type = type;
     }
 

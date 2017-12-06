@@ -2,7 +2,7 @@ package ua.com.gup.rent.editor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import ua.com.gup.rent.service.dto.price.RentPriceDTO;
+import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public class RentObjectDTORentObjectPriceEditor extends CreateRentObjectDTOPrope
             setValue(null);
         } else {
             try {
-                setValue(mapper.readValue(text, RentPriceDTO.class));
+                setValue(mapper.readValue(text, RentOfferPriceDTO.class));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

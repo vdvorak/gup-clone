@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.mapper.RentCategoryMapper;
-import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
+import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.repository.category.RentCategoryRepository;
 import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
@@ -21,7 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Service Implementation for managing RentCategory.
+ * Service Implementation for managing RentOfferCategory.
  */
 @Service
 public class RentCategoryServiceImpl implements RentCategoryService {
@@ -33,20 +33,20 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Autowired
     private RentCategoryAttributeService rentCategoryAttributeService;
     @Autowired
-    private RentCategoryMapper rentCategoryMapper;
+    private RentOfferCategoryMapper rentOfferCategoryMapper;
 
-    private final Map<Integer, LinkedList<RentCategory>> rentCategoryCache = new ConcurrentHashMap<>();
+    private final Map<Integer, LinkedList<RentOfferCategory>> rentCategoryCache = new ConcurrentHashMap<>();
 
 
-    private RentCategoryTreeDTO categoryToCategoryTreeDTO(RentCategory rentCategory, String lang) {
+    private RentCategoryTreeDTO categoryToCategoryTreeDTO(RentOfferCategory rentOfferCategory, String lang) {
         RentCategoryTreeDTO rentCategoryTreeDTO = new RentCategoryTreeDTO(lang);
-        rentCategoryTreeDTO.setCode(rentCategory.getCode());
-        rentCategoryTreeDTO.setActive(rentCategory.isActive());
-        rentCategoryTreeDTO.setKey(rentCategory.getKey());
-        rentCategoryTreeDTO.setTitle(rentCategory.getTitle());
-        rentCategoryTreeDTO.setDescription(rentCategory.getDescription());
-        rentCategoryTreeDTO.setColor(rentCategory.getColor());
-        rentCategoryTreeDTO.setOrder(rentCategory.getOrder());
+        rentCategoryTreeDTO.setCode(rentOfferCategory.getCode());
+        rentCategoryTreeDTO.setActive(rentOfferCategory.isActive());
+        rentCategoryTreeDTO.setKey(rentOfferCategory.getKey());
+        rentCategoryTreeDTO.setTitle(rentOfferCategory.getTitle());
+        rentCategoryTreeDTO.setDescription(rentOfferCategory.getDescription());
+        rentCategoryTreeDTO.setColor(rentOfferCategory.getColor());
+        rentCategoryTreeDTO.setOrder(rentOfferCategory.getOrder());
         return rentCategoryTreeDTO;
     }
 
@@ -57,11 +57,11 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public RentCategory save(RentCategoryCreateDTO rentCategoryCreateDTO) {
-        logger.debug("Request to save RentCategory : {}", rentCategoryCreateDTO);
-        final RentCategory rentCategory =  rentCategoryRepository.save(rentCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
+    public RentOfferCategory save(RentCategoryCreateDTO rentCategoryCreateDTO) {
+        logger.debug("Request to save RentOfferCategory : {}", rentCategoryCreateDTO);
+        final RentOfferCategory rentOfferCategory =  rentCategoryRepository.save(rentOfferCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
         clearCache();
-        return rentCategory;
+        return rentOfferCategory;
     }
 
     /**
@@ -71,11 +71,11 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
-        logger.debug("Request to save RentCategory : {}", rentCategoryUpdateDTO);
-        final RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
+    public RentOfferCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
+        logger.debug("Request to save RentOfferCategory : {}", rentCategoryUpdateDTO);
+        final RentOfferCategory rentOfferCategory = rentCategoryRepository.save(rentOfferCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
-        return rentCategory;
+        return rentOfferCategory;
     }
 
     /**
@@ -84,7 +84,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the list of entities
      */
     @Override
-    public List<RentCategory> findAll() {
+    public List<RentOfferCategory> findAll() {
         logger.debug("Request to get all Categories by filter");
         return rentCategoryRepository.findAll();
     }
@@ -97,19 +97,19 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Override
     public Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang) {
         logger.debug("Request to get all Categories in tree view");
-        final List<RentCategory> categoriesList = rentCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
+        final List<RentOfferCategory> categoriesList = rentCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         categoriesList.removeIf(c -> !c.isActive());
 
         final Map<Integer, ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> categories = new LinkedHashMap<>();
 
-        for (RentCategory rentCategory : categoriesList) {
-            categories.put(rentCategory.getCode(), categoryToCategoryTreeDTO(rentCategory, lang));
+        for (RentOfferCategory rentOfferCategory : categoriesList) {
+            categories.put(rentOfferCategory.getCode(), categoryToCategoryTreeDTO(rentOfferCategory, lang));
         }
 
         //get parent and add child category
-        for (RentCategory rentCategory : categoriesList) {
-            if (categories.containsKey(rentCategory.getParent()))
-                categories.get(rentCategory.getParent()).getChildren().add(categories.get(rentCategory.getCode()));
+        for (RentOfferCategory rentOfferCategory : categoriesList) {
+            if (categories.containsKey(rentOfferCategory.getParent()))
+                categories.get(rentOfferCategory.getParent()).getChildren().add(categories.get(rentOfferCategory.getCode()));
         }
         //get all category_attribute for sort
         final Map<Integer, SortedSet<RentCategoryAttributeDTO>> categoryAttributeDTOs = rentCategoryAttributeService.findAllCategoryAttributeDTO();
@@ -131,8 +131,8 @@ public class RentCategoryServiceImpl implements RentCategoryService {
 
         //filter for first level category
         final Set<Integer> firstLevelCategories = categoriesList.stream()
-                                                                  .filter((RentCategory c) -> c.getParent() == 0)
-                                                                  .map(RentCategory::getCode)
+                                                                  .filter((RentOfferCategory c) -> c.getParent() == 0)
+                                                                  .map(RentOfferCategory::getCode)
                                                                   .collect(Collectors.toSet());
         //return sorted categoryDTO
         return categories.entrySet().stream()
@@ -149,22 +149,22 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the entity
      */
     @Override
-    public RentCategory findOne(String id) {
-        logger.debug("Request to get RentCategory : {}", id);
+    public RentOfferCategory findOne(String id) {
+        logger.debug("Request to get RentOfferCategory : {}", id);
         return rentCategoryRepository.findOne(id);
     }
 
 
     @Override
-    public Optional<RentCategory> findOneByCode(int code) {
-        logger.debug("Request to get RentCategory : {}", code);
+    public Optional<RentOfferCategory> findOneByCode(int code) {
+        logger.debug("Request to get RentOfferCategory : {}", code);
         return rentCategoryRepository.findOneByCode(code);
     }
 
     @Override
-    public List<RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes) {
+    public List<RentOfferCategory> findByCodeInOrderByCodeAsc(List<Integer> codes) {
         logger.debug("Request to get Categories : {}", codes);
-        Optional<List<RentCategory>> optional = rentCategoryRepository.findByCodeInOrderByCodeAsc(codes);
+        Optional<List<RentOfferCategory>> optional = rentCategoryRepository.findByCodeInOrderByCodeAsc(codes);
         if (optional.isPresent()) {
             return optional.get();
         }
@@ -178,7 +178,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      */
     @Override
     public void delete(String id) {
-        logger.debug("Request to delete RentCategory : {}", id);
+        logger.debug("Request to delete RentOfferCategory : {}", id);
         rentCategoryRepository.delete(id);
         clearCache();
     }
@@ -189,7 +189,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @param code the code of the entity
      */
     @Override
-    public LinkedList<RentCategory> getRentCategories(int code) {
+    public LinkedList<RentOfferCategory> getRentCategories(int code) {
         if (rentCategoryCache.size() == 0) {
             warmCache();
         }
@@ -219,21 +219,21 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     }
 
     private void warmCache() {
-        final List<RentCategory> categories = rentCategoryRepository.findAll();
-        final Set<Integer> parentCategories = categories.stream().map(RentCategory::getParent).collect(Collectors.toSet());
-        final Map<Integer, RentCategory> categoriesMap = categories.stream().collect(Collectors.toMap(RentCategory::getCode, Function.identity()));
+        final List<RentOfferCategory> categories = rentCategoryRepository.findAll();
+        final Set<Integer> parentCategories = categories.stream().map(RentOfferCategory::getParent).collect(Collectors.toSet());
+        final Map<Integer, RentOfferCategory> categoriesMap = categories.stream().collect(Collectors.toMap(RentOfferCategory::getCode, Function.identity()));
         categories.removeIf(c -> parentCategories.contains(c.getCode()));
-        final Map<Integer, LinkedList<RentCategory>> rentCategoriesMap = new HashMap();
-        for (RentCategory category : categories) {
+        final Map<Integer, LinkedList<RentOfferCategory>> rentCategoriesMap = new HashMap();
+        for (RentOfferCategory category : categories) {
             int code = category.getCode();
-            LinkedList<RentCategory> linkedList = new LinkedList<>();
+            LinkedList<RentOfferCategory> linkedList = new LinkedList<>();
             while (code != 0) {
-                RentCategory current = categoriesMap.get(code);
-                RentCategory rentCategory = new RentCategory();
-                rentCategory.setCode(current.getCode());
-                rentCategory.setKey(current.getKey());
-                rentCategory.setTitle(current.getTitle());
-                linkedList.add(0, rentCategory);
+                RentOfferCategory current = categoriesMap.get(code);
+                RentOfferCategory rentOfferCategory = new RentOfferCategory();
+                rentOfferCategory.setCode(current.getCode());
+                rentOfferCategory.setKey(current.getKey());
+                rentOfferCategory.setTitle(current.getTitle());
+                linkedList.add(0, rentOfferCategory);
                 code = current.getParent();
             }
             rentCategoriesMap.put(category.getCode(), linkedList);

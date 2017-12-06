@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service.category.attribute;
 
 
-import ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute;
+import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
 import ua.com.gup.rent.service.abstracted.generic.RentGenericService;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.SortedSet;
 
 /**
- * Service Interface for managing RentCategoryAttribute.
+ * Service Interface for managing RentOfferCategoryAttribute.
  */
 public interface RentCategoryAttributeService extends RentGenericService<RentCategoryAttributeCreateDTO, String> {
     /**
@@ -22,34 +22,34 @@ public interface RentCategoryAttributeService extends RentGenericService<RentCat
      * @param rentCategoryAttributeCreateDTO the entity to save
      * @return the persisted entity
      */
-     RentCategoryAttribute save(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO);
+     RentOfferCategoryAttribute save(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO);
     /**
      * Save a categoryAttribute.
      *
      * @param rentCategoryAttributeUpdateDTO the entity to save
      * @return the persisted entity
      */
-    RentCategoryAttribute save(RentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO);
+    RentOfferCategoryAttribute save(RentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO);
     /**
      * Get all the categoryAttributes.
      *
      * @return the list of entities
      */
-    List<RentCategoryAttribute> findAll();
+    List<RentOfferCategoryAttribute> findAll();
     /**
      * Get the "id" categoryAttribute.
      *
      * @param id the id of the entity
      * @return the entity
      */
-     RentCategoryAttribute findOne(String id);
+     RentOfferCategoryAttribute findOne(String id);
     /**
      * Get the "code" categoryAttribute.
      *
      * @param code the code of the entity
      * @return the entity
      */
-    Optional<RentCategoryAttribute> findOneByCode(int code);
+    Optional<RentOfferCategoryAttribute> findOneByCode(int code);
     /**
      * Delete the "id" categoryAttribute.
      *

@@ -3,14 +3,14 @@ package ua.com.gup.rent.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import ua.com.gup.rent.repository.rent.RentObjectRepository;
+import ua.com.gup.rent.repository.rent.RentOfferRepository;
 
 import java.io.Serializable;
 
 public class RentPermissionEvaluator implements PermissionEvaluator {
 
     @Autowired
-    private RentObjectRepository rentObjectRepository;
+    private RentOfferRepository rentOfferRepository;
 
 
     @Override
@@ -30,7 +30,7 @@ public class RentPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
 //        switch (targetType){
-//            case Rent.class.getName():{
+//            case RentOffer.class.getName():{
 //
 //            }
 //
@@ -43,6 +43,6 @@ public class RentPermissionEvaluator implements PermissionEvaluator {
 
 
     public boolean isOwner(String rentObjectId, String userId) {
-        return rentObjectRepository.isOwner(rentObjectId, userId);
+        return rentOfferRepository.isOwner(rentObjectId, userId);
     }
 }

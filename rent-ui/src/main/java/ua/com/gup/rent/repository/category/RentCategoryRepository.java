@@ -1,7 +1,7 @@
 package ua.com.gup.rent.repository.category;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +9,8 @@ import java.util.Optional;
 /**
  * Repository for the category entity.
  */
-public interface RentCategoryRepository extends MongoRepository<RentCategory, String> {
-    Optional<RentCategory> findOneByCode(Integer code);
+public interface RentCategoryRepository extends MongoRepository<RentOfferCategory, String> {
+    Optional<RentOfferCategory> findOneByCode(Integer code);
 
-    Optional<List<RentCategory>> findByCodeInOrderByCodeAsc(List<Integer> codes);
+    Optional<List<RentOfferCategory>> findByCodeInOrderByCodeAsc(List<Integer> codes);
 }
