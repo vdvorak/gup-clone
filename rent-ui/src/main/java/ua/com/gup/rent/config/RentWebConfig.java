@@ -5,14 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import ua.com.gup.rent.api.RentEndpoint_test;
-import ua.com.gup.rent.api.RentOfferCalendarEndpoint;
-import ua.com.gup.rent.api.RentOfferCategoryEndpoint;
+import ua.com.gup.rent.api.RentCalendarEndpoint;
+import ua.com.gup.rent.api.RentCategoryEndpoint;
+import ua.com.gup.rent.api.RentEndpoint;
 
 import javax.servlet.Filter;
 
 @Configuration
-@ComponentScan(basePackageClasses = {RentEndpoint_test.class, RentOfferCategoryEndpoint.class, RentOfferCalendarEndpoint.class})
+@ComponentScan(basePackageClasses = {RentEndpoint.class, RentCategoryEndpoint.class, RentCalendarEndpoint.class},
+        basePackages = {"ua.com.gup.common"})
 public class RentWebConfig {
 
 
