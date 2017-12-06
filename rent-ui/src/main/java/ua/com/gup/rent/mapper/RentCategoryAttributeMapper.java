@@ -15,15 +15,15 @@ public class RentCategoryAttributeMapper {
     @Autowired
     private RentSequenceService rentSequenceService;
 
-    public ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute categoryAttributeCreateDTOToCategoryAttribute(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
-        ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute rentCategoryAttribute = new ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute();
+    public RentCategoryAttribute categoryAttributeCreateDTOToCategoryAttribute(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
+           RentCategoryAttribute rentCategoryAttribute = new RentCategoryAttribute();
         fromCategoryCreateDTOToCategory(rentCategoryAttributeCreateDTO, rentCategoryAttribute);
         rentCategoryAttribute.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_ATTRIBUTE_SEQUENCE_ID));
         return rentCategoryAttribute;
     }
 
     public RentCategoryAttribute categoryAttributeUpdateDTOToCategoryAttribute(RentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO) {
-        ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute rentCategoryAttribute = new ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute();
+        RentCategoryAttribute rentCategoryAttribute = new RentCategoryAttribute();
         fromCategoryCreateDTOToCategory(rentCategoryAttributeUpdateDTO, rentCategoryAttribute);
         rentCategoryAttribute.setCode(rentCategoryAttributeUpdateDTO.getCode());
         rentCategoryAttribute.setId(rentCategoryAttributeUpdateDTO.getId());
