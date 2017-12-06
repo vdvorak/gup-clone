@@ -3,16 +3,11 @@ package ua.com.gup.rent.service.dto.rent.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.dto.offer.OfferAddressDTO;
-import ua.com.gup.dto.offer.OfferContactInfoDTO;
-import ua.com.gup.dto.offer.OfferLandsDTO;
-import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferContactInfoDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
@@ -45,27 +40,27 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
     private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 115)
-    private LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 120)
-    private LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 130)
-    private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
-    public OfferStatus getStatus() {
+    public RentOfferStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OfferStatus status) {
+    public void setStatus(RentOfferStatus status) {
         this.status = status;
     }
 
-    public OfferAddressDTO getAddress() {
+    public RentOfferAddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(OfferAddressDTO address) {
+    public void setAddress(RentOfferAddressDTO address) {
         this.address = address;
     }
 
@@ -77,60 +72,59 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
         this.youtubeVideoId = youtubeVideoId;
     }
 
-    public OfferContactInfoDTO getContactInfo() {
+    public RentOfferContactInfoDTO getContactInfo() {
         return contactInfo;
     }
 
-    public void setContactInfo(OfferContactInfoDTO contactInfo) {
+    public void setContactInfo(RentOfferContactInfoDTO contactInfo) {
         this.contactInfo = contactInfo;
     }
 
-
-    public OfferLandsDTO getLands() {
+    public RentOfferLandsDTO getLands() {
         return lands;
     }
 
-    public void setLands(OfferLandsDTO lands) {
+    public void setLands(RentOfferLandsDTO lands) {
         this.lands = lands;
     }
 
-    public OfferStatisticDTO getOfferStatistic() {
+    public RentOfferStatisticDTO getOfferStatistic() {
         return offerStatistic;
     }
 
-    public void setOfferStatistic(OfferStatisticDTO offerStatistic) {
+    public void setOfferStatistic(RentOfferStatisticDTO offerStatistic) {
         this.offerStatistic = offerStatistic;
     }
 
-    public LinkedHashMap<String, OfferCategorySingleAttributeValue> getAttrs() {
+    public LinkedHashMap<String, RentOfferCategorySingleAttributeValue> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs) {
+    public void setAttrs(LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs) {
         this.attrs = attrs;
     }
 
-    public LinkedHashMap<String, OfferCategoryMultiAttributeValue> getMultiAttrs() {
+    public LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> getMultiAttrs() {
         return multiAttrs;
     }
 
-    public void setMultiAttrs(LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs) {
+    public void setMultiAttrs(LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs) {
         this.multiAttrs = multiAttrs;
     }
 
-    public LinkedHashMap<String, OfferCategoryNumericAttributeValue> getNumAttrs() {
+    public LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> getNumAttrs() {
         return numAttrs;
     }
 
-    public void setNumAttrs(LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs) {
+    public void setNumAttrs(LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs) {
         this.numAttrs = numAttrs;
     }
 
-    public LinkedHashMap<String, OfferCategoryBoolAttributeValue> getBoolAttrs() {
+    public LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> getBoolAttrs() {
         return boolAttrs;
     }
 
-    public void setBoolAttrs(LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs) {
+    public void setBoolAttrs(LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs) {
         this.boolAttrs = boolAttrs;
     }
 }

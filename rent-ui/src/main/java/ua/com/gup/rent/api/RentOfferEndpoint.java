@@ -22,6 +22,7 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
+import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
@@ -120,20 +121,20 @@ public class RentOfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOneBySeoUrl(seoUrl);
-        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOneBySeoUrl(seoUrl);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
     
     @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
-        String authorId = SecurityUtils.getCurrentUserId();
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
+        String authorId = RentSecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOfferByIdAndAuthorId(id, authorId);
-        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOfferByIdAndAuthorId(id, authorId);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
 
