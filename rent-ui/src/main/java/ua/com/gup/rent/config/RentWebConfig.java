@@ -12,7 +12,8 @@ import ua.com.gup.rent.api.RentEndpoint;
 import javax.servlet.Filter;
 
 @Configuration
-@ComponentScan(basePackageClasses = {RentEndpoint.class, RentCategoryEndpoint.class, RentCalendarEndpoint.class})
+@ComponentScan(basePackageClasses = {RentEndpoint.class, RentCategoryEndpoint.class, RentCalendarEndpoint.class},
+        basePackages = {"ua.com.gup.common"})
 public class RentWebConfig {
 
 
