@@ -6,8 +6,7 @@ import ua.com.gup.common.model.FileInfo;
 
 public interface FileStorageService {
 
-    public FileInfo save(MultipartFile in) ;    
+    public FileInfo save(MultipartFile in);
 
-    public List<FileInfo> save(MultipartFile files[]) throws Exception;
-
+    public List<FileInfo> save(MultipartFile files[]);
 }
