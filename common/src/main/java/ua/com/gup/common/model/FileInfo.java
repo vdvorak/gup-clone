@@ -1,15 +1,20 @@
-package ua.com.gup.rent.model.image;
+package ua.com.gup.common.model;
 
-public class RentImageInfo {
+public abstract class FileInfo {
 
     private String fileName;
     private String s3id;
     private String contentType;
     private Long size;
+    private final FileType type;
 
-    public RentImageInfo() {
+    public FileInfo(FileType type) {
+        this.type = type;
     }
 
+    public FileType getType() {
+        return type;
+    }
 
     public String getFileName() {
         return fileName;
@@ -42,4 +47,5 @@ public class RentImageInfo {
     public void setSize(Long size) {
         this.size = size;
     }
+
 }

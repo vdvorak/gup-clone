@@ -15,15 +15,15 @@ public class RentCategoryMapper {
     @Autowired
     private RentSequenceService rentSequenceService;
 
-    public ua.com.gup.rent.model.mongo.category.RentCategory categoryCreateDTOToCategory(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
-        ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = new ua.com.gup.rent.model.mongo.category.RentCategory();
+    public RentCategory categoryCreateDTOToCategory(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+        RentCategory rentCategory = new RentCategory();
         fromCategoryCreateDTOToCategory(rentCategoryCreateDTO, rentCategory);
         rentCategory.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
         return rentCategory;
     }
 
     public RentCategory categoryUpdateDTOToCategory(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
-        ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = new ua.com.gup.rent.model.mongo.category.RentCategory();
+        RentCategory rentCategory = new RentCategory();
         fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, rentCategory);
         rentCategory.setCode(rentCategoryUpdateDTO.getCode());
         rentCategory.setId(rentCategoryUpdateDTO.getId());

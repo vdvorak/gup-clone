@@ -3,7 +3,6 @@ package ua.com.gup.rent.model.mongo.rent;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.rent.model.image.RentImageInfo;
 import ua.com.gup.rent.model.rent.RentPrice;
 import ua.com.gup.rent.model.rent.RentStatus;
 import ua.com.gup.rent.model.rent.category.attribute.RentCategoryBoolAttributeValue;
@@ -14,6 +13,7 @@ import ua.com.gup.rent.model.rent.category.attribute.RentCategorySingleAttribute
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
+import ua.com.gup.common.model.ImageFileInfo;
 
 @Document(collection = "rent.object")
 public class Rent {
@@ -29,7 +29,7 @@ public class Rent {
     private List<Integer> categories;
     private RentStatus status;
     private RentPrice rentPrice;
-    private List<RentImageInfo> images;
+    private List<ImageFileInfo> images;
 
     @Indexed(unique = true)
     private String seoUrl;
@@ -55,11 +55,11 @@ public class Rent {
         this.id = id;
     }
 
-    public List<RentImageInfo> getImages() {
+    public List<ImageFileInfo> getImages() {
         return images;
     }
 
-    public void setImages(List<RentImageInfo> images) {
+    public void setImages(List<ImageFileInfo> images) {
         this.images = images;
     }
 

@@ -41,7 +41,7 @@ public class RentCategoryAttributeServiceImpl extends RentGenericServiceImpl<Ren
     @Override
     public RentCategoryAttribute save(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
         logger.debug("Request to save RentCategoryAttribute : {}", rentCategoryAttributeCreateDTO);
-        final RentCategoryAttribute attribute = rentCategoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(rentCategoryAttributeCreateDTO);
+        RentCategoryAttribute attribute = rentCategoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(rentCategoryAttributeCreateDTO);
         final RentCategoryAttribute saved = ((RentCategoryAttributeRepository)getRepository()).save(attribute);
         clearCache();
         return saved;

@@ -7,7 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.mapper.RentCategoryMapper;
 import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.repository.category.RentCategoryRepository;
 import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
+import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeValueDTO;
@@ -27,7 +29,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     private final Logger logger = LoggerFactory.getLogger(RentCategoryServiceImpl.class);
 
     @Autowired
-    private ua.com.gup.rent.repository.category.RentCategoryRepository rentCategoryRepository;
+    private RentCategoryRepository rentCategoryRepository;
     @Autowired
     private RentCategoryAttributeService rentCategoryAttributeService;
     @Autowired
@@ -55,9 +57,9 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+    public RentCategory save(RentCategoryCreateDTO rentCategoryCreateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryCreateDTO);
-        final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory =  rentCategoryRepository.save(rentCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
+        final RentCategory rentCategory =  rentCategoryRepository.save(rentCategoryMapper.categoryCreateDTOToCategory(rentCategoryCreateDTO));
         clearCache();
         return rentCategory;
     }
@@ -69,9 +71,9 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the persisted entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public RentCategory save(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
         logger.debug("Request to save RentCategory : {}", rentCategoryUpdateDTO);
-        final ua.com.gup.rent.model.mongo.category.RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
+        final RentCategory rentCategory = rentCategoryRepository.save(rentCategoryMapper.categoryUpdateDTOToCategory(rentCategoryUpdateDTO));
         clearCache();
         return rentCategory;
     }
@@ -82,7 +84,7 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the list of entities
      */
     @Override
-    public List<ua.com.gup.rent.model.mongo.category.RentCategory> findAll() {
+    public List<RentCategory> findAll() {
         logger.debug("Request to get all Categories by filter");
         return rentCategoryRepository.findAll();
     }
@@ -95,19 +97,17 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     @Override
     public Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> findAllTreeView(String lang) {
         logger.debug("Request to get all Categories in tree view");
-        //get all category and sort asc by field order
-        final List<ua.com.gup.rent.model.mongo.category.RentCategory> categoriesList = rentCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
-        //remove if active false
+        final List<RentCategory> categoriesList = rentCategoryRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
         categoriesList.removeIf(c -> !c.isActive());
 
         final Map<Integer, ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> categories = new LinkedHashMap<>();
 
-        for (ua.com.gup.rent.model.mongo.category.RentCategory rentCategory : categoriesList) {
+        for (RentCategory rentCategory : categoriesList) {
             categories.put(rentCategory.getCode(), categoryToCategoryTreeDTO(rentCategory, lang));
         }
 
         //get parent and add child category
-        for (ua.com.gup.rent.model.mongo.category.RentCategory rentCategory : categoriesList) {
+        for (RentCategory rentCategory : categoriesList) {
             if (categories.containsKey(rentCategory.getParent()))
                 categories.get(rentCategory.getParent()).getChildren().add(categories.get(rentCategory.getCode()));
         }
@@ -131,8 +131,8 @@ public class RentCategoryServiceImpl implements RentCategoryService {
 
         //filter for first level category
         final Set<Integer> firstLevelCategories = categoriesList.stream()
-                                                                  .filter((ua.com.gup.rent.model.mongo.category.RentCategory c) -> c.getParent() == 0)
-                                                                  .map(ua.com.gup.rent.model.mongo.category.RentCategory::getCode)
+                                                                  .filter((RentCategory c) -> c.getParent() == 0)
+                                                                  .map(RentCategory::getCode)
                                                                   .collect(Collectors.toSet());
         //return sorted categoryDTO
         return categories.entrySet().stream()
@@ -149,22 +149,22 @@ public class RentCategoryServiceImpl implements RentCategoryService {
      * @return the entity
      */
     @Override
-    public ua.com.gup.rent.model.mongo.category.RentCategory findOne(String id) {
+    public RentCategory findOne(String id) {
         logger.debug("Request to get RentCategory : {}", id);
         return rentCategoryRepository.findOne(id);
     }
 
 
     @Override
-    public Optional<ua.com.gup.rent.model.mongo.category.RentCategory> findOneByCode(int code) {
+    public Optional<RentCategory> findOneByCode(int code) {
         logger.debug("Request to get RentCategory : {}", code);
         return rentCategoryRepository.findOneByCode(code);
     }
 
     @Override
-    public List<ua.com.gup.rent.model.mongo.category.RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes) {
+    public List<RentCategory> findByCodeInOrderByCodeAsc(List<Integer> codes) {
         logger.debug("Request to get Categories : {}", codes);
-        Optional<List<ua.com.gup.rent.model.mongo.category.RentCategory>> optional = rentCategoryRepository.findByCodeInOrderByCodeAsc(codes);
+        Optional<List<RentCategory>> optional = rentCategoryRepository.findByCodeInOrderByCodeAsc(codes);
         if (optional.isPresent()) {
             return optional.get();
         }
@@ -221,10 +221,10 @@ public class RentCategoryServiceImpl implements RentCategoryService {
     private void warmCache() {
         final List<RentCategory> categories = rentCategoryRepository.findAll();
         final Set<Integer> parentCategories = categories.stream().map(RentCategory::getParent).collect(Collectors.toSet());
-        final Map<Integer, ua.com.gup.rent.model.mongo.category.RentCategory> categoriesMap = categories.stream().collect(Collectors.toMap(ua.com.gup.rent.model.mongo.category.RentCategory::getCode, Function.identity()));
+        final Map<Integer, RentCategory> categoriesMap = categories.stream().collect(Collectors.toMap(RentCategory::getCode, Function.identity()));
         categories.removeIf(c -> parentCategories.contains(c.getCode()));
         final Map<Integer, LinkedList<RentCategory>> rentCategoriesMap = new HashMap();
-        for (ua.com.gup.rent.model.mongo.category.RentCategory category : categories) {
+        for (RentCategory category : categories) {
             int code = category.getCode();
             LinkedList<RentCategory> linkedList = new LinkedList<>();
             while (code != 0) {
