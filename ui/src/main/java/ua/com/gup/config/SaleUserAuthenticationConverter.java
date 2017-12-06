@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SalesUserAuthenticationConverter implements UserAuthenticationConverter {
+public class SaleUserAuthenticationConverter implements UserAuthenticationConverter {
 
     private final String USERNAME = "user_name";
     private final String PROFILE_ID = "profile_id";

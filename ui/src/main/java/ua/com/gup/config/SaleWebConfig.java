@@ -19,7 +19,7 @@ import java.util.List;
 
 @Configuration
 @ComponentScan(value = "ua.com.gup.server")
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class SaleWebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment e;

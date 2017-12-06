@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableOAuth2Sso
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
@@ -82,10 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-    
+
     @Bean
     public UserAuthenticationConverter userAuthenticationConverter() {
-        UserAuthenticationConverter converter = new SalesUserAuthenticationConverter();
+        UserAuthenticationConverter converter = new SaleUserAuthenticationConverter();
         return converter;
     }
 
@@ -96,8 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         accessTokenConverter.setUserTokenConverter(userAuthenticationConverter());
         return accessTokenConverter;
     }
-    
-    
+
+
     @Bean
     @Primary
     public RemoteTokenServices getPreProdRemoteTokenServices() {
