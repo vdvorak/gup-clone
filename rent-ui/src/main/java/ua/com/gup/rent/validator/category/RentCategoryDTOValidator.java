@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.service.category.RentCategoryService;
+import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
 
 import java.util.Optional;
@@ -17,11 +20,11 @@ public class RentCategoryDTOValidator implements Validator {
     private final Logger log = LoggerFactory.getLogger(RentCategoryDTOValidator.class);
 
     @Autowired
-    private ua.com.gup.rent.service.category.RentCategoryService rentCategoryService;
+    private RentCategoryService rentCategoryService;
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO.class.equals(clazz) || RentCategoryUpdateDTO.class.equals(clazz);
+        return RentCategoryCreateDTO.class.equals(clazz) || RentCategoryUpdateDTO.class.equals(clazz);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class RentCategoryDTOValidator implements Validator {
             if (rentCategoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
-            final Optional<ua.com.gup.rent.model.mongo.category.RentCategory> categoryOptional = rentCategoryService.findOneByCode(rentCategoryUpdateDTO.getCode());
+            final Optional<RentCategory> categoryOptional = rentCategoryService.findOneByCode(rentCategoryUpdateDTO.getCode());
             if (categoryOptional.isPresent() && !categoryOptional.get().getId().equals(rentCategoryUpdateDTO.getId())) {
                 errors.rejectValue("code", "code.inUse", null, "Code already used by " + categoryOptional.get().getId());
             }
