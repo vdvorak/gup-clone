@@ -3,9 +3,16 @@ package ua.com.gup.rent.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
-import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
-import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
+import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
+import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
+import ua.com.gup.rent.service.category.RentOfferCategoryService;
+import ua.com.gup.rent.service.dto.category.RentOfferCategoryCreateDTO;
+import ua.com.gup.rent.service.dto.category.RentOfferCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Component
 public class RentOfferCategoryMapper {
@@ -14,23 +21,25 @@ public class RentOfferCategoryMapper {
 
     @Autowired
     private RentSequenceService rentSequenceService;
+    @Autowired
+    private RentOfferCategoryService categoryService;
 
-    public RentOfferCategory categoryCreateDTOToCategory(ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) {
+    public RentOfferCategory categoryCreateDTOToCategory(RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) {
         RentOfferCategory rentOfferCategory = new RentOfferCategory();
-        fromCategoryCreateDTOToCategory(rentCategoryCreateDTO, rentOfferCategory);
+        fromCategoryCreateDTOToCategory(rentOfferCategoryCreateDTO, rentOfferCategory);
         rentOfferCategory.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
         return rentOfferCategory;
     }
 
-    public RentOfferCategory categoryUpdateDTOToCategory(RentCategoryUpdateDTO rentCategoryUpdateDTO) {
+    public RentOfferCategory categoryUpdateDTOToCategory(RentOfferCategoryUpdateDTO rentOfferCategoryUpdateDTO) {
         RentOfferCategory rentOfferCategory = new RentOfferCategory();
-        fromCategoryCreateDTOToCategory(rentCategoryUpdateDTO, rentOfferCategory);
-        rentOfferCategory.setCode(rentCategoryUpdateDTO.getCode());
-        rentOfferCategory.setId(rentCategoryUpdateDTO.getId());
+        fromCategoryCreateDTOToCategory(rentOfferCategoryUpdateDTO, rentOfferCategory);
+        rentOfferCategory.setCode(rentOfferCategoryUpdateDTO.getCode());
+        rentOfferCategory.setId(rentOfferCategoryUpdateDTO.getId());
         return rentOfferCategory;
     }
 
-    private void fromCategoryCreateDTOToCategory(RentCategoryCreateDTO source, RentOfferCategory target) {
+    private void fromCategoryCreateDTOToCategory(RentOfferCategoryCreateDTO source, RentOfferCategory target) {
         target.setActive(source.isActive());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
@@ -38,5 +47,24 @@ public class RentOfferCategoryMapper {
         target.setParent(source.getParent());
         target.setColor(source.getColor());
         target.setOrder(source.getOrder());
+    }
+
+    public RentOfferCategoryCountDTO fromOfferCategoryCountToOfferCategoryCountDTO(RentOfferCategoryCount offerCategoryCount) {
+        RentOfferCategoryCountDTO offerCategoryCountDTO = new RentOfferCategoryCountDTO();
+        offerCategoryCountDTO.setCount(offerCategoryCount.getCount());
+        String categoriesRegExp = offerCategoryCount.getCategoriesRegExp();
+        final String[] categories = categoriesRegExp.split("/");
+        final LinkedList<RentOfferCategory> offerCategories = categoryService.getRentOfferCategories(Integer.parseInt(categories[categories.length - 1]));
+        final RentOfferCategory offerCategory = offerCategories.get(offerCategories.size() - 1);
+        offerCategoryCountDTO.setCode(offerCategory.getCode());
+        offerCategoryCountDTO.setKey(offerCategory.getKey());
+        offerCategoryCountDTO.setTitle(offerCategory.getTitle());
+        return offerCategoryCountDTO;
+    }
+
+    public LinkedList<RentOfferCategoryShort> offerCategoriesByCategoriesIds(List<Integer> ids) {
+        LinkedList<RentOfferCategoryShort> offerCategories = new LinkedList<>();
+        categoryService.findByCodeInOrderByCodeAsc(ids).forEach( e -> offerCategories.add(new RentOfferCategoryShort(e)));
+        return offerCategories;
     }
 }

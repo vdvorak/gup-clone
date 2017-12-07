@@ -1,5 +1,7 @@
 package ua.com.gup.mongo.model.complaint;
 
+import ua.com.gup.common.model.ImageFileInfo;
+
 
 public class ComplaintInitiator {
 
@@ -9,7 +11,7 @@ public class ComplaintInitiator {
 
     private String lastName;
 
-    private String imageId;
+    private ImageFileInfo image;
 
     private String imageUrl;
 
@@ -39,14 +41,14 @@ public class ComplaintInitiator {
         this.lastName = lastName;
     }
 
-    public String getImageId() {
-        return imageId;
+    public ImageFileInfo getImage() {
+        return image;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setImage(ImageFileInfo image) {
+        this.image = image;
     }
-
+   
     public String getImageUrl() {
         return imageUrl;
     }
@@ -69,7 +71,7 @@ public class ComplaintInitiator {
                 "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", imageId='" + imageId + '\'' +
+                ", image='" + image + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", email='" + email + '\'' +
                 '}';

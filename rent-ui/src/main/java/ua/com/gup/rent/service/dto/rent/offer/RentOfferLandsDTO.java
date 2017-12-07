@@ -18,6 +18,11 @@ public class RentOfferLandsDTO implements Serializable {
 
     public RentOfferLandsDTO() {}
 
+    public RentOfferLandsDTO(String cadnums, List<RentOfferPolygons> polygons) {
+        this.cadnums = cadnums;
+        this.polygons = polygons;
+    }
+
     public String getCadnums() {
         return cadnums;
     }

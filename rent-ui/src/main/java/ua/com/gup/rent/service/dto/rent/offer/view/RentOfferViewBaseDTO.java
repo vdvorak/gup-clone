@@ -3,7 +3,7 @@ package ua.com.gup.rent.service.dto.rent.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
+import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferAuthorDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -25,7 +25,7 @@ public class RentOfferViewBaseDTO implements Serializable {
     private RentOfferAuthorDTO author;
 
     @ApiModelProperty(position = 30)
-    private LinkedList<RentOfferCategory> categories;
+    private LinkedList<RentOfferCategoryShort> categories;
 
     @ApiModelProperty(position = 40, example = "title")
     private String title;
@@ -66,11 +66,11 @@ public class RentOfferViewBaseDTO implements Serializable {
         this.author = author;
     }
 
-    public LinkedList<RentOfferCategory> getCategories() {
+    public LinkedList<RentOfferCategoryShort> getCategories() {
         return categories;
     }
 
-    public void setCategories(LinkedList<RentOfferCategory> categories) {
+    public void setCategories(LinkedList<RentOfferCategoryShort> categories) {
         this.categories = categories;
     }
 

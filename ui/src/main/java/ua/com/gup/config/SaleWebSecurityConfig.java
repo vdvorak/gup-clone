@@ -52,13 +52,10 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
 
                 .antMatchers(HttpMethod.GET, "/api/users/authenticate")
-                .authenticated()
+                .authenticated()                
                 
-                .antMatchers(HttpMethod.DELETE)
-                .authenticated()
-
                 .antMatchers(HttpMethod.GET, "/api/**")
-                .permitAll()
+                .permitAll()                
 
                 .anyRequest()
                 .authenticated();

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
+import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -25,7 +26,7 @@ public class RentOffer {
     private String title;
     private String description;
     private LocalDateTime createdDate;
-    private String ownerId;
+    private String authorId;
     private List<Integer> categories;
     private RentOfferStatus status;
     private RentOfferPrice rentOfferPrice;
@@ -42,6 +43,9 @@ public class RentOffer {
 
     private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
+    /*private RentOfferStatistic statistic;*/
+
+    private RentOfferModerationReport lastOfferModerationReport;
 
     public RentOffer() {
         createdDate = LocalDateTime.now();
@@ -111,12 +115,12 @@ public class RentOffer {
         this.rentOfferPrice = rentOfferPrice;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getSeoUrl() {
@@ -157,5 +161,13 @@ public class RentOffer {
 
     public void setBoolAttrs(LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public RentOfferModerationReport getLastOfferModerationReport() {
+        return lastOfferModerationReport;
+    }
+
+    public void setLastOfferModerationReport(RentOfferModerationReport lastOfferModerationReport) {
+        this.lastOfferModerationReport = lastOfferModerationReport;
     }
 }

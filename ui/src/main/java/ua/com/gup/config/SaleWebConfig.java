@@ -18,8 +18,8 @@ import ua.com.gup.config.filter.OAuthFilter;
 import java.util.List;
 
 @Configuration
-@ComponentScan(value = "ua.com.gup.server")
-public class SaleWebConfig extends WebMvcConfigurerAdapter {
+@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common"})
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment e;
@@ -36,14 +36,6 @@ public class SaleWebConfig extends WebMvcConfigurerAdapter {
         argumentResolvers.add(resolver);
         super.addArgumentResolvers(argumentResolvers);
     }
-
-    @Bean
-    public CommonsMultipartResolver commonsMultipartResolver() {
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSize(e.getRequiredProperty("multipartResolver.maxFileUploadSize", Long.class));
-        return resolver;
-    }
-
 
 
     @Bean

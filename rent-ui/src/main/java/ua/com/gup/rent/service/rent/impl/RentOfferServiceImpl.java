@@ -21,10 +21,12 @@ import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
-import ua.com.gup.rent.service.abstracted.RentGenericServiceImpl;
+import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
+import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.rent.image.RentOfferPostImageResponse;
@@ -34,12 +36,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
 @Service
-public class RentOfferServiceImpl extends RentGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
+public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
 
     @Autowired
     private Environment e;
@@ -124,8 +127,6 @@ public class RentOfferServiceImpl extends RentGenericServiceImpl<RentOfferDTO, S
             CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
             rentOffer.setImages(images);
         }
-
-        //rentOffer.setOwnerId(SecurityContextHolder.);
         getRepository().create(rentOffer);
     }
 
@@ -142,6 +143,21 @@ public class RentOfferServiceImpl extends RentGenericServiceImpl<RentOfferDTO, S
     public List<RentOfferViewShortDTO> findAll() {
         List<RentOffer> rentOffers = getRepository().findAll();
         return rentOffers.stream().map(rentOffer -> rentOfferMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<RentOfferViewDetailsDTO> findOne(String id) {
+        return null;
+    }
+
+    @Override
+    public RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO) {
+        return null;
+    }
+
+    @Override
+    public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
+        return null;
     }
 
     @Override
