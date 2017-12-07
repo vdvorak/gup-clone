@@ -18,6 +18,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
@@ -131,7 +132,7 @@ public class RentOfferEndpoint {
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
-        String authorId = RentSecurityUtils.getCurrentUserId();
+        String authorId = RentOfferSecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOfferByIdAndAuthorId(id, authorId);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
@@ -140,25 +141,25 @@ public class RentOfferEndpoint {
 
     @CrossOrigin
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)    
-    public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
-        Optional<OfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOne(id);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
 
     @CrossOrigin
     @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
-                                                                                   @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
-                                                                                   @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
+    public ResponseEntity<List<RentOfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
+                                                                                       @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
+                                                                                       @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
 
         log.debug("REST request to get Offer viewStatistic by seoUrl : {}", seoUrl);
         LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate dateEnd = Instant.ofEpochMilli(dateEndInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Optional<List<OfferStatisticByDateDTO>> statistic = rentOfferService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
-        return ResponseUtil.wrapOrNotFound(statistic);
+        Optional<List<RentOfferStatisticByDateDTO>> statistic = rentOfferService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
+        return RentResponseUtil.wrapOrNotFound(statistic);
     }
 
     @ApiImplicitParams({
@@ -183,7 +184,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/seo/relevant/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
-        Page<OfferViewShortDTO> page = rentOfferService.findRelevantBySeoUrl(seoUrl, pageable);
+        Page<RentOfferViewShortDTO> page = rentOfferService.findRelevantBySeoUrl(seoUrl, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -199,13 +200,13 @@ public class RentOfferEndpoint {
     @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
-    public ResponseEntity<OfferViewDetailsDTO> updateOffer(@Valid @RequestBody OfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
-        log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!rentOfferService.exists(offerUpdateDTO.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO rentOfferUpdateDTO) throws URISyntaxException {
+        log.debug("REST request to update Rent Offer : {}", rentOfferUpdateDTO);
+        if (!rentOfferService.exists(rentOfferUpdateDTO.getId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Rent Offer not found")).body(null);
         }
-        OfferViewDetailsDTO result = rentOfferService.save(offerUpdateDTO);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+        RentOfferViewDetailsDTO result = rentOfferService.save(rentOfferUpdateDTO);
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
     /**

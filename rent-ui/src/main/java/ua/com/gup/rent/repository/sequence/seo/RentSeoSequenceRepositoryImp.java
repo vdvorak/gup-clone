@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.rent.model.mongo.sequence.seo.RentOfferSeoSequence;
-import ua.com.gup.rent.repository.exception.SequenceException;
+import ua.com.gup.rent.repository.exception.RentOfferSequenceException;
 
 @Repository
 public class RentSeoSequenceRepositoryImp implements RentSeoSequenceRepository {
@@ -32,7 +32,7 @@ public class RentSeoSequenceRepositoryImp implements RentSeoSequenceRepository {
         RentOfferSeoSequence rentOfferSeoSequence = mongoTemplate.findAndModify(query, update, options, RentOfferSeoSequence.class);
 
         if (rentOfferSeoSequence == null) {
-            throw new SequenceException("Unable to get SEO sequence id for key : " + key);
+            throw new RentOfferSequenceException("Unable to get SEO sequence id for key : " + key);
         }
 
         return rentOfferSeoSequence.getSeoKey();

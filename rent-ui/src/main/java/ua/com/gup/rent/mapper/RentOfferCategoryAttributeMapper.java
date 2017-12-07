@@ -3,8 +3,8 @@ package ua.com.gup.rent.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
 
 @Component
@@ -15,22 +15,22 @@ public class RentOfferCategoryAttributeMapper {
     @Autowired
     private RentSequenceService rentSequenceService;
 
-    public RentOfferCategoryAttribute categoryAttributeCreateDTOToCategoryAttribute(RentCategoryAttributeCreateDTO rentCategoryAttributeCreateDTO) {
+    public RentOfferCategoryAttribute categoryAttributeCreateDTOToCategoryAttribute(RentOfferCategoryAttributeCreateDTO rentOfferCategoryAttributeCreateDTO) {
            RentOfferCategoryAttribute rentOfferCategoryAttribute = new RentOfferCategoryAttribute();
-        fromCategoryCreateDTOToCategory(rentCategoryAttributeCreateDTO, rentOfferCategoryAttribute);
+        fromCategoryCreateDTOToCategory(rentOfferCategoryAttributeCreateDTO, rentOfferCategoryAttribute);
         rentOfferCategoryAttribute.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_ATTRIBUTE_SEQUENCE_ID));
         return rentOfferCategoryAttribute;
     }
 
-    public RentOfferCategoryAttribute categoryAttributeUpdateDTOToCategoryAttribute(RentCategoryAttributeUpdateDTO rentCategoryAttributeUpdateDTO) {
+    public RentOfferCategoryAttribute categoryAttributeUpdateDTOToCategoryAttribute(RentOfferCategoryAttributeUpdateDTO rentOfferCategoryAttributeUpdateDTO) {
         RentOfferCategoryAttribute rentOfferCategoryAttribute = new RentOfferCategoryAttribute();
-        fromCategoryCreateDTOToCategory(rentCategoryAttributeUpdateDTO, rentOfferCategoryAttribute);
-        rentOfferCategoryAttribute.setCode(rentCategoryAttributeUpdateDTO.getCode());
-        rentOfferCategoryAttribute.setId(rentCategoryAttributeUpdateDTO.getId());
+        fromCategoryCreateDTOToCategory(rentOfferCategoryAttributeUpdateDTO, rentOfferCategoryAttribute);
+        rentOfferCategoryAttribute.setCode(rentOfferCategoryAttributeUpdateDTO.getCode());
+        rentOfferCategoryAttribute.setId(rentOfferCategoryAttributeUpdateDTO.getId());
         return rentOfferCategoryAttribute;
     }
 
-    private void fromCategoryCreateDTOToCategory(RentCategoryAttributeCreateDTO source, RentOfferCategoryAttribute target) {
+    private void fromCategoryCreateDTOToCategory(RentOfferCategoryAttributeCreateDTO source, RentOfferCategoryAttribute target) {
         target.setActive(source.isActive());
         target.setKey(source.getKey());
         target.setTitle(source.getTitle());

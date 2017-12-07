@@ -5,20 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.gup.dto.profile.PrivateProfileDTO;
-import ua.com.gup.dto.profile.ProfileDTO;
-import ua.com.gup.dto.profile.PublicProfileDTO;
-import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
+import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
+import ua.com.gup.rent.model.rent.profiles.RentOfferProfileRating;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
-import ua.com.gup.util.LogUtil;
-import ua.com.gup.util.security.SecurityUtils;
+import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPrivateProfileDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPublicProfileDTO;
+import ua.com.gup.rent.util.security.RentOfferSecurityUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -32,25 +31,45 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     private RentOfferProfileRepository rentOfferProfileRepository;
 
 
+    /**
+     * Create profile.
+     *
+     * @param profile - the profile.
+     */
+    @Override
+    public void createProfile(RentOfferProfile profile) {
+
+    }
+
+    /**
+     * Create profile.
+     *
+     * @param profile - the Profile object.
+     */
+    @Override
+    public void facebookRegister(RentOfferProfile profile) {
+
+    }
+
     @Override
     public RentOfferProfile findById(String id) {
         return rentOfferProfileRepository.findById(id);
     }
 
     @Override
-    public Profile findByPublicId(String id) {
+    public RentOfferProfile findByPublicId(String id) {
         return rentOfferProfileRepository.findByPublicId(id);
     }
 
 
     @Override
-    public Profile findWholeProfileById(String id) {
+    public RentOfferProfile findWholeProfileById(String id) {
         return rentOfferProfileRepository.findById(id);
     }
 
 
     @Override
-    public Profile editProfile(Profile profile) {
+    public RentOfferProfile editProfile(RentOfferProfile profile) {
         return rentOfferProfileRepository.findProfileAndUpdate(profile);
     }
 
@@ -89,52 +108,37 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
-        return rentOfferProfileRepository.findAllProfilesForAdmin(profileFilterOptions);
-    }
-
-
-    @Override
-    public List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions) {
-        List<Profile> fullProfiles = rentOfferProfileRepository.findAllProfilesForAdmin(profileFilterOptions);
-        removeUnnecessaryFieldsFromProfileForAdminUse(fullProfiles);
-
-        return fullProfiles;
-    }
-
-    @Override
-    public Profile findProfileByUsername(String username) {
+    public RentOfferProfile findProfileByUsername(String username) {
         return rentOfferProfileRepository.findByUsername(username);
     }
 
 
     @Override
-    public Profile findProfileByEmail(String email) {
+    public RentOfferProfile findProfileByEmail(String email) {
         return rentOfferProfileRepository.findByEmail(email);
     }
 
     @Override
-    public Profile findProfileByMainPhone(String mainPhone) {
+    public RentOfferProfile findProfileByMainPhone(String mainPhone) {
         return rentOfferProfileRepository.findProfileByMainPhone(mainPhone);
     }
 
-
     @Override
-    public Profile findWholeProfileByEmail(String email) {
+    public RentOfferProfile findWholeProfileByEmail(String email) {
         return rentOfferProfileRepository.findByEmail(email);
     }
 
 
     @Override
     public boolean isSeoWordFree(String seoWord) {
-        Profile profile = rentOfferProfileRepository.findBySeoWord(seoWord);
+        RentOfferProfile profile = rentOfferProfileRepository.findBySeoWord(seoWord);
         return profile == null;
     }
 
 
     @Override
-    public void createProfileRating(String profileId, ProfileRating profileRating) {
-        ProfileRating newProfileRating = new ProfileRating()
+    public void createProfileRating(String profileId, RentOfferProfileRating profileRating) {
+        RentOfferProfileRating newProfileRating = new RentOfferProfileRating()
                 .setEarnPoints(profileRating.getEarnPoints())
                 .setShortDescription(profileRating.getShortDescription())
                 .setLongDescription(profileRating.getLongDescription())
@@ -152,7 +156,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public Profile findProfileRating(String profileId, String profileRatingId) {
+    public RentOfferProfile findProfileRating(String profileId, String profileRatingId) {
         return rentOfferProfileRepository.findProfileRating(profileId, profileRatingId);
     }
 
@@ -191,13 +195,13 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public List<Profile> getMatchedNamesWithIds(String term) {
+    public List<RentOfferProfile> getMatchedNamesWithIds(String term) {
         return rentOfferProfileRepository.getMatchedNamesToFindWithId(term);
     }
 
 
     @Override
-    public List<Profile> getMatchedCompanies(String term) {
+    public List<RentOfferProfile> getMatchedCompanies(String term) {
         return rentOfferProfileRepository.getMatchedCompanies(term);
     }
 
@@ -215,18 +219,18 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public ProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
-        Profile profile = findById(id);
+    public RentOfferProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
+        RentOfferProfile profile = findById(id);
         profile.setLastLoginDateEqualsToCurrentDate();
         rentOfferProfileRepository.findProfileAndUpdate(profile);
-        return new PrivateProfileDTO(profile);
+        return new RentOfferPrivateProfileDTO(profile);
     }
 
     @Override
-    public ProfileDTO incMainPhoneViewsAtOne(String id) {
-        Profile profile = rentOfferProfileRepository.incMainPhoneViewsAtOne(id);
+    public RentOfferProfileDTO incMainPhoneViewsAtOne(String id) {
+        RentOfferProfile profile = rentOfferProfileRepository.incMainPhoneViewsAtOne(id);
         if (profile != null) {
-            return new PublicProfileDTO(profile);
+            return new RentOfferPublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -234,21 +238,21 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public ProfileDTO findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
-        Profile profile = findProfileByEmail(email);
+    public RentOfferProfileDTO findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
+        RentOfferProfile profile = findProfileByEmail(email);
         profile.setLastLoginDateEqualsToCurrentDate();
         rentOfferProfileRepository.findProfileAndUpdate(profile);
-        ProfileDTO profileInfo = new PrivateProfileDTO(findProfileByEmail(email));
+        RentOfferProfileDTO profileInfo = new RentOfferPrivateProfileDTO(findProfileByEmail(email));
         return profileInfo;
     }
 
 
     @Override
-    public ProfileDTO findPublicProfileById(String id) {
+    public RentOfferProfileDTO findPublicProfileById(String id) {
 
-        Profile profile = findById(id);
+        RentOfferProfile profile = findById(id);
         if (profile != null) {
-            return new PublicProfileDTO(profile);
+            return new RentOfferPublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -256,10 +260,10 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public ProfileDTO findPublicProfileByPublicId(String id) {
-        Profile profile = findByPublicId(id);
+    public RentOfferProfileDTO findPublicProfileByPublicId(String id) {
+        RentOfferProfile profile = findByPublicId(id);
         if (profile != null) {
-            return new PublicProfileDTO(profile);
+            return new RentOfferPublicProfileDTO(profile);
         } else {
             return null;
         }
@@ -267,41 +271,62 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public List<ProfileDTO> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
+    public List<RentOfferProfileDTO> findAllPublicProfilesWithOptions(RentOfferProfileFilterOptions profileFilterOptions) {
         return getListOfPublicProfilesWithOptions(rentOfferProfileRepository.findAllProfiles(profileFilterOptions));
     }
 
 
     @Override
-    public ProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor) {
-        return new PrivateProfileDTO(rentOfferProfileRepository.findProfileByUidAndWendor(uid, socWendor));
+    public RentOfferProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor) {
+        return new RentOfferPrivateProfileDTO(rentOfferProfileRepository.findProfileByUidAndWendor(uid, socWendor));
     }
 
     @Override
-    public ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor) {
-        return new PrivateProfileDTO(rentOfferProfileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor));
+    public RentOfferProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor) {
+        return new RentOfferPrivateProfileDTO(rentOfferProfileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor));
     }
 
-
     @Override
-    public Profile findProfileByUidAndWendor(String uid, String socWendor) {
+    public RentOfferProfile findProfileByUidAndWendor(String uid, String socWendor) {
         return rentOfferProfileRepository.findProfileByUidAndWendor(uid, socWendor);
     }
 
     @Override
-    public Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
+    public RentOfferProfile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
         return rentOfferProfileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor);
     }
 
     /**
+     * This method provides additional information for admin.
+     *
+     * @param profileFilterOptions - the profile filter options.
+     * @return - the list of profiles.
+     */
+    @Override
+    public List<RentOfferProfile> findAllProfilesForAdmin(RentOfferProfileFilterOptions profileFilterOptions) {
+        return null;
+    }
+
+    /**
+     * Return list of profiles for admin-panel in short and light version without unnecessary fields.
+     *
+     * @param profileFilterOptions - the profile filter options
+     * @return - the list of profiles
+     */
+    @Override
+    public List<RentOfferProfile> findAllProfilesForAdminShort(RentOfferProfileFilterOptions profileFilterOptions) {
+        return null;
+    }
+
+   /* *//**
      * If User is logged in - return Profile Info, if not - return null;
      *
      * @param request - the HttpServletRequest object.
-     * @return - the ProfileDTO object if user is loggedIn, or null if not.
-     */
+     * @return - the RentOfferProfileDTO object if user is loggedIn, or null if not.
+     *//*
     @Override
-    public ProfileDTO getLoggedUser(HttpServletRequest request) throws Exception {
-        ProfileDTO profileInfo = null;
+    public RentOfferProfileDTO getLoggedUser(HttpServletRequest request) throws Exception {
+        RentOfferProfileDTO profileInfo = null;
         if (request.getCookies() != null) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
@@ -332,18 +357,18 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
         }
 
         return profileInfo;
-    }
+    }*/
 
 
     @Override
     public void deleteFromMyContactList(String profileId) {
-        String userId = SecurityUtils.getCurrentUserId();
+        String userId = RentOfferSecurityUtils.getCurrentUserId();
 
-        Profile profile = findById(userId);
+        RentOfferProfile profile = findById(userId);
 
-        Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
+       /* Set<ProfileContactList> contactList = profile.getContactList(); //Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
         contactList.remove(profileId);
-        profile.setContactList(contactList);
+        profile.setContactList(contactList);*/
 
         editProfile(profile);
     }
@@ -351,7 +376,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
     @Override
     public void updateFavoriteOffers(String offerId) {
-        Profile profile = findById(SecurityUtils.getCurrentUserId());
+        RentOfferProfile profile = findById(RentOfferSecurityUtils.getCurrentUserId());
         Set<String> favoriteOffers = profile.getFavoriteOffers();
         for (String favoriteOffer : favoriteOffers) {
             if (favoriteOffer.equals(offerId)) {
@@ -364,19 +389,19 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     /**
-     * Create and prepare ProfileDTO object from Principal object.
+     * Create and prepare RentOfferProfileDTO object from Principal object.
      *
      * @param principal - the principal object.
      * @return - the Profile info object.
      */
-    private ProfileDTO profileInfoPreparatorFromPrincipal(Object principal) {
+    private RentOfferProfileDTO profileInfoPreparatorFromPrincipal(Object principal) {
 
-        ProfileDTO profileInfo = new PrivateProfileDTO();
+        RentOfferProfileDTO profileInfo = new RentOfferPrivateProfileDTO();
 
-        if (principal instanceof LoggedUser) {
+        /*if (principal instanceof LoggedUser) {
             String userId = ((LoggedUser) principal).getProfileId();
             profileInfo = findPrivateProfileByIdAndUpdateLastLoginDate(userId);
-        }
+        }*/
         return profileInfo;
     }
 
@@ -386,21 +411,21 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
      *
      * @param profileList - the list of profiles
      */
-    private void removeUnnecessaryFieldsFromProfileForAdminUse(List<Profile> profileList) {
+    private void removeUnnecessaryFieldsFromProfileForAdminUse(List<RentOfferProfile> profileList) {
 
-        for (Profile profile : profileList) {
-            profile.setPassword(null)
-                    .setContact(null)
-                    .setContactList(null)
+        for (RentOfferProfile profile : profileList) {
+            profile //.setPassword(null)
+                    //.setContact(null)
+                    //.setContactList(null)
                     .setSocialList(null)
-                    .setFinanceInfo(null)
-                    .setOrderAddressList(null)
-                    .setOfferUserContactInfoList(null)
+                   // .setFinanceInfo(null)
+                   // .setOrderAddressList(null)
+                   // .setOfferUserContactInfoList(null)
                     .setFavoriteOffers(null)
                     .setBirthDate(null)
                     .setMainPhone(null)
                     .setLastLoginDate(null)
-                    .setProfileRating(null)
+                   // .setProfileRating(null)
                     .setStatus(null);
         }
 
@@ -411,10 +436,10 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
      * @param profileList
      * @return
      */
-    private List<ProfileDTO> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
-        List<ProfileDTO> profileInfoList = new ArrayList<>();
-        for (Profile profile : profileList) {
-            profileInfoList.add(new PublicProfileDTO(profile));
+    private List<RentOfferProfileDTO> getListOfPublicProfilesWithOptions(List<RentOfferProfile> profileList) {
+        List<RentOfferProfileDTO> profileInfoList = new ArrayList<>();
+        for (RentOfferProfile profile : profileList) {
+            profileInfoList.add(new RentOfferPublicProfileDTO(profile));
         }
         return profileInfoList;
     }
@@ -422,26 +447,26 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     /**
      * @param newProfile
      */
-    private void setEmptyFieldsForNewUser(Profile newProfile) {
+    private void setEmptyFieldsForNewUser(RentOfferProfile newProfile) {
         newProfile.setFavoriteOffers(new HashSet<>());
 
-        Contact contact = new Contact();
+     /*   Contact contact = new Contact();
         contact.setContactEmails(new HashSet<>());
         contact.setContactPhones(new HashSet<>());
-        contact.setSocNetLink(new HashMap<>());
+        contact.setSocNetLink(new HashMap<>());*/
 
         newProfile.setPoint(0)
-                .setProfileRating(new HashSet<>())
-                .setSocialList(new HashSet<>())
-                .setFinanceInfo(new FinanceInfo())
-                .setContact(contact)
-                .setOfferUserContactInfoList(null)
-                .setOrderAddressList(null);
+               // .setProfileRating(new HashSet<>())
+                .setSocialList(new HashSet<>());
+               // .setFinanceInfo(new FinanceInfo())
+               // .setContact(contact)
+               // .setOfferUserContactInfoList(null)
+               // .setOrderAddressList(null);
     }
     
     @Override
     public void updateChatUID(String profileId, String uid){
-        Profile profile = rentOfferProfileRepository.findById(profileId);
+        RentOfferProfile profile = rentOfferProfileRepository.findById(profileId);
         profile.setChatUID(uid);
         rentOfferProfileRepository.save(profile);
     

@@ -4,18 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.service.category.RentCategoryService;
-import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
+import ua.com.gup.rent.model.enumeration.RentOfferCategoryAttributeType;
+import ua.com.gup.rent.service.category.RentOfferCategoryService;
+import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValidatorDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValueDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,10 +30,10 @@ public class RentOfferDTOValidator implements Validator {
     private final Logger log = LoggerFactory.getLogger(RentOfferDTOValidator.class);
 
     @Autowired
-    private RentCategoryService rentCategoryService;
+    private RentOfferCategoryService rentOfferCategoryService;
 
     @Autowired
-    private RentCategoryAttributeService rentCategoryAttributeService;
+    private RentOfferCategoryAttributeService rentOfferCategoryAttributeService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -74,7 +79,7 @@ public class RentOfferDTOValidator implements Validator {
         }
 
         if (rentOfferCreateDTO.getCategory() != null) {
-            if (!rentCategoryService.exists(rentOfferCreateDTO.getCategory())) {
+            if (!rentOfferCategoryService.exists(rentOfferCreateDTO.getCategory())) {
                 errors.rejectValue("category", "category.notexist", null, "Category " + rentOfferCreateDTO.getCategory() + " doesn't exist or has subcategory");
             } else {
                 int numberOfAllAttrs = (rentOfferCreateDTO.getAttrs() == null ? 0 : rentOfferCreateDTO.getAttrs().size()) +
@@ -82,18 +87,18 @@ public class RentOfferDTOValidator implements Validator {
                         (rentOfferCreateDTO.getAttrs() == null ? 0 : rentOfferCreateDTO.getAttrs().size()) +
                         (rentOfferCreateDTO.getAttrs() == null ? 0 : rentOfferCreateDTO.getAttrs().size());
                 if (!isRentOfferUpdateDTO || (isRentOfferUpdateDTO && numberOfAllAttrs > 0)) {
-                    final SortedSet<CategoryAttributeDTO> categoryAttributeDTOS = rentCategoryAttributeService.findAllCategoryAttributeDTO().get(rentOfferCreateDTO.getCategory());
-                    final Map<String, CategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(CategoryAttributeDTO::getKey, Function.identity()));
+                    final SortedSet<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO().get(rentOfferCreateDTO.getCategory());
+                    final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
                     // checking values of attrs
                     if (rentOfferCreateDTO.getAttrs() != null) {
                         for (String key : rentOfferCreateDTO.getAttrs().keySet()) {
-                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                             if (categoryAttributeDTO == null) {
                                 errors.rejectValue("attrs", "attrs." + key + ".unknown", null, "Unknown attribute");
                             } else {
-                                CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
+                                RentOfferCategoryAttributeValueDTO attributeValueDTO = new RentOfferCategoryAttributeValueDTO();
                                 attributeValueDTO.setKey(rentOfferCreateDTO.getAttrs().get(key));
-                                final Set<CategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
+                                final Set<RentOfferCategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
                                 if (!valuesToCheck.contains(attributeValueDTO)) { //
                                     errors.rejectValue("attrs", "attrs." + key + ".value.unknown", null, "Unknown value <" + rentOfferCreateDTO.getAttrs().get(key) + "> for attr <" + key + ">");
                                 }
@@ -103,15 +108,15 @@ public class RentOfferDTOValidator implements Validator {
                     // checking values of multiAttrs
                     if (rentOfferCreateDTO.getMultiAttrs() != null) {
                         for (String key : rentOfferCreateDTO.getMultiAttrs().keySet()) {
-                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                             if (categoryAttributeDTO == null) {
                                 errors.rejectValue("multiAttrs", "multiAttrs." + key + ".unknown", null, "Unknown attribute");
                             } else {
                                 final String[] values = rentOfferCreateDTO.getMultiAttrs().get(key).split(",");
                                 for (String value : values) {
-                                    CategoryAttributeValueDTO attributeValueDTO = new CategoryAttributeValueDTO();
+                                    RentOfferCategoryAttributeValueDTO attributeValueDTO = new RentOfferCategoryAttributeValueDTO();
                                     attributeValueDTO.setKey(value);
-                                    final Set<CategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues()); // TreeSet to HashSet
+                                    final Set<RentOfferCategoryAttributeValueDTO> valuesToCheck = new HashSet<>(categoryAttributeDTO.getValues());
                                     if (!valuesToCheck.contains(attributeValueDTO)) { //
                                         errors.rejectValue("multiAttrs", "multiAttrs." + key + ".value.unknown", null, "Unknown value <" + value + "> for attr <" + key + ">");
                                     }
@@ -122,11 +127,11 @@ public class RentOfferDTOValidator implements Validator {
                     // checking values of numAttrs
                     if (rentOfferCreateDTO.getNumAttrs() != null) {
                         for (String key : rentOfferCreateDTO.getNumAttrs().keySet()) {
-                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                             if (categoryAttributeDTO == null) {
                                 errors.rejectValue("numAttrs", "numAttrs." + key + ".unknown", null, "Unknown attribute");
                             } else {
-                                final CategoryAttributeValidatorDTO validator = categoryAttributeDTO.getValidator();
+                                final RentOfferCategoryAttributeValidatorDTO validator = categoryAttributeDTO.getValidator();
                                 final BigDecimal value = rentOfferCreateDTO.getNumAttrs().get(key);
                                 if (validator.getMin() != null) {
                                     if (validator.getMin().compareTo(value) > 0) {
@@ -144,7 +149,7 @@ public class RentOfferDTOValidator implements Validator {
                     // checking values of boolAttrs
                     if (rentOfferCreateDTO.getBoolAttrs() != null) {
                         for (String key : rentOfferCreateDTO.getBoolAttrs().keySet()) {
-                            final CategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                            final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                             if (categoryAttributeDTO == null) {
                                 errors.rejectValue("boolAttrs", "boolAttrs." + key + ".unknown", null, "Unknown attribute");
                             }
@@ -153,20 +158,20 @@ public class RentOfferDTOValidator implements Validator {
 
                     // checking required attributes
                     if (categoryAttributeDTOS != null) {
-                        for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-                            if (categoryAttributeDTO.getType() == CategoryAttributeType.SELECT) {
+                        for (RentOfferCategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
+                            if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.SELECT) {
                                 if (rentOfferCreateDTO.getAttrs() == null || rentOfferCreateDTO.getAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("attrs", "attrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.MULTI_SELECT) {
+                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.MULTI_SELECT) {
                                 if (rentOfferCreateDTO.getMultiAttrs() == null || rentOfferCreateDTO.getMultiAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("multiAttrs", "multiAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.NUMBER) {
+                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.NUMBER) {
                                 if (rentOfferCreateDTO.getNumAttrs() == null || rentOfferCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.BOOLEAN) {
+                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.BOOLEAN) {
                                 if (rentOfferCreateDTO.getBoolAttrs() == null || rentOfferCreateDTO.getBoolAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("boolAttrs", "boolAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
@@ -176,10 +181,10 @@ public class RentOfferDTOValidator implements Validator {
                 }
             }
         }
-        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
+        /*if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
             errors.rejectValue("contactInfo", "contactInfo.required", null, "ContactInfo is required");
-        }
-        if (rentOfferCreateDTO.getContactInfo() != null) {
+        }*/
+        /*if (rentOfferCreateDTO.getContactInfo() != null) {
             if (StringUtils.isEmpty(rentOfferCreateDTO.getContactInfo().getContactName())) {
                 errors.rejectValue("contactInfo.contactName", "contactInfo.contactName.required", null, "Contact name required");
             }
@@ -188,12 +193,12 @@ public class RentOfferDTOValidator implements Validator {
             } else {
                 for (String phoneNo : rentOfferCreateDTO.getContactInfo().getPhoneNumbers()) {
                     if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
-                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "Phone number format is ^380[0-9]{9}$");
+                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "RentOfferPhone number format is ^380[0-9]{9}$");
                     }
                 }
             }
-        }
-        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
+        }*/
+       /* if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
             errors.rejectValue("address", "address.required", null, "address required");
         }
         if (rentOfferCreateDTO.getAddress() != null) {
@@ -213,7 +218,8 @@ public class RentOfferDTOValidator implements Validator {
             if (address.getCity() == null) {
                 errors.rejectValue("address.city", "address.city.required", null, "City required");
             }
-        }
+        }*/
+
         if (rentOfferCreateDTO.getNumAttrs() != null) {
             final Map<String, BigDecimal> numAttrs = rentOfferCreateDTO.getNumAttrs();
             for (String key : numAttrs.keySet()) {
@@ -222,9 +228,11 @@ public class RentOfferDTOValidator implements Validator {
                 } catch (Exception e) {
                     errors.rejectValue("numAttrs", "numAttrs." + key + ".invalidFormat", null, "Invalid number format");
                 }
-
             }
+
         }
+
     }
+
 }
 
