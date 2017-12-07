@@ -1,4 +1,4 @@
-package ua.com.gup.rent.security.filter;
+package ua.com.gup.common.security.filter;
 
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RentCsrfTokenResponseHeaderBindingFilter extends OncePerRequestFilter {
+public class CsrfTokenResponseHeaderBindingFilter extends OncePerRequestFilter {
     protected static final String REQUEST_ATTRIBUTE_NAME = "_csrf";
     protected static final String RESPONSE_HEADER_NAME = "X-CSRF-HEADER";
     protected static final String RESPONSE_PARAM_NAME = "X-CSRF-PARAM";

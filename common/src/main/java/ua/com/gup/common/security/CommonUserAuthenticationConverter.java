@@ -1,4 +1,4 @@
-package ua.com.gup.rent.security;
+package ua.com.gup.common.security;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class RentUserAuthenticationConverter implements UserAuthenticationConverter {
+public class CommonUserAuthenticationConverter implements UserAuthenticationConverter {
 
     private final String USERNAME = "user_name";
     private final String PROFILE_ID = "profile_id";
