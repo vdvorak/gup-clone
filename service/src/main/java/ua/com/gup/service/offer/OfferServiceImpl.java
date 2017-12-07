@@ -32,7 +32,10 @@ import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.MoneyFilter;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
-import ua.com.gup.mongo.model.offer.*;
+import ua.com.gup.mongo.model.offer.Image;
+import ua.com.gup.mongo.model.offer.OfferCategoryCount;
+import ua.com.gup.mongo.model.offer.OfferModerationReport;
+import ua.com.gup.mongo.model.offer.OfferRegistration;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.repository.offer.OfferRepositoryCustom;
@@ -174,7 +177,7 @@ public class OfferServiceImpl implements OfferService {
                 offerFilter.getAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getAuthorFilter().getPublicId().trim()).getId());
             }
         }
-        log.debug("Request to get all Offers by filter  {} " , offerFilter);
+        log.debug("Request to get all Offers by filter  {} ", offerFilter);
         calculatePriceInBaseCurrency(offerFilter.getPrice());
         long count = offerRepositoryCustom.countByFilter(offerFilter, OfferStatus.ACTIVE);
         List<Offer> offers = Collections.EMPTY_LIST;
@@ -418,11 +421,12 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status) {
         log.debug("Request to update update offer's status : {}", id);
-        Offer offer = offerRepository.findOne(id);       
+        Offer offer = offerRepository.findOne(id);
         offer.setStatus(status);
-        offer = offerRepository.save(offer);        
+        offer = offerRepository.save(offer);
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
+
     /**
      * Can user changge offer's status.
      *
@@ -431,9 +435,9 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public Boolean isCanUpdateStatus(String id, OfferStatus status){
+    public Boolean isCanUpdateStatus(String id, OfferStatus status) {
         Offer offer = offerRepository.findOne(id);
-        Boolean fromStatus = (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED) ;
+        Boolean fromStatus = (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED);
         Boolean toStatus = (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED);
         return fromStatus && toStatus;
     }
@@ -756,29 +760,6 @@ public class OfferServiceImpl implements OfferService {
         return null;
     }
 
-    /**
-     * Create OfferFilterOption object for search offers relevant to current on it's city.
-     *
-     * @param offer the offer to which we must find relevant offers.
-     * @return the OfferFilterOptions object.
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        // add address in filter
-        if (offer.getAddress().getCity() != null) {
-            offerFilterOptions
-                    .getAddress()
-                    .setCity(offer.getAddress().getCity());
-        }
-
-        return offerFilterOptions;
-    }
-
 
     private List<String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
 
@@ -838,20 +819,19 @@ public class OfferServiceImpl implements OfferService {
         }
         storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }
-    
+
     /**
-     *
      * @param offerId
      * @return Collection of  phone numbers from offer's contactinfo
      */
     @Override
-    public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId){
+    public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
         Offer offer = offerRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
     }
-    
+
     @Override
-    public boolean existsByIdAndStatus(String id, OfferStatus status){
+    public boolean existsByIdAndStatus(String id, OfferStatus status) {
         return offerRepository.existsByIdAndStatus(id, status);
     }
 

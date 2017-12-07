@@ -13,7 +13,6 @@
             <div th:include="fragments/content :: locale"></div>
 
             <div th:include="fragments/content :: logo"></div>
-
             <div sec:authorize="${not isAuthenticated()}">
                 <form class='flex' th:action="@{/login}"  method="post" name="login">
                     <div class="input flex-full-width" th:classappend="${param.error} ? error">
@@ -22,7 +21,7 @@
                     <div class="input flex-full-width" th:classappend="${param.error} ? error">
                         <input type="password" name="password" th:placeholder="#{password}" required>           
                         <div class="error-message"  th:if="${param.error}" th:text="#{login.error}">
-                            bad cridentials
+                            bad credentials
                         </div>  
                     </div>
                     <button class="flex-full-width submit" type="submit" th:text="#{authorization}">Авторизация</button>
