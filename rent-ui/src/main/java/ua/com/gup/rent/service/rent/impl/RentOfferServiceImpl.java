@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,23 +19,30 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
+import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
+import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.rent.image.RentOfferPostImageResponse;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -157,6 +166,96 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
+        return null;
+    }
+
+    @Override
+    public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
+        return null;
+    }
+
+    @Override
+    public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(RentOfferStatus status, String authorId, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(RentOfferStatus status, String userPublicId, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(RentOfferStatus status, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
+        return null;
+    }
+
+    @Override
+    public Page<RentOfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public void incrementPhoneViews(String id) {
+
+    }
+
+    @Override
+    public void delete(String id) {
+
+    }
+
+    @Override
+    public boolean exists(String id) {
+        return false;
+    }
+
+    @Override
+    public boolean hasPermissionForUpdate(String offerId, String authrorId) {
+        return false;
+    }
+
+    @Override
+    public void updateActiveOffersBasePrice() {
+
+    }
+
+    @Override
+    public Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status) {
+        return null;
+    }
+
+    @Override
+    public Boolean isCanUpdateStatus(String id, RentOfferStatus status) {
+        return null;
+    }
+
+    @Override
+    public List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size) {
+        return null;
+    }
+
+    @Override
+    public Optional<List<RentOfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd) {
+        return null;
+    }
+
+    @Override
+    public Optional<RentOfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId) {
         return null;
     }
 
