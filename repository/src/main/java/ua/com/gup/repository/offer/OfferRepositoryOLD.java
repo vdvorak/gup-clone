@@ -102,13 +102,4 @@ public interface OfferRepositoryOLD {
      */
     void deleteReservation(String offerId);
 
-
-
-    /**
-     * Return collection of matched names in String.
-     *
-     * @param name - the name which must.
-     * @return - collection of matched names in String.
-     */
-    Set<String> getMatchedNames(String name);
 }

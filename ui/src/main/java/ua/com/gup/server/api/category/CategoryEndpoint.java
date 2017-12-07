@@ -248,7 +248,6 @@ public class CategoryEndpoint {
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
         logger.debug("REST request to get all Categories");
-        Authentication authentication = SecurityUtils.getCtxAuthentication();
         final List<Category> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }

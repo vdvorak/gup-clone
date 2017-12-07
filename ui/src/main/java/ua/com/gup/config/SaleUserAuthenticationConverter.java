@@ -12,7 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.login.LoggedUser;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
     private final String PROFILE_ID = "profile_id";
     private final String PUBLIC_ID = "public_id";
     private final String EMAIL = "email";
-    
+
     private final String AUTHORITIES = "authorities";
 
     @Override
@@ -41,11 +40,11 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
             String publicId = (String) map.get(PUBLIC_ID);
             String email = (String) map.get(EMAIL);
             List<String> authorities = (List<String>) map.get(AUTHORITIES);
-            
+
             Set<UserRole> collect = authorities.stream().map(as -> UserRole.valueOf(as)).collect(Collectors.toSet());
             List<GrantedAuthority> buildUserAuthority = buildUserAuthority(collect);
 
-            GupLoggedUser user = buildUserForAuthentication(profileId,username,publicId, email, buildUserAuthority);
+            GupLoggedUser user = buildUserForAuthentication(profileId, username, publicId, email, buildUserAuthority);
             return new UsernamePasswordAuthenticationToken(user, "N/A", buildUserAuthority);
         }
         return null;
@@ -54,7 +53,7 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
     private GupLoggedUser buildUserForAuthentication(String id, String username, String publicId, String email, List<GrantedAuthority> authorities) {
         return new GupLoggedUser(id, publicId, username, email, authorities);
     }
-    
+
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
         return userRoles.stream()
                 .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))

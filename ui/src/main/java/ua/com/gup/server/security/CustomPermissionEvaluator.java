@@ -1,18 +1,19 @@
 package ua.com.gup.server.security;
 
-import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
+import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.server.security.offer.OfferChangeStatusPermissionEvaluator;
 import ua.com.gup.server.security.offer.OfferDeletePermissionEvaluator;
 import ua.com.gup.server.security.offer.OfferEditPermissionEvaluator;
 import ua.com.gup.service.security.UserSecurityAccessService;
+
+import java.io.Serializable;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
@@ -38,8 +39,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         }
 
         String objId = (String) objectId;
-        LoggedUser user = (LoggedUser) a.getPrincipal();
-        String userId = user.getProfileId();
+        GupLoggedUser user = (GupLoggedUser) a.getPrincipal();
+        String userId = user.getId();
 
         switch (collectionName) {
             case Offer.COLLECTION_NAME:
