@@ -16,14 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
-import ua.com.gup.rent.service.category.RentCategoryService;
-import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
-import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
-import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
-import ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO;
-import ua.com.gup.rent.validator.category.RentCategoryDTOValidator;
-import ua.com.gup.rent.validator.category.attribute.RentCategoryAttributeDTOValidator;
+import ua.com.gup.rent.service.category.RentOfferCategoryService;
+import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
+import ua.com.gup.rent.service.dto.category.RentOfferCategoryCreateDTO;
+import ua.com.gup.rent.service.dto.category.RentOfferCategoryUpdateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
+import ua.com.gup.rent.service.dto.category.tree.RentOfferCategoryTreeDTO;
+import ua.com.gup.rent.validator.category.RentOfferCategoryDTOValidator;
+import ua.com.gup.rent.validator.category.attribute.RentOfferCategoryAttributeDTOValidator;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -41,29 +42,29 @@ public class RentOfferCategoryEndpoint {
     private static final String ENTITY_NAME = "rent.category";
     private final Logger logger = LoggerFactory.getLogger(RentOfferCategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
-    private Map<String, ResponseEntity<Collection<RentCategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
+    private Map<String, ResponseEntity<Collection<RentOfferCategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
 
     @Autowired
-    private RentCategoryService rentCategoryService;
+    private RentOfferCategoryService rentOfferCategoryService;
 
     @Autowired
-    private RentCategoryAttributeService rentCategoryAttributeService;
+    private RentOfferCategoryAttributeService rentOfferCategoryAttributeService;
 
     @Autowired
-    private RentCategoryDTOValidator rentCategoryDTOValidator;
+    private RentOfferCategoryDTOValidator rentOfferCategoryDTOValidator;
 
     @Autowired
-    private RentCategoryAttributeDTOValidator rentCategoryAttributeDTOValidator;
+    private RentOfferCategoryAttributeDTOValidator rentOfferCategoryAttributeDTOValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() != null) {
             final Class<?> clazz = binder.getTarget().getClass();
-            if (ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO.class.equals(clazz) || RentCategoryUpdateDTO.class.equals(clazz)) {
-                binder.addValidators(rentCategoryDTOValidator);
+            if (RentOfferCategoryCreateDTO.class.equals(clazz) || RentOfferCategoryUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(rentOfferCategoryDTOValidator);
             }
-            if (RentCategoryAttributeCreateDTO.class.equals(clazz) || RentCategoryAttributeUpdateDTO.class.equals(clazz)) {
-                binder.addValidators(rentCategoryAttributeDTOValidator);
+            if (RentOfferCategoryAttributeCreateDTO.class.equals(clazz) || RentOfferCategoryAttributeUpdateDTO.class.equals(clazz)) {
+                binder.addValidators(rentOfferCategoryAttributeDTOValidator);
             }
         }
     }
@@ -82,9 +83,9 @@ public class RentOfferCategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<RentOfferCategoryAttribute> createCategory(@Valid @RequestBody RentCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<RentOfferCategoryAttribute> createCategory(@Valid @RequestBody RentOfferCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to save new RentOfferCategoryAttribute : {}", categoryAttribute);
-        RentOfferCategoryAttribute result = rentCategoryAttributeService.save(categoryAttribute);
+        RentOfferCategoryAttribute result = rentOfferCategoryAttributeService.save(categoryAttribute);
         clearCache();
         return ResponseEntity.created(new URI("/categoryAttribute/" + result.getId()))
                 .headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -106,7 +107,7 @@ public class RentOfferCategoryEndpoint {
      */
     public ResponseEntity<RentOfferCategoryAttribute> getCategoryAttributes(@PathVariable String id) {
         logger.debug("REST request to get RentOfferCategoryAttribute : {}", id);
-        final RentOfferCategoryAttribute rentOfferCategoryAttribute = rentCategoryAttributeService.findOne(id);
+        final RentOfferCategoryAttribute rentOfferCategoryAttribute = rentOfferCategoryAttributeService.findOne(id);
         return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategoryAttribute));
     }
 
@@ -126,9 +127,9 @@ public class RentOfferCategoryEndpoint {
      }
 
      */
-    public ResponseEntity<RentOfferCategoryAttribute> updateCategory(@Valid @RequestBody RentCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
+    public ResponseEntity<RentOfferCategoryAttribute> updateCategory(@Valid @RequestBody RentOfferCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to update RentOfferCategoryAttribute : {}", categoryAttribute);
-        RentOfferCategoryAttribute result = rentCategoryAttributeService.save(categoryAttribute);
+        RentOfferCategoryAttribute result = rentOfferCategoryAttributeService.save(categoryAttribute);
         clearCache();
         return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
@@ -147,7 +148,7 @@ public class RentOfferCategoryEndpoint {
      */
     public ResponseEntity<Void> deleteCategoryAttribute(@PathVariable String id) {
         logger.debug("REST request to delete RentOfferCategoryAttribute : {}", id);
-        rentCategoryAttributeService.delete(id);
+        rentOfferCategoryAttributeService.delete(id);
         clearCache();
         return ResponseEntity.ok().headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
@@ -168,14 +169,14 @@ public class RentOfferCategoryEndpoint {
 
     public ResponseEntity<List<RentOfferCategoryAttribute>> getAllCategoryAttributes() {
         logger.debug("REST request to get a page of Categories");
-        final List<RentOfferCategoryAttribute> rentOfferCategoryAttribute = rentCategoryAttributeService.findAll();
+        final List<RentOfferCategoryAttribute> rentOfferCategoryAttribute = rentOfferCategoryAttributeService.findAll();
         return ResponseEntity.ok().body(rentOfferCategoryAttribute);
     }
 
     /**
      * POST  /categories : Create a new category.
      *
-     * @param rentCategoryCreateDTO the category to create
+     * @param rentOfferCategoryCreateDTO the category to create
      * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -186,9 +187,9 @@ public class RentOfferCategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<RentOfferCategory> createCategory(@Valid @RequestBody ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO rentCategoryCreateDTO) throws URISyntaxException {
-        logger.debug("REST request to save new RentOfferCategory : {}", rentCategoryCreateDTO);
-        RentOfferCategory result = rentCategoryService.save(rentCategoryCreateDTO);
+    public ResponseEntity<RentOfferCategory> createCategory(@Valid @RequestBody RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) throws URISyntaxException {
+        logger.debug("REST request to save new RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
+        RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/categories/" + result.getId()))
                 .headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -198,8 +199,8 @@ public class RentOfferCategoryEndpoint {
     /**
      * GET  /categories/:id : get the category by id.
      *
-     * @param id the id of the RentOfferCategory to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the RentOfferCategory, or with status 404 (Not Found)
+     * @param id the id of the RentOfferCategoryShort to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the RentOfferCategoryShort, or with status 404 (Not Found)
      */
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -210,16 +211,16 @@ public class RentOfferCategoryEndpoint {
 
      */
     public ResponseEntity<RentOfferCategory> getCategory(@PathVariable String id) {
-        logger.debug("REST request to get RentOfferCategory : {}", id);
+        logger.debug("REST request to get RentOfferCategoryShort : {}", id);
 
-        final RentOfferCategory rentOfferCategory = rentCategoryService.findOne(id);
+        final RentOfferCategory rentOfferCategory = rentOfferCategoryService.findOne(id);
         return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategory));
     }
 
     /**
      * PUT  /categories : Updates an existing category.
      *
-     * @param rentCategoryUpdateDTO the category to update
+     * @param rentOfferCategoryUpdateDTO the category to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated category,
      * or with status 400 (Bad Request) if the category is not valid,
      * or with status 500 (Internal Server Error) if the category couldn't be updated
@@ -232,10 +233,10 @@ public class RentOfferCategoryEndpoint {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
-    public ResponseEntity<RentOfferCategory> updateCategory(@Valid @RequestBody RentCategoryUpdateDTO rentCategoryUpdateDTO) throws URISyntaxException {
-        logger.debug("REST request to update RentOfferCategory : {}", rentCategoryUpdateDTO);
+    public ResponseEntity<RentOfferCategory> updateCategory(@Valid @RequestBody RentOfferCategoryUpdateDTO rentOfferCategoryUpdateDTO) throws URISyntaxException {
+        logger.debug("REST request to update RentOfferCategoryShort : {}", rentOfferCategoryUpdateDTO);
 
-        RentOfferCategory result = rentCategoryService.save(rentCategoryUpdateDTO);
+        RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryUpdateDTO);
         clearCache();
         return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
@@ -254,8 +255,8 @@ public class RentOfferCategoryEndpoint {
      }
      */
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
-        logger.debug("REST request to delete RentOfferCategory : {}", id);
-        rentCategoryService.delete(id);
+        logger.debug("REST request to delete RentOfferCategoryShort : {}", id);
+        rentOfferCategoryService.delete(id);
         clearCache();
         return ResponseEntity.ok().headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
@@ -275,7 +276,7 @@ public class RentOfferCategoryEndpoint {
     public ResponseEntity<List<RentOfferCategory>> getAllCategories() {
         logger.debug("REST request to get all Categories");
 
-        final List<RentOfferCategory> categories = rentCategoryService.findAll();
+        final List<RentOfferCategory> categories = rentOfferCategoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
 
@@ -286,7 +287,7 @@ public class RentOfferCategoryEndpoint {
      */
 
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
+    public ResponseEntity<Collection<RentOfferCategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
         logger.debug("REST request to get categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETagMap.getOrDefault(lang, "defaultValue"))) {
             return null;
@@ -298,7 +299,7 @@ public class RentOfferCategoryEndpoint {
     }
 
     private void findAllTreeView(String lang) {
-        Collection<ua.com.gup.rent.service.dto.category.tree.RentCategoryTreeDTO> categoriesTreeView = rentCategoryService.findAllTreeView(lang);
+        Collection<RentOfferCategoryTreeDTO> categoriesTreeView = rentOfferCategoryService.findAllTreeView(lang);
         final ObjectWriter ow = Jackson2ObjectMapperBuilder.json()
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)

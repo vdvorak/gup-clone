@@ -13,7 +13,7 @@ public class RentOfferAuthorMapper {
     private RentOfferProfilesService rentOfferProfilesService;
 
     public RentOfferAuthorDTO createAuthorDTO(String authorId) {
-        RentOfferProfile rentOfferProfile  = rentOfferProfilesService.findById(authorId);
+        RentOfferProfile rentOfferAuthor  = rentOfferProfilesService.findById(authorId);
         RentOfferAuthorDTO rentOfferAuthorDTO = new RentOfferAuthorDTO();
         if (rentOfferAuthor != null) {
             rentOfferAuthorDTO.setId(rentOfferAuthor.getPublicId());

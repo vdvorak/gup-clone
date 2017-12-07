@@ -36,6 +36,7 @@ public class RentOfferCategory implements Serializable {
 
     private Map<String, String> description = new HashMap<>();
 
+
     public String getId() {
         return id;
     }
