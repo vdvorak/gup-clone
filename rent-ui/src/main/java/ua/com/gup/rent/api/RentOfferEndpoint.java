@@ -25,6 +25,7 @@ import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDate
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
+import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
@@ -318,9 +319,9 @@ public class RentOfferEndpoint {
     )
     @CrossOrigin
     @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
-    public ResponseEntity<List> getOffersCoordinatesByFilter(OfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a list of Offers");
-        List<OfferViewCoordinatesDTO> list = rentOfferService.findCoordinatesByFilter(offerFilter, pageable);
+        List<RentOfferViewCoordinatesDTO> list = rentOfferService.findCoordinatesByFilter(offerFilter, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -335,9 +336,9 @@ public class RentOfferEndpoint {
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
-        Page<OfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserId(status, SecurityUtils.getCurrentUserId(), pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserId(status, RentOfferSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -346,9 +347,9 @@ public class RentOfferEndpoint {
     public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
         if (StringUtils.isEmpty(userPublicId)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(OfferStatus.ACTIVE, userPublicId, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -362,16 +363,16 @@ public class RentOfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{iserid}/{status}/seourl", method = RequestMethod.GET)
-    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers-seourl by status & iserId");
         if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(status, iserid, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(status, iserid, pageable);
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
 
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
+        HttpHeaders headers = RentOfferPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
         return new ResponseEntity<>(seoUrls, headers, HttpStatus.OK);
     }
 
