@@ -1,4 +1,4 @@
-package ua.com.gup.rent.security.filter;
+package ua.com.gup.common.security.filter;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RentCsrfTokenRequestBindingFilter extends OncePerRequestFilter {
+public class CsrfTokenRequestBindingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class RentCsrfTokenRequestBindingFilter extends OncePerRequestFilter {
         }
 
         public String getHeader(String name) {
-            if ("X-XSRF-TOKEN".equals(name)) {
+            if ("X-XSRF-TOKEN" .equals(name)) {
                 return XSRF_COOKIE != null ? XSRF_COOKIE.getValue() : null;
             }
             return super.getHeader(name);

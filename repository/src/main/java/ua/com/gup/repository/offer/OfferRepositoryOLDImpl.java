@@ -213,29 +213,6 @@ public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
                 Offer.class);
     }
 
-    @Override
-    public Set<String> getMatchedNames(String name) {
-        String searchFieldRegex = "(?i:.*" + name + ".*)";
-        Query query = new Query();
-
-        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
-
-        query.fields().include("title");
-        query.skip(0);
-        query.limit(10);
-
-        mongoTemplate.find(query, OfferUserContactInfo.class).stream().map(OfferUserContactInfo::getContactName).collect(Collectors.toSet());
-
-        ////////////////////////////////////////////////
-//        OfferUserContactInfo userInfo;
-//        userInfo.getPhoneNumbers();
-//        userInfo.getContactName();
-        ////////////////////////////////////////////////
-//        mongoTemplate.find(query, OfferUserContactInfo.class).stream().map(Offer::OfferUserContactInfo.getContactName).collect(Collectors.toSet());
-        ////////////////////////////////////////////////
-
-        return mongoTemplate.find(query, Offer.class).stream().map(Offer::getTitle).collect(Collectors.toSet());
-    }
 
 
     private Query queryPreparator(OfferFilterOptions offerFO) {

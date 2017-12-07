@@ -5,38 +5,21 @@
  */
 package ua.com.gup.api.oauth2;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.gup.config.annotation.Email;
-import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
-import ua.com.gup.exception.VerificationTokenExpiredException;
-import ua.com.gup.exception.VerificationTokenNotFoundException;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.enumeration.UserRole;
@@ -45,12 +28,14 @@ import ua.com.gup.mongo.model.login.FormChangePassword;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.service.profile.VerificationTokenService;
 
+import javax.validation.Valid;
+import java.util.Date;
+
 /**
- *
  * @author dimka
  */
 @Controller
-public class RegistrationController {
+public class RegisterController {
 
     @Autowired
     private ProfilesService profilesService;
@@ -63,9 +48,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView goToRegistration() {
-        System.out.println("test go to register");
-
-        ModelAndView modelAndView = new ModelAndView("/register", "user", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register", "user", new RegisterProfileDTO());
         modelAndView.addObject("title", "register.title");
         return modelAndView;
     }
@@ -78,7 +61,7 @@ public class RegistrationController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "/register";
+            return "register";
         }
 
         Profile profile = new Profile();
@@ -90,13 +73,13 @@ public class RegistrationController {
         profile.getUserRoles().add(UserRole.ROLE_USER);
         profilesService.createProfile(profile);
         eventPublisher.publishEvent(new OnInitialRegistrationByEmailEvent(profile));
-        return "/register/success";
+        return "register/success";
     }
 
     @RequestMapping(value = "/register/confirm", method = RequestMethod.GET)
     public ModelAndView registerConfirm(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        ModelAndView modelAndView = new ModelAndView("/register/confirm");
+        ModelAndView modelAndView = new ModelAndView("register/confirm");
         if (verificationToken == null) {
             modelAndView.addObject("error", "verification.token.notfound.exception");
             return modelAndView;
@@ -117,14 +100,14 @@ public class RegistrationController {
 
     @RequestMapping(value = "/register/password/restore", method = RequestMethod.GET)
     public ModelAndView restorePassword() {
-        ModelAndView modelAndView = new ModelAndView("/register/password/restore", "password", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register/password/restore", "password", new RegisterProfileDTO());
         return modelAndView;
     }
 
     @RequestMapping(value = "/register/password/restore", method = RequestMethod.POST)
     public ModelAndView restorePassword(@RequestParam String email) {
-        //ModelAndView modelAndView = new ModelAndView("/register/password/restore");
-        ModelAndView modelAndView = new ModelAndView("/register/password/restore");
+
+        ModelAndView modelAndView = new ModelAndView("register/password/restore");
 
         if (StringUtils.isEmpty(email)) {
             modelAndView.addObject("error", "account.restore.email.required");
@@ -143,18 +126,18 @@ public class RegistrationController {
         }
 
         eventPublisher.publishEvent(new OnForgetPasswordEvent(profile));
-        return new ModelAndView("/register/password/restore/success");
+        return new ModelAndView("register/password/restore/success");
 
     }
 
     @RequestMapping(value = "/register/password/reset", method = RequestMethod.GET)
     public ModelAndView resetPasswordByToken(@RequestParam("token") String token) {
 
-        ModelAndView modelAndView = new ModelAndView("/register/password/reset", "formChangePassword", new FormChangePassword(token, null, null));       
+        ModelAndView modelAndView = new ModelAndView("register/password/reset", "formChangePassword", new FormChangePassword(token, null, null));
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 
-        if (verificationToken == null) {            
+        if (verificationToken == null) {
             modelAndView.addObject("error", "verification.token.notfound.exception");
             return modelAndView;
         }
@@ -171,22 +154,22 @@ public class RegistrationController {
 //        verificationTokenService.deleteToken(verificationToken);
         return modelAndView;
     }
-    
-    
+
+
     @RequestMapping(value = "/register/password/reset", method = RequestMethod.POST)
     public ModelAndView resetPasswordByToken(@ModelAttribute @Valid FormChangePassword form, BindingResult bindingResult) {
 
-        ModelAndView modelAndView = new ModelAndView("/register/password/reset");       
-        if(bindingResult.hasErrors()){
+        ModelAndView modelAndView = new ModelAndView("register/password/reset");
+        if (bindingResult.hasErrors()) {
             return modelAndView;
         }
 
-        
+
         if (!form.getPassword().equals(form.getNewPassword())) {
-            bindingResult.rejectValue("", "account.reset.password.notequal");            
+            bindingResult.rejectValue("", "account.reset.password.notequal");
             return modelAndView;
         }
-        
+
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(form.getToken());
 
         if (verificationToken == null) {
@@ -195,18 +178,17 @@ public class RegistrationController {
         }
 
         if (verificationToken.getExpiryDate().before(new Date())) {
-            bindingResult.rejectValue("", "verification.token.expired.exception");            
+            bindingResult.rejectValue("", "verification.token.expired.exception");
             return modelAndView;
         }
-        
-        
+
 
         Profile profile = profilesService.findById(verificationToken.getUserId());
         profile.setPassword(passwordEncoder.encode(form.getNewPassword()));
         profilesService.editProfile(profile);
 
         verificationTokenService.deleteToken(verificationToken);
-        return new ModelAndView("/register/password/reset/success");
+        return new ModelAndView("register/password/reset/success");
     }
 
 }

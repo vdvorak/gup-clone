@@ -20,7 +20,6 @@ import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.OfferRegistration;
-import ua.com.gup.mongo.model.offer.Reservation;
 import ua.com.gup.mongo.model.other.EntityPage;
 
 import java.time.LocalDate;
@@ -83,9 +82,9 @@ public interface OfferService {
     /**
      * Get all the offers by status and author id.
      *
-     * @param status   the offer status
+     * @param status       the offer status
      * @param userPublicId the user public id
-     * @param pageable the offer filter
+     * @param pageable     the offer filter
      * @return the list of entities
      */
     Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable);
@@ -152,7 +151,7 @@ public interface OfferService {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Deprecated
-    boolean hasPermissionForUpdate(String offerId,String authrorId);
+    boolean hasPermissionForUpdate(String offerId, String authrorId);
 
     /**
      * Update active offers base price by current exchange rate.
@@ -169,7 +168,7 @@ public interface OfferService {
      * @return the entity
      */
     Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
-    
+
     Boolean isCanUpdateStatus(String id, OfferStatus status);
 
 
@@ -198,6 +197,7 @@ public interface OfferService {
 
 
     //------------------------------------------- OLD SERVICE FUNCTION ----------------------------------------------//
+
     /**
      * Create one offer and return it.
      *
@@ -257,20 +257,6 @@ public interface OfferService {
      */
     ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files);
 
-    /**
-     * Reservation of the one offer.
-     *
-     * @param offerId     - the Offer id.
-     * @param reservation - the Reservation object.
-     */
-    void reserveOffer(String offerId, Reservation reservation);
-
-    /**
-     * Delete reservation by offer id.
-     *
-     * @param offerId - the offer's ID which must be deleted.
-     */
-    void deleteReservation(String offerId);
 
     /**
      * Change the active status of the offer.
@@ -280,14 +266,6 @@ public interface OfferService {
      */
     void setActive(String offerId, boolean isActive);
 
-    /**
-     * Method for autocomplete input in frontend for searching offers.
-     *
-     * @param name - the String input part.
-     * @return - the Set of results string.
-     */
-    Set<String> getMatchedNames(String name);
-
 
     /**
      * Return id if main offer image
@@ -295,8 +273,8 @@ public interface OfferService {
      * @return - the ID of the main image.
      */
     String getMainOfferImage(Offer offer);
-    
+
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
-    
+
     boolean existsByIdAndStatus(String id, OfferStatus status);
 }

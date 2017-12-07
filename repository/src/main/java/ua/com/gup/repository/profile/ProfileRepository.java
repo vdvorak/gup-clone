@@ -152,15 +152,7 @@ public interface ProfileRepository {
 
     Set<String> getMatchedNames(String term);
 
-    /**
-     * return list full admin's
-     */
-    Set<String> getAdminIdAll();
 
-    /**
-     * return list by online admin's
-     */
-    Set<String> getAdminIdAllByOnline();
 
     /**
      * return random admin

@@ -3,6 +3,7 @@ package ua.com.gup.mongo.composition.domain.category;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.mongo.CommonCategory;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Document(collection = Category.COLLECTION_NAME)
-public class Category implements Serializable {
+public class Category extends CommonCategory {
 
     public static final String COLLECTION_NAME = "category";
 
