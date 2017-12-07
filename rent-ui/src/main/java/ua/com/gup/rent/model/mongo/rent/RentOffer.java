@@ -16,9 +16,12 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-@Document(collection = "rent.object")
+import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
+
+@Document(collection = COLLECTION_NAME)
 public class RentOffer {
 
+    public static final String COLLECTION_NAME = "rent.object";
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
 
     @Id

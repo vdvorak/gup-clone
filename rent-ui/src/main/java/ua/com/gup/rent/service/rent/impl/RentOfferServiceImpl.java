@@ -1,11 +1,14 @@
 package ua.com.gup.rent.service.rent.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +29,9 @@ import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
+import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -45,16 +50,15 @@ import javax.annotation.PostConstruct;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
 @Service
 public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
+
+    private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
 
     @Autowired
     private Environment e;
@@ -72,6 +76,12 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Value(value = "classpath:images/demo.png")
     private Resource demoImage;
+
+    @Autowired
+    private RentOfferProfileRepository profileRepository;
+
+    @Autowired
+    private RentOfferRepositoryCustom offerRepositoryCustom;
 
     @PostConstruct
     public void initialize() {
@@ -179,7 +189,21 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
-        return null;
+        //set authorId by exists publicId for OfferFilter
+        if (offerFilter.getRentOfferAuthorFilter() != null) {
+            if (offerFilter.getRentOfferAuthorFilter().getPublicId() != null && offerFilter.getRentOfferAuthorFilter().getAuthorId() == null) {
+                offerFilter.getRentOfferAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getRentOfferAuthorFilter().getPublicId().trim()).getId());
+            }
+        }
+        log.debug("Request to get all Offers by filter  {} ", offerFilter);
+        //calculatePriceInBaseCurrency(offerFilter.getPrice());
+        long count = offerRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
+        List<RentOffer> offers = Collections.EMPTY_LIST;
+        if (count > 0) {
+            offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+        }
+        Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
+        return result.map(offer -> rentOfferMapper.offerToOfferShortDTO(offer));
     }
 
     @Override
