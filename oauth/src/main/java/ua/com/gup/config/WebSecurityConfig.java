@@ -1,6 +1,5 @@
 package ua.com.gup.config;
 
-import ua.com.gup.listener.authentication.CustomLogoutHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ua.com.gup.listener.authentication.CustomLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -39,15 +39,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/api/users").hasRole("ADMIN")
+                .antMatchers("/api/oauth/authorize").authenticated()
                 .antMatchers("/",
                         "/login",
                         "/register",
                         "/register/confirm",
                         "/register/password/restore",
                         "/register/password/reset",
-                        "/api/users/exists/**",
-                        "/api/oauth/authorize")
+                        "/api/users/exists/**")
                 .permitAll()
                 .antMatchers("/logout").authenticated()
                 .anyRequest().authenticated()
@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .addLogoutHandler(customLogoutHandler())
                 .and()
-                .formLogin()                
+                .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login");
     }

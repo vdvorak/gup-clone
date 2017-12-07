@@ -44,7 +44,7 @@ security:
       checkTokenUri: https://oauth.dev.gup.ua/oauth/api/oauth/check_token
       userAuthorizationUri: https://oauth.dev.gup.ua/oauth/oauth/authorize
     resource:
-      userInfoUri: https://oauth.dev.gup.ua/oauth/api/user/principal
+      userInfoUri: https://oauth.dev.gup.ua/oauth/api/users/principal
     sso: /api/user/login
 
 #Mail Server Configuration for production
