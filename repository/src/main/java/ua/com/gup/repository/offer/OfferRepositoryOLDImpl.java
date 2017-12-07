@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
@@ -20,7 +19,6 @@ import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.Address;
-import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.util.CurrencyConvertUtil;
 
@@ -29,8 +27,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
@@ -204,15 +200,6 @@ public class OfferRepositoryOLDImpl implements OfferRepositoryOLD {
         query.addCriteria(Criteria.where("id").nin(excludeOffersId));
         return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
     }
-
-    @Override
-    public void deleteReservation(String offerId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().set("reservation", null),
-                Offer.class);
-    }
-
 
 
     private Query queryPreparator(OfferFilterOptions offerFO) {

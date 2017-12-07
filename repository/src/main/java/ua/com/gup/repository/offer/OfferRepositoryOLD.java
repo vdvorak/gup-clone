@@ -95,11 +95,5 @@ public interface OfferRepositoryOLD {
     EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, Collection<String> excludeOffersId);
 
 
-    /**
-     * Delete reservation information
-     *
-     * @param offerId - the offer ID
-     */
-    void deleteReservation(String offerId);
 
 }

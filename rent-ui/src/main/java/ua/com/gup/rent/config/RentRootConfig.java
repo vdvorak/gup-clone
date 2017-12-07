@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"ua.com.gup.rent.service", "ua.com.gup.rent.mapper", "ua.com.gup.rent.validator"})
+@ComponentScan(basePackages = {"ua.com.gup.rent.service", "ua.com.gup.rent.mapper", "ua.com.gup.rent.validator", "ua.com.gup.common.service"})
 public class RentRootConfig {
 }

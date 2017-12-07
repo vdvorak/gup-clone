@@ -733,23 +733,7 @@ public class OfferServiceImpl implements OfferService {
         return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
 
-    @Override
-    public void reserveOffer(String offerId, Reservation reservation) {
-        //todo vdvorak this method not use
-/*        Reservation newReservation = new Reservation()
-                .setProfileId(reservation.getProfileId())
-                .setUserContactInfo(reservation.getUserContactInfo())
-                .setCreatedDateEqualsToCurrentDate();
-        Offer newOffer = new Offer();
-        newOffer.setId(offerId);
-        //newOffer.setReservation(newReservation);
-        Offer updatedOffer = offerRepository.findAndUpdate(newOffer);*/
-    }
 
-    @Override
-    public void deleteReservation(String offerId) {
-        offerRepositoryOLD.deleteReservation(offerId);
-    }
 
 
     @Override
@@ -757,11 +741,6 @@ public class OfferServiceImpl implements OfferService {
         Offer offer = new Offer();
         offer.setId(offerId);
         offerRepositoryOLD.findAndUpdate(offer);
-    }
-
-    @Override
-    public Set<String> getMatchedNames(String name) {
-        return offerRepositoryOLD.getMatchedNames(name);
     }
 
     @Override
