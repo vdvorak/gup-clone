@@ -21,6 +21,7 @@ import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import ua.com.gup.common.model.ImageFileInfo;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -56,8 +57,7 @@ public class Profile {
     private String lastname;
     private String executive;
     private String contactPerson;
-    private Address address;
-    private String imgId;
+    private Address address;    
     private String imgUrl;
     private Long birthDate;
     private Contact contact;
@@ -97,6 +97,8 @@ public class Profile {
     private ProfileStatistic profileStatistic;
     
     private String chatUID;
+    private ImageFileInfo imageLarge;
+    private ImageFileInfo imageSmall;
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -107,16 +109,7 @@ public class Profile {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
-
-    public String getImgId() {
-        return imgId;
-    }
-
-    public Profile setImgId(String imgId) {
-        this.imgId = imgId;
-        return this;
-    }
-
+    
     public String getImgUrl() {
         return imgUrl;
     }
@@ -591,6 +584,30 @@ public class Profile {
         this.chatUID = chatUID;
     }
 
+    public ImageFileInfo getImageLarge() {
+        return imageLarge;
+    }
+
+    public void setImageLarge(ImageFileInfo imageLarge) {
+        this.imageLarge = imageLarge;
+    }
+
+    public ImageFileInfo getImageSmall() {
+        return imageSmall;
+    }
+
+    public void setImageSmall(ImageFileInfo imageSmall) {
+        this.imageSmall = imageSmall;
+    }
+    
+    public String imageLargeId() {
+        return imageLarge == null ? null : imageLarge.getS3id();
+    }
+
+    public String imageSmallId() {
+        return imageSmall == null ? null : imageSmall.getS3id();
+    }
+
     @Override
     public String toString() {
 
@@ -610,8 +627,7 @@ public class Profile {
                 ", firstname='" + firstname + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
-                ", address='" + address + '\'' +
-                ", imgId='" + imgId + '\'' +
+                ", address='" + address + '\'' +                
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
                 ", contact=" + contact +

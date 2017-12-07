@@ -23,7 +23,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.api.oauth2","ua.com.gup.listener", "ua.com.gup.listener.executor"})
+@ComponentScan(value = {"ua.com.gup.api.oauth2","ua.com.gup.listener", "ua.com.gup.listener.executor", "ua.com.gup.common"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean

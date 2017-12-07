@@ -19,7 +19,8 @@ public class OfferAuthorMapper {
             offerAuthorDTO.setId(offerAuthor.getPublicId());
             offerAuthorDTO.setFirstName(offerAuthor.getFirstname());
             offerAuthorDTO.setLastName(offerAuthor.getLastname());
-            offerAuthorDTO.setImageId(offerAuthor.getImgId());
+            String imageId = offerAuthor.imageLargeId();
+            offerAuthorDTO.setImageId(imageId);
             offerAuthorDTO.setImageUrl(offerAuthor.getImgUrl());
         }
         return offerAuthorDTO;

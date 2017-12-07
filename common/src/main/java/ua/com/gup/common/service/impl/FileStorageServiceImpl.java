@@ -52,16 +52,36 @@ public class FileStorageServiceImpl implements FileStorageService {
                 .path(e.getRequiredProperty("storage.host.context-path"))
                 .path("/api");
     }
+    
+    @Override
+    public void delete(FileInfo fileInfo){
+        delete(fileInfo.getS3id(), fileInfo.getType());
+    }
+    
+    @Override
+    public void delete(String id, FileType type ){
+        URI uri = createUri(type, id);
+        restTemplate.delete(uri);
+    }
 
     @Override
     public FileInfo save(MultipartFile file) {
-        FileType type = FileType.fromContentType(file.getContentType());
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = createRequest(type, file);
+        try {
+            FileType type = FileType.fromContentType(file.getContentType());
+            return save(file.getOriginalFilename(), type, file.getBytes());
+        } catch (IOException ex) {
+            throw new IOStorageException(ex);
+        }
+    }
+
+    @Override
+    public FileInfo save(String filename, FileType type, byte[] bytes) {
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = createRequest(type, bytes, filename);
         ResponseEntity<PostFileResponse> response = restTemplate.postForEntity(createUri(type), requestEntity, PostFileResponse.class);
         if (!HttpStatus.CREATED.equals(response.getStatusCode())) {
             throw new StorageException(response.getStatusCode().toString());
         }
-        return createFileInfo(type, file, response.getBody().getS3id());
+        return createFileInfo(type, response.getBody().getContentType(), bytes.length, filename, response.getBody().getS3id());
     }
 
     @Override
@@ -71,25 +91,28 @@ public class FileStorageServiceImpl implements FileStorageService {
             int length = files.length;
             List<CompletableFuture> completableFutures = new ArrayList<>(length);
             for (MultipartFile file : files) {
-                FileType type = FileType.fromContentType(file.getContentType());
-                HttpEntity<MultiValueMap<String, Object>> reqeustEntity = createRequest(type, file);
-                CompletableFuture<ResponseEntity<PostFileResponse>> completableFuture
-                        = CompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(createUri(type), reqeustEntity, PostFileResponse.class));
-                completableFuture.whenCompleteAsync(new BiConsumer<ResponseEntity<PostFileResponse>, Throwable>() {
-                    @Override
-                    public void accept(ResponseEntity<PostFileResponse> t, Throwable u) {
-                        try {
-                            FileInfo info = createFileInfo(type, file, t.getBody().getS3id());
-                            result.add(info);
-                        } catch (Exception ex) {
-                            Logger.getLogger(FileStorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    FileType type = FileType.fromContentType(file.getContentType());
+                    HttpEntity<MultiValueMap<String, Object>> reqeustEntity = createRequest(type, file.getBytes(), file.getOriginalFilename());
+                    CompletableFuture<ResponseEntity<PostFileResponse>> completableFuture
+                            = CompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(createUri(type), reqeustEntity, PostFileResponse.class));
+                    completableFuture.whenCompleteAsync(new BiConsumer<ResponseEntity<PostFileResponse>, Throwable>() {
+                        @Override
+                        public void accept(ResponseEntity<PostFileResponse> t, Throwable u) {
+                            try {
+                                FileInfo info = createFileInfo(type, file.getOriginalFilename(),file.getSize(),file.getOriginalFilename(),t.getBody().getS3id());
+                                result.add(info);
+                            } catch (Exception ex) {
+                                Logger.getLogger(FileStorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
                         }
+                    });
 
-                    }
-                });
-
-                completableFutures.add(completableFuture);
-
+                    completableFutures.add(completableFuture);
+                } catch (IOException ex) {
+                    Logger.getLogger(FileStorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             //wait for all (which save images) responses complete
             CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
@@ -97,6 +120,10 @@ public class FileStorageServiceImpl implements FileStorageService {
         return result;
     }
 
+    private URI createUri(FileType type, String id) {
+        return uriComponentsBuilder.cloneBuilder().path("/" + type.getPath() + "/" + id).build().toUri();
+    }
+    
     private URI createUri(FileType type) {
         return uriComponentsBuilder.cloneBuilder().path("/" + type.getPath() + "/").build().toUri();
     }
@@ -107,25 +134,21 @@ public class FileStorageServiceImpl implements FileStorageService {
         return header;
     }
 
-    private HttpEntity<MultiValueMap<String, Object>> createRequest(FileType type, MultipartFile file) {
-        try {
-            HttpHeaders headers = createMultyPartHeader();
-            FileMessageResource res = new FileMessageResource(file.getBytes(), file.getOriginalFilename());
-            LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
-            multipartRequest.add(type.getRequestParamName(), res);
-            return new HttpEntity<>(multipartRequest, headers);
-        } catch (IOException ex) {
-            throw new IOStorageException(ex);
-        }
+    private HttpEntity<MultiValueMap<String, Object>> createRequest(FileType type, byte[] bytes, String filename) {
+        HttpHeaders headers = createMultyPartHeader();
+        FileMessageResource res = new FileMessageResource(bytes, filename);
+        LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
+        multipartRequest.add(type.getRequestParamName(), res);
+        return new HttpEntity<>(multipartRequest, headers);
     }
 
-    private FileInfo createFileInfo(FileType type, MultipartFile file, String s3id) {
+    private FileInfo createFileInfo(FileType type, String contentType, long size, String filename, String s3id) {
         try {
             FileInfo fileInfo = type.createInstance();
-            fileInfo.setContentType(file.getContentType());
+            fileInfo.setContentType(contentType);
             fileInfo.setS3id(s3id);
-            fileInfo.setSize(file.getSize());
-            fileInfo.setFileName(file.getOriginalFilename());
+            fileInfo.setSize(size);
+            fileInfo.setFileName(filename);
             return fileInfo;
         } catch (InstantiationException | IllegalAccessException ex) {
             throw new UnsupportedFileStorageException(ex);
