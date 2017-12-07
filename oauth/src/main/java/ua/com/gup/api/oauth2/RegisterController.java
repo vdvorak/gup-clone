@@ -63,9 +63,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView goToRegistration() {
-        System.out.println("test go to register");
-
-        ModelAndView modelAndView = new ModelAndView("/register", "user", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register", "user", new RegisterProfileDTO());
         modelAndView.addObject("title", "register.title");
         return modelAndView;
     }
@@ -96,7 +94,7 @@ public class RegistrationController {
     @RequestMapping(value = "/register/confirm", method = RequestMethod.GET)
     public ModelAndView registerConfirm(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        ModelAndView modelAndView = new ModelAndView("/register/confirm");
+        ModelAndView modelAndView = new ModelAndView("register/confirm");
         if (verificationToken == null) {
             modelAndView.addObject("error", "verification.token.notfound.exception");
             return modelAndView;
@@ -117,14 +115,14 @@ public class RegistrationController {
 
     @RequestMapping(value = "/register/password/restore", method = RequestMethod.GET)
     public ModelAndView restorePassword() {
-        ModelAndView modelAndView = new ModelAndView("/register/password/restore", "password", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register/password/restore", "password", new RegisterProfileDTO());
         return modelAndView;
     }
 
     @RequestMapping(value = "/register/password/restore", method = RequestMethod.POST)
     public ModelAndView restorePassword(@RequestParam String email) {
-        //ModelAndView modelAndView = new ModelAndView("/register/password/restore");
-        ModelAndView modelAndView = new ModelAndView("/register/password/restore");
+        
+        ModelAndView modelAndView = new ModelAndView("register/password/restore");
 
         if (StringUtils.isEmpty(email)) {
             modelAndView.addObject("error", "account.restore.email.required");
