@@ -29,7 +29,7 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerat
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
-import ua.com.gup.rent.util.security.RentOfferSecurityUtils;
+import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
@@ -141,7 +141,7 @@ public class RentOfferEndpoint {
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
-        String authorId = RentOfferSecurityUtils.getCurrentUserId();
+        String authorId = RentSecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOfferByIdAndAuthorId(id, authorId);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
@@ -338,7 +338,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
-        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserId(status, RentOfferSecurityUtils.getCurrentUserId(), pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

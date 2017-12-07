@@ -15,9 +15,9 @@ import ua.com.gup.rent.model.enumeration.RentOfferUserRole;
  * @deprecated this class  used maybe anywhere but in future maybe delete!
  */
 @Deprecated
-public final class RentOfferSecurityUtils {
+public final class RentSecurityUtils {
 
-    private RentOfferSecurityUtils() {
+    private RentSecurityUtils() {
     }
 
     /**

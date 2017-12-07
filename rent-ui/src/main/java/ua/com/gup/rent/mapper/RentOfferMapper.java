@@ -20,8 +20,8 @@ import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.*;
-import ua.com.gup.rent.util.RentOfferDateUtil;
-import ua.com.gup.rent.util.security.RentOfferSecurityUtils;
+import ua.com.gup.rent.util.RentDateUtil;
+import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -94,7 +94,7 @@ public class RentOfferMapper {
         RentOfferModerationReport moderationReport = new RentOfferModerationReport();
         moderationReport.setDescription(source.getDescription());
         moderationReport.setRefusalReasons(source.getRefusalReasons());
-        moderationReport.setModeratorId(RentOfferSecurityUtils.getCurrentUserId());
+        moderationReport.setModeratorId(RentSecurityUtils.getCurrentUserId());
         moderationReport.setLastModifiedDate(ZonedDateTime.now());
         target.setLastOfferModerationReport(moderationReport);
     }
@@ -138,7 +138,7 @@ public class RentOfferMapper {
         //offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         
         //owner ? doesn't hide phone number : hide phone number
-       /* boolean hidePhoneNumber =   !RentOfferSecurityUtils.isAuthenticated() || !(RentOfferSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
+       /* boolean hidePhoneNumber =   !RentSecurityUtils.isAuthenticated() || !(RentSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));*/
         
         /*offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
@@ -169,7 +169,7 @@ public class RentOfferMapper {
     }
 
     public List<RentOfferStatisticByDateDTO> offerStatisticToOfferStatisticDTO(RentOfferStatistic viewStatistic, LocalDate offerDtCreate, LocalDate dateStart, LocalDate dateEnd) {
-        List<LocalDate> dates = RentOfferDateUtil.getDateRangeBetweenDates(dateStart, dateEnd, true);
+        List<LocalDate> dates = RentDateUtil.getDateRangeBetweenDates(dateStart, dateEnd, true);
         List<RentOfferStatisticByDateDTO> statistic = new ArrayList<>();
         for (LocalDate date : dates) {
             RentOfferStatisticByDateDTO statisticByDateDTO = new RentOfferStatisticByDateDTO();

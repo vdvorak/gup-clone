@@ -1,6 +1,6 @@
 package ua.com.gup.rent.model.rent.statistic;
 
-import ua.com.gup.rent.util.RentOfferDateUtil;
+import ua.com.gup.rent.util.RentDateUtil;
 
 import java.time.LocalDate;
 
@@ -24,7 +24,7 @@ public abstract class RentOfferBaseStatistic {
 
     public void incrementTodayViewStatistic(LocalDate offerDtCreate) {
         LocalDate today = LocalDate.now();
-        int numOfDaysBetween = (int) RentOfferDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
+        int numOfDaysBetween = (int) RentDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
         Integer[] offerViewsArray = getViewStatistic().getTotalOfferViews();
         if (offerViewsArray.length <= numOfDaysBetween || offerViewsArray.length == 0) {
             Integer[] newViews = new Integer[numOfDaysBetween + 1];
@@ -40,7 +40,7 @@ public abstract class RentOfferBaseStatistic {
 
     public void incrementTodayViewPhoneStatistic(LocalDate offerDtCreate) {
         LocalDate today = LocalDate.now();
-        int numOfDaysBetween = (int) RentOfferDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
+        int numOfDaysBetween = (int) RentDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, today);
         Integer[] phoneViewsArray = getViewStatistic().getTotalOfferPhonesViews();
         if (phoneViewsArray.length <= numOfDaysBetween || phoneViewsArray.length == 0) {
             Integer[] newPhoneViewsArray = new Integer[numOfDaysBetween + 1];
@@ -54,7 +54,7 @@ public abstract class RentOfferBaseStatistic {
     }
 
     public Integer getOfferViewsCountByDate(LocalDate offerDtCreate, LocalDate date) {
-        int numOfDaysBetween = (int) RentOfferDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, date);
+        int numOfDaysBetween = (int) RentDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, date);
         Integer[] offerViewsArray = getViewStatistic().getTotalOfferViews();
         if (numOfDaysBetween < 0 || numOfDaysBetween >= offerViewsArray.length) {
             return 0;
@@ -64,7 +64,7 @@ public abstract class RentOfferBaseStatistic {
     }
 
     public Integer getOfferPhonesViewsCountByDate(LocalDate offerDtCreate, LocalDate date) {
-        int numOfDaysBetween = (int) RentOfferDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, date);
+        int numOfDaysBetween = (int) RentDateUtil.calculateDaysDiffBetweenDates(offerDtCreate, date);
         Integer[] phoneViewsArray = getViewStatistic().getTotalOfferPhonesViews();
         if (numOfDaysBetween < 0 || numOfDaysBetween >= phoneViewsArray.length) {
             return 0;

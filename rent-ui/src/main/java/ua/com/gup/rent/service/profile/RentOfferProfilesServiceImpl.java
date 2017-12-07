@@ -12,7 +12,7 @@ import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPrivateProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPublicProfileDTO;
-import ua.com.gup.rent.util.security.RentOfferSecurityUtils;
+import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -362,7 +362,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
     @Override
     public void deleteFromMyContactList(String profileId) {
-        String userId = RentOfferSecurityUtils.getCurrentUserId();
+        String userId = RentSecurityUtils.getCurrentUserId();
 
         RentOfferProfile profile = findById(userId);
 
@@ -376,7 +376,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
     @Override
     public void updateFavoriteOffers(String offerId) {
-        RentOfferProfile profile = findById(RentOfferSecurityUtils.getCurrentUserId());
+        RentOfferProfile profile = findById(RentSecurityUtils.getCurrentUserId());
         Set<String> favoriteOffers = profile.getFavoriteOffers();
         for (String favoriteOffer : favoriteOffers) {
             if (favoriteOffer.equals(offerId)) {
