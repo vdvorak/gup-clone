@@ -457,3 +457,5 @@ public class RentOfferEndpoint {
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }
+=======
+>>>>>>> origin/develop-boot
