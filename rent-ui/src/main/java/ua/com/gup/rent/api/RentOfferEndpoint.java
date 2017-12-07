@@ -17,8 +17,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.filter.RentOfferFilter;
+import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
@@ -28,6 +31,7 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
+import ua.com.gup.rent.util.RentPaginationUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
@@ -47,7 +51,7 @@ import java.util.Optional;
  * REST controller for managing Offer.
  */
 @RestController
-@RequestMapping("/api/rent/offer/")
+@RequestMapping("/api")
 public class RentOfferEndpoint {
 
     private static final String ENTITY_NAME = "rent.object";
@@ -112,7 +116,6 @@ public class RentOfferEndpoint {
      * @return the ResponseEntity with status 201 (Created) and with body the new offerDTO, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws URISyntaxException {
@@ -129,7 +132,6 @@ public class RentOfferEndpoint {
      * @param seoUrl the seoUrl of the OfferDetailsDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
@@ -137,7 +139,6 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
-    @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
@@ -148,7 +149,6 @@ public class RentOfferEndpoint {
     }
 
 
-    @CrossOrigin
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
@@ -157,7 +157,6 @@ public class RentOfferEndpoint {
     }
 
 
-    @CrossOrigin
     @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RentOfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
                                                                                        @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
@@ -189,7 +188,6 @@ public class RentOfferEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/seo/relevant/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
@@ -206,7 +204,6 @@ public class RentOfferEndpoint {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
     public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
@@ -227,7 +224,6 @@ public class RentOfferEndpoint {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
     public ResponseEntity<RentOfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody RentOfferModerationReportDTO offerModerationReportDTO) {
@@ -245,7 +241,6 @@ public class RentOfferEndpoint {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
@@ -267,7 +262,6 @@ public class RentOfferEndpoint {
      * @param id the id of the offerDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer', 'DELETE')")
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
@@ -304,7 +298,6 @@ public class RentOfferEndpoint {
      * @param pageable    the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
@@ -317,7 +310,6 @@ public class RentOfferEndpoint {
             notes = "List all offers coordinates using paging",
             response = RentOfferViewCoordinatesDTO.class
     )
-    @CrossOrigin
     @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
     public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a list of Offers");
@@ -333,7 +325,6 @@ public class RentOfferEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
@@ -342,7 +333,6 @@ public class RentOfferEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
     public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
@@ -361,7 +351,6 @@ public class RentOfferEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/{iserid}/{status}/seourl", method = RequestMethod.GET)
     public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers-seourl by status & iserId");
@@ -372,7 +361,7 @@ public class RentOfferEndpoint {
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
 
-        HttpHeaders headers = RentOfferPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
+        HttpHeaders headers = RentPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
         return new ResponseEntity<>(seoUrls, headers, HttpStatus.OK);
     }
 
@@ -383,16 +372,15 @@ public class RentOfferEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<RentOfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatus(status, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
+        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatus(status, pageable);
+        HttpHeaders headers = RentPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -401,7 +389,6 @@ public class RentOfferEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/updateBasePrice", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateBasePrice() {
         log.debug("REST request to update base price: {}");
@@ -415,7 +402,6 @@ public class RentOfferEndpoint {
      * @param id the offer id
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
     public ResponseEntity<List<String>> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
@@ -430,13 +416,12 @@ public class RentOfferEndpoint {
      * @param id the offer status
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id,
-                                                                   @RequestParam("sizeType") OfferImageSizeType sizeType) {
+                                                                   @RequestParam("sizeType") RentOfferImageSizeType sizeType) {
         log.debug("REST request to get offer image by id and size type");
 
-        final FileWrapper imageWrapper = rentOfferService.findImageByIdAndSizeType(id, sizeType);
+        final RentOfferFileWrapper imageWrapper = rentOfferService.findImageByIdAndSizeType(id, sizeType);
         return ResponseEntity.ok()
                 .contentLength(imageWrapper.getLength())
                 .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
@@ -450,10 +435,10 @@ public class RentOfferEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin
     @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+    public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
-        final List<OfferCategoryCountDTO> offerCategoryCountDTOS = rentOfferService.searchCategoriesByString(query, page, size);
+        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = rentOfferService.searchCategoriesByString(query, page, size);
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
+}

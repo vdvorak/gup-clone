@@ -3,7 +3,6 @@ package ua.com.gup.rent.service.profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
@@ -23,9 +22,6 @@ import java.util.Set;
 @Service
 public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     private final Logger log = LoggerFactory.getLogger(RentOfferProfilesServiceImpl.class);
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RentOfferProfileRepository rentOfferProfileRepository;

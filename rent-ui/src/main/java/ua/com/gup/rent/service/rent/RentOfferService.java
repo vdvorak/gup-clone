@@ -4,7 +4,9 @@ package ua.com.gup.rent.service.rent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.rent.filter.RentOfferFilter;
+import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -18,6 +20,7 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,11 +71,13 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     Boolean isCanUpdateStatus(String id, RentOfferStatus status);
 
-
     List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 
     Optional<List<RentOfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd);
 
     Optional<RentOfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
 
+    Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
+
+    RentOfferFileWrapper findImageByIdAndSizeType(String id, RentOfferImageSizeType sizeType);
 }

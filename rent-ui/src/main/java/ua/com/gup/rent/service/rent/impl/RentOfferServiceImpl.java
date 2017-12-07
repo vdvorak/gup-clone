@@ -21,7 +21,9 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
+import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
@@ -44,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -256,6 +259,16 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Optional<RentOfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
+        return null;
+    }
+
+    @Override
+    public RentOfferFileWrapper findImageByIdAndSizeType(String id, RentOfferImageSizeType sizeType) {
         return null;
     }
 
