@@ -456,6 +456,3 @@ public class RentOfferEndpoint {
         final List<OfferCategoryCountDTO> offerCategoryCountDTOS = rentOfferService.searchCategoriesByString(query, page, size);
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
-}
-=======
->>>>>>> origin/develop-boot
