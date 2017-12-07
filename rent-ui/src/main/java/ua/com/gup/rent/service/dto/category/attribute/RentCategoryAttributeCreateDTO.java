@@ -1,10 +1,10 @@
 package ua.com.gup.rent.service.dto.category.attribute;
 
 
-import ua.com.gup.rent.model.rent.category.RentCategoriesSort;
-import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeType;
-import ua.com.gup.rent.model.rent.category.attribute.RentCategoryAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.validator.RentCategoryAttributeValidator;
+import ua.com.gup.rent.model.enumeration.RentOfferCategoryAttributeType;
+import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
+import ua.com.gup.rent.model.rent.category.attribute.validator.RentOfferCategoryAttributeValidator;
 
 import java.util.*;
 
@@ -20,13 +20,13 @@ public class RentCategoryAttributeCreateDTO {
 
     private Set<Integer> categories = new HashSet<>();
 
-    private LinkedHashSet<RentCategoriesSort> rentCategoriesSort = new LinkedHashSet<>();
+    private LinkedHashSet<RentOfferCategoriesSort> rentOfferCategoriesSort = new LinkedHashSet<>();
 
-    private RentCategoryAttributeType type;
+    private RentOfferCategoryAttributeType type;
 
-    private RentCategoryAttributeValidator validator;
+    private RentOfferCategoryAttributeValidator validator;
 
-    private LinkedHashSet<RentCategoryAttributeValue> values = new LinkedHashSet<>();
+    private LinkedHashSet<RentOfferCategoryAttributeValue> values = new LinkedHashSet<>();
 
     private boolean privateAttr;
 
@@ -70,35 +70,35 @@ public class RentCategoryAttributeCreateDTO {
         this.categories = categories;
     }
 
-    public LinkedHashSet<RentCategoriesSort> getRentCategoriesSort() {
-        return rentCategoriesSort;
+    public LinkedHashSet<RentOfferCategoriesSort> getRentOfferCategoriesSort() {
+        return rentOfferCategoriesSort;
     }
 
-    public void setRentCategoriesSort(LinkedHashSet<RentCategoriesSort> rentCategoriesSort) {
-        this.rentCategoriesSort = rentCategoriesSort;
+    public void setRentOfferCategoriesSort(LinkedHashSet<RentOfferCategoriesSort> rentOfferCategoriesSort) {
+        this.rentOfferCategoriesSort = rentOfferCategoriesSort;
     }
 
-    public RentCategoryAttributeType getType() {
+    public RentOfferCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(RentCategoryAttributeType type) {
+    public void setType(RentOfferCategoryAttributeType type) {
         this.type = type;
     }
 
-    public RentCategoryAttributeValidator getValidator() {
+    public RentOfferCategoryAttributeValidator getValidator() {
         return validator;
     }
 
-    public void setValidator(RentCategoryAttributeValidator validator) {
+    public void setValidator(RentOfferCategoryAttributeValidator validator) {
         this.validator = validator;
     }
 
-    public LinkedHashSet<RentCategoryAttributeValue> getValues() {
+    public LinkedHashSet<RentOfferCategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(LinkedHashSet<RentCategoryAttributeValue> values) {
+    public void setValues(LinkedHashSet<RentOfferCategoryAttributeValue> values) {
         this.values = values;
     }
 

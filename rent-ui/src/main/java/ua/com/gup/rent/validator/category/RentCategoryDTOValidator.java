@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.model.mongo.category.RentCategory;
+import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.service.category.RentCategoryService;
 import ua.com.gup.rent.service.dto.category.RentCategoryCreateDTO;
 import ua.com.gup.rent.service.dto.category.RentCategoryUpdateDTO;
@@ -38,7 +38,7 @@ public class RentCategoryDTOValidator implements Validator {
             if (rentCategoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
-            final Optional<RentCategory> categoryOptional = rentCategoryService.findOneByCode(rentCategoryUpdateDTO.getCode());
+            final Optional<RentOfferCategory> categoryOptional = rentCategoryService.findOneByCode(rentCategoryUpdateDTO.getCode());
             if (categoryOptional.isPresent() && !categoryOptional.get().getId().equals(rentCategoryUpdateDTO.getId())) {
                 errors.rejectValue("code", "code.inUse", null, "Code already used by " + categoryOptional.get().getId());
             }

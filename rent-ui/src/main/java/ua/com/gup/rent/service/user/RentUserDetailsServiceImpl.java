@@ -7,15 +7,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public abstract class RentUserDetailsServiceImpl implements UserDetailsService {
 
 //    @Autowired
-//    private RentProfileRepository profileRepository;
+//    private RentOfferProfileRepository profileRepository;
 //
 //    @Override
 //    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        RentProfile rentProfile = profileRepository.loadByUsername(s);
+//        RentOfferProfile rentProfile = profileRepository.loadByUsername(s);
 //        return buildAuthenticationUser(rentProfile);
 //    }
 //
-//    private RentLoggedUser buildAuthenticationUser(RentProfile profile) {
+//    private RentLoggedUser buildAuthenticationUser(RentOfferProfile profile) {
 //        return new RentLoggedUser("username", "password",
 //                true, true, true, true, Collections.EMPTY_LIST,"","","");
 //    }

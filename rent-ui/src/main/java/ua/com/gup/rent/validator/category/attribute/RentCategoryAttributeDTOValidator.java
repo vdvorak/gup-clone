@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.model.mongo.category.attribute.RentCategoryAttribute;
+import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
 import ua.com.gup.rent.service.category.attribute.RentCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeCreateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentCategoryAttributeUpdateDTO;
@@ -40,7 +40,7 @@ public class RentCategoryAttributeDTOValidator implements Validator {
             if (categoryUpdateDTO.getCode() == 0) {
                 errors.rejectValue("code", "code.cantBe0", null, "Code can't be null");
             }
-            final Optional<RentCategoryAttribute> categoryAttributeOptional = rentCategoryAttributeService.findOneByCode(categoryUpdateDTO.getCode());
+            final Optional<RentOfferCategoryAttribute> categoryAttributeOptional = rentCategoryAttributeService.findOneByCode(categoryUpdateDTO.getCode());
             if (categoryAttributeOptional.isPresent() && !categoryAttributeOptional.get().getId().equals(categoryUpdateDTO.getId())) {
                 errors.rejectValue("code", "code.inUse", null, "Code already used by " + categoryAttributeOptional.get().getId());
             }
