@@ -22,6 +22,13 @@ storage:
     port: 8086
     context-path: /storage
 
+uapay:
+  int-service:
+    host: 62.80.167.165
+    port: 8282
+    scheme: http
+    base-path: /payment/api
+
 mongo:
     db:
       uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
@@ -44,7 +51,7 @@ security:
       checkTokenUri: http://localhost:8081/oauth/api/oauth/check_token
       userAuthorizationUri: http://localhost:8081/oauth/api/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8081/oauth/api/user/principal
+      userInfoUri: http://localhost:8081/oauth/api/users/principal
     sso: /api/user/login
 
 #Mail Server Configuration for production

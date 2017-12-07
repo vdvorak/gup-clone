@@ -5,22 +5,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.PublicProfileDTO;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.enumeration.UserRole;
+import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
 import ua.com.gup.util.LogUtil;
+import ua.com.gup.util.security.SecurityUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import ua.com.gup.util.security.SecurityUtils;
 
 
 @Service
@@ -35,6 +38,25 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileRepository profileRepository;
     @Autowired
     private PublicProfileSequenceService profileSequenceService;
+
+    @Override
+    public void createProfile(CreateProfileDTO profile) {
+        Profile newProfile = new Profile()
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .setExecutive(profile.getExecutive())
+                .setContactPerson(profile.getContactPerson())
+                .setAddress(profile.getAddress())
+                .setActive(Boolean.TRUE)
+                .setEmail(profile.getEmail())
+                .setMainPhone(profile.getMainPhone())
+                .setSocWendor("GUP")
+                .setPassword(passwordEncoder.encode(profile.getPassword()))
+                .setUserRoles(profile.getUserRoles())
+                .setUserType(UserType.LEGAL_ENTITY)
+                .setCreatedDateEqualsToCurrentDate();
+
+        profileRepository.createProfile(newProfile);
+    }
 
     @Override
     public void createProfile(Profile profile) {
@@ -232,16 +254,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Set<String> getAdminIdAll() {
-        return profileRepository.getAdminIdAll();
-    }
-
-    @Override
-    public Set<String> getAdminIdAllByOnline() {
-        return profileRepository.getAdminIdAllByOnline();
-    }
-
-    @Override
     public String getAdminId() {
         return profileRepository.getAdminId();
     }
@@ -372,8 +384,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                     try {
                         principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                     } catch (Exception e) {
-                       log.info("{}", LogUtil.getExceptionStackTrace(e));
-                       return null;
+                        log.info("{}", LogUtil.getExceptionStackTrace(e));
+                        return null;
                     }
                 } else if (cookie.getName().equals("refreshToken")) {
                     List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = null;
@@ -500,12 +512,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
     }
-    
+
     @Override
-    public void updateChatUID(String profileId, String uid){
+    public void updateChatUID(String profileId, String uid) {
         Profile profile = profileRepository.findById(profileId);
         profile.setChatUID(uid);
         profileRepository.save(profile);
-    
+
     }
 }

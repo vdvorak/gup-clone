@@ -20,9 +20,9 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ua.com.gup.rent.security.RentUserAuthenticationConverter;
-import ua.com.gup.rent.security.filter.RentCsrfTokenRequestBindingFilter;
-import ua.com.gup.rent.security.filter.RentCsrfTokenResponseHeaderBindingFilter;
+import ua.com.gup.common.security.CommonUserAuthenticationConverter;
+import ua.com.gup.common.security.filter.CsrfTokenRequestBindingFilter;
+import ua.com.gup.common.security.filter.CsrfTokenResponseHeaderBindingFilter;
 
 import java.util.Arrays;
 
@@ -60,8 +60,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest()
                 .authenticated();
-        http.addFilterBefore(new RentCsrfTokenRequestBindingFilter(), CsrfFilter.class);
-        http.addFilterAfter(new RentCsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
+        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
+        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
 
     @Bean
@@ -80,8 +80,8 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserAuthenticationConverter userAuthenticationConverter() {
-        RentUserAuthenticationConverter converter =
-                new RentUserAuthenticationConverter();
+        CommonUserAuthenticationConverter converter =
+                new CommonUserAuthenticationConverter();
         return converter;
     }
 

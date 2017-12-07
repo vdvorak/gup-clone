@@ -1,4 +1,9 @@
-package ua.com.gup.rent.security;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ua.com.gup.config;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -6,17 +11,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.mongo.model.enumeration.UserRole;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RentUserAuthenticationConverter implements UserAuthenticationConverter {
+public class SaleUserAuthenticationConverter implements UserAuthenticationConverter {
 
     private final String USERNAME = "user_name";
     private final String PROFILE_ID = "profile_id";
     private final String PUBLIC_ID = "public_id";
     private final String EMAIL = "email";
+
     private final String AUTHORITIES = "authorities";
 
     @Override
@@ -33,8 +41,8 @@ public class RentUserAuthenticationConverter implements UserAuthenticationConver
             String email = (String) map.get(EMAIL);
             List<String> authorities = (List<String>) map.get(AUTHORITIES);
 
-
-            List<GrantedAuthority> buildUserAuthority = buildUserAuthority(authorities);
+            Set<UserRole> collect = authorities.stream().map(as -> UserRole.valueOf(as)).collect(Collectors.toSet());
+            List<GrantedAuthority> buildUserAuthority = buildUserAuthority(collect);
 
             GupLoggedUser user = buildUserForAuthentication(profileId, username, publicId, email, buildUserAuthority);
             return new UsernamePasswordAuthenticationToken(user, "N/A", buildUserAuthority);
@@ -46,9 +54,9 @@ public class RentUserAuthenticationConverter implements UserAuthenticationConver
         return new GupLoggedUser(id, publicId, username, email, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(List<String> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
         return userRoles.stream()
-                .map(userRole -> new SimpleGrantedAuthority(userRole))
+                .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
                 .collect(Collectors.toList());
     }
 

@@ -67,22 +67,26 @@ public class RentOfferEndpoint {
             }
         }
     }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {
         List<RentOfferViewShortDTO> rentOfferViewShortDTOS = rentOfferService.findAll();
         return new ResponseEntity(rentOfferViewShortDTOS, HttpStatus.OK);
     }
+
     @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
     public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
         List<RentOfferViewShortDTO> rentOfferViewShortDTOS = rentOfferService.findAll();
         return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
     }
+
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'create')")
-    public ResponseEntity createRentObject(RentOfferCreateDTO rentOfferCreateDTO ) {
+    public ResponseEntity createRentObject(RentOfferCreateDTO rentOfferCreateDTO) {
         rentOfferService.create(rentOfferCreateDTO);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
     @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'edit')")
     public ResponseEntity updateRentOffer(@PathVariable(name = "id") String rentOfferId, RentOfferUpdateDTO rentOfferUpdateDTO) {
@@ -98,9 +102,8 @@ public class RentOfferEndpoint {
     }
 
 
-
-
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -----------------------------------------//
+
     /**
      * POST  /offers : Create a new offer.
      *
@@ -246,11 +249,11 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
         log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
-        if(!rentOfferService.exists(id)){
+        if (!rentOfferService.exists(id)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if(!rentOfferService.isCanUpdateStatus(id, status)){
-            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)",HttpStatus.BAD_REQUEST);
+        if (!rentOfferService.isCanUpdateStatus(id, status)) {
+            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)", HttpStatus.BAD_REQUEST);
         }
         Optional<RentOfferViewDetailsDTO> result = rentOfferService.updateStatus(id, status);
 

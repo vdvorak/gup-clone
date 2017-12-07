@@ -18,11 +18,9 @@ import ua.com.gup.config.filter.OAuthFilter;
 import java.util.List;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common"})
-public class WebConfig extends WebMvcConfigurerAdapter {
+@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service"})
+public class SaleWebConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private Environment e;
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -36,7 +34,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         argumentResolvers.add(resolver);
         super.addArgumentResolvers(argumentResolvers);
     }
-
 
     @Bean
     public FilterRegistrationBean characterEncodingFilterRegistration() {

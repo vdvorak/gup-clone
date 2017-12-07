@@ -1,5 +1,6 @@
 package ua.com.gup.service.profile;
 
+import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
@@ -13,6 +14,8 @@ import java.util.Set;
  * The interface Profiles service.
  */
 public interface ProfilesService {
+    void createProfile(CreateProfileDTO profile);
+
     /**
      * Create profile.
      *
@@ -197,12 +200,6 @@ public interface ProfilesService {
      */
     Set<String> getMatchedNames(String term);
 
-    /**
-     * Search for matched all admin ids and return set of them.
-     */
-    Set<String> getAdminIdAll();
-
-    Set<String> getAdminIdAllByOnline();
 
     /**
      * Search for matched admin id and return of his.

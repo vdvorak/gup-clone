@@ -136,7 +136,7 @@
             <!--<version>3.0.2</version>-->
             <!--<executions>-->
             <!--<execution>-->
-            <!--<payId>analyze</payId>-->
+            <!--<id>analyze</id>-->
             <!--<goals>-->
             <!--<goal>analyze-only</goal>-->
             <!--</goals>-->
