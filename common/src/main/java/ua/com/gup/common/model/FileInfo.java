@@ -48,4 +48,8 @@ public abstract class FileInfo {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return "FileInfo{" + "fileName=" + fileName + ", s3id=" + s3id + ", contentType=" + contentType + ", size=" + size + ", type=" + type + '}';
+    }
 }

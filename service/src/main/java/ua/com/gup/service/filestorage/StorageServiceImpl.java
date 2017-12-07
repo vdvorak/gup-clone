@@ -1,6 +1,9 @@
 package ua.com.gup.service.filestorage;
 
+import com.google.common.collect.HashBiMap;
 import com.mongodb.gridfs.GridFSDBFile;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -15,11 +18,26 @@ import ua.com.gup.repository.filestorage.StorageRepository;
 import ua.com.gup.service.profile.ProfilesService;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import ua.com.gup.common.model.FileInfo;
+import ua.com.gup.common.model.FileType;
+import ua.com.gup.common.model.ImageFileInfo;
+import ua.com.gup.common.service.FileStorageService;
+import ua.com.gup.common.util.ImageScaleUtil;
+import ua.com.gup.repository.profile.ProfileRepository;
 
 @Service
 public class StorageServiceImpl implements StorageService {
-
+    @Autowired
+    private FileStorageService storageService;
+    @Autowired
+    private ProfileRepository profileRepository;
+    
     private final String PROFILE_SERVICE_NAME = "profile";
     private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
 
@@ -44,18 +62,21 @@ public class StorageServiceImpl implements StorageService {
         storageRepository.delete(serviceName, kostyl, fileIds);
     }
 
-
     @Override
     public void deleteProfileImage(String userId) {
         Profile profile = profilesService.findById(userId);
-        String imageId = profile.getImgId();
-
-        if (imageId != null) {
-            delete(PROFILE_SERVICE_NAME, profile.getId());
+        if (profile.getImageLarge() != null) {
+            ImageFileInfo imageLarge = profile.getImageLarge();
+            storageService.delete(imageLarge);
+            profile.setImageLarge(null);
         }
-
-        profile.setImgId(PROFILE_IMAGE_STUB_ID);
-        profilesService.editProfile(profile);
+        
+        if (profile.getImageSmall()!= null) {
+            ImageFileInfo imageSmall = profile.getImageSmall();
+            storageService.delete(imageSmall);
+            profile.setImageSmall(null);
+        }        
+        profileRepository.save(profile);
     }
 
     @Override
@@ -70,76 +91,39 @@ public class StorageServiceImpl implements StorageService {
     public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
         return storageRepository.getCachedImage(serviceName, filePath, fileId);
     }
-
-
+   
+  
     @Override
-    public ResponseEntity<InputStreamResource> readProfileCachedImage(String userId, String cachedSize) {
-
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        // image stub for case when user doesn't hav avatar
-        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, PROFILE_IMAGE_STUB_ID);
-
-        Profile profile = profilesService.findById(userId);
-        if (profile == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        if (profile.getImgId() == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, profile.getImgId());
-
-        if (gridFSDBFile != null) {
-            return responseEntityPreparator(gridFSDBFile);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Override
-    public ResponseEntity<InputStreamResource> readCachedImage(String serviceName, String fileId, String cachedSize) {
-
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        gridFSDBFile = storageRepository.getCachedImage(serviceName, path, fileId);
-
-        if (gridFSDBFile != null) {
-            return responseEntityPreparator(gridFSDBFile);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Override
-    public String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper) {
-        return storageRepository.saveCachedImageProfile(fileUploadWrapper);
-    }
-
-
-    @Override
-    public ResponseEntity<CreatedObjResp> saveCachedImageProfile(MultipartFile file) {
-        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-
-        // Prepare file
-        try {
-            fileUploadWrapper
-                    .setServiceName(PROFILE_SERVICE_NAME)
-                    .setInputStream(file.getInputStream())
-                    .setContentType(file.getContentType())
-                    .setFilename(file.getOriginalFilename());
+    public Map<String,String> saveCachedImageProfile(String profileId, MultipartFile file) {
+        try {           
+            Profile profile = profilesService.findById(profileId);
+            
+            String extension = file.getContentType().split("/")[1];
+            BufferedImage inputImage = ImageIO.read(file.getInputStream());
+            
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            BufferedImage large = ImageScaleUtil.largeBufferedImageProfilePreparator(inputImage);            
+            ImageIO.write(large, extension, os);            
+            FileInfo info = storageService.save("large_"+file.getOriginalFilename(), FileType.IMAGE, os.toByteArray());
+            profile.setImageLarge((ImageFileInfo) info);
+            
+            os = new ByteArrayOutputStream();  
+            BufferedImage small = ImageScaleUtil.smallBufferedImageProfilePreparator(inputImage);
+            ImageIO.write(small, extension, os);        
+            info = storageService.save("small_"+file.getOriginalFilename(), FileType.IMAGE, os.toByteArray());
+            profile.setImageSmall((ImageFileInfo) info); 
+            
+            
+            profilesService.editProfile(profile);
+            
+            Map<String, String> urls = new HashMap<>();
+            urls.put("large", profile.getImageLarge().getS3id());
+            urls.put("small", profile.getImageSmall().getS3id());
+            return urls;            
         } catch (IOException ex) {
-            ex.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Logger.getLogger(StorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-
-        String uploadedFileId = saveCachedImageProfile(fileUploadWrapper);
-        return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
     }
 
 
@@ -164,6 +148,8 @@ public class StorageServiceImpl implements StorageService {
                 .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
                 .body(new InputStreamResource(gridFSDBFile.getInputStream()));
     }
+
+   
 
 
 }

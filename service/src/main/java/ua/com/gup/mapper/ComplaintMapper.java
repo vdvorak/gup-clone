@@ -21,7 +21,7 @@ public class ComplaintMapper {
             complaintInitiator.setId(initiatorProfile.getPublicId());
             complaintInitiator.setFirstName(initiatorProfile.getFirstname());
             complaintInitiator.setLastName(initiatorProfile.getLastname());
-            complaintInitiator.setImageId(initiatorProfile.getImgId());
+            complaintInitiator.setImage(initiatorProfile.getImageLarge());            
             complaintInitiator.setImageUrl(initiatorProfile.getImgUrl());
             complaintInitiator.setEmail(initiatorProfile.getEmail());
         }

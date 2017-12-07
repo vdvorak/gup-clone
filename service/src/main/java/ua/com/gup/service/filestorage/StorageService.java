@@ -1,6 +1,7 @@
 package ua.com.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import java.util.Map;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,30 +48,7 @@ public interface StorageService {
      * @return - the image in the GridFSDBFile format.
      */
     GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId);
-
-
-    /**
-     * @param userId
-     * @param cachedSize
-     * @return
-     */
-    ResponseEntity<InputStreamResource> readProfileCachedImage(String userId, String cachedSize);
-
-
-    /**
-     * @param serviceName
-     * @param fileId
-     * @param cachedSize
-     * @return
-     */
-    ResponseEntity<InputStreamResource> readCachedImage(String serviceName, String fileId, String cachedSize);
-
-    /**
-     * Save photo in two variants: large and small
-     *
-     * @return - id of image
-     */
-    String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper);
+  
 
     /**
      * Save photo in two variants: large and small
@@ -78,7 +56,7 @@ public interface StorageService {
      * @param file - the image.
      * @return
      */
-    ResponseEntity<CreatedObjResp> saveCachedImageProfile(MultipartFile file);
+    public Map<String,String> saveCachedImageProfile(String profileId, MultipartFile file);
 
 
     /**

@@ -34,7 +34,6 @@ public class EditProfileDTO extends ProfileDTO {
         profile.setExecutive(this.executive);
         profile.setAddress(this.address);
         profile.setContactPerson(this.contactPerson);
-        profile.setImgId(this.imageId);
         profile.setContactList(this.socialsList);
         profile.setStatus(this.status);
         profile.setContact(this.contact);
