@@ -358,7 +358,7 @@ public class RentOfferMapper {
         rentOffer.setTitle(rentObjectDTO.getTitle());
         rentOffer.setDescription(rentObjectDTO.getDescription());
         rentOffer.setStatus(RentOfferStatus.NEW);
-        rentOffer.setRentOfferPrice(rentOfferPriceMapper.fromDTOToModel(rentObjectDTO.getPrice()));
+        rentOffer.setPrice(rentOfferPriceMapper.fromDTOToModel(rentObjectDTO.getPrice()));
         return rentOffer;
     }
 }
