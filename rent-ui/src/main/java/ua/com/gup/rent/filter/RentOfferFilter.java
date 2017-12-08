@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ApiModel(description = "Rent Offer filter model")
@@ -58,6 +57,14 @@ public class RentOfferFilter implements Serializable {
         this.query = query;
     }
 
+    public RentOfferAuthorFilter getRentOfferAuthorFilter() {
+        return rentOfferAuthorFilter;
+    }
+
+    public void setRentOfferAuthorFilter(RentOfferAuthorFilter rentOfferAuthorFilter) {
+        this.rentOfferAuthorFilter = rentOfferAuthorFilter;
+    }
+
     public Integer[] getCategories() {
         return categories;
     }
@@ -80,6 +87,14 @@ public class RentOfferFilter implements Serializable {
 
     public void setAddress(RentOfferAddressFilter address) {
         this.address = address;
+    }
+
+    public RentOfferCoordinatesFilter getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(RentOfferCoordinatesFilter coordinates) {
+        this.coordinates = coordinates;
     }
 
     public RentOfferMoneyFilter getPrice() {
@@ -122,45 +137,11 @@ public class RentOfferFilter implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public RentOfferAuthorFilter getRentOfferAuthorFilter() {
-        return rentOfferAuthorFilter;
-    }
-
-    public void setRentOfferAuthorFilter(RentOfferAuthorFilter rentOfferAuthorFilter) {
-        this.rentOfferAuthorFilter = rentOfferAuthorFilter;
-    }
-
-
     public String[] getSeoUrls() {
         return seoUrls;
     }
 
     public void setSeoUrls(String[] seoUrls) {
         this.seoUrls = seoUrls;
-    }
-
-    public RentOfferCoordinatesFilter getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(RentOfferCoordinatesFilter coordinates) {
-        this.coordinates = coordinates;
-
-    }
-
-    @Override
-    public String toString() {
-        return "RentOfferFilter{" +
-                "query='" + query + '\'' +
-                ", rentOfferAuthorFilter=" + rentOfferAuthorFilter +
-                ", categories=" + Arrays.toString(categories) +
-                ", date=" + date +
-                ", address=" + address +
-                ", price=" + price +
-                ", attrs=" + attrs +
-                ", multiAttrs=" + multiAttrs +
-                ", numAttrs=" + numAttrs +
-                ", boolAttrs=" + boolAttrs +
-                '}';
     }
 }
