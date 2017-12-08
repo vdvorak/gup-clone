@@ -141,7 +141,7 @@ public class RentOfferEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<Page> getAllOffersByFilter(@RequestParam  RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
