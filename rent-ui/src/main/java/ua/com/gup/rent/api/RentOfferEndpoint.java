@@ -293,6 +293,30 @@ public class RentOfferEndpoint {
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
+    /**
+     * PUT  /offers : Updates status  of an existing offer.
+     *
+     * @param status the status to be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
+     * or with status 400 (Bad Request) if the offerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
+    @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
+        log.debug("REST request to change Rent Offer's status: id= {}, status = {}", id, status);
+        if (!offerService.exists(id)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (!offerService.isCanUpdateStatus(id, status)) {
+            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)", HttpStatus.BAD_REQUEST);
+        }
+        Optional<RentOfferViewDetailsDTO> result = offerService.updateStatus(id, status);
+
+        return RentResponseUtil.wrapOrNotFound(result);
+    }
+
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
@@ -325,29 +349,7 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-    /**
-     * PUT  /offers : Updates status  of an existing offer.
-     *
-     * @param status the status to be updated
-     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
-     * or with status 400 (Bad Request) if the offerDTO is not valid,
-     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
-    @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
-        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
-        if (!offerService.exists(id)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        if (!offerService.isCanUpdateStatus(id, status)) {
-            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)", HttpStatus.BAD_REQUEST);
-        }
-        Optional<RentOfferViewDetailsDTO> result = offerService.updateStatus(id, status);
 
-        return RentResponseUtil.wrapOrNotFound(result);
-    }
 
 
 

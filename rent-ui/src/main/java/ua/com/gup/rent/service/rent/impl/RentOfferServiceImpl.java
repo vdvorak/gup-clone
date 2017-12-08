@@ -372,12 +372,19 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status) {
-        return null;
+        log.debug("Request to update update rent offer's status : {}", id);
+        RentOffer offer = offerRepository.findOne(id);
+        offer.setStatus(status);
+        offer = offerRepository.save(offer);
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
     @Override
     public Boolean isCanUpdateStatus(String id, RentOfferStatus status) {
-        return null;
+        RentOffer offer = offerRepository.findOne(id);
+        Boolean fromStatus = (offer.getStatus() == RentOfferStatus.ACTIVE || offer.getStatus() == RentOfferStatus.DEACTIVATED);
+        Boolean toStatus = (status ==  RentOfferStatus.ACTIVE || status == RentOfferStatus.DEACTIVATED || status == RentOfferStatus.ARCHIVED);
+        return fromStatus && toStatus;
     }
 
     @Override
