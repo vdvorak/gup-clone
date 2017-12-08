@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.filter.RentOfferMoneyFilter;
+import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
 import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
@@ -33,8 +34,10 @@ import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
+import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
-import ua.com.gup.rent.repository.rent.offer.RentOfferRepository;
+import ua.com.gup.rent.repository.rent.RentOfferRepository;
+import ua.com.gup.rent.repository.rent.offer.RentOfferMongoRepository;
 import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
@@ -76,6 +79,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Autowired
     private RentOfferMapper offerMapper;
 
+    private RentOfferCategoryMapper offerCategoryMapper
+
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
 
@@ -94,7 +99,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private RentOfferRepositoryCustom offerRepositoryCustom;
 
     @Autowired
-    private RentOfferRepository offerRepository;
+    private RentOfferMongoRepository offerRepository;
 
     @Autowired
     private RentSequenceService sequenceService;
@@ -334,7 +339,12 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size) {
-        return null;
+        log.debug("Request to search category by string : {}", string);
+        final List<RentOfferCategoryCount> offerCategoryCounts = offerRepositoryCustom.searchCategoriesByString(string, page, size);
+        return offerCategoryCounts
+                .stream()
+                .map(c -> offerCategoryMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -365,8 +375,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    protected ua.com.gup.rent.repository.rent.RentOfferRepository getRepository() {
-        return (ua.com.gup.rent.repository.rent.RentOfferRepository) super.getRepository();
+    protected RentOfferRepository getRepository() {
+        return (RentOfferRepository) super.getRepository();
     }
 
 

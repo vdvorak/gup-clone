@@ -327,6 +327,18 @@ public class RentOfferEndpoint {
         List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    /**
+     * GET  /offers/search/category : get offer category by query.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
+    public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+        log.debug("REST request to get offer categories by word string");
+        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
+        return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -362,12 +374,6 @@ public class RentOfferEndpoint {
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
-
-
-
-
-
-
 
     /**
      * PUT  /offers : Updates an existing offer by moderator.
@@ -445,18 +451,4 @@ public class RentOfferEndpoint {
         return ResponseEntity.ok().build();
     }
 
-
-
-
-    /**
-     * GET  /offers/search/category : get offer category by query.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
-    public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        log.debug("REST request to get offer categories by word string");
-        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
-        return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
-    }
 }
