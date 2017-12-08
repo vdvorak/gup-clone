@@ -21,6 +21,7 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
@@ -237,5 +238,20 @@ public class RentOffer {
 
     public void setLastOfferModerationReport(RentOfferModerationReport lastOfferModerationReport) {
         this.lastOfferModerationReport = lastOfferModerationReport;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RentOffer)) return false;
+        RentOffer rentOffer = (RentOffer) o;
+        return Objects.equals(getId(), rentOffer.getId()) &&
+                Objects.equals(getAuthorId(), rentOffer.getAuthorId()) &&
+                Objects.equals(getSeoUrl(), rentOffer.getSeoUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAuthorId(), getSeoUrl());
     }
 }
