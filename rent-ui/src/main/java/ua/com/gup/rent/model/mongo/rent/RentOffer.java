@@ -1,6 +1,8 @@
 package ua.com.gup.rent.model.mongo.rent;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
@@ -18,7 +20,10 @@ import java.util.List;
 
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
-@Document(collection = COLLECTION_NAME)
+@Document(collection = COLLECTION_NAME, language = "russian")
+@CompoundIndexes({
+        @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
+})
 public class RentOffer {
 
     public static final String COLLECTION_NAME = "rent.offer";
