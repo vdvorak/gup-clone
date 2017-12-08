@@ -290,6 +290,16 @@ public class RentOfferEndpoint {
         offerService.delete(id);
         return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
+    public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
+        log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
+        if (StringUtils.isEmpty(userPublicId)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
+        }
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -363,19 +373,6 @@ public class RentOfferEndpoint {
         log.debug("REST request to get a list of Offers");
         List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-
-
-
-    @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
-        log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
-        if (StringUtils.isEmpty(userPublicId)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
-        }
-        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 

@@ -290,7 +290,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(RentOfferStatus status, String userPublicId, Pageable pageable) {
-        return null;
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
+        }
+        Page<RentOffer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     @Override
