@@ -140,14 +140,12 @@ public class RentOfferEndpoint {
      * @param pageable    the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @RequestMapping(value = "/offers", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-
-//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
     /**
      * POST  /offers : Create a new Rent offer.
@@ -165,6 +163,28 @@ public class RentOfferEndpoint {
                 .headers(RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
+
+    /**
+     * PUT  /offers : Updates an existing offer.
+     *
+     * @param offerUpdateDTO the offerDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
+     * or with status 400 (Bad Request) if the offerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
+        log.debug("REST request to update Offer : {}", offerUpdateDTO);
+        if (!offerService.exists(offerUpdateDTO.getId())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "rentOfferNotFound", "Rent Offer not found")).body(null);
+        }
+        RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
     /**
      * GET  /offers/:seoUrl : get the "seoUrl" offer.
@@ -235,25 +255,6 @@ public class RentOfferEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    /**
-     * PUT  /offers : Updates an existing offer.
-     *
-     * @param offerUpdateDTO the offerDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
-     * or with status 400 (Bad Request) if the offerDTO is not valid,
-     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
-    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
-        log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!offerService.exists(offerUpdateDTO.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
-        }
-        RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
-        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
-    }
 
     /**
      * PUT  /offers : Updates an existing offer by moderator.
