@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ApiModel(description = "Offer filter model")
+@ApiModel(description = "Rent Offer filter model")
 public class RentOfferFilter implements Serializable {
 
     private static final long serialVersionUID = 1232825578694716871L;

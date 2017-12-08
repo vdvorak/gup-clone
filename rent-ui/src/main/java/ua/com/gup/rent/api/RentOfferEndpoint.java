@@ -58,61 +58,64 @@ public class RentOfferEndpoint {
     private final Logger log = LoggerFactory.getLogger(RentOfferEndpoint.class);
 
     @Autowired
-    private RentOfferService rentOfferService;
+    private RentOfferService offerService;
 
     @Autowired
-    private RentOfferDTOValidator rentOfferDTOValidator;
+    private RentOfferDTOValidator offerDTOValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() != null) {
             final Class<?> clazz = binder.getTarget().getClass();
             if (RentOfferCreateDTO.class.equals(clazz) || RentOfferUpdateDTO.class.equals(clazz)) {
-                binder.addValidators(rentOfferDTOValidator);
+                binder.addValidators(offerDTOValidator);
             }
         }
     }
 
+   /*
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAll() {
-        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = rentOfferService.findAll();
+        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = offerService.findAll();
         return new ResponseEntity(rentOfferViewShortDTOS, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
     public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
-        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = rentOfferService.findAll();
+        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = offerService.findAll();
         return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'create')")
     public ResponseEntity createRentObject(RentOfferCreateDTO rentOfferCreateDTO) {
-        rentOfferService.create(rentOfferCreateDTO);
+        offerService.create(rentOfferCreateDTO);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
     @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'edit')")
     public ResponseEntity updateRentOffer(@PathVariable(name = "id") String rentOfferId, RentOfferUpdateDTO rentOfferUpdateDTO) {
-        rentOfferService.update(rentOfferUpdateDTO);
+        offerService.update(rentOfferUpdateDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
 //    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'delete')")
     public ResponseEntity deleteRentObject(@PathVariable(name = "id") String rentOfferId) {
-        rentOfferService.deleteById(rentOfferId);
+        offerService.deleteById(rentOfferId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+*/
 
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -----------------------------------------//
 
     /**
-     * POST  /offers : Create a new offer.
+     * POST  /offers : Create a new Rent offer.
      *
-     * @param offerCreateDTO the offerCreateDTO to create
+     * @param offerCreateDTO the OfferCreateDTO to create
      * @return the ResponseEntity with status 201 (Created) and with body the new offerDTO, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -120,7 +123,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws URISyntaxException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
-        RentOfferViewDetailsDTO result = rentOfferService.save(offerCreateDTO);
+        RentOfferViewDetailsDTO result = offerService.save(offerCreateDTO);
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -135,7 +138,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Offer : {}", seoUrl);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOneBySeoUrl(seoUrl);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -144,7 +147,7 @@ public class RentOfferEndpoint {
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
         String authorId = RentSecurityUtils.getCurrentUserId();
         log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOfferByIdAndAuthorId(id, authorId);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -152,7 +155,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = rentOfferService.findOne(id);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -166,7 +169,7 @@ public class RentOfferEndpoint {
         LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate dateEnd = Instant.ofEpochMilli(dateEndInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Optional<List<RentOfferStatisticByDateDTO>> statistic = rentOfferService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
+        Optional<List<RentOfferStatisticByDateDTO>> statistic = offerService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
         return RentResponseUtil.wrapOrNotFound(statistic);
     }
 
@@ -191,7 +194,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/seo/relevant/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getRelevantOffers(@PathVariable String seoUrl, Pageable pageable) {
         log.debug("REST request to get Offer : {}", seoUrl);
-        Page<RentOfferViewShortDTO> page = rentOfferService.findRelevantBySeoUrl(seoUrl, pageable);
+        Page<RentOfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -208,10 +211,10 @@ public class RentOfferEndpoint {
     @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
     public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!rentOfferService.exists(offerUpdateDTO.getId())) {
+        if (!offerService.exists(offerUpdateDTO.getId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "offernotfound", "Offer not found")).body(null);
         }
-        RentOfferViewDetailsDTO result = rentOfferService.save(offerUpdateDTO);
+        RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
@@ -228,7 +231,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
     public ResponseEntity<RentOfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody RentOfferModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
-        RentOfferViewDetailsDTO result = rentOfferService.save(offerModerationReportDTO);
+        RentOfferViewDetailsDTO result = offerService.save(offerModerationReportDTO);
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
@@ -245,13 +248,13 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
         log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
-        if (!rentOfferService.exists(id)) {
+        if (!offerService.exists(id)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if (!rentOfferService.isCanUpdateStatus(id, status)) {
+        if (!offerService.isCanUpdateStatus(id, status)) {
             return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)", HttpStatus.BAD_REQUEST);
         }
-        Optional<RentOfferViewDetailsDTO> result = rentOfferService.updateStatus(id, status);
+        Optional<RentOfferViewDetailsDTO> result = offerService.updateStatus(id, status);
 
         return RentResponseUtil.wrapOrNotFound(result);
     }
@@ -266,7 +269,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
-        rentOfferService.delete(id);
+        offerService.delete(id);
         return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -298,10 +301,10 @@ public class RentOfferEndpoint {
      * @param pageable    the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @RequestMapping(value = "/offers/", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
-        Page<RentOfferViewShortDTO> page = rentOfferService.findAll(offerFilter, pageable);
+        Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -313,7 +316,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
     public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a list of Offers");
-        List<RentOfferViewCoordinatesDTO> list = rentOfferService.findCoordinatesByFilter(offerFilter, pageable);
+        List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -329,7 +332,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
-        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -339,7 +342,7 @@ public class RentOfferEndpoint {
         if (StringUtils.isEmpty(userPublicId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
         }
-        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -357,7 +360,7 @@ public class RentOfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatusAndUserPublicId(status, iserid, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, iserid, pageable);
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
 
@@ -379,7 +382,7 @@ public class RentOfferEndpoint {
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
-        Page<RentOfferViewShortWithModerationReportDTO> page = rentOfferService.findAllByStatus(status, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
         HttpHeaders headers = RentPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -392,7 +395,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/updateBasePrice", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateBasePrice() {
         log.debug("REST request to update base price: {}");
-        rentOfferService.updateActiveOffersBasePrice();
+        offerService.updateActiveOffersBasePrice();
         return ResponseEntity.ok().build();
     }
 
@@ -405,8 +408,8 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
     public ResponseEntity<List<String>> incrementPhoneViews(@PathVariable String id) {
         log.debug("REST request to increment phone views");
-        rentOfferService.incrementPhoneViews(id);
-        Collection<String> phoneNumbers = rentOfferService.getOfferContactInfoPhoneNumbersById(id);
+        offerService.incrementPhoneViews(id);
+        Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
         return new ResponseEntity(phoneNumbers, HttpStatus.OK);
     }
 
@@ -421,7 +424,7 @@ public class RentOfferEndpoint {
                                                                    @RequestParam("sizeType") RentOfferImageSizeType sizeType) {
         log.debug("REST request to get offer image by id and size type");
 
-        final RentOfferFileWrapper imageWrapper = rentOfferService.findImageByIdAndSizeType(id, sizeType);
+        final RentOfferFileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
         return ResponseEntity.ok()
                 .contentLength(imageWrapper.getLength())
                 .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
@@ -438,7 +441,7 @@ public class RentOfferEndpoint {
     @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
     public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
-        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = rentOfferService.searchCategoriesByString(query, page, size);
+        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }
