@@ -17,8 +17,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonImageSizeType;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -204,7 +204,7 @@ public class RentOfferEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @RequestParam("sizeType") RentOfferImageSizeType sizeType) {
+    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @RequestParam("sizeType") CommonImageSizeType sizeType) {
         log.debug("REST request to get rent offer image by id and size type");
         final RentOfferFileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
         return ResponseEntity.ok()
@@ -271,7 +271,7 @@ public class RentOfferEndpoint {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
+    public ResponseEntity<Page> getAllMyOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -297,7 +297,7 @@ public class RentOfferEndpoint {
         if (StringUtils.isEmpty(userPublicId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
         }
-        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(CommonStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -353,7 +353,7 @@ public class RentOfferEndpoint {
      */
     @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable RentOfferStatus status) throws URISyntaxException {
+    public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable CommonStatus status) throws URISyntaxException {
         log.debug("REST request to change Rent Offer's status: id= {}, status = {}", id, status);
         if (!offerService.exists(id)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -400,7 +400,7 @@ public class RentOfferEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers/{iserid}/{status}/seourl", method = RequestMethod.GET)
-    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable RentOfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers-seourl by status & iserId");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
@@ -422,7 +422,7 @@ public class RentOfferEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<RentOfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<RentOfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);

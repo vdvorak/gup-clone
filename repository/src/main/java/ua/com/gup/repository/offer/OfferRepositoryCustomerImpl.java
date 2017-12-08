@@ -19,14 +19,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.filter.*;
-import ua.com.gup.mongo.model.geo.Common;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import javax.annotation.PostConstruct;
@@ -59,32 +58,32 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     }
 
     @Override
-    public long countByFilter(OfferFilter offerFilter, OfferStatus offerStatus) {
+    public long countByFilter(OfferFilter offerFilter, CommonStatus offerStatus) {
         return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
+    public List<Offer> findByFilter(OfferFilter offerFilter, CommonStatus offerStatus, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, String excludedId, Pageable pageable) {
+    public List<Offer> findByFilter(OfferFilter offerFilter, CommonStatus offerStatus, String excludedId, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), Arrays.asList(excludedId), pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable) {
+    public List<Offer> findByFilter(OfferFilter offerFilter, List<CommonStatus> offerStatuses, Pageable pageable) {
         return findByFilter(offerFilter, offerStatuses, null, pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
+    public List<Offer> findByFilter(OfferFilter offerFilter, List<CommonStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
     @Override
-    public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
+    public void updateBasePriceByExchangeRate(CommonStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
         BasicDBObject query = new BasicDBObject();
         query.put("status", status.name());
         query.put("price.currency", currency.name());
@@ -114,7 +113,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
     }
 
-    private Query buildQueryByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private Query buildQueryByFilter(OfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria.forLanguage("russian");
@@ -151,11 +150,11 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 query.addCriteria(Criteria.where("status").in(
                         statusList
                                 .stream()
-                                .map(OfferStatus::toString)
+                                .map(CommonStatus::toString)
                                 .collect(Collectors.toList())));
             }
         } else {
-            query.addCriteria(Criteria.where("status").is(OfferStatus.ACTIVE));
+            query.addCriteria(Criteria.where("status").is(CommonStatus.ACTIVE));
         }
         //todo maybe need change how as new  categories with sort vdvorak
         if (offerFilter.getCategories() != null) {
@@ -236,12 +235,12 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         return query.with(pageable);
     }
 
-    private long countOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private long countOffersByFilter(OfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.count(query, Offer.class);
     }
 
-    private List<Offer> findOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private List<Offer> findOffersByFilter(OfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.find(query, Offer.class);
     }
@@ -254,7 +253,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
         //use aggregation function use Criteria JSR specification //todo vdvorak
         Aggregation agg = newAggregation(
-                match(Criteria.where("status").is(OfferStatus.ACTIVE.toString())),
+                match(Criteria.where("status").is(CommonStatus.ACTIVE.toString())),
                 match(new Criteria().andOperator(criterias)),
                 group("categoriesRegExp").count().as("count"),
                 project("count").and("categoriesRegExp").previousOperation(),

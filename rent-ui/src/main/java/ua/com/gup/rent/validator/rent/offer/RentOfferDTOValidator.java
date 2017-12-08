@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.gup.rent.model.enumeration.RentOfferCategoryAttributeType;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
@@ -159,19 +159,19 @@ public class RentOfferDTOValidator implements Validator {
                     // checking required attributes
                     if (categoryAttributeDTOS != null) {
                         for (RentOfferCategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-                            if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.SELECT) {
+                            if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.SELECT) {
                                 if (rentOfferCreateDTO.getAttrs() == null || rentOfferCreateDTO.getAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("attrs", "attrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.MULTI_SELECT) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.MULTI_SELECT) {
                                 if (rentOfferCreateDTO.getMultiAttrs() == null || rentOfferCreateDTO.getMultiAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("multiAttrs", "multiAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.NUMBER) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.NUMBER) {
                                 if (rentOfferCreateDTO.getNumAttrs() == null || rentOfferCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == RentOfferCategoryAttributeType.BOOLEAN) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.BOOLEAN) {
                                 if (rentOfferCreateDTO.getBoolAttrs() == null || rentOfferCreateDTO.getBoolAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("boolAttrs", "boolAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }

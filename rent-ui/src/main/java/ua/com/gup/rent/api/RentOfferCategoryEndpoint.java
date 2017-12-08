@@ -79,7 +79,7 @@ public class RentOfferCategoryEndpoint {
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 
     /**
-     *  if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *  if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -101,7 +101,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *     if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *     if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -122,7 +122,7 @@ public class RentOfferCategoryEndpoint {
      */
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *         if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *         if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
 
@@ -142,7 +142,7 @@ public class RentOfferCategoryEndpoint {
      */
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *  if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *  if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -161,7 +161,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/category-attributes/", method = RequestMethod.GET)
     /**
-     *         if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *         if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
 
@@ -183,7 +183,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *  if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *  if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -205,7 +205,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *         if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *         if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
 
@@ -229,7 +229,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *  if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *  if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -250,7 +250,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     /**
-     *   if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *   if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */
@@ -269,7 +269,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     /**
-     *  if (!SecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_ADMIN.name())) {
+     *  if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN.name())) {
      return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_ADMIN'")).body(null);
      }
      */

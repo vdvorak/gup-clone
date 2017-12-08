@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ua.com.gup.mongo.model.enumeration.Currency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import java.math.BigDecimal;
 
@@ -22,7 +22,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
 
     private CurrencyConverter currencyConverter;
 
-    private Currency baseCurrency = Currency.UAH;
+    private CommonCurrency baseCurrency = CommonCurrency.UAH;
 
     /**
      * Get base currency.
@@ -30,7 +30,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
      * @return the base currency
      */
     @Override
-    public Currency getBaseCurrency() {
+    public CommonCurrency getBaseCurrency() {
         return baseCurrency;
     }
 
@@ -42,7 +42,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
      * @return the amount in base currency
      */
     @Override
-    public BigDecimal convertToBaseCurrency(Currency currency, BigDecimal amount) {
+    public BigDecimal convertToBaseCurrency(CommonCurrency currency, BigDecimal amount) {
         if (currency == baseCurrency) {
             return amount;
         } else {

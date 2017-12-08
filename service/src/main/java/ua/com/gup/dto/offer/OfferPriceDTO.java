@@ -3,7 +3,7 @@ package ua.com.gup.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.mongo.model.enumeration.Currency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ public class OfferPriceDTO implements Serializable {
     private BigDecimal amount;
 
     @ApiModelProperty(position = 10, example = "USD")
-    private Currency currency;
+    private CommonCurrency currency;
 
     @ApiModelProperty(position = 20, example = "false")
     private Boolean priceWithVAT;
@@ -34,11 +34,11 @@ public class OfferPriceDTO implements Serializable {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
+    public CommonCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(CommonCurrency currency) {
         this.currency = currency;
     }
 

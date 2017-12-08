@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.mongo.model.enumeration.UserRole;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
             String email = (String) map.get(EMAIL);
             List<String> authorities = (List<String>) map.get(AUTHORITIES);
 
-            Set<UserRole> collect = authorities.stream().map(as -> UserRole.valueOf(as)).collect(Collectors.toSet());
+            Set<CommonUserRole> collect = authorities.stream().map(as -> CommonUserRole.valueOf(as)).collect(Collectors.toSet());
             List<GrantedAuthority> buildUserAuthority = buildUserAuthority(collect);
 
             GupLoggedUser user = buildUserForAuthentication(profileId, username, publicId, email, buildUserAuthority);
@@ -54,7 +54,7 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
         return new GupLoggedUser(id, publicId, username, email, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(Set<CommonUserRole> userRoles) {
         return userRoles.stream()
                 .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
                 .collect(Collectors.toList());

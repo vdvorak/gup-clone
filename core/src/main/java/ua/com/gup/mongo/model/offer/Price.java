@@ -3,7 +3,7 @@ package ua.com.gup.mongo.model.offer;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
-import ua.com.gup.mongo.model.enumeration.Currency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,12 +16,12 @@ public class Price {
 
     private BigDecimal amount;
 
-    private Currency currency;
+    private CommonCurrency currency;
 
     @Indexed
     private double baseAmount;
 
-    private Currency baseCurrency;
+    private CommonCurrency baseCurrency;
 
     private Boolean priceWithVAT;
 
@@ -43,11 +43,11 @@ public class Price {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
+    public CommonCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(CommonCurrency currency) {
         this.currency = currency;
     }
 
@@ -59,11 +59,11 @@ public class Price {
         this.baseAmount = baseAmount;
     }
 
-    public Currency getBaseCurrency() {
+    public CommonCurrency getBaseCurrency() {
         return baseCurrency;
     }
 
-    public void setBaseCurrency(Currency baseCurrency) {
+    public void setBaseCurrency(CommonCurrency baseCurrency) {
         this.baseCurrency = baseCurrency;
     }
 

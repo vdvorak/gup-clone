@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.server.security.offer.OfferChangeStatusPermissionEvaluator;
 import ua.com.gup.server.security.offer.OfferDeletePermissionEvaluator;
 import ua.com.gup.server.security.offer.OfferEditPermissionEvaluator;
@@ -28,13 +28,13 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication a, Serializable objectId, String collectionName, Object o) {
 
-        Set<UserRole> currentUserRoles = getCurrentUserRoles(a);
+        Set<CommonUserRole> currentUserRoles = getCurrentUserRoles(a);
 
-        if (currentUserRoles.contains(UserRole.ROLE_ANONYMOUS)) {
+        if (currentUserRoles.contains(CommonUserRole.ROLE_ANONYMOUS)) {
             return false;
         }
 
-        if (currentUserRoles.contains(UserRole.ROLE_ADMIN)) {
+        if (currentUserRoles.contains(CommonUserRole.ROLE_ADMIN)) {
             return true;
         }
 
@@ -68,9 +68,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
     }
 
-    private Set<UserRole> getCurrentUserRoles(Authentication a) {
+    private Set<CommonUserRole> getCurrentUserRoles(Authentication a) {
         return a.getAuthorities().stream().map(u -> {
-            return UserRole.valueOf(u.getAuthority());
+            return CommonUserRole.valueOf(u.getAuthority());
         }).collect(Collectors.toSet());
     }
 }

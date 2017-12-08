@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.config.annotation.Email;
 import ua.com.gup.config.annotation.Password;
-import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.offer.Address;
 import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.*;
@@ -70,7 +70,7 @@ public class Profile {
     private Integer point;
     private Set<ProfileRating> profileRating;
     private Boolean confirmModerator;
-    private Set<UserRole> userRoles;
+    private Set<CommonUserRole> userRoles;
     private Long createdDate;
     private Long lastLoginDate;
     private boolean online;
@@ -81,7 +81,7 @@ public class Profile {
     /*
      * Lawyer-Profile
      */
-    private UserType userType;
+    private CommonUserType userType;
     private Address lawyerAddress;
     private String nameCompany;
     private String fullNameCompany;
@@ -289,14 +289,14 @@ public class Profile {
         return this;
     }
 
-    public Set<UserRole> getUserRoles() {
+    public Set<CommonUserRole> getUserRoles() {
         if (userRoles == null) {
             userRoles = new HashSet<>();
         }
         return userRoles;
     }
 
-    public Profile setUserRoles(Set<UserRole> userRoles) {
+    public Profile setUserRoles(Set<CommonUserRole> userRoles) {
         this.userRoles = userRoles;
         return this;
     }
@@ -458,11 +458,11 @@ public class Profile {
     /*
      * Lawyer-Profile
      */
-    public UserType getUserType() { //public Set<String> getUserType() {
+    public CommonUserType getUserType() { //public Set<String> getUserType() {
         return userType;
     }
 
-    public Profile setUserType(UserType userType) { //public Profile setUserType(Set<String> userType) {
+    public Profile setUserType(CommonUserType userType) { //public Profile setUserType(Set<String> userType) {
         this.userType = userType;
         return this;
     }

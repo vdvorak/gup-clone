@@ -8,13 +8,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.category.attribute.CategoryAttributeService;
 
@@ -154,19 +154,19 @@ public class OfferDTOValidator implements Validator {
                     // checking required attributes
                     if (categoryAttributeDTOS != null) {
                         for (CategoryAttributeDTO categoryAttributeDTO : categoryAttributeDTOS) {
-                            if (categoryAttributeDTO.getType() == CategoryAttributeType.SELECT) {
+                            if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.SELECT) {
                                 if (offerCreateDTO.getAttrs() == null || offerCreateDTO.getAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("attrs", "attrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.MULTI_SELECT) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.MULTI_SELECT) {
                                 if (offerCreateDTO.getMultiAttrs() == null || offerCreateDTO.getMultiAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("multiAttrs", "multiAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.NUMBER) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.NUMBER) {
                                 if (offerCreateDTO.getNumAttrs() == null || offerCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }
-                            } else if (categoryAttributeDTO.getType() == CategoryAttributeType.BOOLEAN) {
+                            } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.BOOLEAN) {
                                 if (offerCreateDTO.getBoolAttrs() == null || offerCreateDTO.getBoolAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                     errors.rejectValue("boolAttrs", "boolAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                 }

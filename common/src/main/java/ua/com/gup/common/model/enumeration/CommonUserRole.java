@@ -1,6 +1,6 @@
-package ua.com.gup.mongo.model.enumeration;
+package ua.com.gup.common.model.enumeration;
 
-public enum UserRole {
+public enum CommonUserRole {
     ROLE_ADMIN,
     ROLE_MODERATOR,
     ROLE_MANAGER,

@@ -2,7 +2,7 @@ package ua.com.gup.rent.model.rent;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ua.com.gup.rent.model.enumeration.RentOfferRefusalReason;
+import ua.com.gup.common.model.enumeration.CommonRefusalReason;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -16,7 +16,7 @@ public class RentOfferModerationReport implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastModifiedDate;
 
-    private List<RentOfferRefusalReason> refusalReasons;
+    private List<CommonRefusalReason> refusalReasons;
 
     private String description;
 
@@ -36,11 +36,11 @@ public class RentOfferModerationReport implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public List<RentOfferRefusalReason> getRefusalReasons() {
+    public List<CommonRefusalReason> getRefusalReasons() {
         return refusalReasons;
     }
 
-    public void setRefusalReasons(List<RentOfferRefusalReason> refusalReasons) {
+    public void setRefusalReasons(List<CommonRefusalReason> refusalReasons) {
         this.refusalReasons = refusalReasons;
     }
 

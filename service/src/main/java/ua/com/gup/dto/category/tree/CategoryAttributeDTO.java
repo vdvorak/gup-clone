@@ -1,7 +1,7 @@
 package ua.com.gup.dto.category.tree;
 
 
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class CategoryAttributeDTO implements Serializable {
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private Integer category_sort;
-    private CategoryAttributeType type;
+    private CommonCategoryAttributeType type;
     private CategoryAttributeValidatorDTO validator;
     private Set<CategoryAttributeValueDTO> values;
     private boolean privateAttr;
@@ -68,11 +68,11 @@ public class CategoryAttributeDTO implements Serializable {
         this.category_sort = category_sort;
     }
 
-    public CategoryAttributeType getType() {
+    public CommonCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(CommonCategoryAttributeType type) {
         this.type = type;
     }
 

@@ -5,14 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.PrivateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.PublicProfileDTO;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
@@ -52,7 +52,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setSocWendor("GUP")
                 .setPassword(passwordEncoder.encode(profile.getPassword()))
                 .setUserRoles(profile.getUserRoles())
-                .setUserType(UserType.LEGAL_ENTITY)
+                .setUserType(CommonUserType.LEGAL_ENTITY)
                 .setCreatedDateEqualsToCurrentDate();
 
         profileRepository.createProfile(newProfile);
@@ -88,8 +88,8 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void facebookRegister(Profile profile) {
-        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
-            add(UserRole.ROLE_USER);
+        HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
+            add(CommonUserRole.ROLE_USER);
         }};
 
         Profile newProfile = new Profile()

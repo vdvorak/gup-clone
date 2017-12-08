@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service.dto.category.attribute;
 
 
-import ua.com.gup.rent.model.enumeration.RentOfferCategoryAttributeType;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.validator.RentOfferCategoryAttributeValidator;
@@ -22,7 +22,7 @@ public class RentOfferCategoryAttributeCreateDTO {
 
     private LinkedHashSet<RentOfferCategoriesSort> rentOfferCategoriesSort = new LinkedHashSet<>();
 
-    private RentOfferCategoryAttributeType type;
+    private CommonCategoryAttributeType type;
 
     private RentOfferCategoryAttributeValidator validator;
 
@@ -78,11 +78,11 @@ public class RentOfferCategoryAttributeCreateDTO {
         this.rentOfferCategoriesSort = rentOfferCategoriesSort;
     }
 
-    public RentOfferCategoryAttributeType getType() {
+    public CommonCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(RentOfferCategoryAttributeType type) {
+    public void setType(CommonCategoryAttributeType type) {
         this.type = type;
     }
 

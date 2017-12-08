@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
 import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.service.complaint.ComplaintOfferService;
 import ua.com.gup.util.security.SecurityUtils;
@@ -50,7 +50,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
         complaintOffer.setInitiator(complaintOfferService.getInitiatorProfile(SecurityUtils.getCurrentUserId()));
@@ -74,7 +74,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -97,7 +97,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -120,7 +120,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -186,7 +186,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -207,7 +207,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -228,7 +228,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 
@@ -249,7 +249,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
         List<ComplaintOffer> complaints = complaintOfferService.findAllByInitiatorId(initiatorId);
@@ -273,7 +273,7 @@ public class ComplaintOfferEndpoint {
         if (!SecurityUtils.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
         }
-        if (!SecurityUtils.isCurrentUserInRole(UserRole.ROLE_USER)) {
+        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
         }
 

@@ -4,8 +4,8 @@ package ua.com.gup.rent.service.rent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonImageSizeType;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
@@ -38,11 +38,11 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable);
 
-    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(RentOfferStatus status, String authorId, Pageable pageable);
+    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable);
 
-    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(RentOfferStatus status, String userPublicId, Pageable pageable);
+    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable);
 
-    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(RentOfferStatus status, Pageable pageable);
+    Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable);
 
     Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl);
 
@@ -57,9 +57,9 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
     @Deprecated
     boolean hasPermissionForUpdate(String offerId, String authrorId);
 
-    Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status);
+    Optional<RentOfferViewDetailsDTO> updateStatus(String id, CommonStatus status);
 
-    Boolean isCanUpdateStatus(String id, RentOfferStatus status);
+    Boolean isCanUpdateStatus(String id, CommonStatus status);
 
     List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 
@@ -69,5 +69,5 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 
-    RentOfferFileWrapper findImageByIdAndSizeType(String id, RentOfferImageSizeType sizeType);
+    RentOfferFileWrapper findImageByIdAndSizeType(String id, CommonImageSizeType sizeType);
 }

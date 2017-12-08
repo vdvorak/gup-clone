@@ -3,7 +3,7 @@ package ua.com.gup.mongo.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.mongo.model.enumeration.Currency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +12,7 @@ public class MoneyFilter {
 
     @ApiModelProperty("Currency")
     @NotNull
-    private Currency currency;
+    private CommonCurrency currency;
 
     @ApiModelProperty("From")
     private Double from;
@@ -20,11 +20,11 @@ public class MoneyFilter {
     @ApiModelProperty("To")
     private Double to;
 
-    public Currency getCurrency() {
+    public CommonCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(CommonCurrency currency) {
         this.currency = currency;
     }
 

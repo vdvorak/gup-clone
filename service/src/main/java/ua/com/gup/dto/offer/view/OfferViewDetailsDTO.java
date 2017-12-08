@@ -3,6 +3,7 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
@@ -11,14 +12,13 @@ import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 
 import java.util.LinkedHashMap;
 
 public class OfferViewDetailsDTO extends OfferViewBaseDTO {
 
     @ApiModelProperty(position = 6)
-    private OfferStatus status;
+    private CommonStatus status;
 
     @ApiModelProperty(position = 60)
     private OfferAddressDTO address;
@@ -48,11 +48,11 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
     @ApiModelProperty(position = 130)
     private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
-    public OfferStatus getStatus() {
+    public CommonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OfferStatus status) {
+    public void setStatus(CommonStatus status) {
         this.status = status;
     }
 

@@ -3,8 +3,8 @@ package ua.com.gup.rent.model.mongo.user;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.rent.model.enumeration.RentOfferUserRole;
-import ua.com.gup.rent.model.enumeration.RentOfferUserType;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferPhone;
@@ -62,7 +62,7 @@ public class RentOfferProfile {
     private Integer point;
   //  private Set<RentOfferProfileRating> profileRating;
     private Boolean confirmModerator;
-    private Set<RentOfferUserRole> userRoles;
+    private Set<CommonUserRole> userRoles;
     private Long createdDate;
     private Long lastLoginDate;
     private boolean online;
@@ -73,7 +73,7 @@ public class RentOfferProfile {
     /*
      * Lawyer-Profile
      */
-    private RentOfferUserType userType;
+    private CommonUserType userType;
     private RentOfferAddress lawyerAddress;
     private String nameCompany;
     private String fullNameCompany;
@@ -279,14 +279,14 @@ public class RentOfferProfile {
         return this;
     }
 
-    public Set<RentOfferUserRole> getUserRoles() {
+    public Set<CommonUserRole> getUserRoles() {
         if (userRoles == null) {
             userRoles = new HashSet<>();
         }
         return userRoles;
     }
 
-    public RentOfferProfile setUserRoles(Set<RentOfferUserRole> userRoles) {
+    public RentOfferProfile setUserRoles(Set<CommonUserRole> userRoles) {
         this.userRoles = userRoles;
         return this;
     }
@@ -448,11 +448,11 @@ public class RentOfferProfile {
     /*
      * Lawyer-Profile
      */
-    public RentOfferUserType getUserType() { //public Set<String> getUserType() {
+    public CommonUserType getUserType() { //public Set<String> getUserType() {
         return userType;
     }
 
-    public RentOfferProfile setUserType(RentOfferUserType userType) { //public Profile setUserType(Set<String> userType) {
+    public RentOfferProfile setUserType(CommonUserType userType) { //public Profile setUserType(Set<String> userType) {
         this.userType = userType;
         return this;
     }

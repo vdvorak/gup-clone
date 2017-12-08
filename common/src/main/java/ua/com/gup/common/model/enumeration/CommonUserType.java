@@ -1,14 +1,14 @@
-package ua.com.gup.rent.model.enumeration;
+package ua.com.gup.common.model.enumeration;
 
 
-public enum RentOfferUserType {
+public enum CommonUserType {
     LEGAL_ENTITY("Физическое лицо"),
     INDIVIDUAL("Частный предприниматель"),
     ENTREPRENEUR("Юридическое лицо");
 
     private final String name;
 
-    RentOfferUserType(String s) {
+    CommonUserType(String s) {
         name = s;
     }
 

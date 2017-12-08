@@ -2,7 +2,7 @@ package ua.com.gup.mongo.model.offer;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ua.com.gup.mongo.model.enumeration.OfferRefusalReason;
+import ua.com.gup.common.model.enumeration.CommonRefusalReason;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -16,7 +16,7 @@ public class OfferModerationReport implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastModifiedDate;
 
-    private List<OfferRefusalReason> refusalReasons;
+    private List<CommonRefusalReason> refusalReasons;
 
     private String description;
 
@@ -36,11 +36,11 @@ public class OfferModerationReport implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public List<OfferRefusalReason> getRefusalReasons() {
+    public List<CommonRefusalReason> getRefusalReasons() {
         return refusalReasons;
     }
 
-    public void setRefusalReasons(List<OfferRefusalReason> refusalReasons) {
+    public void setRefusalReasons(List<CommonRefusalReason> refusalReasons) {
         this.refusalReasons = refusalReasons;
     }
 

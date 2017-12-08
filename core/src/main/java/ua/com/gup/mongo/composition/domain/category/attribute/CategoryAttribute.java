@@ -2,10 +2,10 @@ package ua.com.gup.mongo.composition.domain.category.attribute;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
 import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.*;
@@ -34,7 +34,7 @@ public class CategoryAttribute implements Serializable {
 
     private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<>();
 
-    private CategoryAttributeType type;
+    private CommonCategoryAttributeType type;
 
     private CategoryAttributeValidator validator;
 
@@ -106,11 +106,11 @@ public class CategoryAttribute implements Serializable {
         this.categories_sort = categoriesSort;
     }
 
-    public CategoryAttributeType getType() {
+    public CommonCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(CommonCategoryAttributeType type) {
         this.type = type;
     }
 

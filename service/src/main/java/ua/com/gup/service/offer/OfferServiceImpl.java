@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
+import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.dto.offer.*;
 import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
@@ -24,9 +27,6 @@ import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.mongo.composition.domain.category.Category;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.enumeration.Currency;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.file.FileUploadWrapper;
 import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.MoneyFilter;
@@ -106,7 +106,7 @@ public class OfferServiceImpl implements OfferService {
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
         saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
-        offer.setStatus(OfferStatus.ON_MODERATION);
+        offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = SecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
@@ -132,9 +132,9 @@ public class OfferServiceImpl implements OfferService {
         offer.setLastModifiedDate(ZonedDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
-            offer.setStatus(OfferStatus.ON_MODERATION);
+            offer.setStatus(CommonStatus.ON_MODERATION);
         } else {
-            offer.setStatus(OfferStatus.ACTIVE);
+            offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
         OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -153,9 +153,9 @@ public class OfferServiceImpl implements OfferService {
         Offer offer = offerRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
         if (offer.getLastOfferModerationReport().isRefused()) {
-            offer.setStatus(OfferStatus.REJECTED);
+            offer.setStatus(CommonStatus.REJECTED);
         } else {
-            offer.setStatus(OfferStatus.ACTIVE);
+            offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
         OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -179,10 +179,10 @@ public class OfferServiceImpl implements OfferService {
         }
         log.debug("Request to get all Offers by filter  {} ", offerFilter);
         calculatePriceInBaseCurrency(offerFilter.getPrice());
-        long count = offerRepositoryCustom.countByFilter(offerFilter, OfferStatus.ACTIVE);
+        long count = offerRepositoryCustom.countByFilter(offerFilter, CommonStatus.ACTIVE);
         List<Offer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
-            offers = offerRepositoryCustom.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable);
+            offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         }
         Page<Offer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -192,7 +192,7 @@ public class OfferServiceImpl implements OfferService {
     public List<OfferViewCoordinatesDTO> findCoordinatesByFilter(OfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get offers coordinates by filter");
 
-        List<Offer> offers = offerRepositoryCustom.findByFilter(offerFilter, OfferStatus.ACTIVE, pageable);
+        List<Offer> offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
 
         List<OfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
         offers.forEach(offer -> coordinatesList.add(offerMapper.offerToOfferCoordinatesDTO(offer)));
@@ -209,7 +209,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(OfferStatus status, String authorId, Pageable pageable) {
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and authorId = {}", status, authorId);
         Profile profile = profileRepository.findById(authorId);
         if (profile == null) {
@@ -221,7 +221,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable) {
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
         Profile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
@@ -239,7 +239,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the list of entities
      */
     @Override
-    public Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable) {
+    public Page<OfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable) {
         log.debug("Request to get all Offers by status = {}", status);
         Page<Offer> result = offerRepository.findAllByStatus(status, pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
@@ -271,8 +271,8 @@ public class OfferServiceImpl implements OfferService {
             final Offer o = offer.get();
             o.incrementView(true, false);
             offerRepository.save(o);
-            Set<OfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ON_MODERATION));
+            Set<CommonStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
                 offer = Optional.empty();
             }
@@ -305,7 +305,7 @@ public class OfferServiceImpl implements OfferService {
             search.append(offer.getTitle());
             OfferFilter filter = new OfferFilter();
             filter.setQuery(search.toString());
-            Page<Offer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, OfferStatus.ACTIVE, offer.getId(), pageable));
+            Page<Offer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, CommonStatus.ACTIVE, offer.getId(), pageable));
             return result.map(o -> offerMapper.offerToOfferShortDTO(o));
 
         }
@@ -335,7 +335,7 @@ public class OfferServiceImpl implements OfferService {
     public void delete(String id) {
         log.debug("Request to delete Offer : {}", id);
         Offer offer = offerRepository.findOne(id);
-        offer.setStatus(OfferStatus.ARCHIVED);
+        offer.setStatus(CommonStatus.ARCHIVED);
         offerRepository.save(offer);
     }
 
@@ -373,43 +373,20 @@ public class OfferServiceImpl implements OfferService {
 
         if (offer != null && offer.get() != null && SecurityUtils.isAuthenticated()) {
             String currentUserID = SecurityUtils.getCurrentUserId();
-            Set<OfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(OfferStatus.ACTIVE, OfferStatus.DEACTIVATED, OfferStatus.REJECTED, OfferStatus.ARCHIVED));
+            Set<CommonStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ARCHIVED));
             //if current user owner offer
             if ((offer.get().getAuthorId() == currentUserID && statuses.contains(offer.get().getStatus()))) {
                 return true;
             }
             //if current user it's moderator(admin role)
-            if (SecurityUtils.isCurrentUserInRole(UserRole.ROLE_MODERATOR) && offer.get().getStatus() == OfferStatus.ON_MODERATION) {
+            if (SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
                 return true;
             }
         }   //access denied
         return false;
     }
 
-    /**
-     * Returns whether an entity can be updated by current user.
-     *
-     * @param id must not be {@literal null}.
-     * @return true if an user has permission for update, {@literal false} otherwise
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-
-    /**
-     * Update active offers base price by current exchange rate.
-     *
-     * @return void
-     */
-    @Override
-    //todo vdvorak
-    //@Scheduled(cron = "${offer.job.updateActiveOffersBasePrice.cron}", zone = "${offer.job.updateActiveOffersBasePrice.zone}")
-    public void updateActiveOffersBasePrice() {
-        for (Currency currency : Currency.values()) {
-            final BigDecimal exchangeRate = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal("1"));
-            //todo vdvorak
-            //offerRepository.updateBasePriceByExchangeRate(OfferStatus.ACTIVE, currency, currencyConverterService.getBaseCurrency(), exchangeRate.doubleValue());
-        }
-    }
 
     /**
      * Update offer's status.
@@ -419,7 +396,7 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status) {
+    public Optional<OfferViewDetailsDTO> updateStatus(String id, CommonStatus status) {
         log.debug("Request to update update offer's status : {}", id);
         Offer offer = offerRepository.findOne(id);
         offer.setStatus(status);
@@ -435,10 +412,10 @@ public class OfferServiceImpl implements OfferService {
      * @return the entity
      */
     @Override
-    public Boolean isCanUpdateStatus(String id, OfferStatus status) {
+    public Boolean isCanUpdateStatus(String id, CommonStatus status) {
         Offer offer = offerRepository.findOne(id);
-        Boolean fromStatus = (offer.getStatus() == OfferStatus.ACTIVE || offer.getStatus() == OfferStatus.DEACTIVATED);
-        Boolean toStatus = (status == OfferStatus.ACTIVE || status == OfferStatus.DEACTIVATED || status == OfferStatus.ARCHIVED);
+        Boolean fromStatus = (offer.getStatus() == CommonStatus.ACTIVE || offer.getStatus() == CommonStatus.DEACTIVATED);
+        Boolean toStatus = (status == CommonStatus.ACTIVE || status == CommonStatus.DEACTIVATED || status == CommonStatus.ARCHIVED);
         return fromStatus && toStatus;
     }
 
@@ -557,7 +534,7 @@ public class OfferServiceImpl implements OfferService {
     private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
         if (moneyFilter != null) {
             if (moneyFilter.getCurrency() != null) {
-                final Currency currency = moneyFilter.getCurrency();
+                final CommonCurrency currency = moneyFilter.getCurrency();
                 if (moneyFilter.getFrom() != null) {
                     final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
                     moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
@@ -831,7 +808,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public boolean existsByIdAndStatus(String id, OfferStatus status) {
+    public boolean existsByIdAndStatus(String id, CommonStatus status) {
         return offerRepository.existsByIdAndStatus(id, status);
     }
 

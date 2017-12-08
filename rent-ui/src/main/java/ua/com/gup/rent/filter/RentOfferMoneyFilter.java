@@ -3,7 +3,7 @@ package ua.com.gup.rent.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +12,7 @@ public class RentOfferMoneyFilter {
 
     @ApiModelProperty("Currency")
     @NotNull
-    private RentOfferCurrency currency;
+    private CommonCurrency currency;
 
     @ApiModelProperty("From")
     private Double from;
@@ -20,11 +20,11 @@ public class RentOfferMoneyFilter {
     @ApiModelProperty("To")
     private Double to;
 
-    public RentOfferCurrency getCurrency() {
+    public CommonCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(RentOfferCurrency currency) {
+    public void setCurrency(CommonCurrency currency) {
         this.currency = currency;
     }
 

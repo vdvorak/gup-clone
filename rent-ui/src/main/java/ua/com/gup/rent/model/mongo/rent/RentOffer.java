@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
@@ -60,7 +60,7 @@ public class RentOffer {
 
     private List<Integer> categories;
 
-    private RentOfferStatus status;
+    private CommonStatus status;
 
     private RentOfferPrice price;
 
@@ -162,11 +162,11 @@ public class RentOffer {
         this.categories = categories;
     }
 
-    public RentOfferStatus getStatus() {
+    public CommonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RentOfferStatus status) {
+    public void setStatus(CommonStatus status) {
         this.status = status;
     }
 

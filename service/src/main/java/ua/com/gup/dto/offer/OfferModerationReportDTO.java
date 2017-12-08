@@ -2,7 +2,7 @@ package ua.com.gup.dto.offer;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.mongo.model.enumeration.OfferRefusalReason;
+import ua.com.gup.common.model.enumeration.CommonRefusalReason;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class OfferModerationReportDTO implements Serializable {
     private Integer category;
 
     @ApiModelProperty(position = 130)
-    private List<OfferRefusalReason> refusalReasons;
+    private List<CommonRefusalReason> refusalReasons;
 
     private String description;
 
@@ -38,11 +38,11 @@ public class OfferModerationReportDTO implements Serializable {
         this.category = category;
     }
 
-    public List<OfferRefusalReason> getRefusalReasons() {
+    public List<CommonRefusalReason> getRefusalReasons() {
         return refusalReasons;
     }
 
-    public void setRefusalReasons(List<OfferRefusalReason> refusalReasons) {
+    public void setRefusalReasons(List<CommonRefusalReason> refusalReasons) {
         this.refusalReasons = refusalReasons;
     }
 

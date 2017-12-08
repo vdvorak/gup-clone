@@ -6,16 +6,17 @@
 package ua.com.gup.server.security;
 
 import java.util.Set;
-import ua.com.gup.mongo.model.enumeration.UserRole;
+
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.service.security.UserSecurityAccessService;
 
 public abstract class ObjectPermissionEvaluator {
     
     protected UserSecurityAccessService accessService;
     protected String userId;
-    protected Set<UserRole> authorities;
+    protected Set<CommonUserRole> authorities;
 
-    public ObjectPermissionEvaluator(String userId, Set<UserRole> authorities) {
+    public ObjectPermissionEvaluator(String userId, Set<CommonUserRole> authorities) {
         this.authorities = authorities;
         this.userId = userId;
     }
@@ -32,7 +33,7 @@ public abstract class ObjectPermissionEvaluator {
 
     public abstract Boolean hasAccess();
 
-    public Set<UserRole> getAuthorities() {
+    public Set<CommonUserRole> getAuthorities() {
         return authorities;
     }
 

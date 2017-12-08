@@ -1,8 +1,8 @@
 package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.enumeration.UserType;
 import ua.com.gup.mongo.model.offer.Address;
 import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
@@ -18,7 +18,7 @@ public abstract class ProfileDTO {
     protected String lastName;
 
     @JsonProperty("type")
-    protected UserType userType;
+    protected CommonUserType userType;
 
     @JsonProperty("email")
     protected String email;
@@ -81,11 +81,11 @@ public abstract class ProfileDTO {
         this.lastName = lastName;
     }
 
-    public UserType getUserType() {
+    public CommonUserType getUserType() {
         return userType;
     }
 
-    public void setUserType(UserType userType) {
+    public void setUserType(CommonUserType userType) {
         this.userType = userType;
     }
 

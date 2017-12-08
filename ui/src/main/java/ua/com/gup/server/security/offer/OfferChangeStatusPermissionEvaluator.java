@@ -5,12 +5,13 @@
  */
 package ua.com.gup.server.security.offer;
 
+import ua.com.gup.common.model.enumeration.CommonUserRole;
+
 import java.util.Set;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 
 public class OfferChangeStatusPermissionEvaluator extends OfferPermissionEvaluator {
 
-    public OfferChangeStatusPermissionEvaluator(String offerId, String userId, Set<UserRole> authorities) {
+    public OfferChangeStatusPermissionEvaluator(String offerId, String userId, Set<CommonUserRole> authorities) {
         super(offerId, userId, authorities);
     }
 

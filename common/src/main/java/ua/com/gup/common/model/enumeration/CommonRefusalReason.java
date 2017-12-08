@@ -1,6 +1,6 @@
-package ua.com.gup.rent.model.enumeration;
+package ua.com.gup.common.model.enumeration;
 
-public enum RentOfferRefusalReason {
+public enum CommonRefusalReason {
     PROFANITY,
     ADULT_CONTENT,
     MISMATCH_CONTENT,

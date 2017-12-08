@@ -5,11 +5,11 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.offer.*;
 import ua.com.gup.mongo.model.statistic.OfferStatistic;
 
@@ -42,7 +42,7 @@ public class Offer implements Serializable {
     @Indexed
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
-    private OfferStatus status;
+    private CommonStatus status;
 
     private List<Integer> categories;
 
@@ -122,11 +122,11 @@ public class Offer implements Serializable {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public OfferStatus getStatus() {
+    public CommonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OfferStatus status) {
+    public void setStatus(CommonStatus status) {
         this.status = status;
     }
 

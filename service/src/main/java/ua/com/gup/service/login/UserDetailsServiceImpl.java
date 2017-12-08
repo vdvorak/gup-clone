@@ -6,8 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.service.profile.ProfilesService;
 
@@ -65,7 +65,7 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
                 profile.getId(), profile.getPublicId(), profile.getEmail());
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(Set<CommonUserRole> userRoles) {
         return userRoles.stream()
                 .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
                 .collect(Collectors.toList());

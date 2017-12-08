@@ -22,14 +22,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.filter.RentOfferMoneyFilter;
 import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
-import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
-import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
-import ua.com.gup.rent.model.enumeration.RentOfferUserRole;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
+import ua.com.gup.common.model.enumeration.CommonImageSizeType;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
@@ -129,7 +129,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         log.debug("Request to save Offer : {}", rentOfferCreateDTO);
         String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
         RentOffer offer = offerMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
-        offer.setStatus(RentOfferStatus.ON_MODERATION);
+        offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = RentSecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
@@ -153,9 +153,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         offer.setLastModifiedDate(LocalDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
-            offer.setStatus(RentOfferStatus.ON_MODERATION);
+            offer.setStatus(CommonStatus.ON_MODERATION);
         } else {
-            offer.setStatus(RentOfferStatus.ACTIVE);
+            offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -168,9 +168,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         RentOffer offer = offerRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
         if (offer.getLastOfferModerationReport().isRefused()) {
-            offer.setStatus(RentOfferStatus.REJECTED);
+            offer.setStatus(CommonStatus.REJECTED);
         } else {
-            offer.setStatus(RentOfferStatus.ACTIVE);
+            offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -199,10 +199,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         //todo vdvorak add
         calculatePriceInBaseCurrency(offerFilter.getPrice());
 
-        long count = offerRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
+        long count = offerRepositoryCustom.countByFilter(offerFilter, CommonStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
-            offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+            offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -211,14 +211,14 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get offers coordinates by filter");
-        List<RentOffer> offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+        List<RentOffer> offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         List<RentOfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
         offers.forEach(offer -> coordinatesList.add(offerMapper.offerToOfferCoordinatesDTO(offer)));
         return coordinatesList;
     }
 
     @Override
-    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(RentOfferStatus status, String authorId, Pageable pageable) {
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Rent Offers by status = {} and authorId = {}", status, authorId);
         RentOfferProfile profile = profileRepository.findById(authorId);
         if (profile == null) {
@@ -229,7 +229,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(RentOfferStatus status, String userPublicId, Pageable pageable) {
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
         RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
@@ -240,7 +240,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(RentOfferStatus status, Pageable pageable) {
+    public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable) {
         return null;
     }
 
@@ -252,8 +252,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
             final RentOffer o = offer.get();
             o.incrementView(true, false);
             offerRepository.save(o);
-            Set<RentOfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(RentOfferStatus.ACTIVE, RentOfferStatus.DEACTIVATED, RentOfferStatus.REJECTED, RentOfferStatus.ON_MODERATION));
+            Set<CommonStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
                 offer = Optional.empty();
             }
@@ -280,7 +280,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
             search.append(offer.getTitle());
             RentOfferFilter filter = new RentOfferFilter();
             filter.setQuery(search.toString());
-            Page<RentOffer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, RentOfferStatus.ACTIVE, offer.getId(), pageable));
+            Page<RentOffer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, CommonStatus.ACTIVE, offer.getId(), pageable));
             return result.map(o -> offerMapper.offerToOfferShortDTO(o));
 
         }
@@ -298,7 +298,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public void delete(String id) {
         log.debug("Request to delete Offer : {}", id);
         RentOffer offer = offerRepository.findOne(id);
-        offer.setStatus(RentOfferStatus.ARCHIVED);
+        offer.setStatus(CommonStatus.ARCHIVED);
         offerRepository.save(offer);
     }
 
@@ -330,21 +330,21 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
         if (offer != null && offer.get() != null && RentSecurityUtils.isAuthenticated()) {
             String currentUserID = RentSecurityUtils.getCurrentUserId();
-            Set<RentOfferStatus> statuses = new HashSet<>();
-            statuses.addAll(Arrays.asList(RentOfferStatus.ACTIVE, RentOfferStatus.DEACTIVATED, RentOfferStatus.REJECTED, RentOfferStatus.ARCHIVED));
+            Set<CommonStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ARCHIVED));
             //if current user owner offer
             if ((offer.get().getAuthorId() == currentUserID && statuses.contains(offer.get().getStatus()))) {
                 return true;
             }
             //if current user it's moderator(admin role)
-            if (RentSecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_MODERATOR) && offer.get().getStatus() == RentOfferStatus.ON_MODERATION) {
+            if (RentSecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
                 return true;
             }
         }   //access denied
         return false;
     }
     @Override
-    public Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status) {
+    public Optional<RentOfferViewDetailsDTO> updateStatus(String id, CommonStatus status) {
         log.debug("Request to update update rent offer's status : {}", id);
         RentOffer offer = offerRepository.findOne(id);
         offer.setStatus(status);
@@ -353,10 +353,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    public Boolean isCanUpdateStatus(String id, RentOfferStatus status) {
+    public Boolean isCanUpdateStatus(String id, CommonStatus status) {
         RentOffer offer = offerRepository.findOne(id);
-        Boolean fromStatus = (offer.getStatus() == RentOfferStatus.ACTIVE || offer.getStatus() == RentOfferStatus.DEACTIVATED);
-        Boolean toStatus = (status == RentOfferStatus.ACTIVE || status == RentOfferStatus.DEACTIVATED || status == RentOfferStatus.ARCHIVED);
+        Boolean fromStatus = (offer.getStatus() == CommonStatus.ACTIVE || offer.getStatus() == CommonStatus.DEACTIVATED);
+        Boolean toStatus = (status == CommonStatus.ACTIVE || status == CommonStatus.DEACTIVATED || status == CommonStatus.ARCHIVED);
         return fromStatus && toStatus;
     }
 
@@ -393,7 +393,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    public RentOfferFileWrapper findImageByIdAndSizeType(String id, RentOfferImageSizeType sizeType) {
+    public RentOfferFileWrapper findImageByIdAndSizeType(String id, CommonImageSizeType sizeType) {
         return null;
     }
 
@@ -442,7 +442,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private void calculatePriceInBaseCurrency(RentOfferMoneyFilter moneyFilter) {
         if (moneyFilter != null) {
             if (moneyFilter.getCurrency() != null) {
-                final RentOfferCurrency currency = moneyFilter.getCurrency();
+                final CommonCurrency currency = moneyFilter.getCurrency();
                 if (moneyFilter.getFrom() != null) {
                     //final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
                     //  moneyFilter.setFrom(fromInBaseCurrency.doubleValue());

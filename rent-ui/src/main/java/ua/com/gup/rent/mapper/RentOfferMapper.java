@@ -3,7 +3,7 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
@@ -67,7 +67,7 @@ public class RentOfferMapper {
         fromOfferCreateDTOToOffer(offerCreateDTO, offer);
         offer.setTitle(offerCreateDTO.getTitle());
         offer.setDescription(offerCreateDTO.getDescription());
-        offer.setStatus(RentOfferStatus.NEW);
+        offer.setStatus(CommonStatus.NEW);
         offer.setPrice(rentOfferPriceMapper.fromDTOToModel(offerCreateDTO.getPrice()));
         return offer;
     }

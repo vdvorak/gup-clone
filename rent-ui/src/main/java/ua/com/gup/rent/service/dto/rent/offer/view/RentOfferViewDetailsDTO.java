@@ -3,7 +3,7 @@ package ua.com.gup.rent.service.dto.rent.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
 
     @ApiModelProperty(position = 6)
-    private RentOfferStatus status;
+    private CommonStatus status;
 
     @ApiModelProperty(position = 60)
     private RentOfferAddressDTO address;
@@ -48,11 +48,11 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
     @ApiModelProperty(position = 130)
     private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
-    public RentOfferStatus getStatus() {
+    public CommonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RentOfferStatus status) {
+    public void setStatus(CommonStatus status) {
         this.status = status;
     }
 

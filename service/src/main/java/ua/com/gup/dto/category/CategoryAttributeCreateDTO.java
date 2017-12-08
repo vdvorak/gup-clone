@@ -1,10 +1,10 @@
 package ua.com.gup.dto.category;
 
 
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
 import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
 
 import java.util.*;
 
@@ -22,7 +22,7 @@ public class CategoryAttributeCreateDTO {
 
     private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<>();
 
-    private CategoryAttributeType type;
+    private CommonCategoryAttributeType type;
 
     private CategoryAttributeValidator validator;
 
@@ -78,11 +78,11 @@ public class CategoryAttributeCreateDTO {
         this.categoriesSort = categoriesSort;
     }
 
-    public CategoryAttributeType getType() {
+    public CommonCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(CommonCategoryAttributeType type) {
         this.type = type;
     }
 

@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.offer.OfferModerationReport;
 import ua.com.gup.service.offer.OfferService;
@@ -45,7 +45,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     public UrlSet generateSiteMap(HttpServletRequest request, HttpServletResponse response) throws JAXBException {
         OfferModerationReport offerModerationReport = new OfferModerationReport();
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setStatus(OfferStatus.ACTIVE);
+        offerFilterOptions.setStatus(CommonStatus.ACTIVE);
         offerFilterOptions.setLastOfferModerationReport(offerModerationReport);
         List<Offer> offerList = offerService.findOffersWihOptions(offerFilterOptions).getEntities();
         UrlSet resultUrlSet = prepareResultSet(offerList);

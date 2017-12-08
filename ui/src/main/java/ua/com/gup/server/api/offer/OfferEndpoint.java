@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -26,7 +27,6 @@ import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.server.util.HeaderUtil;
@@ -217,7 +217,7 @@ public class OfferEndpoint {
     @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable OfferStatus status) throws URISyntaxException {
+    public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable CommonStatus status) throws URISyntaxException {
         log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);        
         if(!offerService.exists(id)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);                   
@@ -305,7 +305,7 @@ public class OfferEndpoint {
     @CrossOrigin    
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getAllMyOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<Page> getAllMyOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");        
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, SecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -318,7 +318,7 @@ public class OfferEndpoint {
         if (StringUtils.isEmpty(userPublicId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
         }
-        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(OfferStatus.ACTIVE, userPublicId, pageable);
+        Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(CommonStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
   
@@ -332,7 +332,7 @@ public class OfferEndpoint {
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/{iserid}/{status}/seourl", method = RequestMethod.GET)
-    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers-seourl by status & iserId");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
@@ -355,7 +355,7 @@ public class OfferEndpoint {
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable OfferStatus status, Pageable pageable) {
+    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
@@ -365,20 +365,7 @@ public class OfferEndpoint {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    /**
-     * PUT  /offers : update  offers base price.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/updateBasePrice", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateBasePrice() {
-        log.debug("REST request to update base price: {}");
-        offerService.updateActiveOffersBasePrice();
-        return ResponseEntity.ok().build();
-    }
-
-    /**
+       /**
      * PUT  /offers/{id}/increment/phone-views : increment phone views.
      *
      * @param id the offer id

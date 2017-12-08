@@ -23,8 +23,8 @@ import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.rent.filter.*;
-import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 
@@ -58,32 +58,32 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
     }
 
     @Override
-    public long countByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus) {
+    public long countByFilter(RentOfferFilter offerFilter, CommonStatus offerStatus) {
         return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
     }
 
     @Override
-    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, CommonStatus offerStatus, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
     }
 
     @Override
-    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus, String excludedId, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, CommonStatus offerStatus, String excludedId, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), Arrays.asList(excludedId), pageable);
     }
 
     @Override
-    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> offerStatuses, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<CommonStatus> offerStatuses, Pageable pageable) {
         return findByFilter(offerFilter, offerStatuses, null, pageable);
     }
 
     @Override
-    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<CommonStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
     @Override
-    public void updateBasePriceByExchangeRate(RentOfferStatus status, RentOfferCurrency currency, RentOfferCurrency baseCurrency, double exchangeRate) {
+    public void updateBasePriceByExchangeRate(CommonStatus status, CommonCurrency currency, CommonCurrency baseCurrency, double exchangeRate) {
         BasicDBObject query = new BasicDBObject();
         query.put("status", status.name());
         query.put("price.currency", currency.name());
@@ -113,7 +113,7 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
         }
     }
 
-    private Query buildQueryByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private Query buildQueryByFilter(RentOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria.forLanguage("russian");
@@ -150,11 +150,11 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
                 query.addCriteria(Criteria.where("status").in(
                         statusList
                                 .stream()
-                                .map(RentOfferStatus::toString)
+                                .map(CommonStatus::toString)
                                 .collect(Collectors.toList())));
             }
         } else {
-            query.addCriteria(Criteria.where("status").is(RentOfferStatus.ACTIVE));
+            query.addCriteria(Criteria.where("status").is(CommonStatus.ACTIVE));
         }
         //todo maybe need change how as new  categories with sort vdvorak
         if (offerFilter.getCategories() != null) {
@@ -235,12 +235,12 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
         return query.with(pageable);
     }
 
-    private long countOffersByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private long countOffersByFilter(RentOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.count(query, RentOffer.class);
     }
 
-    private List<RentOffer> findOffersByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private List<RentOffer> findOffersByFilter(RentOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.find(query, RentOffer.class);
     }
@@ -253,7 +253,7 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
         }
         //use aggregation function use Criteria JSR specification //todo vdvorak
         Aggregation agg = newAggregation(
-                match(Criteria.where("status").is(RentOfferStatus.ACTIVE.toString())),
+                match(Criteria.where("status").is(CommonStatus.ACTIVE.toString())),
                 match(new Criteria().andOperator(criterias)),
                 group("categoriesRegExp").count().as("count"),
                 project("count").and("categoriesRegExp").previousOperation(),

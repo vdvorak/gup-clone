@@ -1,7 +1,7 @@
 package ua.com.gup.mongo.model.category.attribute;
 
 
-import ua.com.gup.mongo.model.enumeration.CategoryAttributeType;
+import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class OfferCategoryAttributeBaseValue implements Serializable {
     private int code;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
-    private CategoryAttributeType type;
+    private CommonCategoryAttributeType type;
     private boolean privateAttr;
 
     public int getCode() {
@@ -43,11 +43,11 @@ public class OfferCategoryAttributeBaseValue implements Serializable {
         this.unit = unit;
     }
 
-    public CategoryAttributeType getType() {
+    public CommonCategoryAttributeType getType() {
         return type;
     }
 
-    public void setType(CategoryAttributeType type) {
+    public void setType(CommonCategoryAttributeType type) {
         this.type = type;
     }
 

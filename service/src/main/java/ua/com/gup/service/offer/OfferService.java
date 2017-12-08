@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -15,7 +16,6 @@ import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
@@ -26,7 +26,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service Interface for managing Offer.
@@ -76,7 +75,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(OfferStatus status, String authorId, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable);
 
 
     /**
@@ -87,7 +86,7 @@ public interface OfferService {
      * @param pageable     the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(OfferStatus status, String userPublicId, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable);
 
     /**
      * Get all the offers by status.
@@ -96,7 +95,7 @@ public interface OfferService {
      * @param pageable the offer filter
      * @return the list of entities
      */
-    Page<OfferViewShortWithModerationReportDTO> findAllByStatus(OfferStatus status, Pageable pageable);
+    Page<OfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable);
 
 
     Optional<OfferViewDetailsDTO> findOne(String id);
@@ -153,12 +152,6 @@ public interface OfferService {
     @Deprecated
     boolean hasPermissionForUpdate(String offerId, String authrorId);
 
-    /**
-     * Update active offers base price by current exchange rate.
-     *
-     * @return void
-     */
-    void updateActiveOffersBasePrice();
 
     /**
      * Update offer's status.
@@ -167,9 +160,9 @@ public interface OfferService {
      * @param status the status to be updated
      * @return the entity
      */
-    Optional<OfferViewDetailsDTO> updateStatus(String id, OfferStatus status);
+    Optional<OfferViewDetailsDTO> updateStatus(String id, CommonStatus status);
 
-    Boolean isCanUpdateStatus(String id, OfferStatus status);
+    Boolean isCanUpdateStatus(String id, CommonStatus status);
 
 
     /**
@@ -276,5 +269,5 @@ public interface OfferService {
 
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 
-    boolean existsByIdAndStatus(String id, OfferStatus status);
+    boolean existsByIdAndStatus(String id, CommonStatus status);
 }

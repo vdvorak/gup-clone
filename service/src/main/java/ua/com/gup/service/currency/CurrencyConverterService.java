@@ -1,7 +1,7 @@
 package ua.com.gup.service.currency;
 
 
-import ua.com.gup.mongo.model.enumeration.Currency;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import java.math.BigDecimal;
 
@@ -12,7 +12,7 @@ public interface CurrencyConverterService {
      *
      * @return the base currency
      */
-    Currency getBaseCurrency();
+    CommonCurrency getBaseCurrency();
 
     /**
      * Calculate the amount in base currency.
@@ -21,5 +21,5 @@ public interface CurrencyConverterService {
      * @param amount   the amount to convert
      * @return the amount in base currency
      */
-    BigDecimal convertToBaseCurrency(Currency currency, BigDecimal amount);
+    BigDecimal convertToBaseCurrency(CommonCurrency currency, BigDecimal amount);
 }

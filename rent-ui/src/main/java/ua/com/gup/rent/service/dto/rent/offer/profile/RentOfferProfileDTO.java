@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service.dto.rent.offer.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.gup.rent.model.enumeration.RentOfferUserType;
+import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 
@@ -14,7 +14,7 @@ public abstract class RentOfferProfileDTO {
     protected String lastName;
 
     @JsonProperty("type")
-    protected RentOfferUserType userType;
+    protected CommonUserType userType;
 
     @JsonProperty("email")
     protected String email;
@@ -73,11 +73,11 @@ public abstract class RentOfferProfileDTO {
         this.lastName = lastName;
     }
 
-    public RentOfferUserType getUserType() {
+    public CommonUserType getUserType() {
         return userType;
     }
 
-    public void setUserType(RentOfferUserType userType) {
+    public void setUserType(CommonUserType userType) {
         this.userType = userType;
     }
 

@@ -11,10 +11,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
@@ -149,7 +149,7 @@ public class ProfileEndpoint {
 
         if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(CommonUserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);

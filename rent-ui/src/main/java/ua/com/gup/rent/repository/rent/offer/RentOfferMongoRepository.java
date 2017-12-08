@@ -3,7 +3,7 @@ package ua.com.gup.rent.repository.rent.offer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 
 import java.util.Optional;
@@ -15,12 +15,12 @@ public interface RentOfferMongoRepository extends MongoRepository<RentOffer, Str
 
     Optional<RentOffer> findOneBySeoUrl(String seoUrl);
 
-    Page<RentOffer> findAllByStatusAndAuthorId(RentOfferStatus status, String authorId, Pageable pageable);
+    Page<RentOffer> findAllByStatusAndAuthorId(CommonStatus status, String authorId, Pageable pageable);
 
-    Page<RentOffer> findAllByStatus(RentOfferStatus status, Pageable pageable);
+    Page<RentOffer> findAllByStatus(CommonStatus status, Pageable pageable);
 
     Optional<RentOffer> findOfferByIdAndAuthorId(String offerId, String authorId);
     
-    Boolean existsByIdAndStatus(String id, RentOfferStatus status);
+    Boolean existsByIdAndStatus(String id, CommonStatus status);
 
 }
