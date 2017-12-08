@@ -116,75 +116,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 .path("/api");
 
     }
-
-    private void handleMultipartFile() {
-
-    }
-
-    //   @Override
-    private void create(RentOfferCreateDTO target) {
-        RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
-        MultipartFile[] files = target.getImages();
-        //if images exists save it's async
-        if (files != null && files.length > 0) {
-            int length = files.length;
-            List<RentOfferImageInfo> images = new ArrayList<>(length);
-
-            HttpHeaders commonHeader = new HttpHeaders();
-            commonHeader.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-            UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/images/").build();
-
-            List<CompletableFuture> completableFutures = new ArrayList<>(length);
-            for (int i = 0; i < length; i++) {
-                MultipartFile multipartFile = files[i];
-
-                LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
-
-                Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(multipartFile.getOriginalFilename());
-                //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                multipartRequest.add("image", new FileSystemResource(path.toString()));
-
-                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, commonHeader);
-
-                CompletableFuture<ResponseEntity<RentOfferPostImageResponse>> completableFuture = RentCompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(uriComponents.toUri(), requestEntity, RentOfferPostImageResponse.class));
-
-                completableFuture.whenCompleteAsync(((responseEntity, throwable) -> {
-                    RentOfferPostImageResponse response = responseEntity.getBody();
-                    RentOfferImageInfo info = new RentOfferImageInfo();
-                    info.setS3id(response.getS3id());
-                    info.setContentType(multipartFile.getContentType());
-                    info.setFileName(multipartFile.getOriginalFilename());
-                    info.setSize(multipartFile.getSize());
-                    images.add(info);
-
-                }));
-                completableFutures.add(completableFuture);
-            }
-            //wait for all (which save images) responses complete
-            CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
-            rentOffer.setImages(images);
-        }
-        getRepository().create(rentOffer);
-    }
-
-    //  @Override
-    private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
-        getRepository().update(null);
-    }
-
-    //  @Override
-    private void deleteById(String rentObjectId) {
-        getRepository().deleteById(rentObjectId);
-    }
-
-    //    @Override
-    private List<RentOfferViewShortDTO> findAll() {
-        List<RentOffer> rentOffers = getRepository().findAll();
-        return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
-    }
-
 //-----------------------from UI OFFER  copy past -----------------------------------------------------------------------------------------
 
     @Override
@@ -490,6 +421,67 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 //  moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
             }
         }
+    }
+
+    //------------------------------------------------------------------------------ method
+    private void create(RentOfferCreateDTO target) {
+        RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
+        MultipartFile[] files = target.getImages();
+        //if images exists save it's async
+        if (files != null && files.length > 0) {
+            int length = files.length;
+            List<RentOfferImageInfo> images = new ArrayList<>(length);
+
+            HttpHeaders commonHeader = new HttpHeaders();
+            commonHeader.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/images/").build();
+
+            List<CompletableFuture> completableFutures = new ArrayList<>(length);
+            for (int i = 0; i < length; i++) {
+                MultipartFile multipartFile = files[i];
+
+                LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
+
+                Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(multipartFile.getOriginalFilename());
+                //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                multipartRequest.add("image", new FileSystemResource(path.toString()));
+
+                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, commonHeader);
+
+                CompletableFuture<ResponseEntity<RentOfferPostImageResponse>> completableFuture = RentCompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(uriComponents.toUri(), requestEntity, RentOfferPostImageResponse.class));
+
+                completableFuture.whenCompleteAsync(((responseEntity, throwable) -> {
+                    RentOfferPostImageResponse response = responseEntity.getBody();
+                    RentOfferImageInfo info = new RentOfferImageInfo();
+                    info.setS3id(response.getS3id());
+                    info.setContentType(multipartFile.getContentType());
+                    info.setFileName(multipartFile.getOriginalFilename());
+                    info.setSize(multipartFile.getSize());
+                    images.add(info);
+
+                }));
+                completableFutures.add(completableFuture);
+            }
+            //wait for all (which save images) responses complete
+            CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
+            rentOffer.setImages(images);
+        }
+        getRepository().create(rentOffer);
+    }
+
+    private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
+        getRepository().update(null);
+    }
+
+    private void deleteById(String rentObjectId) {
+        getRepository().deleteById(rentObjectId);
+    }
+
+    private List<RentOfferViewShortDTO> findAll() {
+        List<RentOffer> rentOffers = getRepository().findAll();
+        return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
     }
 }
 
