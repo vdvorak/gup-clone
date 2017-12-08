@@ -288,7 +288,7 @@ public class RentOfferCategoryEndpoint {
 
     @RequestMapping(value = "/categories/tree-view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<RentOfferCategoryTreeDTO>> getAllCategoriesTreeView(@RequestParam(defaultValue = "ru") String lang, WebRequest webRequest) {
-        logger.debug("REST request to get categories in tree view");
+        logger.debug("REST request to get rent categories in tree view");
         if (webRequest.checkNotModified(categoriesTreeViewETagMap.getOrDefault(lang, "defaultValue"))) {
             return null;
         }
