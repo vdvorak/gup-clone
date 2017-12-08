@@ -197,6 +197,24 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
+    /**
+     * GET  /offers/image/{id} : get rent offer image by id.
+     *
+     * @param id the offer status
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @RequestParam("sizeType") RentOfferImageSizeType sizeType) {
+        log.debug("REST request to get rent offer image by id and size type");
+        final RentOfferFileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
+        return ResponseEntity.ok()
+                .contentLength(imageWrapper.getLength())
+                .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
+                .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
+                .body(new InputStreamResource(imageWrapper.getInputStream()));
+    }
+
+
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -416,25 +434,6 @@ public class RentOfferEndpoint {
         offerService.incrementPhoneViews(id);
         Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
         return new ResponseEntity(phoneNumbers, HttpStatus.OK);
-    }
-
-    /**
-     * GET  /offers/image/{id} : get rent offer image by id.
-     *
-     * @param id the offer status
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id,
-                                                                   @RequestParam("sizeType") RentOfferImageSizeType sizeType) {
-        log.debug("REST request to get offer image by id and size type");
-
-        final RentOfferFileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
-        return ResponseEntity.ok()
-                .contentLength(imageWrapper.getLength())
-                .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
-                .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
-                .body(new InputStreamResource(imageWrapper.getInputStream()));
     }
 
 

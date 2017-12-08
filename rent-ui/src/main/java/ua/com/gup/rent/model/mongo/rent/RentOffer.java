@@ -226,12 +226,16 @@ public class RentOffer {
         this.boolAttrs = boolAttrs;
     }
 
-    public RentOfferStatistic getStatistic() {
-        return statistic;
-    }
 
     public void setStatistic(RentOfferStatistic statistic) {
         this.statistic = statistic;
+    }
+
+    public RentOfferStatistic getStatistic() {
+        if (statistic == null) {
+            statistic = new RentOfferStatistic();
+        }
+        return statistic;
     }
 
     public RentOfferModerationReport getLastOfferModerationReport() {
@@ -256,6 +260,14 @@ public class RentOffer {
 
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+
+    public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
+        if (incrementOfferViews)
+            getStatistic().incrementTodayViewStatistic(getCreatedDate().toLocalDate());
+        if (incrementOfferPhoneViews)
+            getStatistic().incrementTodayViewPhoneStatistic(getCreatedDate().toLocalDate());
     }
 
     @Override

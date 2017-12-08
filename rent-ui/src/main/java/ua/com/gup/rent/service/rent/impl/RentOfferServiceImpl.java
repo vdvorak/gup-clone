@@ -284,7 +284,19 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
-        return null;
+        log.debug("Request to get Rent Offer : {}", seoUrl);
+        Optional<RentOffer> offer = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offer.isPresent()) {
+            final RentOffer o = offer.get();
+            o.incrementView(true, false);
+            offerRepository.save(o);
+            Set<RentOfferStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(RentOfferStatus.ACTIVE, RentOfferStatus.DEACTIVATED, RentOfferStatus.REJECTED, RentOfferStatus.ON_MODERATION));
+            if (!statuses.contains(o.getStatus())) {
+                offer = Optional.empty();
+            }
+        }
+        return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
     @Override
@@ -302,9 +314,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     }
 
+
     @Override
     public boolean exists(String id) {
-        return false;
+        return offerRepository.exists(id);
     }
 
     @Override
