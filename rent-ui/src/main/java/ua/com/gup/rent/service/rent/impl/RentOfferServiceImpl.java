@@ -239,7 +239,12 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
     @Override
     public Optional<RentOfferViewDetailsDTO> findOne(String id) {
-        return null;
+        log.debug("Request to get Offer : {}", id);
+        RentOffer offer = offerRepository.findOne(id);
+        if (offer == null) {
+            return Optional.empty();
+        }
+        return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
