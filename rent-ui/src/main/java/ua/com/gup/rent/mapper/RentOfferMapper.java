@@ -23,6 +23,7 @@ import ua.com.gup.rent.service.dto.rent.offer.view.*;
 import ua.com.gup.rent.util.RentDateUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -108,9 +109,9 @@ public class RentOfferMapper {
 
     public RentOfferViewCoordinatesDTO offerToOfferCoordinatesDTO(RentOffer offer) {
         RentOfferViewCoordinatesDTO coordinatesDTO = null;
-        /*if (offer.getAddress() != null && offer.getAddress().getLat() != null  && offer.getAddress().getLng() != null) {*/
-            coordinatesDTO = new RentOfferViewCoordinatesDTO(offer.getSeoUrl(),null /*new BigDecimal[]{offer.getAddress().getLat(), offer.getAddress().getLng()}*/);
-        /*}*/
+        if (offer.getAddress() != null && offer.getAddress().getLat() != null  && offer.getAddress().getLng() != null) {
+            coordinatesDTO = new RentOfferViewCoordinatesDTO(offer.getSeoUrl(),new BigDecimal[]{offer.getAddress().getLat(), offer.getAddress().getLng()});
+        }
         return coordinatesDTO;
     }
 

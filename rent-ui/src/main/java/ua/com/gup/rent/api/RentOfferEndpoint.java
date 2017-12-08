@@ -315,6 +315,18 @@ public class RentOfferEndpoint {
         Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
         return new ResponseEntity(phoneNumbers, HttpStatus.OK);
     }
+
+    @ApiOperation(
+            value = "Get offers coordinates by filter",
+            notes = "List all offers coordinates using paging",
+            response = RentOfferViewCoordinatesDTO.class
+    )
+    @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
+    public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+        log.debug("REST request to get a list of Rent Offers");
+        List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -378,17 +390,7 @@ public class RentOfferEndpoint {
 
 
 
-    @ApiOperation(
-            value = "Get offers coordinates by filter",
-            notes = "List all offers coordinates using paging",
-            response = RentOfferViewCoordinatesDTO.class
-    )
-    @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
-    public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
-        log.debug("REST request to get a list of Offers");
-        List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
+
 
 
     /**

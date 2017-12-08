@@ -276,7 +276,11 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
-        return null;
+        log.debug("Request to get offers coordinates by filter");
+        List<RentOffer> offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+        List<RentOfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
+        offers.forEach(offer -> coordinatesList.add(offerMapper.offerToOfferCoordinatesDTO(offer)));
+        return coordinatesList;
     }
 
     @Override
