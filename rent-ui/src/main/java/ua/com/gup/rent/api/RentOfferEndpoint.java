@@ -260,6 +260,22 @@ public class RentOfferEndpoint {
         Page<RentOfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
+
+    /**
+     * GET  /offers : get all my offers by status.
+     *
+     * @param status   the offer status
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
+    public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
+        log.debug("REST request to get a page of my Offers by status");
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -346,20 +362,7 @@ public class RentOfferEndpoint {
     }
 
 
-    /**
-     * GET  /offers : get all my offers by status.
-     *
-     * @param status   the offer status
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
-    public ResponseEntity<Page> getAllMyOffers(@PathVariable RentOfferStatus status, Pageable pageable) {
-        log.debug("REST request to get a page of my Offers by status");
-        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-    }
+
 
     @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
     public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {

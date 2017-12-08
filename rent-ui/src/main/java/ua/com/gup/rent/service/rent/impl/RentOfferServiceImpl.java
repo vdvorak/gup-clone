@@ -32,6 +32,7 @@ import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.offer.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
@@ -278,7 +279,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(RentOfferStatus status, String authorId, Pageable pageable) {
-        return null;
+        log.debug("Request to get all Rent Offers by status = {} and authorId = {}", status, authorId);
+        RentOfferProfile profile = profileRepository.findById(authorId);
+        if (profile == null) {
+            return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
+        }
+        Page<RentOffer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     @Override
