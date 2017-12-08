@@ -16,7 +16,7 @@ public class RentUiApplication {
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,
                 RentMethodSecurityConfig.class,
-                RestTemplatesConfig.class,
+                RentRestTemplatesConfig.class,
                 RentSessionConfig.class,
                 RentUiApplication.class}, args);
     }
