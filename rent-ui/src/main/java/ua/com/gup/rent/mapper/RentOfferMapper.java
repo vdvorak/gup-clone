@@ -65,6 +65,10 @@ public class RentOfferMapper {
     public RentOffer offerCreateDTOToOffer(RentOfferCreateDTO offerCreateDTO) {
         RentOffer offer = new RentOffer();
         fromOfferCreateDTOToOffer(offerCreateDTO, offer);
+        offer.setTitle(offerCreateDTO.getTitle());
+        offer.setDescription(offerCreateDTO.getDescription());
+        offer.setStatus(RentOfferStatus.NEW);
+        offer.setPrice(rentOfferPriceMapper.fromDTOToModel(offerCreateDTO.getPrice()));
         return offer;
     }
 
@@ -156,8 +160,9 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewShortDTO(RentOffer source, RentOfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
-        //todo vdvorak
-       // target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
+
+        target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
+        //todo vdvorak price mapper
         /*if (source.getRentOfferPrice() != null) {
             RentOfferPriceShortDTO priceDTO = new RentOfferPriceShortDTO();
             priceMapper.moneyToMoneyDTO(source.getPrice(), priceDTO);
@@ -168,10 +173,11 @@ public class RentOfferMapper {
                 priceDTO.setTitle(priceAttributes.getTitle());
             }
             target.setPrice(priceDTO);
-        }
+        }*/
+
         if (source.getLands() != null) {
             target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
-        }*/
+        }
     }
 
     public List<RentOfferStatisticByDateDTO> offerStatisticToOfferStatisticDTO(RentOfferStatistic viewStatistic, LocalDate offerDtCreate, LocalDate dateStart, LocalDate dateEnd) {
@@ -190,8 +196,7 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewBaseDTO(RentOffer source, RentOfferViewBaseDTO target) {
         target.setId(source.getId());
-        //todo vdvorak
-       // target.setLastModifiedDate(source.getLastModifiedDate());
+        target.setLastModifiedDate(source.getLastModifiedDate());
         target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         if (source.getCategories() != null) {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
@@ -222,32 +227,32 @@ public class RentOfferMapper {
             target.setDescription(source.getDescription());
         }
 
-        //todo, vdvorak
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }
 
-        /*if (source.getPrice() != null) {
-            target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
-        }*/
-
+        if (source.getPrice() != null) {
+            //todo  vdvorak
+          //  target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
+        }
+        //todo vdvorak
         /*if (source.getImages() != null && source.getImages().size() > 0) {
             List<String> imageIds = new LinkedList<String>();
             source.getImages().forEach(i -> imageIds.add(i.getImageId()));
             target.setImageIds(imageIds);
         }*/
 
-        /*if (source.getLands() != null) {
+        if (source.getLands() != null) {
             target.setLands(transformOfferLandsDTOToLands(source.getLands()));
-        }*/
+        }
 
-        /*if (source.getYoutubeVideoId() != null) {
+        if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
-        }*/
+        }
 
-        /*if (source.getContactInfo() != null) {
+        if (source.getContactInfo() != null) {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
-        }*/
+        }
 
         if (source.getCategory() != null) {
 
@@ -359,15 +364,5 @@ public class RentOfferMapper {
         rentOfferViewShortDTO.setTitle(rentOffer.getTitle());
         rentOfferViewShortDTO.setDescription(rentOffer.getDescription());
         return rentOfferViewShortDTO;
-    }
-
-
-    public RentOffer fromCreateDTOToRentObject(RentOfferCreateDTO rentObjectDTO) {
-        RentOffer rentOffer = new RentOffer();
-        rentOffer.setTitle(rentObjectDTO.getTitle());
-        rentOffer.setDescription(rentObjectDTO.getDescription());
-        rentOffer.setStatus(RentOfferStatus.NEW);
-        rentOffer.setPrice(rentOfferPriceMapper.fromDTOToModel(rentObjectDTO.getPrice()));
-        return rentOffer;
     }
 }

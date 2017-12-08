@@ -128,17 +128,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
         log.debug("Request to save Offer : {}", rentOfferCreateDTO);
         String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
-
-        //todo vdvorak  save image
-        // saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
-        create(rentOfferCreateDTO);
-
         RentOffer offer = offerMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
         offer.setStatus(RentOfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = RentSecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
+        saveImagesInRentOffer(rentOfferCreateDTO,offer);
         offer = offerRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -461,8 +457,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     //------------------------------------------------------------------------------ method
-    private void create(RentOfferCreateDTO target, RentOffer rentOffer) {
-       // RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
+    private void saveImagesInRentOffer(RentOfferCreateDTO target, RentOffer rentOffer) {
         MultipartFile[] files = target.getImages();
         //if images exists save it's async
         if (files != null && files.length > 0) {
@@ -505,19 +500,19 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
             CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
             rentOffer.setImages(images);
         }
-        getRepository().create(rentOffer);
+       // getRepository().create(rentOffer);
     }
 
-    private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
+  /*  private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
         getRepository().update(null);
-    }
+    }*/
 
-    private void deleteById(String rentObjectId) {
+   /* private void deleteById(String rentObjectId) {
         getRepository().deleteById(rentObjectId);
     }
-
-    private List<RentOfferViewShortDTO> findAll() {
+*/
+    /*private List<RentOfferViewShortDTO> findAll() {
         List<RentOffer> rentOffers = getRepository().findAll();
         return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
-    }
+    }*/
 }
