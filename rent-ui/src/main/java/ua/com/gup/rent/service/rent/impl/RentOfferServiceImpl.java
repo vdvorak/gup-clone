@@ -79,7 +79,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Autowired
     private RentOfferMapper offerMapper;
 
-    private RentOfferCategoryMapper offerCategoryMapper
+    @Autowired
+    private RentOfferCategoryMapper offerCategoryMapper;
 
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
