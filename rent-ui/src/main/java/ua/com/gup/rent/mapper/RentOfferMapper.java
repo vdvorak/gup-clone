@@ -129,8 +129,11 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setNumAttrs(offer.getNumAttrs());
         offerViewDetailsDTO.setBoolAttrs(offer.getBoolAttrs());
         offerViewDetailsDTO.setStatus(offer.getStatus());
+
+        //todo vdvorak check 
+
         //offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
-        if (offer.getRentOfferPrice() != null) {
+        if (offer.getPrice() != null) {
             RentOfferPriceDTO priceDTO = new RentOfferPriceDTO();
           //  priceMapper.moneyToMoneyDTO(offer.getRentOfferPrice(), priceDTO);
             offerViewDetailsDTO.setPrice(priceDTO);
