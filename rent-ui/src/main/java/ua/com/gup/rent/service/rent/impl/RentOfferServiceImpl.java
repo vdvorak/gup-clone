@@ -348,7 +348,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public void delete(String id) {
-
+        log.debug("Request to delete Offer : {}", id);
+        RentOffer offer = offerRepository.findOne(id);
+        offer.setStatus(RentOfferStatus.ARCHIVED);
+        offerRepository.save(offer);
     }
 
 

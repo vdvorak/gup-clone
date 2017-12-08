@@ -276,6 +276,20 @@ public class RentOfferEndpoint {
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
+    /**
+     * DELETE  /offers/:id : delete the "id" offer.
+     *
+     * @param id the id of the offerDTO to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @PreAuthorize("hasPermission(#id, 'offer', 'DELETE')")
+    @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
+        log.debug("REST request to delete Offer : {}", id);
+        offerService.delete(id);
+        return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -335,19 +349,7 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(result);
     }
 
-    /**
-     * DELETE  /offers/:id : delete the "id" offer.
-     *
-     * @param id the id of the offerDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @PreAuthorize("hasPermission(#id, 'offer', 'DELETE')")
-    @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
-        log.debug("REST request to delete Offer : {}", id);
-        offerService.delete(id);
-        return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+
 
     @ApiOperation(
             value = "Get offers coordinates by filter",
