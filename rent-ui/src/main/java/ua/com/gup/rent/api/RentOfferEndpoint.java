@@ -48,13 +48,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing Offer.
+ * REST controller for managing Rent Offer.
  */
 @RestController
 @RequestMapping("/api")
 public class RentOfferEndpoint {
 
-    private static final String ENTITY_NAME = "rent.object";
+    private static final String ENTITY_NAME = "rent.offer";
     private final Logger log = LoggerFactory.getLogger(RentOfferEndpoint.class);
 
     @Autowired

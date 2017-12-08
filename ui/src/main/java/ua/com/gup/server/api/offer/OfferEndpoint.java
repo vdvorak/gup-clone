@@ -27,7 +27,6 @@ import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
-import ua.com.gup.mongo.model.enumeration.UserRole;
 import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.server.util.HeaderUtil;
@@ -43,8 +42,10 @@ import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing Offer.
@@ -426,4 +427,3 @@ public class OfferEndpoint {
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }
-
