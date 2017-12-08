@@ -54,11 +54,10 @@ import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -204,29 +203,39 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
-        log.debug("Request to save Offer : {}", offerUpdateDTO);
+        log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
         RentOffer offer = offerRepository.findOne(offerUpdateDTO.getId());
 
         //todo vdvorak  save image
-        //saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+        saveOfferImages(/*offer.getImages()*/null, /*offerUpdateDTO.getImages()*/null, /*offer.getSeoUrl()*/null);
 
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
-        offer.setLastModifiedDate(ZonedDateTime.now());
+        offer.setLastModifiedDate(LocalDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
-            offer.setStatus(OfferStatus.ON_MODERATION);
+            offer.setStatus(RentOfferStatus.ON_MODERATION);
         } else {
-            offer.setStatus(OfferStatus.ACTIVE);
+            offer.setStatus(RentOfferStatus.ACTIVE);
         }
         offer = offerRepository.save(offer);
-        OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO) {
-        return null;
+        log.debug("Request to save Rent Offer modified by moderator: {}", offerModerationReportDTO);
+        RentOffer offer = offerRepository.findOne(offerModerationReportDTO.getId());
+        offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
+        if (offer.getLastOfferModerationReport().isRefused()) {
+            offer.setStatus(RentOfferStatus.REJECTED);
+        } else {
+            offer.setStatus(RentOfferStatus.ACTIVE);
+        }
+        offer = offerRepository.save(offer);
+        RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
     }
     @Override
     public Optional<RentOfferViewDetailsDTO> findOne(String id) {
@@ -239,8 +248,11 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 offerFilter.getRentOfferAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getRentOfferAuthorFilter().getPublicId().trim()).getId());
             }
         }
-        log.debug("Request to get all Offers by filter  {} ", offerFilter);
-        //calculatePriceInBaseCurrency(offerFilter.getPrice());
+        log.debug("Request to get all Rent Offers by filter  {} ", offerFilter);
+
+        //todo vdvorak add
+        calculatePriceInBaseCurrency(offerFilter.getPrice());
+
         long count = offerRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
@@ -378,14 +390,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
 
-    /**
-     * Get offer image by id and size type.
-     *
-     * @param offerImageIds  the ids of persisted images
-     * @param offerImageDTOS the image dtos to persist or update
-     * @param seoURL         the seo URL for name creation
-     * @return the entity
-     */
+
     private void saveOfferImages(List<String> offerImageIds,String iamge /*List<OfferImageDTO> offerImageDTOS*/, String seoURL) {
 
     }
