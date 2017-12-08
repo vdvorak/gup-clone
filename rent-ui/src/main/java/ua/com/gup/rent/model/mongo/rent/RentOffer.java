@@ -26,13 +26,21 @@ public class RentOffer {
 
     @Id
     private String id;
+
     private String title;
+
     private String description;
+
     private LocalDateTime createdDate;
+
     private String authorId;
+
     private List<Integer> categories;
+
     private RentOfferStatus status;
+
     private RentOfferPrice rentOfferPrice;
+
     private List<RentOfferImageInfo> images;
 
     @Indexed(unique = true)
