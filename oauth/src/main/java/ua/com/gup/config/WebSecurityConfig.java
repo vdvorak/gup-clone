@@ -15,10 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ua.com.gup.listener.authentication.CustomLogoutHandler;
+import ua.com.gup.listener.authentication.OAuthAuthenticationSuccessHandler;
+import ua.com.gup.listener.authentication.OAuthLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -53,13 +53,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
-                .addLogoutHandler(customLogoutHandler())
+                .logoutSuccessHandler(oAuthLogoutSuccessHandler())
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/login");
+                .loginProcessingUrl("/login")
+                .successHandler(oAuthAuthenticationSuccessHandler());
     }
+
+    @Bean
+    public OAuthLogoutSuccessHandler oAuthLogoutSuccessHandler() {
+        return new OAuthLogoutSuccessHandler();
+
+    }
+
+    @Bean
+    public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
+        return new OAuthAuthenticationSuccessHandler();
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -79,15 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(11);
     }
 
-    //session manager bean
+
     @Bean
     @Profile("dev")
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
 
-    @Bean
-    public LogoutHandler customLogoutHandler() {
-        return new CustomLogoutHandler();
-    }
 }

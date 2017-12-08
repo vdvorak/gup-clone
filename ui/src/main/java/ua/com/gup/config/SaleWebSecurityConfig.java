@@ -8,18 +8,25 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ua.com.gup.common.security.filter.CsrfTokenRequestBindingFilter;
+import ua.com.gup.common.security.filter.CsrfTokenResponseHeaderBindingFilter;
+import ua.com.gup.server.security.SaleLogoutSuccessHandler;
 
 import java.util.Arrays;
 
@@ -32,13 +39,12 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Environment e;
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .cors()
                 .and()
                 .authorizeRequests()
@@ -52,13 +58,22 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
 
                 .antMatchers(HttpMethod.GET, "/api/users/authenticate")
-                .authenticated()                
-                
+                .authenticated()
+
                 .antMatchers(HttpMethod.GET, "/api/**")
-                .permitAll()                
+                .permitAll()
 
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+
+                .and()
+                .logout()
+                .logoutUrl("/api/users/logout")
+                .logoutSuccessHandler(logoutSuccessHandler());
+
+
+        http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
+        http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
 
     @Bean
@@ -66,6 +81,10 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(11);
     }
 
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler(){
+        return new SaleLogoutSuccessHandler(HttpStatus.OK);
+    }
 
     @Bean
     @Profile("dev")
