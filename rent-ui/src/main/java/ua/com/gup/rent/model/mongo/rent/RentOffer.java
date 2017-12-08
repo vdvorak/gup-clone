@@ -7,12 +7,16 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
+import ua.com.gup.rent.model.rent.RentOfferAddress;
+import ua.com.gup.rent.model.rent.RentOfferContactInfo;
+import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
+import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -40,6 +44,14 @@ public class RentOffer {
 
     private String authorId;
 
+     private RentOfferAddress address;
+
+    private RentOfferLands lands;
+
+    private String youtubeVideoId;
+
+    private RentOfferContactInfo contactInfo;
+
     private List<Integer> categories;
 
     private RentOfferStatus status;
@@ -59,7 +71,7 @@ public class RentOffer {
 
     private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
-    /*private RentOfferStatistic statistic;*/
+    private RentOfferStatistic statistic;
 
     private RentOfferModerationReport lastOfferModerationReport;
 
@@ -73,14 +85,6 @@ public class RentOffer {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<RentOfferImageInfo> getImages() {
-        return images;
-    }
-
-    public void setImages(List<RentOfferImageInfo> images) {
-        this.images = images;
     }
 
     public String getTitle() {
@@ -107,6 +111,46 @@ public class RentOffer {
         this.createdDate = createdDate;
     }
 
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public RentOfferAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(RentOfferAddress address) {
+        this.address = address;
+    }
+
+    public RentOfferLands getLands() {
+        return lands;
+    }
+
+    public void setLands(RentOfferLands lands) {
+        this.lands = lands;
+    }
+
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
+    }
+
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
+    }
+
+    public RentOfferContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(RentOfferContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
     public List<Integer> getCategories() {
         return categories;
     }
@@ -131,12 +175,12 @@ public class RentOffer {
         this.price = price;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public List<RentOfferImageInfo> getImages() {
+        return images;
     }
 
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setImages(List<RentOfferImageInfo> images) {
+        this.images = images;
     }
 
     public String getSeoUrl() {
@@ -177,6 +221,14 @@ public class RentOffer {
 
     public void setBoolAttrs(LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public RentOfferStatistic getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic(RentOfferStatistic statistic) {
+        this.statistic = statistic;
     }
 
     public RentOfferModerationReport getLastOfferModerationReport() {
