@@ -31,6 +31,7 @@ import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
+import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCRUD;
 import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
@@ -45,6 +46,9 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.rent.image.RentOfferPostImageResponse;
+import ua.com.gup.rent.service.sequence.RentSequenceService;
+import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
+import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
@@ -59,6 +63,7 @@ import java.util.stream.Collectors;
 public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
 
     private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
+    private static final String RENT_OFFER_SEQUENCE_ID = "rent_offer_sequence";
 
     @Autowired
     private Environment e;
@@ -81,7 +86,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private RentOfferProfileRepository profileRepository;
 
     @Autowired
-    private RentOfferRepositoryCustom offerRepositoryCustom;
+    private RentOfferRepositoryCustom rentOfferRepositoryCustom;
+
+    @Autowired
+    private RentOfferRepositoryCRUD rentOfferRepositoryCRUD;
+
+    @Autowired
+    private RentSequenceService rentSequenceService;
 
     @PostConstruct
     public void initialize() {
@@ -179,7 +190,18 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
-        return null;
+        log.debug("Request to save Offer : {}", rentOfferCreateDTO);
+        String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
+       // saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        RentOffer offer = rentOfferMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
+        offer.setStatus(RentOfferStatus.ON_MODERATION);
+        offer.setSeoUrl(seoURL);
+        String userID = RentSecurityUtils.getCurrentUserId();
+       // offer.setLastModifiedBy(userID);
+        offer.setAuthorId(userID);
+        offer = rentOfferRepositoryCRUD.save(offer);
+        RentOfferViewDetailsDTO result = rentOfferMapper.offerToOfferDetailsDTO(offer);
+        return result;
     }
 
     @Override
@@ -197,10 +219,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         }
         log.debug("Request to get all Offers by filter  {} ", offerFilter);
         //calculatePriceInBaseCurrency(offerFilter.getPrice());
-        long count = offerRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
+        long count = rentOfferRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
-            offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+            offers = rentOfferRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> rentOfferMapper.offerToOfferShortDTO(offer));
@@ -301,5 +323,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         return (RentOfferRepository) super.getRepository();
     }
 
+    private String generateUniqueSeoUrl(String title) {
+        // index number in 36 radix
+        return RentOfferSEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(rentSequenceService.getNextSequenceValue(RENT_OFFER_SEQUENCE_ID), 36));
+    }
 }
 
