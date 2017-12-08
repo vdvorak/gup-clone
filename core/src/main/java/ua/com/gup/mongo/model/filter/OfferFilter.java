@@ -3,6 +3,10 @@ package ua.com.gup.mongo.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.common.model.filter.CommonAddressFilter;
+import ua.com.gup.common.model.filter.CommonAttributeFilter;
+import ua.com.gup.common.model.filter.CommonAuthorFilter;
+import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ public class OfferFilter implements Serializable {
     private String query;
 
     @ApiModelProperty(value = "Field form object Profile", position = 5)
-    private AuthorFilter authorFilter;
+    private CommonAuthorFilter authorFilter;
 
     @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
     private Integer[] categories;
@@ -27,19 +31,19 @@ public class OfferFilter implements Serializable {
     private DateFilter date;
 
     @ApiModelProperty(value = "Filter for address", position = 30)
-    private AddressFilter address;
+    private CommonAddressFilter address;
 
     @ApiModelProperty(value = "Coordinates for address", position = 30)
-    private CoordinatesFilter coordinates;
+    private CommonCoordinatesFilter coordinates;
 
     @ApiModelProperty(value = "Filter for price", position = 40)
     private MoneyFilter price;
 
     @ApiModelProperty(value = "Filters for attributes", position = 50)
-    private List<AttributeFilter> attrs = new ArrayList<>();
+    private List<CommonAttributeFilter> attrs = new ArrayList<>();
 
     @ApiModelProperty(value = "Filters for attributes", position = 55)
-    private List<AttributeFilter> multiAttrs = new ArrayList<>();
+    private List<CommonAttributeFilter> multiAttrs = new ArrayList<>();
 
     @ApiModelProperty(value = "Filters for numeric attributes", position = 60)
     private List<NumericAttributeFilter> numAttrs = new ArrayList<>();
@@ -74,11 +78,11 @@ public class OfferFilter implements Serializable {
         this.date = date;
     }
 
-    public AddressFilter getAddress() {
+    public CommonAddressFilter getAddress() {
         return address;
     }
 
-    public void setAddress(AddressFilter address) {
+    public void setAddress(CommonAddressFilter address) {
         this.address = address;
     }
 
@@ -90,19 +94,19 @@ public class OfferFilter implements Serializable {
         this.price = price;
     }
 
-    public List<AttributeFilter> getAttrs() {
+    public List<CommonAttributeFilter> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(List<AttributeFilter> attrs) {
+    public void setAttrs(List<CommonAttributeFilter> attrs) {
         this.attrs = attrs;
     }
 
-    public List<AttributeFilter> getMultiAttrs() {
+    public List<CommonAttributeFilter> getMultiAttrs() {
         return multiAttrs;
     }
 
-    public void setMultiAttrs(List<AttributeFilter> multiAttrs) {
+    public void setMultiAttrs(List<CommonAttributeFilter> multiAttrs) {
         this.multiAttrs = multiAttrs;
     }
 
@@ -122,11 +126,11 @@ public class OfferFilter implements Serializable {
         this.boolAttrs = boolAttrs;
     }
 
-    public AuthorFilter getAuthorFilter() {
+    public CommonAuthorFilter getAuthorFilter() {
         return authorFilter;
     }
 
-    public void setAuthorFilter(AuthorFilter authorFilter) {
+    public void setAuthorFilter(CommonAuthorFilter authorFilter) {
         this.authorFilter = authorFilter;
     }
 
@@ -139,11 +143,11 @@ public class OfferFilter implements Serializable {
         this.seoUrls = seoUrls;
     }
 
-    public CoordinatesFilter getCoordinates() {
+    public CommonCoordinatesFilter getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(CoordinatesFilter coordinates) {
+    public void setCoordinates(CommonCoordinatesFilter coordinates) {
         this.coordinates = coordinates;
 
     }

@@ -1,5 +1,4 @@
-package ua.com.gup.mongo.model.filter;
-
+package ua.com.gup.common.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,8 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ApiModel(description = "Attribute filter model")
-public class AttributeFilter {
-
+public class CommonAttributeFilter {
     @ApiModelProperty("Attribute key (code)")
     private String key;
 
@@ -35,5 +33,4 @@ public class AttributeFilter {
     public List<String> getValuesAsList() {
         return Arrays.asList(vals.split(","));
     }
-
 }

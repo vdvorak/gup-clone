@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.filter;
+package ua.com.gup.common.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,15 +6,14 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 
 @ApiModel(description = "Coordinates filter model")
-public class CoordinatesFilter {
-
+public class CommonCoordinatesFilter {
     @ApiModelProperty("Min coordinates with ',' delimiter")
     private BigDecimal[] minYX;
 
     @ApiModelProperty("Max coordinates with ',' delimiter")
     private BigDecimal[] maxYX;
 
-    public CoordinatesFilter() {
+    public CommonCoordinatesFilter() {
     }
 
     public BigDecimal[] getMinYX() {
@@ -32,4 +31,5 @@ public class CoordinatesFilter {
     public void setMaxYX(BigDecimal[] maxYX) {
         this.maxYX = maxYX;
     }
+
 }

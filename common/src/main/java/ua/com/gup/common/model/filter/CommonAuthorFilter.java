@@ -1,15 +1,10 @@
-package ua.com.gup.mongo.model.filter;
+package ua.com.gup.common.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
-
-/**
- * @author Victor Dvorak
- **/
 @ApiModel(description = "AuthorFilter By Offer model")
-public class AuthorFilter implements Serializable {
+public class CommonAuthorFilter {
 
     @ApiModelProperty("Author User Id  who is register in GUP from table users and references field _id ")
     private String authorId;
@@ -31,13 +26,5 @@ public class AuthorFilter implements Serializable {
 
     public void setPublicId(String publicId) {
         this.publicId = publicId;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthorFilter{" +
-                "authorId='" + authorId + '\'' +
-                ", publicId='" + publicId + '\'' +
-                '}';
     }
 }

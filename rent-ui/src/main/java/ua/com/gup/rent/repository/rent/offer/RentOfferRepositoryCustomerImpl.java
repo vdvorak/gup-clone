@@ -19,6 +19,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import ua.com.gup.common.model.filter.CommonAddressFilter;
+import ua.com.gup.common.model.filter.CommonAttributeFilter;
+import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.rent.filter.*;
 import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
@@ -163,8 +166,8 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
             query.addCriteria(Criteria.where("authorId").in(offerFilter.getRentOfferAuthorFilter().getAuthorId()));
         }
         //todo vdvorak
-        RentOfferCoordinatesFilter coordinates = offerFilter.getCoordinates();
-        RentOfferAddressFilter addressFilter = offerFilter.getAddress();
+        CommonCoordinatesFilter coordinates = offerFilter.getCoordinates();
+        CommonAddressFilter addressFilter = offerFilter.getAddress();
         if (coordinates != null || addressFilter != null) {
 
             if (isValidCoordinates(coordinates)) {
@@ -201,12 +204,12 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
             }
         }
         if (offerFilter.getAttrs() != null) {
-            for (RentOfferAttributeFilter attrFilter : offerFilter.getAttrs()) {
+            for (CommonAttributeFilter attrFilter : offerFilter.getAttrs()) {
                 query.addCriteria(Criteria.where("attrs." + attrFilter.getKey() + ".selected.key").in(attrFilter.getVals().split(",")));
             }
         }
         if (offerFilter.getMultiAttrs() != null) {
-            for (RentOfferAttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
+            for (CommonAttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
                 query.addCriteria(Criteria.where("multiAttrs." + attrFilter.getKey() + ".selected").elemMatch(Criteria.where("key").in(attrFilter.getVals().split(","))));
             }
         }
@@ -264,7 +267,7 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
         return result;
     }
 
-    private boolean isValidCoordinates(RentOfferCoordinatesFilter coordinates) {
+    private boolean isValidCoordinates(CommonCoordinatesFilter coordinates) {
         return coordinates != null
                 && coordinates.getMaxYX() != null
                 && coordinates.getMaxYX().length == 2

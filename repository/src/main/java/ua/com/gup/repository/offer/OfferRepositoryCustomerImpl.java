@@ -19,10 +19,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import ua.com.gup.common.model.filter.CommonAddressFilter;
+import ua.com.gup.common.model.filter.CommonAttributeFilter;
+import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
 import ua.com.gup.mongo.model.filter.*;
+import ua.com.gup.mongo.model.geo.Common;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import javax.annotation.PostConstruct;
@@ -163,8 +167,8 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             query.addCriteria(Criteria.where("authorId").in(offerFilter.getAuthorFilter().getAuthorId()));
         }
         //todo vdvorak
-        CoordinatesFilter coordinates = offerFilter.getCoordinates();
-        AddressFilter addressFilter = offerFilter.getAddress();
+        CommonCoordinatesFilter coordinates = offerFilter.getCoordinates();
+        CommonAddressFilter addressFilter = offerFilter.getAddress();
         if (coordinates != null || addressFilter != null) {
 
             if (isValidCoordinates(coordinates)) {
@@ -201,12 +205,12 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             }
         }
         if (offerFilter.getAttrs() != null) {
-            for (AttributeFilter attrFilter : offerFilter.getAttrs()) {
+            for (CommonAttributeFilter attrFilter : offerFilter.getAttrs()) {
                 query.addCriteria(Criteria.where("attrs." + attrFilter.getKey() + ".selected.key").in(attrFilter.getVals().split(",")));
             }
         }
         if (offerFilter.getMultiAttrs() != null) {
-            for (AttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
+            for (CommonAttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
                 query.addCriteria(Criteria.where("multiAttrs." + attrFilter.getKey() + ".selected").elemMatch(Criteria.where("key").in(attrFilter.getVals().split(","))));
             }
         }
@@ -264,7 +268,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         return result;
     }
 
-    private boolean isValidCoordinates(CoordinatesFilter coordinates) {
+    private boolean isValidCoordinates(CommonCoordinatesFilter coordinates) {
         return coordinates != null
                 && coordinates.getMaxYX() != null
                 && coordinates.getMaxYX().length == 2
