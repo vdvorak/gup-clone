@@ -300,6 +300,21 @@ public class RentOfferEndpoint {
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(RentOfferStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
+
+    /**
+     * PUT  /offers/{id}/increment/phone-views : increment phone views.
+     *
+     * @param id the offer id
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
+    public ResponseEntity<List<String>> incrementPhoneViews(@PathVariable String id) {
+        log.debug("REST request to increment phone views");
+        offerService.incrementPhoneViews(id);
+        Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
+        return new ResponseEntity(phoneNumbers, HttpStatus.OK);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -428,19 +443,7 @@ public class RentOfferEndpoint {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * PUT  /offers/{id}/increment/phone-views : increment phone views.
-     *
-     * @param id the offer id
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @RequestMapping(value = "/offers/{id}/increment/phone-views", method = RequestMethod.PUT)
-    public ResponseEntity<List<String>> incrementPhoneViews(@PathVariable String id) {
-        log.debug("REST request to increment phone views");
-        offerService.incrementPhoneViews(id);
-        Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
-        return new ResponseEntity(phoneNumbers, HttpStatus.OK);
-    }
+
 
 
     /**

@@ -169,17 +169,17 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         getRepository().create(rentOffer);
     }
 
-  //  @Override
+    //  @Override
     private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
         getRepository().update(null);
     }
 
-  //  @Override
+    //  @Override
     private void deleteById(String rentObjectId) {
         getRepository().deleteById(rentObjectId);
     }
 
-//    @Override
+    //    @Override
     private List<RentOfferViewShortDTO> findAll() {
         List<RentOffer> rentOffers = getRepository().findAll();
         return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
@@ -242,6 +242,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
+
     @Override
     public Optional<RentOfferViewDetailsDTO> findOne(String id) {
         log.debug("Request to get Offer : {}", id);
@@ -251,6 +252,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         }
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
+
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
         if (offerFilter.getRentOfferAuthorFilter() != null) {
@@ -349,7 +351,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public void incrementPhoneViews(String id) {
-
+        RentOffer offer = offerRepository.findOne(id);
+        offer.incrementView(false, true);
+        offerRepository.save(offer);
     }
 
     @Override
@@ -389,7 +393,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public Boolean isCanUpdateStatus(String id, RentOfferStatus status) {
         RentOffer offer = offerRepository.findOne(id);
         Boolean fromStatus = (offer.getStatus() == RentOfferStatus.ACTIVE || offer.getStatus() == RentOfferStatus.DEACTIVATED);
-        Boolean toStatus = (status ==  RentOfferStatus.ACTIVE || status == RentOfferStatus.DEACTIVATED || status == RentOfferStatus.ARCHIVED);
+        Boolean toStatus = (status == RentOfferStatus.ACTIVE || status == RentOfferStatus.DEACTIVATED || status == RentOfferStatus.ARCHIVED);
         return fromStatus && toStatus;
     }
 
@@ -416,7 +420,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
-        return null;
+        RentOffer offer = offerRepository.findOne(offerId);
+        return offer.getContactInfo().getPhoneNumbers();
     }
 
     @Override
@@ -445,7 +450,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         result |= offerUpdateDTO.getDescription() != null;
         if (offerUpdateDTO.getImages() != null) {
             for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
-               // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+                // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
             }
         }
         result |= offerUpdateDTO.getAddress() != null;
@@ -462,8 +467,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
 
-
-    private void saveOfferImages(List<String> offerImageIds,String iamge /*List<OfferImageDTO> offerImageDTOS*/, String seoURL) {
+    private void saveOfferImages(List<String> offerImageIds, String iamge /*List<OfferImageDTO> offerImageDTOS*/, String seoURL) {
 
     }
 
@@ -473,13 +477,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 final RentOfferCurrency currency = moneyFilter.getCurrency();
                 if (moneyFilter.getFrom() != null) {
                     //final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
-                  //  moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
+                    //  moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
                 }
                 if (moneyFilter.getTo() != null) {
-                //    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
-                  //  moneyFilter.setTo(toInBaseCurrency.doubleValue());
+                    //    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
+                    //  moneyFilter.setTo(toInBaseCurrency.doubleValue());
                 }
-              //  moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
+                //  moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
             }
         }
     }
