@@ -57,8 +57,6 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
     @Deprecated
     boolean hasPermissionForUpdate(String offerId, String authrorId);
 
-    void updateActiveOffersBasePrice();
-
     Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status);
 
     Boolean isCanUpdateStatus(String id, RentOfferStatus status);

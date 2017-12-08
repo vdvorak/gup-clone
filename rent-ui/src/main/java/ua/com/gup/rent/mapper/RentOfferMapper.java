@@ -19,6 +19,7 @@ import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.*;
 import ua.com.gup.rent.util.RentDateUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
@@ -33,14 +34,14 @@ import java.util.stream.Collectors;
 @Component
 public class RentOfferMapper {
 
-  /*  @Autowired
-    private RentOfferPriceMapper priceMapper;*/
+    @Autowired
+    private RentOfferPriceMapper priceMapper;
 
-  /*  @Autowired
-    private AddressMapper addressMapper;*/
+    @Autowired
+    private RentOfferAddressMapper addressMapper;
 
-   /* @Autowired
-    private OfferContactInfoMapper contactInfoMapper;*/
+    @Autowired
+    private RentOfferContactInfoMapper contactInfoMapper;
 
     @Autowired
     private RentOfferAuthorMapper authorMapper;
@@ -73,20 +74,20 @@ public class RentOfferMapper {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
         //todo vdvorak
-        /*if (source.getAddress() != null) {
+        if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
-        }*/
+        }
         /*if (source.getImages() != null && source.getImages().size() > 0) {
             List<String> imageIds = new LinkedList<>();
             source.getImages().forEach(i -> imageIds.add(i.getImageId()));
             target.setImageIds(imageIds);
         }*/
-        /*if (source.getYoutubeVideoId() != null) {
+        if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
-        }*/
-       /* if (source.getContactInfo() != null) {
+        }
+        if (source.getContactInfo() != null) {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
-        }*/
+        }
     }
 
     public void offerModeratorDTOToOffer(RentOfferModerationReportDTO source, RentOffer target) {
@@ -132,24 +133,23 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setBoolAttrs(offer.getBoolAttrs());
         offerViewDetailsDTO.setStatus(offer.getStatus());
 
-        //todo vdvorak check
-
-        //offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
+        offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         if (offer.getPrice() != null) {
             RentOfferPriceDTO priceDTO = new RentOfferPriceDTO();
+            //todo vdvorak check
           //  priceMapper.moneyToMoneyDTO(offer.getRentOfferPrice(), priceDTO);
             offerViewDetailsDTO.setPrice(priceDTO);
         }
-        //offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
+        offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
         
         //owner ? doesn't hide phone number : hide phone number
-       /* boolean hidePhoneNumber =   !RentSecurityUtils.isAuthenticated() || !(RentSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
-        offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));*/
+        boolean hidePhoneNumber =   !RentSecurityUtils.isAuthenticated() || !(RentSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
+        offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
         
-        /*offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
+        offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
-        }*/
+        }
 
         return offerViewDetailsDTO;
     }
@@ -223,9 +223,9 @@ public class RentOfferMapper {
         }
 
         //todo, vdvorak
-        /*if (source.getAddress() != null) {
+        if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
-        }*/
+        }
 
         /*if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));

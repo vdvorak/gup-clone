@@ -29,6 +29,7 @@ import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
 import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.enumeration.RentOfferUserRole;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
@@ -108,7 +109,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Autowired
     private RentOfferCategoryService categoryService;
 
-    public RentOfferServiceImpl(@Autowired ua.com.gup.rent.repository.rent.RentOfferRepository rentOfferRepository) {
+    public RentOfferServiceImpl(@Autowired RentOfferRepository rentOfferRepository) {
         super(rentOfferRepository);
     }
 
@@ -122,7 +123,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 .path("/api");
 
     }
-//-----------------------from UI OFFER  copy past -----------------------------------------------------------------------------------------
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
@@ -131,6 +131,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
         //todo vdvorak  save image
         // saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        create(rentOfferCreateDTO);
 
         RentOffer offer = offerMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
         offer.setStatus(RentOfferStatus.ON_MODERATION);
@@ -311,16 +312,41 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         return offerRepository.exists(id);
     }
 
+    /**
+     * Returns whether an entity can be updated by current user.
+     *
+     * @param offerId must not be {@literal null}.
+     * @return true if an user has permission for update, {@literal false} otherwise
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
     @Override
-    public boolean hasPermissionForUpdate(String offerId, String authrorId) {
+    @Deprecated
+    public boolean hasPermissionForUpdate(String offerId, String authorId) {
+        Optional<RentOffer> offer = null;
+        if (offerId != null && authorId != null) {
+            offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
+        } else if (offer != null) {
+            offer = Optional.ofNullable(offerRepository.findOne(offerId));
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("Request has permission for update offer : {}", offer);
+        }
+
+        if (offer != null && offer.get() != null && RentSecurityUtils.isAuthenticated()) {
+            String currentUserID = RentSecurityUtils.getCurrentUserId();
+            Set<RentOfferStatus> statuses = new HashSet<>();
+            statuses.addAll(Arrays.asList(RentOfferStatus.ACTIVE, RentOfferStatus.DEACTIVATED, RentOfferStatus.REJECTED, RentOfferStatus.ARCHIVED));
+            //if current user owner offer
+            if ((offer.get().getAuthorId() == currentUserID && statuses.contains(offer.get().getStatus()))) {
+                return true;
+            }
+            //if current user it's moderator(admin role)
+            if (RentSecurityUtils.isCurrentUserInRole(RentOfferUserRole.ROLE_MODERATOR) && offer.get().getStatus() == RentOfferStatus.ON_MODERATION) {
+                return true;
+            }
+        }   //access denied
         return false;
     }
-
-    @Override
-    public void updateActiveOffersBasePrice() {
-
-    }
-
     @Override
     public Optional<RentOfferViewDetailsDTO> updateStatus(String id, RentOfferStatus status) {
         log.debug("Request to update update rent offer's status : {}", id);
@@ -435,8 +461,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     //------------------------------------------------------------------------------ method
-    private void create(RentOfferCreateDTO target) {
-        RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
+    private void create(RentOfferCreateDTO target, RentOffer rentOffer) {
+       // RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
         MultipartFile[] files = target.getImages();
         //if images exists save it's async
         if (files != null && files.length > 0) {
@@ -495,4 +521,3 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
     }
 }
-
