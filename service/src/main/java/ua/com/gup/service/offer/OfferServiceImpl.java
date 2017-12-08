@@ -1,6 +1,8 @@
 package ua.com.gup.service.offer;
 
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.dto.offer.*;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
@@ -55,7 +56,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
+import ua.com.gup.common.model.FileInfo;
+import ua.com.gup.common.model.FileType;
+import ua.com.gup.common.service.FileStorageService;
+import ua.com.gup.common.util.ImageScaleUtil;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
+import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.LARGE;
+import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.MEDIUM;
 
 /**
  * Service Implementation for managing Offer.
@@ -81,6 +92,8 @@ public class OfferServiceImpl implements OfferService {
     private CategoryService categoryService;
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private FileStorageService fileStorageService;
 
 
     //-------------------- OLD -----------------------------//
@@ -104,13 +117,16 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
-        saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(OfferStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = SecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
-        offer.setAuthorId(userID);
+        offer.setAuthorId(userID);       
+       
+        processImages(offer, offerCreateDTO.getImages(), null);
+        
         offer = offerRepository.save(offer);
         OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -126,7 +142,7 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
         Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
-        saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+        processImages(offer, offerUpdateDTO.getImages(), offerUpdateDTO.getDeletedImagesIds());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
         offer.setLastModifiedDate(ZonedDateTime.now());
@@ -450,10 +466,10 @@ public class OfferServiceImpl implements OfferService {
      * @param sizeType the size type of image
      * @return the entity
      */
-    @Override
-    public FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType) {
-        return imageService.findOne(id, sizeType);
-    }
+//    @Override
+//    public FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType) {
+//        return imageService.findOne(id, sizeType);
+//    }
 
     /**
      * Get one offer categories by search word.
@@ -505,11 +521,7 @@ public class OfferServiceImpl implements OfferService {
         result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
-        if (offerUpdateDTO.getImages() != null) {
-            for (OfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
-                result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-            }
-        }
+        result |= (offerUpdateDTO.getImages() != null && !offerUpdateDTO.getImages().isEmpty()) ;
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation
@@ -523,36 +535,84 @@ public class OfferServiceImpl implements OfferService {
         return result;
     }
 
-
-    /**
-     * Get offer image by id and size type.
-     *
-     * @param offerImageIds  the ids of persisted images
-     * @param offerImageDTOS the image dtos to persist or update
-     * @param seoURL         the seo URL for name creation
-     * @return the entity
-     */
-    private void saveOfferImages(List<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
-        if (offerImageIds == null) {
-            offerImageIds = new LinkedList<>();
-        }
-        if (offerImageDTOS == null) {
-            return;
-        }
-        for (OfferImageDTO offerImageDTO : offerImageDTOS) {
-            if (!StringUtils.isEmpty(offerImageDTO.getImageId()) && offerImageIds.contains(offerImageDTO.getImageId())) {
-                imageService.deleteOfferImage(offerImageDTO.getImageId());
-            }
-            if (offerImageDTO.getBase64Data() != null) {
-                final String id = imageService.saveOfferImage(offerImageDTO, seoURL);
-                if (!StringUtils.isEmpty(id)) {
-                    offerImageDTO.setImageId(id);
+    private Offer processImages(Offer offer, List<MultipartFile> newImages, List<String> deleteImageIds){
+        //delete images by IDs
+        List<OfferImage> images = deleteOfferImages(offer.getImages(), deleteImageIds);
+        offer.setImages(images);
+        
+        //add new images
+        List<OfferImage> saveOfferImages = saveOfferImages(newImages);
+        offer.getImages().addAll(saveOfferImages);
+        return offer;
+    }
+    
+    private List<OfferImage> deleteOfferImages(List<OfferImage> images, List<String> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            for (int i = 0; i < images.size(); i++) {
+                OfferImage offerImage = images.get(i);
+                if (ids.contains(offerImage.getId())) {
+                    for (FileInfo fileInfo : offerImage.getImages().values()) {
+                        fileStorageService.delete(fileInfo);
+                    }
+                    images.remove(i);
+                    i--;
                 }
             }
         }
-        offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
-        offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+        return images;
     }
+    private List<OfferImage> saveOfferImages(List<MultipartFile> files) {
+        if (files == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<OfferImage> images = new ArrayList<>(files.size());
+        for (MultipartFile file : files) {
+            try {
+                String extension = file.getContentType().split("/")[1];
+                BufferedImage inputImage = ImageIO.read(file.getInputStream());
+                
+                OfferImage offerImage = new OfferImage();
+                offerImage.setId(UUID.randomUUID().toString());
+                
+                Map<OfferImageSizeType, FileInfo> map = new HashMap<>();
+                byte[] largeImage = convertImage(inputImage, OfferImageSizeType.LARGE, extension);
+                FileInfo info = fileStorageService.save(OfferImageSizeType.LARGE+"_"+file.getOriginalFilename(), FileType.IMAGE, largeImage);
+                map.put(OfferImageSizeType.LARGE, info);
+                
+                byte[] mediumImage = convertImage(inputImage, OfferImageSizeType.MEDIUM, extension);
+                info = fileStorageService.save(OfferImageSizeType.MEDIUM+"_"+file.getOriginalFilename(), FileType.IMAGE, mediumImage);
+                map.put(OfferImageSizeType.LARGE, info);
+                
+                byte[] smallImage = convertImage(inputImage, OfferImageSizeType.SMALL, extension);
+                info = fileStorageService.save(OfferImageSizeType.SMALL+"_"+file.getOriginalFilename(), FileType.IMAGE, smallImage);
+                map.put(OfferImageSizeType.LARGE, info);
+                
+                offerImage.setImages(map);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(OfferServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
+        return images;
+    }
+    
+     private byte[] convertImage(BufferedImage srcImage, OfferImageSizeType size, String extension) throws IOException {
+        BufferedImage image = null;
+        switch (size) {
+            case LARGE:
+                image = ImageScaleUtil.largeBufferedImageOfferPreparator(srcImage);
+                break;
+            case MEDIUM:
+                image = ImageScaleUtil.mediumBufferedImageOfferPreparator(srcImage);
+                break;
+            case SMALL:
+                image = ImageScaleUtil.smallBufferedImageOfferPreparator(srcImage);
+                break;
+        }        
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(image, extension, os);
+        return os.toByteArray();
+    }
+    
 
     private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
         if (moneyFilter != null) {
