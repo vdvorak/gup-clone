@@ -24,6 +24,9 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 30)
     private Integer category;
 
+    @ApiModelProperty(position = 40)
+    private RentOfferAddressDTO address;
+
     @ApiModelProperty(position = 60, example = "ret price")
     private RentOfferPriceDTO price;
 
@@ -32,6 +35,12 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 80, example = "rent  period")
     private RentOfferPeriodDTO period;
+
+    @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
+    private String youtubeVideoId;
+
+    @ApiModelProperty(position = 105)
+    private RentOfferContactInfoDTO contactInfo;
 
     @ApiModelProperty(position = 110, value = "{'color': 'Black', 'size':'XL'}")
     private Map<String, String> attrs = new HashMap<>();
@@ -45,12 +54,23 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 130, value = "{'used': true, 'mediator':false}")
     private Map<String, Boolean> boolAttrs = new HashMap<>();
 
+    @ApiModelProperty(position = 140)
+    private RentOfferLandsDTO lands;
+
     public Integer getCategory() {
         return category;
     }
 
     public void setCategory(Integer category) {
         this.category = category;
+    }
+
+    public RentOfferAddressDTO getAddress() {
+        return address;
+    }
+
+    public void setAddress(RentOfferAddressDTO address) {
+        this.address = address;
     }
 
     public RentOfferPriceDTO getPrice() {
@@ -75,6 +95,22 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     public void setPeriod(RentOfferPeriodDTO period) {
         this.period = period;
+    }
+
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
+    }
+
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
+    }
+
+    public RentOfferContactInfoDTO getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(RentOfferContactInfoDTO contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public Map<String, String> getAttrs() {
@@ -107,5 +143,13 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
         this.boolAttrs = boolAttrs;
+    }
+
+    public RentOfferLandsDTO getLands() {
+        return lands;
+    }
+
+    public void setLands(RentOfferLandsDTO lands) {
+        this.lands = lands;
     }
 }

@@ -184,20 +184,22 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
-
     /**
-     * GET  /offers/:seoUrl : get the "seoUrl" offer.
+     * GET  /offers/:seoUrl : get the "seoUrl" rent offer.
      *
-     * @param seoUrl the seoUrl of the OfferDetailsDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the OfferDetailsDTO, or with status 404 (Not Found)
+     * @param seoUrl the seoUrl of the RentOfferDetailsDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the RentOfferDetailsDTO, or with status 404 (Not Found)
      */
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
-        log.debug("REST request to get Offer : {}", seoUrl);
+        log.debug("REST request to get Rent Offer : {}", seoUrl);
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
+
+//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
+
+
 
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -417,7 +419,7 @@ public class RentOfferEndpoint {
     }
 
     /**
-     * GET  /offers/image/{id} : get offer image by id.
+     * GET  /offers/image/{id} : get rent offer image by id.
      *
      * @param id the offer status
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body

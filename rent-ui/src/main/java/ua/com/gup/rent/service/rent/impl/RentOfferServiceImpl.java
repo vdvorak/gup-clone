@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,13 +48,16 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerat
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.rent.image.RentOfferPostImageResponse;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
+import ua.com.gup.rent.util.RentCompletableFutureUtil;
 import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -62,14 +66,13 @@ import java.util.stream.Collectors;
 @Service
 public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
 
-    private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
     private static final String RENT_OFFER_SEQUENCE_ID = "rent_offer_sequence";
-
+    private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
     @Autowired
     private Environment e;
 
     @Autowired
-    private RentOfferMapper rentOfferMapper;
+    private RentOfferMapper offerMapper;
 
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
@@ -86,13 +89,17 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private RentOfferProfileRepository profileRepository;
 
     @Autowired
-    private RentOfferRepositoryCustom rentOfferRepositoryCustom;
+    private RentOfferRepositoryCustom offerRepositoryCustom;
 
     @Autowired
-    private RentOfferRepositoryCRUD rentOfferRepositoryCRUD;
+    private RentOfferRepositoryCRUD offerRepository;
 
     @Autowired
-    private RentSequenceService rentSequenceService;
+    private RentSequenceService sequenceService;
+
+    public RentOfferServiceImpl(@Autowired RentOfferRepository rentOfferRepository) {
+        super(rentOfferRepository);
+    }
 
     @PostConstruct
     public void initialize() {
@@ -105,18 +112,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     }
 
-    public RentOfferServiceImpl(@Autowired RentOfferRepository rentOfferRepository) {
-        super(rentOfferRepository);
-    }
-
-
     private void handleMultipartFile() {
 
     }
 
-    @Override
-    public void create(RentOfferCreateDTO target) {
-        RentOffer rentOffer = rentOfferMapper.fromCreateDTOToRentObject(target);
+    //   @Override
+    private void create(RentOfferCreateDTO target) {
+        RentOffer rentOffer = offerMapper.fromCreateDTOToRentObject(target);
         MultipartFile[] files = target.getImages();
         //if images exists save it's async
         if (files != null && files.length > 0) {
@@ -135,14 +137,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
                 LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
 
                 Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(multipartFile.getOriginalFilename());
-              //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
                 multipartRequest.add("image", new FileSystemResource(path.toString()));
 
                 HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, commonHeader);
 
-                CompletableFuture<ResponseEntity<RentOfferPostImageResponse>> completableFuture =
-                        ua.com.gup.rent.util.RentCompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(uriComponents.toUri(), requestEntity, RentOfferPostImageResponse.class));
+                CompletableFuture<ResponseEntity<RentOfferPostImageResponse>> completableFuture = RentCompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(uriComponents.toUri(), requestEntity, RentOfferPostImageResponse.class));
 
                 completableFuture.whenCompleteAsync(((responseEntity, throwable) -> {
                     RentOfferPostImageResponse response = responseEntity.getBody();
@@ -163,52 +164,73 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         getRepository().create(rentOffer);
     }
 
-    @Override
-    public void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
+  //  @Override
+    private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
         getRepository().update(null);
     }
-    @Override
-    public void deleteById(String rentObjectId) {
+
+  //  @Override
+    private void deleteById(String rentObjectId) {
         getRepository().deleteById(rentObjectId);
     }
 
-    @Override
-    public List<RentOfferViewShortDTO> findAll() {
+//    @Override
+    private List<RentOfferViewShortDTO> findAll() {
         List<RentOffer> rentOffers = getRepository().findAll();
-        return rentOffers.stream().map(rentOffer -> rentOfferMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
+        return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
+    }
+
+//-----------------------from UI OFFER  copy past -----------------------------------------------------------------------------------------
+
+    @Override
+    public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
+        log.debug("Request to save Offer : {}", rentOfferCreateDTO);
+        String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
+
+        //todo vdvorak  save image
+        // saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+
+        RentOffer offer = offerMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
+        offer.setStatus(RentOfferStatus.ON_MODERATION);
+        offer.setSeoUrl(seoURL);
+        String userID = RentSecurityUtils.getCurrentUserId();
+        offer.setLastModifiedBy(userID);
+        offer.setAuthorId(userID);
+        offer = offerRepository.save(offer);
+        RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
     }
 
     @Override
-    public Optional<RentOfferViewDetailsDTO> findOne(String id) {
-        return null;
+    public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
+        log.debug("Request to save Offer : {}", offerUpdateDTO);
+        RentOffer offer = offerRepository.findOne(offerUpdateDTO.getId());
+
+        //todo vdvorak  save image
+        //saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+
+        offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
+        offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
+        offer.setLastModifiedDate(ZonedDateTime.now());
+        // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
+        if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
+            offer.setStatus(OfferStatus.ON_MODERATION);
+        } else {
+            offer.setStatus(OfferStatus.ACTIVE);
+        }
+        offer = offerRepository.save(offer);
+        OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
     }
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO) {
         return null;
     }
-
     @Override
-    public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
-        log.debug("Request to save Offer : {}", rentOfferCreateDTO);
-        String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
-       // saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
-        RentOffer offer = rentOfferMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
-        offer.setStatus(RentOfferStatus.ON_MODERATION);
-        offer.setSeoUrl(seoURL);
-        String userID = RentSecurityUtils.getCurrentUserId();
-       // offer.setLastModifiedBy(userID);
-        offer.setAuthorId(userID);
-        offer = rentOfferRepositoryCRUD.save(offer);
-        RentOfferViewDetailsDTO result = rentOfferMapper.offerToOfferDetailsDTO(offer);
-        return result;
-    }
-
-    @Override
-    public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
+    public Optional<RentOfferViewDetailsDTO> findOne(String id) {
         return null;
     }
-
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
         if (offerFilter.getRentOfferAuthorFilter() != null) {
@@ -218,13 +240,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         }
         log.debug("Request to get all Offers by filter  {} ", offerFilter);
         //calculatePriceInBaseCurrency(offerFilter.getPrice());
-        long count = rentOfferRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
+        long count = offerRepositoryCustom.countByFilter(offerFilter, RentOfferStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
-            offers = rentOfferRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
+            offers = offerRepositoryCustom.findByFilter(offerFilter, RentOfferStatus.ACTIVE, pageable);
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
-        return result.map(offer -> rentOfferMapper.offerToOfferShortDTO(offer));
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
 
     @Override
@@ -322,9 +344,84 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         return (RentOfferRepository) super.getRepository();
     }
 
+
+//----------------------------------------------private method -----------------------------------------------------------------------------
+
     private String generateUniqueSeoUrl(String title) {
         // index number in 36 radix
-        return RentOfferSEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(rentSequenceService.getNextSequenceValue(RENT_OFFER_SEQUENCE_ID), 36));
+        return RentOfferSEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(sequenceService.getNextSequenceValue(RENT_OFFER_SEQUENCE_ID), 36));
+    }
+
+    private boolean isNeededModeration(RentOfferUpdateDTO offerUpdateDTO) {
+        boolean result = false;
+
+        result |= offerUpdateDTO.getCategory() != null;
+        result |= offerUpdateDTO.getTitle() != null;
+        result |= offerUpdateDTO.getDescription() != null;
+        if (offerUpdateDTO.getImages() != null) {
+            /*for (RentOfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
+                result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+            }*/
+        }
+        result |= offerUpdateDTO.getAddress() != null;
+
+        // price can be change without moderation
+
+        result |= offerUpdateDTO.getContactInfo() != null;
+        result |= offerUpdateDTO.getAttrs() != null;
+        result |= offerUpdateDTO.getMultiAttrs() != null;
+        result |= offerUpdateDTO.getNumAttrs() != null;
+        result |= offerUpdateDTO.getBoolAttrs() != null;
+
+        return result;
+    }
+
+
+    /**
+     * Get offer image by id and size type.
+     *
+     * @param offerImageIds  the ids of persisted images
+     * @param offerImageDTOS the image dtos to persist or update
+     * @param seoURL         the seo URL for name creation
+     * @return the entity
+     */
+    private void saveOfferImages(List<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
+        if (offerImageIds == null) {
+            offerImageIds = new LinkedList<>();
+        }
+        if (offerImageDTOS == null) {
+            return;
+        }
+        for (OfferImageDTO offerImageDTO : offerImageDTOS) {
+            if (!StringUtils.isEmpty(offerImageDTO.getImageId()) && offerImageIds.contains(offerImageDTO.getImageId())) {
+                imageService.deleteOfferImage(offerImageDTO.getImageId());
+            }
+            if (offerImageDTO.getBase64Data() != null) {
+                final String id = imageService.saveOfferImage(offerImageDTO, seoURL);
+                if (!StringUtils.isEmpty(id)) {
+                    offerImageDTO.setImageId(id);
+                }
+            }
+        }
+        offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
+        offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+    }
+
+    private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
+        if (moneyFilter != null) {
+            if (moneyFilter.getCurrency() != null) {
+                final Currency currency = moneyFilter.getCurrency();
+                if (moneyFilter.getFrom() != null) {
+                    final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
+                    moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
+                }
+                if (moneyFilter.getTo() != null) {
+                    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
+                    moneyFilter.setTo(toInBaseCurrency.doubleValue());
+                }
+                moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
+            }
+        }
     }
 }
 
