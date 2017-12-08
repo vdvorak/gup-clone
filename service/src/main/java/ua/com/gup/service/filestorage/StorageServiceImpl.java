@@ -103,7 +103,7 @@ public class StorageServiceImpl implements StorageService {
             
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             BufferedImage large = ImageScaleUtil.largeBufferedImageProfilePreparator(inputImage);            
-            ImageIO.write(large, extension, os);
+            ImageIO.write(large, extension, os);            
             FileInfo info = storageService.save("large_"+file.getOriginalFilename(), FileType.IMAGE, os.toByteArray());
             profile.setImageLarge((ImageFileInfo) info);
             
