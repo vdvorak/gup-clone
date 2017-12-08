@@ -71,6 +71,7 @@ public class RentOfferMapper {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
+        //todo vdvorak
         /*if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }*/
@@ -130,7 +131,7 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setBoolAttrs(offer.getBoolAttrs());
         offerViewDetailsDTO.setStatus(offer.getStatus());
 
-        //todo vdvorak check 
+        //todo vdvorak check
 
         //offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         if (offer.getPrice() != null) {
@@ -154,6 +155,7 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewShortDTO(RentOffer source, RentOfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
+        //todo vdvorak
        // target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
         /*if (source.getRentOfferPrice() != null) {
             RentOfferPriceShortDTO priceDTO = new RentOfferPriceShortDTO();
@@ -187,6 +189,7 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewBaseDTO(RentOffer source, RentOfferViewBaseDTO target) {
         target.setId(source.getId());
+        //todo vdvorak
        // target.setLastModifiedDate(source.getLastModifiedDate());
         target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         if (source.getCategories() != null) {
@@ -194,6 +197,7 @@ public class RentOfferMapper {
         }
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
+        //todo vdvorak
         /*if (source.getImageIds() != null && source.getImageIds().size() > 0) {
             LinkedList<String> imageIds = new LinkedList<String>();
             source.getImageIds().forEach(i -> imageIds.add(i));
@@ -217,6 +221,7 @@ public class RentOfferMapper {
             target.setDescription(source.getDescription());
         }
 
+        //todo, vdvorak
         /*if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }*/
