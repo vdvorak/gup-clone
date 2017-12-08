@@ -73,6 +73,8 @@ public class RentOfferEndpoint {
         }
     }
 
+//-----------------------------------------------------NEW URL FROM----------------------------------------------------------
+
    /*
 
     @RequestMapping(method = RequestMethod.GET)
@@ -110,7 +112,42 @@ public class RentOfferEndpoint {
 
 */
 
-//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -----------------------------------------//
+    @ApiOperation(
+            value = "Get all the offers by filter",
+            notes = "List all offer using paging",
+            response = RentOfferViewShortDTO.class,
+            responseContainer = "List"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful retrieval of user detail", response = RentOfferViewShortDTO.class),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported. " +
+                            "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
+    })
+    /**
+     * GET  /offers : get all the offers by filter.
+     *
+     * @param offerFilter the offer filter
+     * @param pageable    the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
+     */
+    @RequestMapping(value = "/offers", method = RequestMethod.GET)
+    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+        log.debug("REST request to get a page of Offers");
+        Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
     /**
      * POST  /offers : Create a new Rent offer.
@@ -271,41 +308,6 @@ public class RentOfferEndpoint {
         log.debug("REST request to delete Offer : {}", id);
         offerService.delete(id);
         return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
-
-    @ApiOperation(
-            value = "Get all the offers by filter",
-            notes = "List all offer using paging",
-            response = RentOfferViewShortDTO.class,
-            responseContainer = "List"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful retrieval of user detail", response = RentOfferViewShortDTO.class),
-            @ApiResponse(code = 500, message = "Internal server error")
-    })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
-                    value = "Results page you want to retrieve (0..N)"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-                    value = "Number of records per page."),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                    value = "Sorting criteria in the format: property(,asc|desc). " +
-                            "Default sort order is ascending. " +
-                            "Multiple sort criteria are supported. " +
-                            "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
-    })
-    /**
-     * GET  /offers : get all the offers by filter.
-     *
-     * @param offerFilter the offer filter
-     * @param pageable    the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @RequestMapping(value = "/offers", method = RequestMethod.GET)
-    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
-        log.debug("REST request to get a page of Offers");
-        Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @ApiOperation(

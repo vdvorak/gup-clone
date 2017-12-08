@@ -211,7 +211,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
-        //set authorId by exists publicId for OfferFilter
         if (offerFilter.getRentOfferAuthorFilter() != null) {
             if (offerFilter.getRentOfferAuthorFilter().getPublicId() != null && offerFilter.getRentOfferAuthorFilter().getAuthorId() == null) {
                 offerFilter.getRentOfferAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getRentOfferAuthorFilter().getPublicId().trim()).getId());
