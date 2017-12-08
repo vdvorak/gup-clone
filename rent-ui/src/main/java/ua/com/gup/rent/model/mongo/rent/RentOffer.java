@@ -39,7 +39,7 @@ public class RentOffer {
 
     private RentOfferStatus status;
 
-    private RentOfferPrice rentOfferPrice;
+    private RentOfferPrice price;
 
     private List<RentOfferImageInfo> images;
 
@@ -118,12 +118,12 @@ public class RentOffer {
         this.status = status;
     }
 
-    public RentOfferPrice getRentOfferPrice() {
-        return rentOfferPrice;
+    public RentOfferPrice getPrice() {
+        return price;
     }
 
-    public void setRentOfferPrice(RentOfferPrice rentOfferPrice) {
-        this.rentOfferPrice = rentOfferPrice;
+    public void setPrice(RentOfferPrice price) {
+        this.price = price;
     }
 
     public String getAuthorId() {
