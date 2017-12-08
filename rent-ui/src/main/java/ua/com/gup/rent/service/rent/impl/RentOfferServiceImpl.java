@@ -352,7 +352,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Optional<List<RentOfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd) {
-        return null;
+        Optional<RentOffer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offerOptional.isPresent()) {
+            RentOffer offer = offerOptional.get();
+            return Optional.of(offer.getStatistic())
+                    .map(o -> offerMapper.offerStatisticToOfferStatisticDTO(o, offer.getCreatedDate().toLocalDate(), dateStart, dateEnd));
+        }
+        return Optional.empty();
     }
 
     @Override

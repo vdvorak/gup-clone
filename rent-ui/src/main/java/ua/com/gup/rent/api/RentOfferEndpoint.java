@@ -141,7 +141,7 @@ public class RentOfferEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
     @RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page> getAllOffersByFilter(@RequestParam  RentOfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<Page> getAllOffersByFilter(@RequestParam RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -215,8 +215,20 @@ public class RentOfferEndpoint {
     }
 
 
-//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
+    @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<RentOfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
+                                                                                       @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
+                                                                                       @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
 
+        log.debug("REST request to get Rent Offer viewStatistic by seoUrl : {}", seoUrl);
+        LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dateEnd = Instant.ofEpochMilli(dateEndInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
+
+        Optional<List<RentOfferStatisticByDateDTO>> statistic = offerService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
+        return RentResponseUtil.wrapOrNotFound(statistic);
+    }
+
+//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
@@ -234,20 +246,6 @@ public class RentOfferEndpoint {
         log.debug("REST request to get Offer by ID : {}", id);
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
-    }
-
-
-    @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RentOfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,
-                                                                                       @RequestParam("dateStart") Long dateStartInMillisWithTimezone,
-                                                                                       @RequestParam("dateEnd") Long dateEndInMillisWithTimezone) {
-
-        log.debug("REST request to get Offer viewStatistic by seoUrl : {}", seoUrl);
-        LocalDate dateStart = Instant.ofEpochMilli(dateStartInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate dateEnd = Instant.ofEpochMilli(dateEndInMillisWithTimezone).atZone(ZoneId.systemDefault()).toLocalDate();
-
-        Optional<List<RentOfferStatisticByDateDTO>> statistic = offerService.findOfferStatisticBySeoUrlAndDateRange(seoUrl, dateStart, dateEnd);
-        return RentResponseUtil.wrapOrNotFound(statistic);
     }
 
     @ApiImplicitParams({
