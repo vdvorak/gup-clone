@@ -30,12 +30,13 @@ import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
+import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
-import ua.com.gup.rent.repository.rent.RentOfferRepository;
-import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCRUD;
+import ua.com.gup.rent.repository.rent.offer.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
+import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
@@ -92,12 +93,15 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private RentOfferRepositoryCustom offerRepositoryCustom;
 
     @Autowired
-    private RentOfferRepositoryCRUD offerRepository;
+    private RentOfferRepository offerRepository;
 
     @Autowired
     private RentSequenceService sequenceService;
 
-    public RentOfferServiceImpl(@Autowired RentOfferRepository rentOfferRepository) {
+    @Autowired
+    private RentOfferCategoryService categoryService;
+
+    public RentOfferServiceImpl(@Autowired ua.com.gup.rent.repository.rent.RentOfferRepository rentOfferRepository) {
         super(rentOfferRepository);
     }
 
@@ -306,7 +310,28 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable) {
-        return null;
+        Optional<RentOffer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        if (offerOptional.isPresent()) {
+            final RentOffer offer = offerOptional.get();
+            StringBuilder search = new StringBuilder();
+
+            List<RentOfferCategory> categories = categoryService.findByCodeInOrderByCodeAsc(offer.getCategories());
+            for (RentOfferCategory category : categories) {
+                final Map<String, String> titles = category.getTitle();
+                for (String lang : titles.keySet()) {
+                    search.append(titles.get(lang) + " ");
+                    break;
+                }
+            }
+
+            search.append(offer.getTitle());
+            RentOfferFilter filter = new RentOfferFilter();
+            filter.setQuery(search.toString());
+            Page<RentOffer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, RentOfferStatus.ACTIVE, offer.getId(), pageable));
+            return result.map(o -> offerMapper.offerToOfferShortDTO(o));
+
+        }
+        return new PageImpl<>(new ArrayList<>());
     }
 
     @Override
@@ -377,8 +402,8 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    protected RentOfferRepository getRepository() {
-        return (RentOfferRepository) super.getRepository();
+    protected ua.com.gup.rent.repository.rent.RentOfferRepository getRepository() {
+        return (ua.com.gup.rent.repository.rent.RentOfferRepository) super.getRepository();
     }
 
 

@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Repository for the offer entity.
  */
-public interface RentOfferRepositoryCRUD extends MongoRepository<RentOffer, String> {
+public interface RentOfferRepository extends MongoRepository<RentOffer, String> {
 
     Optional<RentOffer> findOneBySeoUrl(String seoUrl);
 

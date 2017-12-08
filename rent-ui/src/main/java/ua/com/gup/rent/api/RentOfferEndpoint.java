@@ -235,20 +235,6 @@ public class RentOfferEndpoint {
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
-//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
-
-
-    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
-    @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
-        String authorId = RentSecurityUtils.getCurrentUserId();
-        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
-        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
-    }
-
-
-
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
@@ -274,6 +260,22 @@ public class RentOfferEndpoint {
         Page<RentOfferViewShortDTO> page = offerService.findRelevantBySeoUrl(seoUrl, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+//-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
+
+
+    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
+    @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
+        String authorId = RentSecurityUtils.getCurrentUserId();
+        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
+
+
+
+
+
 
 
     /**
