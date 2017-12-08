@@ -11,16 +11,13 @@ public class RentUiApplication {
         SpringApplication.run(new Object[]{
                 RentWebConfig.class,
                 RentSwaggerConfig.class,
-                RentRootConfig.class,
                 RentMongoConfig.class,
                 RentRootConfig.class,
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,
                 RentMethodSecurityConfig.class,
-                RestTemplatesConfig.class,
+                RentRestTemplatesConfig.class,
                 RentSessionConfig.class,
-//                RentOAuth2ResourceDefaultServerConfig.class,
-//                RentOAuth2ResourceMongoServerConfig.class,
                 RentUiApplication.class}, args);
     }
 
