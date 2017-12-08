@@ -228,6 +228,13 @@ public class RentOfferEndpoint {
         return RentResponseUtil.wrapOrNotFound(statistic);
     }
 
+
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
+        log.debug("REST request to get Offer by ID : {}", id);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
+    }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 
 
@@ -241,12 +248,7 @@ public class RentOfferEndpoint {
     }
 
 
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
-        log.debug("REST request to get Offer by ID : {}", id);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
-        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
-    }
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
