@@ -26,14 +26,6 @@ import java.util.Optional;
 
 public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, String> {
 
-   // void create(RentOfferCreateDTO rentOfferCreateDTO);
-
-  //  void update(RentOfferUpdateDTO rentOfferUpdateDTO);
-
-  //  void deleteById(String renOfferId);
-
- //   List<RentOfferViewShortDTO> findAll();
-
     Optional<RentOfferViewDetailsDTO> findOne(String id);
 
     RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO);
