@@ -17,14 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.rent.filter.RentOfferFilter;
+import ua.com.gup.rent.filter.RentOfferMoneyFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
+import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
 import ua.com.gup.rent.model.enumeration.RentOfferImageSizeType;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
@@ -359,9 +360,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
         if (offerUpdateDTO.getImages() != null) {
-            /*for (RentOfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
-                result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-            }*/
+            for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
+               // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+            }
         }
         result |= offerUpdateDTO.getAddress() != null;
 
@@ -385,41 +386,23 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
      * @param seoURL         the seo URL for name creation
      * @return the entity
      */
-    private void saveOfferImages(List<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
-        if (offerImageIds == null) {
-            offerImageIds = new LinkedList<>();
-        }
-        if (offerImageDTOS == null) {
-            return;
-        }
-        for (OfferImageDTO offerImageDTO : offerImageDTOS) {
-            if (!StringUtils.isEmpty(offerImageDTO.getImageId()) && offerImageIds.contains(offerImageDTO.getImageId())) {
-                imageService.deleteOfferImage(offerImageDTO.getImageId());
-            }
-            if (offerImageDTO.getBase64Data() != null) {
-                final String id = imageService.saveOfferImage(offerImageDTO, seoURL);
-                if (!StringUtils.isEmpty(id)) {
-                    offerImageDTO.setImageId(id);
-                }
-            }
-        }
-        offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
-        offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+    private void saveOfferImages(List<String> offerImageIds,String iamge /*List<OfferImageDTO> offerImageDTOS*/, String seoURL) {
+
     }
 
-    private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
+    private void calculatePriceInBaseCurrency(RentOfferMoneyFilter moneyFilter) {
         if (moneyFilter != null) {
             if (moneyFilter.getCurrency() != null) {
-                final Currency currency = moneyFilter.getCurrency();
+                final RentOfferCurrency currency = moneyFilter.getCurrency();
                 if (moneyFilter.getFrom() != null) {
-                    final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
-                    moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
+                    //final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
+                  //  moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
                 }
                 if (moneyFilter.getTo() != null) {
-                    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
-                    moneyFilter.setTo(toInBaseCurrency.doubleValue());
+                //    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
+                  //  moneyFilter.setTo(toInBaseCurrency.doubleValue());
                 }
-                moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
+              //  moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
             }
         }
     }

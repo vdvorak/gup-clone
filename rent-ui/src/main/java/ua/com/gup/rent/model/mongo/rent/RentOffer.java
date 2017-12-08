@@ -19,7 +19,6 @@ import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -42,12 +41,12 @@ public class RentOffer {
 
     private String description;
 
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     private String lastModifiedBy;
 
     @Indexed
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     private String authorId;
 
@@ -243,10 +242,6 @@ public class RentOffer {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -255,11 +250,11 @@ public class RentOffer {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
