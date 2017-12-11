@@ -29,7 +29,7 @@ public interface OfferRepositoryCustom {
     
     OfferImage findOfferImage(String offerId, String imageId);
     
-    Boolean isIxestsOfferImage(String offerId, String imageId);
+    Boolean isExistsOfferImage(String offerId, String imageId);
 
     void deleteOfferImage(OfferImage image);
 

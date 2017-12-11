@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
@@ -28,15 +25,10 @@ import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.mongo.composition.domain.category.Category;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.file.FileUploadWrapper;
-import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.MoneyFilter;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
-import ua.com.gup.mongo.model.offer.Image;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
-import ua.com.gup.mongo.model.offer.OfferModerationReport;
-import ua.com.gup.mongo.model.offer.OfferRegistration;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.repository.offer.OfferRepositoryCustom;
@@ -44,11 +36,8 @@ import ua.com.gup.repository.offer.OfferRepositoryOLD;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.currency.CurrencyConverterService;
-import ua.com.gup.service.filestorage.StorageService;
-import ua.com.gup.service.image.ImageService;
 import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
-import ua.com.gup.util.Translit;
 import ua.com.gup.util.security.SecurityUtils;
 
 import java.io.IOException;
@@ -66,7 +55,6 @@ import ua.com.gup.common.util.ImageScaleUtil;
 import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
 import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.LARGE;
-import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.MEDIUM;
 
 /**
  * Service Implementation for managing Offer.
@@ -600,7 +588,7 @@ public class OfferServiceImpl implements OfferService {
     
     @Override
     public boolean isExistsImage(String offerId, String imageId){
-        return offerRepositoryCustom.isIxestsOfferImage(offerId, imageId);
+        return offerRepositoryCustom.isExistsOfferImage(offerId, imageId);
     }
     
     @Override

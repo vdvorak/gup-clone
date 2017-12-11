@@ -90,24 +90,6 @@ public class ProfileEndpoint {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    /**
-     * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
-     *
-     * @param request - the HttpServletRequest object.
-     * @return - in any case return status 200 (OK), but it will be with ProfileDTO object in the response body if
-     * the user is loggedIn, and there will empty response body if the user is not loggedIn.
-     */
-    @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
-    public ResponseEntity<ProfileDTO> getLoggedUser(HttpServletRequest request) throws Exception {
-        ProfileDTO profileInfo = profilesService.getLoggedUser(request);
-        if (profileInfo != null) {
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-
     /**
      * Update profile.
      *

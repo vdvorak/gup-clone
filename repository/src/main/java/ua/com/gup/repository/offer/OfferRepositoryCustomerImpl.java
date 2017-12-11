@@ -1,6 +1,7 @@
 package ua.com.gup.repository.offer;
 
 
+import com.mongodb.BasicDBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonStatus;
@@ -20,6 +22,7 @@ import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 import ua.com.gup.mongo.model.filter.*;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
@@ -30,9 +33,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-import org.springframework.data.mongodb.core.query.Update;
-import ua.com.gup.mongo.composition.domain.dictionary.Dictionary;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 
 @Repository
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
@@ -243,36 +243,36 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 && Math.abs(coordinates.getMaxYX()[0].doubleValue()) - Math.abs(coordinates.getMinYX()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
                 && Math.abs(coordinates.getMaxYX()[1].doubleValue()) - Math.abs(coordinates.getMinYX()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
     }
-    
+
     @Override
-    public List<OfferImage> findOfferImages(String offerId){
+    public List<OfferImage> findOfferImages(String offerId) {
         Criteria criteria = Criteria.where("_id").is(offerId);
         Query query = new Query(criteria);
-        Offer offer = mongoTemplate.findOne(query, Offer.class);        
+        Offer offer = mongoTemplate.findOne(query, Offer.class);
         return offer.getImages();
     }
-    
+
     @Override
-    public OfferImage findOfferImage(String offerId, String imageId){
-        
+    public OfferImage findOfferImage(String offerId, String imageId) {
+
         Criteria criteria = Criteria.where("_id").is(offerId)
                 .andOperator(Criteria.where("images._id").is(imageId));
         Query query = new Query(criteria);
         query.fields().exclude("_id").include("images.$");
-        Offer offer = mongoTemplate.findOne(query, Offer.class);        
+        Offer offer = mongoTemplate.findOne(query, Offer.class);
         return offer.getImages().get(0);
     }
-    
-    
+
+
     @Override
-    public Boolean isIxestsOfferImage(String offerId, String imageId) {
+    public Boolean isExistsOfferImage(String offerId, String imageId) {
         Criteria criteria = Criteria.where("_id").is(offerId)
                 .andOperator(Criteria.where("images._id").is(imageId));
         Query query = new Query(criteria);
         return mongoTemplate.exists(query, Offer.class);
 
     }
-    
+
     @Override
     public void deleteOfferImage(OfferImage image) {
         Query query = Query.query(Criteria

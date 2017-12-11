@@ -10,26 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.dto.profile.CreateProfileDTO;
-import ua.com.gup.dto.profile.PrivateProfileDTO;
-import ua.com.gup.dto.profile.ProfileDTO;
-import ua.com.gup.dto.profile.PublicProfileDTO;
-import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
+import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.login.LoggedUser;
 import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.FinanceInfo;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
-import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
-import ua.com.gup.util.LogUtil;
 import ua.com.gup.util.security.SecurityUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -38,8 +30,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
@@ -179,16 +169,15 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Page<Profile> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable) {
 
         long count = profileRepository.countByFilter(profileFilter);
         List<Profile> fullProfiles = Collections.EMPTY_LIST;
         if (count > 0) {
             fullProfiles = profileRepository.findByFilterForAdmins(profileFilter, pageable);
         }
-        removeUnnecessaryFieldsFromProfileForAdminUse(fullProfiles);
-        Page<Profile> result = new PageImpl<>(fullProfiles, pageable, fullProfiles.size());
-        return result;
+        List<ProfileShortAdminDTO> list = fullProfiles.stream().map(profile -> new ProfileShortAdminDTO(profile)).collect(Collectors.toList());
+        return new PageImpl<>(list, pageable, fullProfiles.size());
     }
 
 
@@ -278,14 +267,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public ProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
-        Profile profile = findById(id);
-        profile.setLastLoginDateEqualsToCurrentDate();
-        profileRepository.findProfileAndUpdate(profile);
-        return new PrivateProfileDTO(profile);
-    }
-
-    @Override
     public ProfileDTO incMainPhoneViewsAtOne(String id) {
         Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
         if (profile != null) {
@@ -307,18 +288,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public ProfileDTO findPublicProfileById(String id) {
-
-        Profile profile = findById(id);
-        if (profile != null) {
-            return new PublicProfileDTO(profile);
-        } else {
-            return null;
-        }
-    }
-
-
-    @Override
     public ProfileDTO findPublicProfileByPublicId(String id) {
         Profile profile = findByPublicId(id);
         if (profile != null) {
@@ -332,6 +301,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public ProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor) {
         return new PrivateProfileDTO(profileRepository.findProfileByUidAndWendor(uid, socWendor));
+    }
+
+    @Override
+    public ProfileDTO findPrivateProfileDTOByPublicId(String publicId) {
+        return new PrivateProfileDTO(profileRepository.findByPublicId(publicId));
     }
 
     @Override
@@ -350,47 +324,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor);
     }
 
-    /**
-     * If User is logged in - return Profile Info, if not - return null;
-     *
-     * @param request - the HttpServletRequest object.
-     * @return - the ProfileDTO object if user is loggedIn, or null if not.
-     */
-    @Override
-    public ProfileDTO getLoggedUser(HttpServletRequest request) throws Exception {
-        ProfileDTO profileInfo = null;
-        if (request.getCookies() != null) {
-            Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                Object principal = null;
-                if (cookie.getName().equals("authToken")) {
-                    try {
-                        principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    } catch (Exception e) {
-                        log.info("{}", LogUtil.getExceptionStackTrace(e));
-                        return null;
-                    }
-                } else if (cookie.getName().equals("refreshToken")) {
-                    List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = null;
-                    try {
-                        oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
-                    } catch (Exception e) {
-                        log.info(LogUtil.getExceptionStackTrace(e));
-                        return null;
-                    }
-                    if (oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size() > 0) {
-                        principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size() - 1).getAuthentication().getUserAuthentication().getPrincipal();
-                    }
-                }
-                if (principal != null) {
-                    profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                }
-            }
-        }
-
-        return profileInfo;
-    }
-
 
     @Override
     public void deleteFromMyContactList(String profileId) {
@@ -405,63 +338,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         editProfile(profile);
     }
 
-
-    @Override
-    public void updateFavoriteOffers(String offerId) {
-        Profile profile = findById(SecurityUtils.getCurrentUserId());
-        Set<String> favoriteOffers = profile.getFavoriteOffers();
-        for (String favoriteOffer : favoriteOffers) {
-            if (favoriteOffer.equals(offerId)) {
-                favoriteOffers.remove(offerId);
-                return;
-            }
-        }
-        favoriteOffers.add(offerId);
-    }
-
-
-    /**
-     * Create and prepare ProfileDTO object from Principal object.
-     *
-     * @param principal - the principal object.
-     * @return - the Profile info object.
-     */
-    private ProfileDTO profileInfoPreparatorFromPrincipal(Object principal) {
-
-        ProfileDTO profileInfo = new PrivateProfileDTO();
-
-        if (principal instanceof LoggedUser) {
-            String userId = ((LoggedUser) principal).getProfileId();
-            profileInfo = findPrivateProfileByIdAndUpdateLastLoginDate(userId);
-        }
-        return profileInfo;
-    }
-
-
-    /**
-     * Remove unnecessary fields from profiles for admin use.
-     *
-     * @param profileList - the list of profiles
-     */
-    private void removeUnnecessaryFieldsFromProfileForAdminUse(List<Profile> profileList) {
-
-        for (Profile profile : profileList) {
-            profile.setPassword(null)
-                    .setContact(null)
-                    .setContactList(null)
-                    .setSocialList(null)
-                    .setFinanceInfo(null)
-                    .setOrderAddressList(null)
-                    .setOfferUserContactInfoList(null)
-                    .setFavoriteOffers(null)
-                    .setBirthDate(null)
-                    .setMainPhone(null)
-                    .setLastLoginDate(null)
-                    .setProfileRating(null)
-                    .setStatus(null);
-        }
-
-    }
 
     /**
      * @param newProfile

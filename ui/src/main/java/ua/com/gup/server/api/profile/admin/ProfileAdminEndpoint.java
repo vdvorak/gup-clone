@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
+import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
@@ -29,9 +31,16 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<Profile>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
-        Page<Profile> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
+    public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/profiles/{profilePublicId}")
+    public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@RequestParam("profilePublicId") String profilePublicId) {
+        ProfileDTO profile = profilesService.findPrivateProfileDTOByPublicId(profilePublicId);
+        return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -46,7 +55,7 @@ public class ProfileAdminEndpoint {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         profilesService.createProfile(profileDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

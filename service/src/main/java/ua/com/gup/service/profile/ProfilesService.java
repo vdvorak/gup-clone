@@ -4,10 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -123,7 +123,7 @@ public interface ProfilesService {
      * @param profileFilter - the profile filter
      * @return - the list of profiles
      */
-    Page<Profile> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
+    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
 
     /**
      * Find profile by email profile.
@@ -214,23 +214,7 @@ public interface ProfilesService {
      */
     boolean isSeoWordFree(String seoWord);
 
-    /**
-     * This method find and return profile by it's ID but previously delete some fields.
-     *
-     * @param id - the profile ID.
-     * @return - the profile.
-     */
-    ProfileDTO findPublicProfileById(String id);
-
     ProfileDTO findPublicProfileByPublicId(String id);
-
-    /**
-     * Find private profile by ID and update login date.
-     *
-     * @param id - the profile ID.
-     * @return - the ProfileDTO object.
-     */
-    ProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id);
 
     ProfileDTO incMainPhoneViewsAtOne(String id);
 
@@ -251,15 +235,9 @@ public interface ProfilesService {
      */
     ProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor);
 
-    ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
+    ProfileDTO findPrivateProfileDTOByPublicId(String publicId);
 
-    /**
-     * If User is logged in - return Profile Info, if not - return null;
-     *
-     * @param request - the HttpServletRequest object.
-     * @return - the ProfileDTO object if user is loggedIn, or null if not.
-     */
-    ProfileDTO getLoggedUser(HttpServletRequest request) throws Exception;
+    ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
 
 
     /**
@@ -268,13 +246,6 @@ public interface ProfilesService {
      * @param profileId - the ID of the profile which must be deleted.
      */
     void deleteFromMyContactList(String profileId);
-
-    /**
-     * Add or delete offer into offer favorite list.
-     *
-     * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
-     */
-    void updateFavoriteOffers(String offerId);
 
     void updateChatUID(String profileId, String uid);
 }
