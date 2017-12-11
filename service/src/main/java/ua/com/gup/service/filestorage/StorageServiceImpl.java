@@ -1,10 +1,6 @@
 package ua.com.gup.service.filestorage;
 
-import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.FileInfo;
@@ -13,8 +9,6 @@ import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.service.FileStorageService;
 import ua.com.gup.common.util.ImageScaleUtil;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.file.FileUploadWrapper;
-import ua.com.gup.repository.filestorage.StorageRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.profile.ProfilesService;
 
@@ -24,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,30 +28,8 @@ public class StorageServiceImpl implements StorageService {
     private FileStorageService storageService;
     @Autowired
     private ProfileRepository profileRepository;
-
-    private final String PROFILE_SERVICE_NAME = "profile";
-    private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
-
-    @Autowired
-    private StorageRepository storageRepository;
-
     @Autowired
     private ProfilesService profilesService;
-
-    @Override
-    public void delete(String serviceName, String fileId) {
-        storageRepository.delete(serviceName, null, fileId);
-    }
-
-    @Override
-    public void delete(String serviceName, Set<String> fileIds) {
-
-        //ToDo логика подстановки filePath
-        // Сейчас тут костыль
-        String kostyl = null;
-
-        storageRepository.delete(serviceName, kostyl, fileIds);
-    }
 
     @Override
     public void deleteProfileImage(String userId) {
@@ -75,21 +46,7 @@ public class StorageServiceImpl implements StorageService {
             profile.setImageSmall(null);
         }
         profileRepository.save(profile);
-    }
-
-    @Override
-    public void deleteListOfOfferImages(Set<String> imagesId) {
-        storageRepository.delete("offers", ".file.storage.large.cache", imagesId);
-        storageRepository.delete("offers", ".file.storage.medium.cache", imagesId);
-        storageRepository.delete("offers", ".file.storage.small.cache", imagesId);
-    }
-
-
-    @Override
-    public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
-        return storageRepository.getCachedImage(serviceName, filePath, fileId);
-    }
-
+    }   
 
     @Override
     public Map<String, String> saveCachedImageProfile(String profileId, MultipartFile file) {
@@ -123,29 +80,4 @@ public class StorageServiceImpl implements StorageService {
             return null;
         }
     }
-
-
-    @Override
-    public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {
-        return storageRepository.saveCachedImageOffer(fileUploadWrapper);
-    }
-
-
-    // ------------------------------------------ Helper methods ----------------------------------------
-
-    /**
-     * Method prepare response for the client from the GridFSDBFile.
-     *
-     * @param gridFSDBFile - the GridFSDBFile.
-     * @return - the ResponseEntity object which will be sent to the client side.
-     */
-    private ResponseEntity<InputStreamResource> responseEntityPreparator(GridFSDBFile gridFSDBFile) {
-        return ResponseEntity.ok()
-                .contentLength(gridFSDBFile.getLength())
-                .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
-                .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
-                .body(new InputStreamResource(gridFSDBFile.getInputStream()));
-    }
-
-
 }
