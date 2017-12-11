@@ -1,25 +1,8 @@
 package ua.com.gup.common.service.impl;
 
-import ua.com.gup.common.util.CompletableFutureUtil;
-import java.io.IOException;
-import ua.com.gup.common.service.*;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.AsyncRestTemplate;
@@ -31,34 +14,36 @@ import ua.com.gup.common.exeption.StorageException;
 import ua.com.gup.common.exeption.UnsupportedFileStorageException;
 import ua.com.gup.common.model.FileInfo;
 import ua.com.gup.common.model.FileType;
+import ua.com.gup.common.service.FileStorageService;
+import ua.com.gup.common.util.CompletableFutureUtil;
 
-public class FileStorageServiceImpl implements FileStorageService {
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public abstract class FileStorageServiceImpl implements FileStorageService {
 
     @Autowired(required = false)
     private AsyncRestTemplate asyncRestTemplate;
     @Autowired(required = false)
     private RestTemplate restTemplate;
     @Autowired(required = false)
-    private Environment e;
-    private UriComponentsBuilder uriComponentsBuilder;
+    protected Environment e;
+    protected UriComponentsBuilder uriComponentsBuilder;
 
-    @PostConstruct
-    public void initialize() {
-        uriComponentsBuilder = UriComponentsBuilder.newInstance()
-                .scheme(e.getRequiredProperty("storage.host.scheme"))
-                .host(e.getRequiredProperty("storage.host.address"))
-                .port(e.getRequiredProperty("storage.host.port"))
-                .path(e.getRequiredProperty("storage.host.context-path"))
-                .path("/api");
-    }
-    
     @Override
-    public void delete(FileInfo fileInfo){
+    public void delete(FileInfo fileInfo) {
         delete(fileInfo.getS3id(), fileInfo.getType());
     }
-    
+
     @Override
-    public void delete(String id, FileType type ){
+    public void delete(String id, FileType type) {
         URI uri = createUri(type, id);
         restTemplate.delete(uri);
     }
@@ -83,7 +68,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         return createFileInfo(type,
                 response.getBody().getContentType(),
                 bytes.length,
-                filename, 
+                filename,
                 response.getBody().getS3id(),
                 response.getBody().getImageURL());
     }
@@ -104,7 +89,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                         @Override
                         public void accept(ResponseEntity<PostFileResponse> t, Throwable u) {
                             try {
-                                FileInfo info = createFileInfo(type, file.getContentType(),file.getSize(),file.getOriginalFilename(),t.getBody().getS3id(), t.getBody().getImageURL());
+                                FileInfo info = createFileInfo(type, file.getContentType(), file.getSize(), file.getOriginalFilename(), t.getBody().getS3id(), t.getBody().getImageURL());
                                 result.add(info);
                             } catch (Exception ex) {
                                 Logger.getLogger(FileStorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,7 +112,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private URI createUri(FileType type, String id) {
         return uriComponentsBuilder.cloneBuilder().path("/" + type.getPath() + "/" + id).build().toUri();
     }
-    
+
     private URI createUri(FileType type) {
         return uriComponentsBuilder.cloneBuilder().path("/" + type.getPath() + "/").build().toUri();
     }
@@ -152,7 +137,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             fileInfo.setContentType(contentType);
             fileInfo.setS3id(s3id);
             fileInfo.setSize(size);
-            fileInfo.setFileName(filename);    
+            fileInfo.setFileName(filename);
             fileInfo.setUrl(url.toString());
             return fileInfo;
         } catch (InstantiationException | IllegalAccessException ex) {

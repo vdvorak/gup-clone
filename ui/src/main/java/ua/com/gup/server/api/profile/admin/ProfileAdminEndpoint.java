@@ -38,7 +38,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@RequestParam("profilePublicId") String profilePublicId) {
+    public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
         ProfileDTO profile = profilesService.findPrivateProfileDTOByPublicId(profilePublicId);
         return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
     }

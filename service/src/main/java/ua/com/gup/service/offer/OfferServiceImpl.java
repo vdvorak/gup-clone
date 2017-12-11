@@ -78,7 +78,7 @@ public class OfferServiceImpl implements OfferService {
     private CategoryService categoryService;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
+    @Autowired(required = false)
     private FileStorageService fileStorageService;
 
 
