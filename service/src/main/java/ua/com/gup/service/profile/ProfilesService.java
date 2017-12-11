@@ -1,10 +1,11 @@
 package ua.com.gup.service.profile;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ua.com.gup.dto.profile.CreateProfileDTO;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
-import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -115,29 +116,14 @@ public interface ProfilesService {
 
     Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
 
-    /**
-     * This method provides additional information for admin.
-     *
-     * @param profileFilterOptions - the profile filter options.
-     * @return - the list of profiles.
-     */
-    List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Return list of profiles for admin-panel in short and light version without unnecessary fields.
      *
-     * @param profileFilterOptions - the profile filter options
+     * @param profileFilter - the profile filter
      * @return - the list of profiles
      */
-    List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions);
-
-    /**
-     * Find profile by profile's username.
-     *
-     * @param username - the username.
-     * @return - the profile.
-     */
-    Profile findProfileByUsername(String username);
+    Page<Profile> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
 
     /**
      * Find profile by email profile.
@@ -199,14 +185,6 @@ public interface ProfilesService {
      * @return - the set of the user names.
      */
     Set<String> getMatchedNames(String term);
-
-
-    /**
-     * Search for matched admin id and return of his.
-     */
-    String getAdminId();
-
-    String getAdminIdByOnline();
 
     /**
      * Search for matched user ID's and return set of them.
@@ -276,14 +254,6 @@ public interface ProfilesService {
     ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
 
     /**
-     * Find public profiles with filter options.
-     *
-     * @param profileFilterOptions - the ProfileFilterOptions object.
-     * @return - the list of the ProfileDTO objects.
-     */
-    List<ProfileDTO> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
-
-    /**
      * If User is logged in - return Profile Info, if not - return null;
      *
      * @param request - the HttpServletRequest object.
@@ -305,6 +275,6 @@ public interface ProfilesService {
      * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
      */
     void updateFavoriteOffers(String offerId);
-    
-    void updateChatUID(String profileId, String uid);    
+
+    void updateChatUID(String profileId, String uid);
 }

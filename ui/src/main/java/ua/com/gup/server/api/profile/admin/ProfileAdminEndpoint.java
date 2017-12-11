@@ -2,6 +2,8 @@ package ua.com.gup.server.api.profile.admin;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
@@ -28,9 +29,9 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<List<Profile>> findProfilesShortByFilter(ProfileFilterOptions profileFilterOptions) {
-        List<Profile> profiles = profilesService.findAllProfilesForAdminShort(profileFilterOptions);
-        return new ResponseEntity<>(profiles, HttpStatus.OK);
+    public ResponseEntity<Page<Profile>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
+        Page<Profile> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
+        return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

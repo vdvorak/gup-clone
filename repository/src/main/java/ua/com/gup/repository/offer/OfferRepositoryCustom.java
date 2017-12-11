@@ -3,7 +3,6 @@ package ua.com.gup.repository.offer;
 
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
@@ -22,8 +21,6 @@ public interface OfferRepositoryCustom {
     List<Offer> findByFilter(OfferFilter offerFilter, List<CommonStatus> offerStatuses, Pageable pageable);
 
     List<Offer> findByFilter(OfferFilter offerFilter, List<CommonStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable);
-
-    void updateBasePriceByExchangeRate(CommonStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
 

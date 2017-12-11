@@ -2,14 +2,15 @@ package ua.com.gup.repository.profile;
 
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
@@ -71,7 +72,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public boolean profileExistsWithEmail(String email) {        
+    public boolean profileExistsWithEmail(String email) {
         Query queryX = new Query(Criteria.where("email").is(email));
         return mongoTemplate.exists(queryX, Profile.class);
     }
@@ -106,26 +107,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
-    @Override
-    public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
-        Query query = new Query();
-        if (profileFilterOptions.getSearchField() != null) {
-            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
-            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
-        }
-
-        if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
-        }
-
-        query.fields().exclude("email");
-        query.fields().exclude("password");
-        query.fields().exclude("mainPhoneNumber");
-
-        query.skip(profileFilterOptions.getSkip());
-        query.limit(profileFilterOptions.getLimit());
-        return mongoTemplate.find(query, Profile.class);
-    }
 
     @Override
     public Profile incMainPhoneViewsAtOne(String profileId) {
@@ -138,31 +119,38 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
-    @Override
-    public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
+    private Query buildQueryByFilter(Profile profileFilter) {
         Query query = new Query();
-        if (profileFilterOptions.getSearchField() != null) {
-            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
+        if (profileFilter.getUsername() != null) {
+            String searchFieldRegex = "(?i:.*" + profileFilter.getUsername() + ".*)";
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
         }
 
-        if (profileFilterOptions.getId() != null) {
-            query.addCriteria(Criteria.where("id").in(profileFilterOptions.getId()));
+        if (profileFilter.getPublicId() != null) {
+            query.addCriteria(Criteria.where("publicId").is(profileFilter.getPublicId()));
         }
 
-        if (profileFilterOptions.getUserRoles() != null) {
-            query.addCriteria(Criteria.where("userRoles").in(profileFilterOptions.getUserRoles()));
+        if (profileFilter.getUserRoles() != null) {
+            query.addCriteria(Criteria.where("userRoles").in(profileFilter.getUserRoles()));
         }
 
-        if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
+        if (profileFilter.getMainPhone() != null && !StringUtils.isEmpty(profileFilter.getMainPhone().getPhoneNumber())) {
+            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(profileFilter.getMainPhone().getPhoneNumber()));
         }
+        return query;
+    }
 
+    @Override
+    public long countByFilter(Profile profileFilter) {
+        Query query = buildQueryByFilter(profileFilter);
+        return mongoTemplate.count(query, Profile.class);
+    }
+
+    @Override
+    public List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable) {
+        Query query = buildQueryByFilter(profileFilter);
         query.fields().exclude("password");
-
-        query.skip(profileFilterOptions.getSkip());
-        query.limit(profileFilterOptions.getLimit());
-        return mongoTemplate.find(query, Profile.class);
+        return mongoTemplate.find(query.with(pageable), Profile.class);
     }
 
 
@@ -177,32 +165,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(0);
         query.limit(10);
         return mongoTemplate.find(query, Profile.class).stream().map(Profile::getUsername).collect(Collectors.toSet());
-    }
-
-
-    @Override
-    public String getAdminId() {
-        Query query = new Query(Criteria.where("userRoles").is("ROLE_ADMIN"));
-        Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
-
-        return getRandomObj(IdAdminAll);
-    }
-
-    @Override
-    public String getAdminIdByOnline() {
-        Query query = new Query()
-                .addCriteria(Criteria.where("userRoles").is("ROLE_ADMIN"))
-                .addCriteria(Criteria.where("online").is(true));
-
-        Set<String> IdAdminAll = mongoTemplate.find(query, Profile.class).stream().map(Profile::getId).collect(Collectors.toSet());
-
-        return getRandomObj(IdAdminAll);
-    }
-
-    private String getRandomObj(Collection from) {
-        Random rnd = new Random();
-        int i = rnd.nextInt(from.size());
-        return (String) from.toArray()[i];
     }
 
 
@@ -257,11 +219,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         mongoTemplate.updateFirst(query, update, Profile.class);
     }
 
-    @Override
-    public Profile findByUsername(String username) {
-        Query query = new Query(Criteria.where("username").is(username));
-        return mongoTemplate.findOne(query, Profile.class);
-    }
 
     @Override
     public Profile findByEmail(String email) {
@@ -339,7 +296,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query query = new Query(Criteria.where("publicId").is(profilePublicId));
         return mongoTemplate.exists(query, Profile.class);
     }
-    public void  save(Profile profile){
+
+    public void save(Profile profile) {
         mongoTemplate.save(profile);
     }
 }

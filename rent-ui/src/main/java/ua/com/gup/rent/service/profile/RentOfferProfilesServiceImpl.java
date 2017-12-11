@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
 import ua.com.gup.rent.model.rent.profiles.RentOfferProfileRating;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPrivateProfileDTO;
@@ -13,8 +12,6 @@ import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferPublicProfileDTO;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -267,12 +264,6 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
 
     @Override
-    public List<RentOfferProfileDTO> findAllPublicProfilesWithOptions(RentOfferProfileFilterOptions profileFilterOptions) {
-        return getListOfPublicProfilesWithOptions(rentOfferProfileRepository.findAllProfiles(profileFilterOptions));
-    }
-
-
-    @Override
     public RentOfferProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor) {
         return new RentOfferPrivateProfileDTO(rentOfferProfileRepository.findProfileByUidAndWendor(uid, socWendor));
     }
@@ -291,69 +282,6 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     public RentOfferProfile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor) {
         return rentOfferProfileRepository.findProfileByPhoneNumberAndWendor(phoneNumber, socWendor);
     }
-
-    /**
-     * This method provides additional information for admin.
-     *
-     * @param profileFilterOptions - the profile filter options.
-     * @return - the list of profiles.
-     */
-    @Override
-    public List<RentOfferProfile> findAllProfilesForAdmin(RentOfferProfileFilterOptions profileFilterOptions) {
-        return null;
-    }
-
-    /**
-     * Return list of profiles for admin-panel in short and light version without unnecessary fields.
-     *
-     * @param profileFilterOptions - the profile filter options
-     * @return - the list of profiles
-     */
-    @Override
-    public List<RentOfferProfile> findAllProfilesForAdminShort(RentOfferProfileFilterOptions profileFilterOptions) {
-        return null;
-    }
-
-   /* *//**
-     * If User is logged in - return Profile Info, if not - return null;
-     *
-     * @param request - the HttpServletRequest object.
-     * @return - the RentOfferProfileDTO object if user is loggedIn, or null if not.
-     *//*
-    @Override
-    public RentOfferProfileDTO getLoggedUser(HttpServletRequest request) throws Exception {
-        RentOfferProfileDTO profileInfo = null;
-        if (request.getCookies() != null) {
-            Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                Object principal = null;
-                if (cookie.getName().equals("authToken")) {
-                    try {
-                        principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    } catch (Exception e) {
-                       log.info("{}", LogUtil.getExceptionStackTrace(e));
-                       return null;
-                    }
-                } else if (cookie.getName().equals("refreshToken")) {
-                    List<OAuth2AuthenticationAccessToken> oAuth2AuthenticationAccessTokens = null;
-                    try {
-                        oAuth2AuthenticationAccessTokens = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue());
-                    } catch (Exception e) {
-                        log.info(LogUtil.getExceptionStackTrace(e));
-                        return null;
-                    }
-                    if (oAuth2AuthenticationAccessTokens != null && oAuth2AuthenticationAccessTokens.size() > 0) {
-                        principal = oAuth2AuthenticationAccessTokens.get(oAuth2AuthenticationAccessTokens.size() - 1).getAuthentication().getUserAuthentication().getPrincipal();
-                    }
-                }
-                if (principal != null) {
-                    profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                }
-            }
-        }
-
-        return profileInfo;
-    }*/
 
 
     @Override
@@ -384,87 +312,11 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
 
-    /**
-     * Create and prepare RentOfferProfileDTO object from Principal object.
-     *
-     * @param principal - the principal object.
-     * @return - the Profile info object.
-     */
-    private RentOfferProfileDTO profileInfoPreparatorFromPrincipal(Object principal) {
-
-        RentOfferProfileDTO profileInfo = new RentOfferPrivateProfileDTO();
-
-        /*if (principal instanceof LoggedUser) {
-            String userId = ((LoggedUser) principal).getProfileId();
-            profileInfo = findPrivateProfileByIdAndUpdateLastLoginDate(userId);
-        }*/
-        return profileInfo;
-    }
-
-
-    /**
-     * Remove unnecessary fields from profiles for admin use.
-     *
-     * @param profileList - the list of profiles
-     */
-    private void removeUnnecessaryFieldsFromProfileForAdminUse(List<RentOfferProfile> profileList) {
-
-        for (RentOfferProfile profile : profileList) {
-            profile //.setPassword(null)
-                    //.setContact(null)
-                    //.setContactList(null)
-                    .setSocialList(null)
-                   // .setFinanceInfo(null)
-                   // .setOrderAddressList(null)
-                   // .setOfferUserContactInfoList(null)
-                    .setFavoriteOffers(null)
-                    .setBirthDate(null)
-                    .setMainPhone(null)
-                    .setLastLoginDate(null)
-                   // .setProfileRating(null)
-                    .setStatus(null);
-        }
-
-    }
-
-
-    /**
-     * @param profileList
-     * @return
-     */
-    private List<RentOfferProfileDTO> getListOfPublicProfilesWithOptions(List<RentOfferProfile> profileList) {
-        List<RentOfferProfileDTO> profileInfoList = new ArrayList<>();
-        for (RentOfferProfile profile : profileList) {
-            profileInfoList.add(new RentOfferPublicProfileDTO(profile));
-        }
-        return profileInfoList;
-    }
-
-    /**
-     * @param newProfile
-     */
-    private void setEmptyFieldsForNewUser(RentOfferProfile newProfile) {
-        newProfile.setFavoriteOffers(new HashSet<>());
-
-     /*   Contact contact = new Contact();
-        contact.setContactEmails(new HashSet<>());
-        contact.setContactPhones(new HashSet<>());
-        contact.setSocNetLink(new HashMap<>());*/
-
-        newProfile.setPoint(0)
-               // .setProfileRating(new HashSet<>())
-                .setSocialList(new HashSet<>());
-               // .setFinanceInfo(new FinanceInfo())
-               // .setContact(contact)
-               // .setOfferUserContactInfoList(null)
-               // .setOrderAddressList(null);
-    }
-    
     @Override
-    public void updateChatUID(String profileId, String uid){
+    public void updateChatUID(String profileId, String uid) {
         RentOfferProfile profile = rentOfferProfileRepository.findById(profileId);
         profile.setChatUID(uid);
         rentOfferProfileRepository.save(profile);
-    
+
     }
 }

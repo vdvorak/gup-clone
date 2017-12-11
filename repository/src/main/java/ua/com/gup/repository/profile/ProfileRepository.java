@@ -1,7 +1,7 @@
 package ua.com.gup.repository.profile;
 
+import org.springframework.data.domain.Pageable;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.profiles.ProfileFilterOptions;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import java.util.List;
@@ -72,23 +72,17 @@ public interface ProfileRepository {
 
     Profile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
 
-    /**
-     * Find all profiles entity page.
-     *
-     * @param profileFilterOptions  - the profile filter options
-     * @return                      - the list of profiles
-     */
-    List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
-
     Profile incMainPhoneViewsAtOne(String profileId);
+
+    long countByFilter(Profile profileFilter);
 
     /**
      * This method provides additional information for admin.
      *
-     * @param profileFilterOptions  - the ProfileFilterOptions object
-     * @return                      - the list of relevant to filter profiles
+     * @param profileFilter - the ProfileFilterOptions object
+     * @return - the list of relevant to filter profiles
      */
-    List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
+    List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable);
 
     boolean profileExistsInUserSocialList(String userId, String profileId);
 
@@ -96,13 +90,6 @@ public interface ProfileRepository {
 
     void deleteProfileFromUserSocialList(String userId, String profileId);
 
-    /**
-     * Find by username profile.
-     *
-     * @param username the username
-     * @return the profile
-     */
-    Profile findByUsername(String username);
 
     /**
      * Find by profile email.
@@ -117,17 +104,17 @@ public interface ProfileRepository {
     /**
      * Profile rating exists boolean.
      *
-     * @param profileId         - the profile id
-     * @param profileRatingId   - the profile rating id
-     * @return                  - the boolean result
+     * @param profileId       - the profile id
+     * @param profileRatingId - the profile rating id
+     * @return - the boolean result
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
 
     /**
      * Create profile rating with incrementation field "point".
      *
-     * @param profileId         - the profile id
-     * @param profileRating     - the profile rating
+     * @param profileId     - the profile id
+     * @param profileRating - the profile rating
      */
     void createProfileRating(String profileId, ProfileRating profileRating);
 
@@ -153,32 +140,21 @@ public interface ProfileRepository {
     Set<String> getMatchedNames(String term);
 
 
-
-    /**
-     * return random admin
-     */
-    String getAdminId();
-
-    /**
-     * return random admin by online
-     */
-    String getAdminIdByOnline();
-
     List<Profile> getMatchedNamesToFindWithId(String term);
 
     /**
      * Find and return profiles with matched companies to input string argument.
      *
-     * @param term  - the input string argument with companies name.
-     * @return      - the profile list.
+     * @param term - the input string argument with companies name.
+     * @return - the profile list.
      */
     List<Profile> getMatchedCompanies(String term);
 
     /**
      * Find and return profile by it's ID.
      *
-     * @param id    - the Profile ID
-     * @return      - profile
+     * @param id - the Profile ID
+     * @return - profile
      */
     Profile findById(String id);
 
@@ -187,8 +163,8 @@ public interface ProfileRepository {
     /**
      * Find and return profile by it's seoWord.
      *
-     * @param seoWord   - the seoWord
-     * @return          - the profile
+     * @param seoWord - the seoWord
+     * @return - the profile
      */
     Profile findBySeoWord(String seoWord);
 
@@ -197,7 +173,7 @@ public interface ProfileRepository {
     void decrementProfileStatistic(String profileId, String field);
 
     boolean profileExistsByPublicId(String profilePublicId);
-    
-    void  save(Profile profile);
+
+    void save(Profile profile);
 }
 

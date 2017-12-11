@@ -1,10 +1,6 @@
 package ua.com.gup.repository.offer;
 
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +19,6 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
-import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.filter.*;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
@@ -31,7 +26,6 @@ import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,36 +76,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
-    @Override
-    public void updateBasePriceByExchangeRate(CommonStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("status", status.name());
-        query.put("price.currency", currency.name());
-        BasicDBObject projection = new BasicDBObject();
-        projection.put("_id", 1);
-        projection.put("price.amount", 1);
-        final DBCollection collection = mongoTemplate.getCollection(Offer.COLLECTION_NAME);
-        DBCursor cursor = collection.find(query, projection);
-        try {
-            while (cursor.hasNext()) {
-                final DBObject doc = cursor.next();
-                try {
-                    final DBObject price = (DBObject) doc.get("price");
-                    final BasicDBObject fields = new BasicDBObject();
-                    fields.put("price.baseAmount", exchangeRate * Double.valueOf("" + price.get("amount")));
-                    fields.put("price.baseCurrency", baseCurrency.name());
-                    fields.put("price.last_modified_date", new Date());
-                    collection.update(new BasicDBObject("_id", doc.get("_id")), new BasicDBObject("$set", fields));
-                } catch (Exception e) {
-                    log.error("Error price update doc = {}", doc, e);
-                }
-            }
-        } catch (Exception e) {
-            log.error("ForEach update with currency = {}, baseCurrency = {}, exchangeRate = {} failed: ", currency, baseCurrency, exchangeRate, e);
-        } finally {
-            cursor.close();
-        }
-    }
 
     private Query buildQueryByFilter(OfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();

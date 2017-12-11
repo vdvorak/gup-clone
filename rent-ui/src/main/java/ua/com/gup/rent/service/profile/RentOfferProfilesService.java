@@ -2,7 +2,6 @@ package ua.com.gup.rent.service.profile;
 
 
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
 import ua.com.gup.rent.model.rent.profiles.RentOfferProfileRating;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 
@@ -112,22 +111,6 @@ public interface RentOfferProfilesService {
     RentOfferProfile findProfileByUidAndWendor(String uid, String socWendor);
 
     RentOfferProfile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
-
-    /**
-     * This method provides additional information for admin.
-     *
-     * @param profileFilterOptions - the profile filter options.
-     * @return - the list of profiles.
-     */
-    List<RentOfferProfile> findAllProfilesForAdmin(RentOfferProfileFilterOptions profileFilterOptions);
-
-    /**
-     * Return list of profiles for admin-panel in short and light version without unnecessary fields.
-     *
-     * @param profileFilterOptions - the profile filter options
-     * @return - the list of profiles
-     */
-    List<RentOfferProfile> findAllProfilesForAdminShort(RentOfferProfileFilterOptions profileFilterOptions);
 
     /**
      * Find profile by profile's username.
@@ -278,14 +261,6 @@ public interface RentOfferProfilesService {
     RentOfferProfileDTO findPrivateProfileDTOByUid(String uid, String socWendor);
 
     RentOfferProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
-
-    /**
-     * Find public profiles with filter options.
-     *
-     * @param profileFilterOptions - the RentOfferProfileFilterOptions object.
-     * @return - the list of the RentOfferProfileDTO objects.
-     */
-    List<RentOfferProfileDTO> findAllPublicProfilesWithOptions(RentOfferProfileFilterOptions profileFilterOptions);
 
     /**
      * If User is logged in - return Profile Info, if not - return null;

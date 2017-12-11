@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.rent.config.RentOfferMongoTemplateOperations;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
 import ua.com.gup.rent.model.rent.profiles.RentOfferProfileRating;
 import ua.com.gup.rent.repository.abstracted.RentOfferGenericRepositoryImpl;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
@@ -115,27 +114,6 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
-    public List<RentOfferProfile> findAllProfiles(RentOfferProfileFilterOptions profileFilterOptions) {
-        Query query = new Query();
-        if (profileFilterOptions.getSearchField() != null) {
-            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
-            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
-        }
-
-       /* if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
-        }*/
-
-        query.fields().exclude("email");
-        query.fields().exclude("password");
-        query.fields().exclude("mainPhoneNumber");
-
-        query.skip(profileFilterOptions.getSkip());
-        query.limit(profileFilterOptions.getLimit());
-        return mongoTemplate.find(query, RentOfferProfile.class);
-    }
-
-    @Override
     public RentOfferProfile incMainPhoneViewsAtOne(String profileId) {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(profileId)),
@@ -145,34 +123,6 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         Query query = new Query(Criteria.where("id").is(profileId));
         return mongoTemplate.findOne(query, RentOfferProfile.class);
     }
-
-    @Override
-    public List<RentOfferProfile> findAllProfilesForAdmin(RentOfferProfileFilterOptions profileFilterOptions) {
-        Query query = new Query();
-        if (profileFilterOptions.getSearchField() != null) {
-            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
-            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
-        }
-
-        if (profileFilterOptions.getId() != null) {
-            query.addCriteria(Criteria.where("id").in(profileFilterOptions.getId()));
-        }
-
-        if (profileFilterOptions.getUserRoles() != null) {
-            query.addCriteria(Criteria.where("userRoles").in(profileFilterOptions.getUserRoles()));
-        }
-
-       /* if (profileFilterOptions.getContact() != null && profileFilterOptions.getUserType() != null) {
-            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getUserType()));
-        }*/
-
-        query.fields().exclude("password");
-
-        query.skip(profileFilterOptions.getSkip());
-        query.limit(profileFilterOptions.getLimit());
-        return mongoTemplate.find(query, RentOfferProfile.class);
-    }
-
 
     @Override
     public Set<String> getMatchedNames(String term) {
@@ -363,7 +313,8 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         Query query = new Query(Criteria.where("publicId").is(profilePublicId));
         return mongoTemplate.exists(query, RentOfferProfile.class);
     }
-    public void  save(RentOfferProfile profile){
+
+    public void save(RentOfferProfile profile) {
         mongoTemplate.save(profile);
     }
 }

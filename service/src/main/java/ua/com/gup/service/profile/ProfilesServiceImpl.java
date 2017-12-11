@@ -3,6 +3,9 @@ package ua.com.gup.service.profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
@@ -14,7 +17,10 @@ import ua.com.gup.dto.profile.PublicProfileDTO;
 import ua.com.gup.mongo.composition.domain.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.login.LoggedUser;
-import ua.com.gup.mongo.model.profiles.*;
+import ua.com.gup.mongo.model.profiles.Contact;
+import ua.com.gup.mongo.model.profiles.FinanceInfo;
+import ua.com.gup.mongo.model.profiles.ProfileContactList;
+import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.oauth2.OAuth2AccessTokenRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.sequence.PublicProfileSequenceService;
@@ -173,22 +179,16 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
-        return profileRepository.findAllProfilesForAdmin(profileFilterOptions);
-    }
+    public Page<Profile> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable) {
 
-
-    @Override
-    public List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions) {
-        List<Profile> fullProfiles = profileRepository.findAllProfilesForAdmin(profileFilterOptions);
+        long count = profileRepository.countByFilter(profileFilter);
+        List<Profile> fullProfiles = Collections.EMPTY_LIST;
+        if (count > 0) {
+            fullProfiles = profileRepository.findByFilterForAdmins(profileFilter, pageable);
+        }
         removeUnnecessaryFieldsFromProfileForAdminUse(fullProfiles);
-
-        return fullProfiles;
-    }
-
-    @Override
-    public Profile findProfileByUsername(String username) {
-        return profileRepository.findByUsername(username);
+        Page<Profile> result = new PageImpl<>(fullProfiles, pageable, fullProfiles.size());
+        return result;
     }
 
 
@@ -250,17 +250,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
-    }
-
-
-    @Override
-    public String getAdminId() {
-        return profileRepository.getAdminId();
-    }
-
-    @Override
-    public String getAdminIdByOnline() {
-        return profileRepository.getAdminIdByOnline();
     }
 
 
@@ -337,12 +326,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         } else {
             return null;
         }
-    }
-
-
-    @Override
-    public List<ProfileDTO> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
-        return getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 
 
@@ -478,19 +461,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                     .setStatus(null);
         }
 
-    }
-
-
-    /**
-     * @param profileList
-     * @return
-     */
-    private List<ProfileDTO> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
-        List<ProfileDTO> profileInfoList = new ArrayList<>();
-        for (Profile profile : profileList) {
-            profileInfoList.add(new PublicProfileDTO(profile));
-        }
-        return profileInfoList;
     }
 
     /**

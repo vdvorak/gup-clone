@@ -1,7 +1,6 @@
 package ua.com.gup.rent.repository.profile;
 
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.rent.profiles.RentOfferProfileFilterOptions;
 import ua.com.gup.rent.model.rent.profiles.RentOfferProfileRating;
 import ua.com.gup.rent.repository.abstracted.generic.RentOfferGenericRepository;
 
@@ -69,23 +68,8 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
 
     RentOfferProfile findProfileByPhoneNumberAndWendor(String phoneNumber, String socWendor);
 
-    /**
-     * Find all profiles entity page.
-     *
-     * @param profileFilterOptions  - the profile filter options
-     * @return                      - the list of profiles
-     */
-    List<RentOfferProfile> findAllProfiles(RentOfferProfileFilterOptions profileFilterOptions);
-
     RentOfferProfile incMainPhoneViewsAtOne(String profileId);
 
-    /**
-     * This method provides additional information for admin.
-     *
-     * @param profileFilterOptions  - the ProfileFilterOptions object
-     * @return                      - the list of relevant to filter profiles
-     */
-    List<RentOfferProfile> findAllProfilesForAdmin(RentOfferProfileFilterOptions profileFilterOptions);
 
     boolean profileExistsInUserSocialList(String userId, String profileId);
 
@@ -114,17 +98,17 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
     /**
      * Profile rating exists boolean.
      *
-     * @param profileId         - the profile id
-     * @param profileRatingId   - the profile rating id
-     * @return                  - the boolean result
+     * @param profileId       - the profile id
+     * @param profileRatingId - the profile rating id
+     * @return - the boolean result
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
 
     /**
      * Create profile rating with incrementation field "point".
      *
-     * @param profileId         - the profile id
-     * @param profileRating     - the profile rating
+     * @param profileId     - the profile id
+     * @param profileRating - the profile rating
      */
     void createProfileRating(String profileId, RentOfferProfileRating profileRating);
 
@@ -174,16 +158,16 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
     /**
      * Find and return profiles with matched companies to input string argument.
      *
-     * @param term  - the input string argument with companies name.
-     * @return      - the profile list.
+     * @param term - the input string argument with companies name.
+     * @return - the profile list.
      */
     List<RentOfferProfile> getMatchedCompanies(String term);
 
     /**
      * Find and return profile by it's ID.
      *
-     * @param id    - the Profile ID
-     * @return      - profile
+     * @param id - the Profile ID
+     * @return - profile
      */
     RentOfferProfile findById(String id);
 
@@ -192,8 +176,8 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
     /**
      * Find and return profile by it's seoWord.
      *
-     * @param seoWord   - the seoWord
-     * @return          - the profile
+     * @param seoWord - the seoWord
+     * @return - the profile
      */
     RentOfferProfile findBySeoWord(String seoWord);
 
@@ -203,5 +187,5 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
 
     boolean profileExistsByPublicId(String profilePublicId);
 
-    void  save(RentOfferProfile profile);
+    void save(RentOfferProfile profile);
 }
