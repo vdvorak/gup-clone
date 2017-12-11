@@ -1,4 +1,4 @@
-package ua.com.gup.dto.offer.enumeration;
+package ua.com.gup.mongo.composition.domain.offer;
 
 
 public enum OfferImageSizeType {

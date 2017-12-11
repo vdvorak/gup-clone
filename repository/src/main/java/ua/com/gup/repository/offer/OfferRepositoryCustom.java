@@ -10,6 +10,7 @@ import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 
 public interface OfferRepositoryCustom {
 
@@ -26,6 +27,14 @@ public interface OfferRepositoryCustom {
     void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate);
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
+    
+    List<OfferImage> findOfferImages(String offerId);
+    
+    OfferImage findOfferImage(String offerId, String imageId);
+    
+    Boolean isIxestsOfferImage(String offerId, String imageId);
+
+    void deleteOfferImage(OfferImage image);
 
 }
 

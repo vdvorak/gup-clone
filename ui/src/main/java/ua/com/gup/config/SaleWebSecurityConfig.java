@@ -44,7 +44,7 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST)
                 .authenticated()
-
+                
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
 
@@ -55,8 +55,8 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()                
                 
                 .antMatchers(HttpMethod.GET, "/api/**")
-                .permitAll()                
-
+                .permitAll()    
+                
                 .anyRequest()
                 .authenticated();
     }

@@ -35,11 +35,11 @@ import ua.com.gup.common.model.FileType;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    @Autowired
+    @Autowired(required = false)
     private AsyncRestTemplate asyncRestTemplate;
-    @Autowired
+    @Autowired(required = false)
     private RestTemplate restTemplate;
-    @Autowired
+    @Autowired(required = false)
     private Environment e;
     private UriComponentsBuilder uriComponentsBuilder;
 
@@ -81,7 +81,12 @@ public class FileStorageServiceImpl implements FileStorageService {
         if (!HttpStatus.CREATED.equals(response.getStatusCode())) {
             throw new StorageException(response.getStatusCode().toString());
         }
-        return createFileInfo(type, response.getBody().getContentType(), bytes.length, filename, response.getBody().getS3id());
+        return createFileInfo(type,
+                response.getBody().getContentType(),
+                bytes.length,
+                filename, 
+                response.getBody().getS3id(),
+                response.getBody().getImageURL());
     }
 
     @Override
@@ -100,7 +105,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                         @Override
                         public void accept(ResponseEntity<PostFileResponse> t, Throwable u) {
                             try {
-                                FileInfo info = createFileInfo(type, file.getOriginalFilename(),file.getSize(),file.getOriginalFilename(),t.getBody().getS3id());
+                                FileInfo info = createFileInfo(type, file.getContentType(),file.getSize(),file.getOriginalFilename(),t.getBody().getS3id(), t.getBody().getImageURL());
                                 result.add(info);
                             } catch (Exception ex) {
                                 Logger.getLogger(FileStorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,13 +147,14 @@ public class FileStorageServiceImpl implements FileStorageService {
         return new HttpEntity<>(multipartRequest, headers);
     }
 
-    private FileInfo createFileInfo(FileType type, String contentType, long size, String filename, String s3id) {
+    private FileInfo createFileInfo(FileType type, String contentType, long size, String filename, String s3id, URL url) {
         try {
             FileInfo fileInfo = type.createInstance();
             fileInfo.setContentType(contentType);
             fileInfo.setS3id(s3id);
             fileInfo.setSize(size);
-            fileInfo.setFileName(filename);
+            fileInfo.setFileName(filename);    
+            fileInfo.setUrl(url.toString());
             return fileInfo;
         } catch (InstantiationException | IllegalAccessException ex) {
             throw new UnsupportedFileStorageException(ex);

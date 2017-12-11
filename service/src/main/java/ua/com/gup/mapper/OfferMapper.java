@@ -25,6 +25,8 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
 
 @Component
 public class OfferMapper {
@@ -49,7 +51,9 @@ public class OfferMapper {
 
     @Autowired
     private CategoryAttributeService categoryAttributeService;
-
+    @Autowired
+    private OfferImageMapper offerImageMapper;
+    
     private static final int PRICE_ATTRIBUTE_CODE = 1;
 
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
@@ -65,12 +69,8 @@ public class OfferMapper {
         }
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
-        }
-        if (source.getImages() != null && source.getImages().size() > 0) {
-            List<String> imageIds = new LinkedList<>();
-            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
-            target.setImageIds(imageIds);
-        }
+        }        
+        
         if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
         }
@@ -78,7 +78,7 @@ public class OfferMapper {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
     }
-
+    
     public void offerModeratorDTOToOffer(OfferModerationReportDTO source, Offer target) {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getOfferCategoriesIds(source.getCategory()));
@@ -186,12 +186,10 @@ public class OfferMapper {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
         }
         target.setTitle(source.getTitle());
-        target.setDescription(source.getDescription());
-        if (source.getImageIds() != null && source.getImageIds().size() > 0) {
-            LinkedList<String> imageIds = new LinkedList<String>();
-            source.getImageIds().forEach(i -> imageIds.add(i));
-            target.setImageIds(imageIds);
-        }
+        target.setDescription(source.getDescription());        
+        
+        offerImageMapper.toListDTO(source.getImages(), target.getImages());       
+        
         target.setSeoUrl(source.getSeoUrl());
 
     }
@@ -217,13 +215,7 @@ public class OfferMapper {
         if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
         }
-
-        if (source.getImages() != null && source.getImages().size() > 0) {
-            List<String> imageIds = new LinkedList<String>();
-            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
-            target.setImageIds(imageIds);
-        }
-
+        
         if (source.getLands() != null) {
             target.setLands(transformOfferLandsDTOToLands(source.getLands()));
         }

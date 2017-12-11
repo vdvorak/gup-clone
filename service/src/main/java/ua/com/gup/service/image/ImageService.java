@@ -2,7 +2,7 @@ package ua.com.gup.service.image;
 
 
 import ua.com.gup.dto.offer.OfferImageDTO;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
 import ua.com.gup.mongo.model.file.FileWrapper;
 
 public interface ImageService {

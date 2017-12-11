@@ -2,10 +2,10 @@ package ua.com.gup.server.api.offer;
 
 
 import io.swagger.annotations.*;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -20,15 +20,12 @@ import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.mongo.model.enumeration.OfferStatus;
-import ua.com.gup.mongo.model.enumeration.UserRole;
-import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.server.util.PaginationUtil;
@@ -44,7 +41,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 
 /**
  * REST controller for managing Offer.
@@ -81,14 +79,72 @@ public class OfferEndpoint {
      */
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferViewDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO) throws URISyntaxException {
+    @RequestMapping(value = "/offers", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<OfferViewDetailsDTO> createOffer(OfferCreateDTO offerCreateDTO
+            ) throws URISyntaxException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);        
         
         OfferViewDetailsDTO result = offerService.save(offerCreateDTO);
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
+    }
+    
+    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.GET)
+    public ResponseEntity getOfferImages(@PathVariable("offerId") String offerId) throws URISyntaxException {
+        if (!offerService.exists(offerId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<OfferImage> images = offerService.getImages(offerId);
+        return new ResponseEntity(images, HttpStatus.CREATED);
+
+    }
+    
+    
+    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.GET)
+    public ResponseEntity getOfferImage(
+            @PathVariable("offerId") String offerId,
+            @PathVariable("imageId") String imageId) {        
+        if (!offerService.isExistsImage(offerId, imageId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        OfferImage image = offerService.getImage(offerId, imageId);        
+        return new ResponseEntity(image, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity createOfferImage(
+            @PathVariable("offerId") String offerId,
+            MultipartFile image) throws URISyntaxException {
+
+        if (!offerService.exists(offerId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        try {
+            offerService.addImage(offerId, image);
+            return new ResponseEntity(HttpStatus.CREATED);
+        } catch (IOException ex) {
+            log.error("Error add image", ex);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteOfferImage(
+            @PathVariable("offerId") String offerId,
+            @PathVariable("imageId") String imageId) throws URISyntaxException {
+
+        if (!offerService.isExistsImage(offerId, imageId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        try {
+            offerService.deleteImage(offerId, imageId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (IOException ex) {
+            log.error("Error add image", ex);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -173,7 +229,7 @@ public class OfferEndpoint {
      * or with status 400 (Bad Request) if the offerDTO is not valid,
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+     */    
     @CrossOrigin
     @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
@@ -391,27 +447,6 @@ public class OfferEndpoint {
         Collection<String> phoneNumbers = offerService.getOfferContactInfoPhoneNumbersById(id);
         return new ResponseEntity(phoneNumbers, HttpStatus.OK);
     }
-
-    /**
-     * GET  /offers/image/{id} : get offer image by id.
-     *
-     * @param id the offer status
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id,
-                                                                   @RequestParam("sizeType") OfferImageSizeType sizeType) {
-        log.debug("REST request to get offer image by id and size type");
-
-        final FileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
-        return ResponseEntity.ok()
-                .contentLength(imageWrapper.getLength())
-                .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
-                .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
-                .body(new InputStreamResource(imageWrapper.getInputStream()));
-    }
-
 
     /**
      * GET  /offers/search/category : get offer category by query.
