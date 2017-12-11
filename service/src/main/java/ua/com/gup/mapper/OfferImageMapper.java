@@ -22,7 +22,7 @@ public class OfferImageMapper {
     public void toDTO(OfferImage image , Map<String, Map<OfferImageSizeType, String>> images) {        
         Map<OfferImageSizeType, String> tmp = new HashMap();
         for (OfferImageSizeType type : image.getImages().keySet()) {
-            tmp.put(type, image.getImages().get(type).getS3id());
+            tmp.put(type, image.getImages().get(type).getUrl());
         }
         images.put(image.getId(), tmp);       
     }
