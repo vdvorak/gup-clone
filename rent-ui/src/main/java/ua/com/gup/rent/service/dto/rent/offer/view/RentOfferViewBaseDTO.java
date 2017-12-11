@@ -8,7 +8,7 @@ import ua.com.gup.rent.service.dto.rent.offer.RentOfferAuthorDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class RentOfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 5)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    private ZonedDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
     private RentOfferAuthorDTO author;
@@ -50,11 +50,11 @@ public class RentOfferViewBaseDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

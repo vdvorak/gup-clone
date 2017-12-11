@@ -1,4 +1,4 @@
-package ua.com.gup.repository.offer;
+package ua.com.gup.rent.repository.rent.offer;
 
 
 import com.mongodb.BasicDBObject;
@@ -22,12 +22,11 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
-import ua.com.gup.model.xchangerate.util.Currency;
-import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.enumeration.OfferStatus;
-import ua.com.gup.mongo.model.filter.*;
-import ua.com.gup.mongo.model.geo.Common;
-import ua.com.gup.mongo.model.offer.OfferCategoryCount;
+import ua.com.gup.rent.filter.*;
+import ua.com.gup.rent.model.enumeration.RentOfferCurrency;
+import ua.com.gup.rent.model.enumeration.RentOfferStatus;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -37,14 +36,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-import org.springframework.data.mongodb.core.query.Update;
-import ua.com.gup.mongo.composition.domain.dictionary.Dictionary;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 
 @Repository
-public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
+public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCustom {
 
-    private final Logger log = LoggerFactory.getLogger(OfferRepositoryCustomerImpl.class);
+    private final Logger log = LoggerFactory.getLogger(RentOfferRepositoryCustomerImpl.class);
     private final Integer COORDINATES_MAX_DIFF_LAT = 6;
     private final Integer COORDINATES_MAX_DIFF_LON = 3;
 
@@ -54,47 +50,47 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     @PostConstruct
     public void createIndex() {
         TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
-                .named(Offer.COLLECTION_NAME + "_TextIndex")
+                .named(RentOffer.COLLECTION_NAME + "_TextIndex")
                 .onField("$**")
                 .withDefaultLanguage("russian")
                 .build();
-        mongoTemplate.indexOps(Offer.class).ensureIndex(textIndex);
+        mongoTemplate.indexOps(RentOffer.class).ensureIndex(textIndex);
     }
 
     @Override
-    public long countByFilter(OfferFilter offerFilter, OfferStatus offerStatus) {
+    public long countByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus) {
         return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, OfferStatus offerStatus, String excludedId, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, RentOfferStatus offerStatus, String excludedId, Pageable pageable) {
         return findByFilter(offerFilter, Arrays.asList(offerStatus), Arrays.asList(excludedId), pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> offerStatuses, Pageable pageable) {
         return findByFilter(offerFilter, offerStatuses, null, pageable);
     }
 
     @Override
-    public List<Offer> findByFilter(OfferFilter offerFilter, List<OfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
+    public List<RentOffer> findByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable) {
         return findOffersByFilter(offerFilter, offerStatuses, excludedIds, pageable);
     }
 
     @Override
-    public void updateBasePriceByExchangeRate(OfferStatus status, Currency currency, Currency baseCurrency, double exchangeRate) {
+    public void updateBasePriceByExchangeRate(RentOfferStatus status, RentOfferCurrency currency, RentOfferCurrency baseCurrency, double exchangeRate) {
         BasicDBObject query = new BasicDBObject();
         query.put("status", status.name());
         query.put("price.currency", currency.name());
         BasicDBObject projection = new BasicDBObject();
         projection.put("_id", 1);
         projection.put("price.amount", 1);
-        final DBCollection collection = mongoTemplate.getCollection(Offer.COLLECTION_NAME);
+        final DBCollection collection = mongoTemplate.getCollection(RentOffer.COLLECTION_NAME);
         DBCursor cursor = collection.find(query, projection);
         try {
             while (cursor.hasNext()) {
@@ -117,7 +113,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
     }
 
-    private Query buildQueryByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private Query buildQueryByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria.forLanguage("russian");
@@ -135,7 +131,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             query.addCriteria(Criteria.where("seoUrl").in(offerFilter.getSeoUrls()));
         }
         if (offerFilter.getDate() != null) {
-            final DateFilter dateFilter = offerFilter.getDate();
+            final RentOfferDateFilter dateFilter = offerFilter.getDate();
             if (dateFilter.getFrom() != null && dateFilter.getTo() != null) {
                 query.addCriteria(Criteria.where("lastModifiedDate").gte(dateFilter.getFrom()).lte(dateFilter.getTo()));
             } else {
@@ -154,11 +150,11 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 query.addCriteria(Criteria.where("status").in(
                         statusList
                                 .stream()
-                                .map(OfferStatus::toString)
+                                .map(RentOfferStatus::toString)
                                 .collect(Collectors.toList())));
             }
         } else {
-            query.addCriteria(Criteria.where("status").is(OfferStatus.ACTIVE));
+            query.addCriteria(Criteria.where("status").is(RentOfferStatus.ACTIVE));
         }
         //todo maybe need change how as new  categories with sort vdvorak
         if (offerFilter.getCategories() != null) {
@@ -166,8 +162,8 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
 
         //filter by authorId
-        if (offerFilter.getAuthorFilter() != null && offerFilter.getAuthorFilter().getAuthorId() != null) {
-            query.addCriteria(Criteria.where("authorId").in(offerFilter.getAuthorFilter().getAuthorId()));
+        if (offerFilter.getRentOfferAuthorFilter() != null && offerFilter.getRentOfferAuthorFilter().getAuthorId() != null) {
+            query.addCriteria(Criteria.where("authorId").in(offerFilter.getRentOfferAuthorFilter().getAuthorId()));
         }
         //todo vdvorak
         CommonCoordinatesFilter coordinates = offerFilter.getCoordinates();
@@ -193,7 +189,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
 
         if (offerFilter.getPrice() != null) {
-            MoneyFilter price = offerFilter.getPrice();
+            RentOfferMoneyFilter price = offerFilter.getPrice();
             if (price.getCurrency() != null) {
                 if (price.getFrom() != null && price.getTo() != null) {
                     query.addCriteria(Criteria.where("price.baseAmount").gte(price.getFrom()).lte(price.getTo()));
@@ -218,7 +214,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             }
         }
         if (offerFilter.getNumAttrs() != null) {
-            for (NumericAttributeFilter filter : offerFilter.getNumAttrs()) {
+            for (RentOfferNumericAttributeFilter filter : offerFilter.getNumAttrs()) {
                 if (filter.getFrom() != null && filter.getTo() != null) {
                     query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()).lte(filter.getTo()));
                 } else {
@@ -232,24 +228,24 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
             }
         }
         if (offerFilter.getBoolAttrs() != null) {
-            for (BooleanAttributeFilter filter : offerFilter.getBoolAttrs()) {
+            for (RentOfferBooleanAttributeFilter filter : offerFilter.getBoolAttrs()) {
                 query.addCriteria(Criteria.where("boolAttrs." + filter.getKey() + ".selected").is(filter.getVal()));
             }
         }
         return query.with(pageable);
     }
 
-    private long countOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private long countOffersByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
-        return mongoTemplate.count(query, Offer.class);
+        return mongoTemplate.count(query, RentOffer.class);
     }
 
-    private List<Offer> findOffersByFilter(OfferFilter offerFilter, List<OfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    private List<RentOffer> findOffersByFilter(RentOfferFilter offerFilter, List<RentOfferStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
-        return mongoTemplate.find(query, Offer.class);
+        return mongoTemplate.find(query, RentOffer.class);
     }
 
-    public List<OfferCategoryCount> searchCategoriesByString(String query, int page, int size) {
+    public List<RentOfferCategoryCount> searchCategoriesByString(String query, int page, int size) {
         final String[] words = query.split(" ");
         final Criteria[] criterias = new Criteria[words.length];
         for (int i = 0; i < words.length; i++) {
@@ -257,7 +253,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
         }
         //use aggregation function use Criteria JSR specification //todo vdvorak
         Aggregation agg = newAggregation(
-                match(Criteria.where("status").is(OfferStatus.ACTIVE.toString())),
+                match(Criteria.where("status").is(RentOfferStatus.ACTIVE.toString())),
                 match(new Criteria().andOperator(criterias)),
                 group("categoriesRegExp").count().as("count"),
                 project("count").and("categoriesRegExp").previousOperation(),
@@ -266,8 +262,8 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 limit(size)
         );
         //Convert the aggregation result into a List
-        AggregationResults<OfferCategoryCount> groupResults = mongoTemplate.aggregate(agg, Offer.class, OfferCategoryCount.class);
-        List<OfferCategoryCount> result = groupResults.getMappedResults();
+        AggregationResults<RentOfferCategoryCount> groupResults = mongoTemplate.aggregate(agg, RentOffer.class, RentOfferCategoryCount.class);
+        List<RentOfferCategoryCount> result = groupResults.getMappedResults();
         return result;
     }
 
@@ -279,45 +275,6 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 && coordinates.getMinYX().length == 2
                 && Math.abs(coordinates.getMaxYX()[0].doubleValue()) - Math.abs(coordinates.getMinYX()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
                 && Math.abs(coordinates.getMaxYX()[1].doubleValue()) - Math.abs(coordinates.getMinYX()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
-    }
-    
-    @Override
-    public List<OfferImage> findOfferImages(String offerId){
-        Criteria criteria = Criteria.where("_id").is(offerId);
-        Query query = new Query(criteria);
-        Offer offer = mongoTemplate.findOne(query, Offer.class);        
-        return offer.getImages();
-    }
-    
-    @Override
-    public OfferImage findOfferImage(String offerId, String imageId){
-        
-        Criteria criteria = Criteria.where("_id").is(offerId)
-                .andOperator(Criteria.where("images._id").is(imageId));
-        Query query = new Query(criteria);
-        query.fields().exclude("_id").include("images.$");
-        Offer offer = mongoTemplate.findOne(query, Offer.class);        
-        return offer.getImages().get(0);
-    }
-    
-    
-    @Override
-    public Boolean isIxestsOfferImage(String offerId, String imageId) {
-        Criteria criteria = Criteria.where("_id").is(offerId)
-                .andOperator(Criteria.where("images._id").is(imageId));
-        Query query = new Query(criteria);
-        return mongoTemplate.exists(query, Offer.class);
-
-    }
-    
-    @Override
-    public void deleteOfferImage(OfferImage image) {
-        Query query = Query.query(Criteria
-                .where("images")
-                .elemMatch(Criteria.where("_id").is(image.getId()))
-        );
-        Update update = new Update().pull("images", new BasicDBObject("_id", image.getId()));
-        mongoTemplate.updateMulti(query, update, Offer.class);
     }
 
 }

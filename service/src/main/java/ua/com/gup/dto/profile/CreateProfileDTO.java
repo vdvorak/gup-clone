@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class CreateProfileDTO extends ProfileDTO {
 
+    @JsonProperty("roles")
     private Set<UserRole> userRoles;
 
     @JsonProperty("password")

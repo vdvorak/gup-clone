@@ -461,4 +461,3 @@ public class OfferEndpoint {
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }
-

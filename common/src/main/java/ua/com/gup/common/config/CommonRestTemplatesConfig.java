@@ -1,4 +1,4 @@
-package ua.com.gup.rent.config;
+package ua.com.gup.common.config;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -15,7 +15,6 @@ import org.apache.http.nio.reactor.IOReactorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
@@ -23,9 +22,9 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
-@Configuration
-public class RestTemplatesConfig {
-    private final Logger log = LoggerFactory.getLogger(RestTemplatesConfig.class);
+public class CommonRestTemplatesConfig {
+
+    private final Logger log = LoggerFactory.getLogger(CommonRestTemplatesConfig.class);
 
 
     private static final int DEFAULT_MAX_TOTAL_CONNECTIONS = 100;

@@ -1,35 +1,69 @@
 package ua.com.gup.rent.model.mongo.rent;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.rent.model.enumeration.RentOfferStatus;
 import ua.com.gup.rent.model.image.RentOfferImageInfo;
+import ua.com.gup.rent.model.rent.RentOfferAddress;
+import ua.com.gup.rent.model.rent.RentOfferContactInfo;
+import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
+import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
-@Document(collection = "rent.object")
+import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
+
+@Document(collection = COLLECTION_NAME, language = "russian")
+@CompoundIndexes({
+        @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
+})
 public class RentOffer {
 
+    public static final String COLLECTION_NAME = "rent.offer";
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
 
     @Id
     private String id;
+
     private String title;
+
     private String description;
-    private LocalDateTime createdDate;
+
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    private String lastModifiedBy;
+
+    @Indexed
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+
     private String authorId;
+
+     private RentOfferAddress address;
+
+    private RentOfferLands lands;
+
+    private String youtubeVideoId;
+
+    private RentOfferContactInfo contactInfo;
+
     private List<Integer> categories;
+
     private RentOfferStatus status;
-    private RentOfferPrice rentOfferPrice;
+
+    private RentOfferPrice price;
+
     private List<RentOfferImageInfo> images;
 
     @Indexed(unique = true)
@@ -43,13 +77,10 @@ public class RentOffer {
 
     private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 
-    /*private RentOfferStatistic statistic;*/
+    private RentOfferStatistic statistic;
 
     private RentOfferModerationReport lastOfferModerationReport;
 
-    public RentOffer() {
-        createdDate = LocalDateTime.now();
-    }
 
     public String getId() {
         return id;
@@ -57,14 +88,6 @@ public class RentOffer {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<RentOfferImageInfo> getImages() {
-        return images;
-    }
-
-    public void setImages(List<RentOfferImageInfo> images) {
-        this.images = images;
     }
 
     public String getTitle() {
@@ -91,6 +114,46 @@ public class RentOffer {
         this.createdDate = createdDate;
     }
 
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public RentOfferAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(RentOfferAddress address) {
+        this.address = address;
+    }
+
+    public RentOfferLands getLands() {
+        return lands;
+    }
+
+    public void setLands(RentOfferLands lands) {
+        this.lands = lands;
+    }
+
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
+    }
+
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
+    }
+
+    public RentOfferContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(RentOfferContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
     public List<Integer> getCategories() {
         return categories;
     }
@@ -107,20 +170,20 @@ public class RentOffer {
         this.status = status;
     }
 
-    public RentOfferPrice getRentOfferPrice() {
-        return rentOfferPrice;
+    public RentOfferPrice getPrice() {
+        return price;
     }
 
-    public void setRentOfferPrice(RentOfferPrice rentOfferPrice) {
-        this.rentOfferPrice = rentOfferPrice;
+    public void setPrice(RentOfferPrice price) {
+        this.price = price;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public List<RentOfferImageInfo> getImages() {
+        return images;
     }
 
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setImages(List<RentOfferImageInfo> images) {
+        this.images = images;
     }
 
     public String getSeoUrl() {
@@ -163,11 +226,62 @@ public class RentOffer {
         this.boolAttrs = boolAttrs;
     }
 
+
+    public void setStatistic(RentOfferStatistic statistic) {
+        this.statistic = statistic;
+    }
+
+    public RentOfferStatistic getStatistic() {
+        if (statistic == null) {
+            statistic = new RentOfferStatistic();
+        }
+        return statistic;
+    }
+
     public RentOfferModerationReport getLastOfferModerationReport() {
         return lastOfferModerationReport;
     }
 
     public void setLastOfferModerationReport(RentOfferModerationReport lastOfferModerationReport) {
         this.lastOfferModerationReport = lastOfferModerationReport;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+
+    public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
+        if (incrementOfferViews)
+            getStatistic().incrementTodayViewStatistic(getCreatedDate().toLocalDate());
+        if (incrementOfferPhoneViews)
+            getStatistic().incrementTodayViewPhoneStatistic(getCreatedDate().toLocalDate());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RentOffer)) return false;
+        RentOffer rentOffer = (RentOffer) o;
+        return Objects.equals(getId(), rentOffer.getId()) &&
+                Objects.equals(getAuthorId(), rentOffer.getAuthorId()) &&
+                Objects.equals(getSeoUrl(), rentOffer.getSeoUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAuthorId(), getSeoUrl());
     }
 }

@@ -1,11 +1,10 @@
-package ua.com.gup.rent.filter;
+package ua.com.gup.common.model.filter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Address filter model")
-public class RentOfferAddressFilter {
-
+public class CommonAddressFilter {
     @ApiModelProperty("Country codes with ',' delimiter")
     private String countries;
     @ApiModelProperty("Area codes with ',' delimiter")

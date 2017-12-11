@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 /**
  * A DTO for the Offer entity.
  */
-@ApiModel(description = "RentOffer Offer update DTO")
+@ApiModel(description = "Rent Offer update DTO")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RentOfferUpdateDTO extends RentOfferCreateDTO {
