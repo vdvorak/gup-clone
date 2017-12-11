@@ -32,7 +32,6 @@ import ua.com.gup.common.exeption.UnsupportedFileStorageException;
 import ua.com.gup.common.model.FileInfo;
 import ua.com.gup.common.model.FileType;
 
-@Service
 public class FileStorageServiceImpl implements FileStorageService {
 
     @Autowired(required = false)
