@@ -12,7 +12,9 @@ import ua.com.gup.storage.exception.ImageNotFoundException;
 import ua.com.gup.storage.service.ImageService;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping(path = "/api/images")
@@ -21,6 +23,8 @@ public class ImageEndpoint {
 
     @Autowired
     private ImageService imageService;
+    @Value("${server.url}")
+    private String  serverImageUrl;
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public ResponseEntity<ImageDTO> saveImage(@RequestParam(name = "image") MultipartFile multipartFile) throws BadRequestException, IOException {
@@ -45,7 +49,8 @@ public class ImageEndpoint {
         }
 
         String contentMD5 = imageService.saveImage(s3id, multipartFile.getContentType(), multipartFile.getInputStream());
-        ImageDTO imageDTO = new ImageDTO(s3id, contentMD5);
+        ImageDTO imageDTO = new ImageDTO(s3id, contentMD5);        
+        imageDTO.setImageURL(new URL(serverImageUrl + s3id));
         return new ResponseEntity<>(imageDTO, HttpStatus.CREATED);
     }
 

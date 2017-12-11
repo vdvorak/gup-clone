@@ -17,8 +17,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import ua.com.gup.common.model.FileInfo;
+import ua.com.gup.common.model.ImageFileInfo;
 
 /**
  * Database table entity Offer.
@@ -53,7 +58,7 @@ public class Offer implements Serializable {
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private List<String> imageIds;
+    private List<OfferImage> images;
 
     private String authorId;
 
@@ -155,13 +160,16 @@ public class Offer implements Serializable {
         this.description = description;
     }
 
-    public List<String> getImageIds() {
-        return imageIds;
+    public List<OfferImage> getImages() {
+        if(images==null){
+            images = new LinkedList();
+        }
+        return images;
     }
 
-    public void setImageIds(List<String> imageIds) {
-        this.imageIds = imageIds;
-    }
+    public void setImages(List<OfferImage> images) {
+        this.images = images;
+    }  
 
     public String getAuthorId() {
         return authorId;

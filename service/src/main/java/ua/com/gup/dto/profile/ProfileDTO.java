@@ -32,11 +32,11 @@ public abstract class ProfileDTO {
     @JsonProperty("contactPerson")
     protected String contactPerson;
 
-    @JsonProperty("imageIdLarge")
-    protected String imageIdLarge;
+    @JsonProperty("imageUrlLarge")
+    protected String imageUrlLarge;
     
-    @JsonProperty("imageIdSmall")
-    protected String imageIdSmall;
+    @JsonProperty("imageUrlSmall")
+    protected String imageUrlSmall;
 
     @JsonProperty("socialList")
     protected Set<ProfileContactList> socialsList;
@@ -58,8 +58,8 @@ public abstract class ProfileDTO {
         this.executive = profile.getExecutive();
         this.address = profile.getAddress();
         this.contactPerson = profile.getContactPerson();
-        this.imageIdLarge = profile.imageLargeId();
-        this.imageIdSmall = profile.imageSmallId();
+        this.imageUrlLarge = profile.imageLargeUrl();
+        this.imageUrlSmall = profile.imageSmallUrl();
         this.socialsList = profile.getContactList();
         this.status = profile.getStatus();
         this.contact = profile.getContact();
@@ -121,21 +121,22 @@ public abstract class ProfileDTO {
         this.contactPerson = contactPerson;
     }
 
-    public String getImageIdLarge() {
-        return imageIdLarge;
+    public String getImageUrlLarge() {
+        return imageUrlLarge;
     }
 
-    public void setImageIdLarge(String imageIdLarge) {
-        this.imageIdLarge = imageIdLarge;
+    public void setImageUrlLarge(String imageUrlLarge) {
+        this.imageUrlLarge = imageUrlLarge;
     }
 
-    public String getImageIdSmall() {
-        return imageIdSmall;
+    public String getImageUrlSmall() {
+        return imageUrlSmall;
     }
 
-    public void setImageIdSmall(String imageIdSmall) {
-        this.imageIdSmall = imageIdSmall;
-    }    
+    public void setImageUrlSmall(String imageUrlSmall) {
+        this.imageUrlSmall = imageUrlSmall;
+    }
+
 
     public Set<ProfileContactList> getSocialsList() {
         return socialsList;

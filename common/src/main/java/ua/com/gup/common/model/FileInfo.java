@@ -4,6 +4,7 @@ public abstract class FileInfo {
 
     private String fileName;
     private String s3id;
+    private String url;
     private String contentType;
     private Long size;
     private final FileType type;
@@ -46,6 +47,14 @@ public abstract class FileInfo {
 
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

@@ -1,3 +1,4 @@
 server:
   port: 8086
   context-path: /storage
+  url: http://images.s3.dev.gup.ua/

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import ua.com.gup.dto.offer.OfferImageDTO;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
+
 import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.offer.Image;
 import ua.com.gup.repository.file.FileRepository;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
 
 @Service
 public class ImageServiceImpl implements ImageService {

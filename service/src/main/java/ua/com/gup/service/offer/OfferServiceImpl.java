@@ -1,6 +1,8 @@
 package ua.com.gup.service.offer;
 
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.dto.offer.*;
-import ua.com.gup.dto.offer.enumeration.OfferImageSizeType;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
@@ -55,7 +56,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
+import ua.com.gup.common.model.FileInfo;
+import ua.com.gup.common.model.FileType;
+import ua.com.gup.common.service.FileStorageService;
+import ua.com.gup.common.util.ImageScaleUtil;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
+import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.LARGE;
+import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.MEDIUM;
 
 /**
  * Service Implementation for managing Offer.
@@ -68,8 +79,6 @@ public class OfferServiceImpl implements OfferService {
     @Autowired
     private OfferRepository offerRepository;
     @Autowired
-    private ImageService imageService;
-    @Autowired
     private SequenceService sequenceService;
     @Autowired
     private CurrencyConverterService currencyConverterService;
@@ -81,6 +90,8 @@ public class OfferServiceImpl implements OfferService {
     private CategoryService categoryService;
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private FileStorageService fileStorageService;
 
 
     //-------------------- OLD -----------------------------//
@@ -89,9 +100,7 @@ public class OfferServiceImpl implements OfferService {
 
     @Autowired
     private OfferRepositoryCustom offerRepositoryCustom;
-
-    @Autowired
-    private StorageService storageService;
+    
     //--------------------------------------------------------------//
 
     /**
@@ -104,13 +113,14 @@ public class OfferServiceImpl implements OfferService {
     public OfferViewDetailsDTO save(OfferCreateDTO offerCreateDTO) {
         log.debug("Request to save Offer : {}", offerCreateDTO);
         String seoURL = generateUniqueSeoUrl(offerCreateDTO.getTitle());
-        saveOfferImages(null, offerCreateDTO.getImages(), seoURL);
+        
         Offer offer = offerMapper.offerCreateDTOToOffer(offerCreateDTO);
         offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = SecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
-        offer.setAuthorId(userID);
+        offer.setAuthorId(userID);       
+        
         offer = offerRepository.save(offer);
         OfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -125,8 +135,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public OfferViewDetailsDTO save(OfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to save Offer : {}", offerUpdateDTO);
-        Offer offer = offerRepository.findOne(offerUpdateDTO.getId());
-        saveOfferImages(offer.getImageIds(), offerUpdateDTO.getImages(), offer.getSeoUrl());
+        Offer offer = offerRepository.findOne(offerUpdateDTO.getId());        
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(SecurityUtils.getCurrentUserId());
         offer.setLastModifiedDate(ZonedDateTime.now());
@@ -427,10 +436,10 @@ public class OfferServiceImpl implements OfferService {
      * @param sizeType the size type of image
      * @return the entity
      */
-    @Override
-    public FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType) {
-        return imageService.findOne(id, sizeType);
-    }
+//    @Override
+//    public FileWrapper findImageByIdAndSizeType(String id, OfferImageSizeType sizeType) {
+//        return imageService.findOne(id, sizeType);
+//    }
 
     /**
      * Get one offer categories by search word.
@@ -481,12 +490,7 @@ public class OfferServiceImpl implements OfferService {
 
         result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
-        result |= offerUpdateDTO.getDescription() != null;
-        if (offerUpdateDTO.getImages() != null) {
-            for (OfferImageDTO imageDTO : offerUpdateDTO.getImages()) {
-                result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-            }
-        }
+        result |= offerUpdateDTO.getDescription() != null;        
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation
@@ -499,37 +503,25 @@ public class OfferServiceImpl implements OfferService {
 
         return result;
     }
-
-
-    /**
-     * Get offer image by id and size type.
-     *
-     * @param offerImageIds  the ids of persisted images
-     * @param offerImageDTOS the image dtos to persist or update
-     * @param seoURL         the seo URL for name creation
-     * @return the entity
-     */
-    private void saveOfferImages(List<String> offerImageIds, List<OfferImageDTO> offerImageDTOS, String seoURL) {
-        if (offerImageIds == null) {
-            offerImageIds = new LinkedList<>();
-        }
-        if (offerImageDTOS == null) {
-            return;
-        }
-        for (OfferImageDTO offerImageDTO : offerImageDTOS) {
-            if (!StringUtils.isEmpty(offerImageDTO.getImageId()) && offerImageIds.contains(offerImageDTO.getImageId())) {
-                imageService.deleteOfferImage(offerImageDTO.getImageId());
-            }
-            if (offerImageDTO.getBase64Data() != null) {
-                final String id = imageService.saveOfferImage(offerImageDTO, seoURL);
-                if (!StringUtils.isEmpty(id)) {
-                    offerImageDTO.setImageId(id);
-                }
-            }
-        }
-        offerImageIds.removeAll(offerImageDTOS.stream().map(OfferImageDTO::getImageId).collect(Collectors.toSet()));
-        offerImageIds.forEach(id -> imageService.deleteOfferImage(id));
+    
+    private byte[] convertImage(BufferedImage srcImage, OfferImageSizeType size, String extension) throws IOException {
+        BufferedImage image = null;
+        switch (size) {
+            case LARGE:
+                image = ImageScaleUtil.largeBufferedImageOfferPreparator(srcImage);
+                break;
+            case MEDIUM:
+                image = ImageScaleUtil.mediumBufferedImageOfferPreparator(srcImage);
+                break;
+            case SMALL:
+                image = ImageScaleUtil.smallBufferedImageOfferPreparator(srcImage);
+                break;
+        }        
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(image, extension, os);
+        return os.toByteArray();
     }
+    
 
     private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
         if (moneyFilter != null) {
@@ -552,63 +544,6 @@ public class OfferServiceImpl implements OfferService {
     //------------------------------------------- OLD SERVICE FUNCTION ----------------------------------------------//
 
 
-    @Override
-    public void create(Offer offer) {
-        OfferModerationReport offerModerationReport = new OfferModerationReport();
-        //todo maybe add in future
-        //offerModerationReport.setModerationStatus(ModerationStatus.NO);
-
-        try {
-            List<Image> images = null;
-            if (offer.getImageIds().size() < 1) {
-                images = new ArrayList<>();
-                Image image = new Image();
-                image.setUrl("null");
-                image.setImageId("58edef514c8ea73b0dff0164"); //TODO hard)
-                images.add(image);
-
-            }
-            //todo vdvorak
-            //offer.setImageIds(images);
-        } catch (NullPointerException e) {
-            offer.setImageIds(null);
-        }
-
-        Offer newOffer = new Offer();
-        newOffer.setAuthorId(offer.getAuthorId());
-        //newOffer.setUserInfo(offer.getUserInfo());
-        newOffer.setCreatedDate(ZonedDateTime.now());
-        newOffer.setLastOfferModerationReport(offerModerationReport);
-        //newOffer.setProperties(offer.getProperties())
-        newOffer.setImageIds(offer.getImageIds());
-        newOffer.setSeoUrl(offer.getSeoUrl());
-        //newOffer.setSeoKey(offer.getSeoKey())
-        newOffer.setCategories(offer.getCategories());
-        newOffer.setYoutubeVideoId(offer.getYoutubeVideoId());
-        newOffer.setTitle(offer.getTitle());
-        newOffer.setDescription(offer.getDescription());
-        newOffer.setPrice(offer.getPrice());
-        //newOffer.setOldPrice(0l)
-        //newOffer.setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
-        //newOffer.setUsed(offer.getUsed())
-        //newOffer.setActive(Boolean.TRUE)
-        //newOffer.setDeleted(false)
-        newOffer.setAddress(offer.getAddress());
-        newOffer.getPrice().setCurrency(offer.getPrice().getCurrency());
-        //newOffer.setCanBeReserved(offer.getCanBeReserved())
-        //newOffer.setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
-        //newOffer.setCanBeRented(offer.getCanBeRented())
-        //newOffer.setAvailableShippingMethods(offer.getAvailableShippingMethods())
-        //newOffer.setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
-        //newOffer.setShowOrdersCount(offer.isShowOrdersCount())
-        //newOffer.setPaidServices(offer.getPaidServices())
-        //newOffer.setMonthOfPrices(offer.getMonthOfPrices())
-        //newOffer.setRents(offer.getRents())
-        //newOffer.setMadeInUkraine(offer.isMadeInUkraine());
-
-        offerRepositoryOLD.create(newOffer);
-        offer.setId(newOffer.getId());
-    }
 
     @Override
     public Offer findById(String offerId) {
@@ -616,185 +551,17 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Offer findBySeoKey(String seoKey) {
-        return offerRepositoryOLD.findBySeoKey(seoKey);
-    }
-
-
-    @Override
-    public boolean offerExists(String id) {
-        return offerRepositoryOLD.offerExists(id);
-    }
-
-    @Override
     public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
         return offerRepositoryOLD.findOffersWithOptions(offerFilterOptions);
-    }
-
-    @Override
-    public Offer edit(Offer oldOffer) {
-        Offer newOffer = new Offer();
-        newOffer.setId(oldOffer.getId());
-        newOffer.setLastOfferModerationReport(oldOffer.getLastOfferModerationReport());
-        newOffer.setAuthorId(oldOffer.getAuthorId());
-        //newOffer.setUserInfo(oldOffer.getUserInfo());
-        newOffer.setCreatedDate(ZonedDateTime.now());
-        newOffer.setCategories(oldOffer.getCategories());
-        //newOffer.setProperties(oldOffer.getProperties());
-        newOffer.setImageIds(oldOffer.getImageIds());
-        newOffer.setSeoUrl(oldOffer.getSeoUrl());
-        //newOffer.setSeoKey(oldOffer.getSeoKey());
-        //newOffer.setSeoCategory(oldOffer.getSeoCategory());
-        newOffer.setYoutubeVideoId(oldOffer.getYoutubeVideoId());
-        newOffer.setTitle(oldOffer.getTitle());
-        newOffer.setDescription(oldOffer.getDescription());
-        newOffer.setPrice(oldOffer.getPrice());
-        //newOffer.setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice() != null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l)
-        //newOffer.setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated());
-        //newOffer.setUsed(oldOffer.getUsed());
-        //newOffer.setActive(oldOffer.getActive());
-        newOffer.setAddress(oldOffer.getAddress());
-        newOffer.getPrice().setCurrency(oldOffer.getPrice().getCurrency());
-        //newOffer.setCanBeReserved(oldOffer.getCanBeReserved());
-        //newOffer.setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod());
-        //newOffer.setCanBeRented(oldOffer.getCanBeRented());
-        //newOffer.setAvailableShippingMethods(oldOffer.getAvailableShippingMethods());
-        //newOffer.setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods());
-        //newOffer.setShowOrdersCount(oldOffer.isShowOrdersCount()); //TODO
-        //newOffer.setDeleted(oldOffer.isDeleted());
-        //newOffer.setPaidServices(oldOffer.getPaidServices());
-        //newOffer.setMonthOfPrices(oldOffer.getMonthOfPrices());
-        //newOffer.setRents(oldOffer.getRents());
-        //newOffer.setMadeInUkraine(oldOffer.isMadeInUkraine());
-
-        return offerRepositoryOLD.findAndUpdate(newOffer);
-    }
-
-    @Override
-    public ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files) {
-
-        Offer updatedOffer = offerRegistration.getOffer();
-
-        // check is offer not null and exist
-        if (updatedOffer.getId() == null) {
-            return new ResponseEntity<>("You did not sent offer ID", HttpStatus.BAD_REQUEST);
-        } else if (!offerExists(updatedOffer.getId())) {
-            return new ResponseEntity<>("Offer with this ID: " + updatedOffer.getId() + " is not exist", HttpStatus.NOT_FOUND);
-        }
-
-        Offer oldOffer = findById(updatedOffer.getId());
-
-        String userId = SecurityUtils.getCurrentUserId();
-
-
-        // Check if current user is not an author
-        if (!findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
-            return new ResponseEntity<>("You are not author of this offer", HttpStatus.FORBIDDEN);
-        }
-
-
-        // update SEO url title for offer
-        String newTranslitTitle = Translit.makeTransliteration(updatedOffer.getTitle());
-        String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoUrl();
-        updatedOffer.setSeoUrl(newSeoUrl);
-
-
-        updatedOffer.setImageIds(prepareImageBeforeOfferUpdate(oldOffer, offerRegistration, files));
-
-
-        // if critical information was changed in the offer - we must resubmit this offer for the moderation
-        //todo maybe add in future
-        /*if (isOfferWasCriticalChanged(oldOffer, updatedOffer, files)) {
-            oldOffer.getLastOfferModerationReport().setModerationStatus(ModerationStatus.NO);
-            updatedOffer.setOfferModerationReports(oldOffer.getOfferModerationReports());
-        }*/
-
-        Offer newOffer = edit(updatedOffer);
-
-        return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
-    }
-
-
-
-
-    @Override
-    public void setActive(String offerId, boolean isActive) {
-        Offer offer = new Offer();
-        offer.setId(offerId);
-        offerRepositoryOLD.findAndUpdate(offer);
-    }
+    }   
 
     @Override
     public String getMainOfferImage(Offer offer) {
-        List<String> imageListId = offer.getImageIds();
-        if (imageListId != null) {
-            for (String imageId : imageListId) {
-                if (!StringUtils.isEmpty(imageId)) {
-                    return imageId;
-                }
-            }
+        List<OfferImage> imageList = offer.getImages();
+        if (imageList != null && !offer.getImages().isEmpty()) {
+           return offer.getImages().get(0).getImages().get(LARGE).getS3id();
         }
         return null;
-    }
-
-
-    private List<String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
-
-        List<String> resultImages = new ArrayList<>();
-        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-
-        List<Image> newImageList = newOfferRegistration.getImages();
-        List<String> oldImageList = oldOffer.getImageIds();
-        deleteImages(oldImageList, newImageList); // delete unnecessary images
-
-        for (Image image : newImageList) {
-            Integer currentImageIndex = image.getIndex();
-            Image newImage = new Image();
-            if (currentImageIndex != null) {
-                // Сохраняем одну фотографию, которая лежит по указанному индексу
-                try {
-                    fileUploadWrapper
-                            .setServiceName("offers")
-                            .setInputStream(files[currentImageIndex].getInputStream())
-                            .setContentType(files[currentImageIndex].getContentType())
-                            .setFilename(files[currentImageIndex].getOriginalFilename());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
-                newImage.setImageId(newImageId);
-                resultImages.add(newImageId);
-            } else if (!StringUtils.isEmpty(image.getImageId())) {
-                newImage.setImageId(image.getImageId());
-                resultImages.add(image.getImageId());
-            }
-        }
-
-        return resultImages;
-    }
-
-
-    /**
-     * Find if in the new ImageList some images were deleted and delete them from the DB.
-     *
-     * @param oldImageList - the old Image list.
-     * @param newImageList - the new Image list.
-     */
-    private void deleteImages(List<String> oldImageList, List<Image> newImageList) {
-        Set<String> setOfTheImagesForDelete = new HashSet<>();
-        boolean isDeleted;
-        for (String oldImage : oldImageList) {
-            isDeleted = true;
-            for (Image newImage : newImageList) {
-                if (oldImage.equals(newImage.getImageId())) {
-                    isDeleted = false;
-                }
-            }
-            if (isDeleted) {
-                setOfTheImagesForDelete.add(oldImage);
-            }
-        }
-        storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }
 
     /**
@@ -811,5 +578,95 @@ public class OfferServiceImpl implements OfferService {
     public boolean existsByIdAndStatus(String id, CommonStatus status) {
         return offerRepository.existsByIdAndStatus(id, status);
     }
+    
+    @Override
+    public List<OfferImage> getImages(String offerId){
+        return offerRepositoryCustom.findOfferImages(offerId);
+    }
+    
+    @Override
+    public OfferImage getImage(String offerId, String imageId){
+        return offerRepositoryCustom.findOfferImage(offerId, imageId);
+    }   
+    
+    @Override
+    public OfferImage addImage(String offerId, MultipartFile file) throws IOException {
+        OfferImage image = saveOfferImage(file);
+        Offer offer = offerRepository.findOne(offerId);
+        offer.getImages().add(image);
+        offerRepository.save(offer);
+        return image;
+    }    
+    
+    @Override
+    public boolean isExistsImage(String offerId, String imageId){
+        return offerRepositoryCustom.isIxestsOfferImage(offerId, imageId);
+    }
+    
+    @Override
+    public void deleteImage(String offerId, String imageId) throws IOException{        
+        OfferImage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
+        deleteOfferImage(image);        
+        offerRepositoryCustom.deleteOfferImage(image);
+    }
+    
+    
+    private List<OfferImage> deleteOfferImages(List<OfferImage> images, List<String> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            for (int i = 0; i < images.size(); i++) {
+                OfferImage offerImage = images.get(i);
+                if (ids.contains(offerImage.getId())) {
+                    deleteOfferImage(offerImage);                    
+                    images.remove(i);
+                    i--;
+                }
+            }
+        }
+        return images;
+    }
+    
+    private void deleteOfferImage(OfferImage image) {
+        for (FileInfo fileInfo : image.getImages().values()) {
+            fileStorageService.delete(fileInfo);
+        }
+    }
+    
+    private List<OfferImage> saveOfferImages(List<MultipartFile> files) {
+        if (files == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<OfferImage> images = new ArrayList<>(files.size());
+        for (MultipartFile file : files) {
+            try {               
+                OfferImage saveOfferImage = saveOfferImage(file);               
+                images.add(saveOfferImage);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(OfferServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
+        return images;
+    }
+    
+    private OfferImage saveOfferImage(MultipartFile file) throws IOException {
+        String extension = file.getContentType().split("/")[1];
+        BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
+        OfferImage offerImage = new OfferImage();
+        offerImage.setId(UUID.randomUUID().toString());
+
+        Map<OfferImageSizeType, FileInfo> map = new HashMap<>();
+        byte[] largeImage = convertImage(inputImage, OfferImageSizeType.LARGE, extension);
+        FileInfo info = fileStorageService.save(OfferImageSizeType.LARGE + "_" + file.getOriginalFilename(), FileType.IMAGE, largeImage);
+        map.put(OfferImageSizeType.LARGE, info);
+
+        byte[] mediumImage = convertImage(inputImage, OfferImageSizeType.MEDIUM, extension);
+        info = fileStorageService.save(OfferImageSizeType.MEDIUM + "_" + file.getOriginalFilename(), FileType.IMAGE, mediumImage);
+        map.put(OfferImageSizeType.MEDIUM, info);
+
+        byte[] smallImage = convertImage(inputImage, OfferImageSizeType.SMALL, extension);
+        info = fileStorageService.save(OfferImageSizeType.SMALL + "_" + file.getOriginalFilename(), FileType.IMAGE, smallImage);
+        map.put(OfferImageSizeType.SMALL, info);
+        offerImage.setImages(map);
+        return offerImage;
+    }
 }

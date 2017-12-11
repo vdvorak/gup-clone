@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import org.springframework.data.mongodb.core.query.Update;
+import ua.com.gup.mongo.composition.domain.dictionary.Dictionary;
+import ua.com.gup.mongo.composition.domain.offer.OfferImage;
 
 @Repository
 public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
@@ -239,6 +242,45 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
                 && coordinates.getMinYX().length == 2
                 && Math.abs(coordinates.getMaxYX()[0].doubleValue()) - Math.abs(coordinates.getMinYX()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
                 && Math.abs(coordinates.getMaxYX()[1].doubleValue()) - Math.abs(coordinates.getMinYX()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
+    }
+    
+    @Override
+    public List<OfferImage> findOfferImages(String offerId){
+        Criteria criteria = Criteria.where("_id").is(offerId);
+        Query query = new Query(criteria);
+        Offer offer = mongoTemplate.findOne(query, Offer.class);        
+        return offer.getImages();
+    }
+    
+    @Override
+    public OfferImage findOfferImage(String offerId, String imageId){
+        
+        Criteria criteria = Criteria.where("_id").is(offerId)
+                .andOperator(Criteria.where("images._id").is(imageId));
+        Query query = new Query(criteria);
+        query.fields().exclude("_id").include("images.$");
+        Offer offer = mongoTemplate.findOne(query, Offer.class);        
+        return offer.getImages().get(0);
+    }
+    
+    
+    @Override
+    public Boolean isIxestsOfferImage(String offerId, String imageId) {
+        Criteria criteria = Criteria.where("_id").is(offerId)
+                .andOperator(Criteria.where("images._id").is(imageId));
+        Query query = new Query(criteria);
+        return mongoTemplate.exists(query, Offer.class);
+
+    }
+    
+    @Override
+    public void deleteOfferImage(OfferImage image) {
+        Query query = Query.query(Criteria
+                .where("images")
+                .elemMatch(Criteria.where("_id").is(image.getId()))
+        );
+        Update update = new Update().pull("images", new BasicDBObject("_id", image.getId()));
+        mongoTemplate.updateMulti(query, update, Offer.class);
     }
 
 }
