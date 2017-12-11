@@ -600,12 +600,12 @@ public class Profile {
         this.imageSmall = imageSmall;
     }
     
-    public String imageLargeId() {
-        return imageLarge == null ? null : imageLarge.getS3id();
+    public String imageLargeUrl() {
+        return imageLarge == null ? null : imageLarge.getUrl();
     }
 
-    public String imageSmallId() {
-        return imageSmall == null ? null : imageSmall.getS3id();
+    public String imageSmallUrl() {
+        return imageSmall == null ? null : imageSmall.getUrl();
     }
 
     @Override

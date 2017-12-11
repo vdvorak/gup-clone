@@ -58,8 +58,8 @@ public abstract class ProfileDTO {
         this.executive = profile.getExecutive();
         this.address = profile.getAddress();
         this.contactPerson = profile.getContactPerson();
-        this.imageIdLarge = profile.imageLargeId();
-        this.imageIdSmall = profile.imageSmallId();
+        this.imageIdLarge = profile.imageLargeUrl();
+        this.imageIdSmall = profile.imageSmallUrl();
         this.socialsList = profile.getContactList();
         this.status = profile.getStatus();
         this.contact = profile.getContact();
