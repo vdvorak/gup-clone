@@ -1,6 +1,5 @@
 package ua.com.gup.rent.service.rent.impl;
 
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,16 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
+import ua.com.gup.common.model.enumeration.CommonImageSizeType;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.service.ImageService;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.filter.RentOfferMoneyFilter;
 import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
-import ua.com.gup.common.model.enumeration.CommonCurrency;
-import ua.com.gup.common.model.enumeration.CommonImageSizeType;
-import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
@@ -50,12 +51,11 @@ import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import ua.com.gup.common.model.image.ImageStorage;
-import ua.com.gup.common.service.ImageService;
 
 
 @Service
@@ -138,7 +138,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
-        offer.setLastModifiedDate(LocalDateTime.now());
+        offer.setLastModifiedDate(ZonedDateTime.now());
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(CommonStatus.ON_MODERATION);
