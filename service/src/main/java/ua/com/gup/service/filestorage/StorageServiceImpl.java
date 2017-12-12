@@ -34,6 +34,16 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteProfileImage(String userId) {
         Profile profile = profilesService.findById(userId);
+        deleteProfileImage(profile);
+    }   
+    
+    @Override
+    public void deleteProfileImageByPublicId(String publicUserId){
+        Profile profile = profilesService.findByPublicId(publicUserId);
+        deleteProfileImage(profile);
+    }
+    
+    private void deleteProfileImage(Profile profile){
         if (profile.getImageLarge() != null) {
             ImageFileInfo imageLarge = profile.getImageLarge();
             storageService.delete(imageLarge);
@@ -46,7 +56,7 @@ public class StorageServiceImpl implements StorageService {
             profile.setImageSmall(null);
         }
         profileRepository.save(profile);
-    }   
+    }
 
     @Override
     public Map<String, String> saveCachedImageProfile(String profileId, MultipartFile file) {

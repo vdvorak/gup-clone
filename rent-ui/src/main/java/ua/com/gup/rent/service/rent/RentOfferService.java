@@ -1,6 +1,7 @@
 package ua.com.gup.rent.service.rent;
 
 
+import java.io.IOException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -23,6 +24,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.model.image.ImageStorage;
 
 public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, String> {
 
@@ -70,4 +73,15 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 
     RentOfferFileWrapper findImageByIdAndSizeType(String id, CommonImageSizeType sizeType);
+    
+    
+    List<ImageStorage> getImages(String offerId);
+
+    ImageStorage getImage(String offerId, String imageId);
+
+    ImageStorage addImage(String offerId, MultipartFile file) throws IOException;
+
+    boolean isExistsImage(String offerId, String imageId);
+
+    void deleteImage(String offerId, String imageId) throws IOException;
 }

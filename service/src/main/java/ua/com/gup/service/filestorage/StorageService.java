@@ -11,6 +11,14 @@ public interface StorageService {
      * @param userId - the user ID.
      */
     void deleteProfileImage(String userId);  
+    
+    
+    /**
+     * Delete profile photo (avatar) 
+     *
+     * @param publicUserId - the user public ID.
+     */
+    void deleteProfileImageByPublicId(String publicUserId);  
 
     /**
      * Save photo in two variants: large and small

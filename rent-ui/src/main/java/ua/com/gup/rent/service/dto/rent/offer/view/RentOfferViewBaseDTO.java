@@ -9,8 +9,12 @@ import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.model.image.ImageSizeType;
 
 public class RentOfferViewBaseDTO implements Serializable {
 
@@ -37,7 +41,7 @@ public class RentOfferViewBaseDTO implements Serializable {
     private RentOfferPriceDTO price;
 
     @ApiModelProperty(position = 80)
-    private List<String> imageIds;
+    private Map<String, Map<ImageSizeType, String>> images;
 
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
@@ -98,13 +102,16 @@ public class RentOfferViewBaseDTO implements Serializable {
         this.price = price;
     }
 
-    public List<String> getImageIds() {
-        return imageIds;
+    public Map<String, Map<ImageSizeType, String>> getImages() {
+        if(images == null){
+            images = new HashMap<>();
+        }
+        return images;
     }
 
-    public void setImageIds(List<String> imageIds) {
-        this.imageIds = imageIds;
-    }
+    public void setImages(Map<String, Map<ImageSizeType, String>> images) {
+        this.images = images;
+    }   
 
     public String getSeoUrl() {
         return seoUrl;

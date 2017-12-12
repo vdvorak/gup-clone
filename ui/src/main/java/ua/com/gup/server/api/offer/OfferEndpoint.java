@@ -43,7 +43,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.common.model.image.ImageStorage;
 
 /**
  * REST controller for managing Offer.
@@ -96,7 +96,7 @@ public class OfferEndpoint {
         if (!offerService.exists(offerId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        List<OfferImage> images = offerService.getImages(offerId);
+        List<ImageStorage> images = offerService.getImages(offerId);
         return new ResponseEntity(images, HttpStatus.CREATED);
 
     }
@@ -109,7 +109,7 @@ public class OfferEndpoint {
         if (!offerService.isExistsImage(offerId, imageId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        OfferImage image = offerService.getImage(offerId, imageId);
+        ImageStorage image = offerService.getImage(offerId, imageId);
         return new ResponseEntity(image, HttpStatus.OK);
 
     }

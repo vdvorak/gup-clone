@@ -9,7 +9,7 @@ import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.common.model.image.ImageStorage;
 
 public interface OfferRepositoryCustom {
 
@@ -25,13 +25,13 @@ public interface OfferRepositoryCustom {
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
     
-    List<OfferImage> findOfferImages(String offerId);
+    List<ImageStorage> findOfferImages(String offerId);
     
-    OfferImage findOfferImage(String offerId, String imageId);
+    ImageStorage findOfferImage(String offerId, String imageId);
     
     Boolean isExistsOfferImage(String offerId, String imageId);
 
-    void deleteOfferImage(OfferImage image);
+    void deleteOfferImage(ImageStorage image);
 
 }
 

@@ -10,6 +10,7 @@ import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
+import ua.com.gup.common.model.image.ImageStorage;
 
 public interface RentOfferRepositoryCustom {
 
@@ -26,6 +27,14 @@ public interface RentOfferRepositoryCustom {
     List<RentOfferCategoryCount> searchCategoriesByString(String string, int page, int size);
 
     void updateBasePriceByExchangeRate(CommonStatus status, CommonCurrency currency, CommonCurrency baseCurrency, double exchangeRate);
+    
+    List<ImageStorage> findOfferImages(String offerId);
+    
+    ImageStorage findOfferImage(String offerId, String imageId);
+    
+    Boolean isExistsOfferImage(String offerId, String imageId);
+
+    void deleteOfferImage(ImageStorage image);
 
 }
 

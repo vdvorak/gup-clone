@@ -17,6 +17,8 @@ import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
+import java.util.List;
+import ua.com.gup.service.filestorage.StorageService;
 import javax.validation.Valid;
 
 /**
@@ -28,6 +30,8 @@ public class ProfileAdminEndpoint {
 
     @Autowired
     private ProfilesService profilesService;
+    @Autowired
+    private StorageService storageService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
@@ -105,5 +109,14 @@ public class ProfileAdminEndpoint {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = "/profiles/image/{id}")
+    public ResponseEntity<String> deleteImage(@PathVariable("id") String id) {
+        if(profilesService.profileExistsByPublicId(id)){
+            storageService.deleteProfileImageByPublicId(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
 }

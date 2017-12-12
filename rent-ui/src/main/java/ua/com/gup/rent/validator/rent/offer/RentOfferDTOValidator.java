@@ -37,7 +37,7 @@ public class RentOfferDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return RentOfferUpdateDTO.class.equals(clazz) || RentOfferUpdateDTO.class.equals(clazz);
+        return RentOfferCreateDTO.class.equals(clazz) || RentOfferUpdateDTO.class.equals(clazz);
     }
 
     @Override

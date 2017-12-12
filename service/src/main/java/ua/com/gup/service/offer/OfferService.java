@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.common.model.image.ImageStorage;
 
 /**
  * Service Interface for managing Offer.
@@ -212,11 +212,11 @@ public interface OfferService {
 
     boolean existsByIdAndStatus(String id, CommonStatus status);
 
-    List<OfferImage> getImages(String offerId);
+    List<ImageStorage> getImages(String offerId);
 
-    OfferImage getImage(String offerId, String imageId);
+    ImageStorage getImage(String offerId, String imageId);
 
-    OfferImage addImage(String offerId, MultipartFile file) throws IOException;
+    ImageStorage addImage(String offerId, MultipartFile file) throws IOException;
 
     boolean isExistsImage(String offerId, String imageId);
 

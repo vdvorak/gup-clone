@@ -39,6 +39,9 @@ spring:
     active: dev
   thymeleaf:
     cache: false
+  output:
+    ansi:
+     enabled: always
 
 security:
   basic:

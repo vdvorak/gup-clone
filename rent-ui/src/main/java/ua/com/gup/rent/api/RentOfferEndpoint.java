@@ -2,6 +2,7 @@ package ua.com.gup.rent.api;
 
 
 import io.swagger.annotations.*;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.model.image.ImageStorage;
 
 /**
  * REST controller for managing Rent Offer.
@@ -432,4 +435,66 @@ public class RentOfferEndpoint {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+
+    //<editor-fold defaultstate="collapsed" desc="IMAGE API">
+    
+    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.GET)
+    public ResponseEntity getOfferImages(@PathVariable("offerId") String offerId) throws URISyntaxException {
+        if (!offerService.exists(offerId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<ImageStorage> images = offerService.getImages(offerId);
+        return new ResponseEntity(images, HttpStatus.CREATED);
+
+    }
+    
+    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.GET)
+    public ResponseEntity getOfferImage(
+            @PathVariable("offerId") String offerId,
+            @PathVariable("imageId") String imageId) {
+        if (!offerService.isExistsImage(offerId, imageId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        ImageStorage image = offerService.getImage(offerId, imageId);
+        return new ResponseEntity(image, HttpStatus.OK);
+        
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity createOfferImage(
+            @PathVariable("offerId") String offerId,
+            MultipartFile image) throws URISyntaxException {
+        
+        if (!offerService.exists(offerId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        try {
+            offerService.addImage(offerId, image);
+            return new ResponseEntity(HttpStatus.CREATED);
+        } catch (IOException ex) {
+            log.error("Error add image", ex);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteOfferImage(
+            @PathVariable("offerId") String offerId,
+            @PathVariable("imageId") String imageId) throws URISyntaxException {
+        
+        if (!offerService.isExistsImage(offerId, imageId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        try {
+            offerService.deleteImage(offerId, imageId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (IOException ex) {
+            log.error("Error add image", ex);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+//</editor-fold>
 }
