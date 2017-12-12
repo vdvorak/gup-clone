@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.rent.model.image.RentOfferImageInfo;
+import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
 import ua.com.gup.rent.model.rent.RentOfferLands;
@@ -18,12 +18,11 @@ import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttr
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import ua.com.gup.common.model.image.ImageStorage;
 
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
@@ -43,12 +42,12 @@ public class RentOffer {
 
     private String description;
 
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
 
     @Indexed
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
     private String authorId;
 
@@ -108,11 +107,11 @@ public class RentOffer {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -259,11 +258,11 @@ public class RentOffer {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
