@@ -80,7 +80,7 @@ public class OfferEndpoint {
      */
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @RequestMapping(value = "/offers", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(value = "/offers", method = RequestMethod.POST)
     public ResponseEntity<OfferViewDetailsDTO> createOffer(OfferCreateDTO offerCreateDTO
             ) throws URISyntaxException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);        
