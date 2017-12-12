@@ -19,8 +19,8 @@ public class ImageStorageMapper {
         images.put(image.getId(), tmp);       
     }
     
-    public void toListDTO(List<ImageStorage> imagesSorce , Map<String, Map<ImageSizeType, String>> imagesTarget) {        
-        for (ImageStorage image : imagesSorce) {
+    public void toListDTO(List<ImageStorage> imagesSource , Map<String, Map<ImageSizeType, String>> imagesTarget) {
+        for (ImageStorage image : imagesSource) {
             toDTO(image, imagesTarget);
         }
         

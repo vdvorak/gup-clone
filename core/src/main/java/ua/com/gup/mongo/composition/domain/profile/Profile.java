@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.Explanation;
+import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.config.annotation.Email;
 import ua.com.gup.config.annotation.Password;
 import ua.com.gup.mongo.model.offer.Address;
@@ -21,13 +24,11 @@ import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import ua.com.gup.common.model.ImageFileInfo;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(collection = Profile.COLLECTION_NAME)
+@Document(collection = ObjectType.USER)
 public class Profile {
-    public static final String COLLECTION_NAME = "users";
 
     @Id
     private String id;
@@ -57,7 +58,7 @@ public class Profile {
     private String lastname;
     private String executive;
     private String contactPerson;
-    private Address address;    
+    private Address address;
     private String imgUrl;
     private Long birthDate;
     private Contact contact;
@@ -78,6 +79,7 @@ public class Profile {
     private List<OfferUserContactInfo> offerUserContactInfoList;
     private BankCard bankCard;
     private Boolean ban = false;
+    private Explanation banExplanation;
     /*
      * Lawyer-Profile
      */
@@ -95,10 +97,13 @@ public class Profile {
     private DBStorePhones storePhones;
 
     private ProfileStatistic profileStatistic;
-    
+
     private String chatUID;
     private ImageFileInfo imageLarge;
     private ImageFileInfo imageSmall;
+
+    public Profile() {
+    }
 
     public Profile setLastLoginDateEqualsToCurrentDate() {
         this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -109,7 +114,7 @@ public class Profile {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
-    
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -599,13 +604,21 @@ public class Profile {
     public void setImageSmall(ImageFileInfo imageSmall) {
         this.imageSmall = imageSmall;
     }
-    
+
     public String imageLargeUrl() {
         return imageLarge == null ? null : imageLarge.getUrl();
     }
 
     public String imageSmallUrl() {
         return imageSmall == null ? null : imageSmall.getUrl();
+    }
+
+    public Explanation getBanExplanation() {
+        return banExplanation;
+    }
+
+    public void setBanExplanation(Explanation banExplanation) {
+        this.banExplanation = banExplanation;
     }
 
     @Override
@@ -627,7 +640,7 @@ public class Profile {
                 ", firstname='" + firstname + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
-                ", address='" + address + '\'' +                
+                ", address='" + address + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
                 ", contact=" + contact +

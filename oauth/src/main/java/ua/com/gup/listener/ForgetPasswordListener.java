@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.enumeration.EmailType;
-import ua.com.gup.service.emailnotification.EmailService;
+import ua.com.gup.service.EmailService;
 
 @Component
 public class ForgetPasswordListener implements ApplicationListener<OnForgetPasswordEvent> {

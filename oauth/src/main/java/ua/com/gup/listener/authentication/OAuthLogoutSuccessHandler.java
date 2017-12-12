@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import ua.com.gup.mongo.model.login.LoggedUser;
-import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class OAuthLogoutSuccessHandler implements org.springframework.security.web.authentication.logout.LogoutSuccessHandler {
 
     @Autowired
-    private ProfilesService profilesService;
+    private UserService userService;
 
     @Autowired
     private Environment e;
@@ -24,7 +24,7 @@ public class OAuthLogoutSuccessHandler implements org.springframework.security.w
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication a) throws IOException, ServletException {
         LoggedUser user = (LoggedUser) a.getPrincipal();
         String profileId = user.getProfileId();
-        profilesService.updateChatUID(profileId, null);
+        userService.updateChatUID(profileId, null);
         httpServletResponse.sendRedirect(e.getRequiredProperty("application.url"));
     }
 }

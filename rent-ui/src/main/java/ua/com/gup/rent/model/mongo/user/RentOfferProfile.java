@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferPhone;
@@ -15,12 +16,9 @@ import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
-import static ua.com.gup.rent.model.mongo.user.RentOfferProfile.COLLECTION_NAME;
 
-@Document(collection = COLLECTION_NAME)
+@Document(collection = ObjectType.USER)
 public class RentOfferProfile {
-
-    public static final String COLLECTION_NAME = "users"; //rent.users
 
     @Id
     private String id;
@@ -52,15 +50,15 @@ public class RentOfferProfile {
     private String imgId;
     private String imgUrl;
     private Long birthDate;
-  //  private Contact contact;
-  //  private Set<RentOfferProfileContactList> contactList;
+    //  private Contact contact;
+    //  private Set<RentOfferProfileContactList> contactList;
     private Set<String> socialList;
-  //  private FinanceInfo financeInfo;
+    //  private FinanceInfo financeInfo;
     private Set<String> favoriteOffers;
     @Size(max = 45)
     private String status;
     private Integer point;
-  //  private Set<RentOfferProfileRating> profileRating;
+    //  private Set<RentOfferProfileRating> profileRating;
     private Boolean confirmModerator;
     private Set<CommonUserRole> userRoles;
     private Long createdDate;
@@ -68,7 +66,7 @@ public class RentOfferProfile {
     private boolean online;
     //private List<RentOfferOrderAddress> orderAddressList;
     //private List<OfferUserContactInfo> offerUserContactInfoList;
-   // private BankCard bankCard;
+    // private BankCard bankCard;
     private Boolean ban = false;
     /*
      * Lawyer-Profile
@@ -596,21 +594,21 @@ public class RentOfferProfile {
                 ", imgId='" + imgId + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
-       //         ", contact=" + contact +
-       //         ", contactList=" + contactList +
-       //         ", financeInfo=" + financeInfo +
+                //         ", contact=" + contact +
+                //         ", contactList=" + contactList +
+                //         ", financeInfo=" + financeInfo +
                 ", favoriteOffers=" + favoriteOffers +
                 ", status='" + status + '\'' +
                 ", point=" + point +
-       //         ", profileRating=" + profileRating +
+                //         ", profileRating=" + profileRating +
                 ", confirmModerator=" + confirmModerator +
                 ", userRoles=" + userRoles +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
                 ", online=" + online +
-      //          ", orderAddressList=" + orderAddressList +
-      //          ", offerUserContactInfoList=" + offerUserContactInfoList +
-      //          ", bankCard=" + bankCard +
+                //          ", orderAddressList=" + orderAddressList +
+                //          ", offerUserContactInfoList=" + offerUserContactInfoList +
+                //          ", bankCard=" + bankCard +
                 ", userType=" + userType +
                 ", lawyerAddress='" + lawyerAddress + '\'' +
                 ", nameCompany='" + nameCompany + '\'' +

@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.dto.profile.RegisterProfileDTO;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
+import ua.com.gup.model.RegisterProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.login.FormChangePassword;
-import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.service.profile.VerificationTokenService;
+import ua.com.gup.service.UserService;
+import ua.com.gup.service.VerificationTokenService;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -38,7 +38,7 @@ import java.util.Date;
 public class RegisterController {
 
     @Autowired
-    private ProfilesService profilesService;
+    private UserService userService;
     @Autowired
     private VerificationTokenService verificationTokenService;
     @Autowired
@@ -56,7 +56,7 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@ModelAttribute(name = "user") @Valid RegisterProfileDTO registerProfileDTO, BindingResult bindingResult) {
         //validate if email already exists 
-        if (profilesService.profileExistsWithEmail(registerProfileDTO.getEmail().toLowerCase())) {
+        if (userService.profileExistsWithEmail(registerProfileDTO.getEmail().toLowerCase())) {
             bindingResult.rejectValue("email", "email.error.exists");
         }
 
@@ -71,7 +71,7 @@ public class RegisterController {
         profile.setUserType(CommonUserType.LEGAL_ENTITY);
         profile.setActive(false);
         profile.getUserRoles().add(CommonUserRole.ROLE_USER);
-        profilesService.createProfile(profile);
+        userService.createProfile(profile);
         eventPublisher.publishEvent(new OnInitialRegistrationByEmailEvent(profile));
         return "register/success";
     }
@@ -89,10 +89,10 @@ public class RegisterController {
             modelAndView.addObject("error", "verification.token.expired.exception");
             return modelAndView;
         }
-        Profile profile = profilesService.findById(verificationToken.getUserId());
+        Profile profile = userService.findById(verificationToken.getUserId());
         if (!Boolean.TRUE.equals(profile.getActive())) {
             profile.setActive(Boolean.TRUE);
-            profilesService.editProfile(profile);
+            userService.updateProfile(profile);
         }
         verificationTokenService.deleteToken(verificationToken);
         return modelAndView;
@@ -119,7 +119,7 @@ public class RegisterController {
             return modelAndView;
         }
 
-        Profile profile = profilesService.findProfileByEmail(email);
+        Profile profile = userService.findProfileByEmail(email);
         if (profile == null) {
             modelAndView.addObject("error", "account.restore.email.notfound");
             return modelAndView;
@@ -147,9 +147,9 @@ public class RegisterController {
             return modelAndView;
         }
 
-//        Profile profile = profilesService.findById(verificationToken.getUserId());
+//        Profile profile = userService.findById(verificationToken.getUserId());
 //        profile.setPassword(passwordEncoder.encode(fcp.getNewPassword()));
-//        profilesService.editProfile(profile);
+//        userService.editProfile(profile);
 //
 //        verificationTokenService.deleteToken(verificationToken);
         return modelAndView;
@@ -183,9 +183,9 @@ public class RegisterController {
         }
 
 
-        Profile profile = profilesService.findById(verificationToken.getUserId());
+        Profile profile = userService.findById(verificationToken.getUserId());
         profile.setPassword(passwordEncoder.encode(form.getNewPassword()));
-        profilesService.editProfile(profile);
+        userService.updateProfile(profile);
 
         verificationTokenService.deleteToken(verificationToken);
         return new ModelAndView("register/password/reset/success");

@@ -11,18 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.mongo.model.login.LoggedUser;
-import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.service.UserService;
 
 @RestController
 @RequestMapping(path = "/api/users")
 public class UsersController {
 
     @Autowired
-    private ProfilesService profilesService;
+    private UserService userService;
 
     @GetMapping(path = "/exists")
     public ResponseEntity userExists(@RequestParam(name = "login") String login) {
-        boolean profileExistsWithEmail = profilesService.profileExistsWithEmail(login.toLowerCase());
+        boolean profileExistsWithEmail = userService.profileExistsWithEmail(login.toLowerCase());
         return new ResponseEntity(profileExistsWithEmail, HttpStatus.OK);
     }
 

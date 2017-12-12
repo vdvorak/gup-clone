@@ -18,22 +18,6 @@ public interface ProfilesService {
     void createProfile(CreateProfileDTO profile);
 
     /**
-     * Create profile.
-     *
-     * @param profile - the profile.
-     */
-    void createProfile(Profile profile);
-
-
-    /**
-     * Create profile.
-     *
-     * @param profile - the Profile object.
-     */
-    void facebookRegister(Profile profile);
-
-
-    /**
      * Find profile by it's ID.
      *
      * @param id - the profile ID.
@@ -44,29 +28,15 @@ public interface ProfilesService {
     Profile findByPublicId(String id);
 
     /**
-     * Find and return whole profile by it's ID.
-     *
-     * @param id - the profile ID.
-     * @return - the profile.
-     */
-    Profile findWholeProfileById(String id);
-
-    /**
-     * Find whole profile by email.
-     *
-     * @param email - the profile email.
-     * @return - the profile.
-     */
-    Profile findWholeProfileByEmail(String email);
-
-
-    /**
      * Update profile profile.
      *
      * @param currentProfile - the profile with updated data.
      * @return - the updated profile.
      */
+    @Deprecated
     Profile editProfile(Profile currentProfile);
+
+    void updateProfile(Profile profile);
 
     /**
      * Delete profile by it's ID.
@@ -85,14 +55,6 @@ public interface ProfilesService {
 
     boolean profileExistsByPublicId(String id);
 
-
-    /**
-     * Profile exists with email boolean.
-     *
-     * @param email - the profile email.
-     * @return - the boolean
-     */
-    boolean profileExistsWithEmail(String email);
 
     boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
 
@@ -125,12 +87,6 @@ public interface ProfilesService {
      */
     Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
 
-    /**
-     * Find profile by email profile.
-     *
-     * @param email - the email.
-     * @return - the profile.
-     */
     Profile findProfileByEmail(String email);
 
     Profile findProfileByMainPhone(String mainPhone);
@@ -248,6 +204,4 @@ public interface ProfilesService {
      * @param profileId - the ID of the profile which must be deleted.
      */
     void deleteFromMyContactList(String profileId);
-
-    void updateChatUID(String profileId, String uid);
 }

@@ -1,4 +1,4 @@
-package ua.com.gup.service.emailnotification;
+package ua.com.gup.service.model;
 
 
 import org.apache.commons.codec.binary.Base64;

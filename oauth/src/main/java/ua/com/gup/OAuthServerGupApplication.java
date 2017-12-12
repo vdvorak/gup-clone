@@ -10,7 +10,7 @@ import ua.com.gup.config.*;
 public class OAuthServerGupApplication {
     public static void main(String[] args) {
         SpringApplication.run(new Object[]{WebConfig.class
-                , RootConfig.class
+                , OAuthRootConfig.class
                 , WebSecurityConfig.class
                 , SwaggerConfig.class
                 , MailConfig.class

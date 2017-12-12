@@ -1,4 +1,4 @@
-package ua.com.gup.service.emailnotification;
+package ua.com.gup.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +18,18 @@ import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.enumeration.EmailType;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 import ua.com.gup.repository.email.EmailRepository;
-import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.service.profile.VerificationTokenService;
+import ua.com.gup.service.EmailService;
+import ua.com.gup.service.UserService;
+import ua.com.gup.service.VerificationTokenService;
+import ua.com.gup.service.model.EmailServiceTokenModel;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import ua.com.gup.mongo.model.offer.EmailStatus;
 
 /**
  * Implementation of the mail service.
@@ -35,13 +37,13 @@ import ua.com.gup.mongo.model.offer.EmailStatus;
  * @author Kobylyatskyy Alexander
  */
 @Service
-@PropertySource(value={"classpath:/properties/email.properties"})
+@PropertySource(value = {"classpath:/properties/email.properties"})
 public class EmailServiceImpl implements EmailService {
 
     private static Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Autowired
-    private ProfilesService profilesService;
+    private UserService userService;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -82,9 +84,9 @@ public class EmailServiceImpl implements EmailService {
     public EmailMessage findOneMessage() {
         return emailRepository.findOneMessage();
     }
-    
+
     @Override
-    public EmailMessage findOneMessageInQueue(){
+    public EmailMessage findOneMessageInQueue() {
         return emailRepository.findOneMessageInQueue();
     }
 
@@ -122,7 +124,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendEmail(EmailMessage message) throws Exception {
         // Prepare the evaluation context for Thymeleaf
         final Context ctx = new Context();
-        Profile profile = profilesService.findById(message.getUserId());
+        Profile profile = userService.findById(message.getUserId());
         String templateContent = null;
         VerificationToken verificationToken = null;
         String mailSubject = "No theme";
@@ -160,10 +162,10 @@ public class EmailServiceImpl implements EmailService {
             }
         };
         this.mailSender.send(preparator);
-        
+
         message.setStatus(EmailStatus.SENDED);
         emailRepository.save(message);
-        
+
         this.verificationTokenService.saveToken(verificationToken);
     }
 

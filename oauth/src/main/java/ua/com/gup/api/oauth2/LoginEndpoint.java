@@ -34,8 +34,8 @@
 //import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
 //import ua.com.gup.mongo.model.login.FormChangePassword;
 //import ua.com.gup.mongo.model.login.LoggedUser;
-//import ua.com.gup.service.emailnotification.EmailService;
-//import ua.com.gup.service.emailnotification.EmailServiceTokenModel;
+//import ua.com.gup.service.EmailService;
+//import ua.com.gup.service.model.EmailServiceTokenModel;
 //import ua.com.gup.service.login.GupUserDetailsService;
 //import ua.com.gup.service.profile.ProfilesService;
 //import ua.com.gup.service.profile.VerificationTokenService;

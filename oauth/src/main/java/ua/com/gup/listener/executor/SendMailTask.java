@@ -7,14 +7,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.com.gup.mongo.composition.domain.email.EmailMessage;
-import ua.com.gup.service.emailnotification.EmailService;
-import ua.com.gup.service.emailnotification.EmailServiceImpl;
+import ua.com.gup.service.EmailService;
 
 @Component
 @Profile("pre-prod")
 public class SendMailTask {
 
-    private static Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private static Logger LOG = LoggerFactory.getLogger(SendMailTask.class);
 
     @Autowired
     private EmailService emailService;

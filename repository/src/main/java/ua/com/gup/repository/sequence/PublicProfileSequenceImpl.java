@@ -1,4 +1,4 @@
-package ua.com.gup.service.sequence;
+package ua.com.gup.repository.sequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -9,9 +9,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.exception.PublicProfileSequenceException;
 import ua.com.gup.mongo.composition.domain.profile.sequence.ProfileSequence;
+import ua.com.gup.repository.sequence.PublicProfileSequenceRepository;
 
 @Repository
-public class PublicProfileSequenceImpl implements PublicProfileSequenceService {
+public class PublicProfileSequenceImpl implements PublicProfileSequenceRepository {
 
     @Autowired
     private MongoOperations mongoOperations;

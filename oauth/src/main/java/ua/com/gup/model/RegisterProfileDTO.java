@@ -1,4 +1,4 @@
-package ua.com.gup.dto.profile;
+package ua.com.gup.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.config.annotation.Email;
