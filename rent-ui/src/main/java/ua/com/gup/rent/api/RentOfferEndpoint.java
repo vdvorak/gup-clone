@@ -32,7 +32,6 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
-import ua.com.gup.rent.util.RentPaginationUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
