@@ -1,4 +1,4 @@
-package ua.com.gup.server.api.profile.admin;
+package ua.com.gup.server.api.admin;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,10 @@ import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
-import java.util.List;
-import ua.com.gup.service.filestorage.StorageService;
 import javax.validation.Valid;
 
 /**
@@ -112,7 +111,7 @@ public class ProfileAdminEndpoint {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/profiles/image/{id}")
     public ResponseEntity<String> deleteImage(@PathVariable("id") String id) {
-        if(profilesService.profileExistsByPublicId(id)){
+        if (profilesService.profileExistsByPublicId(id)) {
             storageService.deleteProfileImageByPublicId(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
