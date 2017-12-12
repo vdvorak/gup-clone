@@ -2,14 +2,12 @@ package ua.com.gup.rent.api;
 
 
 import io.swagger.annotations.*;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +15,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.filter.RentOfferFilter;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonImageSizeType;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -32,12 +32,12 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.util.RentHeaderUtil;
-import ua.com.gup.rent.util.RentPaginationUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -47,8 +47,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.common.model.image.ImageStorage;
 
 /**
  * REST controller for managing Rent Offer.
@@ -411,9 +409,8 @@ public class RentOfferEndpoint {
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, iserid, pageable);
         List<String> seoUrls = new ArrayList<>();
         page.forEach(p -> seoUrls.add(p.getSeoUrl()));
+        return new ResponseEntity<>(seoUrls, HttpStatus.OK);
 
-        HttpHeaders headers = RentPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/" + iserid + "/" + status.name() + "/seourl");
-        return new ResponseEntity<>(seoUrls, headers, HttpStatus.OK);
     }
 
     /**
@@ -431,13 +428,12 @@ public class RentOfferEndpoint {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
-        HttpHeaders headers = RentPaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }
 
 
     //<editor-fold defaultstate="collapsed" desc="IMAGE API">
-    
+
     @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.GET)
     public ResponseEntity getOfferImages(@PathVariable("offerId") String offerId) throws URISyntaxException {
         if (!offerService.exists(offerId)) {
@@ -447,7 +443,7 @@ public class RentOfferEndpoint {
         return new ResponseEntity(images, HttpStatus.CREATED);
 
     }
-    
+
     @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.GET)
     public ResponseEntity getOfferImage(
             @PathVariable("offerId") String offerId,
@@ -457,15 +453,15 @@ public class RentOfferEndpoint {
         }
         ImageStorage image = offerService.getImage(offerId, imageId);
         return new ResponseEntity(image, HttpStatus.OK);
-        
+
     }
-    
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createOfferImage(
             @PathVariable("offerId") String offerId,
             MultipartFile image) throws URISyntaxException {
-        
+
         if (!offerService.exists(offerId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -477,13 +473,13 @@ public class RentOfferEndpoint {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteOfferImage(
             @PathVariable("offerId") String offerId,
             @PathVariable("imageId") String imageId) throws URISyntaxException {
-        
+
         if (!offerService.isExistsImage(offerId, imageId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -495,6 +491,6 @@ public class RentOfferEndpoint {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
 //</editor-fold>
 }
