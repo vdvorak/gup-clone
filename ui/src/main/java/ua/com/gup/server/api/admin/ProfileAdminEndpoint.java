@@ -17,7 +17,7 @@ import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
-import java.util.List;
+import javax.validation.Valid;
 
 /**
  * Rest controllers for using by administrative module.
@@ -75,7 +75,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/profiles/ban/{id}")
-    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id) {
+    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody Explanation explanation) {
         String loggedUserId = SecurityUtils.getCurrentUserId();
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN);
@@ -84,7 +84,6 @@ public class ProfileAdminEndpoint {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        profile.setActive(false);
         profile.setBan(true);
         profilesService.editProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -101,7 +100,6 @@ public class ProfileAdminEndpoint {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        profile.setActive(true);
         profile.setBan(false);
         profilesService.editProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
