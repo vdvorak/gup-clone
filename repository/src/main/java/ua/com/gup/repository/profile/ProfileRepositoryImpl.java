@@ -14,7 +14,9 @@ import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -121,13 +123,17 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     private Query buildQueryByFilter(Profile profileFilter) {
         Query query = new Query();
-        if (profileFilter.getUsername() != null) {
-            String searchFieldRegex = "(?i:.*" + profileFilter.getUsername() + ".*)";
+        if (!StringUtils.isEmpty(profileFilter.getUsername())) {
+            String searchFieldRegex = "(?i:.*" + profileFilter.getUsername().trim() + ".*)";
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
         }
 
-        if (profileFilter.getPublicId() != null) {
-            query.addCriteria(Criteria.where("publicId").is(profileFilter.getPublicId()));
+        if (!StringUtils.isEmpty(profileFilter.getEmail())) {
+            query.addCriteria(Criteria.where("email").is(profileFilter.getEmail().trim()));
+        }
+
+        if (!StringUtils.isEmpty(profileFilter.getPublicId())) {
+            query.addCriteria(Criteria.where("publicId").is(profileFilter.getPublicId().trim()));
         }
 
         if (profileFilter.getUserRoles() != null) {
@@ -135,7 +141,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         }
 
         if (profileFilter.getMainPhone() != null && !StringUtils.isEmpty(profileFilter.getMainPhone().getPhoneNumber())) {
-            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(profileFilter.getMainPhone().getPhoneNumber()));
+            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(profileFilter.getMainPhone().getPhoneNumber().trim()));
         }
         return query;
     }
@@ -150,7 +156,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable) {
         Query query = buildQueryByFilter(profileFilter);
         query.fields().exclude("password");
-        return mongoTemplate.find(query.with(pageable), Profile.class);
+        query.with(pageable);
+        return mongoTemplate.find(query, Profile.class);
     }
 
 

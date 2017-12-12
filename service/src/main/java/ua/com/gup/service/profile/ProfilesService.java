@@ -237,6 +237,8 @@ public interface ProfilesService {
 
     ProfileDTO findPrivateProfileDTOByPublicId(String publicId);
 
+    ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId);
+
     ProfileDTO findPrivateProfileDTOByPhoneNumberd(String phoneNumber, String socWendor);
 
 

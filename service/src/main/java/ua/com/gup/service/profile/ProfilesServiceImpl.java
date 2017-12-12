@@ -177,7 +177,7 @@ public class ProfilesServiceImpl implements ProfilesService {
             fullProfiles = profileRepository.findByFilterForAdmins(profileFilter, pageable);
         }
         List<ProfileShortAdminDTO> list = fullProfiles.stream().map(profile -> new ProfileShortAdminDTO(profile)).collect(Collectors.toList());
-        return new PageImpl<>(list, pageable, fullProfiles.size());
+        return new PageImpl<>(list, pageable,count);
     }
 
 
@@ -306,6 +306,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public ProfileDTO findPrivateProfileDTOByPublicId(String publicId) {
         return new PrivateProfileDTO(profileRepository.findByPublicId(publicId));
+    }
+
+    @Override
+    public ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId) {
+        return new AdminPrivateProfileDTO(profileRepository.findByPublicId(publicId));
     }
 
     @Override

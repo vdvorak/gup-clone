@@ -39,7 +39,7 @@ public class ProfileAdminEndpoint {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
-        ProfileDTO profile = profilesService.findPrivateProfileDTOByPublicId(profilePublicId);
+        ProfileDTO profile = profilesService.findPrivateProfileDTOForAdminByPublicId(profilePublicId);
         return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
     }
 
@@ -80,7 +80,7 @@ public class ProfileAdminEndpoint {
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN);
         }
-        Profile profile = profilesService.findById(id);
+        Profile profile = profilesService.findByPublicId(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -97,7 +97,7 @@ public class ProfileAdminEndpoint {
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant unban you self", HttpStatus.FORBIDDEN);
         }
-        Profile profile = profilesService.findById(id);
+        Profile profile = profilesService.findByPublicId(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
