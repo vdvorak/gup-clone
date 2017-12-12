@@ -30,6 +30,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import ua.com.gup.common.service.mapper.ImageStorageMapper;
 
 @Component
 public class RentOfferMapper {
@@ -57,6 +58,8 @@ public class RentOfferMapper {
 
     @Autowired
     private RentOfferPriceMapper rentOfferPriceMapper;
+    @Autowired
+    private ImageStorageMapper offerImageMapper;
 
     private static final int PRICE_ATTRIBUTE_CODE = 1;
 
@@ -203,12 +206,7 @@ public class RentOfferMapper {
         }
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
-        //todo vdvorak
-        /*if (source.getImageIds() != null && source.getImageIds().size() > 0) {
-            LinkedList<String> imageIds = new LinkedList<String>();
-            source.getImageIds().forEach(i -> imageIds.add(i));
-            target.setImageIds(imageIds);
-        }*/
+        offerImageMapper.toListDTO(source.getImages(), target.getImages());          
         target.setSeoUrl(source.getSeoUrl());
 
     }

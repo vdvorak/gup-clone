@@ -1,5 +1,6 @@
 package ua.com.gup.mongo.composition.domain.offer;
 
+import ua.com.gup.common.model.image.ImageStorage;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -58,7 +59,7 @@ public class Offer implements Serializable {
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private List<OfferImage> images;
+    private List<ImageStorage> images;
 
     private String authorId;
 
@@ -160,14 +161,14 @@ public class Offer implements Serializable {
         this.description = description;
     }
 
-    public List<OfferImage> getImages() {
+    public List<ImageStorage> getImages() {
         if(images==null){
             images = new LinkedList();
         }
         return images;
     }
 
-    public void setImages(List<OfferImage> images) {
+    public void setImages(List<ImageStorage> images) {
         this.images = images;
     }  
 

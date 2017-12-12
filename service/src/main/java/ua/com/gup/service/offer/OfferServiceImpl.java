@@ -50,11 +50,13 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import ua.com.gup.common.model.FileInfo;
 import ua.com.gup.common.model.FileType;
+import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.service.FileStorageService;
 import ua.com.gup.common.util.ImageScaleUtil;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
-import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
-import static ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType.LARGE;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.model.image.ImageSizeType;
+import static ua.com.gup.common.model.image.ImageSizeType.LARGE;
+import ua.com.gup.common.service.ImageService;
 
 /**
  * Service Implementation for managing Offer.
@@ -80,6 +82,8 @@ public class OfferServiceImpl implements OfferService {
     private ProfileRepository profileRepository;
     @Autowired(required = false)
     private FileStorageService fileStorageService;
+    @Autowired
+    private ImageService imageService;
 
 
     //-------------------- OLD -----------------------------//
@@ -490,25 +494,8 @@ public class OfferServiceImpl implements OfferService {
         result |= offerUpdateDTO.getBoolAttrs() != null;
 
         return result;
-    }
-    
-    private byte[] convertImage(BufferedImage srcImage, OfferImageSizeType size, String extension) throws IOException {
-        BufferedImage image = null;
-        switch (size) {
-            case LARGE:
-                image = ImageScaleUtil.largeBufferedImageOfferPreparator(srcImage);
-                break;
-            case MEDIUM:
-                image = ImageScaleUtil.mediumBufferedImageOfferPreparator(srcImage);
-                break;
-            case SMALL:
-                image = ImageScaleUtil.smallBufferedImageOfferPreparator(srcImage);
-                break;
-        }        
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(image, extension, os);
-        return os.toByteArray();
-    }
+    }   
+
     
 
     private void calculatePriceInBaseCurrency(MoneyFilter moneyFilter) {
@@ -545,7 +532,7 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public String getMainOfferImage(Offer offer) {
-        List<OfferImage> imageList = offer.getImages();
+        List<ImageStorage> imageList = offer.getImages();
         if (imageList != null && !offer.getImages().isEmpty()) {
            return offer.getImages().get(0).getImages().get(LARGE).getS3id();
         }
@@ -568,18 +555,18 @@ public class OfferServiceImpl implements OfferService {
     }
     
     @Override
-    public List<OfferImage> getImages(String offerId){
+    public List<ImageStorage> getImages(String offerId){
         return offerRepositoryCustom.findOfferImages(offerId);
     }
     
     @Override
-    public OfferImage getImage(String offerId, String imageId){
+    public ImageStorage getImage(String offerId, String imageId){
         return offerRepositoryCustom.findOfferImage(offerId, imageId);
     }   
     
     @Override
-    public OfferImage addImage(String offerId, MultipartFile file) throws IOException {
-        OfferImage image = saveOfferImage(file);
+    public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
+        ImageStorage image = imageService.saveImageStorage(file);
         Offer offer = offerRepository.findOne(offerId);
         offer.getImages().add(image);
         offerRepository.save(offer);
@@ -593,68 +580,8 @@ public class OfferServiceImpl implements OfferService {
     
     @Override
     public void deleteImage(String offerId, String imageId) throws IOException{        
-        OfferImage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
-        deleteOfferImage(image);        
+        ImageStorage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
+        imageService.deleteImageStorage(image);
         offerRepositoryCustom.deleteOfferImage(image);
-    }
-    
-    
-    private List<OfferImage> deleteOfferImages(List<OfferImage> images, List<String> ids) {
-        if (ids != null && !ids.isEmpty()) {
-            for (int i = 0; i < images.size(); i++) {
-                OfferImage offerImage = images.get(i);
-                if (ids.contains(offerImage.getId())) {
-                    deleteOfferImage(offerImage);                    
-                    images.remove(i);
-                    i--;
-                }
-            }
-        }
-        return images;
-    }
-    
-    private void deleteOfferImage(OfferImage image) {
-        for (FileInfo fileInfo : image.getImages().values()) {
-            fileStorageService.delete(fileInfo);
-        }
-    }
-    
-    private List<OfferImage> saveOfferImages(List<MultipartFile> files) {
-        if (files == null) {
-            return Collections.EMPTY_LIST;
-        }
-        List<OfferImage> images = new ArrayList<>(files.size());
-        for (MultipartFile file : files) {
-            try {               
-                OfferImage saveOfferImage = saveOfferImage(file);               
-                images.add(saveOfferImage);
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(OfferServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }    
-        return images;
-    }
-    
-    private OfferImage saveOfferImage(MultipartFile file) throws IOException {
-        String extension = file.getContentType().split("/")[1];
-        BufferedImage inputImage = ImageIO.read(file.getInputStream());
-
-        OfferImage offerImage = new OfferImage();
-        offerImage.setId(UUID.randomUUID().toString());
-
-        Map<OfferImageSizeType, FileInfo> map = new HashMap<>();
-        byte[] largeImage = convertImage(inputImage, OfferImageSizeType.LARGE, extension);
-        FileInfo info = fileStorageService.save(OfferImageSizeType.LARGE + "_" + file.getOriginalFilename(), FileType.IMAGE, largeImage);
-        map.put(OfferImageSizeType.LARGE, info);
-
-        byte[] mediumImage = convertImage(inputImage, OfferImageSizeType.MEDIUM, extension);
-        info = fileStorageService.save(OfferImageSizeType.MEDIUM + "_" + file.getOriginalFilename(), FileType.IMAGE, mediumImage);
-        map.put(OfferImageSizeType.MEDIUM, info);
-
-        byte[] smallImage = convertImage(inputImage, OfferImageSizeType.SMALL, extension);
-        info = fileStorageService.save(OfferImageSizeType.SMALL + "_" + file.getOriginalFilename(), FileType.IMAGE, smallImage);
-        map.put(OfferImageSizeType.SMALL, info);
-        offerImage.setImages(map);
-        return offerImage;
     }
 }

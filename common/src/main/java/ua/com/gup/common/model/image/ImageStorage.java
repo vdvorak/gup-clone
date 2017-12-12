@@ -1,16 +1,17 @@
-package ua.com.gup.mongo.composition.domain.offer;
+package ua.com.gup.common.model.image;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import ua.com.gup.common.model.FileInfo;
+import ua.com.gup.common.model.ImageFileInfo;
 
-public class OfferImage {
+public class ImageStorage {
 
     private String id;
-    private Map<OfferImageSizeType,FileInfo> images;
+    private Map<ImageSizeType,ImageFileInfo> images;
 
-    public OfferImage() {
+    public ImageStorage() {
     }
 
     public String getId() {
@@ -21,14 +22,14 @@ public class OfferImage {
         this.id = id;
     }
 
-    public Map<OfferImageSizeType, FileInfo> getImages() {
+    public Map<ImageSizeType, ImageFileInfo> getImages() {
         if(images == null){
             images = new HashMap();
         }
         return images;
     }
 
-    public void setImages(Map<OfferImageSizeType, FileInfo> images) {
+    public void setImages(Map<ImageSizeType, ImageFileInfo> images) {
         this.images = images;
     }
 
@@ -49,7 +50,7 @@ public class OfferImage {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final OfferImage other = (OfferImage) obj;
+        final ImageStorage other = (ImageStorage) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

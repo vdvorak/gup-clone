@@ -1,6 +1,7 @@
 package ua.com.gup.mapper;
 
 
+import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
@@ -25,8 +26,6 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
-import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
 
 @Component
 public class OfferMapper {
@@ -52,7 +51,7 @@ public class OfferMapper {
     @Autowired
     private CategoryAttributeService categoryAttributeService;
     @Autowired
-    private OfferImageMapper offerImageMapper;
+    private ImageStorageMapper offerImageMapper;
     
     private static final int PRICE_ATTRIBUTE_CODE = 1;
 

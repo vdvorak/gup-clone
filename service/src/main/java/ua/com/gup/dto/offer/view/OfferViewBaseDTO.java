@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import ua.com.gup.mongo.composition.domain.offer.OfferImageSizeType;
+import ua.com.gup.common.model.image.ImageSizeType;
 
 public class OfferViewBaseDTO implements Serializable {
 
@@ -39,7 +39,7 @@ public class OfferViewBaseDTO implements Serializable {
     private OfferPriceDTO price;
 
     @ApiModelProperty(position = 80)
-    private Map<String, Map<OfferImageSizeType, String>> images;
+    private Map<String, Map<ImageSizeType, String>> images;
 
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
@@ -101,14 +101,14 @@ public class OfferViewBaseDTO implements Serializable {
         this.price = price;
     }
 
-    public Map<String, Map<OfferImageSizeType, String>> getImages() {
+    public Map<String, Map<ImageSizeType, String>> getImages() {
         if(images == null){
             images = new HashMap<>();
         }
         return images;
     }
 
-    public void setImages(Map<String, Map<OfferImageSizeType, String>> images) {
+    public void setImages(Map<String, Map<ImageSizeType, String>> images) {
         this.images = images;
     }
    

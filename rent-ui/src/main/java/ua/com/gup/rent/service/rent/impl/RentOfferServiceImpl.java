@@ -1,26 +1,19 @@
 package ua.com.gup.rent.service.rent.impl;
 
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -31,7 +24,6 @@ import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonImageSizeType;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
-import ua.com.gup.rent.model.image.RentOfferImageInfo;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
@@ -53,20 +45,17 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
-import ua.com.gup.rent.service.rent.image.RentOfferPostImageResponse;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
-import ua.com.gup.rent.util.RentCompletableFutureUtil;
 import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.service.ImageService;
 
 
 @Service
@@ -134,7 +123,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         String userID = RentSecurityUtils.getCurrentUserId();
         offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
-        saveImagesInRentOffer(rentOfferCreateDTO,offer);
         offer = offerRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -457,52 +445,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     //------------------------------------------------------------------------------ method
-    private void saveImagesInRentOffer(RentOfferCreateDTO target, RentOffer rentOffer) {
-        MultipartFile[] files = target.getImages();
-        //if images exists save it's async
-        if (files != null && files.length > 0) {
-            int length = files.length;
-            List<RentOfferImageInfo> images = new ArrayList<>(length);
-
-            HttpHeaders commonHeader = new HttpHeaders();
-            commonHeader.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-            UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/images/").build();
-
-            List<CompletableFuture> completableFutures = new ArrayList<>(length);
-            for (int i = 0; i < length; i++) {
-                MultipartFile multipartFile = files[i];
-
-                LinkedMultiValueMap<String, Object> multipartRequest = new LinkedMultiValueMap<>();
-
-                Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(multipartFile.getOriginalFilename());
-                //Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                multipartRequest.add("image", new FileSystemResource(path.toString()));
-
-                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, commonHeader);
-
-                CompletableFuture<ResponseEntity<RentOfferPostImageResponse>> completableFuture = RentCompletableFutureUtil.toCompletableFuture(asyncRestTemplate.postForEntity(uriComponents.toUri(), requestEntity, RentOfferPostImageResponse.class));
-
-                completableFuture.whenCompleteAsync(((responseEntity, throwable) -> {
-                    RentOfferPostImageResponse response = responseEntity.getBody();
-                    RentOfferImageInfo info = new RentOfferImageInfo();
-                    info.setS3id(response.getS3id());
-                    info.setContentType(multipartFile.getContentType());
-                    info.setFileName(multipartFile.getOriginalFilename());
-                    info.setSize(multipartFile.getSize());
-                    images.add(info);
-
-                }));
-                completableFutures.add(completableFuture);
-            }
-            //wait for all (which save images) responses complete
-            CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[]{})).join();
-            rentOffer.setImages(images);
-        }
-       // getRepository().create(rentOffer);
-    }
-
+  
   /*  private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
         getRepository().update(null);
     }*/
@@ -515,4 +458,40 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         List<RentOffer> rentOffers = getRepository().findAll();
         return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
     }*/
+    
+    
+    
+    @Override
+    public List<ImageStorage> getImages(String offerId){
+        return offerRepositoryCustom.findOfferImages(offerId);
+    }
+    
+    @Override
+    public ImageStorage getImage(String offerId, String imageId){
+        return offerRepositoryCustom.findOfferImage(offerId, imageId);
+    }   
+    
+    @Override
+    public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
+        ImageStorage image = imageService.saveImageStorage(file);
+        RentOffer offer = offerRepository.findOne(offerId);
+        offer.getImages().add(image);
+        offerRepository.save(offer);
+        return image;
+    }    
+    
+    @Override
+    public boolean isExistsImage(String offerId, String imageId){
+        return offerRepositoryCustom.isExistsOfferImage(offerId, imageId);
+    }
+    
+    @Override
+    public void deleteImage(String offerId, String imageId) throws IOException{        
+        ImageStorage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
+        imageService.deleteImageStorage(image);
+        offerRepositoryCustom.deleteOfferImage(image);
+    }
+    
+    @Autowired
+    private ImageService imageService;
 }

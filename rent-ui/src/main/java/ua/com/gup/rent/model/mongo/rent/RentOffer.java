@@ -20,8 +20,10 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import ua.com.gup.common.model.image.ImageStorage;
 
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
@@ -64,7 +66,7 @@ public class RentOffer {
 
     private RentOfferPrice price;
 
-    private List<RentOfferImageInfo> images;
+    private List<ImageStorage> images;
 
     @Indexed(unique = true)
     private String seoUrl;
@@ -178,13 +180,16 @@ public class RentOffer {
         this.price = price;
     }
 
-    public List<RentOfferImageInfo> getImages() {
+    public List<ImageStorage> getImages() {
+        if (images == null) {
+            images = new LinkedList();
+        }
         return images;
     }
 
-    public void setImages(List<RentOfferImageInfo> images) {
+    public void setImages(List<ImageStorage> images) {
         this.images = images;
-    }
+    }  
 
     public String getSeoUrl() {
         return seoUrl;

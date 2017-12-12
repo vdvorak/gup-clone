@@ -22,7 +22,7 @@ import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.composition.domain.offer.OfferImage;
+import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.mongo.model.filter.*;
 import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
@@ -245,7 +245,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     }
 
     @Override
-    public List<OfferImage> findOfferImages(String offerId) {
+    public List<ImageStorage> findOfferImages(String offerId) {
         Criteria criteria = Criteria.where("_id").is(offerId);
         Query query = new Query(criteria);
         Offer offer = mongoTemplate.findOne(query, Offer.class);
@@ -253,7 +253,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     }
 
     @Override
-    public OfferImage findOfferImage(String offerId, String imageId) {
+    public ImageStorage findOfferImage(String offerId, String imageId) {
 
         Criteria criteria = Criteria.where("_id").is(offerId)
                 .andOperator(Criteria.where("images._id").is(imageId));
@@ -274,7 +274,7 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
     }
 
     @Override
-    public void deleteOfferImage(OfferImage image) {
+    public void deleteOfferImage(ImageStorage image) {
         Query query = Query.query(Criteria
                 .where("images")
                 .elemMatch(Criteria.where("_id").is(image.getId()))
