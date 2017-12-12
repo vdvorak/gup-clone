@@ -53,6 +53,7 @@
         </appender>
 
         <!-- Send logs to both console and file audit -->
+        <logger name="org.mongodb.driver.cluster" level="OFF" />
         <logger name="ua.com.gup" level="debug" additivity="false">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILE-AUDIT"/>
@@ -78,7 +79,7 @@
             </layout>
         </appender>
 
-
+        <logger name="org.mongodb.driver.cluster" level="OFF" />
         <logger name="ua.com.gup" level="debug" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
