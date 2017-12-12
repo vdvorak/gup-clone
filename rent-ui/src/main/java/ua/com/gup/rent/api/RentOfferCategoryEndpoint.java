@@ -88,7 +88,6 @@ public class RentOfferCategoryEndpoint {
         RentOfferCategoryAttribute result = rentOfferCategoryAttributeService.save(categoryAttribute);
         clearCache();
         return ResponseEntity.created(new URI("/categoryAttribute/" + result.getId()))
-                .headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -150,7 +149,7 @@ public class RentOfferCategoryEndpoint {
         logger.debug("REST request to delete RentOfferCategoryAttribute : {}", id);
         rentOfferCategoryAttributeService.delete(id);
         clearCache();
-        return ResponseEntity.ok().headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -192,7 +191,6 @@ public class RentOfferCategoryEndpoint {
         RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/categories/" + result.getId()))
-                .headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -258,7 +256,7 @@ public class RentOfferCategoryEndpoint {
         logger.debug("REST request to delete RentOfferCategoryShort : {}", id);
         rentOfferCategoryService.delete(id);
         clearCache();
-        return ResponseEntity.ok().headers(ua.com.gup.rent.util.RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok().build();
     }
 
     /**
