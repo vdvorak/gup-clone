@@ -2,14 +2,12 @@ package ua.com.gup.rent.api;
 
 
 import io.swagger.annotations.*;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +15,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.filter.RentOfferFilter;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonImageSizeType;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -31,12 +31,12 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
-import ua.com.gup.rent.util.RentHeaderUtil;
 import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -161,7 +161,6 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
         RentOfferViewDetailsDTO result = offerService.save(offerCreateDTO);
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
-                .headers(RentHeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -179,7 +178,7 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
     public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
         if (!offerService.exists(offerUpdateDTO.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "rentOfferNotFound", "Rent Offer not found")).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
@@ -289,14 +288,14 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
         offerService.delete(id);
-        return ResponseEntity.ok().headers(RentHeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
     public ResponseEntity<Page> getActiveProfileOffers(@PathVariable String userPublicId, Pageable pageable) {
         log.debug("REST request to get a page of authorId Offers by status.ACTIVE");
         if (StringUtils.isEmpty(userPublicId)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "userPublicId", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(CommonStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -404,7 +403,7 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
     public ResponseEntity<List<String>> getAllMyOffers(@PathVariable String iserid, @PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers-seourl by status & iserId");
         if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(status, iserid, pageable);
         List<String> seoUrls = new ArrayList<>();
@@ -425,7 +424,7 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
     public ResponseEntity<List<RentOfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(RentHeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);

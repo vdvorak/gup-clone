@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 @Component
+@Deprecated
 public final class MongoTemplateOperations {
 
     private static MongoTemplate staticMongoTemplate;
@@ -31,6 +32,7 @@ public final class MongoTemplateOperations {
      * @return updated object
      * Updates only those fields that != null
      */
+    @Deprecated
     public static <T> T updateFieldsAndReturnUpdatedObj(T objWithNewValues) {
 
         Query query = new Query();

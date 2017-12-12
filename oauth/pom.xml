@@ -29,48 +29,35 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-                
+
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>3.0.1.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.thymeleaf</groupId>-->
-            <!--<artifactId>thymeleaf</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.thymeleaf</groupId>-->
-            <!--<artifactId>thymeleaf-spring4</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.thymeleaf</groupId>-->
-            <!--<artifactId>thymeleaf</artifactId>-->
-            <!--<version>${thymeleaf.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.thymeleaf</groupId>-->
-            <!--<artifactId>thymeleaf-spring4</artifactId>-->
-            <!--<version>${thymeleaf.version}</version>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
-        <!--<dependency>-->
-            <!--<groupId>nz.net.ultraq.thymeleaf</groupId>-->
-            <!--<artifactId>thymeleaf-layout-dialect</artifactId>-->
-            <!--<version>2.2.2</version>-->
-        <!--</dependency>-->
+
+        <!--mail-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
 
 
         <dependency>
             <groupId>ua.com.gup</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>repository</artifactId>
             <version>${version}</version>
         </dependency>
 
@@ -79,7 +66,7 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
         </dependency>
-         <!--JSON Library-->
+        <!--JSON Library-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

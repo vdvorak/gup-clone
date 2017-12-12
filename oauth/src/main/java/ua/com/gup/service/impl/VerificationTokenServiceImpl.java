@@ -1,4 +1,4 @@
-package ua.com.gup.service.profile;
+package ua.com.gup.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +7,8 @@ import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
 import ua.com.gup.repository.profile.VerificationTokenRepository;
+import ua.com.gup.service.UserService;
+import ua.com.gup.service.VerificationTokenService;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    private ProfilesService profilesService;
+    private UserService profilesService;
 
 
     @Value("${verification.token.lostPassword.timeToLive.inMinutes}")
@@ -65,7 +67,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
      * <p>
      * //   * @param lostPasswordRequest
      *
-     * @return a token or null if user not found
+     * @return unban token or null if user not found
      */
     public VerificationToken sendLostPasswordToken(String email) {
         throw new RuntimeException("Not implemented yet");
@@ -161,14 +163,14 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
 
-    private Profile ensureUserIsLoaded(String profileId) {
-        Profile profile = profilesService.findWholeProfileById(profileId);
-        if (profile == null) {
-            throw new RuntimeException("Profile not found");
-        }
-
-        return profile;
-    }
+//    private Profile ensureUserIsLoaded(String profileId) {
+//        Profile profile = profilesService.findWholeProfileById(profileId);
+//        if (profile == null) {
+//            throw new RuntimeException("Profile not found");
+//        }
+//
+//        return profile;
+//    }
 
     private VerificationToken getActiveToken(List<VerificationToken> tokens) {
         VerificationToken activeToken = null;

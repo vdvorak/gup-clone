@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import ua.com.gup.common.model.FileInfo;
 import ua.com.gup.common.model.ImageFileInfo;
+import ua.com.gup.common.model.mongo.CommonRentOffer;
 
 /**
  * Database table entity Offer.
@@ -34,13 +35,11 @@ import ua.com.gup.common.model.ImageFileInfo;
 @CompoundIndexes({
         @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
 })
-public class Offer implements Serializable {
+public class Offer extends CommonRentOffer {
 
     public static final String COLLECTION_NAME = "offer";
     private static final long serialVersionUID = 1L;
-    @Id
-    private String id;
-
+   
     private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
@@ -87,15 +86,7 @@ public class Offer implements Serializable {
     private OfferStatistic statistic;
 
     private OfferModerationReport lastOfferModerationReport;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+ 
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }

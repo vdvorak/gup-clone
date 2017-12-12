@@ -18,12 +18,21 @@ public interface ProfileRepository {
      */
     void createProfile(Profile profile);
 
+
+    /**
+     * Create profile.
+     *
+     * @param profile the profile
+     */
+    void updateProfile(Profile profile);
+
     /**
      * Find profile and update profile.
      *
      * @param profile the profile
      * @return the profile
      */
+    @Deprecated
     Profile findProfileAndUpdate(Profile profile);
 
     /**

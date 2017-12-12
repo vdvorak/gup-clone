@@ -2,7 +2,6 @@ package ua.com.gup.server.api.offer;
 
 
 import io.swagger.annotations.*;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
-import ua.com.gup.mongo.model.file.FileWrapper;
 import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.server.util.PaginationUtil;
@@ -42,15 +40,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.web.api.AbstractImageEndpoint;
 
 /**
  * REST controller for managing Offer.
  */
 @RestController
 @RequestMapping("/api")
-public class OfferEndpoint {
+public class OfferEndpoint extends AbstractImageEndpoint{
 
     private static final String ENTITY_NAME = "offer";
     private final Logger log = LoggerFactory.getLogger(OfferEndpoint.class);
@@ -89,65 +86,6 @@ public class OfferEndpoint {
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
-    }
-
-    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.GET)
-    public ResponseEntity getOfferImages(@PathVariable("offerId") String offerId) throws URISyntaxException {
-        if (!offerService.exists(offerId)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        List<ImageStorage> images = offerService.getImages(offerId);
-        return new ResponseEntity(images, HttpStatus.CREATED);
-
-    }
-
-
-    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.GET)
-    public ResponseEntity getOfferImage(
-            @PathVariable("offerId") String offerId,
-            @PathVariable("imageId") String imageId) {
-        if (!offerService.isExistsImage(offerId, imageId)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        ImageStorage image = offerService.getImage(offerId, imageId);
-        return new ResponseEntity(image, HttpStatus.OK);
-
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity createOfferImage(
-            @PathVariable("offerId") String offerId,
-            MultipartFile image) throws URISyntaxException {
-
-        if (!offerService.exists(offerId)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        try {
-            offerService.addImage(offerId, image);
-            return new ResponseEntity(HttpStatus.CREATED);
-        } catch (IOException ex) {
-            log.error("Error add image", ex);
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteOfferImage(
-            @PathVariable("offerId") String offerId,
-            @PathVariable("imageId") String imageId) throws URISyntaxException {
-
-        if (!offerService.isExistsImage(offerId, imageId)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        try {
-            offerService.deleteImage(offerId, imageId);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (IOException ex) {
-            log.error("Error add image", ex);
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package ua.com.gup.service.profile;
+package ua.com.gup.service;
 
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.mongo.Explanation;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
@@ -72,7 +73,7 @@ public class ProfileAdminEndpoint {
         if (profile.isBan() || !profile.getActive()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        profilesService.editProfile(profileDTO.updateModel(profile));
+        profilesService.updateProfile(profileDTO.updateModel(profile));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -88,7 +89,8 @@ public class ProfileAdminEndpoint {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         profile.setBan(true);
-        profilesService.editProfile(profile);
+        profile.setBanExplanation(explanation);
+        profilesService.updateProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -104,7 +106,8 @@ public class ProfileAdminEndpoint {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         profile.setBan(false);
-        profilesService.editProfile(profile);
+        profile.setBanExplanation(null);
+        profilesService.updateProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

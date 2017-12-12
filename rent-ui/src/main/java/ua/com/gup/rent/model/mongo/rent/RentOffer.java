@@ -16,7 +16,7 @@ import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttr
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -37,12 +37,12 @@ public class RentOffer extends  CommonRentOffer{
 
     private String description;
 
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
 
     @Indexed
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
     private String authorId;
 
@@ -91,11 +91,11 @@ public class RentOffer extends  CommonRentOffer{
         this.description = description;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -231,11 +231,11 @@ public class RentOffer extends  CommonRentOffer{
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

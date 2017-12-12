@@ -38,6 +38,11 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public void updateProfile(Profile profile) {
+        mongoTemplate.save(profile);
+    }
+
+    @Override
     public Profile findById(String id) {
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, Profile.class);
@@ -56,6 +61,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+@Deprecated
     public Profile findProfileAndUpdate(Profile profile) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(profile);
     }

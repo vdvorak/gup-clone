@@ -8,8 +8,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.Contact;
@@ -17,7 +17,7 @@ import ua.com.gup.mongo.model.profiles.FinanceInfo;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.profile.ProfileRepository;
-import ua.com.gup.service.sequence.PublicProfileSequenceService;
+import ua.com.gup.repository.sequence.PublicProfileSequenceRepository;
 import ua.com.gup.util.security.SecurityUtils;
 
 import java.util.*;
@@ -33,12 +33,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private PublicProfileSequenceService profileSequenceService;
+    private PublicProfileSequenceRepository profileSequenceService;
 
     @Override
     public void createProfile(CreateProfileDTO profile) {
         Profile newProfile = new Profile()
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(ObjectType.USER))
                 .setExecutive(profile.getExecutive())
                 .setContactPerson(profile.getContactPerson())
                 .setAddress(profile.getAddress())
@@ -54,62 +54,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.createProfile(newProfile);
     }
 
-    @Override
-    public void createProfile(Profile profile) {
-        String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        Profile newProfile = new Profile()
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setEmail(profile.getEmail())
-                .setMainPhone(profile.getMainPhone())
-                .setSocWendor(profile.getSocWendor())
-                .setPassword(hashedPassword)
-                .setUserRoles(profile.getUserRoles()) //TODO ?
-                .setUserType(profile.getUserType())
-                .setCreatedDateEqualsToCurrentDate()
-                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
-        setEmptyFieldsForNewUser(newProfile);
-
-        profileRepository.createProfile(newProfile);
-
-        // create new balance for user in the bank
-        //bankSession.createBalanceRecord(newProfile.getId(), 3); //TODO for banking
-
-        profile.setId(newProfile.getId());
-    }
 
 
-    @Override
-    public void facebookRegister(Profile profile) {
-        HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
-            add(CommonUserRole.ROLE_USER);
-        }};
-
-        Profile newProfile = new Profile()
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setSocWendor(profile.getSocWendor())
-                .setUid(profile.getUid())
-                .setTokenKey(profile.getTokenKey())
-                .setUserRoles(userRoles)
-                .setUserType(profile.getUserType())
-                .setCreatedDateEqualsToCurrentDate()
-                .setBankCard(profile.getBankCard());
-
-        setEmptyFieldsForNewUser(newProfile);
-
-        profileRepository.createProfile(newProfile);
-
-        /*bankSession.createBalanceRecord(newProfile.getId(), 3);*///TODO for banking
-
-        profile.setId(newProfile.getId());
-    }
 
 
     @Override
@@ -124,14 +70,14 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Profile findWholeProfileById(String id) {
-        return profileRepository.findById(id);
-    }
-
-
-    @Override
+    @Deprecated
     public Profile editProfile(Profile profile) {
         return profileRepository.findProfileAndUpdate(profile);
+    }
+
+    @Override
+    public void updateProfile(Profile profile) {
+        profileRepository.updateProfile(profile);
     }
 
 
@@ -151,10 +97,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileExistsByPublicId(id);
     }
 
-    @Override
-    public boolean profileExistsWithEmail(String email) {
-        return profileRepository.profileExistsWithEmail(email);
-    }
 
     @Override
     public boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber) {
@@ -177,7 +119,7 @@ public class ProfilesServiceImpl implements ProfilesService {
             fullProfiles = profileRepository.findByFilterForAdmins(profileFilter, pageable);
         }
         List<ProfileShortAdminDTO> list = fullProfiles.stream().map(profile -> new ProfileShortAdminDTO(profile)).collect(Collectors.toList());
-        return new PageImpl<>(list, pageable,count);
+        return new PageImpl<>(list, pageable, count);
     }
 
 
@@ -190,13 +132,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     public Profile findProfileByMainPhone(String mainPhone) {
         return profileRepository.findProfileByMainPhone(mainPhone);
     }
-
-
-    @Override
-    public Profile findWholeProfileByEmail(String email) {
-        return profileRepository.findByEmail(email);
-    }
-
 
     @Override
     public boolean isSeoWordFree(String seoWord) {
@@ -362,13 +297,5 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
-    }
-
-    @Override
-    public void updateChatUID(String profileId, String uid) {
-        Profile profile = profileRepository.findById(profileId);
-        profile.setChatUID(uid);
-        profileRepository.save(profile);
-
     }
 }
