@@ -4,8 +4,6 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
@@ -31,9 +29,6 @@ import java.util.Objects;
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
 @Document(collection = COLLECTION_NAME, language = "russian")
-@CompoundIndexes({
-        @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
-})
 public class RentOffer  extends  CommonRentOffer{
 
     public static final String COLLECTION_NAME = "rent.offer";
