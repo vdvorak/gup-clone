@@ -4,6 +4,7 @@ package ua.com.gup.rent.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
@@ -30,7 +31,6 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import ua.com.gup.common.service.mapper.ImageStorageMapper;
 
 @Component
 public class RentOfferMapper {
@@ -199,7 +199,7 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewBaseDTO(RentOffer source, RentOfferViewBaseDTO target) {
         target.setId(source.getId());
-        target.setLastModifiedDate(source.getLastModifiedDate());
+       // target.setLastModifiedDate(source.getLastModifiedDate());
         target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         if (source.getCategories() != null) {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));

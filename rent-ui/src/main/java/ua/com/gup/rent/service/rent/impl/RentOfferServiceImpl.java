@@ -53,7 +53,6 @@ import ua.com.gup.rent.util.security.RentSecurityUtils;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -121,7 +120,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = RentSecurityUtils.getCurrentUserId();
-        offer.setLastModifiedBy(userID);
+      //  offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
         offer = offerRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -137,9 +136,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         saveOfferImages(/*offer.getImages()*/null, /*offerUpdateDTO.getImages()*/null, /*offer.getSeoUrl()*/null);
 
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
-        offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
-        offer.setLastModifiedDate(ZonedDateTime.now());
-        // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
+       // offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
+       // offer.setLastModifiedDate(ZonedDateTime.now());
+
+      // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(CommonStatus.ON_MODERATION);
         } else {
@@ -364,7 +364,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         if (offerOptional.isPresent()) {
             RentOffer offer = offerOptional.get();
             return Optional.of(offer.getStatistic())
-                    .map(o -> offerMapper.offerStatisticToOfferStatisticDTO(o, offer.getCreatedDate().toLocalDate(), dateStart, dateEnd));
+                    .map(o -> offerMapper.offerStatisticToOfferStatisticDTO(o, LocalDate.from(offer.getCreatedDate()), dateStart, dateEnd));
         }
         return Optional.empty();
     }

@@ -1,10 +1,11 @@
 package ua.com.gup.rent.model.mongo.rent;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
@@ -18,7 +19,8 @@ import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttr
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,12 +44,24 @@ public class RentOffer {
 
     private String description;
 
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+   /* private ZonedDateTime createdDate = ZonedDateTime.now();*/
 
-    private String lastModifiedBy;
+   /* private String lastModifiedBy;*/
 
-    @Indexed
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    /*@Indexed
+    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();*/
+
+    @CreatedBy
+    private GupLoggedUser user;
+
+    @CreatedDate
+    private Instant createdDate;
+
+    @LastModifiedBy
+    private GupLoggedUser lastModifiedUser;
+
+    @LastModifiedDate
+    private Instant lastModifiedDate;
 
     private String authorId;
 
@@ -105,14 +119,6 @@ public class RentOffer {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ZonedDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
     }
 
     public String getAuthorId() {
@@ -250,28 +256,16 @@ public class RentOffer {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+    public Instant getCreatedDate() {
+        return createdDate;
     }
-
-    public ZonedDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
 
     public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
         if (incrementOfferViews)
-            getStatistic().incrementTodayViewStatistic(getCreatedDate().toLocalDate());
+            getStatistic().incrementTodayViewStatistic(LocalDate.from(getCreatedDate()));
         if (incrementOfferPhoneViews)
-            getStatistic().incrementTodayViewPhoneStatistic(getCreatedDate().toLocalDate());
+            getStatistic().incrementTodayViewPhoneStatistic(LocalDate.from(getCreatedDate()));
     }
 
     @Override
