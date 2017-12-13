@@ -1,24 +1,35 @@
 package ua.com.gup.config;
 
+import java.io.IOException;
+import java.util.Enumeration;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ua.com.gup.listener.authentication.CustomAuthenticationFailureHandler;
 import ua.com.gup.listener.authentication.OAuthAuthenticationSuccessHandler;
 import ua.com.gup.listener.authentication.OAuthLogoutSuccessHandler;
+import ua.com.gup.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -57,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
+                .failureHandler(authenticationFailureHandler())
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .successHandler(oAuthAuthenticationSuccessHandler());
@@ -72,7 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
         return new OAuthAuthenticationSuccessHandler();
     }
-
+    
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {        
+        return new CustomAuthenticationFailureHandler();
+    }    
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
