@@ -50,9 +50,18 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
 //    }
 
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-        return new LoggedUser(profile.getEmail(), profile.getPassword(),
-                profile.getActive(), profile.getBan(), true, true, true, authorities,
-                profile.getId(), profile.getPublicId(), profile.getEmail());
+        return new LoggedUser(
+                profile.getEmail(),
+                profile.getPassword(),
+                profile.getActive(),
+                profile.getBan(),
+                true,
+                true,
+                !profile.getBan(),
+                authorities,
+                profile.getId(),
+                profile.getPublicId(),
+                profile.getEmail());
     }
 
     private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {

@@ -20,8 +20,16 @@
                     </div>
                     <div class="input flex-full-width" th:classappend="${param.error} ? error">
                         <input type="password" name="password" th:placeholder="#{password}" required>           
-                        <div class="error-message"  th:if="${param.error}" th:text="#{login.error}">
+                        <div class="error-message"  th:if="${param.bad_credentials}" th:text="#{login.error}">
                             bad credentials
+                        </div>                          
+                        <div class="error-message"  th:if="${param.blocked}" th:text="#{login.blocked}">
+                            blocked
+                        </div>  
+                        <div class="error-message"  th:if="${param.reason}"  >
+                            <span th:text="#{reason}"></span>
+                            :&nbsp;
+                            <span th:text="${param.reason}"></span>
                         </div>  
                     </div>
                     <button class="flex-full-width submit" type="submit" th:text="#{authorization}">Авторизация</button>

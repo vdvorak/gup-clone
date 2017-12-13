@@ -28,8 +28,10 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ua.com.gup.listener.authentication.CustomAuthenticationFailureHandler;
 import ua.com.gup.listener.authentication.OAuthAuthenticationSuccessHandler;
 import ua.com.gup.listener.authentication.OAuthLogoutSuccessHandler;
 
@@ -83,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
+                .failureHandler(authenticationFailureHandler())
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .successHandler(oAuthAuthenticationSuccessHandler())
@@ -157,6 +160,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new OAuthAuthenticationSuccessHandler();
     }
 
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

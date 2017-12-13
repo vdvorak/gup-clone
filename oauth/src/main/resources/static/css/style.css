@@ -185,6 +185,9 @@ a:hover, a:hover span {
     text-align: left;
     margin: 5px;    
 }
-
+.error-message > span{
+    color: #F54C40;
+    text-align: left;
+}
 .selected-locale{   
 }
