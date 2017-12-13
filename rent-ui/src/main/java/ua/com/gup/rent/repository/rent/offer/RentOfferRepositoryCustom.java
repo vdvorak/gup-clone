@@ -27,15 +27,6 @@ public interface RentOfferRepositoryCustom {
     List<RentOfferCategoryCount> searchCategoriesByString(String string, int page, int size);
 
     void updateBasePriceByExchangeRate(CommonStatus status, CommonCurrency currency, CommonCurrency baseCurrency, double exchangeRate);
-    
-    List<ImageStorage> findOfferImages(String offerId);
-    
-    ImageStorage findOfferImage(String offerId, String imageId);
-    
-    Boolean isExistsOfferImage(String offerId, String imageId);
-
-    void deleteOfferImage(ImageStorage image);
-
 }
 
 

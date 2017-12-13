@@ -18,7 +18,7 @@ import ua.com.gup.config.filter.OAuthFilter;
 import java.util.List;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service"})
+@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service", "ua.com.gup.common.repository"})
 public class SaleWebConfig extends WebMvcConfigurerAdapter {
 
 

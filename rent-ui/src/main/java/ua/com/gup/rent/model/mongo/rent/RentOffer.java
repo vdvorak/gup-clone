@@ -1,13 +1,16 @@
 package ua.com.gup.rent.model.mongo.rent;
 
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
 import ua.com.gup.rent.model.rent.RentOfferLands;
@@ -22,7 +25,6 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,24 +34,15 @@ import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 @CompoundIndexes({
         @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
 })
-public class RentOffer {
+public class RentOffer  extends  CommonRentOffer{
 
     public static final String COLLECTION_NAME = "rent.offer";
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
 
-    @Id
-    private String id;
-
     private String title;
 
     private String description;
-
-   /* private ZonedDateTime createdDate = ZonedDateTime.now();*/
-
-   /* private String lastModifiedBy;*/
-
-    /*@Indexed
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();*/
+  
 
     @CreatedBy
     private GupLoggedUser user;
@@ -79,8 +72,6 @@ public class RentOffer {
 
     private RentOfferPrice price;
 
-    private List<ImageStorage> images;
-
     @Indexed(unique = true)
     private String seoUrl;
 
@@ -95,15 +86,6 @@ public class RentOffer {
     private RentOfferStatistic statistic;
 
     private RentOfferModerationReport lastOfferModerationReport;
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -184,18 +166,7 @@ public class RentOffer {
     public void setPrice(RentOfferPrice price) {
         this.price = price;
     }
-
-    public List<ImageStorage> getImages() {
-        if (images == null) {
-            images = new LinkedList();
-        }
-        return images;
-    }
-
-    public void setImages(List<ImageStorage> images) {
-        this.images = images;
-    }  
-
+    
     public String getSeoUrl() {
         return seoUrl;
     }

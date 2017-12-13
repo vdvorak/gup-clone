@@ -277,46 +277,5 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
                 && coordinates.getMinYX().length == 2
                 && Math.abs(coordinates.getMaxYX()[0].doubleValue()) - Math.abs(coordinates.getMinYX()[0].doubleValue()) <= COORDINATES_MAX_DIFF_LAT
                 && Math.abs(coordinates.getMaxYX()[1].doubleValue()) - Math.abs(coordinates.getMinYX()[1].doubleValue()) <= COORDINATES_MAX_DIFF_LON;
-    }
-    
-    
-    @Override
-    public List<ImageStorage> findOfferImages(String offerId) {
-        Criteria criteria = Criteria.where("_id").is(offerId);
-        Query query = new Query(criteria);
-        RentOffer offer = mongoTemplate.findOne(query, RentOffer.class);
-        return offer.getImages();
-    }
-
-    @Override
-    public ImageStorage findOfferImage(String offerId, String imageId) {
-
-        Criteria criteria = Criteria.where("_id").is(offerId)
-                .andOperator(Criteria.where("images._id").is(imageId));
-        Query query = new Query(criteria);
-        query.fields().exclude("_id").include("images.$");
-        RentOffer offer = mongoTemplate.findOne(query, RentOffer.class);
-        return offer.getImages().get(0);
-    }
-
-
-    @Override
-    public Boolean isExistsOfferImage(String offerId, String imageId) {
-        Criteria criteria = Criteria.where("_id").is(offerId)
-                .andOperator(Criteria.where("images._id").is(imageId));
-        Query query = new Query(criteria);
-        return mongoTemplate.exists(query, RentOffer.class);
-
-    }
-
-    @Override
-    public void deleteOfferImage(ImageStorage image) {
-        Query query = Query.query(Criteria
-                .where("images")
-                .elemMatch(Criteria.where("_id").is(image.getId()))
-        );
-        Update update = new Update().pull("images", new BasicDBObject("_id", image.getId()));
-        mongoTemplate.updateMulti(query, update, RentOffer.class);
-    }
-
+    }        
 }

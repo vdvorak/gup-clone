@@ -51,6 +51,7 @@ public class ImageEndpoint {
         String contentMD5 = imageService.saveImage(s3id, multipartFile.getContentType(), multipartFile.getInputStream());
         ImageDTO imageDTO = new ImageDTO(s3id, contentMD5);        
         imageDTO.setImageURL(new URL(serverImageUrl + s3id));
+        imageDTO.setContentType(multipartFile.getContentType());
         return new ResponseEntity<>(imageDTO, HttpStatus.CREATED);
     }
 

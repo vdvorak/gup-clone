@@ -15,16 +15,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
-import ua.com.gup.common.model.enumeration.CommonImageSizeType;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.common.model.image.ImageStorage;
-import ua.com.gup.common.service.ImageService;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.filter.RentOfferMoneyFilter;
 import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
-import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
@@ -51,7 +47,6 @@ import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -378,12 +373,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
         RentOffer offer = offerRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
-    }
-
-    @Override
-    public RentOfferFileWrapper findImageByIdAndSizeType(String id, CommonImageSizeType sizeType) {
-        return null;
-    }
+    }   
 
     @Override
     protected RentOfferRepository getRepository() {
@@ -458,40 +448,4 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         List<RentOffer> rentOffers = getRepository().findAll();
         return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
     }*/
-    
-    
-    
-    @Override
-    public List<ImageStorage> getImages(String offerId){
-        return offerRepositoryCustom.findOfferImages(offerId);
-    }
-    
-    @Override
-    public ImageStorage getImage(String offerId, String imageId){
-        return offerRepositoryCustom.findOfferImage(offerId, imageId);
-    }   
-    
-    @Override
-    public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
-        ImageStorage image = imageService.saveImageStorage(file);
-        RentOffer offer = offerRepository.findOne(offerId);
-        offer.getImages().add(image);
-        offerRepository.save(offer);
-        return image;
-    }    
-    
-    @Override
-    public boolean isExistsImage(String offerId, String imageId){
-        return offerRepositoryCustom.isExistsOfferImage(offerId, imageId);
-    }
-    
-    @Override
-    public void deleteImage(String offerId, String imageId) throws IOException{        
-        ImageStorage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
-        imageService.deleteImageStorage(image);
-        offerRepositoryCustom.deleteOfferImage(image);
-    }
-    
-    @Autowired
-    private ImageService imageService;
 }

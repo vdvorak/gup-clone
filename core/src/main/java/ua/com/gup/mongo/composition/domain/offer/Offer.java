@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import ua.com.gup.common.model.FileInfo;
 import ua.com.gup.common.model.ImageFileInfo;
+import ua.com.gup.common.model.mongo.CommonRentOffer;
 
 /**
  * Database table entity Offer.
@@ -34,13 +35,11 @@ import ua.com.gup.common.model.ImageFileInfo;
 @CompoundIndexes({
         @CompoundIndex(name = "status_categoriesRegExp", def = "{'status': 1, 'categoriesRegExp': 1}")
 })
-public class Offer implements Serializable {
+public class Offer extends CommonRentOffer {
 
     public static final String COLLECTION_NAME = "offer";
     private static final long serialVersionUID = 1L;
-    @Id
-    private String id;
-
+   
     private ZonedDateTime createdDate = ZonedDateTime.now();
 
     private String lastModifiedBy;
@@ -58,8 +57,6 @@ public class Offer implements Serializable {
 
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
-
-    private List<ImageStorage> images;
 
     private String authorId;
 
@@ -87,15 +84,7 @@ public class Offer implements Serializable {
     private OfferStatistic statistic;
 
     private OfferModerationReport lastOfferModerationReport;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+ 
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
@@ -160,18 +149,7 @@ public class Offer implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public List<ImageStorage> getImages() {
-        if(images==null){
-            images = new LinkedList();
-        }
-        return images;
-    }
-
-    public void setImages(List<ImageStorage> images) {
-        this.images = images;
-    }  
-
+    
     public String getAuthorId() {
         return authorId;
     }
