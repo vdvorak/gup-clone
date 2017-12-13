@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">-->
+<html th:lang="ru"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="fragments/header :: header(#{error.title})" />
+
+    <body class="login">
+
+        <h1 style="color: #F54C40;" th:text="#{error.title}">
+            Error
+        </h1>
+    </body>
+</html>
