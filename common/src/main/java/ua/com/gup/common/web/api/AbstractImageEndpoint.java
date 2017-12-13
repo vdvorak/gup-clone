@@ -54,7 +54,7 @@ public abstract class AbstractImageEndpoint {
 
     }
 
-   // @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createOfferImage(
             @PathVariable("offerId") String offerId,
@@ -72,7 +72,7 @@ public abstract class AbstractImageEndpoint {
         }
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteOfferImage(
             @PathVariable("offerId") String offerId,
