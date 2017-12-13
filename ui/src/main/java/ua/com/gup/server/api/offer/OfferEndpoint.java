@@ -78,7 +78,7 @@ public class OfferEndpoint extends AbstractImageEndpoint{
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST)
-    public ResponseEntity<OfferViewDetailsDTO> createOffer(OfferCreateDTO offerCreateDTO
+    public ResponseEntity<OfferViewDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO
             ) throws URISyntaxException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);        
         

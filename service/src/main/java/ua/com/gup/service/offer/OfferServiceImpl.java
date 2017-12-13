@@ -1,8 +1,6 @@
 package ua.com.gup.service.offer;
 
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
@@ -40,21 +37,13 @@ import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
 import ua.com.gup.util.security.SecurityUtils;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
-import javax.imageio.ImageIO;
-import ua.com.gup.common.model.FileInfo;
-import ua.com.gup.common.model.FileType;
-import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.service.FileStorageService;
-import ua.com.gup.common.util.ImageScaleUtil;
 import ua.com.gup.common.model.image.ImageStorage;
-import ua.com.gup.common.model.image.ImageSizeType;
 import static ua.com.gup.common.model.image.ImageSizeType.LARGE;
 import ua.com.gup.common.service.ImageService;
 
@@ -80,10 +69,6 @@ public class OfferServiceImpl implements OfferService {
     private CategoryService categoryService;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired(required = false)
-    private FileStorageService fileStorageService;
-    @Autowired
-    private ImageService imageService;
 
 
     //-------------------- OLD -----------------------------//
@@ -552,36 +537,5 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public boolean existsByIdAndStatus(String id, CommonStatus status) {
         return offerRepository.existsByIdAndStatus(id, status);
-    }
-    
-    @Override
-    public List<ImageStorage> getImages(String offerId){
-        return offerRepositoryCustom.findOfferImages(offerId);
-    }
-    
-    @Override
-    public ImageStorage getImage(String offerId, String imageId){
-        return offerRepositoryCustom.findOfferImage(offerId, imageId);
-    }   
-    
-    @Override
-    public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
-        ImageStorage image = imageService.saveImageStorage(file);
-        Offer offer = offerRepository.findOne(offerId);
-        offer.getImages().add(image);
-        offerRepository.save(offer);
-        return image;
     }    
-    
-    @Override
-    public boolean isExistsImage(String offerId, String imageId){
-        return offerRepositoryCustom.isExistsOfferImage(offerId, imageId);
-    }
-    
-    @Override
-    public void deleteImage(String offerId, String imageId) throws IOException{        
-        ImageStorage image = offerRepositoryCustom.findOfferImage(offerId, imageId);        
-        imageService.deleteImageStorage(image);
-        offerRepositoryCustom.deleteOfferImage(image);
-    }
 }

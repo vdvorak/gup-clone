@@ -9,7 +9,6 @@ import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
-import ua.com.gup.common.model.image.ImageStorage;
 
 public interface OfferRepositoryCustom {
 
@@ -24,15 +23,6 @@ public interface OfferRepositoryCustom {
     List<Offer> findByFilter(OfferFilter offerFilter, List<CommonStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable);
 
     List<OfferCategoryCount> searchCategoriesByString(String string, int page, int size);
-    
-    List<ImageStorage> findOfferImages(String offerId);
-    
-    ImageStorage findOfferImage(String offerId, String imageId);
-    
-    Boolean isExistsOfferImage(String offerId, String imageId);
-
-    void deleteOfferImage(ImageStorage image);
-
 }
 
 

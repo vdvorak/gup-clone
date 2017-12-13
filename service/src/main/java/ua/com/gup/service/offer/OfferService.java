@@ -212,13 +212,4 @@ public interface OfferService {
 
     boolean existsByIdAndStatus(String id, CommonStatus status);
 
-    List<ImageStorage> getImages(String offerId);
-
-    ImageStorage getImage(String offerId, String imageId);
-
-    ImageStorage addImage(String offerId, MultipartFile file) throws IOException;
-
-    boolean isExistsImage(String offerId, String imageId);
-
-    void deleteImage(String offerId, String imageId) throws IOException;
 }

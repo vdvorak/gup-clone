@@ -15,12 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import ua.com.gup.common.model.enumeration.CommonImageSizeType;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.rent.model.file.RentOfferFileWrapper;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
@@ -196,24 +192,6 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
-
-    /**
-     * GET  /offers/image/{id} : get rent offer image by id.
-     *
-     * @param id the offer status
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
-    @RequestMapping(value = "/offers/image/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getImageByIdAndSize(@PathVariable String id, @RequestParam("sizeType") CommonImageSizeType sizeType) {
-        log.debug("REST request to get rent offer image by id and size type");
-        final RentOfferFileWrapper imageWrapper = offerService.findImageByIdAndSizeType(id, sizeType);
-        return ResponseEntity.ok()
-                .contentLength(imageWrapper.getLength())
-                .contentType(MediaType.parseMediaType(imageWrapper.getContentType()))
-                .header("Content-Disposition", "attachment; filename=" + imageWrapper.getFilename())
-                .body(new InputStreamResource(imageWrapper.getInputStream()));
-    }
-
 
     @RequestMapping(value = "/offers/seo/statistic/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RentOfferStatisticByDateDTO>> getOfferStatisticBySeoUrl(@PathVariable String seoUrl,

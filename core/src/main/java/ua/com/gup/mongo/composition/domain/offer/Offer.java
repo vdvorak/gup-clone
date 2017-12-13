@@ -58,8 +58,6 @@ public class Offer extends CommonRentOffer {
     @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
     private String description;
 
-    private List<ImageStorage> images;
-
     private String authorId;
 
     private Address address;
@@ -151,18 +149,7 @@ public class Offer extends CommonRentOffer {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public List<ImageStorage> getImages() {
-        if(images==null){
-            images = new LinkedList();
-        }
-        return images;
-    }
-
-    public void setImages(List<ImageStorage> images) {
-        this.images = images;
-    }  
-
+    
     public String getAuthorId() {
         return authorId;
     }
