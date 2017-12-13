@@ -19,18 +19,18 @@ public class OfferEditPermissionEvaluator extends OfferPermissionEvaluator {
     @Override
     public Boolean hasAccess() {
 
-        if (getAuthorities().contains(CommonUserRole.ROLE_USER)) {
+        if (getAuthorities().contains(CommonUserRole.ROLE_MODERATOR)) {
+            return isModeratorOwner();
+        } else if (getAuthorities().contains(CommonUserRole.ROLE_USER)) {
             //if offer on moderation user can't edit
             if (offerService.existsByIdAndStatus(getObjectId(), CommonStatus.ON_MODERATION)) {
                 return false;
             }
             return isOwner();
 
-        } else if (getAuthorities().contains(CommonUserRole.ROLE_MODERATOR)) {
-            return isModeratorOwner();
         }
 
         return false;
     }
-    
+
 }

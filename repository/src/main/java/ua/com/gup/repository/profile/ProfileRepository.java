@@ -183,6 +183,5 @@ public interface ProfileRepository {
 
     boolean profileExistsByPublicId(String profilePublicId);
 
-    void save(Profile profile);
 }
 
