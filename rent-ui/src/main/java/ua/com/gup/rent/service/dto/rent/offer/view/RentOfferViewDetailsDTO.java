@@ -1,8 +1,11 @@
 package ua.com.gup.rent.service.dto.rent.offer.view;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
@@ -14,7 +17,9 @@ import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
 
 import java.util.LinkedHashMap;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
 
     @ApiModelProperty(position = 6)
@@ -47,84 +52,4 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
 
     @ApiModelProperty(position = 130)
     private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
-
-    public CommonStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CommonStatus status) {
-        this.status = status;
-    }
-
-    public RentOfferAddressDTO getAddress() {
-        return address;
-    }
-
-    public void setAddress(RentOfferAddressDTO address) {
-        this.address = address;
-    }
-
-    public String getYoutubeVideoId() {
-        return youtubeVideoId;
-    }
-
-    public void setYoutubeVideoId(String youtubeVideoId) {
-        this.youtubeVideoId = youtubeVideoId;
-    }
-
-    public RentOfferContactInfoDTO getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(RentOfferContactInfoDTO contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public RentOfferLandsDTO getLands() {
-        return lands;
-    }
-
-    public void setLands(RentOfferLandsDTO lands) {
-        this.lands = lands;
-    }
-
-    public RentOfferStatisticDTO getOfferStatistic() {
-        return offerStatistic;
-    }
-
-    public void setOfferStatistic(RentOfferStatisticDTO offerStatistic) {
-        this.offerStatistic = offerStatistic;
-    }
-
-    public LinkedHashMap<String, RentOfferCategorySingleAttributeValue> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs) {
-        this.attrs = attrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> getMultiAttrs() {
-        return multiAttrs;
-    }
-
-    public void setMultiAttrs(LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs) {
-        this.multiAttrs = multiAttrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> getNumAttrs() {
-        return numAttrs;
-    }
-
-    public void setNumAttrs(LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs) {
-        this.numAttrs = numAttrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> getBoolAttrs() {
-        return boolAttrs;
-    }
-
-    public void setBoolAttrs(LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs) {
-        this.boolAttrs = boolAttrs;
-    }
 }

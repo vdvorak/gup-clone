@@ -2,7 +2,10 @@ package ua.com.gup.rent.service.dto.rent.offer.view;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import ua.com.gup.common.model.image.ImageSizeType;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferAuthorDTO;
@@ -10,10 +13,12 @@ import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
@@ -43,79 +48,4 @@ public class RentOfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public RentOfferAuthorDTO getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(RentOfferAuthorDTO author) {
-        this.author = author;
-    }
-
-    public LinkedList<RentOfferCategoryShort> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(LinkedList<RentOfferCategoryShort> categories) {
-        this.categories = categories;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public RentOfferPriceDTO getPrice() {
-        return price;
-    }
-
-    public void setPrice(RentOfferPriceDTO price) {
-        this.price = price;
-    }
-
-    public Map<String, Map<ImageSizeType, String>> getImages() {
-        if(images == null){
-            images = new HashMap<>();
-        }
-        return images;
-    }
-
-    public void setImages(Map<String, Map<ImageSizeType, String>> images) {
-        this.images = images;
-    }   
-
-    public String getSeoUrl() {
-        return seoUrl;
-    }
-
-    public void setSeoUrl(String seoUrl) {
-        this.seoUrl = seoUrl;
-    }
 }
