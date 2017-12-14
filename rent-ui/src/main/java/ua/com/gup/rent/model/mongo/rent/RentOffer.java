@@ -97,19 +97,4 @@ public class RentOffer  extends  CommonRentOffer{
         if (incrementOfferPhoneViews)
             getStatistic().incrementTodayViewPhoneStatistic(LocalDate.from(createdDate));
     }
-
-   /* @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RentOffer)) return false;
-        RentOffer rentOffer = (RentOffer) o;
-        return Objects.equals(getId(), rentOffer.getId()) &&
-                Objects.equals(getAuthorId(), rentOffer.getAuthorId()) &&
-                Objects.equals(getSeoUrl(), rentOffer.getSeoUrl());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getAuthorId(), getSeoUrl());
-    }*/
 }
