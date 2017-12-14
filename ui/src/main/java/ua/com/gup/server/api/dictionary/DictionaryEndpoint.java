@@ -35,7 +35,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(messages, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole(T(ua.com.gup.mongo.model.enumeration.UserRole).ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{locale}", method = RequestMethod.POST)
     public ResponseEntity<Void> editMessages(
             @PathVariable Locale locale,
@@ -44,7 +44,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole(T(ua.com.gup.mongo.model.enumeration.UserRole).ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{locale}/{key}", method = RequestMethod.POST)
     public ResponseEntity<Void> editMessage(
             @PathVariable Locale locale,
@@ -67,7 +67,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole(T(ua.com.gup.mongo.model.enumeration.UserRole).ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{locale}/{key}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteMessage(
             @PathVariable Locale locale,
