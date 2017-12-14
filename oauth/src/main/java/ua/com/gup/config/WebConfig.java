@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.api.oauth2","ua.com.gup.listener", "ua.com.gup.listener.executor"})
+@ComponentScan(value = {"ua.com.gup.api.oauth2","ua.com.gup.listener"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -70,6 +71,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public FilterRegistrationBean characterEncodingFilterRegistration() {
         return registerFilter(new CharacterEncodingFilter("UTF-8", true), "CharacterEncodingFilter", 1, "/*");
     }
+
+    @Bean
+    public FilterRegistrationBean oauth2ClientFilterRegistration(
+            OAuth2ClientContextFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(filter);
+        registration.setOrder(-100);
+        return registration;
+    }
+
 
     private FilterRegistrationBean registerFilter(Filter filter, String name, int order, String... urlPatterns) {
         FilterRegistrationBean registration = new FilterRegistrationBean();

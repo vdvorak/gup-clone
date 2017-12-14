@@ -1,6 +1,7 @@
 package ua.com.gup.server.api.admin;
 
 
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.common.model.mongo.Explanation;
+import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
@@ -20,6 +21,7 @@ import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
 import javax.validation.Valid;
+import ua.com.gup.dto.profile.BanInfoDto;
 
 /**
  * Rest controllers for using by administrative module.
@@ -70,16 +72,13 @@ public class ProfileAdminEndpoint {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        if (profile.isBan() || !profile.getActive()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
         profilesService.updateProfile(profileDTO.updateModel(profile));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/profiles/ban/{id}")
-    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody Explanation explanation) {
+    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody BanInfoDto explanation) {
         String loggedUserId = SecurityUtils.getCurrentUserId();
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN);
@@ -89,7 +88,14 @@ public class ProfileAdminEndpoint {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         profile.setBan(true);
-        profile.setBanExplanation(explanation);
+        
+        BanInfo banInfo = new BanInfo();
+        banInfo.setDate(new Date());
+        banInfo.setUserId(loggedUserId);
+        banInfo.setPrivateExplanation(explanation.getPrivateExplanation());
+        banInfo.setPublicExplanation(explanation.getPublicExplanation());
+        profile.setBanInfo(banInfo);
+        
         profilesService.updateProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -106,7 +112,7 @@ public class ProfileAdminEndpoint {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         profile.setBan(false);
-        profile.setBanExplanation(null);
+        profile.setBanInfo(null);
         profilesService.updateProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }

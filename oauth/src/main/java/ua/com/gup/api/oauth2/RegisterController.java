@@ -21,7 +21,7 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
-import ua.com.gup.model.RegisterProfileDTO;
+import ua.com.gup.model.RegisterProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.verification.VerificationToken;
 import ua.com.gup.mongo.model.login.FormChangePassword;
@@ -48,15 +48,15 @@ public class RegisterController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView goToRegistration() {
-        ModelAndView modelAndView = new ModelAndView("register", "user", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register", "user", new RegisterProfile());
         modelAndView.addObject("title", "register.title");
         return modelAndView;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@ModelAttribute(name = "user") @Valid RegisterProfileDTO registerProfileDTO, BindingResult bindingResult) {
+    public String register(@ModelAttribute(name = "user") @Valid RegisterProfile registerProfile, BindingResult bindingResult) {
         //validate if email already exists 
-        if (userService.profileExistsWithEmail(registerProfileDTO.getEmail().toLowerCase())) {
+        if (userService.profileExistsWithEmail(registerProfile.getEmail().toLowerCase())) {
             bindingResult.rejectValue("email", "email.error.exists");
         }
 
@@ -65,8 +65,8 @@ public class RegisterController {
         }
 
         Profile profile = new Profile();
-        profile.setPassword(registerProfileDTO.getPassword());
-        profile.setEmail(registerProfileDTO.getEmail().toLowerCase());
+        profile.setPassword(registerProfile.getPassword());
+        profile.setEmail(registerProfile.getEmail().toLowerCase());
         profile.setSocWendor("GUP");
         profile.setUserType(CommonUserType.LEGAL_ENTITY);
         profile.setActive(false);
@@ -100,7 +100,7 @@ public class RegisterController {
 
     @RequestMapping(value = "/register/password/restore", method = RequestMethod.GET)
     public ModelAndView restorePassword() {
-        ModelAndView modelAndView = new ModelAndView("register/password/restore", "password", new RegisterProfileDTO());
+        ModelAndView modelAndView = new ModelAndView("register/password/restore", "password", new RegisterProfile());
         return modelAndView;
     }
 

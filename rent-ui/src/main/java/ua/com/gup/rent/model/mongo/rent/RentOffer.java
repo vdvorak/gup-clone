@@ -102,9 +102,9 @@ public class RentOffer  extends  CommonRentOffer{
 
     public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
         if (incrementOfferViews)
-            getStatistic().incrementTodayViewStatistic(LocalDate.from(getCreatedDate()));
+            getStatistic().incrementTodayViewStatistic(LocalDate.from(createdDate));
         if (incrementOfferPhoneViews)
-            getStatistic().incrementTodayViewPhoneStatistic(LocalDate.from(getCreatedDate()));
+            getStatistic().incrementTodayViewPhoneStatistic(LocalDate.from(createdDate));
     }
 
    /* @Override

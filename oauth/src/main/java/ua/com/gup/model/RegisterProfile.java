@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.config.annotation.Email;
 import ua.com.gup.config.annotation.Password;
 
-public class RegisterProfileDTO {
+public class RegisterProfile {
 
     @JsonProperty("email")
     @Email
@@ -14,7 +14,7 @@ public class RegisterProfileDTO {
     @Password
     private String password;
 
-    public RegisterProfileDTO() {
+    public RegisterProfile() {
     }
 
     public String getEmail() {

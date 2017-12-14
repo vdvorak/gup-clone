@@ -21,7 +21,7 @@
 //import org.springframework.web.bind.annotation.*;
 //import ua.com.gup.config.oauth2.GUPTokenStore;
 //import ua.com.gup.dto.profile.ProfileDTO;
-//import ua.com.gup.dto.profile.RegisterProfileDTO;
+//import ua.com.gup.dto.profile.RegisterProfile;
 //import ua.com.gup.dto.profile.SocialLoginDTO;
 //import ua.com.gup.event.OnForgetPasswordEvent;
 //import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
@@ -84,7 +84,7 @@
 //
 //    @CrossOrigin
 //    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<ProfileDTO> register(@RequestBody @Validated RegisterProfileDTO registerProfileDTO) {
+//    public ResponseEntity<ProfileDTO> register(@RequestBody @Validated RegisterProfile registerProfileDTO) {
 //        // email exists check:
 //        if (!profilesService.profileExistsWithEmail(registerProfileDTO.getEmail())) {
 //            // REGISTER:
@@ -127,7 +127,7 @@
 //        // CHECK:
 //        if (!profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor())) {
 //            // REGISTER:
-//            profilesService.facebookRegister(profile);
+//            profilesService.facebookLogin(profile);
 //            // EDIT:
 //            APIVendor profileVendor = new APIVendor();
 //            profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
@@ -187,7 +187,7 @@
 //
 //    @CrossOrigin
 //    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public ResponseEntity login(@RequestBody RegisterProfileDTO registerProfileDTO,HttpServletRequest request,HttpServletResponse response ) throws Exception {
+//    public ResponseEntity login(@RequestBody RegisterProfile registerProfileDTO,HttpServletRequest request,HttpServletResponse response ) throws Exception {
 //
 //        ProfileDTO profileInfo = null;
 //        if (!SecurityUtils.isAuthenticated()) {

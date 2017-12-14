@@ -3,8 +3,10 @@ package ua.com.gup.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.object.ObjectType;
+import ua.com.gup.model.FacebookProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.repository.sequence.PublicProfileSequenceRepository;
@@ -49,27 +51,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void facebookRegister(Profile profile) {
-        HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
-            add(CommonUserRole.ROLE_USER);
-        }};
+    public void facebookLogin(FacebookProfile facebookProfile) {
+        Profile profile = findProfileByEmail(facebookProfile.getEmail());
+        if (profile != null && Boolean.FALSE.equals(profile.isBan())) {
+            if (StringUtils.isEmpty(profile.getUsername())) {
+                profile.setUsername(facebookProfile.getName());
+            }
+            if (StringUtils.isEmpty(profile.getFirstname())) {
+                profile.setFirstname(facebookProfile.getFirstName());
+            }
+            if (StringUtils.isEmpty(profile.getLastname())) {
+                profile.setLastname(facebookProfile.getLastName());
+            }
+            profile.setImgUrl(facebookProfile.getImageUrl());
+            profile.setActive(Boolean.TRUE);
+            profileRepository.updateProfile(profile);
+        } else if (profile == null) {
+            HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
+                add(CommonUserRole.ROLE_USER);
+            }};
 
-        Profile newProfile = new Profile()
-                .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setSocWendor(profile.getSocWendor())
-                .setUid(profile.getUid())
-                .setTokenKey(profile.getTokenKey())
-                .setUserRoles(userRoles)
-                .setUserType(profile.getUserType())
-                .setCreatedDateEqualsToCurrentDate()
-                .setBankCard(profile.getBankCard());
-
-        profileRepository.createProfile(newProfile);
-        profile.setId(newProfile.getId());
+            profile = new Profile()
+                    .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
+                    .setEmail(facebookProfile.getEmail())
+                    .setUsername(facebookProfile.getName())
+                    .setFirstname(facebookProfile.getFirstName())
+                    .setLastname(facebookProfile.getLastName())
+                    .setActive(Boolean.TRUE)
+                    .setSocWendor("facebook")
+                    .setUserRoles(userRoles)
+                    .setImgUrl(facebookProfile.getImageUrl())
+                    .setCreatedDateEqualsToCurrentDate();
+            profileRepository.createProfile(profile);
+        }
     }
 
     @Override
@@ -96,6 +110,6 @@ public class UserServiceImpl implements UserService {
     public void updateChatUID(String profileId, String uid) {
         Profile profile = profileRepository.findById(profileId);
         profile.setChatUID(uid);
-        profileRepository.save(profile);
+        profileRepository.updateProfile(profile);
     }
 }

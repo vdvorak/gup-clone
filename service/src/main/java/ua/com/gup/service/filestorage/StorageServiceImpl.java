@@ -55,7 +55,7 @@ public class StorageServiceImpl implements StorageService {
             storageService.delete(imageSmall);
             profile.setImageSmall(null);
         }
-        profileRepository.save(profile);
+        profileRepository.updateProfile(profile);
     }
 
     @Override

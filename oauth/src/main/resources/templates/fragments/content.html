@@ -3,48 +3,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-    <body>
-        
-        <div th:fragment="locale">
-            <div class="locale">
-                <a href="?lang=uk_UA" th:classappend="${#locale.language == 'uk'} ? selected-locale">UA</a>                
-                |&nbsp;
-                <a href="?lang=ru_RU" th:classappend="${#locale.language == 'ru'} ? selected-locale">RU</a>
-                |&nbsp;
-                <a href="?lang=en_US" th:classappend="${#locale.language == 'en'} ? selected-locale">EN</a>
-            </div>            
+<body>
+
+<div th:fragment="locale">
+    <div class="locale">
+        <a href="?lang=uk_UA" th:classappend="${#locale.language == 'uk'} ? selected-locale">UA</a>
+        |&nbsp;
+        <a href="?lang=ru_RU" th:classappend="${#locale.language == 'ru'} ? selected-locale">RU</a>
+        |&nbsp;
+        <a href="?lang=en_US" th:classappend="${#locale.language == 'en'} ? selected-locale">EN</a>
+    </div>
+</div>
+
+<div th:fragment="logo">
+    <div class="logo">
+        <img th:src="@{/images/logo-small.svg}" src="images/logo-small.svg" alt="logo">
+        <div class="title">
+            <div class="top">Global</div>
+            <div class="bot">Ukrainian portal</div>
         </div>
+    </div>
+</div>
 
-        <div th:fragment="logo">
-            <div class="logo">
-                <img th:src="@{/images/logo-small.svg}" src="images/logo-small.svg" alt="logo">
-                    <div class="title">
-                        <div class="top">Global</div>
-                        <div class="bot">Ukrainian portal</div>
-                    </div>
-            </div>
+<div th:fragment="social">
+    <div class="social">
+        <div class="social-elem">
+            <a th:href="@{/login/facebook}">facebook
+                <!--<img th:src="@{/images/facebook.svg}" src="images/facebook.svg" alt="facebook"/>-->
+            </a>
         </div>
-
-        <div th:fragment="social">
-            <div class="social">
-                <div class="social-elem"><img th:src="@{/images/facebook.svg}" src="images/facebook.svg" alt="facebook"></div>
-                <div class="social-elem"><img th:src="@{/images/twitter.svg}" src="images/twitter.svg" alt="twitter"></div>
-                <div class="social-elem"><img th:src="@{/images/linkedin.svg}" src="images/linkedin.svg" alt="linkedin"></div>
-                <div class="social-elem"><img th:src="@{/images/pinterest.svg}" src="images/pinterest.svg" alt="pinterest"></div>
-            </div>
+        <div class="social-elem"><img th:src="@{/images/twitter.svg}" src="images/twitter.svg" alt="twitter"></div>
+        <div class="social-elem"><img th:src="@{/images/linkedin.svg}" src="images/linkedin.svg" alt="linkedin"></div>
+        <div class="social-elem"><img th:src="@{/images/pinterest.svg}" src="images/pinterest.svg" alt="pinterest">
         </div>
+    </div>
+</div>
 
 
-        <div th:fragment="licens">
-            <div class="rights">
-                <p th:inline="text">
-                    <span th:utext="#{license.text.short}"> Создавая новый аккаунт вы завещаете нам почку и соглашаетесь с</span>
-                    <a href="#"><span th:text="#{license.text.link}"></span></a>
-                </p>
-            </div>
-        </div>
+<div th:fragment="license">
+    <div class="rights">
+        <p th:inline="text">
+            <span th:utext="#{license.text.short}"> Создавая новый аккаунт вы завещаете нам почку и соглашаетесь с</span>
+            <a href="#"><span th:text="#{license.text.link}"></span></a>
+        </p>
+    </div>
+</div>
 
-    </body>
+</body>
 
 </html>
 

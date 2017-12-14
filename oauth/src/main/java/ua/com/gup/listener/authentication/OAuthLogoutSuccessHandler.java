@@ -16,8 +16,8 @@ public class OAuthLogoutSuccessHandler implements org.springframework.security.w
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private Environment e;
+//    @Autowired
+//    private Environment e;
 
 
     @Override
@@ -25,6 +25,6 @@ public class OAuthLogoutSuccessHandler implements org.springframework.security.w
         LoggedUser user = (LoggedUser) a.getPrincipal();
         String profileId = user.getProfileId();
         userService.updateChatUID(profileId, null);
-        httpServletResponse.sendRedirect(e.getRequiredProperty("application.url"));
+//        httpServletResponse.sendRedirect(e.getRequiredProperty("application.url"));
     }
 }

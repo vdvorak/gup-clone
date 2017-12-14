@@ -310,7 +310,4 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.exists(query, Profile.class);
     }
 
-    public void save(Profile profile) {
-        mongoTemplate.save(profile);
     }
-}

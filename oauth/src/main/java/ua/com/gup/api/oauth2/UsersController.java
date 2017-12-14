@@ -8,6 +8,7 @@ package ua.com.gup.api.oauth2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.mongo.model.login.LoggedUser;
@@ -29,8 +30,9 @@ public class UsersController {
     @GetMapping(path = "/principal")
     public @ResponseBody
     LoggedUser getUser() {
-        return (LoggedUser) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        return (LoggedUser) principal;
     }
 
 

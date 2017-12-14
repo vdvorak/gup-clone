@@ -28,9 +28,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             Profile findProfileByEmail = userService.findProfileByEmail(username);
             redirectUrl += "&blocked";
             //if have public reason add to url
-            if (findProfileByEmail.getBanExplanation() != null
-                    && !StringUtils.isEmpty(findProfileByEmail.getBanExplanation().getPublicExplanation())) {                                
-                String publicExplanation = findProfileByEmail.getBanExplanation().getPublicExplanation();
+            if (findProfileByEmail.getBanInfo()!= null
+                    && !StringUtils.isEmpty(findProfileByEmail.getBanInfo().getPublicExplanation())) {                                
+                String publicExplanation = findProfileByEmail.getBanInfo().getPublicExplanation();
                 redirectUrl += "&reason=" + URLEncoder.encode(publicExplanation, "UTF-8");
             } 
             

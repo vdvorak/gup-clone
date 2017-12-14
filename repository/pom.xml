@@ -28,31 +28,21 @@
             <artifactId>xchange-rate</artifactId>
             <version>${version}</version>
         </dependency>
-        <!-- Servlet -->
-       <!-- <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>-->
         <!-- Image scale library -->
-         <dependency>
-             <groupId>org.imgscalr</groupId>
-             <artifactId>imgscalr-lib</artifactId>
-         </dependency>
-         <!--Google JSON -->
-         <dependency>
-             <groupId>com.google.code.gson</groupId>
-             <artifactId>gson</artifactId>
-         </dependency>
-         <!-- Swagger model(core) -->
-        <!-- <dependency>
-             <groupId>io.springfox</groupId>
-             <artifactId>springfox-swagger2</artifactId>
-         </dependency>-->
-         <!-- Test -->
-         <dependency>
-             <groupId>junit</groupId>
-             <artifactId>junit</artifactId>
-         </dependency>
+        <dependency>
+            <groupId>org.imgscalr</groupId>
+            <artifactId>imgscalr-lib</artifactId>
+        </dependency>
+        <!--Google JSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
