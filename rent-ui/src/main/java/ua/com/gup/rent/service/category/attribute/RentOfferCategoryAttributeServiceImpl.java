@@ -126,7 +126,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
         final List<RentOfferCategoryAttribute> rentOfferCategoryAttributes =  ((RentOfferCategoryAttributeRepository)getRepository()).findAll();
         rentOfferCategoryAttributes.removeIf(c -> !c.isActive());
         for (RentOfferCategoryAttribute rentOfferCategoryAttribute : rentOfferCategoryAttributes) {
-            for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategoriesSort()) {
+            for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
                     categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<RentOfferCategoryAttributeDTO>(Comparator.comparing(RentOfferCategoryAttributeDTO::getCategory_sort)));
                 }

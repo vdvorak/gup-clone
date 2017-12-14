@@ -36,7 +36,7 @@ public class RentOfferCategoryAttributeMapper {
         target.setTitle(source.getTitle());
         target.setUnit(source.getUnit());
         target.setCategories(source.getCategories());
-        target.setCategoriesSort(source.getRentOfferCategoriesSort());
+        target.setCategories_sort(source.getCategoriesSort());
         target.setType(source.getType());
         target.setValidator(source.getValidator());
         target.setValues(source.getValues());
