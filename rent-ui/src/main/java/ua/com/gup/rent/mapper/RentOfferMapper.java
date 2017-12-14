@@ -8,6 +8,7 @@ import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
+import ua.com.gup.rent.model.rent.RentOfferSettings;
 import ua.com.gup.rent.model.rent.category.attribute.*;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
@@ -213,6 +214,16 @@ public class RentOfferMapper {
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
 
+        if (source.getSettings() != null) {
+            target.setSettings(
+                    new RentOfferSettings(source.getSettings().getMinRentDays(),
+                                             source.getSettings().getMaxRentDays(),
+                                             source.getSettings().getStartDay(),
+                                             source.getSettings().getEndDay()
+                                            )
+            );
+        }
+
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
@@ -233,12 +244,7 @@ public class RentOfferMapper {
             //todo  vdvorak
           //  target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
         }
-        //todo vdvorak
-        /*if (source.getImages() != null && source.getImages().size() > 0) {
-            List<String> imageIds = new LinkedList<String>();
-            source.getImages().forEach(i -> imageIds.add(i.getImageId()));
-            target.setImageIds(imageIds);
-        }*/
+
 
         if (source.getLands() != null) {
             target.setLands(transformOfferLandsDTOToLands(source.getLands()));

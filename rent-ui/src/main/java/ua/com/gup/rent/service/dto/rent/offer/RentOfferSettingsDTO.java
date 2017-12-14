@@ -2,6 +2,7 @@ package ua.com.gup.rent.service.dto.rent.offer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.Max;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Size;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@AllArgsConstructor
 public class RentOfferSettingsDTO {
     @Min(1)
     private Integer minRentDays;

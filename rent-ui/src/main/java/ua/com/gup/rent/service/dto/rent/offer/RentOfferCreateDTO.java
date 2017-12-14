@@ -58,4 +58,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 140)
     private RentOfferLandsDTO lands;
+
+    @ApiModelProperty(position = 150)
+    private RentOfferSettingsDTO settings;
 }
