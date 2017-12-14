@@ -9,6 +9,7 @@ import lombok.Data;
 import ua.com.gup.common.model.image.ImageSizeType;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferAuthorDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferSettingsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.io.Serializable;
@@ -48,4 +49,7 @@ public class RentOfferViewBaseDTO implements Serializable {
 
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
+
+    @ApiModelProperty(position = 90, example = "settings")
+    private RentOfferSettingsDTO settings;
 }

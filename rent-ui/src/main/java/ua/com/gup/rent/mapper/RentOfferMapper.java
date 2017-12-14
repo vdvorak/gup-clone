@@ -18,6 +18,7 @@ import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttribute
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferSettingsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
@@ -202,7 +203,7 @@ public class RentOfferMapper {
 
         if (source.getSettings() != null) {
             target.setSettings(
-                    new RentOfferSettings(source.getSettings().getMinRentDays(),
+                    new RentOfferSettingsDTO(source.getSettings().getMinRentDays(),
                             source.getSettings().getMaxRentDays(),
                             source.getSettings().getStartDay(),
                             source.getSettings().getEndDay()
@@ -210,7 +211,6 @@ public class RentOfferMapper {
             );
         }
         target.setId(source.getId());
-       // target.setLastModifiedDate(source.getLastModifiedDate());
         target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         if (source.getCategories() != null) {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
@@ -219,7 +219,6 @@ public class RentOfferMapper {
         target.setDescription(source.getDescription());
         offerImageMapper.toListDTO(source.getImages(), target.getImages());          
         target.setSeoUrl(source.getSeoUrl());
-
     }
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
