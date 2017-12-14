@@ -1,13 +1,19 @@
 package ua.com.gup.rent.filter;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "Money filter model")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferMoneyFilter {
 
     @ApiModelProperty("Currency")
@@ -20,27 +26,4 @@ public class RentOfferMoneyFilter {
     @ApiModelProperty("To")
     private Double to;
 
-    public CommonCurrency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(CommonCurrency currency) {
-        this.currency = currency;
-    }
-
-    public Double getFrom() {
-        return from;
-    }
-
-    public void setFrom(Double from) {
-        this.from = from;
-    }
-
-    public Double getTo() {
-        return to;
-    }
-
-    public void setTo(Double to) {
-        this.to = to;
-    }
 }

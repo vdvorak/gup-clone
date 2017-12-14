@@ -1,5 +1,7 @@
 package ua.com.gup.rent.model.mongo.category.attribute;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +14,8 @@ import java.io.Serializable;
 import java.util.*;
 
 @Document(collection = RentOfferCategoryAttribute.COLLECTION_NAME)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferCategoryAttribute implements Serializable {
 

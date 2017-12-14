@@ -214,7 +214,6 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     @Override
     public RentOfferProfileDTO findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
         RentOfferProfile profile = findById(id);
-        profile.setLastLoginDateEqualsToCurrentDate();
         rentOfferProfileRepository.findProfileAndUpdate(profile);
         return new RentOfferPrivateProfileDTO(profile);
     }
@@ -233,7 +232,6 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     @Override
     public RentOfferProfileDTO findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
         RentOfferProfile profile = findProfileByEmail(email);
-        profile.setLastLoginDateEqualsToCurrentDate();
         rentOfferProfileRepository.findProfileAndUpdate(profile);
         RentOfferProfileDTO profileInfo = new RentOfferPrivateProfileDTO(findProfileByEmail(email));
         return profileInfo;

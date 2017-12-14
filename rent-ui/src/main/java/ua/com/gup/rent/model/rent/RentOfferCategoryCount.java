@@ -1,25 +1,15 @@
 package ua.com.gup.rent.model.rent;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferCategoryCount {
 
     private String categoriesRegExp;
 
     private int count;
-
-    public String getCategoriesRegExp() {
-        return categoriesRegExp;
-    }
-
-    public void setCategoriesRegExp(String categoriesRegExp) {
-        this.categoriesRegExp = categoriesRegExp;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

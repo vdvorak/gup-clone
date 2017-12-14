@@ -14,11 +14,9 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.rent.filter.RentOfferMoneyFilter;
 import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
@@ -126,14 +124,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
         RentOffer offer = offerRepository.findOne(offerUpdateDTO.getId());
-
-        //todo vdvorak  save image
-        saveOfferImages(/*offer.getImages()*/null, /*offerUpdateDTO.getImages()*/null, /*offer.getSeoUrl()*/null);
-
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
-       // offer.setLastModifiedBy(RentSecurityUtils.getCurrentUserId());
-       // offer.setLastModifiedDate(ZonedDateTime.now());
-
       // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(CommonStatus.ON_MODERATION);
@@ -178,10 +169,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
             }
         }
         log.debug("Request to get all Rent Offers by filter  {} ", offerFilter);
-
-        //todo vdvorak add
-        calculatePriceInBaseCurrency(offerFilter.getPrice());
-
         long count = offerRepositoryCustom.countByFilter(offerFilter, CommonStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
@@ -381,7 +368,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
 
-//----------------------------------------------private method -----------------------------------------------------------------------------
 
     private String generateUniqueSeoUrl(String title) {
         // index number in 36 radix
@@ -411,41 +397,4 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
         return result;
     }
-
-
-    private void saveOfferImages(List<String> offerImageIds, String iamge /*List<OfferImageDTO> offerImageDTOS*/, String seoURL) {
-
-    }
-
-    private void calculatePriceInBaseCurrency(RentOfferMoneyFilter moneyFilter) {
-        if (moneyFilter != null) {
-            if (moneyFilter.getCurrency() != null) {
-                final CommonCurrency currency = moneyFilter.getCurrency();
-                if (moneyFilter.getFrom() != null) {
-                    //final BigDecimal fromInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getFrom()));
-                    //  moneyFilter.setFrom(fromInBaseCurrency.doubleValue());
-                }
-                if (moneyFilter.getTo() != null) {
-                    //    final BigDecimal toInBaseCurrency = currencyConverterService.convertToBaseCurrency(currency, new BigDecimal(moneyFilter.getTo()));
-                    //  moneyFilter.setTo(toInBaseCurrency.doubleValue());
-                }
-                //  moneyFilter.setCurrency(currencyConverterService.getBaseCurrency());
-            }
-        }
-    }
-
-    //------------------------------------------------------------------------------ method
-  
-  /*  private void update(RentOfferUpdateDTO rentOfferUpdateDTO) {
-        getRepository().update(null);
-    }*/
-
-   /* private void deleteById(String rentObjectId) {
-        getRepository().deleteById(rentObjectId);
-    }
-*/
-    /*private List<RentOfferViewShortDTO> findAll() {
-        List<RentOffer> rentOffers = getRepository().findAll();
-        return rentOffers.stream().map(rentOffer -> offerMapper.fromRentObjectToShortDTO(rentOffer)).collect(Collectors.toList());
-    }*/
 }

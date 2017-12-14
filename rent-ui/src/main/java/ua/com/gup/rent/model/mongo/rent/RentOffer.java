@@ -1,5 +1,7 @@
 package ua.com.gup.rent.model.mongo.rent;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
@@ -30,9 +32,11 @@ import java.util.List;
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
 @Document(collection = COLLECTION_NAME, language = "russian")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RentOffer  extends  CommonRentOffer{
+public class RentOffer extends CommonRentOffer {
 
     public static final String COLLECTION_NAME = "rent.offer";
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
@@ -55,7 +59,7 @@ public class RentOffer  extends  CommonRentOffer{
 
     private String authorId;
 
-     private RentOfferAddress address;
+    private RentOfferAddress address;
 
     private RentOfferLands lands;
 
@@ -71,6 +75,10 @@ public class RentOffer  extends  CommonRentOffer{
 
     @Indexed(unique = true)
     private String seoUrl;
+
+    private Integer count;
+
+    private String  deposit;
 
     private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 

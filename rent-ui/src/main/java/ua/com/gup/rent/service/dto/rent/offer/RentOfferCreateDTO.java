@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.rent.service.dto.rent.offer.period.RentOfferPeriodDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
@@ -19,6 +20,7 @@ import java.util.Map;
 @ApiModel(description = "DTO for RentOffer Offer")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 30)
@@ -56,100 +58,4 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 140)
     private RentOfferLandsDTO lands;
-
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
-    public RentOfferAddressDTO getAddress() {
-        return address;
-    }
-
-    public void setAddress(RentOfferAddressDTO address) {
-        this.address = address;
-    }
-
-    public RentOfferPriceDTO getPrice() {
-        return price;
-    }
-
-    public void setPrice(RentOfferPriceDTO price) {
-        this.price = price;
-    }
-
-    public MultipartFile[] getImages() {
-        return images;
-    }
-
-    public void setImages(MultipartFile[] images) {
-        this.images = images;
-    }
-
-    public RentOfferPeriodDTO getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(RentOfferPeriodDTO period) {
-        this.period = period;
-    }
-
-    public String getYoutubeVideoId() {
-        return youtubeVideoId;
-    }
-
-    public void setYoutubeVideoId(String youtubeVideoId) {
-        this.youtubeVideoId = youtubeVideoId;
-    }
-
-    public RentOfferContactInfoDTO getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(RentOfferContactInfoDTO contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public Map<String, String> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(Map<String, String> attrs) {
-        this.attrs = attrs;
-    }
-
-    public Map<String, String> getMultiAttrs() {
-        return multiAttrs;
-    }
-
-    public void setMultiAttrs(Map<String, String> multiAttrs) {
-        this.multiAttrs = multiAttrs;
-    }
-
-    public Map<String, BigDecimal> getNumAttrs() {
-        return numAttrs;
-    }
-
-    public void setNumAttrs(Map<String, BigDecimal> numAttrs) {
-        this.numAttrs = numAttrs;
-    }
-
-    public Map<String, Boolean> getBoolAttrs() {
-        return boolAttrs;
-    }
-
-    public void setBoolAttrs(Map<String, Boolean> boolAttrs) {
-        this.boolAttrs = boolAttrs;
-    }
-
-    public RentOfferLandsDTO getLands() {
-        return lands;
-    }
-
-    public void setLands(RentOfferLandsDTO lands) {
-        this.lands = lands;
-    }
 }

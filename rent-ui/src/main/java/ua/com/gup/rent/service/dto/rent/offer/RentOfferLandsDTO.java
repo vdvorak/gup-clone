@@ -1,13 +1,21 @@
 package ua.com.gup.rent.service.dto.rent.offer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import ua.com.gup.rent.model.rent.RentOfferPolygons;
 
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel
+@ApiModel(description = "DTO for Rent Offer Lnads Offer")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@AllArgsConstructor
 public class RentOfferLandsDTO implements Serializable {
 
     @ApiModelProperty(position = 0)
@@ -16,26 +24,4 @@ public class RentOfferLandsDTO implements Serializable {
     @ApiModelProperty(position = 10)
     private List<RentOfferPolygons> polygons;
 
-    public RentOfferLandsDTO() {}
-
-    public RentOfferLandsDTO(String cadnums, List<RentOfferPolygons> polygons) {
-        this.cadnums = cadnums;
-        this.polygons = polygons;
-    }
-
-    public String getCadnums() {
-        return cadnums;
-    }
-
-    public void setCadnums(String cadnums) {
-        this.cadnums = cadnums;
-    }
-
-    public List<RentOfferPolygons> getPolygons() {
-        return polygons;
-    }
-
-    public void setPolygons(List<RentOfferPolygons> polygons) {
-        this.polygons = polygons;
-    }
 }

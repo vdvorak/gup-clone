@@ -1,11 +1,18 @@
 package ua.com.gup.rent.model.rent;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@ApiModel
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferCategoryShort {
 
     @ApiModelProperty(example = "code")

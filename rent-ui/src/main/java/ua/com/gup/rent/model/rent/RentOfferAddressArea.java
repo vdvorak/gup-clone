@@ -1,12 +1,18 @@
 package ua.com.gup.rent.model.rent;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.Map;
 
 @ApiModel(description = "RentOfferAddress attribute ")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferAddressArea {
 
     @ApiModelProperty(position = 10, example = "code")
@@ -17,33 +23,5 @@ public class RentOfferAddressArea {
     private Map<String, String> name;
     @ApiModelProperty(position = 40, value = "{'en': 'Country'}")
     private Map<String, String> type;
-
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Map<String, String> getName() {
-        return name;
-    }
-    public void setName(Map<String, String> name) {
-        this.name = name;
-    }
-
-    public Map<String, String> getType() {
-        return type;
-    }
-    public void setType(Map<String, String> type) {
-        this.type = type;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
 
 }
