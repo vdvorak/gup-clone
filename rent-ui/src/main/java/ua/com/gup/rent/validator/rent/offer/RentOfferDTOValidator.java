@@ -207,19 +207,6 @@ public class RentOfferDTOValidator implements Validator {
                 errors.rejectValue("address.city", "address.city.required", null, "City required");
             }
         }
-
-        if (rentOfferCreateDTO.getNumAttrs() != null) {
-            final Map<String, BigDecimal> numAttrs = rentOfferCreateDTO.getNumAttrs();
-            for (String key : numAttrs.keySet()) {
-                try {
-                    numAttrs.get(key).doubleValue();
-                } catch (Exception e) {
-                    errors.rejectValue("numAttrs", "numAttrs." + key + ".invalidFormat", null, "Invalid number format");
-                }
-            }
-
-        }
-
     }
 
 }
