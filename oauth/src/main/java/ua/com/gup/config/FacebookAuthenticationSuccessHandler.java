@@ -1,5 +1,7 @@
 package ua.com.gup.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +29,8 @@ import java.util.HashMap;
 
 public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     @Qualifier("facebookRestTemplate")
     private OAuth2RestTemplate facebookRestTemplate;
@@ -44,10 +48,6 @@ public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticatio
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        System.out.println(request.getPathInfo());
-        System.out.println(request.getContextPath());
-        System.out.println(request.getServletPath());
-
         loadFacebookProfile();
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
@@ -87,7 +87,9 @@ public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticatio
             }
         }
 
+        logger.error("profile: " + facebookProfile);
         userService.facebookLogin(facebookProfile);
+
         authenticateUserManually(facebookProfile);
     }
 

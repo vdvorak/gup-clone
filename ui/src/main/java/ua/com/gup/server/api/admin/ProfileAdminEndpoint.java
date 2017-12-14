@@ -72,9 +72,6 @@ public class ProfileAdminEndpoint {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        if (profile.isBan() || !profile.getActive()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
         profilesService.updateProfile(profileDTO.updateModel(profile));
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -85,10 +85,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
-                .failureHandler(authenticationFailureHandler())
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .successHandler(oAuthAuthenticationSuccessHandler())
+                .failureHandler(authenticationFailureHandler())
 
                 .and().addFilterBefore(ssoFilter(facebook, "/login/facebook", facebookRestTemplate(facebook)), BasicAuthenticationFilter.class);
     }

@@ -87,4 +87,18 @@ public class FacebookProfile {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "FacebookProfile{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", email='" + email + '\'' +
+                ", link='" + link + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
 }
