@@ -84,15 +84,6 @@ public class RentOffer  extends  CommonRentOffer{
 
     private RentOfferModerationReport lastOfferModerationReport;
 
-
-
-
-
-
-    public void setStatistic(RentOfferStatistic statistic) {
-        this.statistic = statistic;
-    }
-
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {
             statistic = new RentOfferStatistic();
