@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.common.model.mongo.Explanation;
+import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.config.annotation.Email;
 import ua.com.gup.config.annotation.Password;
@@ -79,7 +79,7 @@ public class Profile {
     private List<OfferUserContactInfo> offerUserContactInfoList;
     private BankCard bankCard;
     private Boolean ban = false;
-    private Explanation banExplanation;
+    private BanInfo banInfo;
     /*
      * Lawyer-Profile
      */
@@ -613,13 +613,13 @@ public class Profile {
         return imageSmall == null ? null : imageSmall.getUrl();
     }
 
-    public Explanation getBanExplanation() {
-        return banExplanation;
+    public BanInfo getBanInfo() {
+        return banInfo;
     }
 
-    public void setBanExplanation(Explanation banExplanation) {
-        this.banExplanation = banExplanation;
-    }
+    public void setBanInfo(BanInfo banInfo) {
+        this.banInfo = banInfo;
+    }  
 
     @Override
     public String toString() {
