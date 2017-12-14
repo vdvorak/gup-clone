@@ -13,6 +13,7 @@ import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeServ
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValidatorDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValueDTO;
+import ua.com.gup.rent.service.dto.rent.offer.RentOfferAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 
@@ -61,21 +62,8 @@ public class RentOfferDTOValidator implements Validator {
             errors.rejectValue("price", "price.required", null, "Price required for price type price.");
         }
 
-     /*   if (rentOfferCreateDTO.getPrice() != null && "price".equals(priceType)) {
-            if (rentOfferCreateDTO.getPrice().getPriceWithVAT() == null) {
-                errors.rejectValue("price", "price.withWat.required", null, "Price with WAT required.");
-            }
-            if (rentOfferCreateDTO.getPrice().getAmount() == null) {
-                errors.rejectValue("price", "price.amount.required", null, "Price amount required.");
-            }
-            if (rentOfferCreateDTO.getPrice().getCurrency() == null) {
-                errors.rejectValue("price", "price.currency.required", null, "Price currency required.");
-            }
-        }
-    */
-
         if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getCategory() == null) {
-            errors.rejectValue("categories", "categories.required", null, "Categories is required");
+            errors.rejectValue("category", "category.required", null, "category is required");
         }
 
         if (rentOfferCreateDTO.getCategory() != null) {
@@ -181,11 +169,11 @@ public class RentOfferDTOValidator implements Validator {
                 }
             }
         }
-        /*if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
+        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
             errors.rejectValue("contactInfo", "contactInfo.required", null, "ContactInfo is required");
-        }*/
-        /*if (rentOfferCreateDTO.getContactInfo() != null) {
-            if (StringUtils.isEmpty(rentOfferCreateDTO.getContactInfo().getContactName())) {
+        }
+        if (rentOfferCreateDTO.getContactInfo() != null) {
+            if (rentOfferCreateDTO.getContactInfo().getContactName() == null || rentOfferCreateDTO.getContactInfo().getContactName().length() == 0) {
                 errors.rejectValue("contactInfo.contactName", "contactInfo.contactName.required", null, "Contact name required");
             }
             if (rentOfferCreateDTO.getContactInfo().getPhoneNumbers() == null || rentOfferCreateDTO.getContactInfo().getPhoneNumbers().size() == 0) {
@@ -197,12 +185,12 @@ public class RentOfferDTOValidator implements Validator {
                     }
                 }
             }
-        }*/
-       /* if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
+        }
+        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
             errors.rejectValue("address", "address.required", null, "address required");
         }
         if (rentOfferCreateDTO.getAddress() != null) {
-            final OfferAddressDTO address = rentOfferCreateDTO.getAddress();
+            final RentOfferAddressDTO address = rentOfferCreateDTO.getAddress();
             if (address.getLat() == null || address.getLng() == null) {
                 errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
             }
@@ -218,7 +206,7 @@ public class RentOfferDTOValidator implements Validator {
             if (address.getCity() == null) {
                 errors.rejectValue("address.city", "address.city.required", null, "City required");
             }
-        }*/
+        }
 
         if (rentOfferCreateDTO.getNumAttrs() != null) {
             final Map<String, BigDecimal> numAttrs = rentOfferCreateDTO.getNumAttrs();
