@@ -62,6 +62,45 @@ public class RentOfferDTOValidator implements Validator {
             errors.rejectValue("price", "price.required", null, "Price required for price type price.");
         }
 
+        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
+            errors.rejectValue("contactInfo", "contactInfo.required", null, "ContactInfo is required");
+        }
+        if (rentOfferCreateDTO.getContactInfo() != null) {
+            if (rentOfferCreateDTO.getContactInfo().getContactName() == null || rentOfferCreateDTO.getContactInfo().getContactName().length() == 0) {
+                errors.rejectValue("contactInfo.contactName", "contactInfo.contactName.required", null, "Contact name required");
+            }
+            if (rentOfferCreateDTO.getContactInfo().getPhoneNumbers() == null || rentOfferCreateDTO.getContactInfo().getPhoneNumbers().size() == 0) {
+                errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.size", null, "At least one phone number should be");
+            } else {
+                for (String phoneNo : rentOfferCreateDTO.getContactInfo().getPhoneNumbers()) {
+                    if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
+                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "RentOfferPhone number format is ^380[0-9]{9}$");
+                    }
+                }
+            }
+        }
+        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
+            errors.rejectValue("address", "address.required", null, "address required");
+        }
+        if (rentOfferCreateDTO.getAddress() != null) {
+            final RentOfferAddressDTO address = rentOfferCreateDTO.getAddress();
+            if (address.getLat() == null || address.getLng() == null) {
+                errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
+            }
+            if (!(-90d <= address.getLat().doubleValue() && address.getLat().doubleValue() <= 90 && -180d <= address.getLng().doubleValue() && address.getLng().doubleValue() <= 180)) {
+                errors.rejectValue("address.coordinates", "address.format", null, "Lat in [-90;90] Lng in [-180;180]");
+            }
+            if (address.getCountry() == null) {
+                errors.rejectValue("address.country", "address.country.required", null, "Country required");
+            }
+            if (address.getDistrict() == null) {
+                errors.rejectValue("address.district", "address.district.required", null, "District required");
+            }
+            if (address.getCity() == null) {
+                errors.rejectValue("address.city", "address.city.required", null, "City required");
+            }
+        }
+
         if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getCategory() == null) {
             errors.rejectValue("category", "category.required", null, "category is required");
         }
@@ -169,44 +208,7 @@ public class RentOfferDTOValidator implements Validator {
                 }
             }
         }
-        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getContactInfo() == null) {
-            errors.rejectValue("contactInfo", "contactInfo.required", null, "ContactInfo is required");
-        }
-        if (rentOfferCreateDTO.getContactInfo() != null) {
-            if (rentOfferCreateDTO.getContactInfo().getContactName() == null || rentOfferCreateDTO.getContactInfo().getContactName().length() == 0) {
-                errors.rejectValue("contactInfo.contactName", "contactInfo.contactName.required", null, "Contact name required");
-            }
-            if (rentOfferCreateDTO.getContactInfo().getPhoneNumbers() == null || rentOfferCreateDTO.getContactInfo().getPhoneNumbers().size() == 0) {
-                errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.size", null, "At least one phone number should be");
-            } else {
-                for (String phoneNo : rentOfferCreateDTO.getContactInfo().getPhoneNumbers()) {
-                    if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
-                        errors.rejectValue("contactInfo.phoneNumbers", "contactInfo.phoneNumbers.format", null, "RentOfferPhone number format is ^380[0-9]{9}$");
-                    }
-                }
-            }
-        }
-        if (!isRentOfferUpdateDTO && rentOfferCreateDTO.getAddress() == null) {
-            errors.rejectValue("address", "address.required", null, "address required");
-        }
-        if (rentOfferCreateDTO.getAddress() != null) {
-            final RentOfferAddressDTO address = rentOfferCreateDTO.getAddress();
-            if (address.getLat() == null || address.getLng() == null) {
-                errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
-            }
-            if (!(-90d <= address.getLat().doubleValue() && address.getLat().doubleValue() <= 90 && -180d <= address.getLng().doubleValue() && address.getLng().doubleValue() <= 180)) {
-                errors.rejectValue("address.coordinates", "address.format", null, "Lat in [-90;90] Lng in [-180;180]");
-            }
-            if (address.getCountry() == null) {
-                errors.rejectValue("address.country", "address.country.required", null, "Country required");
-            }
-            if (address.getDistrict() == null) {
-                errors.rejectValue("address.district", "address.district.required", null, "District required");
-            }
-            if (address.getCity() == null) {
-                errors.rejectValue("address.city", "address.city.required", null, "City required");
-            }
-        }
+
     }
 
 }
