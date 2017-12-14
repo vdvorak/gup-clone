@@ -1,25 +1,14 @@
 package ua.com.gup.rent.model.rent.profiles.phone;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferProfileStorePhones {
-
-    public RentOfferProfileStorePhones(){
-    }
-
-    public RentOfferProfileStorePhones(List<RentOfferPhoneSynhronize> contactPhones){
-        this.contactPhones = contactPhones;
-    }
-
     private List<RentOfferPhoneSynhronize> contactPhones;
-
-    public List<RentOfferPhoneSynhronize> getContactPhones() {
-        return contactPhones;
-    }
-
-    public void setContactPhones(List<RentOfferPhoneSynhronize> contactPhones) {
-        this.contactPhones = contactPhones;
-    }
-
 }

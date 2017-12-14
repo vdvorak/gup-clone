@@ -1,28 +1,15 @@
 package ua.com.gup.rent.model.rent.category.attribute;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.math.BigDecimal;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferCategoryNumericAttributeValue extends RentOfferCategoryAttributeBaseValue {
-
     private BigDecimal selected;
-
     private double selectedDouble;
-
-    public BigDecimal getSelected() {
-        return selected;
-    }
-
-    public void setSelected(BigDecimal selected) {
-        this.selected = selected;
-    }
-
-    public double getSelectedDouble() {
-        return selectedDouble;
-    }
-
-    public void setSelectedDouble(double selectedDouble) {
-        this.selectedDouble = selectedDouble;
-    }
-
 }

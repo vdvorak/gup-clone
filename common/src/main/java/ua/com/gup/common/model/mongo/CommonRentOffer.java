@@ -5,27 +5,26 @@
  */
 package ua.com.gup.common.model.mongo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import ua.com.gup.common.model.image.ImageStorage;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class CommonRentOffer implements Serializable {
 
     @Id
+    @Getter @Setter
     private String id;
 
+    @Setter
     private List<ImageStorage> images;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public List<ImageStorage> getImages() {
         if (images == null) {
@@ -34,7 +33,4 @@ public abstract class CommonRentOffer implements Serializable {
         return images;
     }
 
-    public void setImages(List<ImageStorage> images) {
-        this.images = images;
-    }
 }

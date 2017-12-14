@@ -1,25 +1,24 @@
 package ua.com.gup.rent.model.rent.statistic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 import ua.com.gup.rent.util.RentDateUtil;
 
 import java.time.LocalDate;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public abstract class RentOfferBaseStatistic {
 
     protected RentOfferViewStatistic viewStatistic;
-
-    public RentOfferBaseStatistic() {
-    }
 
     public RentOfferViewStatistic getViewStatistic() {
         if (viewStatistic == null) {
             viewStatistic = new RentOfferViewStatistic();
         }
         return viewStatistic;
-    }
-
-    public void setViewStatistic(RentOfferViewStatistic viewStatistic) {
-        this.viewStatistic = viewStatistic;
     }
 
     public void incrementTodayViewStatistic(LocalDate offerDtCreate) {

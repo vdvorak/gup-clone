@@ -25,7 +25,7 @@ public class RentOfferPublicProfileDTO extends RentOfferDetailProfileDTO {
         RentOfferPhone mainPhone = profile.getMainPhone();
         if (!StringUtils.isEmpty(mainPhone.getPhoneNumber())) {
             this.mainPhoneNumber = mainPhone.getPhoneNumber();
-            if (Boolean.TRUE.equals(mainPhone.isHidden())) {
+            if (Boolean.TRUE.equals(mainPhone.getHidden())) {
                 this.mainPhoneNumber = this.mainPhoneNumber.replaceAll("(?s).", "*");
             }
         }

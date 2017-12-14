@@ -131,12 +131,11 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
 
     @Override
     public void createProfileRating(String profileId, RentOfferProfileRating profileRating) {
-        RentOfferProfileRating newProfileRating = new RentOfferProfileRating()
-                .setEarnPoints(profileRating.getEarnPoints())
-                .setShortDescription(profileRating.getShortDescription())
-                .setLongDescription(profileRating.getLongDescription())
-                .setIdAttachedFile(profileRating.getIdAttachedFile())
-                .setCreatedDateEqualsToCurrentDate();
+        RentOfferProfileRating newProfileRating = new RentOfferProfileRating();
+        newProfileRating.setEarnPoints(profileRating.getEarnPoints());
+        newProfileRating.setShortDescription(profileRating.getShortDescription());
+        newProfileRating.setLongDescription(profileRating.getLongDescription());
+        newProfileRating.setIdAttachedFile(profileRating.getIdAttachedFile());
         rentOfferProfileRepository.createProfileRating(profileId, newProfileRating);
         profileRating.setProfileRatingId(newProfileRating.getProfileRatingId());
     }

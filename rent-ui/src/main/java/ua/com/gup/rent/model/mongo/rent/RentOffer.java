@@ -13,10 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
-import ua.com.gup.rent.model.rent.RentOfferAddress;
-import ua.com.gup.rent.model.rent.RentOfferContactInfo;
-import ua.com.gup.rent.model.rent.RentOfferLands;
-import ua.com.gup.rent.model.rent.RentOfferModerationReport;
+import ua.com.gup.rent.model.rent.*;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -35,7 +32,7 @@ import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(of ={"id"})
 public class RentOffer extends CommonRentOffer {
 
     public static final String COLLECTION_NAME = "rent.offer";
@@ -91,6 +88,8 @@ public class RentOffer extends CommonRentOffer {
     private RentOfferStatistic statistic;
 
     private RentOfferModerationReport lastOfferModerationReport;
+
+    private RentOfferSettings settings;
 
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {
