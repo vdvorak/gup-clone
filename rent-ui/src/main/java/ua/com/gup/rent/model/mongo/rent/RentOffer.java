@@ -1,5 +1,7 @@
 package ua.com.gup.rent.model.mongo.rent;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -24,11 +26,12 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Objects;
 
 import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
 
 @Document(collection = COLLECTION_NAME, language = "russian")
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class RentOffer  extends  CommonRentOffer{
 
     public static final String COLLECTION_NAME = "rent.offer";
@@ -37,7 +40,6 @@ public class RentOffer  extends  CommonRentOffer{
     private String title;
 
     private String description;
-  
 
     @CreatedBy
     private GupLoggedUser user;
@@ -82,125 +84,9 @@ public class RentOffer  extends  CommonRentOffer{
 
     private RentOfferModerationReport lastOfferModerationReport;
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
-    public RentOfferAddress getAddress() {
-        return address;
-    }
-
-    public void setAddress(RentOfferAddress address) {
-        this.address = address;
-    }
-
-    public RentOfferLands getLands() {
-        return lands;
-    }
-
-    public void setLands(RentOfferLands lands) {
-        this.lands = lands;
-    }
-
-    public String getYoutubeVideoId() {
-        return youtubeVideoId;
-    }
-
-    public void setYoutubeVideoId(String youtubeVideoId) {
-        this.youtubeVideoId = youtubeVideoId;
-    }
-
-    public RentOfferContactInfo getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(RentOfferContactInfo contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public List<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
-    }
-
-    public CommonStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CommonStatus status) {
-        this.status = status;
-    }
-
-    public RentOfferPrice getPrice() {
-        return price;
-    }
-
-    public void setPrice(RentOfferPrice price) {
-        this.price = price;
-    }
-    
-    public String getSeoUrl() {
-        return seoUrl;
-    }
-
-    public void setSeoUrl(String seoUrl) {
-        this.seoUrl = seoUrl;
-    }
-
-    public LinkedHashMap<String, RentOfferCategorySingleAttributeValue> getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs) {
-        this.attrs = attrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> getMultiAttrs() {
-        return multiAttrs;
-    }
-
-    public void setMultiAttrs(LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs) {
-        this.multiAttrs = multiAttrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> getNumAttrs() {
-        return numAttrs;
-    }
-
-    public void setNumAttrs(LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs) {
-        this.numAttrs = numAttrs;
-    }
-
-    public LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> getBoolAttrs() {
-        return boolAttrs;
-    }
-
-    public void setBoolAttrs(LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs) {
-        this.boolAttrs = boolAttrs;
-    }
 
 
     public void setStatistic(RentOfferStatistic statistic) {
@@ -214,19 +100,6 @@ public class RentOffer  extends  CommonRentOffer{
         return statistic;
     }
 
-    public RentOfferModerationReport getLastOfferModerationReport() {
-        return lastOfferModerationReport;
-    }
-
-    public void setLastOfferModerationReport(RentOfferModerationReport lastOfferModerationReport) {
-        this.lastOfferModerationReport = lastOfferModerationReport;
-    }
-
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
     public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {
         if (incrementOfferViews)
             getStatistic().incrementTodayViewStatistic(LocalDate.from(getCreatedDate()));
@@ -234,7 +107,7 @@ public class RentOffer  extends  CommonRentOffer{
             getStatistic().incrementTodayViewPhoneStatistic(LocalDate.from(getCreatedDate()));
     }
 
-    @Override
+   /* @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RentOffer)) return false;
@@ -247,5 +120,5 @@ public class RentOffer  extends  CommonRentOffer{
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAuthorId(), getSeoUrl());
-    }
+    }*/
 }
