@@ -1,9 +1,14 @@
 package ua.com.gup.rent.service.dto.rent.offer.profile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferPhone;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferPrivateProfileDTO extends RentOfferDetailProfileDTO {
 
     @JsonProperty("mainPhone")
@@ -12,8 +17,7 @@ public class RentOfferPrivateProfileDTO extends RentOfferDetailProfileDTO {
     @JsonProperty("chatUID")
     private String chatUID;
 
-    public RentOfferPrivateProfileDTO() {
-    }
+
 
     public RentOfferPrivateProfileDTO(RentOfferProfile profile) {
         super(profile);

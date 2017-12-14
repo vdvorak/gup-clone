@@ -1,7 +1,13 @@
 package ua.com.gup.rent.service.dto.rent.offer.profile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class RentOfferSocialLoginDTO {
     @JsonProperty("socWendor")
     private String socWendor;
@@ -9,31 +15,4 @@ public class RentOfferSocialLoginDTO {
     private String tokenKey;
     @JsonProperty("uid")
     private String uid;
-
-    public RentOfferSocialLoginDTO() {
-    }
-
-    public String getSocWendor() {
-        return socWendor;
-    }
-
-    public void setSocWendor(String socWendor) {
-        this.socWendor = socWendor;
-    }
-
-    public String getTokenKey() {
-        return tokenKey;
-    }
-
-    public void setTokenKey(String tokenKey) {
-        this.tokenKey = tokenKey;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 }

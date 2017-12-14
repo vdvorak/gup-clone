@@ -1,5 +1,12 @@
 package ua.com.gup.rent.service.dto.rent.offer.period;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum RentOfferPeriodDayTypeDTO {
 
     BUSINESS(0),
@@ -7,18 +14,11 @@ public enum RentOfferPeriodDayTypeDTO {
     HOLIDAY(2),
     CUSTOM(3);
 
-
+    @Getter @Setter
     private Integer type;
 
+
     RentOfferPeriodDayTypeDTO(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
+      this.type = type;
     }
 }

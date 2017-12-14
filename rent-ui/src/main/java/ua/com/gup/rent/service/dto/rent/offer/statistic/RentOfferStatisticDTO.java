@@ -1,7 +1,17 @@
 package ua.com.gup.rent.service.dto.rent.offer.statistic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RentOfferStatisticDTO {
 
     @ApiModelProperty(position = 10, example = "10")
@@ -10,27 +20,4 @@ public class RentOfferStatisticDTO {
     @ApiModelProperty(position = 10, example = "20")
     private Integer offerPhonesViews;
 
-    public RentOfferStatisticDTO() {
-    }
-
-    public RentOfferStatisticDTO(Integer offerViews, Integer offerPhonesViews) {
-        this.offerViews = offerViews;
-        this.offerPhonesViews = offerPhonesViews;
-    }
-
-    public Integer getOfferViews() {
-        return offerViews;
-    }
-
-    public void setOfferViews(Integer offerViews) {
-        this.offerViews = offerViews;
-    }
-
-    public Integer getOfferPhonesViews() {
-        return offerPhonesViews;
-    }
-
-    public void setOfferPhonesViews(Integer offerPhonesViews) {
-        this.offerPhonesViews = offerPhonesViews;
-    }
 }

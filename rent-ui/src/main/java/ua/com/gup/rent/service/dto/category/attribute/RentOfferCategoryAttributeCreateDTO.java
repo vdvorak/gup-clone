@@ -1,6 +1,8 @@
 package ua.com.gup.rent.service.dto.category.attribute;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
@@ -9,6 +11,8 @@ import ua.com.gup.rent.model.rent.category.attribute.validator.RentOfferCategory
 
 import java.util.*;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferCategoryAttributeCreateDTO {
 
