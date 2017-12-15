@@ -6,7 +6,6 @@ import ua.com.gup.rent.config.*;
 
 @EnableAutoConfiguration
 public class RentUiApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(new Object[]{
                 RentWebConfig.class,
@@ -20,6 +19,4 @@ public class RentUiApplication {
                 RentSessionConfig.class,
                 RentUiApplication.class}, args);
     }
-
-
 }
