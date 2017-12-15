@@ -18,34 +18,19 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferCategoryAttribute implements Serializable {
-
     public static final String COLLECTION_NAME = "rent.category_attribute";
-
     private static final long serialVersionUID = 1L;
-
     @Id
     private String id;
-
     private int code;
-
     private boolean active;
-
     private String key;
-
     private Map<String, String> title = new HashMap<>();
-
     private Map<String, String> unit = new HashMap<>();
-
     private Set<Integer> categories = new HashSet<>();
-
     private LinkedHashSet<RentOfferCategoriesSort> categories_sort = new LinkedHashSet<>();
-
     private CommonCategoryAttributeType type;
-
     private RentOfferCategoryAttributeValidator validator;
-
     private LinkedHashSet<RentOfferCategoryAttributeValue> values = new LinkedHashSet<>();
-
     private boolean privateAttr;
-
 }
