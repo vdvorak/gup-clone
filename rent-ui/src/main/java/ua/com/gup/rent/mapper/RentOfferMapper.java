@@ -213,13 +213,10 @@ public class RentOfferMapper {
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
         if (source.getSettings() != null) {
-            target.setSettings(
-                    new RentOfferSettings(source.getSettings().getMinRentDays(),
-                            source.getSettings().getMaxRentDays(),
-                            source.getSettings().getStartDay(),
-                            source.getSettings().getEndDay()
-                    )
-            );
+            target.setSettings(new RentOfferSettings(source.getSettings().getMinRentDays(),
+                                                     source.getSettings().getMaxRentDays(),
+                                                     source.getSettings().getStartDay(),
+                                                     source.getSettings().getEndDay()) );
         }
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
