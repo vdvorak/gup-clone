@@ -13,6 +13,7 @@ public class RentOfferPriceMapper {
             rentOfferPriceDTO.setBusinessDayCost(rentOfferPrice.getBusinessDayCost());
             rentOfferPriceDTO.setWeekendDayCost(rentOfferPrice.getWeekendDayCost());
             rentOfferPriceDTO.setHolidayDayCost(rentOfferPrice.getHolidayDayCost());
+            rentOfferPriceDTO.setPrepaymentPercent(rentOfferPrice.getPrepaymentPercent());
         }
         return rentOfferPriceDTO;
     }

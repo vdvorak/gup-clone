@@ -37,35 +37,25 @@ import java.util.stream.Collectors;
 @Component
 public class RentOfferMapper {
 
+    private static final int PRICE_ATTRIBUTE_CODE = 1;
     @Autowired
     private RentOfferPriceMapper priceMapper;
-
     @Autowired
     private RentOfferAddressMapper addressMapper;
-
     @Autowired
     private RentOfferContactInfoMapper contactInfoMapper;
-
     @Autowired
     private RentOfferAuthorMapper authorMapper;
-
     @Autowired
     private RentOfferCategoryMapper offerCategoryMapper;
-
     @Autowired
     private RentOfferCategoryService categoryService;
-
     @Autowired
     private RentOfferCategoryAttributeService categoryAttributeService;
-
     @Autowired
     private RentOfferPriceMapper rentOfferPriceMapper;
     @Autowired
     private ImageStorageMapper offerImageMapper;
-
-    private static final int PRICE_ATTRIBUTE_CODE = 1;
-
-
 
     public RentOffer offerCreateDTOToOffer(RentOfferCreateDTO offerCreateDTO) {
         RentOffer offer = new RentOffer();
@@ -119,8 +109,8 @@ public class RentOfferMapper {
 
     public RentOfferViewCoordinatesDTO offerToOfferCoordinatesDTO(RentOffer offer) {
         RentOfferViewCoordinatesDTO coordinatesDTO = null;
-        if (offer.getAddress() != null && offer.getAddress().getLat() != null  && offer.getAddress().getLng() != null) {
-            coordinatesDTO = new RentOfferViewCoordinatesDTO(offer.getSeoUrl(),new BigDecimal[]{offer.getAddress().getLat(), offer.getAddress().getLng()});
+        if (offer.getAddress() != null && offer.getAddress().getLat() != null && offer.getAddress().getLng() != null) {
+            coordinatesDTO = new RentOfferViewCoordinatesDTO(offer.getSeoUrl(), new BigDecimal[]{offer.getAddress().getLat(), offer.getAddress().getLng()});
         }
         return coordinatesDTO;
     }
@@ -146,15 +136,15 @@ public class RentOfferMapper {
         if (offer.getPrice() != null) {
             RentOfferPriceDTO priceDTO = new RentOfferPriceDTO();
             //todo vdvorak check
-          //  priceMapper.moneyToMoneyDTO(offer.getRentOfferPrice(), priceDTO);
+            //  priceMapper.moneyToMoneyDTO(offer.getRentOfferPrice(), priceDTO);
             offerViewDetailsDTO.setPrice(priceDTO);
         }
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
-        
+
         //owner ? doesn't hide phone number : hide phone number
-        boolean hidePhoneNumber =   !RentSecurityUtils.isAuthenticated() || !(RentSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
+        boolean hidePhoneNumber = !RentSecurityUtils.isAuthenticated() || !(RentSecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
-        
+
         offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
@@ -217,140 +207,122 @@ public class RentOfferMapper {
         }
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
-        offerImageMapper.toListDTO(source.getImages(), target.getImages());          
+        offerImageMapper.toListDTO(source.getImages(), target.getImages());
         target.setSeoUrl(source.getSeoUrl());
     }
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
-
         if (source.getSettings() != null) {
             target.setSettings(
                     new RentOfferSettings(source.getSettings().getMinRentDays(),
-                                             source.getSettings().getMaxRentDays(),
-                                             source.getSettings().getStartDay(),
-                                             source.getSettings().getEndDay()
-                                            )
+                            source.getSettings().getMaxRentDays(),
+                            source.getSettings().getStartDay(),
+                            source.getSettings().getEndDay()
+                    )
             );
         }
-
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
-
         if (source.getTitle() != null) {
             target.setTitle(source.getTitle());
         }
-
         if (source.getDescription() != null) {
             target.setDescription(source.getDescription());
         }
-
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
         }
-
         if (source.getPrice() != null) {
-            //todo  vdvorak
-          //  target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
+            target.setPrice(priceMapper.fromDTOToModel(source.getPrice()));
         }
-
-
         if (source.getLands() != null) {
             target.setLands(transformOfferLandsDTOToLands(source.getLands()));
         }
-
         if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
         }
-
         if (source.getContactInfo() != null) {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
-
         if (source.getCategory() != null) {
-
             final SortedSet<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
-
-            final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
-
-            if (source.getAttrs() != null) {
-
-                LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
-
-                for (String key : source.getAttrs().keySet()) {
-
-                    final String value = source.getAttrs().get(key);
-                    final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                    RentOfferCategorySingleAttributeValue attributeValue = new RentOfferCategorySingleAttributeValue();
-                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                    RentOfferCategoryAttributeValue selected = new RentOfferCategoryAttributeValue();
-                    selected.setKey(value);
-                    for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
-                        if (value.equals(valueDTO.getKey())) {
-                            selected.setTitle(valueDTO.getTitle());
-                        }
-                    }
-                    attributeValue.setSelected(selected);
-                    attrs.put(key, attributeValue);
-                }
-                target.setAttrs(attrs);
-            }
-
-            if (source.getMultiAttrs() != null) {
-                LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
-                for (String key : source.getMultiAttrs().keySet()) {
-                    RentOfferCategoryMultiAttributeValue attributeValue = new RentOfferCategoryMultiAttributeValue();
-                    final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                    final String[] values = source.getMultiAttrs().get(key).split(",");
-                    LinkedHashSet<RentOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
-                    for (String value : values) {
-                        RentOfferCategoryAttributeValue selectedItem = new RentOfferCategoryAttributeValue();
-                        selectedItem.setKey(value);
+            if (categoryAttributeDTOS != null && !categoryAttributeDTOS.isEmpty()) {
+                final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
+                if (source.getAttrs() != null) {
+                    LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+                    for (String key : source.getAttrs().keySet()) {
+                        final String value = source.getAttrs().get(key);
+                        final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                        RentOfferCategorySingleAttributeValue attributeValue = new RentOfferCategorySingleAttributeValue();
+                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        RentOfferCategoryAttributeValue selected = new RentOfferCategoryAttributeValue();
+                        selected.setKey(value);
                         for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
                             if (value.equals(valueDTO.getKey())) {
-                                selectedItem.setTitle(valueDTO.getTitle());
+                                selected.setTitle(valueDTO.getTitle());
                             }
                         }
-                        selected.add(selectedItem);
+                        attributeValue.setSelected(selected);
+                        attrs.put(key, attributeValue);
                     }
-                    attributeValue.setSelected(selected);
-                    multiAttrs.put(key, attributeValue);
+                    target.setAttrs(attrs);
                 }
-                target.setMultiAttrs(multiAttrs);
-            }
 
-            if (source.getNumAttrs() != null) {
-                LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numericAttrs = new LinkedHashMap<>();
-                for (String key : source.getNumAttrs().keySet()) {
-                    RentOfferCategoryNumericAttributeValue attributeValue = new RentOfferCategoryNumericAttributeValue();
-                    final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                    attributeValue.setSelected(source.getNumAttrs().get(key));
-                    attributeValue.setSelectedDouble(source.getNumAttrs().get(key).doubleValue());
-                    numericAttrs.put(key, attributeValue);
+                if (source.getMultiAttrs() != null) {
+                    LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+                    for (String key : source.getMultiAttrs().keySet()) {
+                        RentOfferCategoryMultiAttributeValue attributeValue = new RentOfferCategoryMultiAttributeValue();
+                        final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        final String[] values = source.getMultiAttrs().get(key).split(",");
+                        LinkedHashSet<RentOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
+                        for (String value : values) {
+                            RentOfferCategoryAttributeValue selectedItem = new RentOfferCategoryAttributeValue();
+                            selectedItem.setKey(value);
+                            for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
+                                if (value.equals(valueDTO.getKey())) {
+                                    selectedItem.setTitle(valueDTO.getTitle());
+                                }
+                            }
+                            selected.add(selectedItem);
+                        }
+                        attributeValue.setSelected(selected);
+                        multiAttrs.put(key, attributeValue);
+                    }
+                    target.setMultiAttrs(multiAttrs);
                 }
-                target.setNumAttrs(numericAttrs);
-            }
-
-            if (source.getBoolAttrs() != null) {
-                LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
-                for (String key : source.getBoolAttrs().keySet()) {
-                    RentOfferCategoryBoolAttributeValue attributeValue = new RentOfferCategoryBoolAttributeValue();
-                    final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                    fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                    attributeValue.setSelected(source.getBoolAttrs().get(key));
-                    boolAttrs.put(key, attributeValue);
+                if (source.getNumAttrs() != null) {
+                    LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numericAttrs = new LinkedHashMap<>();
+                    for (String key : source.getNumAttrs().keySet()) {
+                        RentOfferCategoryNumericAttributeValue attributeValue = new RentOfferCategoryNumericAttributeValue();
+                        final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        attributeValue.setSelected(source.getNumAttrs().get(key));
+                        attributeValue.setSelectedDouble(source.getNumAttrs().get(key).doubleValue());
+                        numericAttrs.put(key, attributeValue);
+                    }
+                    target.setNumAttrs(numericAttrs);
                 }
-                target.setBoolAttrs(boolAttrs);
+                if (source.getBoolAttrs() != null) {
+                    LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+                    for (String key : source.getBoolAttrs().keySet()) {
+                        RentOfferCategoryBoolAttributeValue attributeValue = new RentOfferCategoryBoolAttributeValue();
+                        final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
+                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        attributeValue.setSelected(source.getBoolAttrs().get(key));
+                        boolAttrs.put(key, attributeValue);
+                    }
+                    target.setBoolAttrs(boolAttrs);
+                }
             }
         }
     }
 
-    private  RentOfferLands transformOfferLandsDTOToLands(RentOfferLandsDTO offerLandsDto) {
+    private RentOfferLands transformOfferLandsDTOToLands(RentOfferLandsDTO offerLandsDto) {
         RentOfferLands lands = null;
         if (offerLandsDto != null) {
-            lands = new  RentOfferLands(offerLandsDto.getCadnums(), offerLandsDto.getPolygons());
+            lands = new RentOfferLands(offerLandsDto.getCadnums(), offerLandsDto.getPolygons());
         }
         return lands;
     }
@@ -361,7 +333,6 @@ public class RentOfferMapper {
             offerLandsDTOS = new RentOfferLandsDTO(lands.getCadnums(), lands.getPolygons());
         }
         return offerLandsDTOS;
-
     }
 
     private void fromCategoryAttributeDTOToOfferCategoryAttributeValue(RentOfferCategoryAttributeDTO source, RentOfferCategoryAttributeBaseValue target) {
@@ -370,7 +341,6 @@ public class RentOfferMapper {
         target.setUnit(source.getUnit());
         target.setType(source.getType());
     }
-
 
     public RentOfferViewShortDTO fromRentObjectToShortDTO(RentOffer rentOffer) {
         RentOfferViewShortDTO rentOfferViewShortDTO = new RentOfferViewShortDTO();

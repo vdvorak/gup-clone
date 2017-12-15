@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -52,7 +53,7 @@ public class RentOfferCategoryDTOValidator implements Validator {
         if (rentOfferCategoryCreateDTO.getTitle() == null || rentOfferCategoryCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }
-        if (rentOfferCategoryCreateDTO.getKey() == null || rentOfferCategoryCreateDTO.getKey().isEmpty()  ) {
+        if (!StringUtils.isEmpty(rentOfferCategoryCreateDTO.getKey())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "key.required");
         }
     }

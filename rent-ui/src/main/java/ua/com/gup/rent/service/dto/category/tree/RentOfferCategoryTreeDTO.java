@@ -29,12 +29,10 @@ public class RentOfferCategoryTreeDTO implements Serializable {
     }
 
     public static Comparator<RentOfferCategoryTreeDTO> getCategoryTreeDTOComparator(String lang) {
-        //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
         return Comparator.comparing(RentOfferCategoryTreeDTO::getOrder);
     }
 
     private Comparator<RentOfferCategoryAttributeDTO> getCategoryAttributeDTOComparator(String lang) {
-        //return Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, ""));
         return Comparator.comparing(RentOfferCategoryAttributeDTO::getCategory_sort);
     }
 }
