@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Size;
@@ -19,29 +20,19 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(of = {"code"})
 public class RentOfferCategory implements Serializable {
-
     public static final String COLLECTION_NAME = "rent.category";
-
     private static final long serialVersionUID = 1L;
-
     @Id
     private String id;
-
     private int parent;
-
+    @Indexed(unique = true)
     private int code;
-
     private boolean active;
-
+    @Indexed(unique = true)
     private String key;
-
     @Size(min = 1, max = 8)
     private String color;
-
     private int order;
-
     private Map<String, String> title = new HashMap<>();
-
     private Map<String, String> description = new HashMap<>();
-
 }

@@ -52,5 +52,8 @@ public class RentOfferCategoryDTOValidator implements Validator {
         if (rentOfferCategoryCreateDTO.getTitle() == null || rentOfferCategoryCreateDTO.getTitle().size() == 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }
+        if (rentOfferCategoryCreateDTO.getKey() == null || rentOfferCategoryCreateDTO.getKey().isEmpty()  ) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "key.required");
+        }
     }
 }
