@@ -10,5 +10,5 @@ import java.util.LinkedHashSet;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferCategoryMultiAttributeValue extends RentOfferCategoryAttributeBaseValue {
-    private LinkedHashSet<RentOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
+    private LinkedHashSet<RentOfferToOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
 }

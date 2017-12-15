@@ -6,12 +6,13 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
+/**
+ * @author viktor dvorak
+ **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferPriceDTO implements Serializable {
-
     private BigDecimal businessDayCost;
     private BigDecimal weekendDayCost;
     private BigDecimal holidayDayCost;

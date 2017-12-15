@@ -21,6 +21,7 @@ import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferSettingsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
+import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.*;
@@ -155,21 +156,18 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewShortDTO(RentOffer source, RentOfferViewShortDTO target) {
         fromOfferToOfferViewBaseDTO(source, target);
-
         target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
-        //todo vdvorak price mapper
-        /*if (source.getRentOfferPrice() != null) {
+        if (source.getPrice() != null) {
             RentOfferPriceShortDTO priceDTO = new RentOfferPriceShortDTO();
-            priceMapper.moneyToMoneyDTO(source.getPrice(), priceDTO);
-            Optional<OfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
+            priceMapper.fromModelToDTO(source.getPrice());
+            Optional<RentOfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
             if (collect.isPresent()) {
-                OfferCategorySingleAttributeValue priceAttributes = collect.get();
+                RentOfferCategorySingleAttributeValue priceAttributes = collect.get();
                 priceDTO.setSelected(priceAttributes.getSelected());
                 priceDTO.setTitle(priceAttributes.getTitle());
             }
             target.setPrice(priceDTO);
-        }*/
-
+        }
         if (source.getLands() != null) {
             target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
         }
@@ -214,9 +212,9 @@ public class RentOfferMapper {
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
         if (source.getSettings() != null) {
             target.setSettings(new RentOfferSettings(source.getSettings().getMinRentDays(),
-                                                     source.getSettings().getMaxRentDays(),
-                                                     source.getSettings().getStartDay(),
-                                                     source.getSettings().getEndDay()) );
+                    source.getSettings().getMaxRentDays(),
+                    source.getSettings().getStartDay(),
+                    source.getSettings().getEndDay()));
         }
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
@@ -253,7 +251,7 @@ public class RentOfferMapper {
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         RentOfferCategorySingleAttributeValue attributeValue = new RentOfferCategorySingleAttributeValue();
                         fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                        RentOfferCategoryAttributeValue selected = new RentOfferCategoryAttributeValue();
+                        RentOfferToOfferCategoryAttributeValue selected = new RentOfferToOfferCategoryAttributeValue();
                         selected.setKey(value);
                         for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
                             if (value.equals(valueDTO.getKey())) {
@@ -273,9 +271,9 @@ public class RentOfferMapper {
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         final String[] values = source.getMultiAttrs().get(key).split(",");
-                        LinkedHashSet<RentOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
+                        LinkedHashSet<RentOfferToOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
                         for (String value : values) {
-                            RentOfferCategoryAttributeValue selectedItem = new RentOfferCategoryAttributeValue();
+                            RentOfferToOfferCategoryAttributeValue selectedItem = new RentOfferToOfferCategoryAttributeValue();
                             selectedItem.setKey(value);
                             for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
                                 if (value.equals(valueDTO.getKey())) {
