@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.model.LoggedUser;
 import ua.com.gup.service.UserService;
 
 import java.util.List;

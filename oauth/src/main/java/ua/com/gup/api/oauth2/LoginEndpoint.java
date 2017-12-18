@@ -33,7 +33,7 @@
 //import ua.com.gup.mongo.model.enumeration.UserType;
 //import ua.com.gup.mongo.model.enumeration.VerificationTokenType;
 //import ua.com.gup.mongo.model.login.FormChangePassword;
-//import ua.com.gup.mongo.model.login.LoggedUser;
+//import ua.com.gup.model.LoggedUser;
 //import ua.com.gup.service.EmailService;
 //import ua.com.gup.service.model.EmailServiceTokenModel;
 //import ua.com.gup.service.login.GupUserDetailsService;

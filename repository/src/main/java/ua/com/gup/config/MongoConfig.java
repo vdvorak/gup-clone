@@ -19,7 +19,6 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ua.com.gup.config.mongo.converter.JSR310DateConverters;
-import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Arrays;
 
@@ -50,7 +49,6 @@ public class MongoConfig {
         MappingContext mappingContext = new MongoMappingContext();
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), mappingContext);
         mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
-                new OAuth2AuthenticationReadConverter(),
                 new JSR310DateConverters.DateToZonedDateTimeConverter(),
                 new JSR310DateConverters.ZonedDateTimeToDateConverter()
         )));

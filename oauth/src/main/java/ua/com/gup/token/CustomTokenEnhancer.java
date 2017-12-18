@@ -4,7 +4,7 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.model.LoggedUser;
 
 import java.util.HashMap;
 import java.util.Map;

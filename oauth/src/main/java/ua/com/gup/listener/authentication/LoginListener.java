@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
-import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.model.LoggedUser;
 import ua.com.gup.service.UserService;
 
 import java.util.UUID;
