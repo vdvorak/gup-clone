@@ -14,6 +14,7 @@ public class CommonOperation {
     private String id;
     private Instant operationDate;
     private OperationType operationType;
+    private String objectId;
     private String objectType;
     @CreatedBy
     private GupLoggedUser operationUser;

@@ -1,4 +1,4 @@
-package ua.com.gup.common.exeption;
+package ua.com.gup.common.exception;
 
 public class UnsupportedFileStorageException extends RuntimeException {
 

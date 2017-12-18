@@ -6,9 +6,7 @@ public interface Command<T> {
 
     void execute() throws Exception;
 
-    String getObjectType();
-
     OperationType getOperationType();
 
-//    T getObject();
+    Journalable getJournalable();
 }

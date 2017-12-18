@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.command.Journalable;
 import ua.com.gup.common.command.SessionCommandExecutor;
 import ua.com.gup.common.model.mongo.operation.CommonOperation;
 import ua.com.gup.common.model.mongo.operation.OperationType;
@@ -27,9 +28,10 @@ public class SaleCommandExecutor extends SessionCommandExecutor {
     private transient OperationService operationService;
 
     @Override
-    final protected void journal(String objectType, OperationType operationType) {
+    final protected void journal(Journalable journalable, OperationType operationType) {
         CommonOperation operation = new SaleOperation();
-        operation.setObjectType(objectType);
+        operation.setObjectId(journalable.getObjectId());
+        operation.setObjectType(journalable.getObjectType());
         operation.setOperationType(operationType);
         operation.setOperationDate(Instant.now());
         operationService.save(operation);
