@@ -1,24 +1,19 @@
 package ua.com.gup.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import ua.com.gup.config.filter.OAuthFilter;
 
 import java.util.List;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service", "ua.com.gup.common.repository"})
+@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service"})
 public class SaleWebConfig extends WebMvcConfigurerAdapter {
 
 

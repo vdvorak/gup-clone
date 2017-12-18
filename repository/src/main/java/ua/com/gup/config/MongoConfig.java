@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 @ComponentScan(basePackages = {"ua.com.gup.repository", /* какой-то костыль */"ua.com.gup.config.mongo"})
 @EnableMongoRepositories(basePackages = "ua.com.gup.repository")
 @PropertySource("classpath:mongo.properties")
+@EnableMongoAuditing
 public class MongoConfig {
 
     @Autowired
