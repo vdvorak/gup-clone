@@ -25,38 +25,38 @@ public class ImageOfferServiceImpl implements ImageOfferService {
     @Autowired
     private ImageService imageService;
     @Autowired
-    private CommonOfferRepository commonOfferService;
+    private CommonOfferRepository commonOfferRepository;
     
 
     
     @Override
     public List<ImageStorage> getImages(String offerId){
-        return commonOfferService.findOfferImages(offerId);
+        return commonOfferRepository.findOfferImages(offerId);
     }
     
     @Override
     public ImageStorage getImage(String offerId, String imageId){
-        return commonOfferService.findOfferImage(offerId, imageId);
+        return commonOfferRepository.findOfferImage(offerId, imageId);
     }   
     
     @Override
     public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
         ImageStorage image = imageService.saveImageStorage(file);
-        CommonRentOffer offer = commonOfferService.findOne(offerId);
+        CommonRentOffer offer = commonOfferRepository.findOne(offerId);
         offer.getImages().add(image);
-        commonOfferService.save(offer);
+        commonOfferRepository.save(offer);
         return image;
     }    
     
     @Override
     public boolean isExistsImage(String offerId, String imageId){
-        return commonOfferService.isExistsOfferImage(offerId, imageId);
+        return commonOfferRepository.isExistsOfferImage(offerId, imageId);
     }
     
     @Override
     public void deleteImage(String offerId, String imageId) throws IOException{        
-        ImageStorage image = commonOfferService.findOfferImage(offerId, imageId);        
+        ImageStorage image = commonOfferRepository.findOfferImage(offerId, imageId);
         imageService.deleteImageStorage(image);
-        commonOfferService.deleteOfferImage(image);
+        commonOfferRepository.deleteOfferImage(image);
     }
 }
