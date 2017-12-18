@@ -3,17 +3,11 @@ package ua.com.gup.rent.service.rent.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.AsyncRestTemplate;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -44,7 +38,6 @@ import ua.com.gup.rent.service.sequence.RentSequenceService;
 import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,25 +48,12 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     private static final String RENT_OFFER_SEQUENCE_ID = "rent_offer_sequence";
     private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
-    @Autowired
-    private Environment e;
 
     @Autowired
     private RentOfferMapper offerMapper;
 
     @Autowired
     private RentOfferCategoryMapper offerCategoryMapper;
-
-    @Autowired
-    private AsyncRestTemplate asyncRestTemplate;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    private UriComponentsBuilder uriComponentsBuilder;
-
-    @Value(value = "classpath:images/demo.png")
-    private Resource demoImage;
 
     @Autowired
     private RentOfferProfileRepository profileRepository;
@@ -94,16 +74,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         super(rentOfferRepository);
     }
 
-    @PostConstruct
-    public void initialize() {
 
-        uriComponentsBuilder = UriComponentsBuilder.newInstance().scheme(e.getRequiredProperty("storage.host.scheme"))
-                .host(e.getRequiredProperty("storage.host.address"))
-                .port(e.getRequiredProperty("storage.host.port"))
-                .path(e.getRequiredProperty("storage.host.context-path"))
-                .path("/api");
-
-    }
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {

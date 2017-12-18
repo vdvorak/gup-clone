@@ -16,12 +16,11 @@ import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.common.service.ImageService;
 
-@Service
-public class CommonOfferServiceImpl  implements CommonOfferService{
+public abstract class CommonOfferServiceImpl  implements CommonOfferService{
     
     @Autowired
     private CommonOfferRepository commonOfferRepository;
-        @Autowired
+    @Autowired
     private ImageService imageService;
 
     @Override
