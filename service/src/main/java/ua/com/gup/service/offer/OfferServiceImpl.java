@@ -29,7 +29,6 @@ import ua.com.gup.mongo.model.offer.OfferCategoryCount;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.offer.OfferRepository;
 import ua.com.gup.repository.offer.OfferRepositoryCustom;
-import ua.com.gup.repository.offer.OfferRepositoryOLD;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.currency.CurrencyConverterService;
@@ -42,10 +41,9 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import ua.com.gup.common.service.FileStorageService;
+
 import ua.com.gup.common.model.image.ImageStorage;
 import static ua.com.gup.common.model.image.ImageSizeType.LARGE;
-import ua.com.gup.common.service.ImageService;
 
 /**
  * Service Implementation for managing Offer.
@@ -69,12 +67,6 @@ public class OfferServiceImpl implements OfferService {
     private CategoryService categoryService;
     @Autowired
     private ProfileRepository profileRepository;
-
-
-    //-------------------- OLD -----------------------------//
-    @Autowired
-    private OfferRepositoryOLD offerRepositoryOLD;
-
     @Autowired
     private OfferRepositoryCustom offerRepositoryCustom;
     
@@ -507,12 +499,12 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public Offer findById(String offerId) {
-        return offerRepositoryOLD.findById(offerId);
+        return offerRepository.findOne(offerId);
     }
 
     @Override
     public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
-        return offerRepositoryOLD.findOffersWithOptions(offerFilterOptions);
+        return offerRepositoryCustom.findOffersWithOptions(offerFilterOptions);
     }   
 
     @Override
