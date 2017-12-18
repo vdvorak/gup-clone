@@ -40,7 +40,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(path = "/api")
 public class RentOfferCategoryEndpoint {
 
-    private static final String ENTITY_NAME = "rent.category";
     private final Logger logger = LoggerFactory.getLogger(RentOfferCategoryEndpoint.class);
     private Map<String, String> categoriesTreeViewETagMap = new ConcurrentHashMap<>();
     private Map<String, ResponseEntity<Collection<RentOfferCategoryTreeDTO>>> cacheCategoriesTreeViewResponseMap = new ConcurrentHashMap<>();
@@ -237,7 +236,7 @@ public class RentOfferCategoryEndpoint {
 
         RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryUpdateDTO);
         clearCache();
-        return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
     /**
