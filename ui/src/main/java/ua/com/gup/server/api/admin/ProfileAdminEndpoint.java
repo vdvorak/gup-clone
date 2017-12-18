@@ -1,8 +1,8 @@
 package ua.com.gup.server.api.admin;
 
 
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -10,18 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.common.model.mongo.BanInfo;
-import ua.com.gup.dto.profile.CreateProfileDTO;
-import ua.com.gup.dto.profile.EditProfileDTO;
-import ua.com.gup.dto.profile.ProfileDTO;
-import ua.com.gup.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.common.command.CommandException;
+import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.server.command.BanUserCommand;
+import ua.com.gup.server.command.UnbanUserCommand;
+import ua.com.gup.server.component.executor.SaleCommandExecutor;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
 import javax.validation.Valid;
-import ua.com.gup.dto.profile.BanInfoDto;
 
 /**
  * Rest controllers for using by administrative module.
@@ -34,6 +34,10 @@ public class ProfileAdminEndpoint {
     private ProfilesService profilesService;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    @Lazy
+    private SaleCommandExecutor executor;
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
@@ -78,31 +82,23 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/profiles/ban/{id}")
-    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody BanInfoDto explanation) {
-        String loggedUserId = SecurityUtils.getCurrentUserId();
-        if (id.equals(loggedUserId)) {
+    public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody BanInfoDto explanation) throws CommandException {
+        GupLoggedUser loggedUser = SecurityUtils.getLoggedUser();
+        if (id.equals(loggedUser.getId())) {
             return new ResponseEntity<>("cant ban you self", HttpStatus.FORBIDDEN);
         }
         Profile profile = profilesService.findByPublicId(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        profile.setBan(true);
-        
-        BanInfo banInfo = new BanInfo();
-        banInfo.setDate(new Date());
-        banInfo.setUserId(loggedUserId);
-        banInfo.setPrivateExplanation(explanation.getPrivateExplanation());
-        banInfo.setPublicExplanation(explanation.getPublicExplanation());
-        profile.setBanInfo(banInfo);
-        
-        profilesService.updateProfile(profile);
+        executor.doCommand(new BanUserCommand(profile, profilesService,
+                explanation.getPrivateExplanation(), explanation.getPublicExplanation()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/profiles/unban/{id}")
-    public ResponseEntity<String> unbanProfileByID(@PathVariable("id") String id) {
+    public ResponseEntity<String> unbanProfileByID(@PathVariable("id") String id) throws CommandException {
         String loggedUserId = SecurityUtils.getCurrentUserId();
         if (id.equals(loggedUserId)) {
             return new ResponseEntity<>("cant unban you self", HttpStatus.FORBIDDEN);
@@ -111,9 +107,7 @@ public class ProfileAdminEndpoint {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        profile.setBan(false);
-        profile.setBanInfo(null);
-        profilesService.updateProfile(profile);
+        executor.doCommand(new UnbanUserCommand(profile, profilesService));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

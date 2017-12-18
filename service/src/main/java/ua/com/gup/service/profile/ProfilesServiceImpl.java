@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -53,9 +54,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         profileRepository.createProfile(newProfile);
     }
-
-
-
 
 
     @Override
@@ -276,6 +274,25 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setContactList(contactList);
 
         editProfile(profile);
+    }
+
+    @Override
+    public void banProfile(Profile profile, String privateExp, String publicExp) {
+        profile.setBan(true);
+
+        BanInfo banInfo = new BanInfo();
+        banInfo.setBanDate(new Date());
+        banInfo.setPrivateExplanation(privateExp);
+        banInfo.setPublicExplanation(publicExp);
+        profile.setBanInfo(banInfo);
+        updateProfile(profile);
+    }
+
+    @Override
+    public void unbanProfile(Profile profile) {
+        profile.setBan(false);
+        profile.setBanInfo(null);
+        updateProfile(profile);
     }
 
 

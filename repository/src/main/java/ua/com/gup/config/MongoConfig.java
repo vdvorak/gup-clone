@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
@@ -18,7 +19,6 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ua.com.gup.config.mongo.converter.JSR310DateConverters;
-import ua.com.gup.config.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Arrays;
 
@@ -26,6 +26,7 @@ import java.util.Arrays;
 @ComponentScan(basePackages = {"ua.com.gup.repository", /* какой-то костыль */"ua.com.gup.config.mongo"})
 @EnableMongoRepositories(basePackages = "ua.com.gup.repository")
 @PropertySource("classpath:mongo.properties")
+@EnableMongoAuditing
 public class MongoConfig {
 
     @Autowired
@@ -48,7 +49,6 @@ public class MongoConfig {
         MappingContext mappingContext = new MongoMappingContext();
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), mappingContext);
         mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
-                new OAuth2AuthenticationReadConverter(),
                 new JSR310DateConverters.DateToZonedDateTimeConverter(),
                 new JSR310DateConverters.ZonedDateTimeToDateConverter()
         )));

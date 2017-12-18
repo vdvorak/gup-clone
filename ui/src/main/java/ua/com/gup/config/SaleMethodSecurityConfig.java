@@ -17,7 +17,7 @@ import ua.com.gup.server.security.CustomPermissionEvaluator;
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends GlobalMethodSecurityConfiguration {
+public class SaleMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {

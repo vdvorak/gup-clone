@@ -204,4 +204,8 @@ public interface ProfilesService {
      * @param profileId - the ID of the profile which must be deleted.
      */
     void deleteFromMyContactList(String profileId);
+
+    void banProfile(Profile profile, String privateExp, String publicExp);
+
+    void unbanProfile(Profile profile);
 }

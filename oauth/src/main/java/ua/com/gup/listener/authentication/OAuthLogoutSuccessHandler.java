@@ -1,9 +1,8 @@
 package ua.com.gup.listener.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
-import ua.com.gup.mongo.model.login.LoggedUser;
+import ua.com.gup.model.LoggedUser;
 import ua.com.gup.service.UserService;
 
 import javax.servlet.ServletException;
