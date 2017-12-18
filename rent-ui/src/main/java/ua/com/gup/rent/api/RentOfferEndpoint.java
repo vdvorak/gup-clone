@@ -5,7 +5,6 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -32,7 +32,6 @@ import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -42,14 +41,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import ua.com.gup.common.web.api.AbstractImageEndpoint;
 
 /**
  * REST controller for managing Rent Offer.
  */
 @RestController
 @RequestMapping("/api")
-public class RentOfferEndpoint  extends AbstractImageEndpoint{
+public class RentOfferEndpoint extends AbstractImageEndpoint {
 
     private static final String ENTITY_NAME = "rent.offer";
     private final Logger log = LoggerFactory.getLogger(RentOfferEndpoint.class);
@@ -407,6 +405,5 @@ public class RentOfferEndpoint  extends AbstractImageEndpoint{
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }
-
 
 }

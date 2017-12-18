@@ -23,6 +23,7 @@ import ua.com.gup.rent.service.dto.category.RentOfferCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.service.dto.category.tree.RentOfferCategoryTreeDTO;
+import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.validator.category.RentOfferCategoryDTOValidator;
 import ua.com.gup.rent.validator.category.attribute.RentOfferCategoryAttributeDTOValidator;
 
@@ -107,7 +108,7 @@ public class RentOfferCategoryEndpoint {
     public ResponseEntity<RentOfferCategoryAttribute> getCategoryAttributes(@PathVariable String id) {
         logger.debug("REST request to get RentOfferCategoryAttribute : {}", id);
         final RentOfferCategoryAttribute rentOfferCategoryAttribute = rentOfferCategoryAttributeService.findOne(id);
-        return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategoryAttribute));
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategoryAttribute));
     }
 
     /**
@@ -130,7 +131,7 @@ public class RentOfferCategoryEndpoint {
         logger.debug("REST request to update RentOfferCategoryAttribute : {}", categoryAttribute);
         RentOfferCategoryAttribute result = rentOfferCategoryAttributeService.save(categoryAttribute);
         clearCache();
-        return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
     /**
@@ -209,10 +210,10 @@ public class RentOfferCategoryEndpoint {
 
      */
     public ResponseEntity<RentOfferCategory> getCategory(@PathVariable String id) {
-        logger.debug("REST request to get RentOfferCategoryShort : {}", id);
+        logger.debug("REST request to get RentOfferCategory : {}", id);
 
         final RentOfferCategory rentOfferCategory = rentOfferCategoryService.findOne(id);
-        return ua.com.gup.rent.util.RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategory));
+        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategory));
     }
 
     /**
