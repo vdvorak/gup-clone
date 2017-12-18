@@ -8,7 +8,7 @@ public enum FileType {
     private final String requestParamName;
     private final Class clazz;
 
-    private FileType(String path, String requestParamName, Class<? extends FileInfo> clazz) {
+    FileType(String path, String requestParamName, Class<? extends FileInfo> clazz) {
         this.path = path;
         this.requestParamName = requestParamName;
         this.clazz = clazz;
