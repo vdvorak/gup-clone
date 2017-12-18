@@ -11,10 +11,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@EqualsAndHashCode(of={"code"})
+@EqualsAndHashCode(of = {"code", "key"})
 public class RentOfferCategoryAttributeDTO implements Serializable {
     private int code;
     private boolean active;

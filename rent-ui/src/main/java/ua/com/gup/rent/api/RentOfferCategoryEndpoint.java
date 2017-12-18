@@ -23,6 +23,7 @@ import ua.com.gup.rent.service.dto.category.RentOfferCategoryUpdateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.service.dto.category.tree.RentOfferCategoryTreeDTO;
+import ua.com.gup.rent.util.RentMD5Util;
 import ua.com.gup.rent.util.RentResponseUtil;
 import ua.com.gup.rent.validator.category.RentOfferCategoryDTOValidator;
 import ua.com.gup.rent.validator.category.attribute.RentOfferCategoryAttributeDTOValidator;
@@ -308,7 +309,7 @@ public class RentOfferCategoryEndpoint {
         } catch (JsonProcessingException e) {
             logger.error("Json processing exception", e);
         }
-        categoriesTreeViewETagMap.put(lang, ua.com.gup.rent.util.RentMD5Util.getMD5Hex(json));
+        categoriesTreeViewETagMap.put(lang, RentMD5Util.getMD5Hex(json));
         cacheCategoriesTreeViewResponseMap.put(lang, ResponseEntity.ok().eTag(categoriesTreeViewETagMap.get(lang)).body(categoriesTreeView));
     }
 

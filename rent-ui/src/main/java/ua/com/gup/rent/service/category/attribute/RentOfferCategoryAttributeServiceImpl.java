@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing RentOfferCategoryAttribute.
  */
 @Service
-public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServiceImpl<RentOfferCategoryAttributeCreateDTO,String> implements RentOfferCategoryAttributeService {
+public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServiceImpl<RentOfferCategoryAttributeCreateDTO, String> implements RentOfferCategoryAttributeService {
 
     private final Logger logger = LoggerFactory.getLogger(RentOfferCategoryAttributeServiceImpl.class);
 
@@ -32,6 +32,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     public RentOfferCategoryAttributeServiceImpl(RentOfferCategoryAttributeRepository rentCategoryAttributeRepository) {
         super(rentCategoryAttributeRepository);
     }
+
     /**
      * Save a categoryAttribute.
      *
@@ -42,7 +43,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     public RentOfferCategoryAttribute save(RentOfferCategoryAttributeCreateDTO rentOfferCategoryAttributeCreateDTO) {
         logger.debug("Request to save RentOfferCategoryAttribute : {}", rentOfferCategoryAttributeCreateDTO);
         RentOfferCategoryAttribute attribute = rentOfferCategoryAttributeMapper.categoryAttributeCreateDTOToCategoryAttribute(rentOfferCategoryAttributeCreateDTO);
-        final RentOfferCategoryAttribute saved = ((RentOfferCategoryAttributeRepository)getRepository()).save(attribute);
+        final RentOfferCategoryAttribute saved = ((RentOfferCategoryAttributeRepository) getRepository()).save(attribute);
         clearCache();
         return saved;
     }
@@ -57,7 +58,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     public RentOfferCategoryAttribute save(RentOfferCategoryAttributeUpdateDTO rentOfferCategoryAttributeUpdateDTO) {
         logger.debug("Request to save RentOfferCategoryAttribute : {}", rentOfferCategoryAttributeUpdateDTO);
         final RentOfferCategoryAttribute rentOfferCategoryAttribute = rentOfferCategoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(rentOfferCategoryAttributeUpdateDTO);
-        final RentOfferCategoryAttribute saved =  ((RentOfferCategoryAttributeRepository)getRepository()).save(rentOfferCategoryAttribute);
+        final RentOfferCategoryAttribute saved = ((RentOfferCategoryAttributeRepository) getRepository()).save(rentOfferCategoryAttribute);
         clearCache();
         return saved;
     }
@@ -70,7 +71,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     @Override
     public List<RentOfferCategoryAttribute> findAll() {
         logger.debug("Request to get all Categories by filter");
-        return  ((RentOfferCategoryAttributeRepository)getRepository()).findAll();
+        return ((RentOfferCategoryAttributeRepository) getRepository()).findAll();
     }
 
     /**
@@ -82,7 +83,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     @Override
     public RentOfferCategoryAttribute findOne(String id) {
         logger.debug("Request to get RentOfferCategoryAttribute : {}", id);
-        return  ((RentOfferCategoryAttributeRepository)getRepository()).findOne(id);
+        return ((RentOfferCategoryAttributeRepository) getRepository()).findOne(id);
     }
 
     /**
@@ -94,7 +95,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     @Override
     public Optional<RentOfferCategoryAttribute> findOneByCode(int code) {
         logger.debug("Request to get RentOfferCategoryAttribute : {}", code);
-        return  ((RentOfferCategoryAttributeRepository)getRepository()).findOneByCode(code);
+        return ((RentOfferCategoryAttributeRepository) getRepository()).findOneByCode(code);
     }
 
     /**
@@ -105,7 +106,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     @Override
     public void delete(String id) {
         logger.debug("Request to delete RentOfferCategoryAttribute : {}", id);
-        ((RentOfferCategoryAttributeRepository)getRepository()).delete(id);
+        ((RentOfferCategoryAttributeRepository) getRepository()).delete(id);
         clearCache();
     }
 
@@ -123,7 +124,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     }
 
     private void warmCache() {
-        final List<RentOfferCategoryAttribute> rentOfferCategoryAttributes =  ((RentOfferCategoryAttributeRepository)getRepository()).findAll();
+        final List<RentOfferCategoryAttribute> rentOfferCategoryAttributes = ((RentOfferCategoryAttributeRepository) getRepository()).findAll();
         rentOfferCategoryAttributes.removeIf(c -> !c.isActive());
         for (RentOfferCategoryAttribute rentOfferCategoryAttribute : rentOfferCategoryAttributes) {
             for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
@@ -160,7 +161,8 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
                     }
                 }
                 attributeDTO.setValues(valueDTOS);
-                categoryAttributeCache.get(categorySort.getCode_category()).add(attributeDTO);
+                Boolean isAdd = categoryAttributeCache.get(categorySort.getCode_category()).add(attributeDTO);
+                logger.debug("add attributes {} in category {} is : {}", attributeDTO, categorySort.getCode_category(),isAdd);
             }
         }
     }
