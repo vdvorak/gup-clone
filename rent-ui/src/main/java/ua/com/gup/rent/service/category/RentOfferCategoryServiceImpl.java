@@ -27,16 +27,13 @@ import java.util.stream.Collectors;
 public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
 
     private final Logger logger = LoggerFactory.getLogger(RentOfferCategoryServiceImpl.class);
-
+    private final Map<Integer, LinkedList<RentOfferCategory>> rentCategoryCache = new ConcurrentHashMap<>();
     @Autowired
     private RentOfferCategoryRepository rentOfferCategoryRepository;
     @Autowired
     private RentOfferCategoryAttributeService rentOfferCategoryAttributeService;
     @Autowired
     private RentOfferCategoryMapper rentOfferCategoryMapper;
-
-    private final Map<Integer, LinkedList<RentOfferCategory>> rentCategoryCache = new ConcurrentHashMap<>();
-
 
     private RentOfferCategoryTreeDTO categoryToCategoryTreeDTO(RentOfferCategory rentOfferCategory, String lang) {
         RentOfferCategoryTreeDTO rentOfferCategoryTreeDTO = new RentOfferCategoryTreeDTO(lang);
@@ -59,7 +56,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
     @Override
     public RentOfferCategory save(RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) {
         logger.debug("Request to save RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
-        final RentOfferCategory rentOfferCategory =  rentOfferCategoryRepository.save(rentOfferCategoryMapper.categoryCreateDTOToCategory(rentOfferCategoryCreateDTO));
+        final RentOfferCategory rentOfferCategory = rentOfferCategoryRepository.save(rentOfferCategoryMapper.categoryCreateDTOToCategory(rentOfferCategoryCreateDTO));
         clearCache();
         return rentOfferCategory;
     }
@@ -112,10 +109,10 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
                 categories.get(rentOfferCategory.getParent()).getChildren().add(categories.get(rentOfferCategory.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> categoryAttributeDTOs = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, Set<RentOfferCategoryAttributeDTO>> categoryAttributeDTOs = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
-         final SortedSet<RentOfferCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
+            final Set<RentOfferCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);
             for (RentOfferCategoryAttributeDTO attributeDTO : attributes) {
                 SortedSet<RentOfferCategoryAttributeValueDTO> sortedSet = new TreeSet<>(Comparator.comparing(c -> c.getTitle() == null ? "" : c.getTitle().getOrDefault(lang, "")));
                 sortedSet.addAll(attributeDTO.getValues());
@@ -124,6 +121,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
         }
         //for by get category by_code in array and  add category_attributes
         for (Integer code : categories.keySet()) {
+            logger.debug("category {} add  attributes {}", code, categoryAttributeDTOs.get(code));
             if (categoryAttributeDTOs.containsKey(code)) {
                 categories.get(code).setAttrs(categoryAttributeDTOs.get(code));
             }
@@ -131,15 +129,15 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
 
         //filter for first level category
         final Set<Integer> firstLevelCategories = categoriesList.stream()
-                                                                  .filter((RentOfferCategory c) -> c.getParent() == 0)
-                                                                  .map(RentOfferCategory::getCode)
-                                                                  .collect(Collectors.toSet());
+                .filter((RentOfferCategory c) -> c.getParent() == 0)
+                .map(RentOfferCategory::getCode)
+                .collect(Collectors.toSet());
         //return sorted categoryDTO
         return categories.entrySet().stream()
-                                        .filter(e -> firstLevelCategories.contains(e.getKey()))
-                                        .map(e -> e.getValue())
-                                        .sorted(RentOfferCategoryTreeDTO.getCategoryTreeDTOComparator(lang))
-                                        .collect(Collectors.toList());
+                .filter(e -> firstLevelCategories.contains(e.getKey()))
+                .map(e -> e.getValue())
+                .sorted(RentOfferCategoryTreeDTO.getCategoryTreeDTOComparator(lang))
+                .collect(Collectors.toList());
     }
 
     /**

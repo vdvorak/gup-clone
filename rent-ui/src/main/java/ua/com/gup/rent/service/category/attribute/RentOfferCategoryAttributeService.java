@@ -10,7 +10,7 @@ import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttribute
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.SortedSet;
+import java.util.Set;
 
 /**
  * Service Interface for managing RentOfferCategoryAttribute.
@@ -61,5 +61,5 @@ public interface RentOfferCategoryAttributeService extends RentOfferGenericServi
      *
      * @return the entity
      */
-    Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO();
+    Map<Integer, Set<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO();
 }

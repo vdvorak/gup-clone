@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -118,7 +117,7 @@ public class RentOfferDTOValidator implements Validator {
                     Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = null;
 
                     try {
-                        final SortedSet<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO().get(rentOfferCreateDTO.getCategory());
+                        final Set<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO().get(rentOfferCreateDTO.getCategory());
                         //check category attribute by category
                         categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
                         // checking required attributes

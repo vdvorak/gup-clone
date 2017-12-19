@@ -241,7 +241,7 @@ public class RentOfferMapper {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
         if (source.getCategory() != null) {
-            final SortedSet<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
+            final Set<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
             if (categoryAttributeDTOS != null && !categoryAttributeDTOS.isEmpty()) {
                 final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
                 if (source.getAttrs() != null) {

@@ -26,7 +26,8 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     @Autowired
     private RentOfferCategoryAttributeMapper rentOfferCategoryAttributeMapper;
     //use for sorted category_sort asc
-    private Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<Integer, SortedSet<RentOfferCategoryAttributeDTO>>();
+
+    private Map<Integer, Set<RentOfferCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
 
     @Autowired
     public RentOfferCategoryAttributeServiceImpl(RentOfferCategoryAttributeRepository rentCategoryAttributeRepository) {
@@ -116,7 +117,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
      * @return the entity
      */
     @Override
-    public Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
+    public Map<Integer, Set<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
         if (categoryAttributeCache.size() == 0) {
             warmCache();
         }
@@ -127,23 +128,24 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
         final List<RentOfferCategoryAttribute> rentOfferCategoryAttributes = ((RentOfferCategoryAttributeRepository) getRepository()).findAll();
         rentOfferCategoryAttributes.removeIf(c -> !c.isActive());
         for (RentOfferCategoryAttribute rentOfferCategoryAttribute : rentOfferCategoryAttributes) {
+            RentOfferCategoryAttributeDTO attributeDTO = new RentOfferCategoryAttributeDTO();
+            attributeDTO.setCode(rentOfferCategoryAttribute.getCode());
+            attributeDTO.setActive(rentOfferCategoryAttribute.isActive());
+            attributeDTO.setKey(rentOfferCategoryAttribute.getKey());
+            attributeDTO.setTitle(rentOfferCategoryAttribute.getTitle());
+            attributeDTO.setUnit(rentOfferCategoryAttribute.getUnit());
+            attributeDTO.setType(rentOfferCategoryAttribute.getType());
+
+            RentOfferCategoryAttributeValidatorDTO validatorDTO = new RentOfferCategoryAttributeValidatorDTO();
+            validatorDTO.setMin(rentOfferCategoryAttribute.getValidator().getMin());
+            validatorDTO.setMax(rentOfferCategoryAttribute.getValidator().getMax());
+
+
             for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
-                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<RentOfferCategoryAttributeDTO>(Comparator.comparing(RentOfferCategoryAttributeDTO::getCategory_sort)));
+                    categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<>(Comparator.comparingInt(RentOfferCategoryAttributeDTO::getCategory_sort)));
                 }
-
-                RentOfferCategoryAttributeDTO attributeDTO = new RentOfferCategoryAttributeDTO();
-                attributeDTO.setCode(rentOfferCategoryAttribute.getCode());
-                attributeDTO.setActive(rentOfferCategoryAttribute.isActive());
-                attributeDTO.setKey(rentOfferCategoryAttribute.getKey());
-                attributeDTO.setTitle(rentOfferCategoryAttribute.getTitle());
-                attributeDTO.setUnit(rentOfferCategoryAttribute.getUnit());
-                attributeDTO.setType(rentOfferCategoryAttribute.getType());
                 attributeDTO.setCategory_sort(categorySort.getOrder_category());
-
-                RentOfferCategoryAttributeValidatorDTO validatorDTO = new RentOfferCategoryAttributeValidatorDTO();
-                validatorDTO.setMin(rentOfferCategoryAttribute.getValidator().getMin());
-                validatorDTO.setMax(rentOfferCategoryAttribute.getValidator().getMax());
 
                 boolean exceptThis = rentOfferCategoryAttribute.getValidator().getExcept().contains(categorySort.getCode_category());
 
@@ -151,6 +153,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
                 attributeDTO.setValidator(validatorDTO);
 
                 LinkedHashSet<RentOfferCategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
+
 
                 for (RentOfferCategoryAttributeValue attributeValue : rentOfferCategoryAttribute.getValues()) {
                     if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
