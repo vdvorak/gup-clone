@@ -2,7 +2,6 @@ package ua.com.gup.mongo.composition.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
@@ -68,8 +67,7 @@ public class Profile extends CommonProfile {
     private ProfileStatistic profileStatistic;
 
     private String chatUID;
-    private ImageFileInfo imageLarge;
-    private ImageFileInfo imageSmall;
+
     private String facebookId;
 
     public Profile() {
@@ -486,29 +484,6 @@ public class Profile extends CommonProfile {
         this.chatUID = chatUID;
     }
 
-    public ImageFileInfo getImageLarge() {
-        return imageLarge;
-    }
-
-    public void setImageLarge(ImageFileInfo imageLarge) {
-        this.imageLarge = imageLarge;
-    }
-
-    public ImageFileInfo getImageSmall() {
-        return imageSmall;
-    }
-
-    public void setImageSmall(ImageFileInfo imageSmall) {
-        this.imageSmall = imageSmall;
-    }
-
-    public String imageLargeUrl() {
-        return imageLarge == null ? null : imageLarge.getUrl();
-    }
-
-    public String imageSmallUrl() {
-        return imageSmall == null ? null : imageSmall.getUrl();
-    }
 
     public BanInfo getBanInfo() {
         return banInfo;

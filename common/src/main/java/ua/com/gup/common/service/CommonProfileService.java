@@ -1,5 +1,10 @@
 package ua.com.gup.common.service;
 
-public interface CommonProfileService {
+import ua.com.gup.common.model.mongo.CommonProfile;
+
+public interface CommonProfileService<T extends CommonProfile> {
+
+    T findById(String id);
+
 
 }

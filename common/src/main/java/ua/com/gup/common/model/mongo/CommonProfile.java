@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import ua.com.gup.common.annotation.Email;
 import ua.com.gup.common.annotation.Password;
+import ua.com.gup.common.model.ImageFileInfo;
 
 import javax.validation.constraints.Size;
 
@@ -38,12 +39,22 @@ public class CommonProfile {
     protected Long createdDate;
     protected Long lastLoginDate;
     protected Boolean ban = false;
+    protected ImageFileInfo imageLarge;
+    protected ImageFileInfo imageSmall;
 
     public Phone getMainPhone() {
         if (mainPhone == null) {
             mainPhone = new Phone();
         }
         return mainPhone;
+    }
+
+    public String imageLargeUrl() {
+        return imageLarge == null ? null : imageLarge.getUrl();
+    }
+
+    public String imageSmallUrl() {
+        return imageSmall == null ? null : imageSmall.getUrl();
     }
 
 }

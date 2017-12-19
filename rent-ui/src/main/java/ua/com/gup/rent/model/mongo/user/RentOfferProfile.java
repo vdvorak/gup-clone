@@ -24,7 +24,6 @@ public class RentOfferProfile extends CommonProfile {
 
 
     private RentOfferAddress address;
-    private String imgId;
     private String imgUrl;
     private Long birthDate;
     //  private Contact contact;
