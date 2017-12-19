@@ -7,8 +7,7 @@ import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 @Component
 public class RentOfferPriceMapper {
 
-    public RentOfferPriceDTO fromModelToDTO(RentOfferPrice rentOfferPrice) {
-        RentOfferPriceDTO rentOfferPriceDTO = new RentOfferPriceDTO();
+    public RentOfferPriceDTO fromModelToDTO(RentOfferPrice rentOfferPrice,RentOfferPriceDTO rentOfferPriceDTO) {
         if (rentOfferPrice != null) {
             rentOfferPriceDTO.setBusinessDayCost(rentOfferPrice.getBusinessDayCost());
             rentOfferPriceDTO.setWeekendDayCost(rentOfferPrice.getWeekendDayCost());

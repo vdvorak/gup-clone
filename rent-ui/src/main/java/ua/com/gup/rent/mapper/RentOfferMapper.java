@@ -136,8 +136,7 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setAddress(addressMapper.addressToAddressDTO(offer.getAddress()));
         if (offer.getPrice() != null) {
             RentOfferPriceDTO priceDTO = new RentOfferPriceDTO();
-            //todo vdvorak check
-            //  priceMapper.moneyToMoneyDTO(offer.getRentOfferPrice(), priceDTO);
+            priceMapper.fromModelToDTO(offer.getPrice(), priceDTO);
             offerViewDetailsDTO.setPrice(priceDTO);
         }
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
@@ -159,7 +158,7 @@ public class RentOfferMapper {
         target.setAddress(addressMapper.addressToAddressDTO(source.getAddress()));
         if (source.getPrice() != null) {
             RentOfferPriceShortDTO priceDTO = new RentOfferPriceShortDTO();
-            priceMapper.fromModelToDTO(source.getPrice());
+            priceMapper.fromModelToDTO(source.getPrice(), priceDTO);
             Optional<RentOfferCategorySingleAttributeValue> collect = source.getAttrs().values().stream().filter(a -> a.getCode() == PRICE_ATTRIBUTE_CODE).findFirst();
             if (collect.isPresent()) {
                 RentOfferCategorySingleAttributeValue priceAttributes = collect.get();
@@ -241,7 +240,7 @@ public class RentOfferMapper {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
         if (source.getCategory() != null) {
-            final SortedSet<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
+            final Set<RentOfferCategoryAttributeDTO> categoryAttributeDTOS = categoryAttributeService.findAllCategoryAttributeDTO().get(source.getCategory());
             if (categoryAttributeDTOS != null && !categoryAttributeDTOS.isEmpty()) {
                 final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
                 if (source.getAttrs() != null) {
