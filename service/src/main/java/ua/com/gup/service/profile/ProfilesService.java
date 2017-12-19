@@ -2,6 +2,7 @@ package ua.com.gup.service.profile;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
@@ -14,7 +15,7 @@ import java.util.Set;
 /**
  * The interface Profiles service.
  */
-public interface ProfilesService {
+public interface ProfilesService extends CommonProfileService{
     void createProfile(CreateProfileDTO profile);
 
     /**
@@ -125,14 +126,6 @@ public interface ProfilesService {
      * @return the boolean
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
-
-//    /**
-//     * Add friend.
-//     *
-//     * @param profileId               - the profile id.
-//     * @param friendProfileId         - the friend profile id.
-//     */
-//    void addFriend(String profileId, String friendProfileId);
 
     /**
      * Search for matched user names and return set of them.

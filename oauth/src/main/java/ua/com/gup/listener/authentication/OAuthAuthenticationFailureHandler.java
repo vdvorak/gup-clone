@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.UserService;
 
-public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class OAuthAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Autowired
     private UserService userService;

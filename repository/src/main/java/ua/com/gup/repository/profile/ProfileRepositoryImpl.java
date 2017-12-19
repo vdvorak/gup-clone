@@ -15,7 +15,6 @@ import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,7 +60,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-@Deprecated
+    @Deprecated
     public Profile findProfileAndUpdate(Profile profile) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(profile);
     }
@@ -81,8 +80,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public boolean profileExistsWithEmail(String email) {
-        Query queryX = new Query(Criteria.where("email").is(email));
+        Query queryX = new Query(Criteria.where("email").regex(email, "i"));
         return mongoTemplate.exists(queryX, Profile.class);
+    }
+
+    @Override
+    public boolean profileExistsWithFacebookId(String facebookId) {
+        Query query = new Query(Criteria.where("facebookId").is(facebookId));
+        return mongoTemplate.exists(query, Profile.class);
     }
 
     @Override
@@ -235,20 +240,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public Profile findByEmail(String email) {
-////        Query query = new Query(Criteria.where("email").is(email));
-//        Query query = new Query( Criteria.where("email").regex(email.toString(), "i")); //TODO // db.getCollection('users').find({ email: { $regex: "ololosh@mail.ru", $options: '-i' }})
-//        return mongoTemplate.findOne(query, Profile.class);
-        ////////////////////////////////////////////////////////////////
-        Query queryX = new Query(Criteria.where("email").regex(email.toString(), "i"));
-        List<Profile> profiles = mongoTemplate.find(queryX, Profile.class);
-        Optional<Profile> profile = profiles.stream()
-                .filter(p -> p.getEmail().toUpperCase().equals(email.toUpperCase()))
-                .findFirst();
-        try {
-            return profile.get();
-        } catch (Exception e) {
-            return null;
-        }
+        Query queryX = new Query(Criteria.where("email").regex(email, "i"));
+        return mongoTemplate.findOne(queryX, Profile.class);
     }
 
     @Override
@@ -310,4 +303,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.exists(query, Profile.class);
     }
 
+    @Override
+    public Profile findByFacebookId(String facebookId) {
+        Query query = new Query(Criteria.where("facebookId").is(facebookId));
+        return mongoTemplate.findOne(query, Profile.class);
     }
+
+}

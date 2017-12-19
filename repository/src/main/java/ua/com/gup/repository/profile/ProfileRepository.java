@@ -59,6 +59,8 @@ public interface ProfileRepository {
      */
     boolean profileExistsWithEmail(String email);
 
+    boolean profileExistsWithFacebookId(String facebookId);
+
     boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
 
     /**
@@ -183,5 +185,6 @@ public interface ProfileRepository {
 
     boolean profileExistsByPublicId(String profilePublicId);
 
+    Profile findByFacebookId(String facebookId);
 }
 

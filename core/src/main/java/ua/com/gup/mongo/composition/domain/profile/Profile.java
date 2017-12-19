@@ -16,7 +16,7 @@ import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.mongo.model.profiles.order.OrderAddress;
 import ua.com.gup.mongo.model.profiles.phone.DBStorePhones;
-import ua.com.gup.mongo.model.profiles.phone.Phone;
+import ua.com.gup.common.model.mongo.Phone;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -101,6 +101,7 @@ public class Profile {
     private String chatUID;
     private ImageFileInfo imageLarge;
     private ImageFileInfo imageSmall;
+    private String facebookId;
 
     public Profile() {
     }
@@ -619,7 +620,16 @@ public class Profile {
 
     public void setBanInfo(BanInfo banInfo) {
         this.banInfo = banInfo;
-    }  
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public Profile setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+        return this;
+    }
 
     @Override
     public String toString() {

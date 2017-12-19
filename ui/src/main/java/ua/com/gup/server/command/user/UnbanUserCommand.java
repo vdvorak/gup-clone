@@ -1,4 +1,4 @@
-package ua.com.gup.server.command;
+package ua.com.gup.server.command.user;
 
 import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.mongo.composition.domain.profile.Profile;

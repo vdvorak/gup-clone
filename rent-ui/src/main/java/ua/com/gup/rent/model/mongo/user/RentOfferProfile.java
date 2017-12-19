@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
-import ua.com.gup.rent.model.rent.profiles.phone.RentOfferPhone;
 
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -39,7 +39,7 @@ public class RentOfferProfile {
 
     private String passwordRestore;
     private String tokenKey;
-    private RentOfferPhone mainPhone;
+    private Phone mainPhone;
     @Indexed
     @Size(min = 2, max = 70)
     private String username;

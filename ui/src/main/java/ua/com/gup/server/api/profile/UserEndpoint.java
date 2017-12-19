@@ -37,8 +37,7 @@ public class UserEndpoint {
         if(!SecurityUtils.isAuthenticated()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        String username = SecurityUtils.getLoggedUser().getUsername();
-        ProfileDTO profile = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(username);
+        ProfileDTO profile = profilesService.findPrivateProfileDTOByPublicId(SecurityUtils.getLoggedUser().getPublicId());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }
