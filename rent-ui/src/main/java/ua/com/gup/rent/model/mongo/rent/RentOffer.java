@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.rent.model.rent.*;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
@@ -56,7 +57,7 @@ public class RentOffer extends CommonRentOffer {
 
     private String authorId;
 
-    private RentOfferAddress address;
+    private Address address;
 
     private RentOfferLands lands;
 

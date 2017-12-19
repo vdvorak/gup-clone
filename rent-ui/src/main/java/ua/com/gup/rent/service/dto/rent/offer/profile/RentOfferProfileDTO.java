@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.rent.model.rent.RentOfferAddress;
+import ua.com.gup.common.model.mongo.address.Address;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,13 +27,13 @@ public abstract class RentOfferProfileDTO {
     protected String email;
 
     @JsonProperty("address")
-    protected RentOfferAddress address;
+    protected Address address;
 
     @JsonProperty("contactPerson")
     protected String contactPerson;
 
-    @JsonProperty("imgId")
-    protected String imageId;
+    /*@JsonProperty("imgId")
+    protected String imageId;*/
 
     /*@JsonProperty("socialList")
     protected Set<RentOfferProfileContactList> socialsList;*/

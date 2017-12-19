@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValidatorDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValueDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 
@@ -83,7 +83,7 @@ public class RentOfferDTOValidator implements Validator {
             errors.rejectValue("address", "address.required", null, "address required");
         }
         if (rentOfferCreateDTO.getAddress() != null) {
-            final RentOfferAddressDTO address = rentOfferCreateDTO.getAddress();
+            final CommonAddressDTO address = rentOfferCreateDTO.getAddress();
             if (address.getLat() == null || address.getLng() == null) {
                 errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
             }

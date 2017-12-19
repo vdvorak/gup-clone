@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.period.RentOfferPeriodDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -27,7 +28,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     private Integer category;
 
     @ApiModelProperty(position = 40)
-    private RentOfferAddressDTO address;
+    private CommonAddressDTO address;
 
     @ApiModelProperty(position = 60, example = "ret price")
     private RentOfferPriceDTO price;

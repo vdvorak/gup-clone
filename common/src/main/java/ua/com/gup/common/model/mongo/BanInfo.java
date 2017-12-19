@@ -9,9 +9,9 @@ import java.util.Date;
 @Data
 public class BanInfo {
 
-    @JsonProperty("date")
+    @JsonProperty("banDate")
     @NotNull
-    private Date date;
+    private Date banDate;
     @JsonProperty("public")
     @NotNull
     private String publicExplanation;

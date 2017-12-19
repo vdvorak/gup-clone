@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferContactInfoDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
@@ -26,7 +26,7 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
     private CommonStatus status;
 
     @ApiModelProperty(position = 60)
-    private RentOfferAddressDTO address;
+    private CommonAddressDTO address;
 
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
     private String youtubeVideoId;

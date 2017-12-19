@@ -1,6 +1,7 @@
 package ua.com.gup.common.model.mongo;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import ua.com.gup.common.annotation.Email;
@@ -39,7 +40,9 @@ public class CommonProfile {
     protected Long createdDate;
     protected Long lastLoginDate;
     protected Boolean ban = false;
+    @Setter
     protected ImageFileInfo imageLarge;
+    @Setter
     protected ImageFileInfo imageSmall;
 
     public Phone getMainPhone() {

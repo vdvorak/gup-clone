@@ -3,8 +3,8 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
@@ -21,7 +21,7 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
     private CommonStatus status;
 
     @ApiModelProperty(position = 60)
-    private OfferAddressDTO address;
+    private CommonAddressDTO address;
 
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
     private String youtubeVideoId;
@@ -56,11 +56,11 @@ public class OfferViewDetailsDTO extends OfferViewBaseDTO {
         this.status = status;
     }
 
-    public OfferAddressDTO getAddress() {
+    public CommonAddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(OfferAddressDTO address) {
+    public void setAddress(CommonAddressDTO address) {
         this.address = address;
     }
 

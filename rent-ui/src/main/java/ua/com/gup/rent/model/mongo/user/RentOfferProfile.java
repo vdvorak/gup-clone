@@ -3,13 +3,12 @@ package ua.com.gup.rent.model.mongo.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
 
 import javax.validation.constraints.Size;
@@ -23,7 +22,7 @@ import java.util.Set;
 public class RentOfferProfile extends CommonProfile {
 
 
-    private RentOfferAddress address;
+    private Address address;
     private String imgUrl;
     private Long birthDate;
     //  private Contact contact;
@@ -48,14 +47,14 @@ public class RentOfferProfile extends CommonProfile {
      * Lawyer-Profile
      */
     private CommonUserType userType;
-    private RentOfferAddress lawyerAddress;
+    private Address lawyerAddress;
     private String nameCompany;
     private String fullNameCompany;
     private String fullNameOvner;
     private String EGRPOU;
     private String identificationСode;
     private String IPN;
-    private RentOfferAddress locationAddress;
+    private Address locationAddress;
     private String mainKindActivity;
     private Set<String> emploeyrList;
     private RentOfferDBStorePhones storePhones;

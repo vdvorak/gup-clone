@@ -3,7 +3,7 @@ package ua.com.gup.dto.offer.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.common.service.dto.CommonAuthorDTO;
+import ua.com.gup.common.dto.CommonAuthorDTO;
 import ua.com.gup.dto.offer.OfferPriceDTO;
 import ua.com.gup.mongo.model.offer.OfferCategory;
 

@@ -3,7 +3,7 @@ package ua.com.gup.dto.profile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.offer.Address;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 

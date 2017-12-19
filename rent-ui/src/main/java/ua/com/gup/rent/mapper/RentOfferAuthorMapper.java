@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.mapper.CommonAuthorMapper;
 import ua.com.gup.common.service.CommonProfileService;
-import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.common.service.dto.CommonAuthorDTO;
 import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 
 @Component

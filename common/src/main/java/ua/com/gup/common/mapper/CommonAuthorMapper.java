@@ -2,7 +2,7 @@ package ua.com.gup.common.mapper;
 
 import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.service.CommonProfileService;
-import ua.com.gup.common.service.dto.CommonAuthorDTO;
+import ua.com.gup.common.dto.CommonAuthorDTO;
 
 public abstract class CommonAuthorMapper {
 

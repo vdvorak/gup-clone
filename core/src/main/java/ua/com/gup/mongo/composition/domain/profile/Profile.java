@@ -8,7 +8,7 @@ import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.mongo.model.offer.Address;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.mongo.model.profiles.order.OrderAddress;

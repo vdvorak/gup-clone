@@ -2,8 +2,8 @@ package ua.com.gup.rent.filter;
 
 
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Component
 public final class RentOfferFilterOptions extends RentOffer {
 
-    private Set<RentOfferAddress> addresses;
+    private Set<Address> addresses;
     private int skip;
     private int limit;
     private Long fromPrice;
@@ -119,11 +119,11 @@ public final class RentOfferFilterOptions extends RentOffer {
         this.cityList = cityList;
     }
 
-    public Set<RentOfferAddress> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<RentOfferAddress> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 

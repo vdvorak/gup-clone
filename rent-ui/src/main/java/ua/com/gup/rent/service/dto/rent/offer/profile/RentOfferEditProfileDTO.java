@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.Phone;
-import ua.com.gup.rent.model.rent.RentOfferAddress;
+import ua.com.gup.common.model.mongo.address.Address;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,8 +16,8 @@ public class RentOfferEditProfileDTO extends RentOfferProfileDTO {
     @JsonProperty("mainPhone")
     private Phone mainPhone;
 
-    public RentOfferEditProfileDTO(String firstName, String lastName, CommonUserType userType, String email, RentOfferAddress address, String contactPerson, String imageId, String status) {
-        super(firstName, lastName, userType, email,address, contactPerson, imageId, status);
+    public RentOfferEditProfileDTO(String firstName, String lastName, CommonUserType userType, String email, Address address, String contactPerson, String status) {
+        super(firstName, lastName, userType, email,address, contactPerson, status);
     }
 
 

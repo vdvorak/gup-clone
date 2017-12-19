@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model.rent;
+package ua.com.gup.common.model.mongo.address;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,11 +9,11 @@ import lombok.Data;
 
 import java.util.Map;
 
-@ApiModel(description = "RentOfferAddress attribute ")
+@Data
+@ApiModel(description = "Address attribute")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
-public class RentOfferAddressArea {
+public class AddressArea {
 
     @ApiModelProperty(position = 10, example = "code")
     private String code;
