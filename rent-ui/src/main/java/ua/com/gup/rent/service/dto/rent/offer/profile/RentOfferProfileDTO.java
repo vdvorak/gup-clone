@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -24,9 +25,6 @@ public abstract class RentOfferProfileDTO {
 
     @JsonProperty("email")
     protected String email;
-
-    @JsonProperty("executive")
-    protected String executive;
 
     @JsonProperty("address")
     protected RentOfferAddress address;

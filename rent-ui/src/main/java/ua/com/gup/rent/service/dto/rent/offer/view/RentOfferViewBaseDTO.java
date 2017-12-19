@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.model.image.ImageSizeType;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferAuthorDTO;
+import ua.com.gup.common.service.dto.CommonAuthorDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferSettingsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -30,7 +30,7 @@ public class RentOfferViewBaseDTO implements Serializable {
     private ZonedDateTime lastModifiedDate;
 
     @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
-    private RentOfferAuthorDTO author;
+    private CommonAuthorDTO author;
 
     @ApiModelProperty(position = 30)
     private LinkedList<RentOfferCategoryShort> categories;

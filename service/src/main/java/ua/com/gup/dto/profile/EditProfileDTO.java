@@ -32,7 +32,6 @@ public class EditProfileDTO extends ProfileDTO {
             profile.setEmail(this.email);
         }
 
-        profile.setExecutive(this.executive);
         profile.setAddress(this.address);
         profile.setContactPerson(this.contactPerson);
         profile.setContactList(this.socialsList);

@@ -1,8 +1,8 @@
 package ua.com.gup.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.gup.config.annotation.Email;
-import ua.com.gup.config.annotation.Password;
+import ua.com.gup.common.annotation.Email;
+import ua.com.gup.common.annotation.Password;
 
 public class RegisterProfile {
 

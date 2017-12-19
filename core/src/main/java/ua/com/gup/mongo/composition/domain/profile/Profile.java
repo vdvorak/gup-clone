@@ -1,22 +1,19 @@
 package ua.com.gup.mongo.composition.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
+import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.config.annotation.Email;
-import ua.com.gup.config.annotation.Password;
 import ua.com.gup.mongo.model.offer.Address;
 import ua.com.gup.mongo.model.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.*;
 import ua.com.gup.mongo.model.profiles.order.OrderAddress;
 import ua.com.gup.mongo.model.profiles.phone.DBStorePhones;
-import ua.com.gup.common.model.mongo.Phone;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -28,35 +25,8 @@ import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = ObjectType.USER)
-public class Profile {
+public class Profile extends CommonProfile {
 
-    @Id
-    private String id;
-    @Indexed
-    private String publicId;
-    @Indexed
-    private String idSeoWord;
-    private boolean active;
-
-
-    @Indexed
-    @Email
-    private String email;
-    private String socWendor = "gup.com.ua";
-    private String uid;
-    @Password
-    private String password;
-    private String passwordRestore;
-    private String tokenKey;
-    private Phone mainPhone;
-    @Indexed
-    @Size(min = 2, max = 70)
-    private String username;
-    @Size(min = 2, max = 70)
-    private String firstname;
-    @Size(min = 2, max = 70)
-    private String lastname;
-    private String executive;
     private String contactPerson;
     private Address address;
     private String imgUrl;
@@ -72,13 +42,12 @@ public class Profile {
     private Set<ProfileRating> profileRating;
     private Boolean confirmModerator;
     private Set<CommonUserRole> userRoles;
-    private Long createdDate;
-    private Long lastLoginDate;
+
     private boolean online;
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
     private BankCard bankCard;
-    private Boolean ban = false;
+
     private BanInfo banInfo;
     /*
      * Lawyer-Profile
@@ -134,9 +103,6 @@ public class Profile {
         return this;
     }
 
-    public Long getLastLoginDate() {
-        return lastLoginDate;
-    }
 
     public Profile setLastLoginDate(Long lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
@@ -161,9 +127,6 @@ public class Profile {
         return this;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public Profile setId(String id) {
         this.id = id;
@@ -174,20 +137,10 @@ public class Profile {
         return confirmModerator;
     }
 
-    public String getIdSeoWord() {
-        return idSeoWord;
-    }
 
     public Profile setIdSeoWord(String idSeoWord) {
         this.idSeoWord = idSeoWord;
         return this;
-    }
-
-    public Phone getMainPhone() {
-        if (mainPhone == null) {
-            mainPhone = new Phone();
-        }
-        return mainPhone;
     }
 
     public Profile setMainPhone(Phone mainPhone) {
@@ -196,45 +149,23 @@ public class Profile {
     }
 
 
-    public String getUsername() {
-        return username;
-    }
-
     public Profile setUsername(String username) {
         this.username = username;
         return this;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
 
     public Profile setLastname(String lastname) {
         this.lastname = lastname;
         return this;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
 
     public Profile setFirstname(String firstname) {
         this.firstname = firstname;
         return this;
     }
 
-    public String getExecutive() {
-        return executive;
-    }
-
-    public Profile setExecutive(String executive) {
-        this.executive = executive;
-        return this;
-    }
-
-    public String getContactPerson() {
-        return contactPerson;
-    }
 
     public Profile setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
@@ -259,36 +190,23 @@ public class Profile {
         return this;
     }
 
-    public String getPublicId() {
-        return publicId;
-    }
-
     public Profile setPublicId(String publicId) {
         this.publicId = publicId;
         return this;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public Profile setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public Profile setPassword(String password) {
         this.password = password;
         return this;
     }
 
-    public String getPasswordRestore() {
-        return passwordRestore;
-    }
 
     public Profile setPasswordRestore(String passwordRestore) {
         this.passwordRestore = passwordRestore;
@@ -352,10 +270,6 @@ public class Profile {
         return this;
     }
 
-    public Long getCreatedDate() {
-        return createdDate;
-    }
-
     public Profile setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
         return this;
@@ -401,32 +315,18 @@ public class Profile {
         return this;
     }
 
-    public String getSocWendor() {
-        return socWendor;
-    }
 
     public Profile setSocWendor(String socWendor) {
         this.socWendor = socWendor;
         return this;
     }
 
-    public String getUid() {
-        return uid;
-    }
 
     public Profile setUid(String uid) {
         this.uid = uid;
         return this;
     }
 
-    public String getTokenKey() {
-        return tokenKey;
-    }
-
-    public Profile setTokenKey(String tokenKey) {
-        this.tokenKey = tokenKey;
-        return this;
-    }
 
     public String getStatus() {
         return status;
@@ -447,10 +347,6 @@ public class Profile {
         return this;
     }
 
-
-    public Boolean getBan() {
-        return ban;
-    }
 
     public Profile setBan(Boolean ban) {
         this.ban = ban;
@@ -644,11 +540,9 @@ public class Profile {
                 ", uid='" + uid + '\'' +
                 ", password='" + password + '\'' +
                 ", passwordRestore='" + passwordRestore + '\'' +
-                ", tokenKey='" + tokenKey + '\'' +
                 ", username='" + username + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
                 ", address='" + address + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +

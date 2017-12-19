@@ -40,7 +40,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     public void createProfile(CreateProfileDTO profile) {
         Profile newProfile = new Profile()
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(ObjectType.USER))
-                .setExecutive(profile.getExecutive())
                 .setContactPerson(profile.getContactPerson())
                 .setAddress(profile.getAddress())
                 .setActive(Boolean.TRUE)

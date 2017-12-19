@@ -2,7 +2,7 @@ package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.config.annotation.Password;
+import ua.com.gup.common.annotation.Password;
 import ua.com.gup.common.model.mongo.Phone;
 
 import java.util.Set;

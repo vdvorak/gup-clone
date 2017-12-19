@@ -1,7 +1,7 @@
 package ua.com.gup.mongo.model.login;
 
 import javax.validation.constraints.NotNull;
-import ua.com.gup.config.annotation.Password;
+import ua.com.gup.common.annotation.Password;
 
 public class FormChangePassword {
 

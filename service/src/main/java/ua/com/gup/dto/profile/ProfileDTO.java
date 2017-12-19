@@ -55,7 +55,6 @@ public abstract class ProfileDTO {
         this.lastName = profile.getLastname();
         this.userType = profile.getUserType();
         this.email = profile.getEmail();
-        this.executive = profile.getExecutive();
         this.address = profile.getAddress();
         this.contactPerson = profile.getContactPerson();
         this.imageUrlLarge = profile.imageLargeUrl();

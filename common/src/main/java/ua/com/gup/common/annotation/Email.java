@@ -1,4 +1,4 @@
-package ua.com.gup.config.annotation;
+package ua.com.gup.common.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

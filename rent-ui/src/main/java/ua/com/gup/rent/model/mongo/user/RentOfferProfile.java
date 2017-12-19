@@ -3,12 +3,11 @@ package ua.com.gup.rent.model.mongo.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.common.model.mongo.Phone;
+import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.rent.RentOfferAddress;
 import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
@@ -21,34 +20,9 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class RentOfferProfile {
-
-    @Id
-    private String id;
-    @Indexed
-    private String publicId;
-    @Indexed
-    private String idSeoWord;
-    private boolean active;
+public class RentOfferProfile extends CommonProfile {
 
 
-    @Indexed
-    private String email;
-    private String socWendor = "gup.com.ua";
-    private String uid;
-
-    private String passwordRestore;
-    private String tokenKey;
-    private Phone mainPhone;
-    @Indexed
-    @Size(min = 2, max = 70)
-    private String username;
-    @Size(min = 2, max = 70)
-    private String firstname;
-    @Size(min = 2, max = 70)
-    private String lastname;
-    private String executive;
-    private String contactPerson;
     private RentOfferAddress address;
     private String imgId;
     private String imgUrl;
