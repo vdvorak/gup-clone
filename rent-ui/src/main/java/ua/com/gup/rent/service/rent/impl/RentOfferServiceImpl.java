@@ -182,7 +182,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable) {
-        return null;
+        log.debug("Request to get all Offers by status = {}", status);
+        Page<RentOffer> result = offerRepository.findAllByStatus(status, pageable);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     @Override
