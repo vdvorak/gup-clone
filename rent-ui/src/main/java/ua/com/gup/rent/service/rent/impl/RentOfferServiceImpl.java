@@ -353,11 +353,6 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
-        if (offerUpdateDTO.getImages() != null) {
-            for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
-                // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-            }
-        }
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation
