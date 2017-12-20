@@ -353,7 +353,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
 
-        //TODO 
+        //todo FOR dima SaveImages
         //if (offerUpdateDTO.getImages() != null) {
            // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
                 // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
