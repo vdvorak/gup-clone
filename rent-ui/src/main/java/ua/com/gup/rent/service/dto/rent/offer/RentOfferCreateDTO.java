@@ -33,9 +33,6 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 60, example = "ret price")
     private RentOfferPriceDTO price;
 
-    @ApiModelProperty(position = 70, example = "send file's")
-    private MultipartFile[] images;
-
     @ApiModelProperty(position = 80, example = "rent  period")
     private RentOfferPeriodDTO period;
 
