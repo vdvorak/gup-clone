@@ -36,7 +36,6 @@ public class CommonProfile {
     protected String firstname;
     @Size(min = 2, max = 70)
     protected String lastname;
-    protected String contactPerson;
     protected Long createdDate;
     protected Long lastLoginDate;
     protected Boolean ban = false;
