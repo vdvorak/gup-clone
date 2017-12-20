@@ -36,13 +36,10 @@ public class RentOfferProfile extends CommonProfile {
     //  private Set<RentOfferProfileRating> profileRating;
     private Boolean confirmModerator;
     private Set<CommonUserRole> userRoles;
-    private Long createdDate;
-    private Long lastLoginDate;
     private boolean online;
     //private List<RentOfferOrderAddress> orderAddressList;
     //private List<OfferUserContactInfo> offerUserContactInfoList;
     // private BankCard bankCard;
-    private Boolean ban = false;
     /*
      * Lawyer-Profile
      */

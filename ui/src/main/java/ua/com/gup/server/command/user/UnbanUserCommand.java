@@ -11,8 +11,9 @@ public class UnbanUserCommand extends UserCommand {
     }
 
     @Override
-    public void execute() throws Exception {
+    public Profile execute() throws Exception {
         profilesService.unbanProfile(profile);
+        return profile;
     }
 
     @Override

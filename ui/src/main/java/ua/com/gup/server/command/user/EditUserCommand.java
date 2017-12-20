@@ -12,8 +12,9 @@ public class EditUserCommand extends UserCommand {
     }
 
     @Override
-    public void execute() throws Exception {
+    public Profile execute() throws Exception {
         profilesService.updateProfile(profile);
+        return profile;
     }
 
     @Override

@@ -29,10 +29,7 @@ public abstract class RentOfferProfileDTO {
     @JsonProperty("address")
     protected Address address;
 
-    @JsonProperty("contactPerson")
-    protected String contactPerson;
-
-    /*@JsonProperty("imgId")
+        /*@JsonProperty("imgId")
     protected String imageId;*/
 
     /*@JsonProperty("socialList")

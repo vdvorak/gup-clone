@@ -16,8 +16,8 @@ public class RentOfferEditProfileDTO extends RentOfferProfileDTO {
     @JsonProperty("mainPhone")
     private Phone mainPhone;
 
-    public RentOfferEditProfileDTO(String firstName, String lastName, CommonUserType userType, String email, Address address, String contactPerson, String status) {
-        super(firstName, lastName, userType, email,address, contactPerson, status);
+    public RentOfferEditProfileDTO(String firstName, String lastName, CommonUserType userType, String email, Address address, String status) {
+        super(firstName, lastName, userType, email, address, status);
     }
 
 

@@ -33,7 +33,6 @@ public class EditProfileDTO extends ProfileDTO {
         }
 
         profile.setAddress(this.address);
-        profile.setContactPerson(this.contactPerson);
         profile.setContactList(this.socialsList);
         profile.setStatus(this.status);
         profile.setContact(this.contact);
