@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         Profile newProfile = new Profile()
                 .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                .setContactPerson(profile.getContactPerson())
                 .setAddress(profile.getAddress())
                 .setActive(profile.getActive())
                 .setEmail(profile.getEmail())

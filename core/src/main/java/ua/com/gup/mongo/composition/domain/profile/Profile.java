@@ -26,7 +26,7 @@ import java.util.Set;
 @Document(collection = ObjectType.USER)
 public class Profile extends CommonProfile {
 
-    private String contactPerson;
+
     private Address address;
     private String imgUrl;
     private Long birthDate;
@@ -161,12 +161,6 @@ public class Profile extends CommonProfile {
 
     public Profile setFirstname(String firstname) {
         this.firstname = firstname;
-        return this;
-    }
-
-
-    public Profile setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
         return this;
     }
 
@@ -518,7 +512,6 @@ public class Profile extends CommonProfile {
                 ", username='" + username + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", contactPerson='" + contactPerson + '\'' +
                 ", address='" + address + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +

@@ -1,10 +1,10 @@
-package ua.com.gup.common.model.uapay.payment;
+package ua.com.gup.payment.model.uapay.payment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import ua.com.gup.common.model.uapay.Card;
-import ua.com.gup.common.model.uapay.Notify;
-import ua.com.gup.common.model.uapay.base.UaPayRequestData;
+import ua.com.gup.payment.model.uapay.Card;
+import ua.com.gup.payment.model.uapay.Notify;
+import ua.com.gup.payment.model.uapay.base.UaPayRequestData;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data

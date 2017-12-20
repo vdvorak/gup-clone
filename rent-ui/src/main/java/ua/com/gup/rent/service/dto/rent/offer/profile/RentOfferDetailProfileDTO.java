@@ -41,7 +41,6 @@ public abstract class RentOfferDetailProfileDTO extends RentOfferProfileDTO {
                 rentOfferProfile.getUserType(),
                 rentOfferProfile.getEmail(),
                 rentOfferProfile.getAddress(),
-                rentOfferProfile.getContactPerson(),
                 rentOfferProfile.getStatus());
     }
 }

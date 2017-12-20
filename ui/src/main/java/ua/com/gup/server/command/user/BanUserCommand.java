@@ -4,7 +4,7 @@ import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.profile.ProfilesService;
 
-public class BanUserCommand extends UserCommand {
+public class BanUserCommand extends UserCommand<Profile> {
     private String privateExp;
     private String publicExp;
 
@@ -15,8 +15,9 @@ public class BanUserCommand extends UserCommand {
     }
 
     @Override
-    public void execute() throws Exception {
+    public Profile execute() throws Exception {
         profilesService.banProfile(profile, privateExp, publicExp);
+        return profile;
     }
 
     @Override
