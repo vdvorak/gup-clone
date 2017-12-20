@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private AuthenticationManager authenticationManager;
 
