@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Victor Dvorak
  **/
-public class CategoriesSort implements Serializable{
+public class CategoriesSort implements Serializable {
 
     private Integer code_category;
     private Integer order_category;
@@ -33,8 +33,11 @@ public class CategoriesSort implements Serializable{
 
         CategoriesSort that = (CategoriesSort) o;
 
-        if (!code_category.equals(that.code_category)) return false;
-        return order_category.equals(that.order_category);
+        if (code_category.equals(that.code_category) && order_category.equals(that.order_category)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
