@@ -156,6 +156,7 @@ public class RentOfferMapper {
 
         fromOfferToOfferViewBaseDTO(source, target);
 
+        target.setStatus(source.getStatus());
         target.setAttrs(source.getAttrs());
         target.setMultiAttrs(source.getMultiAttrs());
         target.setNumAttrs(source.getNumAttrs());
