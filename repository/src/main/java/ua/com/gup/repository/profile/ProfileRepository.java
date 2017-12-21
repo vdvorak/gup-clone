@@ -1,7 +1,10 @@
 package ua.com.gup.repository.profile;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import java.util.List;
@@ -95,6 +98,10 @@ public interface ProfileRepository {
      */
     List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable);
 
+    List<Profile> findByRole(CommonUserRole role, Pageable pageable);
+
+    long countByRole(CommonUserRole role);
+
     boolean profileExistsInUserSocialList(String userId, String profileId);
 
     void addProfileToUserSocialList(String userId, String profileId);
@@ -169,7 +176,11 @@ public interface ProfileRepository {
      */
     Profile findById(String id);
 
+    <T extends Profile> T findById(String id, Class<T> entityClass);
+
     Profile findByPublicId(String id);
+
+    <T extends Profile> T findByPublicId(String id, Class<T> entityClass);
 
     /**
      * Find and return profile by it's seoWord.
@@ -186,5 +197,7 @@ public interface ProfileRepository {
     boolean profileExistsByPublicId(String profilePublicId);
 
     Profile findByFacebookId(String facebookId);
+
+
 }
 

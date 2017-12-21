@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
@@ -47,10 +49,23 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
+
+    @Override
+    public <T extends Profile> T findById(String id, Class<T> entityClass) {
+        Query query = new Query(Criteria.where("id").is(id));
+        return mongoTemplate.findOne(query, entityClass);
+    }
+
     @Override
     public Profile findByPublicId(String id) {
         Query query = new Query(Criteria.where("publicId").is(id));
         return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
+    public <T extends Profile> T findByPublicId(String id, Class<T> entityClass) {
+        Query query = new Query(Criteria.where("publicId").is(id));
+        return mongoTemplate.findOne(query, entityClass);
     }
 
     @Override
@@ -171,6 +186,21 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.find(query, Profile.class);
     }
 
+    @Override
+    public List<Profile> findByRole(CommonUserRole role, Pageable pageable) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        query.fields().exclude("password");
+        query.with(pageable);
+        return mongoTemplate.find(query, Profile.class);
+    }
+
+    @Override
+    public long countByRole(CommonUserRole role) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        return mongoTemplate.count(query, Profile.class);
+    }
 
     @Override
     public Set<String> getMatchedNames(String term) {
