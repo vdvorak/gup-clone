@@ -199,5 +199,6 @@ public interface ProfileRepository {
     Profile findByFacebookId(String facebookId);
 
 
+    boolean hasManager(String profilePublicId);
 }
 

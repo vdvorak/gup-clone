@@ -208,4 +208,6 @@ public interface ProfilesService extends CommonProfileService{
     void linkProfile(String managerId, String profilePublicId);
 
     void unlinkProfile(String managerId, String profilePublicId);
+
+    boolean hasManager(String profilePublicId);
 }

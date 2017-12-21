@@ -339,4 +339,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
+    @Override
+    public boolean hasManager(String profilePublicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("publicId").is(profilePublicId));
+        query.addCriteria(Criteria.where("manager").exists(true));
+        return mongoTemplate.exists(query, UserProfile.class);
+    }
+
 }

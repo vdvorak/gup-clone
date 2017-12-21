@@ -42,7 +42,11 @@ public class ManagerEndpoint {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/link")
     public ResponseEntity<ProfileDTO> linkProfile(@PathVariable("profilePublicId") String profilePublicId) {
-        String currentUserId = "5a250d6976b8b73a70d4ee7a";SecurityUtils.getCurrentUserId();
+        if(profilesService.hasManager(profilePublicId)){
+            return new ResponseEntity("error.user.exists.manager",HttpStatus.BAD_REQUEST);
+        }
+
+        String currentUserId = SecurityUtils.getCurrentUserId();
         profilesService.linkProfile(currentUserId, profilePublicId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -50,7 +54,7 @@ public class ManagerEndpoint {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/unlink")
     public ResponseEntity<ProfileDTO> unLinkProfile(@PathVariable("profilePublicId") String profilePublicId) {
-        String currentUserId = "5a250d6976b8b73a70d4ee7a"; SecurityUtils.getCurrentUserId();
+        String currentUserId = SecurityUtils.getCurrentUserId();
         profilesService.unlinkProfile(currentUserId, profilePublicId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

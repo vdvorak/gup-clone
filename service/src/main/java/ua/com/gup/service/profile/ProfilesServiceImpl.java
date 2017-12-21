@@ -332,6 +332,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.updateProfile(user);
     }
 
+    @Override
+    public boolean hasManager(String profilePublicId) {
+        return profileRepository.hasManager(profilePublicId);
+    }
+
 
     /**
      * @param newProfile
