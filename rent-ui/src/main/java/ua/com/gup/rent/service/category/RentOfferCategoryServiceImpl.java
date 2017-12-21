@@ -109,7 +109,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
                 categories.get(rentOfferCategory.getParent()).getChildren().add(categories.get(rentOfferCategory.getCode()));
         }
         //get all category_attribute for sort
-        final Map<Integer, Set<RentOfferCategoryAttributeDTO>> categoryAttributeDTOs = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO();
+        final Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> categoryAttributeDTOs = rentOfferCategoryAttributeService.findAllCategoryAttributeDTO();
         //for by get  category code in array add value
         for (Integer code : categoryAttributeDTOs.keySet()) {
             final Set<RentOfferCategoryAttributeDTO> attributes = categoryAttributeDTOs.get(code);

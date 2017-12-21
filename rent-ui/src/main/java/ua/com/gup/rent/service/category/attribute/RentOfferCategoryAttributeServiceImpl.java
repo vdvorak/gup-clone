@@ -27,7 +27,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     private RentOfferCategoryAttributeMapper rentOfferCategoryAttributeMapper;
     //use for sorted category_sort asc
 
-    private Map<Integer, Set<RentOfferCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
+    private Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> categoryAttributeCache = new ConcurrentHashMap<>();
 
     @Autowired
     public RentOfferCategoryAttributeServiceImpl(RentOfferCategoryAttributeRepository rentCategoryAttributeRepository) {
@@ -117,7 +117,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
      * @return the entity
      */
     @Override
-    public Map<Integer, Set<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
+    public Map<Integer, SortedSet<RentOfferCategoryAttributeDTO>> findAllCategoryAttributeDTO() {
         if (categoryAttributeCache.size() == 0) {
             warmCache();
         }
@@ -125,9 +125,13 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     }
 
     private void warmCache() {
+        //get all attributes
         final List<RentOfferCategoryAttribute> rentOfferCategoryAttributes = ((RentOfferCategoryAttributeRepository) getRepository()).findAll();
+        //remove attributes is active false
         rentOfferCategoryAttributes.removeIf(c -> !c.isActive());
+
         for (RentOfferCategoryAttribute rentOfferCategoryAttribute : rentOfferCategoryAttributes) {
+
             RentOfferCategoryAttributeDTO attributeDTO = new RentOfferCategoryAttributeDTO();
             attributeDTO.setCode(rentOfferCategoryAttribute.getCode());
             attributeDTO.setActive(rentOfferCategoryAttribute.isActive());
@@ -142,6 +146,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
 
 
             for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
+                //check cache if exists category
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
                     categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<>(Comparator.comparingInt(RentOfferCategoryAttributeDTO::getCategory_sort)));
                 }
