@@ -18,7 +18,7 @@ application:
 storage:
   host:
     scheme: http
-    address: localhost
+    address: 62.80.167.165
     port: 8086
     context-path: /storage
 
