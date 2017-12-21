@@ -164,8 +164,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
                     }
                 }
                 attributeDTO.setValues(valueDTOS);
-                Boolean isAdd = categoryAttributeCache.get(categorySort.getCode_category()).add(attributeDTO);
-                logger.debug("add attributes {} in category {} is : {}", attributeDTO, categorySort.getCode_category(),isAdd);
+                categoryAttributeCache.get(categorySort.getCode_category()).add(attributeDTO);
             }
         }
     }
