@@ -3,8 +3,8 @@ package ua.com.gup.rent.service.rent;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -30,7 +30,7 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO);
 
-    RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO);
+    RentOfferViewDetailsDTO update(String offerId, RentOfferUpdateDTO offerUpdateDTO);
 
     Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable);
 
@@ -65,5 +65,5 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     Optional<RentOfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
 
-    Collection<String> getOfferContactInfoPhoneNumbersById(String offerId); 
+    Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 }
