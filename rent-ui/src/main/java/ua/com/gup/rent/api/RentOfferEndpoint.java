@@ -158,20 +158,11 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
                 .body(result);
     }
 
-    /**
-     * PUT  /offers : Updates an existing offer.
-     *
-     * @param offerUpdateDTO the offerDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
-     * or with status 400 (Bad Request) if the offerDTO is not valid,
-     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
-    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@PathVariable(name = "id") String id, @Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!offerService.exists(offerUpdateDTO.getId())) {
+        if (!offerService.exists(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
