@@ -50,11 +50,11 @@ security:
     client:
       clientId: 7b5a38705d7b3562655925406a652e32
       clientSecret: 655f523128212d6e70634446224c2a48
-      accessTokenUri: http://localhost:8081/oauth/api/oauth/token
-      checkTokenUri: http://localhost:8081/oauth/api/oauth/check_token
-      userAuthorizationUri: http://localhost:8081/oauth/api/oauth/authorize
+      accessTokenUri: http://62.80.167.165:8081:8081/oauth/api/oauth/token
+      checkTokenUri: http://62.80.167.165:8081:8081/oauth/api/oauth/check_token
+      userAuthorizationUri: http://62.80.167.165:8081:8081/oauth/api/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8081/oauth/api/users/principal
+      userInfoUri: http://62.80.167.165:8081:8081/oauth/api/users/principal
     sso: /api/user/login
 
 #Mail Server Configuration for production
