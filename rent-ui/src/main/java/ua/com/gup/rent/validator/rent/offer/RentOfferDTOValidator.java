@@ -44,9 +44,6 @@ public class RentOfferDTOValidator implements Validator {
     public void validate(Object target, Errors errors) {
         boolean isRentOfferUpdateDTO = RentOfferUpdateDTO.class.isInstance(target);
         RentOfferCreateDTO rentOfferCreateDTO = (RentOfferCreateDTO) target;
-        if (isRentOfferUpdateDTO) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-        }
         if (!isRentOfferUpdateDTO) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }

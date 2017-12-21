@@ -14,7 +14,11 @@ import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.mongo.address.Address;
-import ua.com.gup.rent.model.rent.*;
+import ua.com.gup.common.model.object.ObjectType;
+import ua.com.gup.rent.model.rent.RentOfferContactInfo;
+import ua.com.gup.rent.model.rent.RentOfferLands;
+import ua.com.gup.rent.model.rent.RentOfferModerationReport;
+import ua.com.gup.rent.model.rent.RentOfferSettings;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -22,21 +26,18 @@ import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttr
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static ua.com.gup.rent.model.mongo.rent.RentOffer.COLLECTION_NAME;
-
-@Document(collection = COLLECTION_NAME, language = "russian")
+@Document(collection = ObjectType.RENT_OFFER, language = "russian")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@EqualsAndHashCode(of ={"id"})
+@EqualsAndHashCode(of = {"id"})
 public class RentOffer extends CommonRentOffer {
 
-    public static final String COLLECTION_NAME = "rent.offer";
+
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
 
     private String title;
@@ -47,13 +48,13 @@ public class RentOffer extends CommonRentOffer {
     private GupLoggedUser user;
 
     @CreatedDate
-    private Instant createdDate;
+    private LocalDate createdDate;
 
     @LastModifiedBy
     private GupLoggedUser lastModifiedUser;
 
     @LastModifiedDate
-    private Instant lastModifiedDate;
+    private LocalDate lastModifiedDate;
 
     private String authorId;
 
@@ -76,7 +77,7 @@ public class RentOffer extends CommonRentOffer {
 
     private Integer count;
 
-    private String  deposit;
+    private String deposit;
 
     private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 

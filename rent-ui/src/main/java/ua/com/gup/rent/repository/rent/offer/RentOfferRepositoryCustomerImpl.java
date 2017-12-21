@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
+import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.filter.*;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
@@ -52,7 +53,7 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
     @PostConstruct
     public void createIndex() {
         TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
-                .named(RentOffer.COLLECTION_NAME + "_TextIndex")
+                .named(ObjectType.RENT_OFFER + "_TextIndex")
                 .onField("$**")
                 .withDefaultLanguage("russian")
                 .build();
@@ -92,7 +93,7 @@ public class RentOfferRepositoryCustomerImpl implements RentOfferRepositoryCusto
         BasicDBObject projection = new BasicDBObject();
         projection.put("_id", 1);
         projection.put("price.amount", 1);
-        final DBCollection collection = mongoTemplate.getCollection(RentOffer.COLLECTION_NAME);
+        final DBCollection collection = mongoTemplate.getCollection(ObjectType.RENT_OFFER);
         DBCursor cursor = collection.find(query, projection);
         try {
             while (cursor.hasNext()) {

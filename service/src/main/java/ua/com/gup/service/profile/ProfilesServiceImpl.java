@@ -1,5 +1,6 @@
 package ua.com.gup.service.profile;
 
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
+import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.FinanceInfo;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
@@ -291,6 +295,41 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setBan(false);
         profile.setBanInfo(null);
         updateProfile(profile);
+    }
+
+    @Override
+    public Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable) {
+        long count = profileRepository.countByRole(role);
+        List<Profile> fullProfiles = Collections.EMPTY_LIST;
+        if (count > 0) {
+            fullProfiles = profileRepository.findByRole(role, pageable);
+        }
+        List<ProfileShortAdminDTO> list = fullProfiles.stream().map(profile -> new ProfileShortAdminDTO(profile)).collect(Collectors.toList());
+        return new PageImpl<>(list, pageable, count);
+    }
+
+    @Override
+    public void linkProfile(String managerId, String profilePublicId) {
+        UserProfile user = profileRepository.findByPublicId(profilePublicId, UserProfile.class);
+        ManagerProfile manager = profileRepository.findById(managerId, ManagerProfile.class);
+
+        manager.getUsers().add(user.getId());
+        user.setManager(manager.getId());
+
+        profileRepository.updateProfile(manager);
+        profileRepository.updateProfile(user);
+    }
+
+    @Override
+    public void unlinkProfile(String managerId, String profilePublicId) {
+        UserProfile user = profileRepository.findByPublicId(profilePublicId, UserProfile.class);
+        ManagerProfile manager = profileRepository.findById(managerId, ManagerProfile.class);
+
+        manager.getUsers().remove(user.getId());
+        user.setManager(null);
+
+        profileRepository.updateProfile(manager);
+        profileRepository.updateProfile(user);
     }
 
 

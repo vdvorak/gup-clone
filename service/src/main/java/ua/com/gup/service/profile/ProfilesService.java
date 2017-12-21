@@ -2,6 +2,7 @@ package ua.com.gup.service.profile;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
@@ -201,4 +202,10 @@ public interface ProfilesService extends CommonProfileService{
     void banProfile(Profile profile, String privateExp, String publicExp);
 
     void unbanProfile(Profile profile);
+
+    Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable);
+
+    void linkProfile(String managerId, String profilePublicId);
+
+    void unlinkProfile(String managerId, String profilePublicId);
 }

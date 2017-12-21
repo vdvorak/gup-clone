@@ -91,9 +91,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     }
 
     @Override
-    public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
+    public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
-        RentOffer offer = offerRepository.findOne(offerUpdateDTO.getId());
+        RentOffer offer = offerRepository.findOne(rentOfferId);
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
       // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
