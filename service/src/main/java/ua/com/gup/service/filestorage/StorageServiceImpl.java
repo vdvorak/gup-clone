@@ -79,7 +79,7 @@ public class StorageServiceImpl implements StorageService {
             profile.setImageSmall((ImageFileInfo) info);
 
 
-            profilesService.editProfile(profile);
+            profileRepository.updateProfile(profile);
 
             Map<String, String> urls = new HashMap<>();
             urls.put("large", profile.getImageLarge().getS3id());
