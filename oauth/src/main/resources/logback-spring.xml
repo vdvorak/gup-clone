@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-
+<configuration packagingData="true">
+    <!-- .............................. Developer and Testing Logger Configuration ................................. -->
     <springProfile name="dev">
+        <!-- property for another OS -->
         <property name="DEV_HOME" value="c:/logs"/>
-
+        <!--- Console logger viewer -->
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <Pattern>
-                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}.%M %L) - %msg %n
                 </Pattern>
             </layout>
         </appender>
-
-        <appender name="FILE-AUDIT"
-                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- File logger viewer -->
+        <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${DEV_HOME}/debug.log</file>
             <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                 <Pattern>
-                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}.%M %L) - %msg %n
                 </Pattern>
             </encoder>
-
+            <!-- rollover daily -->
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <!-- rollover daily -->
                 <fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
                 </fileNamePattern>
                 <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                     <maxFileSize>10MB</maxFileSize>
                 </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>
-
         </appender>
-
-        <appender name="FILE-ERROR"
-                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- File logger viewer ERROR -->
+        <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${DEV_HOME}/error.log</file>
             <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                 <Pattern>
-                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}.%M %L) - %msg %n
                 </Pattern>
             </encoder>
-
+            <!-- rollover daily -->
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <!-- rollover daily -->
                 <fileNamePattern>${DEV_HOME}/archived/error.%d{yyyy-MM-dd}.%i.log
                 </fileNamePattern>
                 <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -51,47 +47,46 @@
             </rollingPolicy>
 
         </appender>
-
-        <!-- Send logs to both console and file audit -->
-        <logger name="org.mongodb.driver.cluster" level="OFF" />
-        <logger name="ua.com.gup" level="debug" additivity="false">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="FILE-AUDIT"/>
-        </logger>
-
-        <logger name="org.springframework" level="debug"  additivity="false">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="FILE-AUDIT"/>
-        </logger>
-
+        <!-- Configuration logger for spring mongo redis add and etc  -->
+        <logger name="org.mongodb.driver.cluster" level="OFF"/>
+        <logger name="org.springframework.data.redis" level="OFF"/>
+        <logger name="org.springframework.session.data.redis" level="OFF"/>
+        <!-- root level logger -->
         <root level="debug">
             <appender-ref ref="FILE-ERROR"/>
             <appender-ref ref="STDOUT"/>
         </root>
 
     </springProfile>
+
+    <!-- .............................. Production Logger Configuration ................................................ -->
+
     <springProfile name="pre-prod">
+
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <Pattern>
-                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}.%M %L) - %msg %n
                 </Pattern>
             </layout>
         </appender>
 
-        <logger name="org.mongodb.driver.cluster" level="OFF" />
+        <!-- Configuration logger for spring mongo redis add and etc  -->
         <logger name="ua.com.gup" level="debug" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <logger name="org.springframework" level="debug"  additivity="false">
+        <logger name="org.mongodb.driver.cluster" level="OFF"/>
+        <logger name="org.springframework.data.redis" level="OFF"/>
+        <logger name="org.springframework.session.data.redis" level="OFF"/>
+
+        <logger name="org.springframework" level="debug" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
-
 
 </configuration>

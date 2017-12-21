@@ -26,6 +26,7 @@ public class RentUiApplication {
                 RentMethodSecurityConfig.class,
                 RentRestTemplatesConfig.class,
                 RentSessionConfig.class,
+                RentSchedulerConfig.class,
                 RentUiApplication.class}, args);
     }
 }

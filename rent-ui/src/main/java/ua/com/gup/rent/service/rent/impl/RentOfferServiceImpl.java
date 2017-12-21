@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -353,6 +352,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
+
+        //todo FOR dima SaveImages
+        //if (offerUpdateDTO.getImages() != null) {
+           // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
+                // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+          //  }
+        //}
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation

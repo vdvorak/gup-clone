@@ -57,7 +57,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
      */
     @Override
     public RentOfferCategoryAttribute save(RentOfferCategoryAttributeUpdateDTO rentOfferCategoryAttributeUpdateDTO) {
-        logger.debug("Request to save RentOfferCategoryAttribute : {}", rentOfferCategoryAttributeUpdateDTO);
+        logger.debug("Request to update RentOfferCategoryAttribute : {}", rentOfferCategoryAttributeUpdateDTO);
         final RentOfferCategoryAttribute rentOfferCategoryAttribute = rentOfferCategoryAttributeMapper.categoryAttributeUpdateDTOToCategoryAttribute(rentOfferCategoryAttributeUpdateDTO);
         final RentOfferCategoryAttribute saved = ((RentOfferCategoryAttributeRepository) getRepository()).save(rentOfferCategoryAttribute);
         clearCache();

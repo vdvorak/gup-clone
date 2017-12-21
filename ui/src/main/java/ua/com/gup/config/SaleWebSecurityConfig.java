@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -30,7 +29,6 @@ import ua.com.gup.server.security.SaleLogoutSuccessHandler;
 
 import java.util.Arrays;
 
-//import ua.com.gup.config.security.GupOauth2UserAuthenticationConverter;
 
 @Configuration
 @EnableOAuth2Sso

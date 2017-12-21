@@ -28,21 +28,6 @@ public class RentOfferCategoryAttributeValueDTO {
         this.title = title;
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) return true;
-        if (!(o instanceof RentOfferCategoryAttributeValueDTO)) return false;
-        RentOfferCategoryAttributeValueDTO that = (RentOfferCategoryAttributeValueDTO) o;
-        return Objects.equals(getKey(), that.getKey()) &&
-                Objects.equals(getTitle(), that.getTitle());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getKey(), getTitle());
-    }
-
     public String getKey() {
 
         return key;
@@ -58,5 +43,20 @@ public class RentOfferCategoryAttributeValueDTO {
 
     public void setTitle(Map<String, String> title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (!(o instanceof RentOfferCategoryAttributeValueDTO)) return false;
+        RentOfferCategoryAttributeValueDTO that = (RentOfferCategoryAttributeValueDTO) o;
+        return Objects.equals(getKey(), that.getKey()) &&
+                Objects.equals(getTitle(), that.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKey(), getTitle());
     }
 }
