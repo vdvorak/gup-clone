@@ -22,23 +22,23 @@ import java.util.Map;
 @Data
 public class RentOfferViewBaseDTO implements Serializable {
 
-    @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
+    @ApiModelProperty(position = 10, example = "58ff0d6c821847a4bc8c5bff")
     private String id;
 
-    @ApiModelProperty(position = 5)
+    @ApiModelProperty(position = 20)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastModifiedDate;
 
-    @ApiModelProperty(position = 20, example = "58edf17a4c8e83648c2f1aa3")
+    @ApiModelProperty(position = 30, example = "58edf17a4c8e83648c2f1aa3")
     private CommonAuthorDTO author;
 
-    @ApiModelProperty(position = 30)
+    @ApiModelProperty(position = 40)
     private LinkedList<RentOfferCategoryShort> categories;
 
-    @ApiModelProperty(position = 40, example = "title")
+    @ApiModelProperty(position = 50, example = "title")
     private String title;
 
-    @ApiModelProperty(position = 50, example = "description")
+    @ApiModelProperty(position = 60, example = "description")
     private String description;
 
     @ApiModelProperty(position = 70)
@@ -50,6 +50,12 @@ public class RentOfferViewBaseDTO implements Serializable {
     @ApiModelProperty(position = 90, example = "prodam-toyota-rav-4-2016hod-ls")
     private String seoUrl;
 
-    @ApiModelProperty(position = 90, example = "settings")
+    @ApiModelProperty(position = 100, example = "settings")
     private RentOfferSettingsDTO settings;
+
+    @ApiModelProperty(position = 110, example = "1")
+    private Integer count;
+
+    @ApiModelProperty(position = 120, example = "Паспорт / Загран паспорт")
+    private String deposit;
 }
