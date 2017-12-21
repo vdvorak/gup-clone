@@ -9,6 +9,6 @@ import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferViewShortWithModerationReportDTO extends RentOfferViewShortDTO {
-    @ApiModelProperty(position = 130)
+    @ApiModelProperty(position = 90)
     private RentOfferModerationReport moderationReport;
 }
