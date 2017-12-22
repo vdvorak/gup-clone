@@ -59,8 +59,8 @@ public class RentOfferCategoryAttributeDTOValidator implements Validator {
 
     private void setCategorySortInRentOfferDTOByDefault(RentOfferCategoryAttributeCreateDTO rentOfferCategoryAttributeCreateDTO ){
         Integer sort_category_att_index = new Integer(100);
-        RentOfferCategoriesSort rentOfferCategoriesSort = new RentOfferCategoriesSort();
         for (Integer category_code: rentOfferCategoryAttributeCreateDTO.getCategories()){
+            RentOfferCategoriesSort rentOfferCategoriesSort = new RentOfferCategoriesSort();
             rentOfferCategoriesSort.setCode_category(category_code);
             rentOfferCategoriesSort.setOrder_category(sort_category_att_index++);
             rentOfferCategoryAttributeCreateDTO.getCategoriesSort().add(rentOfferCategoriesSort);
