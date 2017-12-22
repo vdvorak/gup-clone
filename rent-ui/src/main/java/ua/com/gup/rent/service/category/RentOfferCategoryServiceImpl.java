@@ -55,7 +55,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
      */
     @Override
     public RentOfferCategory save(RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) {
-        logger.debug("Request to save RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
+        logger.debug("Request to save RentOfferCategoryCreate : {}", rentOfferCategoryCreateDTO);
         final RentOfferCategory rentOfferCategory = rentOfferCategoryRepository.save(rentOfferCategoryMapper.categoryCreateDTOToCategory(rentOfferCategoryCreateDTO));
         clearCache();
         return rentOfferCategory;
