@@ -21,6 +21,7 @@ import ua.com.gup.mapper.OfferCategoryMapper;
 import ua.com.gup.mapper.OfferMapper;
 import ua.com.gup.mongo.composition.domain.category.Category;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.filter.MoneyFilter;
 import ua.com.gup.mongo.model.filter.OfferFilter;
@@ -529,5 +530,19 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public boolean existsByIdAndStatus(String id, CommonStatus status) {
         return offerRepository.existsByIdAndStatus(id, status);
-    }    
+    }
+
+    @Override
+    public Page<OfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<OfferViewShortDTO>(Collections.EMPTY_LIST);
+        }
+        Page<Offer> result = status != null ?
+                offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable) :
+                offerRepository.findAllByAuthorId(profile.getId(), pageable);
+
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
 }

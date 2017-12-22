@@ -200,5 +200,11 @@ public interface ProfileRepository {
 
 
     boolean hasManager(String profilePublicId);
+
+    List<UserProfile> findUsersByManager(String currentUserId);
+
+    UserProfile getManagerUser(String managerId, String publicId);
+
+    Set<String> getManagerUserIds(String managerId);
 }
 

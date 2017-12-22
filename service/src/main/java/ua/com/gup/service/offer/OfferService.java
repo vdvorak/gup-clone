@@ -212,4 +212,5 @@ public interface OfferService {
 
     boolean existsByIdAndStatus(String id, CommonStatus status);
 
+    public Page<OfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 }

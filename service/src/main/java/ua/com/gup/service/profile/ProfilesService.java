@@ -6,6 +6,7 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
@@ -210,4 +211,8 @@ public interface ProfilesService extends CommonProfileService{
     void unlinkProfile(String managerId, String profilePublicId);
 
     boolean hasManager(String profilePublicId);
+
+    List<UserProfileShortAdminDto> getManagerUsers(String managerId);
+
+    ProfileDTO getManagerUser(String managerId, String publicId);
 }

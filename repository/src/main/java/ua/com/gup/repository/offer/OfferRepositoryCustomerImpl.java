@@ -37,10 +37,7 @@ import ua.com.gup.util.CurrencyConvertUtil;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -67,12 +64,16 @@ public class OfferRepositoryCustomerImpl implements OfferRepositoryCustom {
 
     @Override
     public long countByFilter(OfferFilter offerFilter, CommonStatus offerStatus) {
-        return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
+        List<CommonStatus> statusList =
+                offerStatus == null ? Collections.EMPTY_LIST : Arrays.asList(offerStatus);
+        return countOffersByFilter(offerFilter, statusList, null, null);
     }
 
     @Override
     public List<Offer> findByFilter(OfferFilter offerFilter, CommonStatus offerStatus, Pageable pageable) {
-        return findByFilter(offerFilter, Arrays.asList(offerStatus), pageable);
+        List<CommonStatus> statusList =
+                offerStatus == null ? Collections.EMPTY_LIST : Arrays.asList(offerStatus);
+        return findByFilter(offerFilter, statusList, pageable);
     }
 
     @Override
