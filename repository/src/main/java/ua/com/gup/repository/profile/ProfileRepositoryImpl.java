@@ -11,11 +11,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
+import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -345,6 +347,34 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
         query.addCriteria(Criteria.where("manager").exists(true));
         return mongoTemplate.exists(query, UserProfile.class);
+    }
+
+    @Override
+    public List<UserProfile> findUsersByManager(String currentUserId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("manager").is(currentUserId));
+        return mongoTemplate.find(query, UserProfile.class);
+    }
+
+    @Override
+    public UserProfile getManagerUser(String managerId, String publicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("manager").is(managerId));
+        query.addCriteria(Criteria.where("publicId").is(publicId));
+        return mongoTemplate.findOne(query, UserProfile.class);
+    }
+
+    @Override
+    public Set<String> getManagerUserIds(String managerId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(managerId));
+        query.fields().include("users");
+        ManagerProfile manager = mongoTemplate.findOne(query, ManagerProfile.class);
+        if(manager == null){
+            return Collections.EMPTY_SET;
+        }
+        return manager.getUsers();
+
     }
 
 }

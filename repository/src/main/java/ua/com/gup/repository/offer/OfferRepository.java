@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,10 +19,13 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
 
     Page<Offer> findAllByStatusAndAuthorId(CommonStatus status, String authorId, Pageable pageable);
 
+    Page<Offer> findAllByAuthorId(String authorId, Pageable pageable);
+
     Page<Offer> findAllByStatus(CommonStatus status, Pageable pageable);
 
     Optional<Offer> findOfferByIdAndAuthorId(String offerId, String authorId);
     
     Boolean existsByIdAndStatus(String id, CommonStatus status);
 
+    Boolean existsByIdAndAuthorId(String offerId, Collection<String> authorIds);
 }

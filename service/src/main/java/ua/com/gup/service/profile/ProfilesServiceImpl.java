@@ -14,6 +14,7 @@ import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
+import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
@@ -335,6 +336,26 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public boolean hasManager(String profilePublicId) {
         return profileRepository.hasManager(profilePublicId);
+    }
+
+    @Override
+    public List<UserProfileShortAdminDto> getManagerUsers(String managerId) {
+        List<UserProfile> fullProfiles = profileRepository.findUsersByManager(managerId);
+        if (fullProfiles == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<UserProfileShortAdminDto> list = fullProfiles.stream().map(profile -> new UserProfileShortAdminDto(profile)).collect(Collectors.toList());
+        return list;
+    }
+
+    @Override
+    public ProfileDTO getManagerUser(String managerId, String publicId) {
+        UserProfile profile = profileRepository.getManagerUser(managerId, publicId);
+        if(profile == null){
+            return null;
+        }
+        return new AdminPrivateProfileDTO(profile);
+
     }
 
 

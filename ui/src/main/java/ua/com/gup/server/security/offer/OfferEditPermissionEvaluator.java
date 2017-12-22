@@ -19,6 +19,10 @@ public class OfferEditPermissionEvaluator extends OfferPermissionEvaluator {
     @Override
     public Boolean hasAccess() {
 
+        if (getAuthorities().contains(CommonUserRole.ROLE_MANAGER)) {
+            return accessService.isManagerOffer(userId, getObjectId());
+        }
+
         if (getAuthorities().contains(CommonUserRole.ROLE_MODERATOR)) {
             return isModeratorOwner();
         } else if (getAuthorities().contains(CommonUserRole.ROLE_USER)) {
