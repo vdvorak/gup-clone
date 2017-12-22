@@ -8,11 +8,21 @@ public class UserProfile extends Profile {
 
     private String manager;
 
+    private String managerInfo;
+
     public String getManager() {
         return manager;
     }
 
     public void setManager(String manager) {
         this.manager = manager;
+    }
+
+    public String getManagerInfo() {
+        return managerInfo;
+    }
+
+    public void setManagerInfo(String managerInfo) {
+        this.managerInfo = managerInfo;
     }
 }

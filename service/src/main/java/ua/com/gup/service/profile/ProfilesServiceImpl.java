@@ -1,6 +1,5 @@
 package ua.com.gup.service.profile;
 
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
+import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -349,12 +349,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public ProfileDTO getManagerUser(String managerId, String publicId) {
+    public UserPrivateProfileDto getManagerUser(String managerId, String publicId) {
         UserProfile profile = profileRepository.getManagerUser(managerId, publicId);
         if(profile == null){
             return null;
         }
-        return new AdminPrivateProfileDTO(profile);
+        return new UserPrivateProfileDto(profile);
 
     }
 

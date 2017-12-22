@@ -16,6 +16,7 @@ import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.filter.OfferFilter;
@@ -102,9 +103,9 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping(value = "/users/{publicId}")
-    public ResponseEntity<ProfileDTO> getUser(@PathVariable("publicId") String publicId) {
+    public ResponseEntity<UserPrivateProfileDto> getUser(@PathVariable("publicId") String publicId) {
         String currentUserId = SecurityUtils.getCurrentUserId();
-        ProfileDTO user = profilesService.getManagerUser(currentUserId, publicId);
+        UserPrivateProfileDto user = profilesService.getManagerUser(currentUserId, publicId);
         if (user == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
