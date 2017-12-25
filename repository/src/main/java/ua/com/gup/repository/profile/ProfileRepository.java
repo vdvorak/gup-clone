@@ -201,10 +201,16 @@ public interface ProfileRepository {
 
     boolean hasManager(String profilePublicId);
 
-    List<UserProfile> findUsersByManager(String currentUserId);
+    List<UserProfile> findUsersByManager(String managerId);
 
-    UserProfile getManagerUser(String managerId, String publicId);
+    UserProfile getManagerUser(String managerPublicId, String publicId);
 
     Set<String> getManagerUserIds(String managerId);
+
+    String getPulblicIdById( String id);
+
+    String getIdByPulblicId( String publicId);
+
+    Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
 }
 

@@ -6,6 +6,7 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
@@ -207,13 +208,15 @@ public interface ProfilesService extends CommonProfileService{
 
     Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable);
 
-    void linkProfile(String managerId, String profilePublicId);
+    void linkProfile(String managerPublicId, String profilePublicId);
 
-    void unlinkProfile(String managerId, String profilePublicId);
+    void unlinkProfile(String managerPublicId, String profilePublicId);
 
     boolean hasManager(String profilePublicId);
 
-    List<UserProfileShortAdminDto> getManagerUsers(String managerId);
+    List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId);
 
-    UserPrivateProfileDto getManagerUser(String managerId, String publicId);
+    UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
+
+    ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 }

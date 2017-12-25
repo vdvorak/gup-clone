@@ -350,14 +350,15 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public List<UserProfile> findUsersByManager(String currentUserId) {
+    public List<UserProfile> findUsersByManager(String managerId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(currentUserId));
+        query.addCriteria(Criteria.where("manager").is(managerId));
         return mongoTemplate.find(query, UserProfile.class);
     }
 
     @Override
-    public UserProfile getManagerUser(String managerId, String publicId) {
+    public UserProfile getManagerUser(String managerPublicId, String publicId) {
+        String managerId = getIdByPulblicId(managerPublicId);
         Query query = new Query();
         query.addCriteria(Criteria.where("manager").is(managerId));
         query.addCriteria(Criteria.where("publicId").is(publicId));
@@ -375,6 +376,42 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         }
         return manager.getUsers();
 
+    }
+
+    @Override
+    public String getPulblicIdById(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        query.fields().include("publicId");
+        Profile profile = mongoTemplate.findOne(query, Profile.class);
+        if (profile != null) {
+            return profile.getPublicId();
+        }
+        return null;
+    }
+
+    @Override
+    public String getIdByPulblicId(String publicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("publicId").is(publicId));
+        query.fields().include("_id");
+        Profile profile = mongoTemplate.findOne(query, Profile.class);
+        if (profile != null) {
+            return profile.getId();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<String> getPulblicIdsByIds(Set<String> usersPublicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").in(usersPublicId));
+        query.fields().include("publicId");
+        List<Profile> profiles = mongoTemplate.find(query, Profile.class);
+        if(profiles != null){
+            return profiles.stream().map(Profile::getPublicId).collect(Collectors.toSet());
+        }
+        return Collections.EMPTY_SET;
     }
 
 }
