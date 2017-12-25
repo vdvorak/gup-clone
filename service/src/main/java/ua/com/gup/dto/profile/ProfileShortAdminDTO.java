@@ -26,10 +26,10 @@ public class ProfileShortAdminDTO {
         this.userRoles = profile.getUserRoles().stream().map(cur -> cur.toString()).collect(Collectors.toSet());
         this.publicId = profile.getPublicId();
         if (profile.getImageLarge() != null) {
-            this.imageIdLarge = profile.getImageLarge().getS3id();
+            this.imageIdLarge = profile.getImageLarge().getUrl();
         }
         if (profile.getImageSmall() != null) {
-            this.imageIdSmall = profile.getImageSmall().getS3id();
+            this.imageIdSmall = profile.getImageSmall().getUrl();
         }
         this.createdDate = profile.getCreatedDate();
         this.lastLogin = profile.getLastLoginDate();
