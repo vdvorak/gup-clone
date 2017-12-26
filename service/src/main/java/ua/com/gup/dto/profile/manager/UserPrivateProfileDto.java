@@ -6,13 +6,16 @@ import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 
 public class UserPrivateProfileDto extends AdminPrivateProfileDTO {
 
+    /**
+     * public id of manager
+     * */
     private String manager;
 
     private String managerInfo;
 
-    public UserPrivateProfileDto(UserProfile profile) {
+    public UserPrivateProfileDto(UserProfile profile, String mangerPublicId) {
         super(profile);
-        this.manager = profile.getManager();
+        this.manager = mangerPublicId;
         this.managerInfo = profile.getManagerInfo();
     }
 

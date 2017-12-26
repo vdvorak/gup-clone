@@ -8,9 +8,9 @@ public class UserProfileShortAdminDto extends ProfileShortAdminDTO {
 
     private String managerId;
 
-    public UserProfileShortAdminDto(UserProfile profile) {
+    public UserProfileShortAdminDto(UserProfile profile, String managerPublicId) {
         super(profile);
-        this.managerId = ((UserProfile)profile).getManager();
+        this.managerId = managerPublicId;
     }
     public String getManagerId() {
         return managerId;

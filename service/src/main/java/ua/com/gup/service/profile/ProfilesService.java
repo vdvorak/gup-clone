@@ -6,11 +6,13 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.repository.profile.ProfileFilter;
 
 import java.util.List;
 import java.util.Set;
@@ -89,7 +91,7 @@ public interface ProfilesService extends CommonProfileService{
      * @param profileFilter - the profile filter
      * @return - the list of profiles
      */
-    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
+    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(ProfileFilter profileFilter, Pageable pageable);
 
     Profile findProfileByEmail(String email);
 
@@ -207,13 +209,15 @@ public interface ProfilesService extends CommonProfileService{
 
     Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable);
 
-    void linkProfile(String managerId, String profilePublicId);
+    void linkProfile(String managerPublicId, String profilePublicId);
 
-    void unlinkProfile(String managerId, String profilePublicId);
+    void unlinkProfile(String managerPublicId, String profilePublicId);
 
     boolean hasManager(String profilePublicId);
 
-    List<UserProfileShortAdminDto> getManagerUsers(String managerId);
+    List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId);
 
-    UserPrivateProfileDto getManagerUser(String managerId, String publicId);
+    UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
+
+    ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 }

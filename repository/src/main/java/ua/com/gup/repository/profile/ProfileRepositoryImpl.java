@@ -3,6 +3,7 @@ package ua.com.gup.repository.profile;
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -149,7 +150,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
-    private Query buildQueryByFilter(Profile profileFilter) {
+    private Query buildQueryByFilter(ProfileFilter profileFilter) {
         Query query = new Query();
         if (!StringUtils.isEmpty(profileFilter.getUsername())) {
             String searchFieldRegex = "(?i:.*" + profileFilter.getUsername().trim() + ".*)";
@@ -168,21 +169,40 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("userRoles").in(profileFilter.getUserRoles()));
         }
 
-        if (profileFilter.getMainPhone() != null && !StringUtils.isEmpty(profileFilter.getMainPhone().getPhoneNumber())) {
-            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(profileFilter.getMainPhone().getPhoneNumber().trim()));
+        if (!StringUtils.isEmpty(profileFilter.getMainPhone())) {
+            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(profileFilter.getMainPhone()));
+        }
+
+        if (!StringUtils.isEmpty(profileFilter.getAdditionalPhone())) {
+            query.addCriteria(Criteria.where("contact.contactPhones.phoneNumber").in(profileFilter.getAdditionalPhone()));
+        }
+
+        return query;
+    }
+
+    private Query buildQuerySort(Query query, ProfileFilter filter) {
+        if (filter.getDtLastLoginSort() != null) {
+            Sort.Direction direction = Sort.Direction.fromStringOrNull(filter.getDtLastLoginSort());
+            query.with(new Sort(new Sort.Order(direction, "lastLoginDate")));
+        }
+
+        if (filter.getDtRegistrationSort() != null) {
+            Sort.Direction direction = Sort.Direction.fromStringOrNull(filter.getDtRegistrationSort());
+            query.with(new Sort(new Sort.Order(direction, "createdDate")));
         }
         return query;
     }
 
     @Override
-    public long countByFilter(Profile profileFilter) {
+    public long countByFilter(ProfileFilter profileFilter) {
         Query query = buildQueryByFilter(profileFilter);
         return mongoTemplate.count(query, Profile.class);
     }
 
     @Override
-    public List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable) {
+    public List<Profile> findByFilterForAdmins(ProfileFilter profileFilter, Pageable pageable) {
         Query query = buildQueryByFilter(profileFilter);
+        buildQuerySort(query, profileFilter);
         query.fields().exclude("password");
         query.with(pageable);
         return mongoTemplate.find(query, Profile.class);
@@ -350,14 +370,15 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public List<UserProfile> findUsersByManager(String currentUserId) {
+    public List<UserProfile> findUsersByManager(String managerId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(currentUserId));
+        query.addCriteria(Criteria.where("manager").is(managerId));
         return mongoTemplate.find(query, UserProfile.class);
     }
 
     @Override
-    public UserProfile getManagerUser(String managerId, String publicId) {
+    public UserProfile getManagerUser(String managerPublicId, String publicId) {
+        String managerId = getIdByPulblicId(managerPublicId);
         Query query = new Query();
         query.addCriteria(Criteria.where("manager").is(managerId));
         query.addCriteria(Criteria.where("publicId").is(publicId));
@@ -375,6 +396,42 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         }
         return manager.getUsers();
 
+    }
+
+    @Override
+    public String getPulblicIdById(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        query.fields().include("publicId");
+        Profile profile = mongoTemplate.findOne(query, Profile.class);
+        if (profile != null) {
+            return profile.getPublicId();
+        }
+        return null;
+    }
+
+    @Override
+    public String getIdByPulblicId(String publicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("publicId").is(publicId));
+        query.fields().include("_id");
+        Profile profile = mongoTemplate.findOne(query, Profile.class);
+        if (profile != null) {
+            return profile.getId();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<String> getPulblicIdsByIds(Set<String> usersPublicId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").in(usersPublicId));
+        query.fields().include("publicId");
+        List<Profile> profiles = mongoTemplate.find(query, Profile.class);
+        if(profiles != null){
+            return profiles.stream().map(Profile::getPublicId).collect(Collectors.toSet());
+        }
+        return Collections.EMPTY_SET;
     }
 
 }

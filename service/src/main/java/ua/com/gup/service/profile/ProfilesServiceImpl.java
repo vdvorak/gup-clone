@@ -13,6 +13,7 @@ import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.dto.profile.*;
+import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
@@ -22,6 +23,7 @@ import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.FinanceInfo;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.repository.sequence.PublicProfileSequenceRepository;
 import ua.com.gup.util.security.SecurityUtils;
@@ -112,7 +114,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(ProfileFilter profileFilter, Pageable pageable) {
 
         long count = profileRepository.countByFilter(profileFilter);
         List<Profile> fullProfiles = Collections.EMPTY_LIST;
@@ -310,9 +312,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public void linkProfile(String managerId, String profilePublicId) {
+    public void linkProfile(String managerPublicId, String profilePublicId) {
         UserProfile user = profileRepository.findByPublicId(profilePublicId, UserProfile.class);
-        ManagerProfile manager = profileRepository.findById(managerId, ManagerProfile.class);
+        ManagerProfile manager = profileRepository.findByPublicId(managerPublicId, ManagerProfile.class);
 
         manager.getUsers().add(user.getId());
         user.setManager(manager.getId());
@@ -322,9 +324,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public void unlinkProfile(String managerId, String profilePublicId) {
+    public void unlinkProfile(String managerPublicId, String profilePublicId) {
         UserProfile user = profileRepository.findByPublicId(profilePublicId, UserProfile.class);
-        ManagerProfile manager = profileRepository.findById(managerId, ManagerProfile.class);
+        ManagerProfile manager = profileRepository.findById(managerPublicId, ManagerProfile.class);
 
         manager.getUsers().remove(user.getId());
         user.setManager(null);
@@ -339,23 +341,36 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public List<UserProfileShortAdminDto> getManagerUsers(String managerId) {
-        List<UserProfile> fullProfiles = profileRepository.findUsersByManager(managerId);
-        if (fullProfiles == null) {
+    public List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId) {
+
+        String managerId = profileRepository.getIdByPulblicId(managerPublicId);
+        List<UserProfile> users = profileRepository.findUsersByManager(managerId);
+        if (users == null) {
             return Collections.EMPTY_LIST;
         }
-        List<UserProfileShortAdminDto> list = fullProfiles.stream().map(profile -> new UserProfileShortAdminDto(profile)).collect(Collectors.toList());
-        return list;
+        return users.stream().
+                map(profile -> new UserProfileShortAdminDto(profile, managerPublicId)).
+                collect(Collectors.toList());
     }
 
     @Override
-    public UserPrivateProfileDto getManagerUser(String managerId, String publicId) {
-        UserProfile profile = profileRepository.getManagerUser(managerId, publicId);
+    public UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId) {
+        UserProfile profile = profileRepository.getManagerUser(managerPublicId, publicId);
         if(profile == null){
             return null;
         }
-        return new UserPrivateProfileDto(profile);
+        return new UserPrivateProfileDto(profile, managerPublicId);
 
+    }
+
+    @Override
+    public ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId) {
+        ManagerProfile managerProfile = profileRepository.findByPublicId(publicId, ManagerProfile.class);
+        Set<String> usersPulblicId = profileRepository.getPulblicIdsByIds(managerProfile.getUsers());
+        if (managerProfile != null) {
+            return new ManagerPrivateProfileDto(managerProfile, usersPulblicId);
+        }
+        return null;
     }
 
 
