@@ -53,8 +53,8 @@ public class RentOfferCalendarEndpoint {
             return new ResponseEntity(rentOfferCalendarYear, HttpStatus.OK);
         }
 
-        rentOfferCalendarYear = ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now);
-        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
+        rentOfferCalendarYear = RentCalendarUtil.generateForYear(now);
+        calendarsMap.put(now.getYear(), RentCalendarUtil.generateForYear(now));
 
         return new ResponseEntity(rentOfferCalendarYear, HttpStatus.CREATED);
     }
