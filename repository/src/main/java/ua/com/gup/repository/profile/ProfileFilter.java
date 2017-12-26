@@ -6,17 +6,21 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import java.util.Set;
 
 public class ProfileFilter {
+    @ApiModelProperty(position = 10, example = "username")
     private String username;
+    @ApiModelProperty(position = 20, example = "email")
     private String email;
+    @ApiModelProperty(position = 30, example = "public user id")
     private String publicId;
+    @ApiModelProperty(position = 40, example = "ROLE_ADMIN | ROLE_MODERATOR | ROLE_MANAGER | ROLE_USER")
     private Set<CommonUserRole> userRoles;
+    @ApiModelProperty(position = 50, example = "main phone")
     private String mainPhone;
+    @ApiModelProperty(position = 60, example = "additional phone")
     private String additionalPhone;
-
-    @ApiModelProperty(position = 50, example = "ASC|DESC")
+    @ApiModelProperty(position = 70, example = "ASC|DESC")
     private String dtRegistrationSort;
-
-    @ApiModelProperty(position = 50, example = "ASC|DESC")
+    @ApiModelProperty(position = 80, example = "ASC|DESC")
     private String dtLastLoginSort;
 
     public String getUsername() {
