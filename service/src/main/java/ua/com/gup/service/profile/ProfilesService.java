@@ -12,6 +12,7 @@ import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.repository.profile.ProfileFilter;
 
 import java.util.List;
 import java.util.Set;
@@ -90,7 +91,7 @@ public interface ProfilesService extends CommonProfileService{
      * @param profileFilter - the profile filter
      * @return - the list of profiles
      */
-    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
+    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(ProfileFilter profileFilter, Pageable pageable);
 
     Profile findProfileByEmail(String email);
 
