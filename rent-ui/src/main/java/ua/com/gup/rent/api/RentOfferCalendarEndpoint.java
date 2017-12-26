@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarYear;
+import ua.com.gup.rent.util.RentCalendarUtil;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class RentOfferCalendarEndpoint {
     @PostConstruct
     public void initialize() {
         LocalDate now = LocalDate.now();
-        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
+        calendarsMap.put(now.getYear(),RentCalendarUtil.generateForYear(now));
     }
 
 
@@ -37,8 +38,8 @@ public class RentOfferCalendarEndpoint {
             return new ResponseEntity(rentOfferCalendarYear, HttpStatus.OK);
         }
 
-        rentOfferCalendarYear = ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now);
-        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
+        rentOfferCalendarYear = RentCalendarUtil.generateForYear(now);
+        calendarsMap.put(now.getYear(), RentCalendarUtil.generateForYear(now));
 
         return new ResponseEntity(rentOfferCalendarYear, HttpStatus.CREATED);
     }
@@ -52,8 +53,8 @@ public class RentOfferCalendarEndpoint {
             return new ResponseEntity(rentOfferCalendarYear, HttpStatus.OK);
         }
 
-        rentOfferCalendarYear = ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now);
-        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
+        rentOfferCalendarYear = RentCalendarUtil.generateForYear(now);
+        calendarsMap.put(now.getYear(), RentCalendarUtil.generateForYear(now));
 
         return new ResponseEntity(rentOfferCalendarYear, HttpStatus.CREATED);
     }
