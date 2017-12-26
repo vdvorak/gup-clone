@@ -180,19 +180,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return query;
     }
 
-    private Query buildQuerySort(Query query, ProfileFilter filter) {
-        if (filter.getDtLastLoginSort() != null) {
-            Sort.Direction direction = Sort.Direction.fromStringOrNull(filter.getDtLastLoginSort());
-            query.with(new Sort(new Sort.Order(direction, "lastLoginDate")));
-        }
-
-        if (filter.getDtRegistrationSort() != null) {
-            Sort.Direction direction = Sort.Direction.fromStringOrNull(filter.getDtRegistrationSort());
-            query.with(new Sort(new Sort.Order(direction, "createdDate")));
-        }
-        return query;
-    }
-
     @Override
     public long countByFilter(ProfileFilter profileFilter) {
         Query query = buildQueryByFilter(profileFilter);
@@ -202,7 +189,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     @Override
     public List<Profile> findByFilterForAdmins(ProfileFilter profileFilter, Pageable pageable) {
         Query query = buildQueryByFilter(profileFilter);
-        buildQuerySort(query, profileFilter);
         query.fields().exclude("password");
         query.with(pageable);
         return mongoTemplate.find(query, Profile.class);

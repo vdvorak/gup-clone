@@ -10,18 +10,14 @@ public class ProfileFilter {
     private String username;
     @ApiModelProperty(position = 20, example = "email")
     private String email;
-    @ApiModelProperty(position = 30, example = "public user id")
+    @ApiModelProperty(position = 30, example = "id100000623")
     private String publicId;
-    @ApiModelProperty(position = 40, example = "ROLE_ADMIN | ROLE_MODERATOR | ROLE_MANAGER | ROLE_USER")
+    @ApiModelProperty(position = 40, example = "[ROLE_ADMIN | ROLE_MODERATOR | ROLE_MANAGER | ROLE_USER]")
     private Set<CommonUserRole> userRoles;
-    @ApiModelProperty(position = 50, example = "main phone")
+    @ApiModelProperty(position = 50, example = "0930000000")
     private String mainPhone;
-    @ApiModelProperty(position = 60, example = "additional phone")
+    @ApiModelProperty(position = 60, example = "0930000000")
     private String additionalPhone;
-    @ApiModelProperty(position = 70, example = "ASC|DESC")
-    private String dtRegistrationSort;
-    @ApiModelProperty(position = 80, example = "ASC|DESC")
-    private String dtLastLoginSort;
 
     public String getUsername() {
         return username;
@@ -69,21 +65,5 @@ public class ProfileFilter {
 
     public void setAdditionalPhone(String additionalPhone) {
         this.additionalPhone = additionalPhone;
-    }
-
-    public String getDtRegistrationSort() {
-        return dtRegistrationSort;
-    }
-
-    public void setDtRegistrationSort(String dtRegistrationSort) {
-        this.dtRegistrationSort = dtRegistrationSort;
-    }
-
-    public String getDtLastLoginSort() {
-        return dtLastLoginSort;
-    }
-
-    public void setDtLastLoginSort(String dtLastLoginSort) {
-        this.dtLastLoginSort = dtLastLoginSort;
     }
 }
