@@ -25,7 +25,7 @@ public class RentOfferCalendarEndpoint {
     @PostConstruct
     public void initialize() {
         LocalDate now = LocalDate.now();
-        calendarsMap.put(now.getYear(), ua.com.gup.rent.util.RentCalendarUtil.generateForYear(now));
+        calendarsMap.put(now.getYear(),RentCalendarUtil.generateForYear(now));
     }
 
 
