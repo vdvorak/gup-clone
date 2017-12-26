@@ -88,7 +88,7 @@ public interface ProfileRepository {
 
     Profile incMainPhoneViewsAtOne(String profileId);
 
-    long countByFilter(Profile profileFilter);
+    long countByFilter(ProfileFilter profileFilter);
 
     /**
      * This method provides additional information for admin.
@@ -96,7 +96,7 @@ public interface ProfileRepository {
      * @param profileFilter - the ProfileFilterOptions object
      * @return - the list of relevant to filter profiles
      */
-    List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable);
+    List<Profile> findByFilterForAdmins(ProfileFilter profileFilter, Pageable pageable);
 
     List<Profile> findByRole(CommonUserRole role, Pageable pageable);
 

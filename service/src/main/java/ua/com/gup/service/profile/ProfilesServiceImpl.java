@@ -23,6 +23,7 @@ import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.FinanceInfo;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.repository.profile.ProfileRepository;
 import ua.com.gup.repository.sequence.PublicProfileSequenceRepository;
 import ua.com.gup.util.security.SecurityUtils;
@@ -113,7 +114,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
-    public Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(ProfileFilter profileFilter, Pageable pageable) {
 
         long count = profileRepository.countByFilter(profileFilter);
         List<Profile> fullProfiles = Collections.EMPTY_LIST;

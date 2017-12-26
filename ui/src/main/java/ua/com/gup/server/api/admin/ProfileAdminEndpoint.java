@@ -14,6 +14,7 @@ import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.server.command.user.BanUserCommand;
 import ua.com.gup.server.command.user.EditUserCommand;
 import ua.com.gup.server.command.user.UnbanUserCommand;
@@ -42,7 +43,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
+    public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(ProfileFilter profileFilter, Pageable pageable) {
         Page<ProfileShortAdminDTO> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
