@@ -22,11 +22,12 @@ public class RentOfferModerationReportDTO implements Serializable {
     @NotNull
     private String id;
 
-    @ApiModelProperty(position = 30)
+    @ApiModelProperty(position = 10, example = "5")
     private Integer category;
 
-    @ApiModelProperty(position = 130)
+    @ApiModelProperty(position = 20, example = "['ADULT_CONTENT']")
     private List<CommonRefusalReason> refusalReasons;
 
+    @ApiModelProperty(position = 30, example = "description")
     private String description;
 }
