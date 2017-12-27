@@ -26,7 +26,7 @@ public class RentOfferPriceDTO implements Serializable {
 
     @ApiModelProperty(position = 30, example = "0.12")
     private BigDecimal holidayDayCost;
-    
+
     @ApiModelProperty(position = 40, example = "0.3")
     private BigDecimal prepaymentPercent;
 }

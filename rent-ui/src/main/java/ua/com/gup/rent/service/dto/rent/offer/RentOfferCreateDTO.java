@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.dto.CommonAddressDTO;
+import ua.com.gup.rent.service.dto.rent.offer.calendar.RentOfferCalendarDTO;
 import ua.com.gup.rent.service.dto.rent.offer.period.RentOfferPeriodDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -58,4 +59,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 150)
     private RentOfferSettingsDTO settings;
+
+    @ApiModelProperty(position = 160)
+    private RentOfferCalendarDTO calendar;
 }

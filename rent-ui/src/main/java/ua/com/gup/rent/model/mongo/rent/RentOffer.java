@@ -19,6 +19,7 @@ import ua.com.gup.rent.model.rent.RentOfferContactInfo;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.RentOfferSettings;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -92,6 +93,8 @@ public class RentOffer extends CommonRentOffer {
     private RentOfferModerationReport lastOfferModerationReport;
 
     private RentOfferSettings settings;
+
+    private RentOfferCalendar calendar;
 
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {

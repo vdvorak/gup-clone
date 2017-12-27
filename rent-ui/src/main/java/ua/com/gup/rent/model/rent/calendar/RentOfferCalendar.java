@@ -3,18 +3,23 @@ package ua.com.gup.rent.model.rent.calendar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RentOfferCalendarYear {
+@AllArgsConstructor
+@NoArgsConstructor
+public class RentOfferCalendar {
     @Setter @Getter
-    private Integer year;
+    private int year;
     @Setter @Getter
     private RentOfferCalendarDay[] days;
 
-    public RentOfferCalendarYear(Integer year) {
+    public RentOfferCalendar(int year) {
         this.year = year;
     }
 
