@@ -8,16 +8,22 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RentOfferCategoryCountDTO {
-    @ApiModelProperty(example = "category_code")
+
+    @ApiModelProperty(position = 10, example = "1")
     private int code;
+
+    @ApiModelProperty(position = 20, example = "price")
     private String key;
-    @ApiModelProperty(example = "category_title")
+
+    @ApiModelProperty(position = 30, example = "{'price':'price'}")
     private Map<String, String> title = new HashMap<>();
-    @ApiModelProperty(example = "count")
+
+    @ApiModelProperty(position = 40, example = "1")
     private int count;
 
 

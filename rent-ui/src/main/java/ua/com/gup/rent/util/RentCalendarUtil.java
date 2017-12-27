@@ -1,7 +1,7 @@
 package ua.com.gup.rent.util;
 
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
-import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarYear;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendar;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -14,18 +14,18 @@ public class RentCalendarUtil {
     private RentCalendarUtil() {
     }
 
-    public static RentOfferCalendarYear generateForYear(LocalDate now) {
+    public static RentOfferCalendar generateForYear(LocalDate now) {
         LocalDate firstDay = now.with(firstDayOfYear());
         LocalDate lastDay = now.with(lastDayOfYear()).plusDays(1);
         int days = (int) ChronoUnit.DAYS.between(firstDay, lastDay);
-        RentOfferCalendarYear rentOfferCalendarYear = new RentOfferCalendarYear(now.getYear());
+        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(now.getYear());
         RentOfferCalendarDay[] rentOfferCalendarDays = new RentOfferCalendarDay[days];
         while (firstDay.isBefore(lastDay)) {
             rentOfferCalendarDays[firstDay.getDayOfYear() - 1] = new RentOfferCalendarDay(isWeekendDay(firstDay.getDayOfWeek()) ? 1 : 0);
             firstDay = firstDay.plusDays(1);
         }
-        rentOfferCalendarYear.setDays(rentOfferCalendarDays);
-        return rentOfferCalendarYear;
+        rentOfferCalendar.setDays(rentOfferCalendarDays);
+        return rentOfferCalendar;
     }
 
     private static boolean isWeekendDay(DayOfWeek dayOfWeek) {

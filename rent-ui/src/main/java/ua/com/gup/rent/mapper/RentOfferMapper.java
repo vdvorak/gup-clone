@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
-import ua.com.gup.rent.model.rent.RentOfferSettings;
 import ua.com.gup.rent.model.rent.category.attribute.*;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
@@ -17,7 +15,6 @@ import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttribute
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValueDTO;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
@@ -54,6 +51,12 @@ public class RentOfferMapper {
     private RentOfferPriceMapper rentOfferPriceMapper;
     @Autowired
     private RentOfferSettingsMapper rentOfferSettingsMapper;
+    @Autowired
+    private RentOfferCalendarMapper rentOfferCalendarMapper;
+    @Autowired
+    private RentOfferLandsMapper rentOfferLandsMapper;
+    @Autowired
+    private RentOfferCategoryAttributeMapper rentOfferCategoryAttributeMapper;
     @Autowired
     private ImageStorageMapper offerImageMapper;
 
@@ -146,7 +149,7 @@ public class RentOfferMapper {
 
         offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
-            offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
+            offerViewDetailsDTO.setLands(rentOfferLandsMapper.fromModelToDTO(offer.getLands()));
         }
 
         return offerViewDetailsDTO;
@@ -176,7 +179,7 @@ public class RentOfferMapper {
         }
 
         if (source.getLands() != null) {
-            target.setLands(transformLandsToOfferLandsDTO(source.getLands()));
+            target.setLands(rentOfferLandsMapper.fromModelToDTO(source.getLands()));
         }
     }
 
@@ -221,11 +224,11 @@ public class RentOfferMapper {
     }
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
+        if (source.getCalendar() != null) {
+            target.setCalendar(rentOfferCalendarMapper.fromDTOToModel(source.getCalendar()));
+        }
         if (source.getSettings() != null) {
-            target.setSettings(new RentOfferSettings(source.getSettings().getMinRentDays(),
-                    source.getSettings().getMaxRentDays(),
-                    source.getSettings().getStartDay(),
-                    source.getSettings().getEndDay()));
+            target.setSettings(rentOfferSettingsMapper.fromDTOToModel(source.getSettings()));
         }
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
@@ -243,7 +246,7 @@ public class RentOfferMapper {
             target.setPrice(priceMapper.fromDTOToModel(source.getPrice()));
         }
         if (source.getLands() != null) {
-            target.setLands(transformOfferLandsDTOToLands(source.getLands()));
+            target.setLands(rentOfferLandsMapper.fromDTOToModel(source.getLands()));
         }
         if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
@@ -261,7 +264,7 @@ public class RentOfferMapper {
                         final String value = source.getAttrs().get(key);
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         RentOfferCategorySingleAttributeValue attributeValue = new RentOfferCategorySingleAttributeValue();
-                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         RentOfferToOfferCategoryAttributeValue selected = new RentOfferToOfferCategoryAttributeValue();
                         selected.setKey(value);
                         for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
@@ -280,7 +283,7 @@ public class RentOfferMapper {
                     for (String key : source.getMultiAttrs().keySet()) {
                         RentOfferCategoryMultiAttributeValue attributeValue = new RentOfferCategoryMultiAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         final String[] values = source.getMultiAttrs().get(key).split(",");
                         LinkedHashSet<RentOfferToOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
                         for (String value : values) {
@@ -303,7 +306,7 @@ public class RentOfferMapper {
                     for (String key : source.getNumAttrs().keySet()) {
                         RentOfferCategoryNumericAttributeValue attributeValue = new RentOfferCategoryNumericAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         attributeValue.setSelected(source.getNumAttrs().get(key));
                         attributeValue.setSelectedDouble(source.getNumAttrs().get(key).doubleValue());
                         numericAttrs.put(key, attributeValue);
@@ -315,7 +318,7 @@ public class RentOfferMapper {
                     for (String key : source.getBoolAttrs().keySet()) {
                         RentOfferCategoryBoolAttributeValue attributeValue = new RentOfferCategoryBoolAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                        fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
+                        rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         attributeValue.setSelected(source.getBoolAttrs().get(key));
                         boolAttrs.put(key, attributeValue);
                     }
@@ -323,28 +326,5 @@ public class RentOfferMapper {
                 }
             }
         }
-    }
-
-    private RentOfferLands transformOfferLandsDTOToLands(RentOfferLandsDTO offerLandsDto) {
-        RentOfferLands lands = null;
-        if (offerLandsDto != null) {
-            lands = new RentOfferLands(offerLandsDto.getCadnums(), offerLandsDto.getPolygons());
-        }
-        return lands;
-    }
-
-    private RentOfferLandsDTO transformLandsToOfferLandsDTO(RentOfferLands lands) {
-        RentOfferLandsDTO offerLandsDTOS = null;
-        if (lands != null) {
-            offerLandsDTOS = new RentOfferLandsDTO(lands.getCadnums(), lands.getPolygons());
-        }
-        return offerLandsDTOS;
-    }
-
-    private void fromCategoryAttributeDTOToOfferCategoryAttributeValue(RentOfferCategoryAttributeDTO source, RentOfferCategoryAttributeBaseValue target) {
-        target.setCode(source.getCode());
-        target.setTitle(source.getTitle());
-        target.setUnit(source.getUnit());
-        target.setType(source.getType());
     }
 }

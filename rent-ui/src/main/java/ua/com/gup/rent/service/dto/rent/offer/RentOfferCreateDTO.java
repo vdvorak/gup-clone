@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.dto.CommonAddressDTO;
+import ua.com.gup.rent.service.dto.rent.offer.calendar.RentOfferCalendarDTO;
 import ua.com.gup.rent.service.dto.rent.offer.period.RentOfferPeriodDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -33,7 +33,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 60, example = "ret price")
     private RentOfferPriceDTO price;
 
-    @ApiModelProperty(position = 80, example = "rent  period")
+    @ApiModelProperty(position = 80, example = "rent period")
     private RentOfferPeriodDTO period;
 
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
@@ -59,4 +59,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 150)
     private RentOfferSettingsDTO settings;
+
+    @ApiModelProperty(position = 160)
+    private RentOfferCalendarDTO calendar;
 }
