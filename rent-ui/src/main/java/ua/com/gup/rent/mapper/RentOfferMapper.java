@@ -217,9 +217,7 @@ public class RentOfferMapper {
         target.setSeoUrl(source.getSeoUrl());
         target.setCount(source.getCount());
         target.setDeposit(source.getDeposit());
-        //todo vdvorak set image
         offerImageMapper.toListDTO(source.getImages(), target.getImages());
-
     }
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
