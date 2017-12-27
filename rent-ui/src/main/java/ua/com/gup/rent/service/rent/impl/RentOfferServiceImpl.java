@@ -332,7 +332,21 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
         RentOffer offer = offerRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
-    }   
+    }
+
+    @Override
+    public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<RentOfferViewShortDTO>(Collections.EMPTY_LIST);
+        }
+        Page<RentOffer> result = status != null ?
+                offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable) :
+                offerRepository.findAllByAuthorId(profile.getId(), pageable);
+
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
 
     @Override
     protected RentOfferRepository getRepository() {

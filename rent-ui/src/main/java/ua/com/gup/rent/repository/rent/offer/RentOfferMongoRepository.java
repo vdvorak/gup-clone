@@ -23,4 +23,6 @@ public interface RentOfferMongoRepository extends MongoRepository<RentOffer, Str
     
     Boolean existsByIdAndStatus(String id, CommonStatus status);
 
+    Page<RentOffer> findAllByAuthorId(String authorId, Pageable pageable);
+
 }
