@@ -3,6 +3,7 @@ package ua.com.gup.rent.service.rent;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
@@ -22,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, String> {
+public interface RentOfferService extends CommonOfferService {
 
     Optional<RentOfferViewDetailsDTO> findOne(String id);
 
@@ -59,7 +60,7 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
 
     Boolean isCanUpdateStatus(String id, CommonStatus status);
 
-    List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
+    //List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 
     Optional<List<RentOfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd);
 

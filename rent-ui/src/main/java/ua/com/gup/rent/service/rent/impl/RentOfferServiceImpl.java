@@ -10,23 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.rent.mapper.RentOfferCategoryMapper;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
-import ua.com.gup.rent.repository.rent.offer.RentOfferMongoRepository;
-import ua.com.gup.rent.repository.rent.offer.RentOfferRepositoryCustom;
-import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
+import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
@@ -40,11 +35,10 @@ import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
-public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferDTO, String> implements RentOfferService {
+public class RentOfferServiceImpl extends CommonOfferServiceImpl implements RentOfferService {
 
     private static final String RENT_OFFER_SEQUENCE_ID = "rent_offer_sequence";
     private final Logger log = LoggerFactory.getLogger(RentOfferServiceImpl.class);
@@ -53,16 +47,13 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     private RentOfferMapper offerMapper;
 
     @Autowired
-    private RentOfferCategoryMapper offerCategoryMapper;
-
-    @Autowired
     private RentOfferProfileRepository profileRepository;
 
     @Autowired
-    private RentOfferRepositoryCustom offerRepositoryCustom;
+    private RentOfferMongoRepository offerMongoRepository;
 
     @Autowired
-    private RentOfferMongoRepository offerRepository;
+    private RentOfferRepository offerRepository;
 
     @Autowired
     private RentSequenceService sequenceService;
@@ -70,9 +61,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Autowired
     private RentOfferCategoryService categoryService;
 
-    public RentOfferServiceImpl(@Autowired RentOfferRepository rentOfferRepository) {
-        super(rentOfferRepository);
+    private RentOfferRepository getRepository(){
+        return offerRepository;
     }
+
 
 
 
@@ -86,7 +78,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         String userID = RentSecurityUtils.getCurrentUserId();
       //  offer.setLastModifiedBy(userID);
         offer.setAuthorId(userID);
-        offer = offerRepository.save(offer);
+        offer = offerMongoRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
@@ -94,7 +86,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
-        RentOffer offer = offerRepository.findOne(offerUpdateDTO.getId());
+        RentOffer offer = offerMongoRepository.findOne(offerUpdateDTO.getId());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
       // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
@@ -102,7 +94,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         } else {
             offer.setStatus(CommonStatus.ACTIVE);
         }
-        offer = offerRepository.save(offer);
+        offer = offerMongoRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
@@ -110,14 +102,14 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO) {
         log.debug("Request to save Rent Offer modified by moderator: {}", offerModerationReportDTO);
-        RentOffer offer = offerRepository.findOne(offerModerationReportDTO.getId());
+        RentOffer offer = offerMongoRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
         if (offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(CommonStatus.REJECTED);
         } else {
             offer.setStatus(CommonStatus.ACTIVE);
         }
-        offer = offerRepository.save(offer);
+        offer = offerMongoRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
@@ -125,7 +117,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public Optional<RentOfferViewDetailsDTO> findOne(String id) {
         log.debug("Request to get Offer : {}", id);
-        RentOffer offer = offerRepository.findOne(id);
+        RentOffer offer = offerMongoRepository.findOne(id);
         if (offer == null) {
             return Optional.empty();
         }
@@ -134,16 +126,16 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
-        if (offerFilter.getRentOfferAuthorFilter() != null) {
-            if (offerFilter.getRentOfferAuthorFilter().getPublicId() != null && offerFilter.getRentOfferAuthorFilter().getAuthorId() == null) {
-                offerFilter.getRentOfferAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getRentOfferAuthorFilter().getPublicId().trim()).getId());
+        if (offerFilter.getAuthorFilter() != null) {
+            if (offerFilter.getAuthorFilter().getPublicId() != null && offerFilter.getAuthorFilter().getAuthorId() == null) {
+                offerFilter.getAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getAuthorFilter().getPublicId().trim()).getId());
             }
         }
         log.debug("Request to get all Rent Offers by filter  {} ", offerFilter);
-        long count = offerRepositoryCustom.countByFilter(offerFilter, CommonStatus.ACTIVE);
+        long count = getRepository().countByFilter(offerFilter, CommonStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
         if (count > 0) {
-            offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
+            offers = getRepository().findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
@@ -152,7 +144,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("Request to get offers coordinates by filter");
-        List<RentOffer> offers = offerRepositoryCustom.findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
+        List<RentOffer> offers = getRepository().findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         List<RentOfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
         offers.forEach(offer -> coordinatesList.add(offerMapper.offerToOfferCoordinatesDTO(offer)));
         return coordinatesList;
@@ -165,7 +157,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
-        Page<RentOffer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
+        Page<RentOffer> result = offerMongoRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
@@ -176,25 +168,25 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
-        Page<RentOffer> result = offerRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
+        Page<RentOffer> result = offerMongoRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable) {
         log.debug("Request to get all Offers by status = {}", status);
-        Page<RentOffer> result = offerRepository.findAllByStatus(status, pageable);
+        Page<RentOffer> result = offerMongoRepository.findAllByStatus(status, pageable);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     @Override
     public Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
         log.debug("Request to get Rent Offer : {}", seoUrl);
-        Optional<RentOffer> offer = offerRepository.findOneBySeoUrl(seoUrl);
+        Optional<RentOffer> offer = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final RentOffer o = offer.get();
             o.incrementView(true, false);
-            offerRepository.save(o);
+            offerMongoRepository.save(o);
             Set<CommonStatus> statuses = new HashSet<>();
             statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
@@ -206,7 +198,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Page<RentOfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable) {
-        Optional<RentOffer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        Optional<RentOffer> offerOptional = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offerOptional.isPresent()) {
             final RentOffer offer = offerOptional.get();
             StringBuilder search = new StringBuilder();
@@ -223,7 +215,7 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
             search.append(offer.getTitle());
             RentOfferFilter filter = new RentOfferFilter();
             filter.setQuery(search.toString());
-            Page<RentOffer> result = new PageImpl<>(offerRepositoryCustom.findByFilter(filter, CommonStatus.ACTIVE, offer.getId(), pageable));
+            Page<RentOffer> result = new PageImpl<>(getRepository().findByFilter(filter, CommonStatus.ACTIVE, offer.getId(), pageable));
             return result.map(o -> offerMapper.offerToOfferShortDTO(o));
 
         }
@@ -232,23 +224,23 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public void incrementPhoneViews(String id) {
-        RentOffer offer = offerRepository.findOne(id);
+        RentOffer offer = offerMongoRepository.findOne(id);
         offer.incrementView(false, true);
-        offerRepository.save(offer);
+        offerMongoRepository.save(offer);
     }
 
     @Override
     public void delete(String id) {
         log.debug("Request to delete Offer : {}", id);
-        RentOffer offer = offerRepository.findOne(id);
+        RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(CommonStatus.ARCHIVED);
-        offerRepository.save(offer);
+        offerMongoRepository.save(offer);
     }
 
 
     @Override
     public boolean exists(String id) {
-        return offerRepository.exists(id);
+        return offerMongoRepository.exists(id);
     }
 
     /**
@@ -263,9 +255,9 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     public boolean hasPermissionForUpdate(String offerId, String authorId) {
         Optional<RentOffer> offer = null;
         if (offerId != null && authorId != null) {
-            offer = offerRepository.findOfferByIdAndAuthorId(offerId, authorId);
+            offer = offerMongoRepository.findOfferByIdAndAuthorId(offerId, authorId);
         } else if (offer != null) {
-            offer = Optional.ofNullable(offerRepository.findOne(offerId));
+            offer = Optional.ofNullable(offerMongoRepository.findOne(offerId));
         }
         if (log.isDebugEnabled()) {
             log.debug("Request has permission for update offer : {}", offer);
@@ -289,33 +281,23 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
     @Override
     public Optional<RentOfferViewDetailsDTO> updateStatus(String id, CommonStatus status) {
         log.debug("Request to update update rent offer's status : {}", id);
-        RentOffer offer = offerRepository.findOne(id);
+        RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(status);
-        offer = offerRepository.save(offer);
+        offer = offerMongoRepository.save(offer);
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
     @Override
     public Boolean isCanUpdateStatus(String id, CommonStatus status) {
-        RentOffer offer = offerRepository.findOne(id);
+        RentOffer offer = offerMongoRepository.findOne(id);
         Boolean fromStatus = (offer.getStatus() == CommonStatus.ACTIVE || offer.getStatus() == CommonStatus.DEACTIVATED);
         Boolean toStatus = (status == CommonStatus.ACTIVE || status == CommonStatus.DEACTIVATED || status == CommonStatus.ARCHIVED);
         return fromStatus && toStatus;
     }
 
     @Override
-    public List<RentOfferCategoryCountDTO> searchCategoriesByString(String string, int page, int size) {
-        log.debug("Request to search category by string : {}", string);
-        final List<RentOfferCategoryCount> offerCategoryCounts = offerRepositoryCustom.searchCategoriesByString(string, page, size);
-        return offerCategoryCounts
-                .stream()
-                .map(c -> offerCategoryMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Optional<List<RentOfferStatisticByDateDTO>> findOfferStatisticBySeoUrlAndDateRange(String seoUrl, LocalDate dateStart, LocalDate dateEnd) {
-        Optional<RentOffer> offerOptional = offerRepository.findOneBySeoUrl(seoUrl);
+        Optional<RentOffer> offerOptional = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offerOptional.isPresent()) {
             RentOffer offer = offerOptional.get();
             return Optional.of(offer.getStatistic())
@@ -331,14 +313,10 @@ public class RentOfferServiceImpl extends RentOfferGenericServiceImpl<RentOfferD
 
     @Override
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
-        RentOffer offer = offerRepository.findOne(offerId);
+        RentOffer offer = offerMongoRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
     }   
 
-    @Override
-    protected RentOfferRepository getRepository() {
-        return (RentOfferRepository) super.getRepository();
-    }
 
 
 

@@ -312,7 +312,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
     public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
-        final List<RentOfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
+        final List offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------

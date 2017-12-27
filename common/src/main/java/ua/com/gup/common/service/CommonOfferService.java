@@ -8,6 +8,7 @@ package ua.com.gup.common.service;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
 import ua.com.gup.common.model.image.ImageStorage;
 
 /**
@@ -27,5 +28,16 @@ public interface CommonOfferService {
     public boolean isExistsImage(String offerId, String imageId);
 
     public void deleteImage(String offerId, String imageId) throws IOException;
+
+
+    /**
+     * Get one offer categories by search word.
+     *
+     * @param string the string
+     * @param page   the page
+     * @param size   the size
+     * @return the list of entities
+     */
+    List<CommonCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
 
 }

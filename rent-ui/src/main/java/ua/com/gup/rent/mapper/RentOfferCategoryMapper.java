@@ -2,6 +2,7 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.mapper.CommonCategoryMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
@@ -15,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-public class RentOfferCategoryMapper {
+public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCategoryCountDTO, RentOfferCategoryCount> {
 
     private static final String CATEGORY_SEQUENCE_ID = "rent_category_sequence";
 
@@ -49,6 +50,7 @@ public class RentOfferCategoryMapper {
         target.setOrder(source.getOrder());
     }
 
+    @Override
     public RentOfferCategoryCountDTO fromOfferCategoryCountToOfferCategoryCountDTO(RentOfferCategoryCount offerCategoryCount) {
         RentOfferCategoryCountDTO offerCategoryCountDTO = new RentOfferCategoryCountDTO();
         offerCategoryCountDTO.setCount(offerCategoryCount.getCount());

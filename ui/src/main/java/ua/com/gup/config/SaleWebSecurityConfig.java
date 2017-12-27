@@ -49,7 +49,7 @@ public class SaleWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST)
-                .authenticated()
+                .permitAll()
                 
                 .antMatchers(HttpMethod.PUT)
                 .authenticated()
