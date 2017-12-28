@@ -11,7 +11,7 @@ import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.server.security.ObjectPermissionEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.service.offer.OfferService;
+import ua.com.gup.server.service.OfferService;
 
 public abstract class OfferPermissionEvaluator extends ObjectPermissionEvaluator {
 

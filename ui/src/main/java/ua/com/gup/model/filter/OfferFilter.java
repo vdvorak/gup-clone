@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.filter;
+package ua.com.gup.model.filter;
 
 
 import io.swagger.annotations.ApiModel;

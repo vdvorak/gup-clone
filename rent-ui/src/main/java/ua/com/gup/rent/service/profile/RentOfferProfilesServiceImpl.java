@@ -7,9 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import sun.plugin.util.UserProfile;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
@@ -20,10 +18,12 @@ import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserProfileShortAdminDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagrDto;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 

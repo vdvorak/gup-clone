@@ -5,8 +5,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
-import ua.com.gup.repository.offer.OfferRepository;
+import ua.com.gup.common.repository.CommonOfferMongoRepository;
+import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.repository.profile.ProfileRepository;
 
 import java.util.Set;
@@ -19,7 +19,7 @@ public class UserSecurityAccessServiceImpl implements UserSecurityAccessService{
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private OfferRepository offerRepository;
+    private CommonOfferMongoRepository offerRepository;
 
     @Override
     public boolean isOwner(String ownerId, String objectId, String entity, String propertyName){    

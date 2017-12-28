@@ -4,6 +4,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Configuration
 @ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service"})
+@EnableMongoRepositories({"ua.com.gup.server.repository"})
 public class SaleWebConfig extends WebMvcConfigurerAdapter {
 
 

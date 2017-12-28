@@ -15,7 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.dto.offer.OfferCategoryCountDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -26,11 +28,11 @@ import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortWithModerationReportDTO;
 import ua.com.gup.mongo.model.filter.OfferFilter;
+import ua.com.gup.server.service.OfferService;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.server.util.PaginationUtil;
 import ua.com.gup.server.util.ResponseUtil;
 import ua.com.gup.server.validator.OfferDTOValidator;
-import ua.com.gup.service.offer.OfferService;
 import ua.com.gup.util.security.SecurityUtils;
 
 import javax.validation.Valid;
@@ -54,6 +56,8 @@ public class OfferEndpoint extends AbstractImageEndpoint{
 
     @Autowired
     private OfferService offerService;
+    @Autowired
+    private CommonOfferService commonOfferService;
 
     @Autowired
     private OfferDTOValidator offerDTOValidator;
@@ -383,9 +387,9 @@ public class OfferEndpoint extends AbstractImageEndpoint{
      */
     @CrossOrigin
     @RequestMapping(value = "/offers/search/category", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+    public ResponseEntity<List<CommonCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
-        final List<OfferCategoryCountDTO> offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
+        final List<CommonCategoryCountDTO> offerCategoryCountDTOS = commonOfferService.searchCategoriesByString(query, page, size);
         return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
     }
 }
