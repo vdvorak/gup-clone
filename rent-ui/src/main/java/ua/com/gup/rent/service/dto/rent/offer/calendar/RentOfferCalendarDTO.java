@@ -21,7 +21,4 @@ public class RentOfferCalendarDTO implements Serializable {
     @ApiModelProperty(position = 10, example = "[{'type':3,'price':10.1,{'type':1}}]")
     private RentOfferCalendarDay[] days;
 
-    @ApiModelProperty(position = 20, example = "2017")
-    private int year;
-
 }

@@ -1,28 +1,30 @@
 package ua.com.gup.rent.util;
 
-import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
-import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
-import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
-
 public class RentCalendarUtil {
+
     private RentCalendarUtil() {
     }
 
-    public static RentOfferCalendar generateForYear(LocalDate now) {
-        LocalDate firstDay = now.with(firstDayOfYear());
-        LocalDate lastDay = now.with(lastDayOfYear()).plusDays(1);
-        int days = (int) ChronoUnit.DAYS.between(firstDay, lastDay);
-        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(now.getYear());
+    public static RentOfferCalendar generateCalendarForDates(LocalDate startDate) {
+        return generateCalendarForDates(startDate, startDate.plus(Period.ofYears(1)));
+    }
+
+    public static RentOfferCalendar generateCalendarForDates(LocalDate startDate, LocalDate endDate) {
+        int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
         RentOfferCalendarDay[] rentOfferCalendarDays = new RentOfferCalendarDay[days];
-        while (firstDay.isBefore(lastDay)) {
-            rentOfferCalendarDays[firstDay.getDayOfYear() - 1] = new RentOfferCalendarDay(isWeekendDay(firstDay.getDayOfWeek()) ? 1 : 0);
-            firstDay = firstDay.plusDays(1);
+        int i = 0;
+        while (startDate.isBefore(endDate)) {
+            rentOfferCalendarDays[i++] = new RentOfferCalendarDay(isWeekendDay(startDate.getDayOfWeek()) ? 1 : 0);
+            startDate = startDate.plusDays(1);
         }
         rentOfferCalendar.setDays(rentOfferCalendarDays);
         return rentOfferCalendar;
