@@ -1,4 +1,4 @@
-package ua.com.gup.server.service.impl;
+package ua.com.gup.service.offer;
 
 
 import org.slf4j.Logger;
@@ -30,12 +30,11 @@ import ua.com.gup.mongo.model.filter.OfferFilter;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.repository.profile.ProfileRepository;
-import ua.com.gup.server.repository.SaleOfferMongoRepository;
 import ua.com.gup.server.repository.OfferRepository;
+import ua.com.gup.server.repository.SaleOfferMongoRepository;
 import ua.com.gup.server.service.OfferService;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.currency.CurrencyConverterService;
-
 import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
 import ua.com.gup.util.security.SecurityUtils;
@@ -492,5 +491,19 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
     @Override
     public boolean existsByIdAndStatus(String id, CommonStatus status) {
         return offerMongoRepository.existsByIdAndStatus(id, status);
-    }    
+    }
+
+    @Override
+    public Page<OfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<OfferViewShortDTO>(Collections.EMPTY_LIST);
+        }
+        Page<Offer> result = status != null ?
+                offerMongoRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable) :
+                offerMongoRepository.findAllByAuthorId(profile.getId(), pageable);
+
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
 }

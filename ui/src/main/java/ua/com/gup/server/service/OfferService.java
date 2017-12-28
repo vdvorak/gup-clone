@@ -129,15 +129,6 @@ public interface OfferService extends CommonOfferService {
     void delete(String id);
 
     /**
-     * Returns whether an entity with the given id exists.
-     *
-     * @param id must not be {@literal null}.
-     * @return true if an entity with the given id exists, {@literal false} otherwise
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    boolean exists(String id);
-
-    /**
      * Returns whether an entity can be updated by current user.
      *
      * @param offerId not be {@literal null}.
@@ -189,4 +180,5 @@ public interface OfferService extends CommonOfferService {
 
     boolean existsByIdAndStatus(String id, CommonStatus status);
 
+    public Page<OfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 }

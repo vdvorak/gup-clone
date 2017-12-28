@@ -3,7 +3,9 @@ package ua.com.gup.rent.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
+import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeBaseValue;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
+import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
 
@@ -41,5 +43,12 @@ public class RentOfferCategoryAttributeMapper {
         target.setValidator(source.getValidator());
         target.setValues(source.getValues());
         target.setPrivateAttr(source.isPrivateAttr());
+    }
+
+    public void fromCategoryAttributeDTOToOfferCategoryAttributeValue(RentOfferCategoryAttributeDTO source, RentOfferCategoryAttributeBaseValue target) {
+        target.setCode(source.getCode());
+        target.setTitle(source.getTitle());
+        target.setUnit(source.getUnit());
+        target.setType(source.getType());
     }
 }

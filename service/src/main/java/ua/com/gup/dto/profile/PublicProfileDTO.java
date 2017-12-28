@@ -2,7 +2,7 @@ package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.StringUtils;
-import ua.com.gup.mongo.model.profiles.phone.Phone;
+import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 
 public class PublicProfileDTO extends DetailProfileDTO {
@@ -20,7 +20,7 @@ public class PublicProfileDTO extends DetailProfileDTO {
         Phone mainPhone = profile.getMainPhone();
         if (!StringUtils.isEmpty(mainPhone.getPhoneNumber())) {
             this.mainPhoneNumber = mainPhone.getPhoneNumber();
-            if (Boolean.TRUE.equals(mainPhone.isHidden())) {
+            if (Boolean.TRUE.equals(mainPhone.getHidden())) {
                 this.mainPhoneNumber = this.mainPhoneNumber.replaceAll("(?s).", "*");
             }
         }

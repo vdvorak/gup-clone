@@ -7,20 +7,14 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
-import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.filter.CommonAddressFilter;
-import ua.com.gup.common.model.filter.CommonAttributeFilter;
-import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
@@ -29,8 +23,8 @@ import ua.com.gup.model.xchangerate.service.ServiceException;
 import ua.com.gup.model.xchangerate.storage.StorageException;
 import ua.com.gup.model.xchangerate.util.Currency;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.filter.*;
-import ua.com.gup.mongo.model.offer.Address;
+import ua.com.gup.mongo.model.filter.OfferFilter;
+import ua.com.gup.mongo.model.filter.OfferFilterOptions;
 import ua.com.gup.mongo.model.other.EntityPage;
 import ua.com.gup.server.repository.OfferRepository;
 import ua.com.gup.util.CurrencyConvertUtil;
@@ -38,10 +32,7 @@ import ua.com.gup.util.CurrencyConvertUtil;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer,OfferFilter>
@@ -168,7 +159,6 @@ public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer,OfferFi
 
         return offerEntityPage;
     }
-
 
     private Query queryPreparator(OfferFilterOptions offerFO) {
 

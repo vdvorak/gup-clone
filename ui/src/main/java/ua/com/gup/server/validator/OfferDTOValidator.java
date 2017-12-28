@@ -8,11 +8,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValidatorDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
-import ua.com.gup.dto.offer.OfferAddressDTO;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.service.category.CategoryService;
@@ -197,7 +197,7 @@ public class OfferDTOValidator implements Validator {
             errors.rejectValue("address", "address.required", null, "address required");
         }
         if (offerCreateDTO.getAddress() != null) {
-            final OfferAddressDTO address = offerCreateDTO.getAddress();
+            final CommonAddressDTO address = offerCreateDTO.getAddress();
             if (address.getLat() == null || address.getLng() == null) {
                 errors.rejectValue("address.coordinates", "address.coordinates.required", null, "Coordinates required");
             }

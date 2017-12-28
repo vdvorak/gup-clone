@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
@@ -61,10 +60,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Autowired
     private RentOfferCategoryService categoryService;
 
-    private RentOfferRepository getRepository(){
-        return offerRepository;
-    }
-
 
 
 
@@ -84,9 +79,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public RentOfferViewDetailsDTO save(RentOfferUpdateDTO offerUpdateDTO) {
+    public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
-        RentOffer offer = offerMongoRepository.findOne(offerUpdateDTO.getId());
+        RentOffer offer = offerMongoRepository.findOne(rentOfferId);
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
       // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
@@ -289,7 +284,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Override
     public Boolean isCanUpdateStatus(String id, CommonStatus status) {
-        RentOffer offer = offerMongoRepository.findOne(id);
+        RentOffer offer = offerRepository.findOne(id);
         Boolean fromStatus = (offer.getStatus() == CommonStatus.ACTIVE || offer.getStatus() == CommonStatus.DEACTIVATED);
         Boolean toStatus = (status == CommonStatus.ACTIVE || status == CommonStatus.DEACTIVATED || status == CommonStatus.ARCHIVED);
         return fromStatus && toStatus;
@@ -315,8 +310,26 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     public Collection<String> getOfferContactInfoPhoneNumbersById(String offerId) {
         RentOffer offer = offerMongoRepository.findOne(offerId);
         return offer.getContactInfo().getPhoneNumbers();
-    }   
+    }
 
+    @Override
+    public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
+        log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
+        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        if (profile == null) {
+            return new PageImpl<RentOfferViewShortDTO>(Collections.EMPTY_LIST);
+        }
+        Page<RentOffer> result = status != null ?
+                offerMongoRepository.findAllByStatusAndAuthorId(status, profile.getId(), pageable) :
+                offerMongoRepository.findAllByAuthorId(profile.getId(), pageable);
+
+        return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
+
+
+    private RentOfferRepository getRepository() {
+        return offerRepository;
+    }
 
 
 
@@ -331,11 +344,13 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         result |= offerUpdateDTO.getCategory() != null;
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
-        if (offerUpdateDTO.getImages() != null) {
-            for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
+
+        //todo FOR dima SaveImages
+        //if (offerUpdateDTO.getImages() != null) {
+           // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
                 // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-            }
-        }
+          //  }
+        //}
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation

@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
+import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeCreateDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeUpdateDTO;
@@ -50,6 +51,19 @@ public class RentOfferCategoryAttributeDTOValidator implements Validator {
         }
         if (!StringUtils.isEmpty(rentOfferCategoryAttributeCreateDTO.getKey())) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "key", "key.required");
+        }
+        if(!rentOfferCategoryAttributeCreateDTO.getCategories().isEmpty()){
+            setCategorySortInRentOfferDTOByDefault(rentOfferCategoryAttributeCreateDTO);
+        }
+    }
+
+    private void setCategorySortInRentOfferDTOByDefault(RentOfferCategoryAttributeCreateDTO rentOfferCategoryAttributeCreateDTO ){
+        Integer sort_category_att_index = new Integer(100);
+        for (Integer category_code: rentOfferCategoryAttributeCreateDTO.getCategories()){
+            RentOfferCategoriesSort rentOfferCategoriesSort = new RentOfferCategoriesSort();
+            rentOfferCategoriesSort.setCode_category(category_code);
+            rentOfferCategoriesSort.setOrder_category(sort_category_att_index++);
+            rentOfferCategoryAttributeCreateDTO.getCategoriesSort().add(rentOfferCategoriesSort);
         }
     }
 }

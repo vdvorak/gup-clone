@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -18,7 +17,9 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.model.FacebookProfile;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.UserService;
+import ua.com.gup.service.login.GupUserDetailsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -38,7 +40,7 @@ public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticatio
     @Autowired
     private UserService userService;
     @Autowired
-    private UserDetailsService userDetailsService;
+    private GupUserDetailsService userDetailsService;
     private RequestCache requestCache = new HttpSessionRequestCache();
 
     private UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://graph.facebook.com");
@@ -88,18 +90,22 @@ public class FacebookAuthenticationSuccessHandler extends SimpleUrlAuthenticatio
         }
 
         logger.error("profile: " + facebookProfile);
-        userService.facebookLogin(facebookProfile);
-
+        userService.registerByFacebook(facebookProfile);
         authenticateUserManually(facebookProfile);
+        Profile profileByFacebookId = userService.findProfileByFacebookId(facebookProfile.getId());
+        userService.updateLastLoginDate(profileByFacebookId.getId());
+        userService.updateChatUID(profileByFacebookId.getId(), UUID.randomUUID().toString());
     }
 
     private void authenticateUserManually(FacebookProfile facebookProfile) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(facebookProfile.getEmail());
+        UserDetails userDetails = userDetailsService.loadUserByFacebookId(facebookProfile.getId());
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
                         userDetails, null,
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))));
 
+
     }
 }
+
 

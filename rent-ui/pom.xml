@@ -34,22 +34,20 @@
             <artifactId>common</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
-
+        <!-- spring data mongo redis etc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -66,12 +64,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
         </dependency>
-
+        <!-- convert mail -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -79,13 +76,6 @@
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -113,13 +103,22 @@
             <artifactId>httpcore-nio</artifactId>
             <version>4.4.6</version>
         </dependency>
+        <!-- third dependency get form  SEO-friendly URLs with Slugify https://github.com/slugify  -->
         <dependency>
             <groupId>com.github.slugify</groupId>
             <artifactId>slugify</artifactId>
         </dependency>
+        <!-- lombok auto generation getter setter and other -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -134,39 +133,6 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-dependency-plugin</artifactId>-->
-            <!--<version>3.0.2</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>analyze</id>-->
-            <!--<goals>-->
-            <!--<goal>analyze-only</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<failOnWarning>true</failOnWarning>-->
-
-            <!--&lt;!&ndash; ignore jsr305 for both "used but undeclared" and "declared but unused" &ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredDependencies>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredDependency>com.google.code.findbugs:jsr305</ignoredDependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;</ignoredDependencies>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "used but undeclared" warnings &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredUsedUndeclaredDependency>com.google.code.findbugs:annotations</ignoredUsedUndeclaredDependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;</ignoredUsedUndeclaredDependencies>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;&lt;!&ndash; ignore annotations for "unused but declared" warnings &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoredUnusedDeclaredDependency>com.google.code.findbugs:annotations</ignoredUnusedDeclaredDependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;</ignoredUnusedDeclaredDependencies>&ndash;&gt;-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
-
-
 </project>

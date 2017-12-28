@@ -5,17 +5,15 @@
  */
 package ua.com.gup.common.repository;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonOfferFilter;
 import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.offer.CommonCategoryCount;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface CommonOfferRepository<T extends CommonRentOffer, F extends CommonOfferFilter> {
 

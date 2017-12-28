@@ -2,7 +2,7 @@ package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.profiles.phone.Phone;
+import ua.com.gup.common.model.mongo.Phone;
 
 import java.util.List;
 import java.util.stream.Collectors;

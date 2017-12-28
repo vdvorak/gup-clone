@@ -1,7 +1,10 @@
 package ua.com.gup.repository.profile;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import java.util.List;
@@ -59,6 +62,8 @@ public interface ProfileRepository {
      */
     boolean profileExistsWithEmail(String email);
 
+    boolean profileExistsWithFacebookId(String facebookId);
+
     boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
 
     /**
@@ -83,7 +88,7 @@ public interface ProfileRepository {
 
     Profile incMainPhoneViewsAtOne(String profileId);
 
-    long countByFilter(Profile profileFilter);
+    long countByFilter(ProfileFilter profileFilter);
 
     /**
      * This method provides additional information for admin.
@@ -91,7 +96,11 @@ public interface ProfileRepository {
      * @param profileFilter - the ProfileFilterOptions object
      * @return - the list of relevant to filter profiles
      */
-    List<Profile> findByFilterForAdmins(Profile profileFilter, Pageable pageable);
+    List<Profile> findByFilterForAdmins(ProfileFilter profileFilter, Pageable pageable);
+
+    List<Profile> findByRole(CommonUserRole role, Pageable pageable);
+
+    long countByRole(CommonUserRole role);
 
     boolean profileExistsInUserSocialList(String userId, String profileId);
 
@@ -167,7 +176,11 @@ public interface ProfileRepository {
      */
     Profile findById(String id);
 
+    <T extends Profile> T findById(String id, Class<T> entityClass);
+
     Profile findByPublicId(String id);
+
+    <T extends Profile> T findByPublicId(String id, Class<T> entityClass);
 
     /**
      * Find and return profile by it's seoWord.
@@ -183,5 +196,21 @@ public interface ProfileRepository {
 
     boolean profileExistsByPublicId(String profilePublicId);
 
+    Profile findByFacebookId(String facebookId);
+
+
+    boolean hasManager(String profilePublicId);
+
+    List<UserProfile> findUsersByManager(String managerId);
+
+    UserProfile getManagerUser(String managerPublicId, String publicId);
+
+    Set<String> getManagerUserIds(String managerId);
+
+    String getPulblicIdById( String id);
+
+    String getIdByPulblicId( String publicId);
+
+    Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
 }
 

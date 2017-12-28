@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends MongoRepository<T, String> {
@@ -18,5 +19,9 @@ public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends M
 
     Optional<T> findOfferByIdAndAuthorId(String offerId, String authorId);
 
+    Page<T> findAllByAuthorId(String authorId, Pageable pageable);
+
     Boolean existsByIdAndStatus(String id, CommonStatus status);
+
+    Boolean existsByIdAndAuthorId(String offerId, Collection<String> authorIds);
 }

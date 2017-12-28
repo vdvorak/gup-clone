@@ -2,11 +2,17 @@ package ua.com.gup.service.profile;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
+import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
+import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
+import ua.com.gup.repository.profile.ProfileFilter;
 
 import java.util.List;
 import java.util.Set;
@@ -14,7 +20,7 @@ import java.util.Set;
 /**
  * The interface Profiles service.
  */
-public interface ProfilesService {
+public interface ProfilesService extends CommonProfileService{
     void createProfile(CreateProfileDTO profile);
 
     /**
@@ -85,7 +91,7 @@ public interface ProfilesService {
      * @param profileFilter - the profile filter
      * @return - the list of profiles
      */
-    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(Profile profileFilter, Pageable pageable);
+    Page<ProfileShortAdminDTO> findAllProfilesForAdminShort(ProfileFilter profileFilter, Pageable pageable);
 
     Profile findProfileByEmail(String email);
 
@@ -125,14 +131,6 @@ public interface ProfilesService {
      * @return the boolean
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
-
-//    /**
-//     * Add friend.
-//     *
-//     * @param profileId               - the profile id.
-//     * @param friendProfileId         - the friend profile id.
-//     */
-//    void addFriend(String profileId, String friendProfileId);
 
     /**
      * Search for matched user names and return set of them.
@@ -208,4 +206,18 @@ public interface ProfilesService {
     void banProfile(Profile profile, String privateExp, String publicExp);
 
     void unbanProfile(Profile profile);
+
+    Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable);
+
+    void linkProfile(String managerPublicId, String profilePublicId);
+
+    void unlinkProfile(String managerPublicId, String profilePublicId);
+
+    boolean hasManager(String profilePublicId);
+
+    List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId);
+
+    UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
+
+    ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 }

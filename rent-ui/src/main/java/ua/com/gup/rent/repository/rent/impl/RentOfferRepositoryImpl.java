@@ -20,6 +20,7 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
+import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
 import ua.com.gup.rent.filter.*;
@@ -40,8 +41,6 @@ public class RentOfferRepositoryImpl
 
 
     private final Logger log = LoggerFactory.getLogger(RentOfferRepositoryImpl.class);
-    private final Integer COORDINATES_MAX_DIFF_LAT = 6;
-    private final Integer COORDINATES_MAX_DIFF_LON = 3;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -53,7 +52,7 @@ public class RentOfferRepositoryImpl
     @PostConstruct
     public void createIndex() {
         TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
-                .named(RentOffer.COLLECTION_NAME + "_TextIndex")
+                .named(ObjectType.RENT_OFFER + "_TextIndex")
                 .onField("$**")
                 .withDefaultLanguage("russian")
                 .build();
@@ -69,7 +68,7 @@ public class RentOfferRepositoryImpl
         BasicDBObject projection = new BasicDBObject();
         projection.put("_id", 1);
         projection.put("price.amount", 1);
-        final DBCollection collection = mongoTemplate.getCollection(RentOffer.COLLECTION_NAME);
+        final DBCollection collection = mongoTemplate.getCollection(ObjectType.RENT_OFFER);
         DBCursor cursor = collection.find(query, projection);
         try {
             while (cursor.hasNext()) {

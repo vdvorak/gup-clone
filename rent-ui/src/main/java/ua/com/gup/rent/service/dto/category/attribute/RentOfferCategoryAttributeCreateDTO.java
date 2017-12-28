@@ -3,6 +3,7 @@ package ua.com.gup.rent.service.dto.category.attribute;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.ToString;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
@@ -13,6 +14,7 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 //@Data
+@ToString
 public class RentOfferCategoryAttributeCreateDTO {
     private boolean active;
     private String key;
@@ -25,18 +27,6 @@ public class RentOfferCategoryAttributeCreateDTO {
     private LinkedHashSet<RentOfferCategoryAttributeValue> values = new LinkedHashSet<>();
     private boolean privateAttr;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RentOfferCategoryAttributeCreateDTO)) return false;
-        RentOfferCategoryAttributeCreateDTO that = (RentOfferCategoryAttributeCreateDTO) o;
-        return Objects.equals(getKey(), that.getKey());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getKey());
-    }
 
     public boolean isActive() {
 
@@ -117,5 +107,18 @@ public class RentOfferCategoryAttributeCreateDTO {
 
     public void setPrivateAttr(boolean privateAttr) {
         this.privateAttr = privateAttr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RentOfferCategoryAttributeCreateDTO)) return false;
+        RentOfferCategoryAttributeCreateDTO that = (RentOfferCategoryAttributeCreateDTO) o;
+        return Objects.equals(getKey(), that.getKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKey());
     }
 }

@@ -29,8 +29,6 @@ public class UserServiceImpl implements UserService {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         Profile newProfile = new Profile()
                 .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                .setExecutive(profile.getExecutive())
-                .setContactPerson(profile.getContactPerson())
                 .setAddress(profile.getAddress())
                 .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
@@ -50,9 +48,7 @@ public class UserServiceImpl implements UserService {
         profile.setId(newProfile.getId());
     }
 
-    @Override
-    public void facebookLogin(FacebookProfile facebookProfile) {
-        Profile profile = findProfileByEmail(facebookProfile.getEmail());
+    private void updateProfileByFacebookProfile(FacebookProfile facebookProfile, Profile profile) {
         if (profile != null && Boolean.FALSE.equals(profile.isBan())) {
             if (StringUtils.isEmpty(profile.getUsername())) {
                 profile.setUsername(facebookProfile.getName());
@@ -64,27 +60,56 @@ public class UserServiceImpl implements UserService {
                 profile.setLastname(facebookProfile.getLastName());
             }
             profile.setImgUrl(facebookProfile.getImageUrl());
+            profile.setFacebookId(facebookProfile.getId());
             profile.setActive(Boolean.TRUE);
             profileRepository.updateProfile(profile);
-        } else if (profile == null) {
-            HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
-                add(CommonUserRole.ROLE_USER);
-            }};
-
-            profile = new Profile()
-                    .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                    .setEmail(facebookProfile.getEmail())
-                    .setUsername(facebookProfile.getName())
-                    .setFirstname(facebookProfile.getFirstName())
-                    .setLastname(facebookProfile.getLastName())
-                    .setActive(Boolean.TRUE)
-                    .setSocWendor("facebook")
-                    .setUserRoles(userRoles)
-                    .setImgUrl(facebookProfile.getImageUrl())
-                    .setCreatedDateEqualsToCurrentDate();
-            profileRepository.createProfile(profile);
         }
     }
+
+    @Override
+    public void registerByFacebook(FacebookProfile facebookProfile) {
+
+        /*  update profile by facebook profile id */
+        if (profileRepository.profileExistsWithFacebookId(facebookProfile.getId())) {
+            updateProfileByFacebookProfile(facebookProfile, findProfileByFacebookId(facebookProfile.getId()));
+            return;
+        }
+
+        /* else update profile by email */
+        if (!StringUtils.isEmpty(facebookProfile.getEmail()) && profileRepository.profileExistsWithEmail(facebookProfile.getEmail())) {
+            updateProfileByFacebookProfile(facebookProfile, findProfileByEmail(facebookProfile.getEmail()));
+            return;
+        }
+
+        /* else register new account */
+
+        HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
+            add(CommonUserRole.ROLE_USER);
+        }};
+
+        Profile profile = new Profile()
+                .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
+                .setFacebookId(facebookProfile.getId())
+                .setEmail(facebookProfile.getEmail())
+                .setUsername(facebookProfile.getName())
+                .setFirstname(facebookProfile.getFirstName())
+                .setLastname(facebookProfile.getLastName())
+                .setActive(Boolean.TRUE)
+                .setSocWendor("facebook")
+                .setUserRoles(userRoles)
+                .setImgUrl(facebookProfile.getImageUrl())
+                .setCreatedDateEqualsToCurrentDate();
+
+        profileRepository.createProfile(profile);
+    }
+
+    @Override
+    public void updateLastLoginDate(String profileId) {
+        Profile profile = profileRepository.findById(profileId);
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profileRepository.updateProfile(profile);
+    }
+
 
     @Override
     public void updateProfile(Profile profile) {
@@ -99,6 +124,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Profile findProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
+    }
+
+    @Override
+    public Profile findProfileByFacebookId(String facebookId) {
+        return profileRepository.findByFacebookId(facebookId);
     }
 
     @Override

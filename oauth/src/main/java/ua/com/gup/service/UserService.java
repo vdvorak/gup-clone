@@ -13,9 +13,13 @@ public interface UserService {
 
     Profile findProfileByEmail(String email);
 
+    Profile findProfileByFacebookId(String facebookId);
+
     boolean profileExistsWithEmail(String email);
 
     void updateChatUID(String profileId, String uid);
 
-    void facebookLogin(FacebookProfile profile);
+    void registerByFacebook(FacebookProfile profile);
+
+    void updateLastLoginDate(String profileId);
 }

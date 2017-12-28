@@ -2,8 +2,8 @@ package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.offer.Address;
 import ua.com.gup.mongo.model.profiles.Contact;
 import ua.com.gup.mongo.model.profiles.ProfileContactList;
 
@@ -29,12 +29,9 @@ public abstract class ProfileDTO {
     @JsonProperty("address")
     protected Address address;
 
-    @JsonProperty("contactPerson")
-    protected String contactPerson;
-
     @JsonProperty("imageUrlLarge")
     protected String imageUrlLarge;
-    
+
     @JsonProperty("imageUrlSmall")
     protected String imageUrlSmall;
 
@@ -55,9 +52,7 @@ public abstract class ProfileDTO {
         this.lastName = profile.getLastname();
         this.userType = profile.getUserType();
         this.email = profile.getEmail();
-        this.executive = profile.getExecutive();
         this.address = profile.getAddress();
-        this.contactPerson = profile.getContactPerson();
         this.imageUrlLarge = profile.imageLargeUrl();
         this.imageUrlSmall = profile.imageSmallUrl();
         this.socialsList = profile.getContactList();
@@ -111,14 +106,6 @@ public abstract class ProfileDTO {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public String getContactPerson() {
-        return contactPerson;
-    }
-
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
     }
 
     public String getImageUrlLarge() {

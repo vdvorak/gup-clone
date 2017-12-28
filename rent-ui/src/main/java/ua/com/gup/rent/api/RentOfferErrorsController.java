@@ -15,8 +15,7 @@ public class RentOfferErrorsController {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity bindException(BindException ex) {
-
-        System.out.println(ex);
+        logger.debug("exception  {} " , ex.getStackTrace());
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 

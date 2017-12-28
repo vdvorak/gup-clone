@@ -3,6 +3,7 @@ package ua.com.gup.dto.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import ua.com.gup.common.dto.CommonAddressDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ public class OfferCreateDTO implements Serializable {
     private String description;
 
     @ApiModelProperty(position = 60)
-    private OfferAddressDTO address;
+    private CommonAddressDTO address;
 
     @ApiModelProperty(position = 70)
     private OfferPriceDTO price;
@@ -75,11 +76,11 @@ public class OfferCreateDTO implements Serializable {
         this.description = description;
     }
 
-    public OfferAddressDTO getAddress() {
+    public CommonAddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(OfferAddressDTO address) {
+    public void setAddress(CommonAddressDTO address) {
         this.address = address;
     }
 

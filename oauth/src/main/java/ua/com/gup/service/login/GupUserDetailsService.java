@@ -17,7 +17,7 @@ public interface GupUserDetailsService extends UserDetailsService {
 //    }
 
     @Override
-    default UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
-    }
+    UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+
+    UserDetails loadUserByFacebookId(String s) throws UsernameNotFoundException;
 }

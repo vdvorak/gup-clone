@@ -14,8 +14,10 @@ import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.server.command.BanUserCommand;
-import ua.com.gup.server.command.UnbanUserCommand;
+import ua.com.gup.repository.profile.ProfileFilter;
+import ua.com.gup.server.command.user.BanUserCommand;
+import ua.com.gup.server.command.user.EditUserCommand;
+import ua.com.gup.server.command.user.UnbanUserCommand;
 import ua.com.gup.server.component.executor.SaleCommandExecutor;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.profile.ProfilesService;
@@ -41,7 +43,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
+    public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(ProfileFilter profileFilter, Pageable pageable) {
         Page<ProfileShortAdminDTO> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
@@ -50,7 +52,7 @@ public class ProfileAdminEndpoint {
     @GetMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
         ProfileDTO profile = profilesService.findPrivateProfileDTOForAdminByPublicId(profilePublicId);
-        return new ResponseEntity<ProfileDTO>(profile, HttpStatus.OK);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -70,13 +72,12 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @RequestBody EditProfileDTO profileDTO) {
-
+    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @RequestBody EditProfileDTO profileDTO) throws CommandException {
         Profile profile = profilesService.findByPublicId(profilePublicId);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        profilesService.updateProfile(profileDTO.updateModel(profile));
+        executor.doCommand(new EditUserCommand(profileDTO.updateModel(profile), profilesService));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

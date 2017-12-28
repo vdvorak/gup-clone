@@ -7,6 +7,7 @@ import lombok.Data;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 
 import java.util.Set;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -35,6 +36,11 @@ public abstract class RentOfferDetailProfileDTO extends RentOfferProfileDTO {
 
 
     public RentOfferDetailProfileDTO(RentOfferProfile rentOfferProfile) {
-        super(rentOfferProfile.getFirstname(), rentOfferProfile.getLastname(), rentOfferProfile.getUserType(),rentOfferProfile.getEmail(), rentOfferProfile.getExecutive(), rentOfferProfile.getAddress(),rentOfferProfile.getContactPerson(), rentOfferProfile.getImgId(), rentOfferProfile.getStatus());
+        super(rentOfferProfile.getFirstname(),
+                rentOfferProfile.getLastname(),
+                rentOfferProfile.getUserType(),
+                rentOfferProfile.getEmail(),
+                rentOfferProfile.getAddress(),
+                rentOfferProfile.getStatus());
     }
 }

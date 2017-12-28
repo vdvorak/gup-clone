@@ -3,6 +3,8 @@ package ua.com.gup.rent.service.dto.category.attribute;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 
@@ -13,8 +15,8 @@ import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@Data
-//@EqualsAndHashCode(of = {"code", "key"})
+@Getter
+@Setter
 @ToString
 public class RentOfferCategoryAttributeDTO implements Serializable {
     private int code;
@@ -43,83 +45,4 @@ public class RentOfferCategoryAttributeDTO implements Serializable {
         return code;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public Map<String, String> getTitle() {
-        return title;
-    }
-
-    public void setTitle(Map<String, String> title) {
-        this.title = title;
-    }
-
-    public Map<String, String> getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Map<String, String> unit) {
-        this.unit = unit;
-    }
-
-    public Integer getCategory_sort() {
-        return category_sort;
-    }
-
-    public void setCategory_sort(Integer category_sort) {
-        this.category_sort = category_sort;
-    }
-
-    public CommonCategoryAttributeType getType() {
-        return type;
-    }
-
-    public void setType(CommonCategoryAttributeType type) {
-        this.type = type;
-    }
-
-    public RentOfferCategoryAttributeValidatorDTO getValidator() {
-        return validator;
-    }
-
-    public void setValidator(RentOfferCategoryAttributeValidatorDTO validator) {
-        this.validator = validator;
-    }
-
-    public Set<RentOfferCategoryAttributeValueDTO> getValues() {
-        return values;
-    }
-
-    public void setValues(Set<RentOfferCategoryAttributeValueDTO> values) {
-        this.values = values;
-    }
-
-    public boolean isPrivateAttr() {
-        return privateAttr;
-    }
-
-    public void setPrivateAttr(boolean privateAttr) {
-        this.privateAttr = privateAttr;
-    }
 }

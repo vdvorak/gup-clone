@@ -3,12 +3,10 @@ package ua.com.gup.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -19,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,20 +24,17 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ua.com.gup.listener.authentication.CustomAuthenticationFailureHandler;
+import ua.com.gup.listener.authentication.OAuthAuthenticationFailureHandler;
 import ua.com.gup.listener.authentication.OAuthAuthenticationSuccessHandler;
 import ua.com.gup.listener.authentication.OAuthLogoutSuccessHandler;
 
 import javax.servlet.Filter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Configuration
 @EnableOAuth2Client
@@ -87,16 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .successHandler(oAuthAuthenticationSuccessHandler())
+                .successHandler(authenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
 
                 .and().addFilterBefore(ssoFilter(facebook, "/login/facebook", facebookRestTemplate(facebook)), BasicAuthenticationFilter.class);
     }
-
-//    @Bean
-//    public UserInfoTokenServices userInfoTokenServices(){
-//        return new UserInfoTokenServices();
-//    }
 
     @Bean("facebookRestTemplate")
     public OAuth2RestTemplate facebookRestTemplate(ClientResources client) {
@@ -105,8 +94,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         template.setInterceptors(Arrays.asList(new ClientHttpRequestInterceptor() {
             @Override
             public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-                System.out.println("requestURI:" + request.getURI());
-                System.out.println("requestBody:" + new String(body));
+                logger.debug("requestURI: ", request.getURI());
+                logger.debug("requestBody: ", new String(body));
                 return execution.execute(request, body);
             }
         }));
@@ -116,29 +105,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public Filter ssoFilter(ClientResources client, String path, OAuth2RestTemplate template) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
-//filter.setS
-
-//        template.setsetRetryBadAccessTokens(true);
         filter.setRestTemplate(template);
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(
                 client.getResource().getUserInfoUri(), client.getClient().getClientId());
         tokenServices.setRestTemplate(template);
-//        tokenServices.setPrincipalExtractor(new DemoPrincipalExtractor());
-//        tokenServices.setAuthoritiesExtractor(new AuthoritiesExtractor() {
-//            @Override
-//            public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
-//                return null;
-//            }
-//        });
         filter.setTokenServices(tokenServices);
         filter.setAuthenticationSuccessHandler(facebookAuthenticationSuccessHandler());
-        filter.setAuthenticationFailureHandler(new FacebookAuthenticationFailureHandler());
+        filter.setAuthenticationFailureHandler(facebookAuthenticationFailureHandler());
         return filter;
     }
 
     @Bean
     public FacebookAuthenticationSuccessHandler facebookAuthenticationSuccessHandler() {
         return new FacebookAuthenticationSuccessHandler();
+    }
+
+
+    @Bean
+    public FacebookAuthenticationFailureHandler facebookAuthenticationFailureHandler() {
+        return new FacebookAuthenticationFailureHandler();
     }
 
 
@@ -156,13 +141,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new OAuthAuthenticationSuccessHandler();
     }
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
+        return new OAuthAuthenticationFailureHandler();
     }
 
     @Override
@@ -183,11 +168,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(11);
     }
 
-
-    @Bean
-    @Profile("dev")
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
 
 }

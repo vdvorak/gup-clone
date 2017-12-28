@@ -5,6 +5,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.web.api.AbstractImageEndpoint;
+import ua.com.gup.rent.command.UpdateRentOfferCommand;
+import ua.com.gup.rent.component.executor.RentCommandExecutor;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -57,6 +60,10 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
 
     @Autowired
     private RentOfferDTOValidator offerDTOValidator;
+
+    @Autowired
+    @Lazy
+    private RentCommandExecutor executor;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -113,6 +120,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
             response = RentOfferViewShortDTO.class,
             responseContainer = "List"
     )
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful retrieval of user detail", response = RentOfferViewShortDTO.class),
             @ApiResponse(code = 500, message = "Internal server error")
@@ -128,13 +136,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
                             "Multiple sort criteria are supported. " +
                             "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
-    /**
-     * GET  /offers : get all the offers by filter.
-     *
-     * @param offerFilter the offer filter
-     * @param pageable    the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
+
     @RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page> getAllOffersByFilter(@RequestParam RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
@@ -158,24 +160,17 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
                 .body(result);
     }
 
-    /**
-     * PUT  /offers : Updates an existing offer.
-     *
-     * @param offerUpdateDTO the offerDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated offerDTO,
-     * or with status 400 (Bad Request) if the offerDTO is not valid,
-     * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @RequestMapping(value = "/offers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
-    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws URISyntaxException {
+    @RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@PathVariable(name = "id") String id,
+                                                               @Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws Exception {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!offerService.exists(offerUpdateDTO.getId())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        if (!offerService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        RentOfferViewDetailsDTO result = offerService.save(offerUpdateDTO);
-        return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+        UpdateRentOfferCommand updateRentOfferCommand = new UpdateRentOfferCommand(offerService, offerUpdateDTO, id);
+        executor.doCommand(updateRentOfferCommand);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

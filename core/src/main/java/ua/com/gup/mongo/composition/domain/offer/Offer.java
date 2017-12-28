@@ -1,12 +1,11 @@
 package ua.com.gup.mongo.composition.domain.offer;
 
-import ua.com.gup.common.model.image.ImageStorage;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
@@ -16,15 +15,10 @@ import ua.com.gup.mongo.model.statistic.OfferStatistic;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import ua.com.gup.common.model.FileInfo;
-import ua.com.gup.common.model.ImageFileInfo;
+
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 
 /**

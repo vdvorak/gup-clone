@@ -1,7 +1,7 @@
 package ua.com.gup.mongo.model.profiles;
 
 import ua.com.gup.mongo.model.enumeration.SocialNetwork;
-import ua.com.gup.mongo.model.profiles.phone.Phone;
+import ua.com.gup.common.model.mongo.Phone;
 
 import javax.validation.constraints.Size;
 import java.util.Map;

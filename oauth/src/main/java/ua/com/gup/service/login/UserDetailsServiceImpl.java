@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.model.LoggedUser;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.UserService;
 
 import java.util.List;
@@ -29,6 +29,30 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
             throw new UsernameNotFoundException("Email: [" + email + "]");
         }
         return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+    }
+
+    @Override
+    public UserDetails loadUserByFacebookId(String facebookId) throws UsernameNotFoundException {
+        Profile profile = userService.findProfileByFacebookId(facebookId);
+        if (profile == null) {
+            throw new UsernameNotFoundException("FacebookId: [" + facebookId + "]");
+        }
+        return buildUserForFacebookAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+    }
+
+    private UserDetails buildUserForFacebookAuthentication(Profile profile, List<GrantedAuthority> authorities) {
+        return new LoggedUser(
+                profile.getFacebookId(),
+                profile.getSocWendor(),
+                profile.getActive(),
+                profile.getBan(),
+                true,
+                true,
+                !profile.getBan(),
+                authorities,
+                profile.getId(),
+                profile.getPublicId(),
+                profile.getEmail());
     }
 
 //    @Override

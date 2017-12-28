@@ -1,15 +1,17 @@
 package ua.com.gup.common.model.mongo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Data
 public class BanInfo {
 
-    @JsonProperty("date")
+    @JsonProperty("banDate")
     @NotNull
-    private Date date;
+    private Date banDate;
     @JsonProperty("public")
     @NotNull
     private String publicExplanation;
@@ -17,27 +19,5 @@ public class BanInfo {
     @NotNull
     private String privateExplanation;
 
-    public Date getDate() {
-        return date;
-    }
 
-    public void setBanDate(Date date) {
-        this.date = date;
-    }
-
-    public String getPublicExplanation() {
-        return publicExplanation;
-    }
-
-    public void setPublicExplanation(String publicExplanation) {
-        this.publicExplanation = publicExplanation;
-    }
-
-    public String getPrivateExplanation() {
-        return privateExplanation;
-    }
-
-    public void setPrivateExplanation(String privateExplanation) {
-        this.privateExplanation = privateExplanation;
-    }
 }
