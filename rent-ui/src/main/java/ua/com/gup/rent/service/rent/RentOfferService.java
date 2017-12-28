@@ -66,4 +66,6 @@ public interface RentOfferService extends RentOfferGenericService<RentOfferDTO, 
     Optional<RentOfferViewDetailsDTO> findOfferByIdAndAuthorId(String offerId, String authorId);
 
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
+
+    public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 }

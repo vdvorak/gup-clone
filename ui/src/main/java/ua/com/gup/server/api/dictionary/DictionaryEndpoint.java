@@ -50,6 +50,9 @@ public class DictionaryEndpoint {
             @PathVariable Locale locale,
             @PathVariable String key,
             @RequestBody(required = false) String message) {
+        if(dictionaryService.isExists(locale,key)){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
         dictionaryService.saveMesage(locale, key, message);
         return new ResponseEntity(HttpStatus.CREATED);
     }

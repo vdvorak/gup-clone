@@ -60,4 +60,13 @@ public class RentOfferProfile extends CommonProfile {
 
     private String chatUID;
 
+    public boolean getActive() {
+        return active;
+    }
+
+    public RentOfferProfile setActive(boolean active) {
+        this.active = active;
+        return this;
+    }
+
 }
