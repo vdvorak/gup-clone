@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.service.CommonOfferService;
-import ua.com.gup.dto.offer.OfferCategoryCountDTO;
+import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
@@ -41,15 +41,17 @@ import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
-import ua.com.gup.common.web.api.AbstractImageEndpoint;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing Offer.
  */
 @RestController
 @RequestMapping("/api")
-public class OfferEndpoint extends AbstractImageEndpoint{
+public class OfferEndpoint extends AbstractImageEndpoint {
 
     private static final String ENTITY_NAME = "offer";
     private final Logger log = LoggerFactory.getLogger(OfferEndpoint.class);
@@ -83,9 +85,9 @@ public class OfferEndpoint extends AbstractImageEndpoint{
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST)
     public ResponseEntity<OfferViewDetailsDTO> createOffer(@Valid @RequestBody OfferCreateDTO offerCreateDTO
-            ) throws URISyntaxException {
-        log.debug("REST request to save new Offer : {}", offerCreateDTO);        
-        
+    ) throws URISyntaxException {
+        log.debug("REST request to save new Offer : {}", offerCreateDTO);
+
         OfferViewDetailsDTO result = offerService.save(offerCreateDTO);
         return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -105,7 +107,7 @@ public class OfferEndpoint extends AbstractImageEndpoint{
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
         return ResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
-    
+
     @CrossOrigin
     @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -118,7 +120,7 @@ public class OfferEndpoint extends AbstractImageEndpoint{
 
 
     @CrossOrigin
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)    
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
         Optional<OfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
@@ -197,7 +199,7 @@ public class OfferEndpoint extends AbstractImageEndpoint{
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")    
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
     public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
@@ -218,15 +220,15 @@ public class OfferEndpoint extends AbstractImageEndpoint{
     @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable CommonStatus status) throws URISyntaxException {
-        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);        
-        if(!offerService.exists(id)){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);                   
+        log.debug("REST request to change Offer's status: id= {}, status = {}", id, status);
+        if (!offerService.exists(id)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if(!offerService.isCanUpdateStatus(id, status)){
-            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)",HttpStatus.BAD_REQUEST);
-        }        
+        if (!offerService.isCanUpdateStatus(id, status)) {
+            return new ResponseEntity("Author can from (ACTIVE, DEACTIVATED) to (ACTIVE, DEACTIVATED, ARCHIVED)", HttpStatus.BAD_REQUEST);
+        }
         Optional<OfferViewDetailsDTO> result = offerService.updateStatus(id, status);
-        
+
         return ResponseUtil.wrapOrNotFound(result);
     }
 
@@ -302,14 +304,14 @@ public class OfferEndpoint extends AbstractImageEndpoint{
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @CrossOrigin    
+    @CrossOrigin
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable CommonStatus status, Pageable pageable) {
-        log.debug("REST request to get a page of my Offers by status");        
+        log.debug("REST request to get a page of my Offers by status");
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, SecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
-    }   
+    }
 
     @CrossOrigin
     @RequestMapping(value = "/offers/author/{userPublicId}", method = RequestMethod.GET)
@@ -321,7 +323,7 @@ public class OfferEndpoint extends AbstractImageEndpoint{
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserPublicId(CommonStatus.ACTIVE, userPublicId, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-  
+
 
     /**
      * GET  /offers : get all my offers by status.
@@ -355,17 +357,16 @@ public class OfferEndpoint extends AbstractImageEndpoint{
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<OfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
+    public ResponseEntity getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "status", "Status required")).body(null);
         }
         Page<OfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offers/moderator/" + status.name());
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-       /**
+    /**
      * PUT  /offers/{id}/increment/phone-views : increment phone views.
      *
      * @param id the offer id

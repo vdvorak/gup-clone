@@ -14,6 +14,7 @@ import ua.com.gup.common.model.offer.CommonCategoryCount;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface CommonOfferRepository<T extends CommonRentOffer, F extends CommonOfferFilter> {
 
@@ -45,5 +46,8 @@ public interface CommonOfferRepository<T extends CommonRentOffer, F extends Comm
     List<T> findByFilter(F offerFilter, List<CommonStatus> offerStatuses, Pageable pageable);
 
     List<T> findByFilter(F offerFilter, List<CommonStatus> offerStatuses, Collection<String> excludedIds, Pageable pageable);
+
+    String getOfferIdBySeoUrl(String seoUrl);
+
 
 }

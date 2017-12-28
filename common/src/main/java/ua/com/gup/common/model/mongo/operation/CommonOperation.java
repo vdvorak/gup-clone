@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import ua.com.gup.common.GupLoggedUser;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class CommonOperation {
@@ -16,6 +18,7 @@ public class CommonOperation {
     private OperationType operationType;
     private String objectId;
     private String objectType;
+    private Object objectBody;
     @CreatedBy
     private GupLoggedUser operationUser;
 

@@ -7,6 +7,7 @@ import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.filter.RentOfferFilter;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
@@ -28,6 +29,8 @@ public interface RentOfferService extends CommonOfferService {
 
     Optional<RentOfferViewDetailsDTO> findOne(String id);
 
+    RentOffer findById(String id);
+
     RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO);
 
     RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO);
@@ -44,7 +47,11 @@ public interface RentOfferService extends CommonOfferService {
 
     Page<RentOfferViewShortWithModerationReportDTO> findAllByStatus(CommonStatus status, Pageable pageable);
 
-    Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl);
+    Optional<RentOfferViewDetailsDTO> findOneBySeoUrlWithIncrementViewsCount(String seoUrl);
+
+    Optional<RentOfferViewDetailsDTO> findOneBySeoUrlWithoutIncrementViewsCount(String seoUrl);
+
+    String getRentOfferIdBySeoUrl(String seoUrl);
 
     Page<RentOfferViewShortDTO> findRelevantBySeoUrl(String seoUrl, Pageable pageable);
 
@@ -53,6 +60,8 @@ public interface RentOfferService extends CommonOfferService {
     void delete(String id);
 
     boolean exists(String id);
+
+    boolean existsBySeoUrl(String seoUrl);
 
     @Deprecated
     boolean hasPermissionForUpdate(String offerId, String authrorId);
@@ -69,5 +78,5 @@ public interface RentOfferService extends CommonOfferService {
 
     Collection<String> getOfferContactInfoPhoneNumbersById(String offerId);
 
-    public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
+    Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 }

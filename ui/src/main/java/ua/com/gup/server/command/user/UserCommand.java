@@ -17,9 +17,19 @@ public abstract class UserCommand<T extends CommonProfile> extends SaleCommand<T
         this.profile = profile;
     }
 
+    protected final Profile getObjectAfterOperation() {
+        return this.profile;
+    }
+
     @Override
     public Journalable getJournalable() {
         return new Journalable() {
+
+            @Override
+            public Object getObject() {
+                return getObjectAfterOperation();
+            }
+
             @Override
             public String getObjectId() {
                 return profile.getId();

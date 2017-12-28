@@ -189,5 +189,6 @@
         <module>ui</module>
         <module>rent-ui</module>
         <module>common</module>
+        <!--<module>payment</module>-->
     </modules>
 </project>

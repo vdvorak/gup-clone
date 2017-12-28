@@ -199,6 +199,7 @@ public class RentOfferMapper {
 
     private void fromOfferToOfferViewBaseDTO(RentOffer source, RentOfferViewBaseDTO target) {
 
+        target.setId(source.getId());
         if (source.getAuthorId() != null && !source.getAuthorId().isEmpty()) {
             target.setAuthor(authorMapper.createAuthorDTO(source.getAuthorId()));
         }
@@ -214,7 +215,8 @@ public class RentOfferMapper {
         if (source.getCategories() != null) {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
         }
-        target.setId(source.getId());
+
+        target.setLastModifiedDate(source.getLastModifiedDate());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setSeoUrl(source.getSeoUrl());

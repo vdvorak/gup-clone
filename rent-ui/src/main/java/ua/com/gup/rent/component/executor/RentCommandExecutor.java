@@ -18,7 +18,6 @@ import java.time.Instant;
 
 
 @Component
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = "session")
 public class RentCommandExecutor extends SessionCommandExecutor {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +33,7 @@ public class RentCommandExecutor extends SessionCommandExecutor {
         operation.setObjectType(journalable.getObjectType());
         operation.setOperationType(operationType);
         operation.setOperationDate(Instant.now());
+        operation.setObjectBody(journalable.getObject());
         operationService.save(operation);
     }
 

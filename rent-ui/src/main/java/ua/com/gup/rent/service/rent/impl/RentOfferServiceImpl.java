@@ -61,8 +61,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     private RentOfferCategoryService categoryService;
 
 
-
-
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
         log.debug("Request to save Offer : {}", rentOfferCreateDTO);
@@ -71,7 +69,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
         String userID = RentSecurityUtils.getCurrentUserId();
-      //  offer.setLastModifiedBy(userID);
+        offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
         offer.setAuthorId(userID);
         offer = offerMongoRepository.save(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
@@ -82,8 +80,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
         log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
         RentOffer offer = offerMongoRepository.findOne(rentOfferId);
+        offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
-      // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
+        // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
         if (isNeededModeration(offerUpdateDTO) || offer.getLastOfferModerationReport().isRefused()) {
             offer.setStatus(CommonStatus.ON_MODERATION);
         } else {
@@ -175,13 +174,13 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public Optional<RentOfferViewDetailsDTO> findOneBySeoUrl(String seoUrl) {
+    public Optional<RentOfferViewDetailsDTO> findOneBySeoUrlWithIncrementViewsCount(String seoUrl) {
         log.debug("Request to get Rent Offer : {}", seoUrl);
         Optional<RentOffer> offer = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final RentOffer o = offer.get();
             o.incrementView(true, false);
-            offerMongoRepository.save(o);
+            offerRepository.save(o);
             Set<CommonStatus> statuses = new HashSet<>();
             statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
@@ -189,6 +188,29 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             }
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    @Override
+    public Optional<RentOfferViewDetailsDTO> findOneBySeoUrlWithoutIncrementViewsCount(String seoUrl) {
+        log.debug("Request to get Rent Offer : {}", seoUrl);
+        Optional<RentOffer> offer = offerMongoRepository.findOneBySeoUrl(seoUrl);
+        if (offer.isPresent()) {
+            final RentOffer o = offer.get();
+            if (CommonStatus.ON_MODERATION.equals(o.getStatus())) {
+                offer = Optional.empty();
+            }
+        }
+        return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
+    }
+
+    @Override
+    public String getRentOfferIdBySeoUrl(String seoUrl) {
+        return offerRepository.getOfferIdBySeoUrl(seoUrl);
+    }
+
+    @Override
+    public RentOffer findById(String id) {
+        return offerRepository.findOne(id);
     }
 
     @Override
@@ -238,6 +260,11 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         return offerMongoRepository.exists(id);
     }
 
+    @Override
+    public boolean existsBySeoUrl(String seoUrl) {
+        return offerMongoRepository.existsBySeoUrl(seoUrl);
+    }
+
     /**
      * Returns whether an entity can be updated by current user.
      *
@@ -273,6 +300,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         }   //access denied
         return false;
     }
+
     @Override
     public Optional<RentOfferViewDetailsDTO> updateStatus(String id, CommonStatus status) {
         log.debug("Request to update update rent offer's status : {}", id);
@@ -332,7 +360,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
 
-
     private String generateUniqueSeoUrl(String title) {
         // index number in 36 radix
         return RentOfferSEOFriendlyUrlUtil.generateSEOFriendlyUrl(title + "-" + Long.toString(sequenceService.getNextSequenceValue(RENT_OFFER_SEQUENCE_ID), 36));
@@ -347,9 +374,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
         //todo FOR dima SaveImages
         //if (offerUpdateDTO.getImages() != null) {
-           // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
-                // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-          //  }
+        // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
+        // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
+        //  }
         //}
         result |= offerUpdateDTO.getAddress() != null;
 

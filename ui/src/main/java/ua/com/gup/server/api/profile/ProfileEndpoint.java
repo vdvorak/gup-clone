@@ -36,8 +36,8 @@ public class ProfileEndpoint {
      * @param publicId profile public id
      * @return the profile by id
      */
-    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("id") String publicId) {
+    @RequestMapping(value = "/profile/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("publicId") String publicId) {
         ProfileDTO profileInfo = profilesService.findPublicProfileByPublicId(publicId);
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

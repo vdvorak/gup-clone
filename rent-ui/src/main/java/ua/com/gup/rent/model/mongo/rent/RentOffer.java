@@ -28,6 +28,7 @@ import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -49,13 +50,12 @@ public class RentOffer extends CommonRentOffer {
     private GupLoggedUser user;
 
     @CreatedDate
-    private LocalDate createdDate;
+    private ZonedDateTime createdDate;
 
-    @LastModifiedBy
     private GupLoggedUser lastModifiedUser;
 
     @LastModifiedDate
-    private LocalDate lastModifiedDate;
+    private ZonedDateTime lastModifiedDate;
 
     private String authorId;
 

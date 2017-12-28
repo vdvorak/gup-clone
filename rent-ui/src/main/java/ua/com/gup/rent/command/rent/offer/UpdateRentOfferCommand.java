@@ -1,4 +1,4 @@
-package ua.com.gup.rent.command;
+package ua.com.gup.rent.command.rent.offer;
 
 import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
@@ -16,7 +16,9 @@ public class UpdateRentOfferCommand extends RentOfferCommand<RentOfferViewDetail
 
     @Override
     public RentOfferViewDetailsDTO execute() throws Exception {
-        return rentOfferService.update(rentOfferId, updateDTO);
+        RentOfferViewDetailsDTO detailsDTO = rentOfferService.update(rentOfferId, updateDTO);
+        this.rentOffer = rentOfferService.findById(rentOfferId);
+        return detailsDTO;
     }
 
     @Override

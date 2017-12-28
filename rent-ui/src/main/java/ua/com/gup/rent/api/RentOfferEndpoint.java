@@ -5,7 +5,6 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,9 +14,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.command.CommandException;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.web.api.AbstractImageEndpoint;
-import ua.com.gup.rent.command.UpdateRentOfferCommand;
+import ua.com.gup.rent.command.rent.offer.CreateRentOfferCommand;
+import ua.com.gup.rent.command.rent.offer.UpdateRentOfferCommand;
 import ua.com.gup.rent.component.executor.RentCommandExecutor;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
@@ -35,7 +36,6 @@ import ua.com.gup.rent.util.security.RentSecurityUtils;
 import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -52,7 +52,6 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class RentOfferEndpoint extends AbstractImageEndpoint {
 
-    private static final String ENTITY_NAME = "rent.offer";
     private final Logger log = LoggerFactory.getLogger(RentOfferEndpoint.class);
 
     @Autowired
@@ -62,7 +61,6 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     private RentOfferDTOValidator offerDTOValidator;
 
     @Autowired
-    @Lazy
     private RentCommandExecutor executor;
 
     @InitBinder
@@ -74,45 +72,6 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
             }
         }
     }
-
-//-----------------------------------------------------NEW URL FROM----------------------------------------------------------
-
-   /*
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity findAll() {
-        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = offerService.findAll();
-        return new ResponseEntity(rentOfferViewShortDTOS, HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "/{seoUrl}", method = RequestMethod.GET)
-    public ResponseEntity findOne(@PathVariable(name = "seoUrl") String seoUrl) {
-        List<RentOfferViewShortDTO> rentOfferViewShortDTOS = offerService.findAll();
-        return new ResponseEntity("STRIKE!!!!!", HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'create')")
-    public ResponseEntity createRentObject(RentOfferCreateDTO rentOfferCreateDTO) {
-        offerService.create(rentOfferCreateDTO);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
-    @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
-    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'edit')")
-    public ResponseEntity updateRentOffer(@PathVariable(name = "id") String rentOfferId, RentOfferUpdateDTO rentOfferUpdateDTO) {
-        offerService.update(rentOfferUpdateDTO);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-//    @PreAuthorize("hasPermission(#rentObjectId, T(ua.com.gup.rent.model.mongo.rent.RentOffer).CLASS_NAME, 'delete')")
-    public ResponseEntity deleteRentObject(@PathVariable(name = "id") String rentOfferId) {
-        offerService.deleteById(rentOfferId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-*/
 
     @ApiOperation(
             value = "Get all the offers by filter",
@@ -136,39 +95,31 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
                             "Multiple sort criteria are supported. " +
                             "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
-
-    @RequestMapping(value = "/offers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page> getAllOffersByFilter(@RequestParam RentOfferFilter offerFilter, Pageable pageable) {
+    @GetMapping(value = "/offers")
+    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
         Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    /**
-     * POST  /offers : Create a new Rent offer.
-     *
-     * @param offerCreateDTO the OfferCreateDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new offerDTO, or with status 400 (Bad Request) if the offer has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws URISyntaxException {
+    public ResponseEntity createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws CommandException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
-        RentOfferViewDetailsDTO result = offerService.save(offerCreateDTO);
-        return ResponseEntity.created(new URI("/api/offers/" + result.getSeoUrl()))
-                .body(result);
+        CreateRentOfferCommand createRentOfferCommand = new CreateRentOfferCommand(offerService, offerCreateDTO);
+        executor.doCommand(createRentOfferCommand);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
-    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@PathVariable(name = "id") String id,
-                                                               @Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws Exception {
+    @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasPermission(#seoUrl, 'offer','EDIT')")
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOffer(@PathVariable(name = "seoUrl") String seoUrl,
+                                                               @Valid @RequestBody RentOfferUpdateDTO offerUpdateDTO) throws CommandException {
         log.debug("REST request to update Offer : {}", offerUpdateDTO);
-        if (!offerService.exists(id)) {
+        if (!offerService.existsBySeoUrl(seoUrl)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        UpdateRentOfferCommand updateRentOfferCommand = new UpdateRentOfferCommand(offerService, offerUpdateDTO, id);
+        UpdateRentOfferCommand updateRentOfferCommand = new UpdateRentOfferCommand(offerService, offerUpdateDTO, offerService.getRentOfferIdBySeoUrl(seoUrl));
         executor.doCommand(updateRentOfferCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -182,7 +133,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get Rent Offer : {}", seoUrl);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrl(seoUrl);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrlWithIncrementViewsCount(seoUrl);
         return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
     }
 
@@ -199,13 +150,6 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return RentResponseUtil.wrapOrNotFound(statistic);
     }
 
-
-    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
-        log.debug("REST request to get Offer by ID : {}", id);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
-        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
-    }
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
@@ -246,6 +190,16 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         log.debug("REST request to get a page of my Offers by status");
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatusAndUserId(status, RentSecurityUtils.getCurrentUserId(), pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER') and hasPermission(#seoUrl, 'rent.offer' ,'VIEW')")
+    @GetMapping(value = "/offers/my/seo/{seoUrl}")
+    public ResponseEntity getMyOfferBySeoUrl(@PathVariable String seoUrl) {
+        log.debug("REST request to get a my rent offer by seo url");
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOneBySeoUrlWithoutIncrementViewsCount(seoUrl);
+        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
+
     }
 
     /**
@@ -337,14 +291,6 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return RentResponseUtil.wrapOrNotFound(result);
     }
 
-    @PreAuthorize("hasPermission(#id, 'offer','EDIT')")
-    @RequestMapping(value = "/offers/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentOfferViewDetailsDTO> getOfferByIdAndAuthorIdForceEdit(@PathVariable String id) {
-        String authorId = RentSecurityUtils.getCurrentUserId();
-        log.debug("REST request to get Offer by ID : {} and  authorId: {}", id, authorId);
-        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOfferByIdAndAuthorId(id, authorId);
-        return RentResponseUtil.wrapOrNotFound(offerDetailsDTO);
-    }
 
     /**
      * PUT  /offers : Updates an existing offer by moderator.
@@ -383,22 +329,15 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
 
     }
 
-    /**
-     * GET  /offers : get all my offers by status.
-     *
-     * @param status   the offer status
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of offers in body
-     */
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
-    public ResponseEntity<List<RentOfferViewShortWithModerationReportDTO>> getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
+    public ResponseEntity getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
         if (status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
-        return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 }

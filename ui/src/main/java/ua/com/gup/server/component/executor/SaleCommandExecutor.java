@@ -1,8 +1,6 @@
 package ua.com.gup.server.component.executor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.command.Journalable;
 import ua.com.gup.common.command.SessionCommandExecutor;
@@ -18,7 +16,6 @@ import java.time.Instant;
 
 
 @Component
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = "session")
 public class SaleCommandExecutor extends SessionCommandExecutor {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +27,7 @@ public class SaleCommandExecutor extends SessionCommandExecutor {
     @Override
     final protected void journal(Journalable journalable, OperationType operationType) {
         CommonOperation operation = new SaleOperation();
+        operation.setObjectBody(journalable.getObject());
         operation.setObjectId(journalable.getObjectId());
         operation.setObjectType(journalable.getObjectType());
         operation.setOperationType(operationType);
