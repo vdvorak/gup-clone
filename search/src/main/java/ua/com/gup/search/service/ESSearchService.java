@@ -3,6 +3,7 @@ package ua.com.gup.search.service;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
@@ -22,5 +23,5 @@ public interface ESSearchService {
 
     List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
 
-
+    Set<String> findOffersIdsByFilter(OfferFilter filter);
 }

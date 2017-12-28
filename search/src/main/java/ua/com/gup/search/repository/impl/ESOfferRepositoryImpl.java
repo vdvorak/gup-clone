@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.repository.ESOfferRepository;
 
 import java.io.IOException;
@@ -190,5 +191,24 @@ public class ESOfferRepositoryImpl implements ESOfferRepository {
             return categoriesOffers;
         }
         return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public Set<String> findOffersIdsByFilter(OfferFilter filter) throws IOException {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(ES_INDEX);
+        searchRequest.types(ES_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        searchSourceBuilder.fetchSource(false);
+
+        searchRequest.source(searchSourceBuilder);
+
+
+        SearchResponse searchResponse = esClient.search(searchRequest);
+
+
+        return null;
     }
 }

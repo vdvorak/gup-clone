@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.repository.ESCategoryRepository;
 import ua.com.gup.search.repository.ESOfferRepository;
 import ua.com.gup.search.service.ESSearchService;
@@ -46,6 +47,11 @@ public class ESSearchServiceImpl implements ESSearchService {
     @Override
     public List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException {
         return esOfferRepository.countOffersInCategoriesByStatus(offerStatus);
+    }
+
+    @Override
+    public Set<String> findOffersIdsByFilter(OfferFilter filter) {
+        return esOfferRepository.findOffersIdsByFilter(filter);
     }
 
     @Override
