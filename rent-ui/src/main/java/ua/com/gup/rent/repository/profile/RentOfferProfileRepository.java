@@ -64,4 +64,7 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
     long countByFilter(ProfileRepositoryFilter filter);
 
     <T extends RentOfferProfile> List<T>  findByFilter(ProfileRepositoryFilter filter, Pageable pageable, Class<T> entityClass);
+
+    boolean hasRole(String profilePublicId, CommonUserRole roleUser);
+
 }

@@ -82,8 +82,8 @@ public class StorageServiceImpl implements StorageService {
             profileRepository.updateProfile(profile);
 
             Map<String, String> urls = new HashMap<>();
-            urls.put("large", profile.getImageLarge().getS3id());
-            urls.put("small", profile.getImageSmall().getS3id());
+            urls.put("large", profile.getImageLarge().getUrl());
+            urls.put("small", profile.getImageSmall().getUrl());
             return urls;
         } catch (IOException ex) {
             Logger.getLogger(StorageServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

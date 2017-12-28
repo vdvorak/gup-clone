@@ -424,4 +424,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
     }
+
+    @Override
+    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+        return profileRepository.hasRole(profilePublicId, roleUser);
+    }
 }
