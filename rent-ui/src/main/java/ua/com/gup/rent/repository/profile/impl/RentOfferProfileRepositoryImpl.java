@@ -185,6 +185,14 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
+    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("publicId").is(profilePublicId));
+        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{roleUser}));
+        return mongoTemplate.exists(query, RentOfferProfile.class);
+    }
+
+    @Override
     public long countByFilter(ProfileRepositoryFilter filter) {
         Query query = buildQueryByFilter(filter);
         return mongoTemplate.count(query, RentOfferProfile.class);

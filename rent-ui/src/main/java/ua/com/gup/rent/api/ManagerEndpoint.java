@@ -61,7 +61,7 @@ public class ManagerEndpoint {
      * get all profile with ROLE_USER
      */
 
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
     public ResponseEntity<Page<UserProfileShortManagrDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
         Page<UserProfileShortManagrDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
@@ -71,7 +71,7 @@ public class ManagerEndpoint {
     /**
      * get profile by pulickID
      */
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity<RentOfferProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
         RentOfferProfileDTO profile = profilesService.findPrivateProfileDTOForAdminByPublicId(profilePublicId);
@@ -85,12 +85,15 @@ public class ManagerEndpoint {
      * set manager to user.manager
      */
 
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PostMapping(value = "/profiles/{profilePublicId}/link/{managerPublicId}")
     public ResponseEntity<RentOfferProfileDTO> linkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
+        if (!profilesService.hasRole(profilePublicId, CommonUserRole.ROLE_USER)) {
+            return new ResponseEntity("error.user.invalid.userType", HttpStatus.BAD_REQUEST);
+        }
         if (profilesService.hasManager(profilePublicId)) {
             return new ResponseEntity("error.user.exists.manager", HttpStatus.BAD_REQUEST);
         }
@@ -103,7 +106,7 @@ public class ManagerEndpoint {
      * remove user to manager.users
      * set null to user.manager
      */
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PostMapping(value = "/profiles/{profilePublicId}/unlink/{managerPublicId}")
     public ResponseEntity<RentOfferProfileDTO> unLinkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
@@ -116,7 +119,7 @@ public class ManagerEndpoint {
     /**
      * get users of current manager
      */
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{managerPublicId}/users")
     public ResponseEntity<Page<UserProfileShortManagrDto>> getUsers(
             @PathVariable("managerPublicId") String managerPublicId,

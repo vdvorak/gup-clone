@@ -420,4 +420,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return Collections.EMPTY_SET;
     }
 
+    @Override
+    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("publicId").is(profilePublicId));
+        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{roleUser}));
+        return mongoTemplate.exists(query, Profile.class);
+    }
+
 }

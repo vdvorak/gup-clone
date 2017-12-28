@@ -41,6 +41,11 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
+    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+        return rentOfferProfileRepository.hasRole(profilePublicId, roleUser);
+    }
+
+    @Override
     public RentOfferProfile findByPublicId(String id) {
         return rentOfferProfileRepository.findByPublicId(id);
     }

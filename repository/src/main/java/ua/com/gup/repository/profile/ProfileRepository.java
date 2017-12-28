@@ -212,5 +212,7 @@ public interface ProfileRepository {
     String getIdByPulblicId( String publicId);
 
     Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
+
+    boolean hasRole(String profilePublicId, CommonUserRole roleUser);
 }
 
