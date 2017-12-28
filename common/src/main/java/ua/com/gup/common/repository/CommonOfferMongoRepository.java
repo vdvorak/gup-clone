@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends MongoRepository<T, String> {
 
+
     Optional<T> findOneBySeoUrl(String seoUrl);
 
     Page<T> findAllByStatusAndAuthorId(CommonStatus status, String authorId, Pageable pageable);
@@ -24,4 +25,6 @@ public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends M
     Boolean existsByIdAndStatus(String id, CommonStatus status);
 
     Boolean existsByIdAndAuthorId(String offerId, Collection<String> authorIds);
+
+    boolean existsBySeoUrl(String seoUrl);
 }

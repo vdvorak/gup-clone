@@ -6,12 +6,6 @@
 package ua.com.gup.common.repository.impl;
 
 import com.mongodb.BasicDBObject;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,10 +25,14 @@ import ua.com.gup.common.model.offer.CommonCategoryCount;
 import ua.com.gup.common.repository.CommonOfferRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
-public abstract class CommonOfferRepositoryImpl<T  extends CommonRentOffer, F extends CommonOfferFilter> implements CommonOfferRepository<T, F> {
+public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F extends CommonOfferFilter> implements CommonOfferRepository<T, F> {
 
     private final Integer COORDINATES_MAX_DIFF_LAT = 6;
     private final Integer COORDINATES_MAX_DIFF_LON = 3;
@@ -45,7 +43,7 @@ public abstract class CommonOfferRepositoryImpl<T  extends CommonRentOffer, F ex
     public Class getClazz() {
         return clazz;
     }
-    
+
 
     public CommonOfferRepositoryImpl(Class clazz) {
         this.clazz = clazz;
@@ -189,19 +187,6 @@ public abstract class CommonOfferRepositoryImpl<T  extends CommonRentOffer, F ex
         if (offerFilter.getSeoUrls() != null && offerFilter.getSeoUrls().length > 0) {
             query.addCriteria(Criteria.where("seoUrl").in(offerFilter.getSeoUrls()));
         }
-        if (offerFilter.getDate() != null) {
-            final DateFilter dateFilter = offerFilter.getDate();
-            if (dateFilter.getFrom() != null && dateFilter.getTo() != null) {
-                query.addCriteria(Criteria.where("lastModifiedDate").gte(dateFilter.getFrom()).lte(dateFilter.getTo()));
-            } else {
-                if (dateFilter.getFrom() != null) {
-                    query.addCriteria(Criteria.where("lastModifiedDate").gte(dateFilter.getFrom()));
-                }
-                if (dateFilter.getTo() != null) {
-                    query.addCriteria(Criteria.where("lastModifiedDate").lte(dateFilter.getTo()));
-                }
-            }
-        }
         if (statusList != null && statusList.size() > 0) {
             if (statusList.size() == 1) {
                 query.addCriteria(Criteria.where("status").is(statusList.get(0).toString()));
@@ -302,6 +287,15 @@ public abstract class CommonOfferRepositoryImpl<T  extends CommonRentOffer, F ex
     private List<T> findOffersByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
         return mongoTemplate.find(query, getClazz());
+    }
+
+    @Override
+    public String getOfferIdBySeoUrl(String seoUrl) {
+        Criteria criteria = Criteria.where("seoUrl").is(seoUrl);
+        Query query = new Query(criteria);
+        query.fields().include("_id");
+        T offer = (T) mongoTemplate.findOne(query, getClazz());
+        return offer.getId();
     }
 
     private boolean isValidCoordinates(CommonCoordinatesFilter coordinates) {

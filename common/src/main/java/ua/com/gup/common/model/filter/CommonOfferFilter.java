@@ -22,9 +22,6 @@ public abstract class CommonOfferFilter implements Serializable {
     @ApiModelProperty(value = "Categories with ',' delimiter", position = 10)
     private Integer[] categories;
 
-    @ApiModelProperty(value = "Filter for creation date [from; to] optional", position = 20)
-    private DateFilter date;
-
     @ApiModelProperty(value = "Filter for address", position = 30)
     private CommonAddressFilter address;
 
@@ -65,13 +62,7 @@ public abstract class CommonOfferFilter implements Serializable {
         this.categories = categories;
     }
 
-    public DateFilter getDate() {
-        return date;
-    }
 
-    public void setDate(DateFilter date) {
-        this.date = date;
-    }
 
     public CommonAddressFilter getAddress() {
         return address;
@@ -153,7 +144,6 @@ public abstract class CommonOfferFilter implements Serializable {
                 "query='" + query + '\'' +
                 ", authorFilter=" + authorFilter +
                 ", categories=" + Arrays.toString(categories) +
-                ", date=" + date +
                 ", address=" + address +
                 ", price=" + price +
                 ", attrs=" + attrs +
