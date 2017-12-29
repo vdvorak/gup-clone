@@ -17,6 +17,7 @@ public class RentSchedulerConfig implements SchedulingConfigurer {
         scheduledTaskRegistrar.setScheduler(taskScheduler());
     }
 
+    @SuppressWarnings("ContextJavaBeanUnresolvedMethodsInspection")
     @Bean(destroyMethod = "shutdown")
     public Executor taskScheduler() {
 
