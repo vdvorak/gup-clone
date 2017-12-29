@@ -1,4 +1,4 @@
-package ua.com.gup.service.offer;
+package ua.com.gup.server.service.impl;
 
 
 import org.slf4j.Logger;
