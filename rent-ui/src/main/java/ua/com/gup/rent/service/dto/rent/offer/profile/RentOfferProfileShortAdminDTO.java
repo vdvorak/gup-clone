@@ -10,8 +10,8 @@ public class RentOfferProfileShortAdminDTO {
     private String lastname;
     private Set<String> userRoles;
     private String publicId;
-    private String imageIdLarge;
-    private String imageIdSmall;
+    private String imageUrlLarge;
+    private String imageUrlSmall;
     private Long createdDate;
     private Long lastLogin;
     private String socWendor;
@@ -26,10 +26,10 @@ public class RentOfferProfileShortAdminDTO {
         this.userRoles = profile.getUserRoles().stream().map(cur -> cur.toString()).collect(Collectors.toSet());
         this.publicId = profile.getPublicId();
         if (profile.getImageLarge() != null) {
-            this.imageIdLarge = profile.getImageLarge().getS3id();
+            this.imageUrlLarge = profile.getImageLarge().getUrl();
         }
         if (profile.getImageSmall() != null) {
-            this.imageIdSmall = profile.getImageSmall().getS3id();
+            this.imageUrlSmall = profile.getImageSmall().getUrl();
         }
         this.createdDate = profile.getCreatedDate();
         this.lastLogin = profile.getLastLoginDate();
@@ -71,20 +71,20 @@ public class RentOfferProfileShortAdminDTO {
         this.publicId = publicId;
     }
 
-    public String getImageIdLarge() {
-        return imageIdLarge;
+    public String getImageUrlLarge() {
+        return imageUrlLarge;
     }
 
-    public void setImageIdLarge(String imageIdLarge) {
-        this.imageIdLarge = imageIdLarge;
+    public void setImageUrlLarge(String imageUrlLarge) {
+        this.imageUrlLarge = imageUrlLarge;
     }
 
-    public String getImageIdSmall() {
-        return imageIdSmall;
+    public String getImageUrlSmall() {
+        return imageUrlSmall;
     }
 
-    public void setImageIdSmall(String imageIdSmall) {
-        this.imageIdSmall = imageIdSmall;
+    public void setImageUrlSmall(String imageUrlSmall) {
+        this.imageUrlSmall = imageUrlSmall;
     }
 
     public Long getCreatedDate() {
