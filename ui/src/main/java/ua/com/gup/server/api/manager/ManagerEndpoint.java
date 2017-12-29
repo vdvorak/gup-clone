@@ -1,7 +1,6 @@
 package ua.com.gup.server.api.manager;
 
 
-import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.common.model.filter.CommonAuthorFilter;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.dto.profile.ProfileDTO;
@@ -20,10 +18,8 @@ import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.model.filter.OfferFilter;
-import ua.com.gup.service.offer.OfferService;
+import ua.com.gup.server.service.OfferService;
 import ua.com.gup.service.profile.ProfilesService;
-import ua.com.gup.util.security.SecurityUtils;
 
 import java.util.List;
 import java.util.Optional;
