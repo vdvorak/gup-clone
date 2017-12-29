@@ -23,5 +23,5 @@ public interface ESSearchService {
 
     List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
 
-    Set<String> findOffersIdsByFilter(OfferFilter filter);
+    Set<String> findOffersIdsByFilter(OfferFilter filter) throws IOException;
 }
