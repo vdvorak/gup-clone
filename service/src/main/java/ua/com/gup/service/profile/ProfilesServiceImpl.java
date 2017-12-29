@@ -268,10 +268,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 operationDTO.setOperationUserId(operation.getOperationUser().getPublicId());
                 operationDTO.setOperationUserName(profileRepository.findById(operation.getOperationUser().getId()).getUsername());
                 Profile profile1 = (Profile) operation.getObjectBody();
-                BanInfo banInfo = profile1.getBanInfo();
-                if (banInfo != null) {
-                    operationDTO.setPrivateExplanation(banInfo.getPrivateExplanation());
-                    operationDTO.setPublicExplanation(banInfo.getPublicExplanation());
+                if (profile1 != null) {
+                    BanInfo banInfo = profile1.getBanInfo();
+                    if (banInfo != null) {
+                        operationDTO.setPrivateExplanation(banInfo.getPrivateExplanation());
+                        operationDTO.setPublicExplanation(banInfo.getPublicExplanation());
+                    }
                 }
                 operationsHistory.add(operationDTO);
             }
