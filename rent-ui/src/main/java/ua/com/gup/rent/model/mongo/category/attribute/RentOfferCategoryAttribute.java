@@ -41,15 +41,18 @@ public class RentOfferCategoryAttribute implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RentOfferCategoryAttribute)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         RentOfferCategoryAttribute that = (RentOfferCategoryAttribute) o;
-        return getCode() == that.getCode() &&
-                Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getKey(), that.getKey());
+
+        if (code != that.code) return false;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCode(), getKey());
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + code;
+        return result;
     }
 }
