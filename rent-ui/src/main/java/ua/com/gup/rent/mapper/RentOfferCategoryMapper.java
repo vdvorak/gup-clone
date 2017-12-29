@@ -18,7 +18,8 @@ import java.util.List;
 @Component
 public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCategoryCountDTO, RentOfferCategoryCount> {
 
-    private static final String CATEGORY_SEQUENCE_ID = "rent_category_sequence";
+    private static final String RENT_CATEGORY_SEQUENCE_ID = "rent_category_sequence";
+    private static final String RENT_CATEGORY_SEQUENCE_ORDER = "rent_category_sequence_order";
 
     @Autowired
     private RentSequenceService rentSequenceService;
@@ -28,7 +29,7 @@ public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCateg
     public RentOfferCategory categoryCreateDTOToCategory(RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) {
         RentOfferCategory rentOfferCategory = new RentOfferCategory();
         fromCategoryCreateDTOToCategory(rentOfferCategoryCreateDTO, rentOfferCategory);
-        rentOfferCategory.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_SEQUENCE_ID));
+        rentOfferCategory.setCode((int) rentSequenceService.getNextSequenceValue(RENT_CATEGORY_SEQUENCE_ID));
         return rentOfferCategory;
     }
 
@@ -47,7 +48,8 @@ public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCateg
         target.setKey(source.getKey());
         target.setParent(source.getParent());
         target.setColor(source.getColor());
-        target.setOrder(source.getOrder());
+        target.setOrder((int) rentSequenceService.getNextSequenceValue(RENT_CATEGORY_SEQUENCE_ORDER));
+
     }
 
     @Override
@@ -66,7 +68,7 @@ public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCateg
 
     public LinkedList<RentOfferCategoryShort> offerCategoriesByCategoriesIds(List<Integer> ids) {
         LinkedList<RentOfferCategoryShort> offerCategories = new LinkedList<>();
-        categoryService.findByCodeInOrderByCodeAsc(ids).forEach( e -> offerCategories.add(new RentOfferCategoryShort(e)));
+        categoryService.findByCodeInOrderByCodeAsc(ids).forEach(e -> offerCategories.add(new RentOfferCategoryShort(e)));
         return offerCategories;
     }
 }

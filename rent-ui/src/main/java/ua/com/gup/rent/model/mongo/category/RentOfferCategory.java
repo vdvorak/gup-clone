@@ -35,6 +35,7 @@ public class RentOfferCategory implements Serializable {
     private String key;
     @Size(min = 1, max = 8)
     private String color;
+    @Indexed(unique = true)
     private int order;
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> description = new HashMap<>();

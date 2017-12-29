@@ -50,7 +50,7 @@ public class ESSearchServiceImpl implements ESSearchService {
     }
 
     @Override
-    public Set<String> findOffersIdsByFilter(OfferFilter filter) {
+    public Set<String> findOffersIdsByFilter(OfferFilter filter) throws IOException {
         return esOfferRepository.findOffersIdsByFilter(filter);
     }
 

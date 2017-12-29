@@ -12,7 +12,7 @@ import ua.com.gup.rent.service.sequence.RentSequenceService;
 @Component
 public class RentOfferCategoryAttributeMapper {
 
-    private static final String CATEGORY_ATTRIBUTE_SEQUENCE_ID = "rent_category_attribute_sequence";
+    private static final String RENT_CATEGORY_ATTRIBUTE_SEQUENCE_ID = "rent_category_attribute_sequence";
 
     @Autowired
     private RentSequenceService rentSequenceService;
@@ -20,7 +20,7 @@ public class RentOfferCategoryAttributeMapper {
     public RentOfferCategoryAttribute categoryAttributeCreateDTOToCategoryAttribute(RentOfferCategoryAttributeCreateDTO rentOfferCategoryAttributeCreateDTO) {
            RentOfferCategoryAttribute rentOfferCategoryAttribute = new RentOfferCategoryAttribute();
         fromCategoryCreateDTOToCategory(rentOfferCategoryAttributeCreateDTO, rentOfferCategoryAttribute);
-        rentOfferCategoryAttribute.setCode((int) rentSequenceService.getNextSequenceValue(CATEGORY_ATTRIBUTE_SEQUENCE_ID));
+        rentOfferCategoryAttribute.setCode((int) rentSequenceService.getNextSequenceValue(RENT_CATEGORY_ATTRIBUTE_SEQUENCE_ID));
         return rentOfferCategoryAttribute;
     }
 

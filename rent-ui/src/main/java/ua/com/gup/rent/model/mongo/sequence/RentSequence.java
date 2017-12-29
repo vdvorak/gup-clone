@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class RentOfferSequence {
+public class RentSequence {
     @Id
     private String id;
     private long value;
