@@ -83,7 +83,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     @Override
     public void unlinkProfile(String managerPublicId, String profilePublicId) {
         RentOfferUserProfile user = rentOfferProfileRepository.findByPublicId(profilePublicId, RentOfferUserProfile.class);
-        RentOfferManagerProfile manager = rentOfferProfileRepository.findById(managerPublicId, RentOfferManagerProfile.class);
+        RentOfferManagerProfile manager = rentOfferProfileRepository.findByPublicId(managerPublicId, RentOfferManagerProfile.class);
 
         manager.getUsers().remove(user.getId());
         user.setManager(null);
