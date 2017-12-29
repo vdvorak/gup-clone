@@ -21,7 +21,7 @@ public class UserProfileShortManagrDto {
     @ApiModelProperty(position = 40, example = "0930000000")
     private Phone mainPhone;
     @ApiModelProperty(position = 50, example = "123")
-    private ManagerInfoUserProfileShortDto  moderatorInfo;
+    private ManagerInfoUserProfileShortDto  managerInfo;
     @ApiModelProperty(position = 111, example = "true|false")
     private Boolean active;
     @ApiModelProperty(position = 112, example = "true|false")
@@ -56,7 +56,7 @@ public class UserProfileShortManagrDto {
         this.ban = profile.getBan();
         this.email = profile.getEmail();
 
-        moderatorInfo = new ManagerInfoUserProfileShortDto(
+        managerInfo = new ManagerInfoUserProfileShortDto(
                 0,
                 0,
                 0,

@@ -155,7 +155,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
                         0,
                         0,
                         manager);
-                dto.setModeratorInfo(managerDto);
+                dto.setManagerInfo(managerDto);
             }
             result.add(dto);
         }
