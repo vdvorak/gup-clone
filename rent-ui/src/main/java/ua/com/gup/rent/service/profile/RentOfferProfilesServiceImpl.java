@@ -16,6 +16,7 @@ import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferAdminPrivateProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerInfoUserProfileShortDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagrDto;
@@ -147,9 +148,14 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
             UserProfileShortManagrDto dto = new UserProfileShortManagrDto(user, null);
             if (user.getManager() != null) {
                 RentOfferManagerProfile manager = rentOfferProfileRepository.findById(user.getManager(), RentOfferManagerProfile.class);
-                dto.setManagerPublicId(manager.getPublicId());
-                dto.setManagerFirstname(manager.getFirstname());
-                dto.setManagerLastname(manager.getLastname());
+                ManagerInfoUserProfileShortDto managerDto = new ManagerInfoUserProfileShortDto(
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        manager);
+                dto.setModeratorInfo(managerDto);
             }
             result.add(dto);
         }
