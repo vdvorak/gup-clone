@@ -10,20 +10,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserProfileShortAdminDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagrDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.profile.ProfileFilter;
 import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -63,8 +60,8 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<UserProfileShortManagrDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
-        Page<UserProfileShortManagrDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
+    public ResponseEntity<Page<UserProfileShortManagerDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
+        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -117,21 +114,21 @@ public class ManagerEndpoint {
     }
 
     /**
-     * get users of current manager
+     * get users of manager by publicId{managerPublicId}
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{managerPublicId}/users")
-    public ResponseEntity<Page<UserProfileShortManagrDto>> getUsers(
+    public ResponseEntity<Page<UserProfileShortManagerDto>> getUsers(
             @PathVariable("managerPublicId") String managerPublicId,
             ProfileFilter filter,
             Pageable pageable) {
-        Page<UserProfileShortManagrDto> profilesPageable = profilesService.findUserProfiles(managerPublicId, filter, pageable);
+        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(managerPublicId, filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
 
     }
 
     /**
-     * get user by publicId of current manager
+     * get user by manager publicId and user publicId
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")

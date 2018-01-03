@@ -4,6 +4,7 @@ package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.model.mongo.Phone;
+import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class UserProfileShortManagrDto {
+public class UserProfileShortManagerDto {
     @ApiModelProperty(position = 10, example = "id000001")
     private String publicId;
     @ApiModelProperty(position = 20, example = "Dmitriy")
@@ -20,7 +21,7 @@ public class UserProfileShortManagrDto {
     private String lastname;
     @ApiModelProperty(position = 40, example = "0930000000")
     private Phone mainPhone;
-    @ApiModelProperty(position = 50, example = "123")
+    @ApiModelProperty(position = 50)
     private ManagerInfoUserProfileShortDto  managerInfo;
     @ApiModelProperty(position = 111, example = "true|false")
     private Boolean active;
@@ -40,12 +41,11 @@ public class UserProfileShortManagrDto {
     private Set<String> userRoles;
 
 
-    public UserProfileShortManagrDto(RentOfferUserProfile profile, RentOfferManagerProfile manager) {
+    public UserProfileShortManagerDto(RentOfferUserProfile profile, RentOfferManagerProfile manager) {
         this.firstname = profile.getFirstname();
         this.lastname = profile.getLastname();
         this.publicId = profile.getPublicId();
         this.mainPhone = profile.getMainPhone();
-
         this.userRoles = profile.getUserRoles().stream().map(cur -> cur.toString()).collect(Collectors.toSet());
         this.publicId = profile.getPublicId();
         this.imageUrlSmall = profile.getImageLarge() != null ? profile.getImageLarge().getUrl() : null;
@@ -55,13 +55,9 @@ public class UserProfileShortManagrDto {
         this.active = profile.getActive();
         this.ban = profile.getBan();
         this.email = profile.getEmail();
-
-        managerInfo = new ManagerInfoUserProfileShortDto(
-                0,
-                0,
-                0,
-                0,
-                0,
-                manager);
+        RentManagerUserInfo managerInfo = profile.getManagerInfo();
+        if(managerInfo != null) {
+            this.managerInfo = new ManagerInfoUserProfileShortDto(managerInfo, manager);
+        }
     }
 }

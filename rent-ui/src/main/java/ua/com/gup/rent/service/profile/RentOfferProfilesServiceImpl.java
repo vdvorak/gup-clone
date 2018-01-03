@@ -19,7 +19,7 @@ import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdmin
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerInfoUserProfileShortDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagrDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -98,7 +98,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
-    public List<UserProfileShortManagrDto> getManagerUsers(String managerPublicId) {
+    public List<UserProfileShortManagerDto> getManagerUsers(String managerPublicId) {
 
         RentOfferManagerProfile manager = rentOfferProfileRepository.findByPublicId(managerPublicId, RentOfferManagerProfile.class);
         List<RentOfferUserProfile> users = rentOfferProfileRepository.findUsersByManager(manager.getId());
@@ -106,7 +106,7 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
             return Collections.EMPTY_LIST;
         }
         return users.stream().
-                map(profile -> new UserProfileShortManagrDto(profile, manager)).collect(Collectors.toList());
+                map(profile -> new UserProfileShortManagerDto(profile, manager)).collect(Collectors.toList());
     }
 
     @Override
@@ -130,11 +130,11 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
-    public Page<UserProfileShortManagrDto> findUserProfiles(ProfileFilter filter, Pageable pageable) {
+    public Page<UserProfileShortManagerDto> findUserProfiles(ProfileFilter filter, Pageable pageable) {
         return findUserProfiles(null,filter,pageable);
     }
 
-    public Page<UserProfileShortManagrDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable){
+    public Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable){
         ProfileRepositoryFilter repositoryFilter = new ProfileRepositoryFilter(filter);
         repositoryFilter.setManagerPublicId(managerPublicId);
         long count = rentOfferProfileRepository.countByFilter(repositoryFilter);
@@ -143,18 +143,12 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
             fullProfiles = rentOfferProfileRepository.findByFilter(repositoryFilter, pageable, RentOfferUserProfile.class );
 
         }
-        List<UserProfileShortManagrDto> result = new LinkedList();
+        List<UserProfileShortManagerDto> result = new LinkedList();
         for (RentOfferUserProfile user: fullProfiles) {
-            UserProfileShortManagrDto dto = new UserProfileShortManagrDto(user, null);
+            UserProfileShortManagerDto dto = new UserProfileShortManagerDto(user, null);
             if (user.getManager() != null) {
                 RentOfferManagerProfile manager = rentOfferProfileRepository.findById(user.getManager(), RentOfferManagerProfile.class);
-                ManagerInfoUserProfileShortDto managerDto = new ManagerInfoUserProfileShortDto(
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        manager);
+                ManagerInfoUserProfileShortDto managerDto = new ManagerInfoUserProfileShortDto(user.getManagerInfo(),manager);
                 dto.setManagerInfo(managerDto);
             }
             result.add(dto);

@@ -2,6 +2,7 @@ package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 
 @Data
@@ -22,22 +23,27 @@ public class ManagerInfoUserProfileShortDto {
     private String managerFirstname;
     @ApiModelProperty(position = 110, example = "Dmitriy")
     private String managerLastname;
+    @ApiModelProperty(position = 120, example = "Some additional text info")
+    public String additionalInfo;
+    @ApiModelProperty(position = 130, example = "100")
+    public Integer userRating; // 100 percent
 
-    public ManagerInfoUserProfileShortDto(Integer offerQuantity,
-                                          Integer spendedMoney,
-                                          Integer rentOfferQuantity,
-                                          Integer bonusMoney,
-                                          Integer bookingRequests,
-                                          RentOfferManagerProfile manager) {
-        this.offerQuantity = offerQuantity;
-        this.spendedMoney = spendedMoney;
-        this.rentOfferQuantity = rentOfferQuantity;
-        this.bonusMoney = bonusMoney;
-        this.bookingRequests = bookingRequests;
+    private ManagerContactInfoDto contactInfo;
+
+    public ManagerInfoUserProfileShortDto(RentManagerUserInfo info, RentOfferManagerProfile manager) {
+        if(info != null) {
+            this.offerQuantity = info.getOfferQuantity();
+            this.spendedMoney = info.getSpendedMoney();
+            this.rentOfferQuantity = info.getRentOfferQuantity();
+            this.bonusMoney = info.getBonusMoney();
+            this.bookingRequests = info.getBookingRequests();
+            this.contactInfo = new ManagerContactInfoDto(info.getContactInfo());
+        }
         if (manager != null) {
             this.managerPublicId = manager.getPublicId();
             this.managerFirstname = manager.getFirstname();
             this.managerLastname = manager.getLastname();
         }
+
     }
 }

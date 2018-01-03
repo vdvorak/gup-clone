@@ -1,5 +1,6 @@
 package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
 
+import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferAdminPrivateProfileDTO;
 
@@ -10,7 +11,10 @@ public class RentOfferUserPrivateProfileDto extends RentOfferAdminPrivateProfile
      * */
     private String manager;
 
-    private String managerInfo;
+    /**
+     * additional info for manager about user(client)
+     * */
+    private RentManagerUserInfo managerInfo;
 
     public RentOfferUserPrivateProfileDto(RentOfferUserProfile profile, String mangerPublicId) {
         super(profile);
@@ -18,11 +22,11 @@ public class RentOfferUserPrivateProfileDto extends RentOfferAdminPrivateProfile
         this.managerInfo = profile.getManagerInfo();
     }
 
-    public String getManagerInfo() {
+    public RentManagerUserInfo getManagerInfo() {
         return managerInfo;
     }
 
-    public void setManagerInfo(String managerInfo) {
+    public void setManagerInfo(RentManagerUserInfo managerInfo) {
         this.managerInfo = managerInfo;
     }
 

@@ -1,10 +1,13 @@
 package ua.com.gup.rent.model.mongo.user;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 public class RentOfferUserProfile extends RentOfferProfile {
 
     private String manager;
 
-    private String managerInfo;
+    @Field("rentManagerInfo")
+    private RentManagerUserInfo managerInfo;
 
     public String getManager() {
         return manager;
@@ -14,11 +17,11 @@ public class RentOfferUserProfile extends RentOfferProfile {
         this.manager = manager;
     }
 
-    public String getManagerInfo() {
+    public RentManagerUserInfo getManagerInfo() {
         return managerInfo;
     }
 
-    public void setManagerInfo(String managerInfo) {
+    public void setManagerInfo(RentManagerUserInfo managerInfo) {
         this.managerInfo = managerInfo;
     }
 }

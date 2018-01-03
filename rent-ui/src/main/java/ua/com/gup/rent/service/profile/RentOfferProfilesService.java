@@ -10,8 +10,7 @@ import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserProfileShortAdminDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagrDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
 
 import java.util.List;
 
@@ -40,14 +39,14 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     boolean hasManager(String profilePublicId);
 
-    List<UserProfileShortManagrDto> getManagerUsers(String managerPublicId);
+    List<UserProfileShortManagerDto> getManagerUsers(String managerPublicId);
 
     RentOfferUserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
 
     RentOfferManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 
-    Page<UserProfileShortManagrDto> findUserProfiles(ProfileFilter filter, Pageable pageable);
+    Page<UserProfileShortManagerDto> findUserProfiles(ProfileFilter filter, Pageable pageable);
 
-    Page<UserProfileShortManagrDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
+    Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
 
 }
