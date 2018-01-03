@@ -12,6 +12,7 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
@@ -152,6 +153,28 @@ public class ManagerEndpoint {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * update user contact_info
+     */
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @RequestMapping(value = "/{managerPublicId}/users/{userPublicId}/contactinfo", method = {RequestMethod.POST, RequestMethod.PUT})
+    public ResponseEntity<RentOfferUserPrivateProfileDto> creeateContactInfo(
+            @PathVariable("managerPublicId") String managerPublicId,
+            @PathVariable("userPublicId") String userPublicId,
+            @RequestBody ManagerContactInfoEditDto contactInfoEditDto) {
+
+        if(!profilesService.profileExistsByPublicId(userPublicId)){
+            return new ResponseEntity("error.user.not.found",HttpStatus.NOT_FOUND);
+        }
+
+        if(!profilesService.profileExistsByPublicId(managerPublicId)){
+            return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        profilesService.updateUserContactInfoManager(userPublicId, contactInfoEditDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

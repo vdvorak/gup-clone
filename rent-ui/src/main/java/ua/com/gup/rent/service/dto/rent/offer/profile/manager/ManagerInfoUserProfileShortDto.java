@@ -24,9 +24,9 @@ public class ManagerInfoUserProfileShortDto {
     @ApiModelProperty(position = 110, example = "Dmitriy")
     private String managerLastname;
     @ApiModelProperty(position = 120, example = "Some additional text info")
-    public String additionalInfo;
+    private String additionalInfo;
     @ApiModelProperty(position = 130, example = "100")
-    public Integer userRating; // 100 percent
+    private Integer userRating; // 100 percent
 
     private ManagerContactInfoDto contactInfo;
 
@@ -37,6 +37,8 @@ public class ManagerInfoUserProfileShortDto {
             this.rentOfferQuantity = info.getRentOfferQuantity();
             this.bonusMoney = info.getBonusMoney();
             this.bookingRequests = info.getBookingRequests();
+            this.additionalInfo = info.getAdditionalInfo();
+            this.userRating = info.getUserRating();
             this.contactInfo = new ManagerContactInfoDto(info.getContactInfo());
         }
         if (manager != null) {
