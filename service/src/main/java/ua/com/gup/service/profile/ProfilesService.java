@@ -59,8 +59,6 @@ public interface ProfilesService extends CommonProfileService{
      */
     boolean profileExists(String id);
 
-    boolean profileExistsByPublicId(String id);
-
 
     boolean profileExistsWithMainPhoneNumber(String mainPhoneNumber);
 

@@ -157,9 +157,8 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
-    public boolean profileExistsByPublicId(String id) {
-        return rentOfferProfileRepository.profileExistsByPublicId(id);
+    public boolean profileExistsByPublicId(String profilePublicId) {
+        return rentOfferProfileRepository.profileExistsByPublicId(profilePublicId);
     }
-
 
 }

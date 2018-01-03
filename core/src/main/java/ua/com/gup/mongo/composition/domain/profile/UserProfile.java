@@ -1,6 +1,7 @@
 package ua.com.gup.mongo.composition.domain.profile;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.common.model.object.ObjectType;
 
 @Document(collection = ObjectType.USER)
@@ -8,7 +9,8 @@ public class UserProfile extends Profile {
 
     private String manager;
 
-    private String managerInfo;
+    @Field("saleManagerInfo")
+    private SaleManagerUserInfo managerInfo;
 
     public String getManager() {
         return manager;
@@ -18,11 +20,11 @@ public class UserProfile extends Profile {
         this.manager = manager;
     }
 
-    public String getManagerInfo() {
+    public SaleManagerUserInfo getManagerInfo() {
         return managerInfo;
     }
 
-    public void setManagerInfo(String managerInfo) {
+    public void setManagerInfo(SaleManagerUserInfo managerInfo) {
         this.managerInfo = managerInfo;
     }
 }
