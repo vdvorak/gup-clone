@@ -2,6 +2,7 @@ package ua.com.gup.dto.profile.manager;
 
 import ua.com.gup.dto.profile.AdminPrivateProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.mongo.composition.domain.profile.SaleManagerUserInfo;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 
 public class UserPrivateProfileDto extends AdminPrivateProfileDTO {
@@ -11,7 +12,7 @@ public class UserPrivateProfileDto extends AdminPrivateProfileDTO {
      * */
     private String manager;
 
-    private String managerInfo;
+    private SaleManagerUserInfo managerInfo;
 
     public UserPrivateProfileDto(UserProfile profile, String mangerPublicId) {
         super(profile);
@@ -19,11 +20,11 @@ public class UserPrivateProfileDto extends AdminPrivateProfileDTO {
         this.managerInfo = profile.getManagerInfo();
     }
 
-    public String getManagerInfo() {
+    public SaleManagerUserInfo getManagerInfo() {
         return managerInfo;
     }
 
-    public void setManagerInfo(String managerInfo) {
+    public void setManagerInfo(SaleManagerUserInfo managerInfo) {
         this.managerInfo = managerInfo;
     }
 
