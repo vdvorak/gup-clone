@@ -193,6 +193,12 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
+    public boolean profileExistsByPublicId(String profilePublicId) {
+        Query query = new Query(Criteria.where("publicId").is(profilePublicId));
+        return mongoTemplate.exists(query, RentOfferProfile.class);
+    }
+
+    @Override
     public long countByFilter(ProfileRepositoryFilter filter) {
         Query query = buildQueryByFilter(filter);
         return mongoTemplate.count(query, RentOfferProfile.class);

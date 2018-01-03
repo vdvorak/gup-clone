@@ -156,6 +156,10 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
         return new PageImpl<>(result, pageable, count);
     }
 
+    @Override
+    public boolean profileExistsByPublicId(String id) {
+        return rentOfferProfileRepository.profileExistsByPublicId(id);
+    }
 
 
 }
