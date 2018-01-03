@@ -109,6 +109,17 @@ public class ManagerEndpoint {
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
+        if(!profilesService.profileExistsByPublicId(profilePublicId)){
+            return new ResponseEntity("error.user.not.found",HttpStatus.NOT_FOUND);
+        }
+
+        if(!profilesService.profileExistsByPublicId(managerPublicId)){
+            return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        if(!profilesService.hasManager(profilePublicId)){
+            return new ResponseEntity("error.user.not.exists.manager", HttpStatus.BAD_REQUEST);
+        }
         profilesService.unlinkProfile(managerPublicId, profilePublicId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

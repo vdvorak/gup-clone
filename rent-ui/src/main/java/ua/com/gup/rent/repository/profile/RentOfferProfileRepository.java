@@ -67,4 +67,5 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
 
     boolean hasRole(String profilePublicId, CommonUserRole roleUser);
 
+    boolean profileExistsByPublicId(String id);
 }
