@@ -9,9 +9,12 @@ import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Setter
+@Getter
 public class RentOfferCalendar {
-    @Setter
-    @Getter
+
     private RentOfferCalendarDay[] days;
+    private String startDate;
+    private String endDate;
 
 }
