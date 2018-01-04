@@ -12,6 +12,7 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
@@ -70,8 +71,8 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity<RentOfferProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
-        RentOfferProfileDTO profile = profilesService.findPrivateProfileDTOForAdminByPublicId(profilePublicId);
+    public ResponseEntity<UserProfileShortManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
+        UserProfileShortManagerDto profile = profilesService.findUserProfile(profilePublicId);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -143,15 +144,43 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")
-    public ResponseEntity<RentOfferUserPrivateProfileDto> getUser(
+    public ResponseEntity<UserProfileShortManagerDto> getUser(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId) {
 
-        RentOfferUserPrivateProfileDto user = profilesService.getManagerUser(managerPublicId, userPublicId);
-        if (user == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if(!profilesService.profileExistsByPublicId(userPublicId)){
+            return new ResponseEntity("error.user.not.found",HttpStatus.NOT_FOUND);
         }
+
+        if(!profilesService.profileExistsByPublicId(managerPublicId)){
+            return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        UserProfileShortManagerDto user = profilesService.findUserProfile(userPublicId);
+
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * update user contact_info
+     */
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @RequestMapping(value = "/{managerPublicId}/users/{userPublicId}/contactinfo", method = {RequestMethod.POST, RequestMethod.PUT})
+    public ResponseEntity<RentOfferUserPrivateProfileDto> creeateContactInfo(
+            @PathVariable("managerPublicId") String managerPublicId,
+            @PathVariable("userPublicId") String userPublicId,
+            @RequestBody ManagerContactInfoEditDto contactInfoEditDto) {
+
+        if(!profilesService.profileExistsByPublicId(userPublicId)){
+            return new ResponseEntity("error.user.not.found",HttpStatus.NOT_FOUND);
+        }
+
+        if(!profilesService.profileExistsByPublicId(managerPublicId)){
+            return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        profilesService.updateUserContactInfoManager(userPublicId, contactInfoEditDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

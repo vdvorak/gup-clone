@@ -8,6 +8,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.mongo.manager.ContactInfo;
+import ua.com.gup.common.model.mongo.manager.ManagerUserInfo;
+import ua.com.gup.common.model.mongo.manager.RelevancePhone;
+import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
@@ -16,10 +20,7 @@ import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferAdminPrivateProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerInfoUserProfileShortDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -93,6 +94,27 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
+    public void updateUserContactInfoManager(String profilePublicId, ManagerContactInfoEditDto dto) {
+        RentOfferUserProfile user = rentOfferProfileRepository.findByPublicId(profilePublicId, RentOfferUserProfile.class);
+        if (user.getManagerInfo() == null) {
+            user.setManagerInfo(new RentManagerUserInfo());
+        }
+
+        ContactInfo contactInfo = new ContactInfo();
+        contactInfo.setRealAddress(dto.getRealAddress());
+        contactInfo.setSkypeUserName(dto.getSkypeUserName());
+        contactInfo.setViberUserName(dto.getViberUserName());
+        if (dto.getContactPhone() != null) {
+            RelevancePhone phone = new RelevancePhone(dto.getContactPhone().number, dto.getContactPhone().relevance);
+            contactInfo.setContactPhone(phone);
+        }
+
+        user.getManagerInfo().setContactInfo(contactInfo);
+        user.getManagerInfo().setAdditionalInfo(dto.getAdditionalInfo());
+        rentOfferProfileRepository.save(user);
+    }
+
+    @Override
     public boolean hasManager(String profilePublicId) {
         return rentOfferProfileRepository.hasManager(profilePublicId);
     }
@@ -154,6 +176,14 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
             result.add(dto);
         }
         return new PageImpl<>(result, pageable, count);
+    }
+
+    @Override
+    public UserProfileShortManagerDto findUserProfile(String profilePublicId) {
+        RentOfferUserProfile user = rentOfferProfileRepository.findByPublicId(profilePublicId, RentOfferUserProfile.class);
+        RentOfferManagerProfile manager = rentOfferProfileRepository.findById(user.getManager(), RentOfferManagerProfile.class);
+        return new UserProfileShortManagerDto(user, manager);
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
@@ -37,6 +38,8 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     void unlinkProfile(String managerPublicId, String profilePublicId);
 
+    void updateUserContactInfoManager(String profilePublicId, ManagerContactInfoEditDto dto);
+
     boolean hasManager(String profilePublicId);
 
     List<UserProfileShortManagerDto> getManagerUsers(String managerPublicId);
@@ -49,6 +52,7 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
 
+    UserProfileShortManagerDto findUserProfile(String profilePublicId);
     boolean profileExistsByPublicId(String id);
 
 }
