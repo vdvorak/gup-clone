@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 @Configuration
-@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service"})
+@ComponentScan(value = {"ua.com.gup.server", "ua.com.gup.common.service", "ua.com.gup.common.mapper"})
 @EnableMongoRepositories({"ua.com.gup.server.repository"})
 public class SaleWebConfig extends WebMvcConfigurerAdapter {
 

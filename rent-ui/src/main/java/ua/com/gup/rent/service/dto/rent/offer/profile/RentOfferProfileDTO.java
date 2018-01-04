@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonUserType;
-import ua.com.gup.common.model.mongo.address.Address;
+import ua.com.gup.common.model.address.Address;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

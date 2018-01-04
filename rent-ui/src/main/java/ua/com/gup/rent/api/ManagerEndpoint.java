@@ -8,14 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.profile.ProfileFilter;
@@ -39,8 +36,8 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @GetMapping(value = {"","/"})
-    public ResponseEntity<Page<RentOfferProfileShortAdminDTO>> findManagersShortByFilter(ProfileFilter filter, Pageable pageable) {
-        Page<RentOfferProfileShortAdminDTO> profilesPageable = profilesService.findByRole(filter, CommonUserRole.ROLE_MANAGER, pageable);
+    public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(ProfileFilter filter, Pageable pageable) {
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(filter, CommonUserRole.ROLE_MANAGER, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -59,7 +56,7 @@ public class ManagerEndpoint {
      * get all profile with ROLE_USER
      */
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
     public ResponseEntity<Page<UserProfileShortManagerDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
         Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
@@ -71,8 +68,8 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity<UserProfileShortManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
-        UserProfileShortManagerDto profile = profilesService.findUserProfile(profilePublicId);
+    public ResponseEntity<UserProfileManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
+        UserProfileManagerDto profile = profilesService.findUserProfile(profilePublicId);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -142,9 +139,9 @@ public class ManagerEndpoint {
     /**
      * get user by manager publicId and user publicId
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")
-    public ResponseEntity<UserProfileShortManagerDto> getUser(
+    public ResponseEntity<UserProfileManagerDto> getUser(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId) {
 
@@ -156,7 +153,7 @@ public class ManagerEndpoint {
             return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
         }
 
-        UserProfileShortManagerDto user = profilesService.findUserProfile(userPublicId);
+        UserProfileManagerDto user = profilesService.findUserProfile(userPublicId);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -166,7 +163,7 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @RequestMapping(value = "/{managerPublicId}/users/{userPublicId}/contactinfo", method = {RequestMethod.POST, RequestMethod.PUT})
-    public ResponseEntity<RentOfferUserPrivateProfileDto> creeateContactInfo(
+    public ResponseEntity creeateContactInfo(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId,
             @RequestBody ManagerContactInfoEditDto contactInfoEditDto) {

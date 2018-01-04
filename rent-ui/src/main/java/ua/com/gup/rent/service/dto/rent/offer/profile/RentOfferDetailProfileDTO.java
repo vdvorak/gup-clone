@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public abstract class RentOfferDetailProfileDTO extends RentOfferProfileDTO {
+public abstract class RentOfferDetailProfileDTO extends ProfileDTO {
 
     @JsonProperty("id")
     protected String publicId;
@@ -36,11 +37,6 @@ public abstract class RentOfferDetailProfileDTO extends RentOfferProfileDTO {
 
 
     public RentOfferDetailProfileDTO(RentOfferProfile rentOfferProfile) {
-        super(rentOfferProfile.getFirstname(),
-                rentOfferProfile.getLastname(),
-                rentOfferProfile.getUserType(),
-                rentOfferProfile.getEmail(),
-                rentOfferProfile.getAddress(),
-                rentOfferProfile.getStatus());
+        super(rentOfferProfile);
     }
 }

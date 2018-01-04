@@ -1,5 +1,7 @@
 package ua.com.gup.mongo.model.profiles;
 
+import ua.com.gup.common.model.mongo.profile.FinanceInfo;
+
 /**
  * The type User profile filter options, use for pagination.
  */

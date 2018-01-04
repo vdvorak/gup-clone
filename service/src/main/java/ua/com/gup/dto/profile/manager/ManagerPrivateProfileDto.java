@@ -1,9 +1,7 @@
 package ua.com.gup.dto.profile.manager;
 
-import org.apache.catalina.Manager;
-import ua.com.gup.dto.profile.AdminPrivateProfileDTO;
+import ua.com.gup.common.dto.profile.AdminPrivateProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
-import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 
 import java.util.Set;
 
