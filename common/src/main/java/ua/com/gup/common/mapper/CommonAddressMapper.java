@@ -1,7 +1,7 @@
 package ua.com.gup.common.mapper;
 
 import ua.com.gup.common.dto.CommonAddressDTO;
-import ua.com.gup.common.model.mongo.address.Address;
+import ua.com.gup.common.model.address.Address;
 
 public class CommonAddressMapper {
     public CommonAddressDTO addressToAddressDTO(Address address) {

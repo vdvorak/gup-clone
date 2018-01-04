@@ -3,15 +3,13 @@ package ua.com.gup.rent.service.profile;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.dto.profile.ProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileShortAdminDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferUserPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
 
 import java.util.List;
 
@@ -30,9 +28,9 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     RentOfferProfile findByPublicId(String id);
 
-    RentOfferProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId);
+    ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId);
 
-    Page<RentOfferProfileShortAdminDTO> findByRole(ProfileFilter filter,CommonUserRole role, Pageable pageable);
+    Page<ProfileShortAdminDTO> findByRole(ProfileFilter filter, CommonUserRole role, Pageable pageable);
 
     void linkProfile(String managerPublicId, String profilePublicId);
 
@@ -44,7 +42,7 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     List<UserProfileShortManagerDto> getManagerUsers(String managerPublicId);
 
-    RentOfferUserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
+
 
     RentOfferManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 
@@ -52,5 +50,5 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
 
-    UserProfileShortManagerDto findUserProfile(String profilePublicId);
+    UserProfileManagerDto findUserProfile(String profilePublicId);
 }

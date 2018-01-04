@@ -3,7 +3,7 @@ package ua.com.gup.model.filter;
 
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.model.filter.PropertyWithValuesInterval;
-import ua.com.gup.common.model.mongo.address.Address;
+import ua.com.gup.common.model.address.Address;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.offer.OfferCategory;
 

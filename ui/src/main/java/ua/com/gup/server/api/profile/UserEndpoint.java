@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.com.gup.dto.profile.ProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.service.profile.ProfilesService;
+import ua.com.gup.util.security.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import ua.com.gup.util.security.SecurityUtils;
 
 @Controller
 @RequestMapping(path = "/api/users")
