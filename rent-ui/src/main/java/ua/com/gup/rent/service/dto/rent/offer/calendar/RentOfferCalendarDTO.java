@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@ToString
 public class RentOfferCalendarDTO implements Serializable {
 
     @ApiModelProperty(position = 10, example = "[{'type':3,'price':10.1,{'type':1}}]")
