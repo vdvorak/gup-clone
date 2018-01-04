@@ -179,6 +179,14 @@ public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
     }
 
     @Override
+    public UserProfileShortManagerDto findUserProfile(String profilePublicId) {
+        RentOfferUserProfile user = rentOfferProfileRepository.findByPublicId(profilePublicId, RentOfferUserProfile.class);
+        RentOfferManagerProfile manager = rentOfferProfileRepository.findById(user.getManager(), RentOfferManagerProfile.class);
+        return new UserProfileShortManagerDto(user, manager);
+
+    }
+
+    @Override
     public boolean profileExistsByPublicId(String profilePublicId) {
         return rentOfferProfileRepository.profileExistsByPublicId(profilePublicId);
     }

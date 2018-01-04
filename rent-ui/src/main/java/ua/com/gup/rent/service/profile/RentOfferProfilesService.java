@@ -52,4 +52,5 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
 
+    UserProfileShortManagerDto findUserProfile(String profilePublicId);
 }
