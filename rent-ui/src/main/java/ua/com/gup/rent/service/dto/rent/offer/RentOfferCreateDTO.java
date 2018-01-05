@@ -62,4 +62,7 @@ public class RentOfferCreateDTO extends RentOfferDTO {
 
     @ApiModelProperty(position = 160)
     private RentOfferCalendarDTO calendar;
+
+    @ApiModelProperty(position = 170, example = "1")
+    private Integer count;
 }
