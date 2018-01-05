@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import ua.com.gup.rent.model.mongo.complaint.RentComplaintOffer;
 import ua.com.gup.rent.model.mongo.complaint.RentComplaintOfferStatus;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,13 @@ public class RentComplaintOfferRepositoryImpl implements RentComplaintOfferRepos
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @PostConstruct
+    void init() {
+        if (!mongoTemplate.collectionExists(RentComplaintOffer.class)) {
+            mongoTemplate.createCollection(RentComplaintOffer.class);
+        }
+    }
 
     @Override
     public void save(RentComplaintOffer complaintOffer) {

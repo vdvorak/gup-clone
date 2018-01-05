@@ -14,10 +14,12 @@ import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
+import ua.com.gup.rent.service.calendar.RentOfferCalendarService;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
@@ -60,6 +62,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Autowired
     private RentOfferCategoryService categoryService;
 
+    @Autowired
+    private RentOfferCalendarService rentOfferCalendarService;
+
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
@@ -72,6 +77,16 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
         offer.setAuthorId(userID);
         offer = offerMongoRepository.save(offer);
+        //save calendar
+        for (int i = 1; i <= rentOfferCreateDTO.getCount().intValue(); i++) {
+            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
+            rentOfferCalendar.setOfferId(offer.getId());
+            rentOfferCalendar.setStartDate(rentOfferCreateDTO.getCalendar().getStartDate());
+            rentOfferCalendar.setEndDate(rentOfferCreateDTO.getCalendar().getEndDate());
+            rentOfferCalendar.setDays(rentOfferCreateDTO.getCalendar().getDays());
+
+            rentOfferCalendarService.save(rentOfferCalendar);
+        }
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
