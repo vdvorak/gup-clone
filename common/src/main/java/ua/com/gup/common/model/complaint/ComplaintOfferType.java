@@ -1,6 +1,6 @@
-package ua.com.gup.rent.model.mongo.complaint;
+package ua.com.gup.common.model.complaint;
 
-public enum RentComplaintOfferType {
+public enum ComplaintOfferType {
 
     TOPIC_MISMATCH("Неверная категория"),
     PROFANITY("Ненормативная лексика"),
@@ -13,7 +13,7 @@ public enum RentComplaintOfferType {
 
     private final String name;
 
-    RentComplaintOfferType(String s) {
+    ComplaintOfferType(String s) {
         name = s;
     }
 

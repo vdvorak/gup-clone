@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.complaint;
+package ua.com.gup.common.model.complaint;
 
 import ua.com.gup.common.model.ImageFileInfo;
 

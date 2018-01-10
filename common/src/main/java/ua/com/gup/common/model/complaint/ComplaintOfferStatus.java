@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.enumeration;
+package ua.com.gup.common.model.complaint;
 
 
 /**
