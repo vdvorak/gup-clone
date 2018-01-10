@@ -220,15 +220,12 @@ public class RentOfferMapper {
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setSeoUrl(source.getSeoUrl());
-        target.setCount(source.getCount());
         target.setDeposit(source.getDeposit());
         offerImageMapper.toListDTO(source.getImages(), target.getImages());
     }
 
     private void fromOfferCreateDTOToOffer(RentOfferCreateDTO source, RentOffer target) {
-        if (source.getCalendar() != null) {
-            target.setCalendar(rentOfferCalendarMapper.fromDTOToModel(source.getCalendar()));
-        }
+
         if (source.getSettings() != null) {
             target.setSettings(rentOfferSettingsMapper.fromDTOToModel(source.getSettings()));
         }

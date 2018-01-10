@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
+@NoArgsConstructor
 public class RentOfferCalendarDay {
     @Getter
     @Setter

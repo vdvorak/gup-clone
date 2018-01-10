@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
+import ua.com.gup.common.dto.CommonAuthorDTO;
 import ua.com.gup.common.model.image.ImageSizeType;
 import ua.com.gup.rent.model.rent.RentOfferCategoryShort;
-import ua.com.gup.common.dto.CommonAuthorDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferSettingsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
@@ -55,8 +54,8 @@ public class RentOfferViewBaseDTO implements Serializable {
     @ApiModelProperty(position = 100, example = "settings")
     private RentOfferSettingsDTO settings;
 
-    @ApiModelProperty(position = 110, example = "1")
-    private Integer count;
+  /*  @ApiModelProperty(position = 110, example = "1")
+    private Integer count;*/
 
     @ApiModelProperty(position = 120, example = "Паспорт / Загран паспорт")
     private String deposit;

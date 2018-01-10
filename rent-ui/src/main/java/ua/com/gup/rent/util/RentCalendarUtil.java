@@ -1,6 +1,6 @@
 package ua.com.gup.rent.util;
 
-import ua.com.gup.rent.model.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 
 import java.time.DayOfWeek;
