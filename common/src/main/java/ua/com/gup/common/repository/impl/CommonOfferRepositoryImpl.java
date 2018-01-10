@@ -23,6 +23,7 @@ import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.offer.CommonCategoryCount;
 import ua.com.gup.common.repository.CommonOfferRepository;
+import ua.com.gup.common.repository.CommonProfileRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -38,6 +39,8 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
     private final Integer COORDINATES_MAX_DIFF_LON = 3;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private CommonProfileRepository profileRepository;
     private final Class clazz;
 
     public Class getClazz() {
@@ -147,6 +150,39 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
     @Override
     public long countByFilter(F offerFilter, CommonStatus offerStatus) {
         return countOffersByFilter(offerFilter, Arrays.asList(offerStatus), null, null);
+    }
+
+    @Override
+    public long countByFilter(OfferModeratorFilter filter) {
+        Query query = buildQuery(filter);
+        return mongoTemplate.count(query, clazz);
+    }
+
+    public List<T> searchByFilter(OfferModeratorFilter filter, Pageable pageable) {
+        Query query = buildQuery(filter);
+        query.with(pageable);
+        return mongoTemplate.find(query, clazz);
+    }
+
+
+    private Query buildQuery(OfferModeratorFilter filter) {
+        Query query = new Query();
+
+        if (filter.getStatus() != null) {
+            query.addCriteria(Criteria.where("status").is(filter.getStatus()));
+        }
+
+        if (!StringUtils.isEmpty(filter.getTitle())) {
+            query.addCriteria(Criteria.where("title").regex(filter.getTitle(), "i"));
+        }
+
+        if (!StringUtils.isEmpty(filter.getAuthorId())) {
+            String authorId = profileRepository.getIdByPulblicId(filter.getAuthorId());
+            if (!StringUtils.isEmpty(filter.getAuthorId())) {
+                query.addCriteria(Criteria.where("authorId").is(authorId));
+            }
+        }
+        return query;
     }
 
     @Override

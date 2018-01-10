@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
@@ -275,6 +276,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         return offerMongoRepository.exists(id);
     }
 
+
+
     @Override
     public boolean existsBySeoUrl(String seoUrl) {
         return offerMongoRepository.existsBySeoUrl(seoUrl);
@@ -369,7 +372,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
 
-
     private RentOfferRepository getRepository() {
         return offerRepository;
     }
@@ -404,5 +406,16 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         result |= offerUpdateDTO.getBoolAttrs() != null;
 
         return result;
+    }
+
+    @Override
+    public Page<RentOfferViewShortWithModerationReportDTO> findByModeratorFilter(OfferModeratorFilter filter, Pageable pageable) {
+        long count = getRepository().countByFilter(filter);
+        List<RentOffer> offers = Collections.EMPTY_LIST;
+        if (count > 0) {
+            offers = getRepository().searchByFilter(filter, pageable);
+        }
+        Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 }

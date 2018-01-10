@@ -3,6 +3,7 @@ package ua.com.gup.rent.service.rent;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.common.model.enumeration.CommonStatus;

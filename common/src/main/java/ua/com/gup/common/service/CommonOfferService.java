@@ -7,8 +7,12 @@ package ua.com.gup.common.service;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.image.ImageStorage;
 
 /**
@@ -39,5 +43,7 @@ public interface CommonOfferService {
      * @return the list of entities
      */
     List<CommonCategoryCountDTO> searchCategoriesByString(String string, int page, int size);
+
+    Page findByModeratorFilter(OfferModeratorFilter filter, Pageable pageable);
 
 }
