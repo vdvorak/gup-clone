@@ -15,7 +15,7 @@ public class ObjectType {
     public static final String UAPAY_PAYMENT_P2P = "payment.payment_p2p";
     public static final String UAPAY_PAYMENT_ECOM = "payment.payment_ecom";
 
-
+    public static final String ACTION_MANAGER = "action.manager";
 
 
 }

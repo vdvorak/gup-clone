@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * The interface Profiles service.
  */
-public interface ProfilesService extends CommonProfileService{
+public interface ProfilesService extends CommonProfileService<Profile>{
     void createProfile(CreateProfileDTO profile);
 
     /**
@@ -31,7 +31,7 @@ public interface ProfilesService extends CommonProfileService{
      */
     Profile findById(String id);
 
-    Profile findByPublicId(String id);
+
 
     /**
      * Update profile profile.

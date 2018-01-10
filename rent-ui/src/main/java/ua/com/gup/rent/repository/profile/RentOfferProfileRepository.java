@@ -2,6 +2,7 @@ package ua.com.gup.rent.repository.profile;
 
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public interface RentOfferProfileRepository extends RentOfferGenericRepository<RentOfferProfile, String> {
+public interface RentOfferProfileRepository extends RentOfferGenericRepository<RentOfferProfile, String> , CommonProfileRepository {
 
 
     /**

@@ -18,16 +18,6 @@ import java.util.List;
  */
 public interface RentOfferProfilesService extends CommonProfileService<RentOfferProfile> {
 
-    /**
-     * Find profile by it's ID.
-     *
-     * @param id - the profile ID.
-     * @return - the profile.
-     */
-
-
-    RentOfferProfile findByPublicId(String id);
-
     ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId);
 
     Page<ProfileShortAdminDTO> findByRole(ProfileFilter filter, CommonUserRole role, Pageable pageable);

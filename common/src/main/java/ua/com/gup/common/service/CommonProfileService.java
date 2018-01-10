@@ -7,6 +7,10 @@ public interface CommonProfileService<T extends CommonProfile> {
 
     T findById(String id);
 
+    T findByPublicId(String id);
+
+    String getIdByPulblicId(String publicId);
+
     boolean profileExistsByPublicId(String profilePublicId);
 
     boolean hasRole(String profilePublicId, CommonUserRole roleUser);

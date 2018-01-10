@@ -8,27 +8,27 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import ua.com.gup.common.dto.profile.*;
+import ua.com.gup.common.dto.profile.PrivateProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.common.dto.profile.PublicProfileDTO;
 import ua.com.gup.common.mapper.profile.admin.AdminPrivateProfileMapper;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
-import ua.com.gup.common.model.mongo.operation.CommonOperation;
+import ua.com.gup.common.model.mongo.profile.Contact;
+import ua.com.gup.common.model.mongo.profile.FinanceInfo;
+import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.service.OperationService;
-import ua.com.gup.common.dto.operation.OperationDTO;
-import ua.com.gup.common.dto.operation.UserBanOperationDTO;
-import ua.com.gup.dto.profile.*;
+import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
+import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
-import ua.com.gup.common.model.mongo.profile.Contact;
-import ua.com.gup.common.model.mongo.profile.FinanceInfo;
-import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.repository.profile.ProfileRepository;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ProfilesServiceImpl implements ProfilesService {
+public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> implements ProfilesService {
     private final Logger log = LoggerFactory.getLogger(ProfilesServiceImpl.class);
 
     @Autowired

@@ -19,6 +19,7 @@ import ua.com.gup.common.model.mongo.manager.ContactInfo;
 import ua.com.gup.common.model.mongo.manager.RelevancePhone;
 import ua.com.gup.common.model.mongo.operation.CommonOperation;
 import ua.com.gup.common.service.OperationService;
+import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
 import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class RentOfferProfilesServiceImpl implements RentOfferProfilesService {
+public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentOfferProfile> implements RentOfferProfilesService {
     private final Logger log = LoggerFactory.getLogger(RentOfferProfilesServiceImpl.class);
 
     @Autowired

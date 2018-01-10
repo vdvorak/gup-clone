@@ -3,6 +3,7 @@ package ua.com.gup.repository.profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
@@ -13,7 +14,7 @@ import java.util.Set;
 /**
  * The interface Profile repository.
  */
-public interface ProfileRepository {
+public interface ProfileRepository  extends CommonProfileRepository {
     /**
      * Create profile.
      *
