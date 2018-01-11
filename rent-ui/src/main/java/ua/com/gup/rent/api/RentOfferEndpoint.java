@@ -16,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.rent.command.rent.offer.CreateRentOfferCommand;
 import ua.com.gup.rent.command.rent.offer.UpdateRentOfferCommand;
@@ -337,6 +338,14 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findAllByStatus(status, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
+    @RequestMapping(value = "/offers/moderator", method = RequestMethod.GET)
+    public ResponseEntity getFilteredModeratorOffers(OfferModeratorFilter filter, Pageable pageable) {
+
+        Page<RentOfferViewShortWithModerationReportDTO> page = offerService.findByModeratorFilter(filter, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

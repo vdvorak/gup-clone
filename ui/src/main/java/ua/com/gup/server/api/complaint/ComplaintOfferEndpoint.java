@@ -4,18 +4,21 @@ package ua.com.gup.server.api.complaint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.complaint.ComplaintFilter;
+import ua.com.gup.common.model.complaint.ComplaintOfferStatus;
+import ua.com.gup.common.model.complaint.ComplaintOfferType;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.complaint.ComplaintOffer;
-import ua.com.gup.mongo.model.enumeration.ComplaintOfferStatus;
-import ua.com.gup.mongo.model.enumeration.ComplaintOfferType;
 import ua.com.gup.server.util.HeaderUtil;
 import ua.com.gup.service.complaint.ComplaintOfferService;
 import ua.com.gup.util.security.SecurityUtils;
-
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -193,28 +196,6 @@ public class ComplaintOfferEndpoint {
         return new ResponseEntity(complaintOfferService.findOne(id), HttpStatus.OK);
     }
 
-
-    /**
-     * GET  /complaints : get all complaintOffer.
-     *
-     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ComplaintOffer>> getComplaintOfferAll() throws URISyntaxException {
-        log.debug("REST request to get ComplaintOffer's");
-        if (!SecurityUtils.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "unauthorized", "Need authorization")).body(null);
-        }
-        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_USER)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "User should be in role 'ROLE_USER'")).body(null);
-        }
-
-        return new ResponseEntity(complaintOfferService.findAll(), HttpStatus.OK);
-    }
-
-
     /**
      * GET  /complaints : get a offerId complaintOffer.
      *
@@ -283,5 +264,17 @@ public class ComplaintOfferEndpoint {
             return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+
+    @PostAuthorize("hasAnyRole('ROLE_USER')")
+    @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<ComplaintOffer>> findComplaints(ComplaintFilter filter, Pageable pageable)
+            throws URISyntaxException {
+        log.debug("REST request to get ComplaintOffer's");
+
+        Page<ComplaintOffer> complaints = complaintOfferService.findFilter(filter, pageable);
+
+        return new ResponseEntity(complaints, HttpStatus.OK);
     }
 }

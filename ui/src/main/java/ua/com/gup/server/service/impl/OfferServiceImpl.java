@@ -12,6 +12,7 @@ import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.MoneyFilter;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.dto.offer.OfferCreateDTO;
@@ -326,6 +327,17 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
     @Override
     public boolean exists(String id) {
         return offerMongoRepository.exists(id);
+    }
+
+    @Override
+    public Page<OfferViewShortWithModerationReportDTO> findByModeratorFilter(OfferModeratorFilter filter, Pageable pageable) {
+        long count = offerRepository.countByFilter(filter);
+        List<Offer> offers = Collections.EMPTY_LIST;
+        if (count > 0) {
+            offers = offerRepository.searchByFilter(filter, pageable);
+        }
+        Page<Offer> result = new PageImpl<>(offers, pageable, count);
+        return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
     }
 
     /**

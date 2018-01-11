@@ -4,15 +4,18 @@ package ua.com.gup.rent.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.model.complaint.ComplaintFilter;
+import ua.com.gup.common.model.complaint.ComplaintOfferStatus;
+import ua.com.gup.common.model.complaint.ComplaintOfferType;
 import ua.com.gup.rent.model.mongo.complaint.RentComplaintOffer;
-import ua.com.gup.rent.model.mongo.complaint.RentComplaintOfferStatus;
-import ua.com.gup.rent.model.mongo.complaint.RentComplaintOfferType;
 import ua.com.gup.rent.service.complaint.RentComplaintOfferService;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
@@ -79,7 +82,7 @@ public class RentComplaintOfferEndpoint {
     @PreAuthorize("isAuthenticated()")
     @PostAuthorize("hasAnyRole('ROLE_USER')")
     @RequestMapping(value = "/complaints/{id}/type", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody RentComplaintOfferType type, @PathVariable("id") String id) throws URISyntaxException {
+    public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", type);
         complaintOfferService.updateType(id, type);
         return new ResponseEntity(HttpStatus.OK);
@@ -112,7 +115,7 @@ public class RentComplaintOfferEndpoint {
     @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferTypes() throws URISyntaxException {
         log.info("REST request to get Types");
-        final List<RentComplaintOfferType> types = Arrays.stream(RentComplaintOfferType.values()).collect(Collectors.toList());
+        final List<ComplaintOfferType> types = Arrays.stream(ComplaintOfferType.values()).collect(Collectors.toList());
         return new ResponseEntity(types, HttpStatus.OK);
     }
 
@@ -127,7 +130,7 @@ public class RentComplaintOfferEndpoint {
     @RequestMapping(value = "/complaints/statuses", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferStatuses() throws URISyntaxException {
         log.debug("REST request to get Statuses");
-        final Map<String, String> statuses = Arrays.stream(RentComplaintOfferStatus.values()).collect(Collectors.toMap(RentComplaintOfferStatus::name, RentComplaintOfferStatus::toString));
+        final Map<String, String> statuses = Arrays.stream(ComplaintOfferStatus.values()).collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
         return new ResponseEntity(statuses, HttpStatus.OK);
     }
 
@@ -145,21 +148,6 @@ public class RentComplaintOfferEndpoint {
     public ResponseEntity<RentComplaintOffer> getComplaintOfferById(@PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer : {}", id);
         return new ResponseEntity(complaintOfferService.findOne(id), HttpStatus.OK);
-    }
-
-
-    /**
-     * GET  /complaints : get all complaintOffer.
-     *
-     * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PreAuthorize("isAuthenticated()")
-    @PostAuthorize("hasAnyRole('ROLE_USER')")
-    @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RentComplaintOffer>> getComplaintOfferAll() throws URISyntaxException {
-        log.debug("REST request to get ComplaintOffer's");
-        return new ResponseEntity(complaintOfferService.findAll(), HttpStatus.OK);
     }
 
 
@@ -208,10 +196,21 @@ public class RentComplaintOfferEndpoint {
     @RequestMapping(value = "/complaints/status/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RentComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") String status) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
-        final Map<String, String> statuses = Arrays.stream(RentComplaintOfferStatus.values()).collect(Collectors.toMap(RentComplaintOfferStatus::name, RentComplaintOfferStatus::toString));
+        final Map<String, String> statuses = Arrays.stream(ComplaintOfferStatus.values()).collect(Collectors.toMap(ComplaintOfferStatus::name, ComplaintOfferStatus::toString));
         if (statuses.containsKey(status)) {
-            return new ResponseEntity(complaintOfferService.findAllByStatus(RentComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
+            return new ResponseEntity(complaintOfferService.findAllByStatus(ComplaintOfferStatus.valueOf(status)), HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    //@PostAuthorize("hasAnyRole('ROLE_USER')")
+    @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<RentComplaintOffer>> findComplaints(ComplaintFilter filter, Pageable pageable)
+            throws URISyntaxException {
+        log.debug("REST request to get ComplaintOffer's");
+
+        Page<RentComplaintOffer> complaints = complaintOfferService.findFilter(filter, pageable);
+
+        return new ResponseEntity(complaints, HttpStatus.OK);
     }
 }

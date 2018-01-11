@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonOfferFilter;
+import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.offer.CommonCategoryCount;
@@ -40,6 +41,10 @@ public interface CommonOfferRepository<T extends CommonRentOffer, F extends Comm
     List<T> findByIds(List<String> ids, Sort sort);
 
     long countByFilter(F offerFilter, CommonStatus offerStatus);
+
+    long countByFilter(OfferModeratorFilter filter);
+
+    public List<T> searchByFilter(OfferModeratorFilter filter, Pageable pageable);
 
     List<T> findByFilter(F offerFilter, CommonStatus offerStatus, Pageable pageable);
 
