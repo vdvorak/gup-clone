@@ -60,11 +60,5 @@ public class SearchOffersEndpoint {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<String>> findOffersIdsByFilter(@RequestBody OfferFilter filter) throws IOException {
-
-
-        return new ResponseEntity(esSearchService.findOffersIdsByFilter(filter), HttpStatus.OK);
-    }
 
 }

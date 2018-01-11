@@ -8,8 +8,10 @@ import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
 
 import java.util.List;
 
@@ -33,12 +35,14 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
     List<UserProfileShortManagerDto> getManagerUsers(String managerPublicId);
 
 
-
     RentOfferManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 
     Page<UserProfileShortManagerDto> findUserProfiles(ProfileFilter filter, Pageable pageable);
 
     Page<UserProfileShortManagerDto> findUserProfiles(String managerPublicId, ProfileFilter filter, Pageable pageable);
+
+
+    boolean profileExistsByPublicId(String id);
 
     UserProfileManagerDto findUserProfile(String profilePublicId);
 }

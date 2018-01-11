@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
@@ -37,6 +38,7 @@ import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -149,6 +151,22 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
+    }
+
+
+    @Override
+    public List<RentOfferViewShortDTO> findByIds(List<String> ids, Sort sort) {
+        List<RentOffer> offers = Collections.EMPTY_LIST;
+        if (ids.size() > 0) {
+            offers = getRepository().findByIds(ids, sort);
+        }
+        return offers.stream().map(offer -> offerMapper.offerToOfferShortDTO(offer)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RentOfferViewShortDTO> findByIds(List<String> ids) {
+        return findByIds(ids, null);
+
     }
 
     @Override

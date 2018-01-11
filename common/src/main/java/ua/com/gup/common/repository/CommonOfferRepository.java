@@ -6,6 +6,7 @@
 package ua.com.gup.common.repository;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonOfferFilter;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
@@ -37,6 +38,7 @@ public interface CommonOfferRepository<T extends CommonRentOffer, F extends Comm
 
     public boolean isOwner(String rentObjectId, String userId);
 
+    List<T> findByIds(List<String> ids, Sort sort);
 
     long countByFilter(F offerFilter, CommonStatus offerStatus);
 
