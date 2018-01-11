@@ -115,7 +115,7 @@ public class ProfileEndpoint {
         }
 
         Profile oldProfile = profilesService.findById(loggedUserId);
-        profilesService.editProfile(editProfileDTO.updateModel(oldProfile));
+        profilesService.updateProfile(editProfileDTO.updateModel(oldProfile));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -133,7 +133,7 @@ public class ProfileEndpoint {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(CommonUserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
-                    profilesService.editProfile(newProfile);
+                    profilesService.updateProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
