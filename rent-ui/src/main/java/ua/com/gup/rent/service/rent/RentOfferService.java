@@ -3,17 +3,14 @@ package ua.com.gup.rent.service.rent;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.rent.filter.RentOfferFilter;
-import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
-import ua.com.gup.rent.service.dto.rent.offer.RentOfferDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
@@ -31,6 +28,10 @@ public interface RentOfferService extends CommonOfferService {
     Optional<RentOfferViewDetailsDTO> findOne(String id);
 
     RentOffer findById(String id);
+
+    List<RentOfferViewShortDTO> findByIds(List<String> ids);
+
+    List<RentOfferViewShortDTO> findByIds(List<String> ids, Sort sort);
 
     RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO);
 
