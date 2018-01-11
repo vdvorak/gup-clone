@@ -143,6 +143,15 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
         return mongoTemplate.exists(exists, getClazz());
     }
 
+    @Override
+    public List<T> findByIds(List<String> ids, Sort sort) {
+        Query query = new Query(Criteria.where("id").in(ids));
+        if (sort != null) {
+            query.with(sort);
+        }
+        return mongoTemplate.find(query, getClazz());
+    }
+
 
     @Override
     public long countByFilter(F offerFilter, CommonStatus offerStatus) {

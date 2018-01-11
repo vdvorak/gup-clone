@@ -1,27 +1,26 @@
 package ua.com.gup.search.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.ESOffer;
-import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public interface ESSearchService {
+public interface ESSearchService<F> {
 
 
-    Iterable<ESOffer> findByQueryAndCategoriesIds(String query, Integer[] categoriesIds) throws IOException;
 
-    List<ESCategoriesStatistic> countOffersInCategoriesByQuery(String query, Locale locale) throws IOException;
 
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException;
 
-    Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
-
     List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
 
-    Set<String> findOffersIdsByFilter(OfferFilter filter) throws IOException;
+    Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
+
+    Page findIdsByFilter(F filter, Pageable pageable) throws IOException;
 }
