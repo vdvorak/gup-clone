@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.mongo.address.Address;
+import ua.com.gup.common.model.address.Address;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
 import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;

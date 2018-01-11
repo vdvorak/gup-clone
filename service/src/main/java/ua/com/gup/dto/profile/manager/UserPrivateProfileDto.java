@@ -1,7 +1,6 @@
 package ua.com.gup.dto.profile.manager;
 
-import ua.com.gup.dto.profile.AdminPrivateProfileDTO;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.common.dto.profile.AdminPrivateProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.SaleManagerUserInfo;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 

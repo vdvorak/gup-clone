@@ -38,7 +38,7 @@ public class ManagerInfoUserProfileShortDto {
             this.bonusMoney = info.getBonusMoney();
             this.bookingRequests = info.getBookingRequests();
             this.additionalInfo = info.getAdditionalInfo();
-            this.userRating = info.getUserRating();
+            this.userRating = info.getInterestingStatus();
             this.contactInfo = new ManagerContactInfoDto(info.getContactInfo());
         }
         if (manager != null) {

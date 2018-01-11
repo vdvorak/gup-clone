@@ -1,5 +1,6 @@
 package ua.com.gup.common.service;
 
+import ua.com.gup.common.dto.operation.OperationDTO;
 import ua.com.gup.common.model.mongo.operation.CommonOperation;
 
 import java.io.Serializable;
@@ -10,4 +11,6 @@ public interface OperationService<T extends CommonOperation> extends Serializabl
     void save(T t);
 
     List<T> findAllByOperationObjectId(String objectId);
+
+    List<OperationDTO> findAllByOperationObjectIdDTO(String objectId);
 }

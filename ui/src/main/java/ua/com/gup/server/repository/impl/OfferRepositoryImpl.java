@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
-import ua.com.gup.common.model.mongo.address.Address;
+import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;

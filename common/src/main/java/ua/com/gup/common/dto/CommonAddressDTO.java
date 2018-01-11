@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import ua.com.gup.common.model.mongo.address.AddressArea;
+import ua.com.gup.common.model.address.AddressArea;
 
 import java.math.BigDecimal;
 

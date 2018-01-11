@@ -8,25 +8,27 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import ua.com.gup.common.dto.profile.PrivateProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.common.dto.profile.PublicProfileDTO;
+import ua.com.gup.common.mapper.profile.admin.AdminPrivateProfileMapper;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
-import ua.com.gup.common.model.mongo.operation.CommonOperation;
+import ua.com.gup.common.model.mongo.profile.Contact;
+import ua.com.gup.common.model.mongo.profile.FinanceInfo;
+import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.service.OperationService;
-import ua.com.gup.dto.operation.OperationDTO;
-import ua.com.gup.dto.operation.UserBanOperationDTO;
-import ua.com.gup.dto.profile.*;
+import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
+import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
 import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
-import ua.com.gup.mongo.model.profiles.Contact;
-import ua.com.gup.mongo.model.profiles.FinanceInfo;
-import ua.com.gup.mongo.model.profiles.ProfileContactList;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.repository.profile.ProfileRepository;
@@ -38,7 +40,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ProfilesServiceImpl implements ProfilesService {
+public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> implements ProfilesService {
     private final Logger log = LoggerFactory.getLogger(ProfilesServiceImpl.class);
 
     @Autowired
@@ -52,8 +54,8 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(CreateProfileDTO profile) {
-        Profile newProfile = new Profile()
-                .setPublicId("id" + profileSequenceService.getNextSequenceId(ObjectType.USER))
+        Profile newProfile = new Profile();
+        newProfile.setPublicId("id" + profileSequenceService.getNextSequenceId(ObjectType.USER))
                 .setAddress(profile.getAddress())
                 .setActive(Boolean.TRUE)
                 .setEmail(profile.getEmail())
@@ -253,35 +255,13 @@ public class ProfilesServiceImpl implements ProfilesService {
         return new PrivateProfileDTO(profileRepository.findByPublicId(publicId));
     }
 
+    @Autowired
+    private AdminPrivateProfileMapper adminPrivateProfileMapper;
     @Override
     public ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId) {
         Profile profile = profileRepository.findByPublicId(publicId);
-        AdminPrivateProfileDTO profileDTO = new AdminPrivateProfileDTO(profile);
-        List<CommonOperation> operations = operationService.findAllByOperationObjectId(profile.getId());
-        if (!CollectionUtils.isEmpty(operations)) {
-            List<OperationDTO> operationsHistory = new ArrayList<>(operations.size());
-            for (CommonOperation operation : operations) {
-                UserBanOperationDTO operationDTO = new UserBanOperationDTO();
+        return adminPrivateProfileMapper.convert(profile);
 
-                operationDTO.setOperationType(operation.getOperationType());
-                operationDTO.setOperationDatetime(operation.getOperationDate());
-                operationDTO.setOperationUserId(operation.getOperationUser().getPublicId());
-                operationDTO.setOperationUserName(profileRepository.findById(operation.getOperationUser().getId()).getUsername());
-                Profile profile1 = (Profile) operation.getObjectBody();
-                if (profile1 != null) {
-                    BanInfo banInfo = profile1.getBanInfo();
-                    if (banInfo != null) {
-                        operationDTO.setPrivateExplanation(banInfo.getPrivateExplanation());
-                        operationDTO.setPublicExplanation(banInfo.getPublicExplanation());
-                    }
-                }
-                operationsHistory.add(operationDTO);
-            }
-            profileDTO.setOperationsHistory(operationsHistory);
-
-        }
-
-        return profileDTO;
     }
 
     @Override

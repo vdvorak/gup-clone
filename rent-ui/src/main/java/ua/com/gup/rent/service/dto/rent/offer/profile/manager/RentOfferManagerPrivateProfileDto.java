@@ -1,11 +1,11 @@
 package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
 
+import ua.com.gup.common.dto.profile.AdminPrivateProfileDTO;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferAdminPrivateProfileDTO;
 
 import java.util.Set;
 
-public class RentOfferManagerPrivateProfileDto extends RentOfferAdminPrivateProfileDTO {
+public class RentOfferManagerPrivateProfileDto extends AdminPrivateProfileDTO {
 
     /**
      * users public id of manager

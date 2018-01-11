@@ -27,18 +27,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        Profile newProfile = new Profile()
-                .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                .setAddress(profile.getAddress())
-                .setActive(profile.getActive())
-                .setEmail(profile.getEmail())
-                .setMainPhone(profile.getMainPhone())
-                .setSocWendor(profile.getSocWendor())
-                .setPassword(hashedPassword)
-                .setUserRoles(profile.getUserRoles()) //TODO ?
-                .setUserType(profile.getUserType())
-                .setCreatedDateEqualsToCurrentDate()
-                .setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+        Profile newProfile = new Profile();
+        newProfile.setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER));
+        newProfile.setAddress(profile.getAddress());
+        newProfile.setActive(profile.getActive());
+        newProfile.setEmail(profile.getEmail());
+        newProfile.setMainPhone(profile.getMainPhone());
+        newProfile.setSocWendor(profile.getSocWendor());
+        newProfile.setPassword(hashedPassword);
+        newProfile.setUserRoles(profile.getUserRoles()); //TODO ?
+        newProfile.setUserType(profile.getUserType());
+        newProfile.setCreatedDateEqualsToCurrentDate();
+     newProfile.setBankCard(profile.getBankCard()); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         profileRepository.createProfile(newProfile);
 
@@ -87,9 +87,9 @@ public class UserServiceImpl implements UserService {
             add(CommonUserRole.ROLE_USER);
         }};
 
-        Profile profile = new Profile()
-                .setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER))
-                .setFacebookId(facebookProfile.getId())
+        Profile profile = new Profile();
+        profile.setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER));
+        profile.setFacebookId(facebookProfile.getId())
                 .setEmail(facebookProfile.getEmail())
                 .setUsername(facebookProfile.getName())
                 .setFirstname(facebookProfile.getFirstName())

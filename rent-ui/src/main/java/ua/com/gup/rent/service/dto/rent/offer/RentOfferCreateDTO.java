@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.dto.CommonAddressDTO;
 import ua.com.gup.rent.service.dto.rent.offer.calendar.RentOfferCalendarDTO;
-import ua.com.gup.rent.service.dto.rent.offer.period.RentOfferPeriodDTO;
 import ua.com.gup.rent.service.dto.rent.offer.price.RentOfferPriceDTO;
 
 import java.math.BigDecimal;
@@ -33,8 +32,8 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 60, example = "ret price")
     private RentOfferPriceDTO price;
 
-    @ApiModelProperty(position = 80, example = "rent period")
-    private RentOfferPeriodDTO period;
+    @ApiModelProperty(position = 80, example = "rent calendar")
+    private RentOfferCalendarDTO calendar;
 
     @ApiModelProperty(position = 100, example = "oaWMAKukXGE")
     private String youtubeVideoId;
@@ -60,6 +59,6 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 150)
     private RentOfferSettingsDTO settings;
 
-    @ApiModelProperty(position = 160)
-    private RentOfferCalendarDTO calendar;
+    @ApiModelProperty(position = 170, example = "1")
+    private Integer count;
 }

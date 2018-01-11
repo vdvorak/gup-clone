@@ -1,8 +1,7 @@
 package ua.com.gup.dto.profile.manager;
 
-import ua.com.gup.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
 
 import java.util.Set;
 

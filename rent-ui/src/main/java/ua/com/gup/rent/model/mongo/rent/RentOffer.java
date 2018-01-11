@@ -6,20 +6,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
-import ua.com.gup.common.model.mongo.address.Address;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.RentOfferSettings;
-import ua.com.gup.rent.model.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
 import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
@@ -76,8 +74,6 @@ public class RentOffer extends CommonRentOffer {
     @Indexed(unique = true)
     private String seoUrl;
 
-    private Integer count;
-
     private String deposit;
 
     private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
@@ -93,8 +89,6 @@ public class RentOffer extends CommonRentOffer {
     private RentOfferModerationReport lastOfferModerationReport;
 
     private RentOfferSettings settings;
-
-    private RentOfferCalendar calendar;
 
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {

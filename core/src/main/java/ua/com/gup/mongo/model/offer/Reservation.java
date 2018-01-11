@@ -1,6 +1,8 @@
 package ua.com.gup.mongo.model.offer;
 
 
+import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -58,7 +60,7 @@ public class Reservation {
         return "Reservation{" +
                 "profileId='" + profileId + '\'' +
                 ", userContactInfo=" + userContactInfo +
-                ", period=" + period +
+                ", calendar=" + period +
                 ", createdDate=" + createdDate +
                 '}';
     }

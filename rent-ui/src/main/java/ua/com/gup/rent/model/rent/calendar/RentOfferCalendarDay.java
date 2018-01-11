@@ -9,9 +9,8 @@ import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
+@NoArgsConstructor
 public class RentOfferCalendarDay {
     @Getter
     @Setter

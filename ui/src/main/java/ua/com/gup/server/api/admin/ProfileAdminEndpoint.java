@@ -12,6 +12,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.command.CommandException;
+import ua.com.gup.common.dto.profile.ProfileDTO;
+import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.dto.profile.*;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.repository.profile.ProfileFilter;
