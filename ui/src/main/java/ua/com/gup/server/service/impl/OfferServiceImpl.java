@@ -343,7 +343,7 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
 
     @Override
     public void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser) {
-        //todo 
+        //todo
     }
 
     /**

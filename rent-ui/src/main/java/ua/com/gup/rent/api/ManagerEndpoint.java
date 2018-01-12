@@ -204,7 +204,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(offers, HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PostMapping(value = "/{managerPublicId}/users/{fromUserPublicId}/offers/clone/{toUserPublicId}")
     public ResponseEntity<Page<RentOfferViewShortDTO>> cloneOffrs(
             @PathVariable("managerPublicId") String managerPublicId,
