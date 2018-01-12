@@ -20,6 +20,7 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.CommonAddressFilter;
 import ua.com.gup.common.model.filter.CommonAttributeFilter;
 import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
+import ua.com.gup.common.model.filter.CommonOfferFilter;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
@@ -93,5 +94,15 @@ public class RentOfferRepositoryImpl
 
 
 
+    @Override
+    protected Query buildQueryByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+
+        Query query = super.buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
+        RentOfferFilter filter = (RentOfferFilter) offerFilter;
+        if (filter.getCategory() != null) {
+            query.addCriteria(Criteria.where("categories").all(filter.getCategory()));
+        }
+        return query;
+    }
 
 }

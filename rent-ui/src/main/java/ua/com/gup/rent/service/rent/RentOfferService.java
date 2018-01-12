@@ -37,7 +37,11 @@ public interface RentOfferService extends CommonOfferService {
 
     RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO);
 
+    RentOffer saveAndReturn(RentOfferCreateDTO rentOfferCreateDTO);
+
     RentOfferViewDetailsDTO update(String offerId, RentOfferUpdateDTO offerUpdateDTO);
+
+    RentOffer updateAndReturn(String offerId, RentOfferUpdateDTO offerUpdateDTO);
 
     Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable);
 

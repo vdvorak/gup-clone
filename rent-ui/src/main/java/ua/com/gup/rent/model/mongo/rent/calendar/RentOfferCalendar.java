@@ -18,14 +18,14 @@ import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Document(collection = ObjectType.RENT_CALENDAR)
+@Document(collection = ObjectType.RENT_OFFER_CALENDAR)
 @Setter
 @Getter
 @ToString
 public class RentOfferCalendar implements Serializable {
 
     @Id
-    private ObjectId Id;
+    private String Id;
     @Indexed
     private String offerId;
     private RentOfferCalendarDay[] days;

@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.command.CommandException;
+import ua.com.gup.common.dto.CommonCreateDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.web.api.AbstractImageEndpoint;
@@ -109,7 +110,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
         CreateRentOfferCommand createRentOfferCommand = new CreateRentOfferCommand(offerService, offerCreateDTO);
         executor.doCommand(createRentOfferCommand);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(new CommonCreateDTO(createRentOfferCommand.getObjectId()), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/offers/seo/{seoUrl}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -263,7 +264,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     public ResponseEntity<List<RentOfferCategoryCountDTO>> searchCategoriesByString(@RequestParam String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         log.debug("REST request to get offer categories by word string");
         final List offerCategoryCountDTOS = offerService.searchCategoriesByString(query, page, size);
-        return new ResponseEntity<>(offerCategoryCountDTOS, null, HttpStatus.OK);
+        return new ResponseEntity<>(offerCategoryCountDTOS, HttpStatus.OK);
     }
 //-------------------- OLDER -RE-FACTORING------------------------------FROM OFFER -------------------------------------
 

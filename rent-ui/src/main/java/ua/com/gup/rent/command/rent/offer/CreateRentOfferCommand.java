@@ -1,11 +1,11 @@
 package ua.com.gup.rent.command.rent.offer;
 
 import ua.com.gup.common.model.mongo.operation.OperationType;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
-import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
-public class CreateRentOfferCommand extends RentOfferCommand<RentOfferViewDetailsDTO> {
+public class CreateRentOfferCommand extends RentOfferCommand {
     private RentOfferCreateDTO createDTO;
 
     public CreateRentOfferCommand(RentOfferService rentOfferService, RentOfferCreateDTO updateDTO) {
@@ -14,11 +14,15 @@ public class CreateRentOfferCommand extends RentOfferCommand<RentOfferViewDetail
     }
 
     @Override
-    public RentOfferViewDetailsDTO execute() throws Exception {
-        RentOfferViewDetailsDTO viewDetailsDTO = rentOfferService.save(createDTO);
-        rentOfferId = viewDetailsDTO.getId();
-        this.rentOffer = rentOfferService.findById(rentOfferId);
-        return viewDetailsDTO;
+    public RentOffer execute() throws Exception {
+        this.rentOffer = rentOfferService.saveAndReturn(createDTO);
+        this.rentOfferId = rentOffer.getId();
+        return rentOffer;
+    }
+
+
+    public String getObjectId() {
+        return rentOfferId;
     }
 
     @Override

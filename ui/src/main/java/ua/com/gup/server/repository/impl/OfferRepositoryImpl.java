@@ -7,14 +7,17 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.address.Address;
+import ua.com.gup.common.model.enumeration.CommonCurrency;
+import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.filter.CommonOfferFilter;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
 import ua.com.gup.model.xchangerate.api.CurrencyNotSupportedException;
@@ -32,10 +35,11 @@ import ua.com.gup.util.CurrencyConvertUtil;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer,OfferFilter>
+public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer, OfferFilter>
         implements OfferRepository, CommonOfferRepository<Offer, OfferFilter> {
 
     private final Logger log = LoggerFactory.getLogger(OfferRepositoryImpl.class);
@@ -56,9 +60,6 @@ public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer,OfferFi
                 .build();
         mongoTemplate.indexOps(Offer.class).ensureIndex(textIndex);
     }
-
-
-
 
 
     @Override
@@ -309,4 +310,15 @@ public class OfferRepositoryImpl extends CommonOfferRepositoryImpl<Offer,OfferFi
         return query;
     }
 
+
+    @Override
+    protected Query buildQueryByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+
+        Query query = super.buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
+        OfferFilter filter = (OfferFilter) offerFilter;
+        if (filter.getCategories() != null) {
+            query.addCriteria(Criteria.where("categories").all(filter.getCategories()));
+        }
+        return query;
+    }
 }

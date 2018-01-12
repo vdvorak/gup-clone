@@ -2,6 +2,7 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import ua.com.gup.common.mapper.CommonCategoryMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.rent.RentOfferCategoryCount;
@@ -42,6 +43,9 @@ public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCateg
     }
 
     private void fromCategoryCreateDTOToCategory(RentOfferCategoryCreateDTO source, RentOfferCategory target) {
+        source.getTitle().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+        source.getDescription().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+
         target.setActive(source.isActive());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());

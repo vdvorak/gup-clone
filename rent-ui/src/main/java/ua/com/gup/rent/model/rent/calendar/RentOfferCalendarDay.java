@@ -11,18 +11,15 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @NoArgsConstructor
+@Getter
+@Setter
 public class RentOfferCalendarDay {
-    @Getter
-    @Setter
-    private int type;
-    @Getter
-    @Setter
+
+    private RentOfferCalendarDayType type;
     private BigDecimal price;
-    @Getter
-    @Setter
     private CommonCurrency currency;
 
-    public RentOfferCalendarDay(int type) {
+    public RentOfferCalendarDay(RentOfferCalendarDayType type) {
         this.type = type;
         this.price = null;
         this.currency = CommonCurrency.UAH;

@@ -7,7 +7,7 @@ import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewBaseDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
-public abstract class RentOfferCommand<T extends RentOfferViewBaseDTO> extends RentCommand<T> {
+public abstract class RentOfferCommand extends RentCommand<RentOffer> {
     protected RentOfferService rentOfferService;
     protected RentOffer rentOffer;
     protected String rentOfferId;

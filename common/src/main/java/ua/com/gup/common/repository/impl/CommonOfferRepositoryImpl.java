@@ -215,7 +215,7 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
     }
 
 
-    private Query buildQueryByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
+    protected Query buildQueryByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
         Query query = new Query();
         if (!StringUtils.isEmpty(offerFilter.getQuery())) {
             TextCriteria textCriteria = TextCriteria.forLanguage("russian");
@@ -245,10 +245,7 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
         } else {
             query.addCriteria(Criteria.where("status").is(CommonStatus.ACTIVE));
         }
-        //todo maybe need change how as new  categories with sort vdvorak
-        if (offerFilter.getCategories() != null) {
-            query.addCriteria(Criteria.where("categories").all(offerFilter.getCategories()));
-        }
+
 
         //filter by authorId
         if (offerFilter.getAuthorFilter() != null && offerFilter.getAuthorFilter().getAuthorId() != null) {
