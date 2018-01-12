@@ -72,16 +72,25 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
         log.debug("Request to save Offer : {}", rentOfferCreateDTO);
+        RentOffer offer = saveAndReturn(rentOfferCreateDTO);
+        RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
+        return result;
+    }
+
+    @Override
+    public RentOffer saveAndReturn(RentOfferCreateDTO rentOfferCreateDTO) {
         String seoURL = generateUniqueSeoUrl(rentOfferCreateDTO.getTitle());
         RentOffer offer = offerMapper.offerCreateDTOToOffer(rentOfferCreateDTO);
         offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
+
         String userID = RentSecurityUtils.getCurrentUserId();
         offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
+
         offer.setAuthorId(userID);
         offer = offerMongoRepository.save(offer);
         //save calendar
-        for (int i = 1; i <= rentOfferCreateDTO.getCount().intValue(); i++) {
+        for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
             RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
             rentOfferCalendar.setOfferId(offer.getId());
             rentOfferCalendar.setStartDate(rentOfferCreateDTO.getCalendar().getStartDate());
@@ -90,14 +99,21 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
             rentOfferCalendarService.save(rentOfferCalendar);
         }
+        return offer;
+    }
+
+
+    @Override
+    public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
+        log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
+        RentOffer offer = updateAndReturn(rentOfferId, offerUpdateDTO);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
 
     @Override
-    public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
-        log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
-        RentOffer offer = offerMongoRepository.findOne(rentOfferId);
+    public RentOffer updateAndReturn(String offerId, RentOfferUpdateDTO offerUpdateDTO) {
+        RentOffer offer = offerMongoRepository.findOne(offerId);
         offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
         offerMapper.offerUpdateDTOToOffer(offerUpdateDTO, offer);
         // on moderation if fields was changed and moderation is needed or last moderation is refused - moderation any way
@@ -106,9 +122,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         } else {
             offer.setStatus(CommonStatus.ACTIVE);
         }
-        offer = offerMongoRepository.save(offer);
-        RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
-        return result;
+        return offerMongoRepository.save(offer);
     }
 
     @Override
@@ -293,7 +307,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     public boolean exists(String id) {
         return offerMongoRepository.exists(id);
     }
-
 
 
     @Override

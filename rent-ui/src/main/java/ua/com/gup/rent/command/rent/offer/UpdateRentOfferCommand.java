@@ -1,11 +1,12 @@
 package ua.com.gup.rent.command.rent.offer;
 
 import ua.com.gup.common.model.mongo.operation.OperationType;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
-public class UpdateRentOfferCommand extends RentOfferCommand<RentOfferViewDetailsDTO> {
+public class UpdateRentOfferCommand extends RentOfferCommand {
 
     private RentOfferUpdateDTO updateDTO;
 
@@ -15,10 +16,9 @@ public class UpdateRentOfferCommand extends RentOfferCommand<RentOfferViewDetail
     }
 
     @Override
-    public RentOfferViewDetailsDTO execute() throws Exception {
-        RentOfferViewDetailsDTO detailsDTO = rentOfferService.update(rentOfferId, updateDTO);
-        this.rentOffer = rentOfferService.findById(rentOfferId);
-        return detailsDTO;
+    public RentOffer execute() throws Exception {
+        this.rentOffer = rentOfferService.updateAndReturn(rentOfferId, updateDTO);
+        return rentOffer;
     }
 
     @Override
