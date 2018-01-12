@@ -2,6 +2,7 @@ package ua.com.gup.rent.util;
 
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDayType;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -23,7 +24,8 @@ public class RentCalendarUtil {
         RentOfferCalendarDay[] rentOfferCalendarDays = new RentOfferCalendarDay[days];
         int i = 0;
         while (startDate.isBefore(endDate)) {
-            rentOfferCalendarDays[i++] = new RentOfferCalendarDay(isWeekendDay(startDate.getDayOfWeek()) ? 1 : 0);
+            rentOfferCalendarDays[i++] = new RentOfferCalendarDay(isWeekendDay(startDate.getDayOfWeek()) ?
+                    RentOfferCalendarDayType.WEEKEND : RentOfferCalendarDayType.BUSINESS);
             startDate = startDate.plusDays(1);
         }
         rentOfferCalendar.setDays(rentOfferCalendarDays);
