@@ -216,6 +216,11 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
         return rentCategoryCache.containsKey(code);
     }
 
+    @Override
+    public boolean existsByKey(String key) {
+        return rentOfferCategoryRepository.findByKeyExists(key);
+    }
+
     private void warmCache() {
         final List<RentOfferCategory> categories = rentOfferCategoryRepository.findAll();
         final Set<Integer> parentCategories = categories.stream().map(RentOfferCategory::getParent).collect(Collectors.toSet());

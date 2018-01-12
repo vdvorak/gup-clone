@@ -94,4 +94,6 @@ public interface RentOfferCategoryService {
      * @param code the code of the entity
      */
     boolean exists(int code);
+
+    boolean existsByKey(String key);
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -154,13 +155,19 @@ public class RentOfferCategoryEndpoint {
      * POST  /categories : Create a new category.
      *
      * @param rentOfferCategoryCreateDTO the category to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new category, or with status 400 (Bad Request) if the category has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new category,
+     * or with status 400 (Bad Request) if the category has already an ID,
+     * or with status 409 (Conflict) if the category with key already exists
+     *
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> createCategory(@Valid @RequestBody RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) throws URISyntaxException {
         logger.debug("REST request to save new RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
+        if (rentOfferCategoryService.existsByKey(rentOfferCategoryCreateDTO.getKey())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryCreateDTO);
         clearCache();
         return ResponseEntity.created(new URI("/categories/" + result.getId())).body(result);
