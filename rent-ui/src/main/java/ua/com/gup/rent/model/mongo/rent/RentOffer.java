@@ -40,10 +40,6 @@ public class RentOffer extends CommonRentOffer {
 
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
 
-    private String title;
-
-    private String description;
-
     @CreatedBy
     private GupLoggedUser user;
 
@@ -55,8 +51,6 @@ public class RentOffer extends CommonRentOffer {
     @LastModifiedDate
     private ZonedDateTime lastModifiedDate;
 
-    private String authorId;
-
     private Address address;
 
     private RentOfferLands lands;
@@ -65,14 +59,9 @@ public class RentOffer extends CommonRentOffer {
 
     private RentOfferContactInfo contactInfo;
 
-    private List<Integer> categories;
-
     private CommonStatus status;
 
     private RentOfferPrice price;
-
-    @Indexed(unique = true)
-    private String seoUrl;
 
     private String deposit;
 

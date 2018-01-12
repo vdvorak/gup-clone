@@ -46,4 +46,5 @@ public interface CommonOfferService {
 
     Page findByModeratorFilter(OfferModeratorFilter filter, Pageable pageable);
 
+    void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser);
 }

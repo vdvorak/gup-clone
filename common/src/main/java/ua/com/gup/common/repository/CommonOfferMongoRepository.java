@@ -7,6 +7,7 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends MongoRepository<T, String> {
@@ -15,6 +16,8 @@ public interface CommonOfferMongoRepository<T extends CommonRentOffer> extends M
     Optional<T> findOneBySeoUrl(String seoUrl);
 
     Page<T> findAllByStatusAndAuthorId(CommonStatus status, String authorId, Pageable pageable);
+
+    List<T> findAllByAuthorId(String authorId);
 
     Page<T> findAllByStatus(CommonStatus status, Pageable pageable);
 

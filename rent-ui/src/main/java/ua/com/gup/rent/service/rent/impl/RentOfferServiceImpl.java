@@ -8,9 +8,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
+import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.mongo.CommonRentOffer;
+import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
@@ -18,6 +22,8 @@ import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
+import ua.com.gup.rent.model.rent.RentOfferContactInfo;
+import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
@@ -435,5 +441,70 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         }
         Page<RentOffer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
+    }
+
+    @Override
+    public void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser) {
+        RentOfferProfile from = profileRepository.findByPublicId(fromUserPublicId);
+        RentOfferProfile to = profileRepository.findByPublicId(toUserPublicId);
+
+        List<RentOffer> fromOffers = offerMongoRepository.findAllByAuthorId(from.getId());
+        for (RentOffer src : fromOffers) {
+            RentOffer trgt = new RentOffer();
+
+            String seoURL = generateUniqueSeoUrl(src.getTitle());
+            trgt.setSeoUrl(seoURL);
+            trgt.setStatus(src.getStatus());
+            trgt.setTitle(src.getTitle());
+            trgt.setDescription(src.getDescription());
+            trgt.setCategories(src.getCategories());
+            trgt.setPrice(src.getPrice());
+            trgt.setSettings(src.getSettings());
+            trgt.setDeposit(src.getDeposit());
+            trgt.setLands(src.getLands());
+            trgt.setYoutubeVideoId(src.getYoutubeVideoId());
+
+            trgt.setAttrs(src.getAttrs());
+            trgt.setBoolAttrs(src.getBoolAttrs());
+            trgt.setNumAttrs(src.getNumAttrs());
+            trgt.setMultiAttrs(src.getMultiAttrs());
+
+            trgt.setLastOfferModerationReport(src.getLastOfferModerationReport());
+            trgt.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
+            trgt.setAuthorId(to.getId());
+
+            trgt.setContactInfo(new RentOfferContactInfo());
+            trgt.getContactInfo().setPhoneNumbers(src.getContactInfo().getPhoneNumbers());
+            trgt.getContactInfo().setContactName(src.getContactInfo().getContactName());
+            trgt.setAddress(src.getAddress());
+            trgt.setImages(src.getImages());
+
+            if (copyFromUser) {
+                trgt.getContactInfo().setContactName(to.getFirstname());
+                //get all phones from user contacts that not hidden
+               Set<String> phoneNumbers = to.getContact().getContactPhones().stream()
+                        .filter(phone -> !phone.getHidden())
+                        .map(p -> p.getPhoneNumber())
+                        .collect(Collectors.toSet());
+                trgt.getContactInfo().setPhoneNumbers(phoneNumbers);
+
+
+                trgt.setAddress(to.getAddress());
+            }
+            trgt.setStatistic(new RentOfferStatistic());
+            trgt = offerMongoRepository.save(trgt);
+
+            List<RentOfferCalendar> calendars = rentOfferCalendarService.findAllByOfferId(src.getId());
+            if(calendars!=null) {
+                for (RentOfferCalendar c : calendars) {
+                    RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
+                    rentOfferCalendar.setOfferId(trgt.getId());
+                    rentOfferCalendar.setStartDate(c.getStartDate());
+                    rentOfferCalendar.setEndDate(c.getEndDate());
+                    rentOfferCalendar.setDays(c.getDays());
+                    rentOfferCalendarService.save(rentOfferCalendar);
+                }
+            }
+        }
     }
 }

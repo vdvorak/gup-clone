@@ -43,16 +43,6 @@ public class Offer extends CommonRentOffer {
 
     private CommonStatus status;
 
-    private List<Integer> categories;
-
-    @NotNull
-    @Size(min = 2, max = 70, message = "The length of field 'title' should be in range 2-70")
-    private String title;
-
-    @Size(max = 5000, message = "The length of field 'description' should be less then 5000")
-    private String description;
-
-    private String authorId;
 
     private Address address;
 
@@ -60,8 +50,7 @@ public class Offer extends CommonRentOffer {
 
     private Lands lands;
 
-    @Indexed(unique = true)
-    private String seoUrl;
+
 
     private String youtubeVideoId;
 
@@ -119,39 +108,6 @@ public class Offer extends CommonRentOffer {
         this.status = status;
     }
 
-
-    public List<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -166,14 +122,6 @@ public class Offer extends CommonRentOffer {
 
     public void setPrice(Price price) {
         this.price = price;
-    }
-
-    public String getSeoUrl() {
-        return seoUrl;
-    }
-
-    public void setSeoUrl(String seoUrl) {
-        this.seoUrl = seoUrl;
     }
 
     public String getYoutubeVideoId() {

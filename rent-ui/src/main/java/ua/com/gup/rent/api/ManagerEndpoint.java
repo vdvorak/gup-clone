@@ -204,6 +204,30 @@ public class ManagerEndpoint {
         return new ResponseEntity(offers, HttpStatus.OK);
     }
 
+    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PostMapping(value = "/{managerPublicId}/users/{fromUserPublicId}/offers/clone/{toUserPublicId}")
+    public ResponseEntity<Page<RentOfferViewShortDTO>> cloneOffrs(
+            @PathVariable("managerPublicId") String managerPublicId,
+            @PathVariable("fromUserPublicId") String fromUserPublicId,
+            @PathVariable("toUserPublicId") String toUserPublicId,
+            @RequestParam(value = "useUserContacts", defaultValue = "false") boolean copyFromUser) {
+
+        if (!profilesService.profileExistsByPublicId(fromUserPublicId)) {
+            return new ResponseEntity("error.user.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        if (!profilesService.profileExistsByPublicId(toUserPublicId)) {
+            return new ResponseEntity("error.user.target.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        if (!profilesService.profileExistsByPublicId(managerPublicId)) {
+            return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
+        }
+
+        offerService.cloneOffers(fromUserPublicId, toUserPublicId, copyFromUser);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN') and hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}/offers/{offerId}")
@@ -291,5 +315,7 @@ public class ManagerEndpoint {
         managerActionService.remove(actionId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 
 }
