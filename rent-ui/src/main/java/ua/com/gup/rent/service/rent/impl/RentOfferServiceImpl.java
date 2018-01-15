@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
@@ -17,6 +18,7 @@ import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarInterval;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
@@ -84,19 +86,23 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         offer.setStatus(CommonStatus.ON_MODERATION);
         offer.setSeoUrl(seoURL);
 
-        String userID = RentSecurityUtils.getCurrentUserId();
-        offer.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
+        GupLoggedUser loggedUser = RentSecurityUtils.getLoggedUser();
+        offer.setLastModifiedUser(loggedUser);
+        offer.setAuthorId(loggedUser.getId());
 
-        offer.setAuthorId(userID);
-        offer = offerMongoRepository.save(offer);
-        //save calendar
         for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
-            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
-            rentOfferCalendar.setOfferId(offer.getId());
-            rentOfferCalendar.setStartDate(rentOfferCreateDTO.getCalendar().getStartDate());
-            rentOfferCalendar.setEndDate(rentOfferCreateDTO.getCalendar().getEndDate());
-            rentOfferCalendar.setDays(rentOfferCreateDTO.getCalendar().getDays());
+            RentOfferCalendarInterval rentOfferCalendarInterval = new RentOfferCalendarInterval();
+            rentOfferCalendarInterval.setRentStartDate(rentOfferCreateDTO.getCalendar().getStartDate());
+            rentOfferCalendarInterval.setRentEndDate(rentOfferCreateDTO.getCalendar().getEndDate());
+            offer.getRentOfferCalendarIntervals().add(rentOfferCalendarInterval);
+        }
+        offer = offerMongoRepository.save(offer);
 
+        //save calendar
+        for (RentOfferCalendarInterval rentOfferCalendarInterval : offer.getRentOfferCalendarIntervals()) {
+            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(rentOfferCalendarInterval);
+            rentOfferCalendar.setOfferId(offer.getId());
+            rentOfferCalendar.setDays(rentOfferCreateDTO.getCalendar().getDays());
             rentOfferCalendarService.save(rentOfferCalendar);
         }
         return offer;

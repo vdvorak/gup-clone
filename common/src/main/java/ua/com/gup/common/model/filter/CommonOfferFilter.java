@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -51,7 +49,6 @@ public abstract class CommonOfferFilter implements Serializable {
     private String[] seoUrls;
 
     @ApiModelProperty("Date from inclusive")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate createdDate;
-
 }

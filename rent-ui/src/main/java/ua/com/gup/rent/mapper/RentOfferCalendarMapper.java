@@ -14,8 +14,8 @@ public class RentOfferCalendarMapper {
     public RentOfferCalendar fromDTOToModel(RentOfferCalendarDTO rentOfferCalendarDTO) {
         RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
         rentOfferCalendar.setDays(rentOfferCalendarDTO.getDays());
-        rentOfferCalendar.setStartDate(rentOfferCalendarDTO.getStartDate());
-        rentOfferCalendar.setEndDate(rentOfferCalendarDTO.getEndDate());
+        rentOfferCalendar.setRentStartDate(rentOfferCalendarDTO.getStartDate());
+        rentOfferCalendar.setRentEndDate(rentOfferCalendarDTO.getEndDate());
         return rentOfferCalendar;
     }
 }
