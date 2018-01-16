@@ -18,9 +18,11 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.common.util.CompletableFutureUtil;
 import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
 import ua.com.gup.rent.api.search.dto.CategoryStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -34,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "/api/search")
@@ -45,6 +48,9 @@ public class RentSearchEndpoint {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private AsyncRestTemplate asyncRestTemplate;
 
     @Autowired
     private RentOfferProfilesService profilesService;
@@ -93,6 +99,12 @@ public class RentSearchEndpoint {
     public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
         log.debug("REST request to get a page of Offers");
 
+        if (offerFilter.getAuthorFilter() != null) {
+            if (offerFilter.getAuthorFilter().getPublicId() != null && offerFilter.getAuthorFilter().getAuthorId() == null) {
+                offerFilter.getAuthorFilter().setAuthorId(profilesService.findByPublicId(offerFilter.getAuthorFilter().getPublicId().trim()).getId());
+            }
+        }
+
         Map<String, Object> offerFilterMap = oMapper.convertValue(offerFilter, Map.class);
         UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder();
         if (pageable != null) {
@@ -106,12 +118,17 @@ public class RentSearchEndpoint {
 
         UriComponentsBuilder uriComponentsBuilder = builder.path("/offers");
 
+
+
+
         offerFilterMap.forEach((key, value) -> uriComponentsBuilder.queryParam(key, value));
 
         UriComponents uriComponents = uriComponentsBuilder.build();
         Map elasticPage = restTemplate.getForObject(uriComponents.toUriString(), Map.class);
         List<String> ids = (List<String>) elasticPage.get("content");
         if (!CollectionUtils.isEmpty(ids)) {
+
+
             elasticPage.put("content", offerService.findByIds(ids, pageable.getSort()));
         }
         return new ResponseEntity(elasticPage, HttpStatus.OK);

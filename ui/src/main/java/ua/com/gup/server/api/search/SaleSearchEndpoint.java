@@ -12,10 +12,10 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.gup.common.util.CompletableFutureUtil;
 import ua.com.gup.server.api.search.dto.CategoryOffersStatistic;
 import ua.com.gup.server.api.search.dto.CategoryStatistic;
 import ua.com.gup.server.api.search.dto.SearchResponseDTO;
-import ua.com.gup.server.util.CompletableFutureUtil;
 import ua.com.gup.service.profile.ProfilesService;
 
 import javax.annotation.PostConstruct;

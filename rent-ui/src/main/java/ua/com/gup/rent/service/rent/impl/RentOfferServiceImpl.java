@@ -9,22 +9,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
-import ua.com.gup.common.model.mongo.CommonProfile;
-import ua.com.gup.common.model.mongo.CommonRentOffer;
-import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
-import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarInterval;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
@@ -39,12 +35,14 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
+import ua.com.gup.rent.service.rent.RentOfferElasticService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
 import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
 import ua.com.gup.rent.util.security.RentSecurityUtils;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -76,6 +74,15 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Autowired
     private RentOfferCalendarService rentOfferCalendarService;
 
+    @Autowired
+    private RentOfferElasticService rentOfferElasticService;
+
+    private RentOffer saveWrapper(RentOffer rentOffer) {
+        rentOffer = offerMongoRepository.save(rentOffer);
+        rentOfferElasticService.asyncSaveRentOfferElastic(rentOffer);
+        return rentOffer;
+    }
+
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
@@ -96,21 +103,28 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         offer.setLastModifiedUser(loggedUser);
         offer.setAuthorId(loggedUser.getId());
 
+        LocalDate startDate = rentOfferCreateDTO.getCalendar().getStartDate();
+        LocalDate endDate = rentOfferCreateDTO.getCalendar().getEndDate();
+        List<RentOfferCalendarDay> days = rentOfferCreateDTO.getCalendar().getDays();
+
         for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
-            RentOfferCalendarInterval rentOfferCalendarInterval = new RentOfferCalendarInterval();
-            rentOfferCalendarInterval.setRentStartDate(rentOfferCreateDTO.getCalendar().getStartDate());
-            rentOfferCalendarInterval.setRentEndDate(rentOfferCreateDTO.getCalendar().getEndDate());
-            offer.getRentOfferCalendarIntervals().add(rentOfferCalendarInterval);
+            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
+            rentOfferCalendar.setRentStartDate(startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            rentOfferCalendar.setRentEndDate(endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
+//            rentOfferCalendar.setDaysMap(RentCalendarUtil.getDaysMapForDates(startDate, endDate, rentOfferCreateDTO.getCalendar().getDays()));
+            offer.getRentOfferCalendars().add(rentOfferCalendar);
         }
-        offer = offerMongoRepository.save(offer);
+        offer = saveWrapper(offer);
 
         //save calendar
-        for (RentOfferCalendarInterval rentOfferCalendarInterval : offer.getRentOfferCalendarIntervals()) {
-            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(rentOfferCalendarInterval);
-            rentOfferCalendar.setOfferId(offer.getId());
-            rentOfferCalendar.setDays(rentOfferCreateDTO.getCalendar().getDays());
-            rentOfferCalendarService.save(rentOfferCalendar);
-        }
+//        for (RentOfferCalendarInterval rentOfferCalendarInterval : offer.getRentOfferCalendarIntervals()) {
+//            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(rentOfferCalendarInterval);
+//            rentOfferCalendar.setOfferId(offer.getId());
+//
+//            rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
+//            rentOfferCalendarService.save(rentOfferCalendar);
+//        }
         return offer;
     }
 
@@ -134,7 +148,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         } else {
             offer.setStatus(CommonStatus.ACTIVE);
         }
-        return offerMongoRepository.save(offer);
+        return saveWrapper(offer);
     }
 
     @Override
@@ -147,7 +161,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         } else {
             offer.setStatus(CommonStatus.ACTIVE);
         }
-        offer = offerMongoRepository.save(offer);
+        offer = saveWrapper(offer);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
@@ -164,11 +178,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Override
     public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
-        if (offerFilter.getAuthorFilter() != null) {
-            if (offerFilter.getAuthorFilter().getPublicId() != null && offerFilter.getAuthorFilter().getAuthorId() == null) {
-                offerFilter.getAuthorFilter().setAuthorId(profileRepository.findByPublicId(offerFilter.getAuthorFilter().getPublicId().trim()).getId());
-            }
-        }
+
         log.debug("Request to get all Rent Offers by filter  {} ", offerFilter);
         long count = getRepository().countByFilter(offerFilter, CommonStatus.ACTIVE);
         List<RentOffer> offers = Collections.EMPTY_LIST;
@@ -240,7 +250,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         if (offer.isPresent()) {
             final RentOffer o = offer.get();
             o.incrementView(true, false);
-            offerRepository.save(o);
+            saveWrapper(o);
             Set<CommonStatus> statuses = new HashSet<>();
             statuses.addAll(Arrays.asList(CommonStatus.ACTIVE, CommonStatus.DEACTIVATED, CommonStatus.REJECTED, CommonStatus.ON_MODERATION));
             if (!statuses.contains(o.getStatus())) {
@@ -303,7 +313,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     public void incrementPhoneViews(String id) {
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.incrementView(false, true);
-        offerMongoRepository.save(offer);
+        saveWrapper(offer);
     }
 
     @Override
@@ -311,7 +321,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         log.debug("Request to delete Offer : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(CommonStatus.ARCHIVED);
-        offerMongoRepository.save(offer);
+        saveWrapper(offer);
     }
 
 
@@ -367,7 +377,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         log.debug("Request to update update rent offer's status : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(status);
-        offer = offerMongoRepository.save(offer);
+        offer = saveWrapper(offer);
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
@@ -501,7 +511,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             if (copyFromUser) {
                 trgt.getContactInfo().setContactName(to.getFirstname());
                 //get all phones from user contacts that not hidden
-               Set<String> phoneNumbers = to.getContact().getContactPhones().stream()
+                Set<String> phoneNumbers = to.getContact().getContactPhones().stream()
                         .filter(phone -> !phone.getHidden())
                         .map(p -> p.getPhoneNumber())
                         .collect(Collectors.toSet());
@@ -511,19 +521,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
                 trgt.setAddress(to.getAddress());
             }
             trgt.setStatistic(new RentOfferStatistic());
-            trgt = offerMongoRepository.save(trgt);
+            trgt.setRentOfferCalendars(src.getRentOfferCalendars());
+            trgt = saveWrapper(trgt);
 
-//            List<RentOfferCalendar> calendars = rentOfferCalendarService.findAllByOfferId(src.getId());
-//            if(calendars!=null) {
-//                for (RentOfferCalendar c : calendars) {
-//                    RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
-//                    rentOfferCalendar.setOfferId(trgt.getId());
-//                    rentOfferCalendar.setStartDate(c.getStartDate());
-//                    rentOfferCalendar.setEndDate(c.getEndDate());
-//                    rentOfferCalendar.setDays(c.getDays());
-//                    rentOfferCalendarService.save(rentOfferCalendar);
-//                }
-//            }
         }
     }
 }

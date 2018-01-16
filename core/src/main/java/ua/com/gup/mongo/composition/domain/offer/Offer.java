@@ -43,7 +43,8 @@ public class Offer extends CommonRentOffer {
 
     private Lands lands;
 
-
+    @Indexed(unique = true)
+    private String seoUrl;
 
     private String youtubeVideoId;
 
@@ -60,6 +61,14 @@ public class Offer extends CommonRentOffer {
     private OfferStatistic statistic;
 
     private OfferModerationReport lastOfferModerationReport;
+
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public void setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+    }
 
     public ZonedDateTime getCreatedDate() {
         return createdDate;

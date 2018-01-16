@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarInterval;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.RentOfferContactInfo;
 import ua.com.gup.rent.model.rent.RentOfferLands;
 import ua.com.gup.rent.model.rent.RentOfferModerationReport;
@@ -37,9 +37,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"})
 public class RentOffer extends CommonRentOffer {
 
-
     public static final String CLASS_NAME = "ua.com.gup.rent.model.mongo.rent.RentOffer";
-
 
     @CreatedBy
     private GupLoggedUser user;
@@ -52,15 +50,16 @@ public class RentOffer extends CommonRentOffer {
     @LastModifiedDate
     private ZonedDateTime lastModifiedDate;
 
-      private RentOfferLands lands;
+    private RentOfferLands lands;
 
     private String youtubeVideoId;
 
     private RentOfferContactInfo contactInfo;
 
-
-
     private RentOfferPrice price;
+
+    @Indexed(unique = true)
+    private String seoUrl;
 
     private String deposit;
 
@@ -78,7 +77,7 @@ public class RentOffer extends CommonRentOffer {
 
     private RentOfferSettings settings;
 
-    private List<RentOfferCalendarInterval> rentOfferCalendarIntervals;
+    private List<RentOfferCalendar> rentOfferCalendars;
 
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {
@@ -87,11 +86,12 @@ public class RentOffer extends CommonRentOffer {
         return statistic;
     }
 
-    public List<RentOfferCalendarInterval> getRentOfferCalendarIntervals() {
-        if (rentOfferCalendarIntervals == null) {
-            rentOfferCalendarIntervals = new ArrayList<>();
+
+    public List<RentOfferCalendar> getRentOfferCalendars() {
+        if (rentOfferCalendars == null) {
+            rentOfferCalendars = new ArrayList<>();
         }
-        return rentOfferCalendarIntervals;
+        return rentOfferCalendars;
     }
 
     public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {

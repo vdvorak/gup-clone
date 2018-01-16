@@ -12,24 +12,26 @@ import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Document(collection = ObjectType.RENT_OFFER_CALENDAR)
-public class RentOfferCalendar extends RentOfferCalendarInterval {
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//@Document(collection = ObjectType.RENT_OFFER_CALENDAR)
+public class RentOfferCalendar {//extends RentOfferCalendarInterval {
 
-    @Id
-    private String Id;
-    @Indexed
-    private String offerId;
+//    @Id
+//    private String Id;
+//    @Indexed
+//    private String offerId;
+    private String rentStartDate;
+    private String rentEndDate;
     private RentOfferCalendarDay[] days;
 
-    public RentOfferCalendar() {
-        super();
-    }
+//    public RentOfferCalendar() {
+//        super();
+//    }
 
-    public RentOfferCalendar(RentOfferCalendarInterval calendarInterval) {
-        super(calendarInterval);
-    }
+//    public RentOfferCalendar(RentOfferCalendarInterval calendarInterval) {
+//        super(calendarInterval);
+//    }
 
 
 }

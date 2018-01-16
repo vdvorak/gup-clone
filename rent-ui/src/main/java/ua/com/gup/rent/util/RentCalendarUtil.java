@@ -1,5 +1,6 @@
 package ua.com.gup.rent.util;
 
+import org.springframework.util.CollectionUtils;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDayType;
@@ -7,11 +8,36 @@ import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDayType;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RentCalendarUtil {
 
     private RentCalendarUtil() {
+    }
+
+
+    public static Map<String, RentOfferCalendarDay> getDaysMapForDates(LocalDate startDate,
+                                                                       LocalDate endDate,
+                                                                       List<RentOfferCalendarDay> daysList) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        if (endDate.isBefore(startDate) || CollectionUtils.isEmpty(daysList)) {
+            return Collections.EMPTY_MAP;
+        }
+        Map<String, RentOfferCalendarDay> daysMap = new HashMap((int) RentDateUtil.calculateDaysDiffBetweenDates(startDate, endDate));
+
+        int i = 0;
+        while (startDate.isBefore(endDate)) {
+            daysMap.put(formatter.format(startDate), daysList.get(i++));
+            startDate = startDate.plusDays(1);
+        }
+
+        return daysMap;
     }
 
     public static RentOfferCalendar generateCalendarForDates(LocalDate startDate) {
