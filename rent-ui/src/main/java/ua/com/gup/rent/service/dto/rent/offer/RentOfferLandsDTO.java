@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ua.com.gup.rent.model.rent.RentOfferPolygons;
+import ua.com.gup.common.model.mongo.offer.Polygons;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +22,6 @@ public class RentOfferLandsDTO implements Serializable {
     private String cadnums;
 
     @ApiModelProperty(position = 10)
-    private List<RentOfferPolygons> polygons;
+    private List<Polygons> polygons;
 
 }

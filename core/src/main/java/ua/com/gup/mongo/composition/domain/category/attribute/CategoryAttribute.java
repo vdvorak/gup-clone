@@ -2,10 +2,10 @@ package ua.com.gup.mongo.composition.domain.category.attribute;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.category.attribute.CategoriesSort;
+import ua.com.gup.common.model.category.attribute.CategoryAttributeValue;
+import ua.com.gup.common.model.category.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
-import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
-import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
 
 import java.io.Serializable;
 import java.util.*;

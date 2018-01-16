@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
-import ua.com.gup.mongo.model.offer.OfferContactInfo;
+import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
 
 @Component
 public class OfferContactInfoMapper {

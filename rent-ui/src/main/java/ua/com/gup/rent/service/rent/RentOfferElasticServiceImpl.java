@@ -6,7 +6,13 @@ import org.springframework.stereotype.Service;
 import ua.com.gup.rent.model.mongo.rent.ElasticRentOffer;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarInterval;
 import ua.com.gup.rent.repository.RentOfferElasticRepository;
+import ua.com.gup.rent.util.RentCalendarUtil;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Service
 public class RentOfferElasticServiceImpl implements RentOfferElasticService {
@@ -16,9 +22,20 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
 
     @Async
     public void asyncSaveRentOfferElastic(RentOffer rentOffer) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+
         for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
             ElasticRentOffer elasticRentOffer = new ElasticRentOffer(rentOffer);
-            elasticRentOffer.setRentOfferCalendar(rentOfferCalendar);
+
+            RentOfferCalendarInterval interval = new RentOfferCalendarInterval();
+            interval.setRentStartDate(rentOfferCalendar.getRentStartDate());
+            interval.setRentEndDate(rentOfferCalendar.getRentEndDate());
+            LocalDate rentStartDate = LocalDate.parse(rentOfferCalendar.getRentStartDate(), formatter);
+            LocalDate rentEndDate = LocalDate.parse(rentOfferCalendar.getRentEndDate(), formatter);
+            interval.setDaysMap(RentCalendarUtil.getDaysMapForDates(rentStartDate,
+                    rentEndDate, Arrays.asList(rentOfferCalendar.getDays())));
+            elasticRentOffer.setRentOfferCalendarInterval(interval);
             rentOfferElasticRepository.create(elasticRentOffer);
         }
     }

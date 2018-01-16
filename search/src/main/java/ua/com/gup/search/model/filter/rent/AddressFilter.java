@@ -7,6 +7,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AddressFilter {
     private String countries;
+    private String regions;
     private String districts;
     private String cities;
 

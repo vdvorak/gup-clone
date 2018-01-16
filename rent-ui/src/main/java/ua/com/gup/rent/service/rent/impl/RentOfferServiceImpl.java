@@ -12,6 +12,7 @@ import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
+import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
@@ -502,7 +503,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             trgt.setLastModifiedUser(RentSecurityUtils.getLoggedUser());
             trgt.setAuthorId(to.getId());
 
-            trgt.setContactInfo(new RentOfferContactInfo());
+            trgt.setContactInfo(new OfferContactInfo());
             trgt.getContactInfo().setPhoneNumbers(src.getContactInfo().getPhoneNumbers());
             trgt.getContactInfo().setContactName(src.getContactInfo().getContactName());
             trgt.setAddress(src.getAddress());

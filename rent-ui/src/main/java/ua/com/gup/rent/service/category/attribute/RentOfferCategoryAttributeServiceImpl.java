@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.model.category.attribute.CategoriesSort;
+import ua.com.gup.common.model.category.attribute.OfferCategoryAttributeValue;
 import ua.com.gup.rent.mapper.RentOfferCategoryAttributeMapper;
 import ua.com.gup.rent.model.mongo.category.attribute.RentOfferCategoryAttribute;
-import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
 import ua.com.gup.rent.repository.category.attribute.RentOfferCategoryAttributeRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.dto.category.attribute.*;
@@ -145,7 +145,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
             validatorDTO.setMax(rentOfferCategoryAttribute.getValidator().getMax());
 
 
-            for (RentOfferCategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
+            for (CategoriesSort categorySort : rentOfferCategoryAttribute.getCategories_sort()) {
                 //check cache if exists category
                 if (!categoryAttributeCache.containsKey(categorySort.getCode_category())) {
                     categoryAttributeCache.put(categorySort.getCode_category(), new TreeSet<>(Comparator.comparingInt(RentOfferCategoryAttributeDTO::getCategory_sort)));
@@ -159,8 +159,7 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
 
                 LinkedHashSet<RentOfferCategoryAttributeValueDTO> valueDTOS = new LinkedHashSet<>();
 
-
-                for (RentOfferCategoryAttributeValue attributeValue : rentOfferCategoryAttribute.getValues()) {
+                for (OfferCategoryAttributeValue attributeValue : rentOfferCategoryAttribute.getValues()) {
                     if (!attributeValue.getExceptCategory().contains(categorySort.getCode_category())) {
                         RentOfferCategoryAttributeValueDTO valueDTO = new RentOfferCategoryAttributeValueDTO();
                         valueDTO.setKey(attributeValue.getKey());

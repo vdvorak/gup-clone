@@ -264,6 +264,9 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
                 if (addressFilter.getCountries() != null) {
                     query.addCriteria(Criteria.where("address.country.code").in(addressFilter.getCountries().split(",")));
                 }
+                if (addressFilter.getRegions() != null) {
+                    query.addCriteria(Criteria.where("address.region.code").in(addressFilter.getRegions().split(",")));
+                }
                 if (addressFilter.getDistricts() != null) {
                     query.addCriteria(Criteria.where("address.district.code").in(addressFilter.getDistricts().split(",")));
                 }

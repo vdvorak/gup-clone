@@ -1,14 +1,11 @@
 package ua.com.gup.rent.model.mongo.rent.calendar;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
+
+import java.time.LocalDate;
 
 
 @Data
@@ -17,11 +14,14 @@ import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 //@Document(collection = ObjectType.RENT_OFFER_CALENDAR)
 public class RentOfferCalendar {//extends RentOfferCalendarInterval {
 
-//    @Id
+    //    @Id
 //    private String Id;
 //    @Indexed
 //    private String offerId;
+//    @JsonFormat(pattern = "dd-MM-yyyy")
+
     private String rentStartDate;
+//    @JsonFormat(pattern = "dd-MM-yyyy")
     private String rentEndDate;
     private RentOfferCalendarDay[] days;
 

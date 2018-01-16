@@ -122,6 +122,9 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             if (addressFilter.getCountries() != null) {
                 boolQueryBuilder.must(new TermsQueryBuilder("address.country.code", addressFilter.getCountries().split(",")));
             }
+            if (addressFilter.getRegions() != null) {
+                boolQueryBuilder.must(new TermsQueryBuilder("address.region.code", addressFilter.getDistricts().split(",")));
+            }
             if (addressFilter.getDistricts() != null) {
                 boolQueryBuilder.must(new TermsQueryBuilder("address.district.code", addressFilter.getDistricts().split(",")));
             }

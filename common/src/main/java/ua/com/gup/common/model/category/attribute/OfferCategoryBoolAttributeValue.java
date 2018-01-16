@@ -1,6 +1,6 @@
-package ua.com.gup.mongo.model.category.attribute;
+package ua.com.gup.common.model.category.attribute;
 
-public class OfferCategoryBoolAttributeValue extends OfferCategoryAttributeBaseValue{
+public class OfferCategoryBoolAttributeValue extends OfferCategoryAttributeBaseValue {
     private Boolean selected;
 
     public Boolean getSelected() {

@@ -3,11 +3,11 @@ package ua.com.gup.rent.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.model.category.attribute.*;
 import ua.com.gup.common.model.enumeration.CommonStatus;
+import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
 import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.model.rent.RentOfferModerationReport;
-import ua.com.gup.rent.model.rent.category.attribute.*;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
@@ -95,7 +95,7 @@ public class RentOfferMapper {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
-        RentOfferModerationReport moderationReport = new RentOfferModerationReport();
+        OfferModerationReport moderationReport = new OfferModerationReport();
         moderationReport.setDescription(source.getDescription());
         moderationReport.setRefusalReasons(source.getRefusalReasons());
         moderationReport.setModeratorId(RentSecurityUtils.getCurrentUserId());
@@ -258,13 +258,13 @@ public class RentOfferMapper {
             if (categoryAttributeDTOS != null && !categoryAttributeDTOS.isEmpty()) {
                 final Map<String, RentOfferCategoryAttributeDTO> categoryAttributeDTOMap = categoryAttributeDTOS.stream().collect(Collectors.toMap(RentOfferCategoryAttributeDTO::getKey, Function.identity()));
                 if (source.getAttrs() != null) {
-                    LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+                    LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
                     for (String key : source.getAttrs().keySet()) {
                         final String value = source.getAttrs().get(key);
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
-                        RentOfferCategorySingleAttributeValue attributeValue = new RentOfferCategorySingleAttributeValue();
+                        OfferCategorySingleAttributeValue attributeValue = new OfferCategorySingleAttributeValue();
                         rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
-                        RentOfferToOfferCategoryAttributeValue selected = new RentOfferToOfferCategoryAttributeValue();
+                        OfferCategoryAttributeValue selected = new OfferCategoryAttributeValue();
                         selected.setKey(value);
                         for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
                             if (value.equals(valueDTO.getKey())) {
@@ -278,15 +278,15 @@ public class RentOfferMapper {
                 }
 
                 if (source.getMultiAttrs() != null) {
-                    LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+                    LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
                     for (String key : source.getMultiAttrs().keySet()) {
-                        RentOfferCategoryMultiAttributeValue attributeValue = new RentOfferCategoryMultiAttributeValue();
+                        OfferCategoryMultiAttributeValue attributeValue = new OfferCategoryMultiAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         final String[] values = source.getMultiAttrs().get(key).split(",");
-                        LinkedHashSet<RentOfferToOfferCategoryAttributeValue> selected = new LinkedHashSet<>();
+                        LinkedHashSet<OfferCategoryAttributeValue> selected = new LinkedHashSet<>();
                         for (String value : values) {
-                            RentOfferToOfferCategoryAttributeValue selectedItem = new RentOfferToOfferCategoryAttributeValue();
+                            OfferCategoryAttributeValue selectedItem = new OfferCategoryAttributeValue();
                             selectedItem.setKey(value);
                             for (RentOfferCategoryAttributeValueDTO valueDTO : categoryAttributeDTO.getValues()) {
                                 if (value.equals(valueDTO.getKey())) {
@@ -301,9 +301,9 @@ public class RentOfferMapper {
                     target.setMultiAttrs(multiAttrs);
                 }
                 if (source.getNumAttrs() != null) {
-                    LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numericAttrs = new LinkedHashMap<>();
+                    LinkedHashMap<String, OfferCategoryNumericAttributeValue> numericAttrs = new LinkedHashMap<>();
                     for (String key : source.getNumAttrs().keySet()) {
-                        RentOfferCategoryNumericAttributeValue attributeValue = new RentOfferCategoryNumericAttributeValue();
+                        OfferCategoryNumericAttributeValue attributeValue = new OfferCategoryNumericAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         attributeValue.setSelected(source.getNumAttrs().get(key));
@@ -313,9 +313,9 @@ public class RentOfferMapper {
                     target.setNumAttrs(numericAttrs);
                 }
                 if (source.getBoolAttrs() != null) {
-                    LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+                    LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
                     for (String key : source.getBoolAttrs().keySet()) {
-                        RentOfferCategoryBoolAttributeValue attributeValue = new RentOfferCategoryBoolAttributeValue();
+                        OfferCategoryBoolAttributeValue attributeValue = new OfferCategoryBoolAttributeValue();
                         final RentOfferCategoryAttributeDTO categoryAttributeDTO = categoryAttributeDTOMap.get(key);
                         rentOfferCategoryAttributeMapper.fromCategoryAttributeDTOToOfferCategoryAttributeValue(categoryAttributeDTO, attributeValue);
                         attributeValue.setSelected(source.getBoolAttrs().get(key));

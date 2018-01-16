@@ -13,21 +13,13 @@ import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
-import ua.com.gup.rent.model.rent.RentOfferContactInfo;
-import ua.com.gup.rent.model.rent.RentOfferLands;
-import ua.com.gup.rent.model.rent.RentOfferModerationReport;
 import ua.com.gup.rent.model.rent.RentOfferSettings;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
 import ua.com.gup.rent.model.rent.price.RentOfferPrice;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Document(collection = ObjectType.RENT_OFFER, language = "russian")
@@ -41,43 +33,26 @@ public class RentOffer extends CommonRentOffer {
 
     @CreatedBy
     private GupLoggedUser user;
-
-    @CreatedDate
-    private ZonedDateTime createdDate;
-
     private GupLoggedUser lastModifiedUser;
-
-    @LastModifiedDate
-    private ZonedDateTime lastModifiedDate;
-
-    private RentOfferLands lands;
-
-    private String youtubeVideoId;
-
-    private RentOfferContactInfo contactInfo;
-
-    private RentOfferPrice price;
-
     @Indexed(unique = true)
     private String seoUrl;
-
+    private RentOfferPrice price;
     private String deposit;
-
-    private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
-
-    private LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
-
-    private LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
-
-    private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
-
     private RentOfferStatistic statistic;
-
-    private RentOfferModerationReport lastOfferModerationReport;
-
     private RentOfferSettings settings;
-
     private List<RentOfferCalendar> rentOfferCalendars;
+
+    @Override
+    @CreatedDate
+    public ZonedDateTime getCreatedDate() {
+        return super.getCreatedDate();
+    }
+
+    @Override
+    @LastModifiedDate
+    public ZonedDateTime getLastModifiedDate() {
+        return super.getLastModifiedDate();
+    }
 
     public RentOfferStatistic getStatistic() {
         if (statistic == null) {

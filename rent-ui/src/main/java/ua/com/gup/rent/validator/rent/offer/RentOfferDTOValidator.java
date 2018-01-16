@@ -129,9 +129,9 @@ public class RentOfferDTOValidator implements Validator {
                                         errors.rejectValue("multiAttrs", "multiAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
                                     }
                                 } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.NUMBER) {
-                                    if (rentOfferCreateDTO.getNumAttrs() == null || rentOfferCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
-                                        errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
-                                    }
+//                                    if (rentOfferCreateDTO.getNumAttrs() == null || rentOfferCreateDTO.getNumAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
+//                                        errors.rejectValue("numAttrs", "numAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");
+//                                    }
                                 } else if (categoryAttributeDTO.getType() == CommonCategoryAttributeType.BOOLEAN) {
                                     if (rentOfferCreateDTO.getBoolAttrs() == null || rentOfferCreateDTO.getBoolAttrs().get(categoryAttributeDTO.getKey()) == null && categoryAttributeDTO.getValidator().isRequired()) {
                                         errors.rejectValue("boolAttrs", "boolAttrs." + categoryAttributeDTO.getKey() + ".required", null, "Attribute is required");

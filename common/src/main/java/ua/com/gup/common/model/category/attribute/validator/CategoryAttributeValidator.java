@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.category.attribute.validator;
+package ua.com.gup.common.model.category.attribute.validator;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

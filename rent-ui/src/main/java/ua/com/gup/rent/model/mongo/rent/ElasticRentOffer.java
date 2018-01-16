@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarInterval;
 
 @Data
 @Document(collection = ObjectType.RENT_OFFER_ELASTIC)
@@ -17,7 +17,7 @@ import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 public class ElasticRentOffer extends CommonRentOffer {
 
     private String rentOfferId;
-    private RentOfferCalendar rentOfferCalendar;
+    private RentOfferCalendarInterval rentOfferCalendarInterval;
 
     public ElasticRentOffer() {
     }
@@ -25,6 +25,10 @@ public class ElasticRentOffer extends CommonRentOffer {
     public ElasticRentOffer(RentOffer cro) {
         super(cro);
         this.rentOfferId = cro.getId();
+        this.youtubeVideoId = null;
         this.images = null;
+        this.lands = null;
+        this.contactInfo = null;
+        this.lastOfferModerationReport = null;
     }
 }

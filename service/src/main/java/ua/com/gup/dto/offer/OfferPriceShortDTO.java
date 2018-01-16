@@ -2,9 +2,10 @@ package ua.com.gup.dto.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryAttributeValue;
+import ua.com.gup.common.model.category.attribute.OfferCategoryAttributeValue;
 
 import java.util.Map;
+
 
 @ApiModel
 @JsonInclude(JsonInclude.Include.NON_NULL)

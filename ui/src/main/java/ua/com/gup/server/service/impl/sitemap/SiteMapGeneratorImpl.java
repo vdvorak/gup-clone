@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.model.filter.OfferFilterOptions;
-import ua.com.gup.mongo.model.offer.OfferModerationReport;
+import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
 import ua.com.gup.server.service.OfferService;
 import ua.com.gup.server.service.SiteMapGeneratorService;
 import ua.com.gup.server.service.impl.sitemap.content.ChangeFreq;

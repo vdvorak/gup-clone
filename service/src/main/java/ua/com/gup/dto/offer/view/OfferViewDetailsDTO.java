@@ -4,14 +4,14 @@ package ua.com.gup.dto.offer.view;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import ua.com.gup.common.dto.CommonAddressDTO;
+import ua.com.gup.common.model.category.attribute.OfferCategoryBoolAttributeValue;
+import ua.com.gup.common.model.category.attribute.OfferCategoryMultiAttributeValue;
+import ua.com.gup.common.model.category.attribute.OfferCategoryNumericAttributeValue;
+import ua.com.gup.common.model.category.attribute.OfferCategorySingleAttributeValue;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.dto.offer.OfferContactInfoDTO;
 import ua.com.gup.dto.offer.OfferLandsDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryBoolAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryMultiAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategoryNumericAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.OfferCategorySingleAttributeValue;
 
 import java.util.LinkedHashMap;
 

@@ -1,7 +1,7 @@
 package ua.com.gup.dto.offer.view;
 
 import io.swagger.annotations.ApiModelProperty;
-import ua.com.gup.mongo.model.offer.OfferModerationReport;
+import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
 
 public class OfferViewShortWithModerationReportDTO extends OfferViewShortDTO {
 

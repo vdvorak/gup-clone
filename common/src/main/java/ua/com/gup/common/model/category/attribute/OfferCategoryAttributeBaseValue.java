@@ -1,33 +1,23 @@
-package ua.com.gup.rent.model.rent.category.attribute;
+package ua.com.gup.common.model.category.attribute;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-//@EqualsAndHashCode(of={"code,type"})
-public class RentOfferCategoryAttributeBaseValue implements Serializable {
-  //  @Setter @Getter
-    private int code;
-  //  @Setter @Getter
-    private Map<String, String> title = new HashMap<>();
-  //  @Setter @Getter
-    private Map<String, String> unit = new HashMap<>();
-  //  @Setter @Getter
-    private CommonCategoryAttributeType type;
-  //  @Setter @Getter
-    private boolean privateAttr;
+public class OfferCategoryAttributeBaseValue implements Serializable {
 
-    public RentOfferCategoryAttributeBaseValue(){
+    public OfferCategoryAttributeBaseValue(){
         privateAttr = false;
     }
+
+    private int code;
+    private Map<String, String> title = new HashMap<>();
+    private Map<String, String> unit = new HashMap<>();
+    private CommonCategoryAttributeType type;
+    private boolean privateAttr;
 
     public int getCode() {
         return code;
@@ -72,13 +62,15 @@ public class RentOfferCategoryAttributeBaseValue implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RentOfferCategoryAttributeBaseValue)) return false;
-        RentOfferCategoryAttributeBaseValue that = (RentOfferCategoryAttributeBaseValue) o;
-        return getCode() == that.getCode();
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OfferCategoryAttributeBaseValue that = (OfferCategoryAttributeBaseValue) o;
+
+        return code == that.code;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCode());
+        return code;
     }
 }
