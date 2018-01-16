@@ -1,4 +1,4 @@
-package ua.com.gup.rent.model.rent;
+package ua.com.gup.common.model.mongo.offer;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 
-public class RentOfferModerationReport implements Serializable {
+public class OfferModerationReport implements Serializable {
 
     private String moderatorId;
 
