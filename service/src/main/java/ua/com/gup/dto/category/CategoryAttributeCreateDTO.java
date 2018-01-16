@@ -1,10 +1,10 @@
 package ua.com.gup.dto.category;
 
 
+import ua.com.gup.common.model.attribute.CategoriesSort;
+import ua.com.gup.common.model.attribute.CategoryAttributeValue;
+import ua.com.gup.common.model.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
-import ua.com.gup.mongo.model.category.attribute.CategoriesSort;
-import ua.com.gup.mongo.model.category.attribute.CategoryAttributeValue;
-import ua.com.gup.mongo.model.category.attribute.validator.CategoryAttributeValidator;
 
 import java.util.*;
 

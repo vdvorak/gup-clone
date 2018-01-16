@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.offer;
+package ua.com.gup.common.model.mongo.offer;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.offer;
+package ua.com.gup.common.model.mongo.offer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

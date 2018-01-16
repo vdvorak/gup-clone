@@ -1,9 +1,12 @@
 package ua.com.gup.mapper;
 
 
-import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.model.attribute.*;
+import ua.com.gup.common.model.mongo.offer.Lands;
+import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
+import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.dto.category.tree.CategoryAttributeDTO;
 import ua.com.gup.dto.category.tree.CategoryAttributeValueDTO;
 import ua.com.gup.dto.offer.*;
@@ -11,9 +14,6 @@ import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticDTO;
 import ua.com.gup.dto.offer.view.*;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
-import ua.com.gup.mongo.model.category.attribute.*;
-import ua.com.gup.mongo.model.offer.Lands;
-import ua.com.gup.mongo.model.offer.OfferModerationReport;
 import ua.com.gup.mongo.model.statistic.OfferStatistic;
 import ua.com.gup.service.category.CategoryService;
 import ua.com.gup.service.category.attribute.CategoryAttributeService;

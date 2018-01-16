@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.dto.CommonAddressDTO;
+import ua.com.gup.common.model.attribute.OfferCategoryBoolAttributeValue;
+import ua.com.gup.common.model.attribute.OfferCategoryMultiAttributeValue;
+import ua.com.gup.common.model.attribute.OfferCategoryNumericAttributeValue;
+import ua.com.gup.common.model.attribute.OfferCategorySingleAttributeValue;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryBoolAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryMultiAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryNumericAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategorySingleAttributeValue;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferContactInfoDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
@@ -42,14 +42,14 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
     private RentOfferStatisticDTO offerStatistic;
 
     @ApiModelProperty(position = 110)
-    private LinkedHashMap<String, RentOfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 115)
-    private LinkedHashMap<String, RentOfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, OfferCategoryMultiAttributeValue> multiAttrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 120)
-    private LinkedHashMap<String, RentOfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, OfferCategoryNumericAttributeValue> numAttrs = new LinkedHashMap<>();
 
     @ApiModelProperty(position = 130)
-    private LinkedHashMap<String, RentOfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
+    private LinkedHashMap<String, OfferCategoryBoolAttributeValue> boolAttrs = new LinkedHashMap<>();
 }

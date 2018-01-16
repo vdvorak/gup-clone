@@ -1,4 +1,4 @@
-package ua.com.gup.mongo.model.category.attribute;
+package ua.com.gup.common.model.attribute;
 
 
 public class OfferCategorySingleAttributeValue extends OfferCategoryAttributeBaseValue {

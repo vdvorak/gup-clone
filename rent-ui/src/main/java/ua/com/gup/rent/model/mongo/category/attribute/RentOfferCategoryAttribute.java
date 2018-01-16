@@ -7,10 +7,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.gup.common.model.attribute.CategoriesSort;
+import ua.com.gup.common.model.attribute.OfferCategoryAttributeValue;
+import ua.com.gup.common.model.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
-import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.validator.RentOfferCategoryAttributeValidator;
 
 import java.io.Serializable;
 import java.util.*;
@@ -32,10 +32,10 @@ public class RentOfferCategoryAttribute implements Serializable {
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private Set<Integer> categories = new HashSet<>();
-    private LinkedHashSet<RentOfferCategoriesSort> categories_sort = new LinkedHashSet<>();
+    private LinkedHashSet<CategoriesSort> categories_sort = new LinkedHashSet<>();
     private CommonCategoryAttributeType type;
-    private RentOfferCategoryAttributeValidator validator;
-    private LinkedHashSet<RentOfferCategoryAttributeValue> values = new LinkedHashSet<>();
+    private CategoryAttributeValidator validator;
+    private LinkedHashSet<OfferCategoryAttributeValue> values = new LinkedHashSet<>();
     private boolean privateAttr;
 
     @Override

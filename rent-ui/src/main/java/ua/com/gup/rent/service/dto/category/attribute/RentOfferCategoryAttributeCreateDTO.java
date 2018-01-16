@@ -4,10 +4,10 @@ package ua.com.gup.rent.service.dto.category.attribute;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.ToString;
+import ua.com.gup.common.model.attribute.CategoriesSort;
+import ua.com.gup.common.model.attribute.OfferCategoryAttributeValue;
+import ua.com.gup.common.model.attribute.validator.CategoryAttributeValidator;
 import ua.com.gup.common.model.enumeration.CommonCategoryAttributeType;
-import ua.com.gup.rent.model.rent.category.RentOfferCategoriesSort;
-import ua.com.gup.rent.model.rent.category.attribute.RentOfferCategoryAttributeValue;
-import ua.com.gup.rent.model.rent.category.attribute.validator.RentOfferCategoryAttributeValidator;
 
 import java.util.*;
 
@@ -21,10 +21,10 @@ public class RentOfferCategoryAttributeCreateDTO {
     private Map<String, String> title = new HashMap<>();
     private Map<String, String> unit = new HashMap<>();
     private Set<Integer> categories = new HashSet<>();
-    private LinkedHashSet<RentOfferCategoriesSort> categoriesSort = new LinkedHashSet<>();
+    private LinkedHashSet<CategoriesSort> categoriesSort = new LinkedHashSet<>();
     private CommonCategoryAttributeType type;
-    private RentOfferCategoryAttributeValidator validator;
-    private LinkedHashSet<RentOfferCategoryAttributeValue> values = new LinkedHashSet<>();
+    private CategoryAttributeValidator validator;
+    private LinkedHashSet<OfferCategoryAttributeValue> values = new LinkedHashSet<>();
     private boolean privateAttr;
 
 
@@ -69,11 +69,11 @@ public class RentOfferCategoryAttributeCreateDTO {
         this.categories = categories;
     }
 
-    public LinkedHashSet<RentOfferCategoriesSort> getCategoriesSort() {
+    public LinkedHashSet<CategoriesSort> getCategoriesSort() {
         return categoriesSort;
     }
 
-    public void setCategoriesSort(LinkedHashSet<RentOfferCategoriesSort> categoriesSort) {
+    public void setCategoriesSort(LinkedHashSet<CategoriesSort> categoriesSort) {
         this.categoriesSort = categoriesSort;
     }
 
@@ -85,19 +85,19 @@ public class RentOfferCategoryAttributeCreateDTO {
         this.type = type;
     }
 
-    public RentOfferCategoryAttributeValidator getValidator() {
+    public CategoryAttributeValidator getValidator() {
         return validator;
     }
 
-    public void setValidator(RentOfferCategoryAttributeValidator validator) {
+    public void setValidator(CategoryAttributeValidator validator) {
         this.validator = validator;
     }
 
-    public LinkedHashSet<RentOfferCategoryAttributeValue> getValues() {
+    public LinkedHashSet<OfferCategoryAttributeValue> getValues() {
         return values;
     }
 
-    public void setValues(LinkedHashSet<RentOfferCategoryAttributeValue> values) {
+    public void setValues(LinkedHashSet<OfferCategoryAttributeValue> values) {
         this.values = values;
     }
 
