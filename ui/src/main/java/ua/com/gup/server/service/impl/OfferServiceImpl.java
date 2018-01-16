@@ -40,6 +40,7 @@ import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
 import ua.com.gup.util.security.SecurityUtils;
 
+import javax.naming.OperationNotSupportedException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -338,6 +339,11 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
         }
         Page<Offer> result = new PageImpl<>(offers, pageable, count);
         return result.map(offer -> offerMapper.offerToOfferViewShortWithModerationReportDTO(offer));
+    }
+
+    @Override
+    public void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser) {
+        //todo
     }
 
     /**

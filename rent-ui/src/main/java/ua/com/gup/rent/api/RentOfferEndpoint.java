@@ -350,4 +350,16 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN', 'ROLE_MANAGER')")
+    @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
+        log.debug("REST request to get Offer by ID : {}", id);
+        Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
+        if(offerDetailsDTO.isPresent()){
+            return new ResponseEntity(offerDetailsDTO.get(),HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+    }
+
 }

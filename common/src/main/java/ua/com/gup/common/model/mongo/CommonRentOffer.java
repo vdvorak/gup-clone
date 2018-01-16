@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.image.ImageStorage;
@@ -33,9 +34,23 @@ public abstract class CommonRentOffer implements Serializable {
     protected String description;
     protected Address address;
     protected CommonStatus status;
+    protected List<Integer> categories;
+    protected String authorId;
+    protected List<ImageStorage> images;
 
+    public CommonRentOffer() {
+    }
 
-    private List<ImageStorage> images;
+    public CommonRentOffer(CommonRentOffer cro) {
+        this.title = cro.getTitle();
+        this.description = cro.getDescription();
+        this.address = cro.getAddress();
+        this.status = cro.getStatus();
+        this.categories = cro.getCategories();
+        this.authorId = cro.getAuthorId();
+        this.images = cro.getImages();
+    }
+
 
     public List<ImageStorage> getImages() {
         if (images == null) {

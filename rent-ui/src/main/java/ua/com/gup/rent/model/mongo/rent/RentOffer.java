@@ -52,21 +52,15 @@ public class RentOffer extends CommonRentOffer {
     @LastModifiedDate
     private ZonedDateTime lastModifiedDate;
 
-    private String authorId;
-
-    private RentOfferLands lands;
+      private RentOfferLands lands;
 
     private String youtubeVideoId;
 
     private RentOfferContactInfo contactInfo;
 
-    private List<Integer> categories;
 
 
     private RentOfferPrice price;
-
-    @Indexed(unique = true)
-    private String seoUrl;
 
     private String deposit;
 

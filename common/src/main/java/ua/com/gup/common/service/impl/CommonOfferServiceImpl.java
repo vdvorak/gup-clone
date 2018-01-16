@@ -15,36 +15,43 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
 import ua.com.gup.common.mapper.CommonCategoryMapper;
 import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.offer.CommonCategoryCount;
+import ua.com.gup.common.repository.CommonOfferMongoRepository;
 import ua.com.gup.common.repository.CommonOfferRepository;
+import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.common.service.ImageService;
 
-public abstract class CommonOfferServiceImpl  implements CommonOfferService{
-    
+public abstract class CommonOfferServiceImpl implements CommonOfferService {
+
     @Autowired
     private CommonOfferRepository commonOfferRepository;
+    @Autowired
+    private CommonOfferMongoRepository offerMongoRepository;
     @Autowired
     private ImageService imageService;
     @Autowired
     private CommonCategoryMapper commonCategoryMapper;
+    @Autowired
+    private CommonProfileRepository profileRepository;
 
     @Override
     public boolean exists(String id) {
         return commonOfferRepository.exists(id);
     }
-    
-     @Override
-    public List<ImageStorage> getImages(String offerId){
+
+    @Override
+    public List<ImageStorage> getImages(String offerId) {
         return commonOfferRepository.findOfferImages(offerId);
     }
-    
+
     @Override
-    public ImageStorage getImage(String offerId, String imageId){
+    public ImageStorage getImage(String offerId, String imageId) {
         return commonOfferRepository.findOfferImage(offerId, imageId);
-    }   
-    
+    }
+
     @Override
     public ImageStorage addImage(String offerId, MultipartFile file) throws IOException {
         ImageStorage image = imageService.saveImageStorage(file);
@@ -52,16 +59,16 @@ public abstract class CommonOfferServiceImpl  implements CommonOfferService{
         offer.getImages().add(image);
         commonOfferRepository.save(offer);
         return image;
-    }    
-    
+    }
+
     @Override
-    public boolean isExistsImage(String offerId, String imageId){
+    public boolean isExistsImage(String offerId, String imageId) {
         return commonOfferRepository.isExistsOfferImage(offerId, imageId);
     }
-    
+
     @Override
-    public void deleteImage(String offerId, String imageId) throws IOException{        
-        ImageStorage image = commonOfferRepository.findOfferImage(offerId, imageId);        
+    public void deleteImage(String offerId, String imageId) throws IOException {
+        ImageStorage image = commonOfferRepository.findOfferImage(offerId, imageId);
         imageService.deleteImageStorage(image);
         commonOfferRepository.deleteOfferImage(image);
     }
@@ -76,5 +83,5 @@ public abstract class CommonOfferServiceImpl  implements CommonOfferService{
                 .map(c -> commonCategoryMapper.fromOfferCategoryCountToOfferCategoryCountDTO(c))
                 .collect(Collectors.toList());
     }
-    
+
 }

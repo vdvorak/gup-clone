@@ -39,17 +39,11 @@ public class Offer extends CommonRentOffer {
     @Indexed
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
-
-    private List<Integer> categories;
-
-    private String authorId;
-
     private Price price;
 
     private Lands lands;
 
-    @Indexed(unique = true)
-    private String seoUrl;
+
 
     private String youtubeVideoId;
 
@@ -99,37 +93,12 @@ public class Offer extends CommonRentOffer {
         this.lastOfferModerationReport = lastOfferModerationReport;
     }
 
-    public List<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
-    }
-
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
     public Price getPrice() {
         return price;
     }
 
     public void setPrice(Price price) {
         this.price = price;
-    }
-
-    public String getSeoUrl() {
-        return seoUrl;
-    }
-
-    public void setSeoUrl(String seoUrl) {
-        this.seoUrl = seoUrl;
     }
 
     public String getYoutubeVideoId() {
