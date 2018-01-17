@@ -17,10 +17,10 @@ import java.util.List;
 public class RentOfferCalendarDTO implements Serializable {
 
     @JsonProperty("startDate")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
     @JsonProperty("endDate")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate endDate;
     @JsonProperty("days")
     private List<RentOfferCalendarDay> days;

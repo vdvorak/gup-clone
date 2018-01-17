@@ -2,27 +2,30 @@ package ua.com.gup.rent.model.rent.calendar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 
 import java.math.BigDecimal;
 
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ToString
-@NoArgsConstructor
-@Getter
-@Setter
 public class RentOfferCalendarDay {
 
     private RentOfferCalendarDayType type;
     private BigDecimal price;
     private CommonCurrency currency;
+    private RentOfferCalendarDayStatus dayStatus;
+
+    public RentOfferCalendarDay() {
+        this.dayStatus = RentOfferCalendarDayStatus.FREE;
+    }
 
     public RentOfferCalendarDay(RentOfferCalendarDayType type) {
         this.type = type;
         this.price = null;
         this.currency = CommonCurrency.UAH;
+        this.dayStatus = RentOfferCalendarDayStatus.FREE;
     }
 
 }

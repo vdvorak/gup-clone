@@ -22,7 +22,7 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
 
     @Async
     public void asyncSaveRentOfferElastic(RentOffer rentOffer) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 
         for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {

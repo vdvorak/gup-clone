@@ -110,8 +110,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
         for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
             RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
-            rentOfferCalendar.setRentStartDate(startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-            rentOfferCalendar.setRentEndDate(endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            rentOfferCalendar.setRentStartDate(startDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            rentOfferCalendar.setRentEndDate(endDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
 //            rentOfferCalendar.setDaysMap(RentCalendarUtil.getDaysMapForDates(startDate, endDate, rentOfferCreateDTO.getCalendar().getDays()));
             offer.getRentOfferCalendars().add(rentOfferCalendar);

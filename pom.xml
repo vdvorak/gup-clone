@@ -47,6 +47,7 @@
         <slugify.version>2.1.9</slugify.version>
         <swagger2.version>2.6.1</swagger2.version>
         <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
+        <jackson.version>2.8.10</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -75,6 +76,11 @@
                 <groupId>commons-validator</groupId>
                 <artifactId>commons-validator</artifactId>
                 <version>${commons-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!--Servlet api-->
             <!--<dependency>
