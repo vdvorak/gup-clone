@@ -26,6 +26,8 @@ import ua.com.gup.search.model.filter.rent.*;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -172,6 +174,29 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             for (BooleanAttributeFilter filter : offerFilter.getBoolAttrs()) {
                 boolQueryBuilder.must(new TermQueryBuilder("boolAttrs." + filter.getKey() + ".selected", filter.getVal()));
             }
+        }
+
+        LocalDate rentStart = offerFilter.getDtRentStart();
+        LocalDate rentEnd = offerFilter.getDtRentEnd();
+        if (rentStart != null
+                && rentEnd != null && (rentStart.isBefore(rentEnd))) {
+
+
+            RangeQueryBuilder rentStartDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentStartDate");
+            rentStartDateBuilder.lte(rentStart.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            boolQueryBuilder.must(rentStartDateBuilder);
+
+            RangeQueryBuilder rentEndDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentEndDate");
+            rentEndDateBuilder.gte(rentEnd.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            boolQueryBuilder.must(rentEndDateBuilder);
+
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            while (rentStart.isBefore(rentEnd)) {
+                boolQueryBuilder.must(new TermQueryBuilder("rentOfferCalendarInterval.daysMap." + formatter.format(rentStart) + ".dayStatus", "free"));
+                rentStart = rentStart.plusDays(1);
+            }
+
         }
 
         return boolQueryBuilder;

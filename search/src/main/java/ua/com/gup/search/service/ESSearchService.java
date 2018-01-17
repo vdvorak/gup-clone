@@ -13,9 +13,6 @@ import java.util.Set;
 
 public interface ESSearchService<F> {
 
-
-
-
     List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException;
 
     List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException;
