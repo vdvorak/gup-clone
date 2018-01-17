@@ -10,4 +10,12 @@ import lombok.Data;
 public class Phone {
     private String phoneNumber;
     private Boolean hidden;
+
+    public Phone(){
+    }
+
+    public Phone(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        this.hidden = false;
+    }
 }
