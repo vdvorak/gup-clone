@@ -4,7 +4,6 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -125,7 +124,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
                 boolQueryBuilder.must(new TermsQueryBuilder("address.country.code", addressFilter.getCountries().split(",")));
             }
             if (addressFilter.getRegions() != null) {
-                boolQueryBuilder.must(new TermsQueryBuilder("address.region.code", addressFilter.getDistricts().split(",")));
+                boolQueryBuilder.must(new TermsQueryBuilder("address.region.code", addressFilter.getRegions().split(",")));
             }
             if (addressFilter.getDistricts() != null) {
                 boolQueryBuilder.must(new TermsQueryBuilder("address.district.code", addressFilter.getDistricts().split(",")));
@@ -178,20 +177,19 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         LocalDate rentStart = offerFilter.getDtRentStart();
         LocalDate rentEnd = offerFilter.getDtRentEnd();
+
         if (rentStart != null
                 && rentEnd != null && (rentStart.isBefore(rentEnd))) {
 
-
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             RangeQueryBuilder rentStartDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentStartDate");
-            rentStartDateBuilder.lte(rentStart.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            rentStartDateBuilder.lte(rentStart.format(formatter));
             boolQueryBuilder.must(rentStartDateBuilder);
 
             RangeQueryBuilder rentEndDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentEndDate");
-            rentEndDateBuilder.gte(rentEnd.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            rentEndDateBuilder.gte(rentEnd.format(formatter));
             boolQueryBuilder.must(rentEndDateBuilder);
 
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             while (rentStart.isBefore(rentEnd)) {
                 boolQueryBuilder.must(new TermQueryBuilder("rentOfferCalendarInterval.daysMap." + formatter.format(rentStart) + ".dayStatus", "free"));
                 rentStart = rentStart.plusDays(1);
@@ -212,7 +210,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         searchRequest.types(ES_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.fetchSource("_id", "");
+        searchSourceBuilder.fetchSource("rentOfferId", "");
         searchSourceBuilder.size(pageable.getPageSize());
         searchSourceBuilder.from(pageable.getOffset());
 
@@ -231,12 +229,17 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         QueryBuilder queryBuilder = boolQueryBuilder(offerFilter);
         searchSourceBuilder.query(queryBuilder);
+        TermsAggregationBuilder aggregation = AggregationBuilders.terms("rent_offer").field("rentOfferId").size(Integer.MAX_VALUE);
+        searchSourceBuilder.aggregation(aggregation);
+
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse response = esClient.search(searchRequest);
+        Aggregations aggregations = response.getAggregations();
         List<String> ids = new ArrayList<>();
-        for (SearchHit fields : response.getHits()) {
-            ids.add(fields.getId());
+        if (aggregations != null) {
+            Terms byCategoryAgg = aggregations.get("rent_offer");
+            byCategoryAgg.getBuckets().forEach(b -> ids.add(b.getKeyAsString()));
         }
 
         Page page = new PageImpl(ids, pageable, response.getHits().getTotalHits());
