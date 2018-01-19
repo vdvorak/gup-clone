@@ -5,12 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.service.ESSearchOfferService;
-import ua.com.gup.search.service.ESSearchService;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
