@@ -29,6 +29,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,13 +82,8 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public EmailMessage findOneMessage() {
-        return emailRepository.findOneMessage();
-    }
-
-    @Override
-    public EmailMessage findOneMessageInQueue() {
-        return emailRepository.findOneMessageInQueue();
+    public List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit) {
+        return emailRepository.findAndModifyMessages(oldStatus, newStatus, 20);
     }
 
     @Override
@@ -96,8 +92,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailMessage updateLastAttemptTimestamp(EmailMessage message) {
-        return emailRepository.updateLastAttemptTimestamp(message);
+    public EmailMessage updateStatusAndLastAttemptTimestamp(EmailMessage message) {
+        return emailRepository.updateStatusAndLastAttemptTimestamp(message);
     }
 
     @Override
