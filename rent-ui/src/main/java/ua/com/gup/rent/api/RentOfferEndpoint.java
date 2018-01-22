@@ -104,7 +104,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_OFFER')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws CommandException {
         log.debug("REST request to save new Offer : {}", offerCreateDTO);
@@ -186,7 +186,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('READ_MY_OFFERS_BY_STATUS')")
     @RequestMapping(value = "/offers/my/{status}", method = RequestMethod.GET)
     public ResponseEntity<Page> getAllMyOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of my Offers by status");
@@ -195,7 +195,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER') and hasPermission(#seoUrl, 'rent.offer' ,'VIEW')")
+    @PreAuthorize("hasAuthority('READ_OFFER') and hasPermission(#seoUrl, 'rent.offer' ,'VIEW')")
     @GetMapping(value = "/offers/my/seo/{seoUrl}")
     public ResponseEntity getMyOfferBySeoUrl(@PathVariable String seoUrl) {
         log.debug("REST request to get a my rent offer by seo url");
@@ -210,7 +210,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
      * @param id the id of the offerDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PreAuthorize("hasPermission(#id, 'offer', 'DELETE')")
+    @PreAuthorize("hasAuthority('DELETE_OFFER') and hasPermission(#id, 'offer', 'DELETE')")
     @RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String id) {
         log.debug("REST request to delete Offer : {}", id);
@@ -278,7 +278,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasPermission(#id, 'offer','CHANGE_STATUS')")
+    @PreAuthorize("hasAuthority('UPDATE_OFFER_STATUS') and hasPermission(#id, 'offer','CHANGE_STATUS')")
     @RequestMapping(value = "/offers/{id}/status/{status}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> changeStatus(@PathVariable String id, @PathVariable CommonStatus status) throws URISyntaxException {
         log.debug("REST request to change Rent Offer's status: id= {}, status = {}", id, status);
@@ -303,7 +303,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
      * or with status 500 (Internal Server Error) if the offerDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
+    @PreAuthorize("hasAuthority('UPDATE_OFFER_MODERATOR') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
     public ResponseEntity<RentOfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody RentOfferModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
@@ -331,7 +331,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_MODERATOR_OFFERS_BY_STATUS')")
     @RequestMapping(value = "/offers/moderator/{status}", method = RequestMethod.GET)
     public ResponseEntity getAllModeratorOffers(@PathVariable CommonStatus status, Pageable pageable) {
         log.debug("REST request to get a page of moderator Offers by status");
@@ -342,7 +342,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_MODERATOR_OFFERS_BY_FILTER')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.GET)
     public ResponseEntity getFilteredModeratorOffers(OfferModeratorFilter filter, Pageable pageable) {
 
@@ -350,7 +350,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAuthority('READ_OFFERS_VIEW')")
     @RequestMapping(value = "/offers/view/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);

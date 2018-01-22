@@ -29,8 +29,9 @@ public abstract class AbstractImageEndpoint {
     
     @Autowired
     private CommonOfferService commonOfferService;
-    
-    
+
+
+    //@PreAuthorize("hasAuthority('READ_OFFER_IMAGES')")
     @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.GET)
     public ResponseEntity getOfferImages(@PathVariable("offerId") String offerId) throws URISyntaxException {
         if (!commonOfferService.exists(offerId)) {
@@ -41,7 +42,7 @@ public abstract class AbstractImageEndpoint {
 
     }
 
-
+    //@PreAuthorize("hasAuthority('READ_OFFER_IMAGE')")
     @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.GET)
     public ResponseEntity getOfferImage(
             @PathVariable("offerId") String offerId,
@@ -54,7 +55,7 @@ public abstract class AbstractImageEndpoint {
 
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('CREATE_OFFER_IMAGE')")
     @RequestMapping(value = "/offers/{offerId}/images", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createOfferImage(
             @PathVariable("offerId") String offerId,
@@ -72,7 +73,7 @@ public abstract class AbstractImageEndpoint {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('DELETE_OFFER_IMAGE')")
     @RequestMapping(value = "/offers/{offerId}/images/{imageId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteOfferImage(
             @PathVariable("offerId") String offerId,

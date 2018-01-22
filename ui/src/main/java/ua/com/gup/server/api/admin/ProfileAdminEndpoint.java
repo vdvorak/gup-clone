@@ -43,21 +43,21 @@ public class ProfileAdminEndpoint {
     private SaleCommandExecutor executor;
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SEARCH_PROFILES_ADMIN')")
     @GetMapping(value = "/profiles")
     public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(ProfileFilter profileFilter, Pageable pageable) {
         Page<ProfileShortAdminDTO> profilesPageable = profilesService.findAllProfilesForAdminShort(profileFilter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_PROFILE_ADMIN')")
     @GetMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity<ProfileDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
         ProfileDTO profile = profilesService.findPrivateProfileDTOForAdminByPublicId(profilePublicId);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_PROFILE_ADMIN')")
     @PostMapping(value = "/profiles")
     public ResponseEntity createProfile(@RequestBody CreateProfileDTO profileDTO) {
 
@@ -72,7 +72,7 @@ public class ProfileAdminEndpoint {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_PROFILE_ADMIN')")
     @PutMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity updateProfile(@PathVariable String profilePublicId, @RequestBody EditProfileDTO profileDTO) throws CommandException {
         Profile profile = profilesService.findByPublicId(profilePublicId);
@@ -83,7 +83,7 @@ public class ProfileAdminEndpoint {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('BAN_PROFILE')")
     @PutMapping(value = "/profiles/ban/{id}")
     public ResponseEntity<String> banProfileByID(@PathVariable("id") String id, @Valid @RequestBody BanInfoDto explanation) throws CommandException {
         GupLoggedUser loggedUser = SecurityUtils.getLoggedUser();
@@ -99,7 +99,7 @@ public class ProfileAdminEndpoint {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UNBAN_PROFILE')")
     @PutMapping(value = "/profiles/unban/{id}")
     public ResponseEntity<String> unbanProfileByID(@PathVariable("id") String id) throws CommandException {
         String loggedUserId = SecurityUtils.getCurrentUserId();

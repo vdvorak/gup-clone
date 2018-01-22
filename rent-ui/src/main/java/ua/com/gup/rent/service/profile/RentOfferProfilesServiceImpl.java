@@ -116,6 +116,7 @@ public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentO
 
         user.getManagerInfo().setContactInfo(contactInfo);
         user.getManagerInfo().setAdditionalInfo(dto.getAdditionalInfo());
+        user.getManagerInfo().setInterestingStatus(dto.getInterestingStatus());
         rentOfferProfileRepository.save(user);
     }
 

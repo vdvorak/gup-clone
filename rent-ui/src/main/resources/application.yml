@@ -68,7 +68,7 @@ security:
       checkTokenUri: http://62.80.167.165:8081/oauth/api/oauth/check_token
       userAuthorizationUri: http://62.80.167.165:8081/oauth/api/oauth/authorize
     resource:
-      userInfoUri: http://62.80.167.165:8081:8081/oauth/api/users/principal
+      userInfoUri: http://62.80.167.165:8081/oauth/api/users/principal
     sso: /api/user/login
 
 #Mail Server Configuration for production
