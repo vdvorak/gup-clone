@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
 import ua.com.gup.common.model.complaint.*;
-import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.repository.CommonComplaintOfferRepository;
 import ua.com.gup.common.service.CommonComplaintOfferService;
 import ua.com.gup.common.service.mapper.CommonComplaintMapper;
@@ -19,7 +17,6 @@ import ua.com.gup.common.service.mapper.CommonComplaintMapper;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing ComplaintOffer.
@@ -80,6 +77,12 @@ public abstract class CommonComplaintOfferServiceImpl<T extends CommonComplaint>
     }
 
     @Override
+    public boolean isComplaintAvailableByOfferIdAndUserPublicId(String offerId, String userPublicId) {
+        log.debug("Request to check available ComplaintOffers by offerId {} and  initiatorId = {}", offerId, userPublicId);
+        return complaintRepository.isComplaintAvailableByOfferIdAndUserPublicId(offerId, userPublicId);
+    }
+
+    @Override
     public List<T> findAllByStatus(ComplaintOfferStatus status) {
         log.debug("Request to get all ComplaintOffers by status = {}", status);
         return complaintRepository.findAllByStatus(status);
@@ -89,7 +92,7 @@ public abstract class CommonComplaintOfferServiceImpl<T extends CommonComplaint>
     public void updateType(String id, ComplaintOfferType type) {
         log.debug("Request to update update complaintOffer types : {}", id);
 
-        if(exists(id)) {
+        if (exists(id)) {
             T updateComplaintOffer = findOne(id);
             updateComplaintOffer.addType(type);
             updateComplaintOffer.updateLastModifiedDate();
@@ -100,7 +103,7 @@ public abstract class CommonComplaintOfferServiceImpl<T extends CommonComplaint>
     @Override
     public void updateTypes(String id, List<ComplaintOfferType> types) {
         log.debug("Request to update update complaintOffer types : {}", id);
-        if(exists(id)) {
+        if (exists(id)) {
             T updateComplaintOffer = findOne(id);
             updateComplaintOffer.setTypes(types);
             updateComplaintOffer.updateLastModifiedDate();
@@ -111,7 +114,7 @@ public abstract class CommonComplaintOfferServiceImpl<T extends CommonComplaint>
     @Override
     public void updateStatus(String id, ComplaintOfferStatus status) {
         log.debug("Request to update update complaintOffer status : {}", id);
-        if(exists(id)) {
+        if (exists(id)) {
             T updateComplaintOffer = findOne(id);
             updateComplaintOffer.setStatus(status);
             updateComplaintOffer.updateLastModifiedDate();
@@ -123,7 +126,6 @@ public abstract class CommonComplaintOfferServiceImpl<T extends CommonComplaint>
     public ComplaintInitiator getInitiatorProfile(String authorId) {
         return complaintMapper.getInitiatorProfile(authorId);
     }
-
 
 
     private DateTime toDateTime(final ZonedDateTime zdt) {

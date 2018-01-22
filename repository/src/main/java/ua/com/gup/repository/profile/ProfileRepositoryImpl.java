@@ -3,7 +3,7 @@ package ua.com.gup.repository.profile;
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -263,7 +263,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public void addProfileToUserSocialList(String userId, String profileId) {
         Query query = new Query(Criteria.where("id").is(userId));
         Update update = new Update();
-        update.push("socialList", profileId);
+       // update.push("socialList", profileId);
+        update.addToSet("socialList",profileId);
         mongoTemplate.updateFirst(query, update, Profile.class);
     }
 
@@ -325,14 +326,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public void incrementProfileStatistic(String profileId, String field) {
         Update update = new Update();
         update.inc("profileStatistic." + field, 1);
-        mongoTemplate.findAndModify(new Query(Criteria.where("id").is(profileId)), update, Profile.class);
+        mongoTemplate.findAndModify(new Query(Criteria.where("publicId").is(profileId)), update, new FindAndModifyOptions().returnNew(true), Profile.class);
     }
 
     @Override
     public void decrementProfileStatistic(String profileId, String field) {
         Update update = new Update();
         update.inc("profileStatistic." + field, -1);
-        mongoTemplate.findAndModify(new Query(Criteria.where("id").is(profileId)), update, Profile.class);
+        mongoTemplate.findAndModify(new Query(Criteria.where("publicId").is(profileId)), update, new FindAndModifyOptions().returnNew(true), Profile.class);
     }
 
     @Override
@@ -377,7 +378,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.addCriteria(Criteria.where("_id").is(managerId));
         query.fields().include("users");
         ManagerProfile manager = mongoTemplate.findOne(query, ManagerProfile.class);
-        if(manager == null){
+        if (manager == null) {
             return Collections.EMPTY_SET;
         }
         return manager.getUsers();
@@ -414,7 +415,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.addCriteria(Criteria.where("_id").in(usersPublicId));
         query.fields().include("publicId");
         List<Profile> profiles = mongoTemplate.find(query, Profile.class);
-        if(profiles != null){
+        if (profiles != null) {
             return profiles.stream().map(Profile::getPublicId).collect(Collectors.toSet());
         }
         return Collections.EMPTY_SET;
