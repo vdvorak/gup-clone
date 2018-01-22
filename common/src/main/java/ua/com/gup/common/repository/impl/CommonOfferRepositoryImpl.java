@@ -304,15 +304,11 @@ public abstract class CommonOfferRepositoryImpl<T extends CommonRentOffer, F ext
         }
         if (offerFilter.getNumAttrs() != null) {
             for (NumericAttributeFilter filter : offerFilter.getNumAttrs()) {
-                if (filter.getFrom() != null && filter.getTo() != null) {
-                    query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()).lte(filter.getTo()));
-                } else {
-                    if (filter.getFrom() != null) {
-                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()));
-                    }
-                    if (filter.getTo() != null) {
-                        query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").lte(filter.getTo()));
-                    }
+                if (filter.getFrom() != null) {
+                    query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").gte(filter.getFrom()));
+                }
+                if (filter.getTo() != null) {
+                    query.addCriteria(Criteria.where("numAttrs." + filter.getKey() + ".selectedDouble").lte(filter.getTo()));
                 }
             }
         }
