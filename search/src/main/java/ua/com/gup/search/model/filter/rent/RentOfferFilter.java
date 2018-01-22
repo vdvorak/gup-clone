@@ -14,7 +14,7 @@ public class RentOfferFilter {
 
     private String query;
 
-    private AuthorFilter author;
+    private AuthorFilter authorFilter;
 
     private Integer category;
 
@@ -34,7 +34,13 @@ public class RentOfferFilter {
 
     private String[] seoUrls;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dtRentStart;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dtRentEnd;
 
 }

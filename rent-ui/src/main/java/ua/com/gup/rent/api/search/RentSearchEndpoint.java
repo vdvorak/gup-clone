@@ -1,5 +1,6 @@
 package ua.com.gup.rent.api.search;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -17,12 +18,13 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.common.util.CompletableFutureUtil;
+import ua.com.gup.common.model.filter.*;
 import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
 import ua.com.gup.rent.api.search.dto.CategoryStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
@@ -32,11 +34,11 @@ import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "/api/search")
@@ -96,7 +98,7 @@ public class RentSearchEndpoint {
                             "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
     @GetMapping(value = "/offers")
-    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) throws JsonProcessingException {
         log.debug("REST request to get a page of Offers");
 
         if (offerFilter.getAuthorFilter() != null) {
@@ -105,8 +107,8 @@ public class RentSearchEndpoint {
             }
         }
 
-        Map<String, Object> offerFilterMap = oMapper.convertValue(offerFilter, Map.class);
-        UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder();
+        UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers");
+
         if (pageable != null) {
             Sort sort = pageable.getSort();
             if (sort != null) {
@@ -116,15 +118,87 @@ public class RentSearchEndpoint {
             builder.queryParam("page", pageable.getPageNumber());
         }
 
-        UriComponentsBuilder uriComponentsBuilder = builder.path("/offers");
+        if (!StringUtils.isEmpty(offerFilter.getQuery())) {
+            builder.queryParam("query", offerFilter.getQuery());
+        }
+        if (offerFilter.getCategory() != null) {
+            builder.queryParam("category", offerFilter.getCategory());
+        }
+        if (!StringUtils.isEmpty(offerFilter.getCreatedDate())) {
+            builder.queryParam("createdDate", offerFilter.getCreatedDate());
+        }
+        if (!StringUtils.isEmpty(offerFilter.getCreatedDate())) {
+            builder.queryParam("dtRentStart", offerFilter.getDtRentStart());
+        }
+        if (offerFilter.getSeoUrls() != null) {
+            builder.queryParam("seoUrls", String.join(",", offerFilter.getSeoUrls()));
+        }
+        CommonAddressFilter address = offerFilter.getAddress();
+        if (address != null) {
+            if (!StringUtils.isEmpty(address.getCountries())) {
+                builder.queryParam("address.countries", address.getCountries());
+            }
+            if (!StringUtils.isEmpty(address.getRegions())) {
+                builder.queryParam("address.regions", address.getRegions());
+            }
+            if (!StringUtils.isEmpty(address.getDistricts())) {
+                builder.queryParam("address.districts", address.getDistricts());
+            }
+            if (!StringUtils.isEmpty(address.getCities())) {
+                builder.queryParam("address.cities", address.getCities());
+            }
+
+        }
+        CommonAuthorFilter authorFilter = offerFilter.getAuthorFilter();
+        if (authorFilter != null) {
+            if (!StringUtils.isEmpty(authorFilter.getAuthorId() != null)) {
+                builder.queryParam("authorFilter.authorId", authorFilter.getAuthorId());
+            }
+        }
+
+        List<CommonAttributeFilter> attrs = offerFilter.getAttrs();
+        for (int i = 0; i < attrs.size(); i++) {
+            CommonAttributeFilter caf = attrs.get(i);
+            builder.queryParam("attrs[" + i + "].key", caf.getKey());
+            builder.queryParam("attrs[" + i + "].vals", caf.getVals());
+        }
+
+        List<CommonAttributeFilter> multiAttrs = offerFilter.getMultiAttrs();
+        for (int i = 0; i < multiAttrs.size(); i++) {
+            CommonAttributeFilter caf = multiAttrs.get(i);
+            builder.queryParam("multiAttrs[" + i + "].key", caf.getKey());
+            builder.queryParam("multiAttrs[" + i + "].vals", caf.getVals());
+        }
+
+        List<BooleanAttributeFilter> boolAttrs = offerFilter.getBoolAttrs();
+        for (int i = 0; i < boolAttrs.size(); i++) {
+            BooleanAttributeFilter baf = boolAttrs.get(i);
+            builder.queryParam("boolAttrs[" + i + "].key", baf.getKey());
+            builder.queryParam("boolAttrs[" + i + "].val", baf.getVal());
+        }
+
+        List<NumericAttributeFilter> numAttrs = offerFilter.getNumAttrs();
+        for (int i = 0; i < numAttrs.size(); i++) {
+            NumericAttributeFilter naf = numAttrs.get(i);
+            builder.queryParam("numAttrs[" + i + "].key", naf.getKey());
+            builder.queryParam("numAttrs[" + i + "].from", naf.getFrom());
+            builder.queryParam("numAttrs[" + i + "].to", naf.getTo());
+        }
 
 
+        MoneyFilter price = offerFilter.getPrice();
+        if (price != null) {
+            builder.queryParam("price.from", price.getFrom());
+            builder.queryParam("price.to", price.getTo());
+        }
 
+        CommonCoordinatesFilter coordinates = offerFilter.getCoordinates();
+        if (coordinates != null) {
+            builder.queryParam("coordinates.minYX", convertToString(coordinates.getMinYX()));
+            builder.queryParam("coordinates.maxYX", convertToString(coordinates.getMaxYX()));
+        }
 
-        offerFilterMap.forEach((key, value) -> uriComponentsBuilder.queryParam(key, value));
-
-        UriComponents uriComponents = uriComponentsBuilder.build();
-        Map elasticPage = restTemplate.getForObject(uriComponents.toUriString(), Map.class);
+        Map elasticPage = restTemplate.getForObject(builder.toUriString(), Map.class);
         List<String> ids = (List<String>) elasticPage.get("content");
         if (!CollectionUtils.isEmpty(ids)) {
 
@@ -170,11 +244,11 @@ public class RentSearchEndpoint {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity suggestWordsByDescription(@RequestParam(name = "q") String query) {
 
-        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
-                .path("/offers/suggest")
-                .queryParam("q", query)
-                .build();
-        String[] suggests = restTemplate.getForObject(uriComponents.toUri(), String[].class);
+//        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
+//                .path("/offers/suggest")
+//                .queryParam("q", query)
+//                .build();
+        String[] suggests = new String[]{"Not implemented yet", "Not implemented yet", "Not implemented yet"};//restTemplate.getForObject(uriComponents.toUri(), String[].class);
         return new ResponseEntity(suggests, HttpStatus.OK);
 
     }
@@ -196,4 +270,16 @@ public class RentSearchEndpoint {
 //    }
 
 
+    private String convertToString(BigDecimal[] decimals) {
+        StringBuilder sb = new StringBuilder();
+
+        Arrays.asList(decimals).stream().forEach(c -> {
+                    if (sb.length() != 0) {
+                        sb.append(",");
+                    }
+                    sb.append(String.valueOf(c));
+                }
+        );
+        return sb.toString();
+    }
 }

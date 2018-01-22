@@ -199,12 +199,31 @@ public class RentComplaintOfferEndpoint {
 
     @PreAuthorize("hasAuthority('SEARCH_COMPLAINTS_BY_FILTER')")
     @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<RentComplaintOffer>> findComplaints(ComplaintFilter filter, Pageable pageable)
-            throws URISyntaxException {
+    public ResponseEntity<Page<RentComplaintOffer>> findComplaints(ComplaintFilter filter, Pageable pageable) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
 
         Page<RentComplaintOffer> complaints = complaintOfferService.findFilter(filter, pageable);
 
         return new ResponseEntity(complaints, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /complaints/is-complaint-available/{offerId}/{userPublicId} : check if exists complaint on this offer by this user .
+     *
+     * @return the ResponseEntity with status 200 (Ok) and with body the status, or with status 400 (Bad Request) if the offer has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PreAuthorize("isAuthenticated()")
+    @PostAuthorize("hasAnyRole('ROLE_USER')")
+    @RequestMapping(value = "/complaints/is-complaint-available/{offerId}/{userPublicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> isComplaintAvailable(@PathVariable("offerId") String offerId, @PathVariable("userPublicId") String userPublicId) throws URISyntaxException {
+        log.debug("REST request to check if exists complaint on this offerId {} by this userPublicId {}", offerId, userPublicId);
+        StringBuilder isComplaintAvailable = new StringBuilder();
+        isComplaintAvailable.append("{")
+                                        .append("\"status\"")
+                                        .append(":")
+                                        .append(complaintOfferService.isComplaintAvailableByOfferIdAndUserPublicId(offerId, userPublicId))
+                            .append("}");
+        return new ResponseEntity(isComplaintAvailable, HttpStatus.OK);
     }
 }

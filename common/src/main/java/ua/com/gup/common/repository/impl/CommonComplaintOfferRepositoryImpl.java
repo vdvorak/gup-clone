@@ -12,16 +12,13 @@ import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.complaint.CommonComplaint;
 import ua.com.gup.common.model.complaint.ComplaintFilter;
 import ua.com.gup.common.model.complaint.ComplaintOfferStatus;
-import ua.com.gup.common.model.filter.ManagerActionFilter;
-import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.repository.CommonComplaintOfferRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public abstract class CommonComplaintOfferRepositoryImpl<T  extends CommonComplaint>
-        implements CommonComplaintOfferRepository<T> {
+public abstract class CommonComplaintOfferRepositoryImpl<T extends CommonComplaint> implements CommonComplaintOfferRepository<T> {
 
     private final Logger log = LoggerFactory.getLogger(CommonComplaintOfferRepositoryImpl.class);
 
@@ -57,7 +54,7 @@ public abstract class CommonComplaintOfferRepositoryImpl<T  extends CommonCompla
     }
 
     @Override
-    public List<T> findAll(){
+    public List<T> findAll() {
         return mongoTemplate.findAll(clazz).stream().collect(Collectors.toList());
     }
 
@@ -71,6 +68,13 @@ public abstract class CommonComplaintOfferRepositoryImpl<T  extends CommonCompla
     public List<T> findAllByInitiatorId(String initiatorId) {
         Query query = new Query(Criteria.where("initiatorId").is(initiatorId));
         return mongoTemplate.find(query, clazz).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isComplaintAvailableByOfferIdAndUserPublicId(String offerId, String userPublicId) {
+        Query query = new Query(Criteria.where("offerId").is(offerId));
+        query.addCriteria(Criteria.where("initiator.id").is(userPublicId));
+        return !mongoTemplate.exists(query, clazz);
     }
 
     @Override

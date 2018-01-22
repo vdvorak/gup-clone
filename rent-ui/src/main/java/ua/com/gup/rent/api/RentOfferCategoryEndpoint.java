@@ -164,7 +164,7 @@ public class RentOfferCategoryEndpoint {
     @PreAuthorize("hasAuthority('CREATE_CATEGORY')")
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> createCategory(@Valid @RequestBody RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) throws URISyntaxException {
-        logger.debug("REST request to save new RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
+        logger.debug("REST request to save new RentOfferCategoryCreate : {}", rentOfferCategoryCreateDTO);
         if (rentOfferCategoryService.existsByKey(rentOfferCategoryCreateDTO.getKey())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -183,7 +183,6 @@ public class RentOfferCategoryEndpoint {
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> getCategory(@PathVariable String id) {
         logger.debug("REST request to get RentOfferCategory : {}", id);
-
         final RentOfferCategory rentOfferCategory = rentOfferCategoryService.findOne(id);
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(rentOfferCategory));
     }
@@ -200,8 +199,7 @@ public class RentOfferCategoryEndpoint {
     @PreAuthorize("hasAuthority('UPDATE_CATEGORY')")
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> updateCategory(@Valid @RequestBody RentOfferCategoryUpdateDTO rentOfferCategoryUpdateDTO) throws URISyntaxException {
-        logger.debug("REST request to update RentOfferCategoryShort : {}", rentOfferCategoryUpdateDTO);
-
+        logger.debug("REST request to update RentOfferCategorUpdate : {}", rentOfferCategoryUpdateDTO);
         RentOfferCategory result = rentOfferCategoryService.save(rentOfferCategoryUpdateDTO);
         clearCache();
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
@@ -216,7 +214,7 @@ public class RentOfferCategoryEndpoint {
     @PreAuthorize("hasAuthority('DELETE_CATEGORY')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
-        logger.debug("REST request to delete RentOfferCategoryShort : {}", id);
+        logger.debug("REST request to delete RentOfferCategory : {}", id);
         rentOfferCategoryService.delete(id);
         clearCache();
         return ResponseEntity.ok().build();

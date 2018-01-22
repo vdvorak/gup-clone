@@ -49,6 +49,5 @@ public abstract class CommonOfferFilter implements Serializable {
     private String[] seoUrls;
 
     @ApiModelProperty("Date from inclusive")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private LocalDate createdDate;
+    private String createdDate;
 }

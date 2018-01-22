@@ -8,10 +8,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.gup.mongo.composition.domain.email.EmailMessage;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
-import ua.com.gup.mongo.model.offer.EmailStatus;
+import java.util.List;
 
 @Repository
 public class EmailRepositoryImpl implements EmailRepository {
@@ -33,25 +34,12 @@ public class EmailRepositoryImpl implements EmailRepository {
     }
 
     @Override
-    public EmailMessage findOneMessage() {
-        Query query = new Query();
-        query.limit(1);
-        query.with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
-        return mongoTemplate.findOne(query, EmailMessage.class);
-    }
-    
-    @Override
-    public EmailMessage findOneMessageInQueue(){
-        Query query = new Query();
-        Criteria isQueue = Criteria.where("status").is(EmailStatus.QUEUE);
-        query.addCriteria(isQueue);
-        query.limit(1);
-        query.with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
-        return mongoTemplate.findOne(query, EmailMessage.class);
-    }
-
-    private EmailMessage findById(EmailMessage message) {
-        return mongoTemplate.findById(message.getId(), EmailMessage.class);
+    public List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit) {
+        Query query = new Query(Criteria.where("status").is(oldStatus));
+        query.limit(limit).with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
+        Update update = new Update();
+        update.set("status", newStatus);
+        return mongoTemplate.findAndModify(query, update, List.class);
     }
 
     @Override
@@ -60,15 +48,15 @@ public class EmailRepositoryImpl implements EmailRepository {
     }
 
     @Override
-    public EmailMessage updateLastAttemptTimestamp(EmailMessage message) {
+    public EmailMessage updateStatusAndLastAttemptTimestamp(EmailMessage message) {
         Update update = new Update();
         update.set("lastAttemptTimestamp", new Date().getTime());
         Query query = new Query(Criteria.where("_id").is(message.getId()));
         return mongoTemplate.findAndModify(query, update, EmailMessage.class);
     }
-    
+
     @Override
-    public void save(EmailMessage message){
+    public void save(EmailMessage message) {
         mongoTemplate.save(message);
     }
 }

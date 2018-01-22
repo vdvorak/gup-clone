@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.com.gup.mongo.composition.domain.email.EmailMessage;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 import ua.com.gup.service.EmailService;
+
+import java.util.List;
 
 @Component
 @Profile("pre-prod")
@@ -20,14 +23,15 @@ public class SendMailTask {
 
     @Scheduled(cron = "0 * * * * *")
     public void printMessages() {
-        EmailMessage message = emailService.findOneMessageInQueue();
-        if (message != null) {
+        List<EmailMessage> messages = emailService.findAndModifyMessages(EmailStatus.QUEUE, EmailStatus.PROCESSING, 20);
+        for (EmailMessage message : messages) {
             try {
-                emailService.sendEmail(message);                
+                emailService.sendEmail(message);
             } catch (Exception e) {
                 LOG.info("Sending mail exception", e);
-                emailService.updateLastAttemptTimestamp(message);
+                emailService.updateStatusAndLastAttemptTimestamp(message);
             }
         }
+
     }
 }

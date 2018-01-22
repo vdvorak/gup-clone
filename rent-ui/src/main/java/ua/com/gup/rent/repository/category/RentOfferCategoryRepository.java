@@ -14,5 +14,5 @@ public interface RentOfferCategoryRepository extends MongoRepository<RentOfferCa
 
     Optional<List<RentOfferCategory>> findByCodeInOrderByCodeAsc(List<Integer> codes);
 
-    boolean findByKeyExists(String key);
+    boolean existsByKey(String key);
 }

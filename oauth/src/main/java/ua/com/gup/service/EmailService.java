@@ -5,8 +5,10 @@ import ua.com.gup.mongo.composition.domain.email.EmailMessage;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.enumeration.EmailType;
+import ua.com.gup.mongo.model.offer.EmailStatus;
 import ua.com.gup.service.model.EmailServiceTokenModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,15 +18,14 @@ import java.util.Map;
  */
 public interface EmailService {
 
-    EmailMessage findOneMessage();
-    
-    EmailMessage findOneMessageInQueue();
+
+    List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit);
 
     void sendEmail(EmailMessage message) throws Exception;
 
     void removeMessage(EmailMessage message);
 
-    EmailMessage updateLastAttemptTimestamp(EmailMessage message);
+    EmailMessage updateStatusAndLastAttemptTimestamp(EmailMessage message);
 
     EmailMessage prepareMessageAndAddToQueue(Profile profile, EmailType emailType);
 

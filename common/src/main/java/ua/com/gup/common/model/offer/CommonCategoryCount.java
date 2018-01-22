@@ -10,6 +10,5 @@ import lombok.Data;
 @Data
 public class CommonCategoryCount {
     private String categoriesRegExp;
-
     private int count;
 }

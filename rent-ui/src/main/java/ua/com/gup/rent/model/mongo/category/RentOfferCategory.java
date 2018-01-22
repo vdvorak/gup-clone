@@ -38,6 +38,7 @@ public class RentOfferCategory implements Serializable {
     @Indexed(unique = true)
     private int order;
     private Map<String, String> title = new HashMap<>();
+    private Map<String, String> seoTitle = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
 
     @Override

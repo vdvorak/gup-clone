@@ -27,6 +27,8 @@ public interface CommonComplaintOfferRepository<T  extends CommonComplaint> {
 
     List<T> findAllByInitiatorId(String initiatorId);
 
+    boolean isComplaintAvailableByOfferIdAndUserPublicId(String offerId, String userPublicId);
+
     List<T> findAllByStatus(ComplaintOfferStatus status);
 
     long countFilter(ComplaintFilter filter);

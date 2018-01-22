@@ -5,5 +5,7 @@ import ua.com.gup.rent.model.mongo.rent.RentOffer;
 
 public interface RentOfferElasticService {
 
-    void asyncSaveRentOfferElastic(RentOffer rentOffer);
+    void createElasticRentOffer(RentOffer rentOffer);
+
+    void updateElasticRentOffer(RentOffer rentOffer);
 }

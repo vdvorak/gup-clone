@@ -60,6 +60,8 @@ public interface CommonComplaintOfferService<T extends CommonComplaint> {
      */
     List<T> findAllByInitiatorId(String initiatorId);
 
+    boolean isComplaintAvailableByOfferIdAndUserPublicId(String offerId, String userPublicId);
+
 
     /**
      * Get one ComplaintOffer by offerId.
@@ -72,7 +74,7 @@ public interface CommonComplaintOfferService<T extends CommonComplaint> {
     /**
      * Update ComplaintOffer's status.
      *
-     * @param id     the id of the entity
+     * @param id   the id of the entity
      * @param type the description to be updated
      * @return the entity
      */
@@ -81,7 +83,7 @@ public interface CommonComplaintOfferService<T extends CommonComplaint> {
     /**
      * Update ComplaintOffer's status.
      *
-     * @param id     the id of the entity
+     * @param id    the id of the entity
      * @param types the descriptions to be updated
      * @return the entity
      */

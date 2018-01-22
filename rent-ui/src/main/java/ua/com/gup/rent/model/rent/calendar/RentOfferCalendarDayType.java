@@ -10,4 +10,13 @@ public enum RentOfferCalendarDayType {
     RentOfferCalendarDayType(int type) {
         this.type = type;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return "" + type;
+    }
 }

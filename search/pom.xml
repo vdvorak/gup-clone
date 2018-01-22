@@ -77,6 +77,11 @@
             <artifactId>spring-data-commons</artifactId>
             <version>1.13.8.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons-core -->
