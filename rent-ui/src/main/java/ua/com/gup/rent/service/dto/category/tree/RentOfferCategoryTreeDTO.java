@@ -3,6 +3,8 @@ package ua.com.gup.rent.service.dto.category.tree;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
 
@@ -10,7 +12,8 @@ import java.io.Serializable;
 import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@Data
+@Setter
+@Getter
 @Slf4j
 public class RentOfferCategoryTreeDTO implements Serializable {
     private int code;
@@ -19,6 +22,7 @@ public class RentOfferCategoryTreeDTO implements Serializable {
     private String color;
     private Integer order;
     private Map<String, String> title = new HashMap<>();
+    private Map<String, String> seoTitle = new HashMap<>();
     private Map<String, String> description = new HashMap<>();
     private Set<RentOfferCategoryAttributeDTO> attrs;
     private SortedSet<RentOfferCategoryTreeDTO> children;
@@ -51,7 +55,7 @@ public class RentOfferCategoryTreeDTO implements Serializable {
         return Objects.hash(getCode(), getKey());
     }
 
-    public int getCode() {
+    /*public int getCode() {
 
         return code;
     }
@@ -131,5 +135,5 @@ public class RentOfferCategoryTreeDTO implements Serializable {
 
     public void setPrivateAttr(boolean privateAttr) {
         this.privateAttr = privateAttr;
-    }
+    }*/
 }

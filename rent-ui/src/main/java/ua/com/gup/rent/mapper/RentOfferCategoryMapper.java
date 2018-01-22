@@ -36,18 +36,35 @@ public class RentOfferCategoryMapper extends CommonCategoryMapper<RentOfferCateg
 
     public RentOfferCategory categoryUpdateDTOToCategory(RentOfferCategoryUpdateDTO rentOfferCategoryUpdateDTO) {
         RentOfferCategory rentOfferCategory = new RentOfferCategory();
-        fromCategoryCreateDTOToCategory(rentOfferCategoryUpdateDTO, rentOfferCategory);
+        fromCategoryUpdateDTOToCategory(rentOfferCategoryUpdateDTO, rentOfferCategory);
         rentOfferCategory.setCode(rentOfferCategoryUpdateDTO.getCode());
         rentOfferCategory.setId(rentOfferCategoryUpdateDTO.getId());
         return rentOfferCategory;
     }
 
-    private void fromCategoryCreateDTOToCategory(RentOfferCategoryCreateDTO source, RentOfferCategory target) {
+    private void fromCategoryUpdateDTOToCategory(RentOfferCategoryCreateDTO source, RentOfferCategory target) {
         source.getTitle().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+        source.getSeoTitle().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
         source.getDescription().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
 
         target.setActive(source.isActive());
         target.setTitle(source.getTitle());
+        target.setSeoTitle(source.getSeoTitle());
+        target.setDescription(source.getDescription());
+        target.setKey(source.getKey());
+        target.setParent(source.getParent());
+        target.setColor(source.getColor());
+        target.setOrder(source.getOrder());
+    }
+
+    private void fromCategoryCreateDTOToCategory(RentOfferCategoryCreateDTO source, RentOfferCategory target) {
+        source.getTitle().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+        source.getSeoTitle().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+        source.getDescription().replaceAll((k, v) -> StringUtils.isEmpty(v) ? "" : v.trim());
+
+        target.setActive(source.isActive());
+        target.setTitle(source.getTitle());
+        target.setSeoTitle(source.getSeoTitle());
         target.setDescription(source.getDescription());
         target.setKey(source.getKey());
         target.setParent(source.getParent());
