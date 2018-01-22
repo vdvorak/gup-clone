@@ -13,8 +13,8 @@ import java.util.Date;
 public class ManagerActionDto {
     @ApiModelProperty(position = 1, example = "Dmitriy")
     private String id;
-    @ApiModelProperty(position = 2, example = "12.12.2012")
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @ApiModelProperty(position = 2, example = "12-12-2012")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     @ApiModelProperty(position = 3, example = "13:57")
     @JsonFormat(pattern = "HH:mm")

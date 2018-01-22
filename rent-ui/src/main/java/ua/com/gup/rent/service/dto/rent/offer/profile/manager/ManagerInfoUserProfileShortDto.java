@@ -2,6 +2,7 @@ package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 
@@ -25,8 +26,8 @@ public class ManagerInfoUserProfileShortDto {
     private String managerLastname;
     @ApiModelProperty(position = 120, example = "Some additional text info")
     private String additionalInfo;
-    @ApiModelProperty(position = 130, example = "100")
-    private Integer userRating; // 100 percent
+    @ApiModelProperty(position = 130, example = "INTERESTED")
+    private InterestingStatus interestingStatus;
 
     private ManagerContactInfoDto contactInfo;
 
@@ -38,7 +39,7 @@ public class ManagerInfoUserProfileShortDto {
             this.bonusMoney = info.getBonusMoney();
             this.bookingRequests = info.getBookingRequests();
             this.additionalInfo = info.getAdditionalInfo();
-            this.userRating = info.getInterestingStatus();
+            this.interestingStatus = info.getInterestingStatus();
             this.contactInfo = new ManagerContactInfoDto(info.getContactInfo());
         }
         if (manager != null) {

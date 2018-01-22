@@ -15,6 +15,7 @@ import ua.com.gup.common.mapper.manager.action.ManagerActionMapper;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
+import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.service.ManagerActionService;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
@@ -26,6 +27,8 @@ import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -323,6 +326,9 @@ public class ManagerEndpoint {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/interestingStatuses")
+    public ResponseEntity<List<InterestingStatus>> getInterestingStatuses() {
+        return new ResponseEntity<>(Arrays.asList(InterestingStatus.values()), HttpStatus.OK);
+    }
 
 }

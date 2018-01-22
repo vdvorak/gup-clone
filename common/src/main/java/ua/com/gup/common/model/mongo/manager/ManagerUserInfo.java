@@ -9,7 +9,7 @@ public class ManagerUserInfo {
     private String managerFirstname;
     private String managerLastname;
     private String additionalInfo;
-    private Integer interestingStatus;
+    private InterestingStatus interestingStatus;
 
     private ContactInfo contactInfo;
 
