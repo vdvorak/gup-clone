@@ -1,7 +1,6 @@
 package ua.com.gup.common.model.mongo.profile;
 
 import ua.com.gup.common.model.enumeration.SocialNetwork;
-import ua.com.gup.common.model.mongo.Phone;
 
 import javax.validation.constraints.Size;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class Contact {
     private Set<String> contactEmails;
 
     @Size(max = 5)
-    private Set<Phone> contactPhones;
+    private Set<String> contactPhones;
 
     private Map<SocialNetwork, String> socNetLink;
 
@@ -72,11 +71,11 @@ public class Contact {
         this.contactEmails = contactEmails;
     }
 
-    public Set<Phone> getContactPhones() {
+    public Set<String> getContactPhones() {
         return contactPhones;
     }
 
-    public void setContactPhones(Set<Phone> contactPhones) {
+    public void setContactPhones(Set<String> contactPhones) {
         this.contactPhones = contactPhones;
     }
 

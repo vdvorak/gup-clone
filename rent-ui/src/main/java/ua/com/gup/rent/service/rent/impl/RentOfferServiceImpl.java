@@ -517,8 +517,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
                 trgt.getContactInfo().setContactName(to.getFirstname());
                 //get all phones from user contacts that not hidden
                 Set<String> phoneNumbers = to.getContact().getContactPhones().stream()
-                        .filter(phone -> !phone.getHidden())
-                        .map(p -> p.getPhoneNumber())
+                       // .filter(phone -> !phone.getHidden())
+                       // .map(p -> p.getPhoneNumber())
                         .collect(Collectors.toSet());
                 trgt.getContactInfo().setPhoneNumbers(phoneNumbers);
 
