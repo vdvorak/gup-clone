@@ -14,7 +14,7 @@ public class RentOfferFilter {
 
     private String query;
 
-    private AuthorFilter author;
+    private AuthorFilter authorFilter;
 
     private Integer category;
 
