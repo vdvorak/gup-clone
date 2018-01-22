@@ -218,7 +218,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
 
     @Override
     public boolean existsByKey(String key) {
-        return rentOfferCategoryRepository.findByKeyExists(key);
+        return rentOfferCategoryRepository.existsByKey(key);
     }
 
     private void warmCache() {
