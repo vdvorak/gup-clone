@@ -41,6 +41,7 @@ public class RentOfferCategoryServiceImpl implements RentOfferCategoryService {
         rentOfferCategoryTreeDTO.setActive(rentOfferCategory.isActive());
         rentOfferCategoryTreeDTO.setKey(rentOfferCategory.getKey());
         rentOfferCategoryTreeDTO.setTitle(rentOfferCategory.getTitle());
+        rentOfferCategoryTreeDTO.setSeoTitle(rentOfferCategory.getSeoTitle());
         rentOfferCategoryTreeDTO.setDescription(rentOfferCategory.getDescription());
         rentOfferCategoryTreeDTO.setColor(rentOfferCategory.getColor());
         rentOfferCategoryTreeDTO.setOrder(rentOfferCategory.getOrder());
