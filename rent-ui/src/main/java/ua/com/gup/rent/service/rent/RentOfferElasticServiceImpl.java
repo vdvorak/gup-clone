@@ -21,9 +21,8 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
     private RentOfferElasticRepository rentOfferElasticRepository;
 
     @Async
-    public void asyncSaveRentOfferElastic(RentOffer rentOffer) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
+    public void createElasticRentOffer(RentOffer rentOffer) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
             ElasticRentOffer elasticRentOffer = new ElasticRentOffer(rentOffer);
@@ -31,6 +30,7 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
             RentOfferCalendarInterval interval = new RentOfferCalendarInterval();
             interval.setRentStartDate(rentOfferCalendar.getRentStartDate());
             interval.setRentEndDate(rentOfferCalendar.getRentEndDate());
+
             LocalDate rentStartDate = LocalDate.parse(rentOfferCalendar.getRentStartDate(), formatter);
             LocalDate rentEndDate = LocalDate.parse(rentOfferCalendar.getRentEndDate(), formatter);
             interval.setDaysMap(RentCalendarUtil.getDaysMapForDates(rentStartDate,
@@ -38,5 +38,10 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
             elasticRentOffer.setRentOfferCalendarInterval(interval);
             rentOfferElasticRepository.create(elasticRentOffer);
         }
+    }
+
+    @Override
+    public void updateElasticRentOffer(RentOffer rentOffer) {
+        rentOfferElasticRepository.updateByRentOffer(rentOffer);
     }
 }

@@ -20,6 +20,7 @@ public class ElasticRentOffer extends CommonRentOffer {
     private String rentOfferId;
     private RentOfferCalendarInterval rentOfferCalendarInterval;
     private RentOfferPrice price;
+    private String seoUrl;
 
     public ElasticRentOffer() {
     }
@@ -27,6 +28,7 @@ public class ElasticRentOffer extends CommonRentOffer {
     public ElasticRentOffer(RentOffer cro) {
         super(cro);
         this.rentOfferId = cro.getId();
+        this.seoUrl = cro.getSeoUrl();
         this.price = cro.getPrice();
         this.youtubeVideoId = null;
         this.images = null;

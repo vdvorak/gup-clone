@@ -46,7 +46,8 @@ public class RentCalendarUtil {
 
     public static RentOfferCalendar generateCalendarForDates(LocalDate startDate, LocalDate endDate) {
         int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
-        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar();
+        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(startDate, endDate);
+
         RentOfferCalendarDay[] rentOfferCalendarDays = new RentOfferCalendarDay[days];
         int i = 0;
         while (startDate.isBefore(endDate)) {

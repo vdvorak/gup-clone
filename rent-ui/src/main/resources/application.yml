@@ -4,6 +4,8 @@ server:
   compression:
       enabled: true
       mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  session:
+    timeout: 60
 
 application:
   url: http://localhost
@@ -40,6 +42,11 @@ mongo:
     db:
       uri: mongodb://gup:1qazxcft6@mongo-1.dev.gup.ua,mongo-2.dev.gup.ua,mongo-3.dev.gup.ua/heroku_lktlmxlq?replicaSet=GUP0
 spring:
+  http:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+      enabled: true
   session:
     store-type: redis
   profiles:
@@ -75,4 +82,3 @@ email:
       auth: true
       starttls:
         enable: true
-

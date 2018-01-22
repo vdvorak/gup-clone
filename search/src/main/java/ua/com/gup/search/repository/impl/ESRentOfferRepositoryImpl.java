@@ -35,8 +35,8 @@ import java.util.List;
 @Repository
 public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
-    private static final String ES_INDEX = "heroku_lktlmxlq_rent";
-    private static final String ES_TYPE = "offer";
+    private static final String RENT_INDEX = "heroku_lktlmxlq_rent";
+    private static final String OFFER_TYPE = "offer";
 
 
     @Autowired
@@ -45,8 +45,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
     @Override
     public List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException {
         SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices(ES_INDEX);
-        searchRequest.types(ES_TYPE);
+        searchRequest.indices(RENT_INDEX);
+        searchRequest.types(OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource(false);
@@ -91,8 +91,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             boolQueryBuilder.must(new TermQueryBuilder("seoUrl", offerFilter.getSeoUrls()));
         }
 
-        if (offerFilter.getAuthor() != null && !StringUtils.isEmpty(offerFilter.getAuthor().getAuthorId())) {
-            boolQueryBuilder.must(new TermQueryBuilder("authorId", offerFilter.getAuthor().getAuthorId()));
+        if (offerFilter.getAuthorFilter() != null && !StringUtils.isEmpty(offerFilter.getAuthorFilter().getAuthorId())) {
+            boolQueryBuilder.must(new TermQueryBuilder("authorId", offerFilter.getAuthorFilter().getAuthorId()));
         }
 
         if (!CollectionUtils.isEmpty(excludedIds)) {
@@ -206,8 +206,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
 
         SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices(ES_INDEX);
-        searchRequest.types(ES_TYPE);
+        searchRequest.indices("heroku_lktlmxlq_rent_find");
+        searchRequest.types(OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource("rentOfferId", "");
@@ -250,8 +250,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
     @Override
     public List<ESCategoriesOffersStatistic> countOffersInCategoriesByStatus(String offerStatus) throws IOException {
         SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices(ES_INDEX);
-        searchRequest.types(ES_TYPE);
+        searchRequest.indices(RENT_INDEX);
+        searchRequest.types(OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource(false);
