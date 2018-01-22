@@ -79,7 +79,7 @@ public class RentOfferCategoryEndpoint {
      * @return the ResponseEntity with status 201 (Created) and with body the new categoryAttribute, or with status 400 (Bad Request) if the categoryAttribute has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_CATEGORY_ATTRIBUTE')")
     @RequestMapping(value = "/category-attributes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategoryAttribute> createCategory(@Valid @RequestBody RentOfferCategoryAttributeCreateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to save new RentOfferCategoryAttribute : {}", categoryAttribute);
@@ -96,7 +96,7 @@ public class RentOfferCategoryEndpoint {
      * @return the ResponseEntity with status 200 (OK) and with body the RentOfferCategoryAttribute, or with status 404 (Not Found)
      */
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_CATEGORY_ATTRIBUTE')")
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategoryAttribute> getCategoryAttributes(@PathVariable String id) {
         logger.debug("REST request to get RentOfferCategoryAttribute : {}", id);
@@ -113,7 +113,7 @@ public class RentOfferCategoryEndpoint {
      * or with status 500 (Internal Server Error) if the categoryAttribute couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_CATEGORY_ATTRIBUTE')")
     @RequestMapping(value = "/category-attributes", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategoryAttribute> updateCategory(@Valid @RequestBody RentOfferCategoryAttributeUpdateDTO categoryAttribute) throws URISyntaxException {
         logger.debug("REST request to update RentOfferCategoryAttribute : {}", categoryAttribute);
@@ -128,7 +128,7 @@ public class RentOfferCategoryEndpoint {
      * @param id the id of the categoryAttribute to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_CATEGORY_ATTRIBUTE')")
     @RequestMapping(value = "/category-attributes/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategoryAttribute(@PathVariable String id) {
         logger.debug("REST request to delete RentOfferCategoryAttribute : {}", id);
@@ -143,7 +143,7 @@ public class RentOfferCategoryEndpoint {
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_ALL_CATEGORY_ATTRIBUTES')")
     @RequestMapping(value = "/category-attributes/", method = RequestMethod.GET)
     public ResponseEntity<List<RentOfferCategoryAttribute>> getAllCategoryAttributes() {
         logger.debug("REST request to get a page of Categories");
@@ -161,7 +161,7 @@ public class RentOfferCategoryEndpoint {
      *
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_CATEGORY')")
     @RequestMapping(value = "/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> createCategory(@Valid @RequestBody RentOfferCategoryCreateDTO rentOfferCategoryCreateDTO) throws URISyntaxException {
         logger.debug("REST request to save new RentOfferCategoryShort : {}", rentOfferCategoryCreateDTO);
@@ -179,7 +179,7 @@ public class RentOfferCategoryEndpoint {
      * @param id the id of the RentOfferCategoryShort to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the RentOfferCategoryShort, or with status 404 (Not Found)
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_CATEGORY')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> getCategory(@PathVariable String id) {
         logger.debug("REST request to get RentOfferCategory : {}", id);
@@ -197,7 +197,7 @@ public class RentOfferCategoryEndpoint {
      * or with status 500 (Internal Server Error) if the category couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_CATEGORY')")
     @RequestMapping(value = "/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RentOfferCategory> updateCategory(@Valid @RequestBody RentOfferCategoryUpdateDTO rentOfferCategoryUpdateDTO) throws URISyntaxException {
         logger.debug("REST request to update RentOfferCategoryShort : {}", rentOfferCategoryUpdateDTO);
@@ -213,7 +213,7 @@ public class RentOfferCategoryEndpoint {
      * @param id the id of the category to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_CATEGORY')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
         logger.debug("REST request to delete RentOfferCategoryShort : {}", id);
@@ -227,7 +227,7 @@ public class RentOfferCategoryEndpoint {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of offers in body
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_ALL_CATEGORIES')")
     @RequestMapping(value = "/categories/", method = RequestMethod.GET)
     public ResponseEntity<List<RentOfferCategory>> getAllCategories() {
         logger.debug("REST request to get all Categories");

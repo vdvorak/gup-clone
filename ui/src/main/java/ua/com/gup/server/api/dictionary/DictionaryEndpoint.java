@@ -35,7 +35,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(messages, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DICTIONARY_CREATE')")
     @RequestMapping(value = "/{locale}", method = RequestMethod.POST)
     public ResponseEntity<Void> editMessages(
             @PathVariable Locale locale,
@@ -44,7 +44,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DICTIONARY_EDIT')")
     @RequestMapping(value = "/{locale}/{key}", method = RequestMethod.POST)
     public ResponseEntity<Void> editMessage(
             @PathVariable Locale locale,
@@ -70,7 +70,7 @@ public class DictionaryEndpoint {
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DICTIONARY_DELETE')")
     @RequestMapping(value = "/{locale}/{key}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteMessage(
             @PathVariable Locale locale,

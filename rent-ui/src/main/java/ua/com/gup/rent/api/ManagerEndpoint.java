@@ -30,6 +30,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/managers")
+//@Deprecated
 public class ManagerEndpoint {
 
     @Autowired
@@ -45,7 +46,8 @@ public class ManagerEndpoint {
     /**
      * get all managers with ROLE_USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+    //MANAGER_SEARCH_MANAGERS
+    @PreAuthorize("hasAuthority('SEARCH_MANAGER_PROFILES')")
     @GetMapping(value = {"", "/"})
     public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(ProfileFilter filter, Pageable pageable) {
         Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(filter, CommonUserRole.ROLE_MANAGER, pageable);
@@ -56,7 +58,8 @@ public class ManagerEndpoint {
     /**
      * get manager profile by pulickID
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+    //MANAGER_READ_MANAGER
+    @PreAuthorize("hasAuthority('READ_MANAGER_PROFILE')")
     @GetMapping(value = "/{managerPublicId}")
     public ResponseEntity<RentOfferManagerPrivateProfileDto> findFullManagerProfileByPublicId(@PathVariable("managerPublicId") String managerPublicId) {
         RentOfferManagerPrivateProfileDto profile = profilesService.findManagerPrivateProfileDTOForAdminByPublicId(managerPublicId);
@@ -67,7 +70,7 @@ public class ManagerEndpoint {
      * get all profile with ROLE_USER
      */
 
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SEARCH_PROFILES_MANAGER')")
     @GetMapping(value = "/profiles")
     public ResponseEntity<Page<UserProfileShortManagerDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
         Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
@@ -77,7 +80,7 @@ public class ManagerEndpoint {
     /**
      * get profile by pulickID
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_PROFILE_MANAGER')")
     @GetMapping(value = "/profiles/{profilePublicId}")
     public ResponseEntity<UserProfileManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
         UserProfileManagerDto profile = profilesService.findUserProfile(profilePublicId);
@@ -91,7 +94,8 @@ public class ManagerEndpoint {
      * set manager to user.manager
      */
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    //MANAGER_LINK_PROFILE
+    @PreAuthorize("hasAuthority('LINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/link/{managerPublicId}")
     public ResponseEntity<RentOfferProfileDTO> linkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
@@ -112,7 +116,8 @@ public class ManagerEndpoint {
      * remove user to manager.users
      * set null to user.manager
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    //MANAGER_UNLINK_PROFILE
+    @PreAuthorize("hasAuthority('UNLINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/unlink/{managerPublicId}")
     public ResponseEntity<RentOfferProfileDTO> unLinkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
@@ -136,7 +141,7 @@ public class ManagerEndpoint {
     /**
      * get users of manager by publicId{managerPublicId}
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('GET_MANAGER_USERS')")
     @GetMapping(value = "/{managerPublicId}/users")
     public ResponseEntity<Page<UserProfileShortManagerDto>> getUsers(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -150,7 +155,7 @@ public class ManagerEndpoint {
     /**
      * get user by manager publicId and user publicId
      */
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('GET_MANAGER_USER')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")
     public ResponseEntity<UserProfileManagerDto> getUser(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -172,7 +177,7 @@ public class ManagerEndpoint {
     /**
      * update user contact_info
      */
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_PROFILE_CONTACT_INFO_MANAGER')")
     @RequestMapping(value = "/{managerPublicId}/users/{userPublicId}/contactinfo", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity creeateContactInfo(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -192,7 +197,7 @@ public class ManagerEndpoint {
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SEARCH_OFFERS_MANAGER')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}/offers")
     public ResponseEntity<Page<RentOfferViewShortDTO>> searchOffers(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -204,7 +209,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(offers, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CLONE_OFFER')")
     @PostMapping(value = "/{managerPublicId}/users/{fromUserPublicId}/offers/clone/{toUserPublicId}")
     public ResponseEntity<Page<RentOfferViewShortDTO>> cloneOffrs(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -229,7 +234,8 @@ public class ManagerEndpoint {
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN') and hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
+    @PreAuthorize("hasAuthority('READ_OFFER_MANAGER')")
+    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN') and hasPermission(#offerUpdateDTO.id, 'offer','EDIT')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}/offers/{offerId}")
     public ResponseEntity<RentOfferViewDetailsDTO> searchOffer(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -242,7 +248,8 @@ public class ManagerEndpoint {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/{managerPublicId}/actions")
     public ResponseEntity<Page<ManagerActionDto>> searchActions(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -254,7 +261,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('READ_MANAGER_ACTION')")
     @GetMapping(value = "/{managerPublicId}/actions/{actionId}")
     public ResponseEntity<ManagerActionDto> getAction(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -268,7 +275,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(action, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_MANAGER_ACTION')")
     @PostMapping(value = "/{managerPublicId}/actions")
     public ResponseEntity<ManagerActionDto> createAction(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -283,7 +290,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(action.getId(), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_MANAGER_ACTION')")
     @PutMapping(value = "/{managerPublicId}/actions/{actionId}")
     public ResponseEntity<ManagerActionDto> editAction(
             @PathVariable("managerPublicId") String managerPublicId,
@@ -302,7 +309,7 @@ public class ManagerEndpoint {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_MANAGER_ACTION')")
     @DeleteMapping(value = "/{managerPublicId}/actions/{actionId}")
     public ResponseEntity<ManagerActionDto> deleteAction(
             @PathVariable("managerPublicId") String managerPublicId,
