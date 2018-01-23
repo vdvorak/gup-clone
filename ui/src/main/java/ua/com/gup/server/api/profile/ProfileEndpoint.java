@@ -10,11 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
+import ua.com.gup.server.validator.ProfileDTOValidator;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
@@ -29,6 +32,19 @@ public class ProfileEndpoint {
 
     @Autowired
     private ProfilesService profilesService;
+
+    @Autowired
+    private ProfileDTOValidator profileDTOValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (CreateProfileDTO.class.equals(clazz) || EditProfileDTO.class.equals(clazz)) {
+                binder.addValidators(profileDTOValidator);
+            }
+        }
+    }
 
     /**
      * Gets profile by profile public id.
