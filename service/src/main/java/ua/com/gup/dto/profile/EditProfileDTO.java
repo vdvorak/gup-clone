@@ -3,13 +3,20 @@ package ua.com.gup.dto.profile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.StringUtils;
 import ua.com.gup.common.dto.profile.ProfileDTO;
+import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.common.model.mongo.Phone;
+
+import java.util.List;
+import java.util.Set;
 
 public class EditProfileDTO extends ProfileDTO {
 
     @JsonProperty("mainPhone")
     private Phone mainPhone;
+
+    @JsonProperty("roles")
+    private Set<CommonUserRole> roles;
 
     public EditProfileDTO() {
     }
@@ -38,6 +45,7 @@ public class EditProfileDTO extends ProfileDTO {
         profile.setStatus(this.status);
         profile.setContact(this.contact);
         profile.setMainPhone(this.mainPhone);
+        profile.setUserRoles(this.roles);
         return profile;
     }
 }
