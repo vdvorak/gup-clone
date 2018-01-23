@@ -63,7 +63,7 @@ public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentO
     }
 
     @Override
-    public Page<ProfileShortAdminDTO> findByRole(ProfileFilter filter, CommonUserRole role, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable) {
         long count = rentOfferProfileRepository.countByRole(role);
         List<RentOfferProfile> fullProfiles = Collections.EMPTY_LIST;
         if (count > 0) {

@@ -22,7 +22,7 @@ public interface RentOfferProfilesService extends CommonProfileService<RentOffer
 
     ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId);
 
-    Page<ProfileShortAdminDTO> findByRole(ProfileFilter filter, CommonUserRole role, Pageable pageable);
+    Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable);
 
     void linkProfile(String managerPublicId, String profilePublicId);
 

@@ -153,7 +153,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     @Override
     public List<RentOfferProfile> findByRole(CommonUserRole role, Pageable pageable) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").in(new CommonUserRole[]{role}));
         query.fields().exclude("password");
         query.with(pageable);
         return mongoTemplate.find(query, RentOfferProfile.class);
@@ -162,7 +162,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     @Override
     public long countByRole(CommonUserRole role) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").in(new CommonUserRole[]{role}));
         return mongoTemplate.count(query, RentOfferProfile.class);
     }
 

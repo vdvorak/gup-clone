@@ -52,8 +52,8 @@ public class ManagerEndpoint {
     //MANAGER_SEARCH_MANAGERS
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_PROFILES')")
     @GetMapping(value = {"", "/"})
-    public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(ProfileFilter filter, Pageable pageable) {
-        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(filter, CommonUserRole.ROLE_MANAGER, pageable);
+    public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(Pageable pageable) {
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(CommonUserRole.ROLE_MANAGER, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
