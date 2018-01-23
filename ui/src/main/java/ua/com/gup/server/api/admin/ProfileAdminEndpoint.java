@@ -9,18 +9,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
-import ua.com.gup.dto.profile.*;
+import ua.com.gup.dto.profile.BanInfoDto;
+import ua.com.gup.dto.profile.CreateProfileDTO;
+import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.repository.profile.ProfileFilter;
 import ua.com.gup.server.command.user.BanUserCommand;
 import ua.com.gup.server.command.user.EditUserCommand;
 import ua.com.gup.server.command.user.UnbanUserCommand;
 import ua.com.gup.server.component.executor.SaleCommandExecutor;
+import ua.com.gup.server.validator.ProfileDTOValidator;
 import ua.com.gup.service.filestorage.StorageService;
 import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
@@ -42,6 +46,18 @@ public class ProfileAdminEndpoint {
     @Lazy
     private SaleCommandExecutor executor;
 
+    @Autowired
+    private ProfileDTOValidator profileDTOValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (CreateProfileDTO.class.equals(clazz) || EditProfileDTO.class.equals(clazz)) {
+                binder.addValidators(profileDTOValidator);
+            }
+        }
+    }
 
     @PreAuthorize("hasAuthority('SEARCH_PROFILES_ADMIN')")
     @GetMapping(value = "/profiles")
@@ -59,7 +75,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasAuthority('CREATE_PROFILE_ADMIN')")
     @PostMapping(value = "/profiles")
-    public ResponseEntity createProfile(@RequestBody CreateProfileDTO profileDTO) {
+    public ResponseEntity createProfile(@Valid @RequestBody CreateProfileDTO profileDTO) {
 
         if (StringUtils.isEmpty(profileDTO.getEmail())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -74,7 +90,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasAuthority('UPDATE_PROFILE_ADMIN')")
     @PutMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @RequestBody EditProfileDTO profileDTO) throws CommandException {
+    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @Valid @RequestBody EditProfileDTO profileDTO) throws CommandException {
         Profile profile = profilesService.findByPublicId(profilePublicId);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

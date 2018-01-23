@@ -22,6 +22,7 @@ import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
@@ -117,7 +118,7 @@ public class ProfileEndpoint {
      */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateProfile(@RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@Valid @RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
 
         if (StringUtils.isEmpty(editProfileDTO.getEmail())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

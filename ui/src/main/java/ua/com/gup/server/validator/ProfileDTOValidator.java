@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 
@@ -23,23 +23,23 @@ public class ProfileDTOValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         boolean isUpdateDTO = EditProfileDTO.class.isInstance(target);
-        CreateProfileDTO createProfileDTO = (CreateProfileDTO) target;
+        ProfileDTO profileDTO = (ProfileDTO) target;
 
-        if (isUpdateDTO) {
+        /*if (isUpdateDTO) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
-        }
+        }*/
        /* if (!isUpdateDTO) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.required");
         }*/
 
-        if (createProfileDTO.getContact() != null) {
+        if (profileDTO.getContact() != null) {
 
-            if (createProfileDTO.getContact().getContactPhones() == null || createProfileDTO.getContact().getContactPhones().size() == 0) {
+            if (profileDTO.getContact().getContactPhones() == null || profileDTO.getContact().getContactPhones().size() == 0) {
                 errors.rejectValue("contact.contactPhones", "contact.contactPhones.size", null, "At least one phone number should be");
             } else {
-                for (String phoneNo : createProfileDTO.getContact().getContactPhones()) {
+                for (String phoneNo : profileDTO.getContact().getContactPhones()) {
                     if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
-                        errors.rejectValue("contactInfo.contactPhones", "contactInfo.contactPhones.format", null, "Phone number format is ^380[0-9]{9}$");
+                        errors.rejectValue("contact.contactPhones", "contact.contactPhones.format", null, "Phone number format is ^380[0-9]{9}$");
                     }
                 }
             }
