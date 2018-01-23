@@ -5,6 +5,7 @@
  */
 package ua.com.gup.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +13,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Function;
+import ua.com.gup.common.service.UserRoleService;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SaleUserAuthenticationConverter implements UserAuthenticationConverter {
@@ -53,10 +54,18 @@ public class SaleUserAuthenticationConverter implements UserAuthenticationConver
     private GupLoggedUser buildUserForAuthentication(String id, String username, String publicId, String email, List<GrantedAuthority> authorities) {
         return new GupLoggedUser(id, publicId, username, email, authorities);
     }
+    @Autowired
+    private UserRoleService userRoleService;
 
     private List<GrantedAuthority> buildUserAuthority(Set<CommonUserRole> userRoles) {
-        return userRoles.stream()
-                .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
+        Set<Function> functions = new HashSet<>();
+        for (CommonUserRole role : userRoles) {
+            Collection<Function> roleFunctions = userRoleService.getUserFunctionsByRole(role.name());
+            functions.addAll(roleFunctions);
+        }
+
+        return functions.stream()
+                .map(f -> new SimpleGrantedAuthority(f.getName()))
                 .collect(Collectors.toList());
     }
 
