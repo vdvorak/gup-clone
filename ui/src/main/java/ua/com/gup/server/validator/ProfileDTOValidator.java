@@ -24,16 +24,17 @@ public class ProfileDTOValidator implements Validator {
 
         boolean isUpdateDTO = EditProfileDTO.class.isInstance(target);
         ProfileDTO profileDTO = (ProfileDTO) target;
-        
+
         if (profileDTO.getContact() != null) {
-         if (profileDTO.getContact().getContactPhones() != null ) {
-            if (profileDTO.getContact().getContactPhones() == null || profileDTO.getContact().getContactPhones().size() == 0) {
-                for (String phoneNo : profileDTO.getContact().getContactPhones()) {
-                    if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
-                        errors.rejectValue("contact.contactPhones", "contact.contactPhones.format", null, "Phone number format is ^380[0-9]{9}$");
+            if (profileDTO.getContact().getContactPhones() != null) {
+                if (profileDTO.getContact().getContactPhones() == null || profileDTO.getContact().getContactPhones().size() == 0) {
+                    for (String phoneNo : profileDTO.getContact().getContactPhones()) {
+                        if (phoneNo == null || !phoneNo.matches("^380[0-9]{9}$")) {
+                            errors.rejectValue("contact.contactPhones", "contact.contactPhones.format", null, "Phone number format is ^380[0-9]{9}$");
+                        }
                     }
                 }
-            } 
+            }
         }
     }
 }
