@@ -25,6 +25,7 @@ public class ProfileDTOValidator implements Validator {
         boolean isUpdateDTO = EditProfileDTO.class.isInstance(target);
         ProfileDTO profileDTO = (ProfileDTO) target;
 
+         //FOR update required
         /*if (isUpdateDTO) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id.required");
         }*/

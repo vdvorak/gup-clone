@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.StringUtils;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.common.model.mongo.Phone;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 
-import java.util.List;
 import java.util.Set;
 
 public class EditProfileDTO extends ProfileDTO {
