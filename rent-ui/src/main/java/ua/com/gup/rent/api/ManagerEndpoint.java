@@ -13,13 +13,17 @@ import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
 import ua.com.gup.common.mapper.manager.action.ManagerActionMapper;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.ManagerActionService;
+import ua.com.gup.common.service.UserRoleService;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.profile.ProfileFilter;
@@ -43,9 +47,6 @@ public class ManagerEndpoint {
     @Autowired
     private ManagerActionService managerActionService;
 
-    @Autowired
-    private ManagerActionMapper managerActionMapper;
-
     /**
      * get all managers with ROLE_USER
      */
@@ -53,7 +54,7 @@ public class ManagerEndpoint {
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_PROFILES')")
     @GetMapping(value = {"", "/"})
     public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(Pageable pageable) {
-        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(CommonUserRole.ROLE_MANAGER, pageable);
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(Role.ROLE_MANAGER, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -104,7 +105,8 @@ public class ManagerEndpoint {
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
-        if (!profilesService.hasRole(profilePublicId, CommonUserRole.ROLE_USER)) {
+        //Role role = userRoleService.findByName(Role.ROLE_USER);
+        if (!profilesService.hasRole(profilePublicId, Role.ROLE_USER)) {
             return new ResponseEntity("error.user.invalid.userType", HttpStatus.BAD_REQUEST);
         }
         if (profilesService.hasManager(profilePublicId)) {

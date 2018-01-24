@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.common.annotation.Email;
 import ua.com.gup.common.annotation.Password;
 import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.address.Address;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
 import ua.com.gup.common.model.mongo.profile.Contact;
@@ -17,6 +17,7 @@ import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.mongo.profile.ProfileStatistic;
 import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
 import ua.com.gup.common.model.mongo.profile.phone.DBStorePhones;
+import ua.com.gup.common.model.security.Role;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -71,7 +72,7 @@ public class CommonProfile {
     private ProfileStatistic profileStatistic;
     private boolean online;
     private String chatUID;
-    private Set<CommonUserRole> userRoles;
+    private Set<String> userRoles;
     private Boolean confirmModerator;
     private DBStorePhones storePhones;
     private Set<String> emploeyrList;
@@ -216,14 +217,14 @@ public class CommonProfile {
         this.chatUID = chatUID;
     }
 
-    public Set<CommonUserRole> getUserRoles() {
+    public Set<String> getUserRoles() {
         if (userRoles == null) {
             userRoles = new HashSet<>();
         }
         return userRoles;
     }
 
-    public CommonProfile setUserRoles(Set<CommonUserRole> userRoles) {
+    public CommonProfile setUserRoles(Set<String> userRoles) {
         this.userRoles = userRoles;
         return this;
     }

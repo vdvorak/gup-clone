@@ -13,13 +13,13 @@ import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.dto.profile.PublicProfileDTO;
 import ua.com.gup.common.mapper.profile.admin.AdminPrivateProfileMapper;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.mongo.profile.Contact;
 import ua.com.gup.common.model.mongo.profile.FinanceInfo;
 import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.object.ObjectType;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.OperationService;
 import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
 import ua.com.gup.dto.profile.CreateProfileDTO;
@@ -314,7 +314,7 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
     }
 
     @Override
-    public Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findByRole(String role, Pageable pageable) {
         long count = profileRepository.countByRole(role);
         List<Profile> fullProfiles = Collections.EMPTY_LIST;
         if (count > 0) {
@@ -408,7 +408,7 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
     }
 
     @Override
-    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+    public boolean hasRole(String profilePublicId, String roleUser) {
         return profileRepository.hasRole(profilePublicId, roleUser);
     }
 }

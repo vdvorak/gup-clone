@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.address.Address;
+import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.rent.model.rent.profiles.phone.RentOfferDBStorePhones;
 
 import java.util.Set;
 

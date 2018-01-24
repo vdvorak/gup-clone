@@ -6,26 +6,26 @@
 package ua.com.gup.server.security.offer;
 
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 
 import java.util.Set;
 
 public class OfferEditPermissionEvaluator extends OfferPermissionEvaluator {
 
-    public OfferEditPermissionEvaluator(String offerId, String userId, Set<CommonUserRole> authorities) {
+    public OfferEditPermissionEvaluator(String offerId, String userId, Set<String> authorities) {
         super(offerId, userId, authorities);
     }
 
     @Override
     public Boolean hasAccess() {
 
-        if (getAuthorities().contains(CommonUserRole.ROLE_MANAGER)) {
+        if (getAuthorities().contains(Role.ROLE_MANAGER)) {
             return accessService.isManagerOffer(userId, getObjectId());
         }
 
-        if (getAuthorities().contains(CommonUserRole.ROLE_MODERATOR)) {
+        if (getAuthorities().contains(Role.ROLE_MODERATOR)) {
             return isModeratorOwner();
-        } else if (getAuthorities().contains(CommonUserRole.ROLE_USER)) {
+        } else if (getAuthorities().contains(Role.ROLE_USER)) {
             //if offer on moderation user can't edit
             if (offerService.existsByIdAndStatus(getObjectId(), CommonStatus.ON_MODERATION)) {
                 return false;

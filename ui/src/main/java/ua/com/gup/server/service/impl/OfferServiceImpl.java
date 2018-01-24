@@ -10,10 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.MoneyFilter;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.image.ImageStorage;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.dto.offer.OfferCreateDTO;
 import ua.com.gup.dto.offer.OfferModerationReportDTO;
@@ -375,7 +375,7 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
                 return true;
             }
             //if current user it's moderator(admin role)
-            if (SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
+            if (SecurityUtils.isCurrentUserInRole(Role.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
                 return true;
             }
         }   //access denied

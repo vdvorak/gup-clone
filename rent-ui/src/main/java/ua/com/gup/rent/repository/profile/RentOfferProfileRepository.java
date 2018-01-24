@@ -1,9 +1,8 @@
 package ua.com.gup.rent.repository.profile;
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.repository.CommonProfileRepository;
-import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
 import ua.com.gup.rent.repository.abstracted.generic.RentOfferGenericRepository;
@@ -56,9 +55,9 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
 
     Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
 
-    List<RentOfferProfile> findByRole(CommonUserRole role, Pageable pageable);
+    List<RentOfferProfile> findByRole(String role, Pageable pageable);
 
-    long countByRole(CommonUserRole role);
+    long countByRole(String role);
 
     //List<RentOfferProfile> findByFilter(ProfileRepositoryFilter filter, Pageable pageable);
 
@@ -66,7 +65,7 @@ public interface RentOfferProfileRepository extends RentOfferGenericRepository<R
 
     <T extends RentOfferProfile> List<T>  findByFilter(ProfileRepositoryFilter filter, Pageable pageable, Class<T> entityClass);
 
-    boolean hasRole(String profilePublicId, CommonUserRole roleUser);
+    boolean hasRole(String profilePublicId, String roleUser);
 
     boolean profileExistsByPublicId(String id);
 }

@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.dto.offer.view.OfferViewDetailsDTO;
 import ua.com.gup.dto.offer.view.OfferViewShortDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
@@ -40,7 +40,7 @@ public class ManagerEndpoint {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @GetMapping(value = {"","/"})
     public ResponseEntity<Page<ProfileShortAdminDTO>> findManagersShortByFilter(Profile profileFilter, Pageable pageable) {
-        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(CommonUserRole.ROLE_MANAGER, pageable);
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(Role.ROLE_MANAGER, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -62,7 +62,7 @@ public class ManagerEndpoint {
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     @GetMapping(value = "/profiles")
     public ResponseEntity<Page<ProfileShortAdminDTO>> findProfilesShortByFilter(Profile profileFilter, Pageable pageable) {
-        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(CommonUserRole.ROLE_USER, pageable);
+        Page<ProfileShortAdminDTO> profilesPageable = profilesService.findByRole(Role.ROLE_USER, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 

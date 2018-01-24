@@ -2,7 +2,7 @@ package ua.com.gup.rent.service.profile;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class ProfileFilter {
     @ApiModelProperty(position = 30, example = "id100000623")
     private String publicId;
     @ApiModelProperty(position = 40, example = "[ROLE_ADMIN | ROLE_MODERATOR | ROLE_MANAGER | ROLE_USER]")
-    private Set<CommonUserRole> userRoles;
+    private Set<String> userRoles;
     @ApiModelProperty(position = 50, example = "0930000000")
     private String mainPhone;
     @ApiModelProperty(position = 60, example = "0930000000")

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.event.OnForgetPasswordEvent;
 import ua.com.gup.event.OnInitialRegistrationByEmailEvent;
 import ua.com.gup.model.RegisterProfile;
@@ -70,7 +70,7 @@ public class RegisterController {
         profile.setSocWendor("GUP");
         profile.setUserType(CommonUserType.LEGAL_ENTITY);
         profile.setActive(false);
-        profile.getUserRoles().add(CommonUserRole.ROLE_USER);
+        profile.getUserRoles().add(Role.ROLE_USER);
         userService.createProfile(profile);
         eventPublisher.publishEvent(new OnInitialRegistrationByEmailEvent(profile));
         return "register/success";

@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileDTO;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -150,7 +150,7 @@ public class ProfileEndpoint {
 
         if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(CommonUserRole.ROLE_ADMIN.toString())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(Role.ROLE_ADMIN)) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.updateProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);

@@ -96,11 +96,16 @@ public enum UserFunction {
 
     READ_ALL_ROLES("Получить список ролей","GET /api/security/roles"),
     READ_ROLE("Получить даныые по роли","GET /api/security/roles/{role}"),
-    CREATE_ROLE("Создать роль","POST /api/security/roles/{role}"),
+    CREATE_ROLE("Создать роль","POST /api/security/roles"),
     DELETE_ROLE("Удалить роль","DELETE /api/security/roles/{role}"),
     EDIT_ROLE("Редактировать роль","PUT /api/security/roles/{role}"),
     ADD_FUNCTIONS_TO_ROLE("Добавить финкции к роли","PUT /api/security/roles/{role}/functions"),
     DELETE_ROLE_FUNCTIONS("Удалить функции у роли","DELETE /api/security/roles/{role}/functions"),
+    CREATE_FUNCTION("Создать фуекцию", "POST /api/security/functions"),
+
+    UPDATE_OFFER_MODERATOR("Редактировать объявление(модератор)","PUT /api/offers/moderator"),
+
+
 
 
 

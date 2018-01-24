@@ -10,7 +10,6 @@ import ua.com.gup.common.dto.security.function.FunctionsDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
 import ua.com.gup.common.dto.security.role.RoleEditDto;
 import ua.com.gup.common.dto.security.role.RoleFullDto;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.security.UserFunction;
@@ -19,6 +18,7 @@ import ua.com.gup.common.service.UserRoleService;
 import javax.validation.Valid;
 import java.util.*;
 
+import static ua.com.gup.common.security.UserFunction.*;
 import static ua.com.gup.common.security.UserRoleFunctions.ROLE_FUNCTIONS;
 
 
@@ -95,6 +95,16 @@ public abstract class AbstractSecurityAccessEndpoint {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('CREATE_FUNCTION')")
+    @PostMapping(value = "/functions")
+    public ResponseEntity createFunction(@Valid @RequestBody FunctionDto dto) {
+        if (userRoleService.existsFunction(dto.getName())) {
+            return new ResponseEntity("Function with name [" + dto.getName() + "] allready exists", HttpStatus.CONFLICT);
+        }
+        userRoleService.createFunction(dto);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/functions/{function}")
     public ResponseEntity<FunctionDto> getFunction(@PathVariable String function) {
 
@@ -118,23 +128,6 @@ public abstract class AbstractSecurityAccessEndpoint {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAuthority('READ_ALL_ROLES')")
-    @Deprecated
-    @PostMapping(value = "/roles/{role}/functions/{function}")
-    public ResponseEntity<List<FunctionDto>> addFunctionToRole(
-            @PathVariable String role,
-            @PathVariable String function) {
-        if (!userRoleService.existsRole(role)) {
-            return new ResponseEntity("error.role.notFound", HttpStatus.NOT_FOUND);
-        }
-
-        if (!userRoleService.existsFunction(function)) {
-            return new ResponseEntity("error.function.notFound", HttpStatus.NOT_FOUND);
-        }
-        userRoleService.addFunctionToRole(function, role);
-        return getFunctionsByRole(role);
-    }
-
     @PreAuthorize("hasAuthority('ADD_FUNCTIONS_TO_ROLE')")
     @PutMapping(value = "/roles/{role}/functions")
     public ResponseEntity<List<FunctionDto>> addFunctionsToRole(
@@ -145,25 +138,6 @@ public abstract class AbstractSecurityAccessEndpoint {
         }
 
         userRoleService.addFunctionsToRole(functions.getFunctions(), role);
-        return getFunctionsByRole(role);
-    }
-
-    //@PreAuthorize("hasAuthority('READ_ALL_ROLES')")
-    @Deprecated
-    @DeleteMapping(value = "/roles/{role}/functions/{function}")
-    public ResponseEntity<List<FunctionDto>> removeFunctionFromRole(
-            @PathVariable String role,
-            @PathVariable String function) {
-        if (!userRoleService.existsRole(role)) {
-            return new ResponseEntity("error.role.notFound", HttpStatus.NOT_FOUND);
-        }
-
-        if (!userRoleService.existsFunction(function)) {
-            return new ResponseEntity("error.function.notFound", HttpStatus.NOT_FOUND);
-        }
-
-        userRoleService.removeFunctionToRole(function, role);
-
         return getFunctionsByRole(role);
     }
 
@@ -179,29 +153,4 @@ public abstract class AbstractSecurityAccessEndpoint {
         return getFunctionsByRole(role);
     }
 
-//    @PreAuthorize("hasAuthority('READ_ALL_ROLES')")
-//    @GetMapping(value = "/{role}/{function}")
-//    public ResponseEntity<Set<UserFunction>> addFunctionToRole(@PathVariable CommonUserRole role) {
-//        return new ResponseEntity<>(userRoleService.getUserFunctionsByRole(role), HttpStatus.OK);
-//    }
-
-
-
-
-    @GetMapping(value = "/memmory/{role}/functions")
-    public ResponseEntity<List> test(@PathVariable String role) {
-
-        CommonUserRole r = CommonUserRole.valueOf(role);
-        Set<UserFunction> functions1 = ROLE_FUNCTIONS.get(r);
-        List<Map> response = new ArrayList<>();
-
-        for (UserFunction f : functions1) {
-            Map<String, Object>res = new HashMap<>();
-            res.put("name", f.name());
-            res.put("title", f.getTitle());
-            res.put("paths", f.getPaths());
-            response.add(res);
-        }
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }

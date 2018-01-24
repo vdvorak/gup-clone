@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
@@ -151,18 +151,18 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
-    public List<RentOfferProfile> findByRole(CommonUserRole role, Pageable pageable) {
+    public List<RentOfferProfile> findByRole(String role, Pageable pageable) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").in(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").in(role));
         query.fields().exclude("password");
         query.with(pageable);
         return mongoTemplate.find(query, RentOfferProfile.class);
     }
 
     @Override
-    public long countByRole(CommonUserRole role) {
+    public long countByRole(String role) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").in(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").in(role));
         return mongoTemplate.count(query, RentOfferProfile.class);
     }
 
@@ -181,10 +181,10 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
-    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+    public boolean hasRole(String profilePublicId, String roleUser) {
         Query query = new Query();
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{roleUser}));
+        query.addCriteria(Criteria.where("userRoles").in(roleUser));
         return mongoTemplate.exists(query, RentOfferProfile.class);
     }
 
@@ -203,7 +203,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     private Query buildQueryByFilter(ProfileRepositoryFilter filter) {
         Query query = new Query();
         if (filter.getRole() != null) {
-            query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{filter.getRole()}));
+            query.addCriteria(Criteria.where("userRoles").is(new String[]{filter.getRole()}));
         }
         if (!StringUtils.isEmpty(filter.getUsername())) {
             String searchFieldRegex = "(?i:.*" + filter.getUsername().trim() + ".*)";

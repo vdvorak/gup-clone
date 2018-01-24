@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
 import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -195,18 +195,18 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public List<Profile> findByRole(CommonUserRole role, Pageable pageable) {
+    public List<Profile> findByRole(String role, Pageable pageable) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").is(new String[]{role}));
         query.fields().exclude("password");
         query.with(pageable);
         return mongoTemplate.find(query, Profile.class);
     }
 
     @Override
-    public long countByRole(CommonUserRole role) {
+    public long countByRole(String role) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{role}));
+        query.addCriteria(Criteria.where("userRoles").is(new String[]{role}));
         return mongoTemplate.count(query, Profile.class);
     }
 
@@ -422,10 +422,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+    public boolean hasRole(String profilePublicId, String role) {
         Query query = new Query();
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
-        query.addCriteria(Criteria.where("userRoles").is(new CommonUserRole[]{roleUser}));
+        query.addCriteria(Criteria.where("userRoles").in(role));
         return mongoTemplate.exists(query, Profile.class);
     }
 

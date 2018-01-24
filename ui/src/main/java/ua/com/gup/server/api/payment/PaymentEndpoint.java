@@ -10,7 +10,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.server.dto.BalanceDTO;
 import ua.com.gup.util.security.SecurityUtils;
 
@@ -62,7 +62,7 @@ public class PaymentEndpoint {
         if (SecurityUtils.getCurrentUserId() == null || SecurityUtils.getCurrentUserId().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        if (!SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_ADMIN) || !SecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_MODERATOR)) {
+        if (!SecurityUtils.isCurrentUserInRole(Role.ROLE_ADMIN) || !SecurityUtils.isCurrentUserInRole(Role.ROLE_MODERATOR)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         //url

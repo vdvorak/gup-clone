@@ -4,7 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 
 /**
  * Utility class for Spring Security.
@@ -59,7 +59,7 @@ public final class RentSecurityUtils {
      * @return true if the user is authenticated, false otherwise
      */
     public static boolean isAuthenticated() {
-        return !isCurrentUserInRole(CommonUserRole.ROLE_ANONYMOUS);
+        return !isCurrentUserInRole(Role.ROLE_ANONYMOUS);
     }
 
     /**
@@ -88,8 +88,8 @@ public final class RentSecurityUtils {
      * @param userRole the authority to check
      * @return true if the current user has the authority, false otherwise
      */
-    public static boolean isCurrentUserInRole(CommonUserRole userRole) {
-        return isCurrentUserInRole(userRole.name());
-    }
+//    public static boolean isCurrentUserInRole(String userRole) {
+//        return isCurrentUserInRole(userRole);
+//    }
 
 }

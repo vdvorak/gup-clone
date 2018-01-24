@@ -1,9 +1,8 @@
 package ua.com.gup.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.gup.common.dto.profile.ProfileDTO;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.annotation.Password;
+import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.model.mongo.Phone;
 
 import java.util.Set;
@@ -11,7 +10,7 @@ import java.util.Set;
 public class CreateProfileDTO extends ProfileDTO {
 
     @JsonProperty("roles")
-    private Set<CommonUserRole> userRoles;
+    private Set<String> userRoles;
 
     @JsonProperty("password")
     @Password
@@ -22,11 +21,11 @@ public class CreateProfileDTO extends ProfileDTO {
     public CreateProfileDTO() {
     }
 
-    public Set<CommonUserRole> getUserRoles() {
+    public Set<String> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Set<CommonUserRole> userRoles) {
+    public void setUserRoles(Set<String> userRoles) {
         this.userRoles = userRoles;
     }
 

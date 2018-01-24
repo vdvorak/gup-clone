@@ -10,9 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.GupLoggedUser;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
@@ -369,7 +369,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
                 return true;
             }
             //if current user it's moderator(admin role)
-            if (RentSecurityUtils.isCurrentUserInRole(CommonUserRole.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
+            if (RentSecurityUtils.isCurrentUserInRole(Role.ROLE_MODERATOR) && offer.get().getStatus() == CommonStatus.ON_MODERATION) {
                 return true;
             }
         }   //access denied

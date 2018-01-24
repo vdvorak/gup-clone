@@ -5,18 +5,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.repository.UserRoleRepository;
-import ua.com.gup.common.security.UserFunction;
-import ua.com.gup.common.security.UserRoleFunctions;
 
-import java.util.*;
+import java.util.List;
 
 @Repository
 public class UserRoleRepositoryImpl implements UserRoleRepository {
-
-    private static List<CommonUserRole> roles =Arrays.asList(CommonUserRole.values());
 
     @Autowired
     private MongoTemplate mongoTemplate;

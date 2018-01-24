@@ -1,7 +1,7 @@
 package ua.com.gup.common.service;
 
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.security.Role;
 
 public interface CommonProfileService<T extends CommonProfile> {
 
@@ -13,5 +13,5 @@ public interface CommonProfileService<T extends CommonProfile> {
 
     boolean profileExistsByPublicId(String profilePublicId);
 
-    boolean hasRole(String profilePublicId, CommonUserRole roleUser);
+    boolean hasRole(String profilePublicId, String roleUser);
 }

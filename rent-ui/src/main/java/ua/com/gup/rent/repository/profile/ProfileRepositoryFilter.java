@@ -1,17 +1,13 @@
 package ua.com.gup.rent.repository.profile;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.data.domain.Sort;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.rent.service.profile.ProfileFilter;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 @Data
 public class ProfileRepositoryFilter {
-    private CommonUserRole role;
+    private String role;
 
     private String username;
 
@@ -19,7 +15,7 @@ public class ProfileRepositoryFilter {
 
     private String publicId;
 
-    private Set<CommonUserRole> userRoles;
+    private Set<String> userRoles;
 
     private String mainPhone;
 

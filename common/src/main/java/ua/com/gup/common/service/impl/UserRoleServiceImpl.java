@@ -2,6 +2,7 @@ package ua.com.gup.common.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.dto.security.function.FunctionDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.model.security.Role;
@@ -31,6 +32,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     public Role findByName(String name) {
         return roleRepository.findByName(name);
     }
+
 
     @Override
     public Role create(RoleDto dto) {
@@ -71,6 +73,15 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
+    public Function createFunction(FunctionDto dto) {
+        Function function = new Function();
+        function.setTitle(dto.getTitle());
+        function.setName(dto.getName());
+        function.setPaths(dto.getPaths());
+        return functionRepository.create(function);
+    }
+
+    @Override
     public void addFunctionToRole(String function, String role) {
         Role r = roleRepository.findByName(role);
         Function f = functionRepository.findByName(function);
@@ -83,7 +94,9 @@ public class UserRoleServiceImpl implements UserRoleService {
         Role r = roleRepository.findByName(role);
         for (String function : functions) {
             Function f = functionRepository.findByName(function);
-            r.getFunctions().add(f);
+            if (f != null) {
+                r.getFunctions().add(f);
+            }
         }
         roleRepository.save(r);
     }
