@@ -1,8 +1,7 @@
 package ua.com.gup.repository.profile;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Query;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.composition.domain.profile.UserProfile;
@@ -99,9 +98,9 @@ public interface ProfileRepository  extends CommonProfileRepository {
      */
     List<Profile> findByFilterForAdmins(ProfileFilter profileFilter, Pageable pageable);
 
-    List<Profile> findByRole(CommonUserRole role, Pageable pageable);
+    List<Profile> findByRole(String role, Pageable pageable);
 
-    long countByRole(CommonUserRole role);
+    long countByRole(String role);
 
     boolean profileExistsInUserSocialList(String userId, String profileId);
 
@@ -214,6 +213,6 @@ public interface ProfileRepository  extends CommonProfileRepository {
 
     Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
 
-    boolean hasRole(String profilePublicId, CommonUserRole roleUser);
+    boolean hasRole(String profilePublicId, String roleUser);
 }
 

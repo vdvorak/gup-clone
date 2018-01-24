@@ -4,12 +4,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.model.security.Function;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 public class FunctionDto {
 
     @ApiModelProperty(position = 20, example = "READ_MANAGER_PROFILE]")
+    @NotNull
     String name;
     @ApiModelProperty(position = 20, example = "Доступ к профилю менеджера")
     String title;

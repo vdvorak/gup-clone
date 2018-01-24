@@ -1,5 +1,6 @@
 package ua.com.gup.common.service;
 
+import ua.com.gup.common.dto.security.function.FunctionDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.model.security.Role;
@@ -24,6 +25,8 @@ public interface UserRoleService {
     Function findFunctionByName(String name);
 
     Collection<Function> getUserFunctionsByRole(String name);
+
+    Function createFunction(FunctionDto dto);
 
     void addFunctionToRole(String function, String role);
 

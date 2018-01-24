@@ -1,11 +1,8 @@
 package ua.com.gup.common.repository;
 
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.security.Role;
-import ua.com.gup.common.security.UserFunction;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserRoleRepository {
 

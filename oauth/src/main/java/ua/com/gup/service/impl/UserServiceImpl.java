@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.object.ObjectType;
+import ua.com.gup.common.model.security.Role;
+import ua.com.gup.common.service.UserRoleService;
 import ua.com.gup.model.FacebookProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.repository.profile.ProfileRepository;
@@ -82,10 +83,8 @@ public class UserServiceImpl implements UserService {
         }
 
         /* else register new account */
-
-        HashSet<CommonUserRole> userRoles = new HashSet<CommonUserRole>() {{
-            add(CommonUserRole.ROLE_USER);
-        }};
+        HashSet<String> userRoles = new HashSet<>();
+        userRoles.add(Role.ROLE_USER);
 
         Profile profile = new Profile();
         profile.setPublicId("id" + sequenceRepository.getNextSequenceId(ObjectType.USER));

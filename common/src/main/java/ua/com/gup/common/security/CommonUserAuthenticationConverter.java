@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.service.UserRoleService;
 

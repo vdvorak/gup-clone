@@ -7,17 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import ua.com.gup.common.dto.operation.OperationDTO;
-import ua.com.gup.common.dto.operation.UserBanOperationDTO;
 import ua.com.gup.common.dto.profile.AdminPrivateProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.mongo.manager.ContactInfo;
 import ua.com.gup.common.model.mongo.manager.RelevancePhone;
-import ua.com.gup.common.model.mongo.operation.CommonOperation;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.OperationService;
 import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
 import ua.com.gup.rent.model.mongo.user.RentManagerUserInfo;
@@ -26,11 +21,12 @@ import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
 import ua.com.gup.rent.repository.profile.ProfileRepositoryFilter;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
-
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
 import ua.com.gup.rent.service.dto.rent.offer.profile.manager.*;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -48,7 +44,7 @@ public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentO
     }
 
     @Override
-    public boolean hasRole(String profilePublicId, CommonUserRole roleUser) {
+    public boolean hasRole(String profilePublicId, String roleUser) {
         return rentOfferProfileRepository.hasRole(profilePublicId, roleUser);
     }
 
@@ -63,7 +59,7 @@ public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentO
     }
 
     @Override
-    public Page<ProfileShortAdminDTO> findByRole(CommonUserRole role, Pageable pageable) {
+    public Page<ProfileShortAdminDTO> findByRole(String role, Pageable pageable) {
         long count = rentOfferProfileRepository.countByRole(role);
         List<RentOfferProfile> fullProfiles = Collections.EMPTY_LIST;
         if (count > 0) {

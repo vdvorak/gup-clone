@@ -14,6 +14,9 @@ public abstract class CommonAuditorAware implements AuditorAware<GupLoggedUser> 
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
+        if(authentication.getPrincipal().toString().equalsIgnoreCase("anonymousUser")) {
+            return null;
+        }
         return ((GupLoggedUser) authentication.getPrincipal());
     }
 }

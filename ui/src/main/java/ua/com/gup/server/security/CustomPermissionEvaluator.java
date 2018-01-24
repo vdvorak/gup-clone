@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
 import ua.com.gup.server.security.offer.OfferChangeStatusPermissionEvaluator;
 import ua.com.gup.server.security.offer.OfferDeletePermissionEvaluator;
@@ -12,6 +12,7 @@ import ua.com.gup.server.security.offer.OfferEditPermissionEvaluator;
 import ua.com.gup.service.security.UserSecurityAccessService;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,25 +29,30 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication a, Serializable objectId, String collectionName, Object o) {
 
-        Set<CommonUserRole> currentUserRoles = getCurrentUserRoles(a);
+        Set<String> currentUserRoles = getCurrentUserRoles(a);
 
-        if (currentUserRoles.contains(CommonUserRole.ROLE_ANONYMOUS)) {
+        if (currentUserRoles.contains(Role.ROLE_ANONYMOUS)) {
             return false;
         }
 
-        if (currentUserRoles.contains(CommonUserRole.ROLE_ADMIN)) {
+        if (currentUserRoles.contains(Role.ROLE_ADMIN)) {
             return true;
         }
 
         String objId = (String) objectId;
         GupLoggedUser user = (GupLoggedUser) a.getPrincipal();
         String userId = user.getId();
-
+        ObjectPermissionEvaluator permissionEvaluator = null;
+        Permission permission = Permission.valueOf((String) o);
         switch (collectionName) {
+//            case ObjectType.USER:
+//
+//
+//
+//                permissionEvaluator.setAccessService(accessService);
+//                return permissionEvaluator.hasAccess();
             case Offer.COLLECTION_NAME:
 
-                ObjectPermissionEvaluator permissionEvaluator = null;
-                Permission permission = Permission.valueOf((String) o);
                 switch (permission) {
                     case CHANGE_STATUS:
                         permissionEvaluator = new OfferChangeStatusPermissionEvaluator(objId, userId, currentUserRoles);
@@ -68,9 +74,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
     }
 
-    private Set<CommonUserRole> getCurrentUserRoles(Authentication a) {
-        return a.getAuthorities().stream().map(u -> {
-            return CommonUserRole.valueOf(u.getAuthority());
-        }).collect(Collectors.toSet());
+    private Set<String> getCurrentUserRoles(Authentication a) {
+        return new HashSet(a.getAuthorities());
     }
 }

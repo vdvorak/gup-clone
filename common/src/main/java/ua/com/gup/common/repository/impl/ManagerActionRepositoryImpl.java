@@ -95,13 +95,13 @@ public class ManagerActionRepositoryImpl implements ManagerActionRepository {
             query.addCriteria(Criteria.where("callStatus").is(filter.getCallStatus()));
         }
         if (!StringUtils.isEmpty(filter.getClientId())) {
-            query.addCriteria(Criteria.where("clientId").is(filter.getClientId()));
+            query.addCriteria(Criteria.where("clientPublicId").is(filter.getClientId()));
         }
         if (!StringUtils.isEmpty(filter.getPhone())) {
             query.addCriteria(Criteria.where("phone").is(filter.getPhone()));
         }
         if (!StringUtils.isEmpty(filter.getEmail())) {
-            query.addCriteria(Criteria.where("callStatus").is(filter.getEmail()));
+            query.addCriteria(Criteria.where("email").is(filter.getEmail()));
         }
         if (!StringUtils.isEmpty(filter.getManagerPublicId())) {
             query.addCriteria(Criteria.where("managerPublicId").is(filter.getManagerPublicId()));

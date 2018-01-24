@@ -5,13 +5,11 @@
  */
 package ua.com.gup.server.security.offer;
 
-import ua.com.gup.common.model.enumeration.CommonUserRole;
-
 import java.util.Set;
 
 public class OfferDeletePermissionEvaluator extends OfferPermissionEvaluator {
 
-    public OfferDeletePermissionEvaluator(String offerId, String userId, Set<CommonUserRole> authorities) {
+    public OfferDeletePermissionEvaluator(String offerId, String userId, Set<String> authorities) {
         super(offerId, userId, authorities);
     }
 

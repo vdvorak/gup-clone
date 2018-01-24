@@ -1,6 +1,6 @@
 package ua.com.gup.common.security;
 
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import static ua.com.gup.common.security.UserFunction.*;
 @Deprecated()
 public class UserRoleFunctions {
 
-    public static final Map<CommonUserRole,Set<UserFunction>> ROLE_FUNCTIONS = new HashMap<>();
+    public static final Map<String,Set<UserFunction>> ROLE_FUNCTIONS = new HashMap<>();
     static {
         Set<UserFunction> manager = new HashSet<>();
         manager.add(SEARCH_PROFILES_MANAGER);
@@ -27,13 +27,16 @@ public class UserRoleFunctions {
         manager.add(READ_OFFER_MANAGER);
         manager.add(CLONE_OFFER);
 
+        manager.add(SEARCH_MANAGER_PROFILES);
+
+
         //Manager ACTION functions
         manager.add(SEARCH_MANAGER_ACTIONS);
         manager.add(READ_MANAGER_ACTION);
         manager.add(CREATE_MANAGER_ACTION);
         manager.add(UPDATE_MANAGER_ACTION);
         manager.add(DELETE_MANAGER_ACTION);
-        ROLE_FUNCTIONS.put(CommonUserRole.ROLE_MANAGER, manager);
+        ROLE_FUNCTIONS.put(Role.ROLE_MANAGER, manager);
 
         Set<UserFunction> moderator = new HashSet<>();
         moderator.add(UPDATE_COMPLAINT_STATUS);
@@ -48,7 +51,7 @@ public class UserRoleFunctions {
         moderator.add(READ_MODERATOR_OFFERS_BY_FILTER);
         moderator.add(READ_OFFERS_VIEW);
         moderator.add(UPDATE_MODERATOR_OFFER);
-        ROLE_FUNCTIONS.put(CommonUserRole.ROLE_MODERATOR, moderator);
+        ROLE_FUNCTIONS.put(Role.ROLE_MODERATOR, moderator);
 
         Set<UserFunction> user = new HashSet<>();
         user.add(CREATE_COMPLAINT);
@@ -60,7 +63,7 @@ public class UserRoleFunctions {
         user.add(CREATE_OFFER_IMAGE);
         user.add(DELETE_OFFER_IMAGE);
 
-        ROLE_FUNCTIONS.put(CommonUserRole.ROLE_USER, user);
+        ROLE_FUNCTIONS.put(Role.ROLE_USER, user);
 
 
         Set<UserFunction> admin = new HashSet<>();
@@ -101,7 +104,7 @@ public class UserRoleFunctions {
         admin.add(DELETE_ROLE_FUNCTIONS);
 
 
-        ROLE_FUNCTIONS.put(CommonUserRole.ROLE_ADMIN, admin);
+        ROLE_FUNCTIONS.put(Role.ROLE_ADMIN, admin);
 
     }
 }

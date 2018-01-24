@@ -5,13 +5,12 @@
  */
 package ua.com.gup.server.security.offer;
 
-import java.util.Set;
-
-import ua.com.gup.common.model.enumeration.CommonUserRole;
-import ua.com.gup.server.security.ObjectPermissionEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.gup.mongo.composition.domain.offer.Offer;
+import ua.com.gup.server.security.ObjectPermissionEvaluator;
 import ua.com.gup.server.service.OfferService;
+
+import java.util.Set;
 
 public abstract class OfferPermissionEvaluator extends ObjectPermissionEvaluator {
 
@@ -21,7 +20,7 @@ public abstract class OfferPermissionEvaluator extends ObjectPermissionEvaluator
 
     protected String offerId;
 
-    public OfferPermissionEvaluator(String offerId, String userId, Set<CommonUserRole> authorities ) {
+    public OfferPermissionEvaluator(String offerId, String userId, Set<String> authorities ) {
         super(userId, authorities);
         this.offerId = offerId;
     }

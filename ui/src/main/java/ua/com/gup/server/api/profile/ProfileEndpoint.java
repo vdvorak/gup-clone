@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileDTO;
-import ua.com.gup.common.model.enumeration.CommonUserRole;
+import ua.com.gup.common.model.security.Role;
 import ua.com.gup.dto.profile.CreateProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
@@ -22,6 +22,7 @@ import ua.com.gup.service.profile.ProfilesService;
 import ua.com.gup.util.security.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
@@ -55,8 +56,6 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("publicId") String publicId) {
         ProfileDTO profileInfo = profilesService.findPublicProfileByPublicId(publicId);
-                   //it's private information not view by all
-                   profileInfo.setContact(null);
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -117,7 +116,7 @@ public class ProfileEndpoint {
      */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateProfile(@RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@Valid @RequestBody EditProfileDTO editProfileDTO) throws AuthenticationCredentialsNotFoundException {
 
         if (StringUtils.isEmpty(editProfileDTO.getEmail())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -149,7 +148,7 @@ public class ProfileEndpoint {
 
         if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(CommonUserRole.ROLE_ADMIN.toString())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(Role.ROLE_ADMIN)) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.updateProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
