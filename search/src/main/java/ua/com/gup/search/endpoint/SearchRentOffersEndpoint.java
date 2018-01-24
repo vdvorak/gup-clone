@@ -7,16 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.filter.rent.RentOfferFilter;
 import ua.com.gup.search.service.ESSearchRentOfferService;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rent/offers")
@@ -26,9 +27,30 @@ public class SearchRentOffersEndpoint {
     private ESSearchRentOfferService esSearchRentOfferService;
 
 
+    @RequestMapping(path = "/index", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity index(@RequestBody Map<String, Object> rentOfferAsMap) throws IOException {
+        esSearchRentOfferService.indexRentOffer(rentOfferAsMap);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/index", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity delete() throws IOException {
+        esSearchRentOfferService.clearRentOfferIndex();
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/index/{rentOfferId}/children", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity indexRentOfferChildren(@PathVariable(name = "rentOfferId") String rentOfferId,
+                                                 @RequestBody Map<String, Object> rentOfferCalendarMap) throws IOException {
+        esSearchRentOfferService.indexRentOfferCalendars(rentOfferId, rentOfferCalendarMap);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getRentOffersIdsByFilter(RentOfferFilter offerFilter, Pageable pageable) throws IOException {
+        LocalDateTime time = LocalDateTime.now();
         Page ids = esSearchRentOfferService.findIdsByFilter(offerFilter, pageable);
+        System.out.println(Duration.between(time, LocalDateTime.now()).getSeconds());
         return new ResponseEntity(ids, HttpStatus.OK);
     }
 
