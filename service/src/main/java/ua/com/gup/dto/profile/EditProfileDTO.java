@@ -13,8 +13,6 @@ public class EditProfileDTO extends ProfileDTO {
     @JsonProperty("mainPhone")
     private Phone mainPhone;
 
-    @JsonProperty("roles")
-    private Set<String> roles;
 
     public EditProfileDTO() {
     }
@@ -25,14 +23,6 @@ public class EditProfileDTO extends ProfileDTO {
 
     public void setMainPhone(Phone mainPhone) {
         this.mainPhone = mainPhone;
-    }
-
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
     }
 
     public Profile updateModel(Profile profile) {
@@ -50,7 +40,6 @@ public class EditProfileDTO extends ProfileDTO {
         profile.setStatus(this.status);
         profile.setContact(this.contact);
         profile.setMainPhone(this.mainPhone);
-        profile.setUserRoles(this.roles);
         return profile;
     }
 }

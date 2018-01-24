@@ -17,6 +17,7 @@ import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.dto.profile.BanInfoDto;
 import ua.com.gup.dto.profile.CreateProfileDTO;
+import ua.com.gup.dto.profile.EditAdminProfileDTO;
 import ua.com.gup.dto.profile.EditProfileDTO;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.repository.profile.ProfileFilter;
@@ -90,7 +91,7 @@ public class ProfileAdminEndpoint {
 
     @PreAuthorize("hasAuthority('UPDATE_PROFILE_ADMIN')")
     @PutMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @Valid @RequestBody EditProfileDTO profileDTO) throws CommandException {
+    public ResponseEntity updateProfile(@PathVariable String profilePublicId, @Valid @RequestBody EditAdminProfileDTO profileDTO) throws CommandException {
         Profile profile = profilesService.findByPublicId(profilePublicId);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
