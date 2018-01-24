@@ -17,6 +17,9 @@ public class PublicProfileDTO extends DetailProfileDTO {
         super(profile);
         //for publicProfile not show email user.
         this.setEmail("[PROTECTED]");
+        //clear contact list for public profile
+        this.getContactsList().clear();
+        this.getContactsList().add("[PROTECTED]");
         Phone mainPhone = profile.getMainPhone();
         if (!StringUtils.isEmpty(mainPhone.getPhoneNumber())) {
             this.mainPhoneNumber = mainPhone.getPhoneNumber();

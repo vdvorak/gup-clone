@@ -56,8 +56,6 @@ public class ProfileEndpoint {
     @RequestMapping(value = "/profile/{publicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDTO> getProfileById(@PathVariable("publicId") String publicId) {
         ProfileDTO profileInfo = profilesService.findPublicProfileByPublicId(publicId);
-                   //it's private information not view by all
-                   profileInfo.setContact(null);
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
