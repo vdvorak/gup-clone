@@ -3,6 +3,7 @@ package ua.com.gup.rent.service.dto.rent.offer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,7 +30,8 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 40)
     private CommonAddressDTO address;
 
-    @ApiModelProperty(position = 60, example = "ret price")
+    @ApiModelProperty(position = 60, required = true, example = "rent price")
+    @JsonProperty(required = true)
     private RentOfferPriceDTO price;
 
     @ApiModelProperty(position = 80, example = "rent calendar")
@@ -59,6 +61,6 @@ public class RentOfferCreateDTO extends RentOfferDTO {
     @ApiModelProperty(position = 150)
     private RentOfferSettingsDTO settings;
 
-    @ApiModelProperty(position = 170, example = "1")
+    @ApiModelProperty(position = 170, required = true, example = "1")
     private Integer count;
 }

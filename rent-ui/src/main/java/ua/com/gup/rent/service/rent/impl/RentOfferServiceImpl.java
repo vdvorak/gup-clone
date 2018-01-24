@@ -78,16 +78,37 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     private RentOffer createWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
+        rentOfferCalendarService.indexRentOffer(rentOffer);
+        rentOfferCalendarService.createRentOfferCalendars(rentOffer);
+        rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
         rentOfferElasticService.createElasticRentOffer(rentOffer);
         return rentOffer;
     }
 
     private RentOffer updateWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
+        rentOfferCalendarService.indexRentOffer(rentOffer);
+//        rentOfferCalendarService.updateRentOfferCalendars(rentOffer);
+//        rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
+//
         rentOfferElasticService.updateElasticRentOffer(rentOffer);
         return rentOffer;
     }
 
+    @Override
+    public void demo(String rentOfferId) {
+        RentOffer rentOffer = offerMongoRepository.findOne(rentOfferId);
+        rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
+        rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
+    }
+
+    @Override
+    public void demoAll() {
+        for (RentOffer rentOffer : offerMongoRepository.findAll()) {
+            rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
+            rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
+        }
+    }
 
     @Override
     public RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO) {
@@ -114,28 +135,21 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
         for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
             RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(startDate, endDate);
-
             rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
-//            rentOfferCalendar.setDaysMap(RentCalendarUtil.getDaysMapForDates(startDate, endDate, rentOfferCreateDTO.getCalendar().getDays()));
             offer.getRentOfferCalendars().add(rentOfferCalendar);
+
+
         }
         offer = createWrapper(offer);
 
-        //save calendar
-//        for (RentOfferCalendarInterval rentOfferCalendarInterval : offer.getRentOfferCalendarIntervals()) {
-//            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(rentOfferCalendarInterval);
-//            rentOfferCalendar.setOfferId(offer.getId());
-//
-//            rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
-//            rentOfferCalendarService.save(rentOfferCalendar);
-//        }
+
         return offer;
     }
 
 
     @Override
     public RentOfferViewDetailsDTO update(String rentOfferId, RentOfferUpdateDTO offerUpdateDTO) {
-        log.debug("Request to update  Rent Offer : {}", offerUpdateDTO);
+        log.debug("Request to updateRentOfferCalendars  Rent Offer : {}", offerUpdateDTO);
         RentOffer offer = updateAndReturn(rentOfferId, offerUpdateDTO);
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
@@ -344,7 +358,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
      * Returns whether an entity can be updated by current user.
      *
      * @param offerId must not be {@literal null}.
-     * @return true if an user has permission for update, {@literal false} otherwise
+     * @return true if an user has permission for updateRentOfferCalendars, {@literal false} otherwise
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
@@ -357,7 +371,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             offer = Optional.ofNullable(offerMongoRepository.findOne(offerId));
         }
         if (log.isDebugEnabled()) {
-            log.debug("Request has permission for update offer : {}", offer);
+            log.debug("Request has permission for updateRentOfferCalendars offer : {}", offer);
         }
 
         if (offer != null && offer.get() != null && RentSecurityUtils.isAuthenticated()) {
@@ -378,7 +392,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Override
     public Optional<RentOfferViewDetailsDTO> updateStatus(String id, CommonStatus status) {
-        log.debug("Request to update update rent offer's status : {}", id);
+        log.debug("Request to updateRentOfferCalendars updateRentOfferCalendars rent offer's status : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(status);
         offer = offerMongoRepository.save(offer);
@@ -429,6 +443,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
         return result.map(offer -> offerMapper.offerToOfferShortDTO(offer));
     }
+
 
     private RentOfferRepository getRepository() {
         return offerRepository;
@@ -517,8 +532,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
                 trgt.getContactInfo().setContactName(to.getFirstname());
                 //get all phones from user contacts that not hidden
                 Set<String> phoneNumbers = to.getContact().getContactPhones().stream()
-                       // .filter(phone -> !phone.getHidden())
-                       // .map(p -> p.getPhoneNumber())
+                        // .filter(phone -> !phone.getHidden())
+                        // .map(p -> p.getPhoneNumber())
                         .collect(Collectors.toSet());
                 trgt.getContactInfo().setPhoneNumbers(phoneNumbers);
 
