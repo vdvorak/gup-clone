@@ -13,6 +13,7 @@ public class RentOfferSettingsMapper {
         rentOfferSettingsDTO.setMinRentDays(rentOfferSettings.getMinRentDays());
         rentOfferSettingsDTO.setStartDay(rentOfferSettings.getStartDay());
         rentOfferSettingsDTO.setEndDay(rentOfferSettings.getEndDay());
+        rentOfferSettingsDTO.setFirstDayPayable(rentOfferSettings.getFirstDayPayable());
         return rentOfferSettingsDTO;
     }
 
@@ -22,6 +23,7 @@ public class RentOfferSettingsMapper {
         rentOfferSettings.setMinRentDays(rentOfferSettingsDTO.getMinRentDays());
         rentOfferSettings.setStartDay(rentOfferSettingsDTO.getStartDay());
         rentOfferSettings.setEndDay(rentOfferSettingsDTO.getEndDay());
+        rentOfferSettings.setFirstDayPayable(rentOfferSettingsDTO.getFirstDayPayable());
         return rentOfferSettings;
     }
 }
