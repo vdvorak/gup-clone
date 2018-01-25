@@ -246,6 +246,15 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         return restTemplate.getForObject(uriComponents.toUri(), List.class);
     }
 
+    @Override
+    public String[] findSuggests(String query) {
+        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
+                .path("/offers/suggest")
+                .queryParam("q", query)
+                .build();
+        return restTemplate.getForObject(uriComponents.toUri(), String[].class);
+    }
+
     private String convertToString(BigDecimal[] decimals) {
         StringBuilder sb = new StringBuilder();
 

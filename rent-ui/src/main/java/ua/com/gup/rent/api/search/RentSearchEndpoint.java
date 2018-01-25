@@ -107,15 +107,11 @@ public class RentSearchEndpoint {
     }
 
 
-    @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
+    @RequestMapping(value = "/offers/suggests", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity suggestWordsByDescription(@RequestParam(name = "q") String query) {
 
-//        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
-//                .path("/offers/suggest")
-//                .queryParam("q", query)
-//                .build();
-        String[] suggests = new String[]{"Not implemented yet", "Not implemented yet", "Not implemented yet"};//restTemplate.getForObject(uriComponents.toUri(), String[].class);
+        String[] suggests = searchService.findSuggests(query);
         return new ResponseEntity(suggests, HttpStatus.OK);
 
     }

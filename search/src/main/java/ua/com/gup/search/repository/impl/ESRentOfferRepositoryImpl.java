@@ -25,6 +25,9 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilde
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -40,8 +43,11 @@ import ua.com.gup.search.model.filter.rent.*;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Repository
@@ -202,8 +208,21 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         LocalDate rentStart = offerFilter.getDtRentStart();
         LocalDate rentEnd = offerFilter.getDtRentEnd();
 
+
         if (rentStart != null
                 && rentEnd != null && (rentStart.isBefore(rentEnd))) {
+
+
+            long daysDiff = ChronoUnit.DAYS.between(rentStart, rentEnd);
+
+            RangeQueryBuilder maxRentDaysRangeBuilder = new RangeQueryBuilder("settings.maxRentDays");
+            maxRentDaysRangeBuilder.gte(daysDiff);
+            boolQueryBuilder.must(maxRentDaysRangeBuilder);
+
+
+            RangeQueryBuilder minRentDaysRangeBuilder = new RangeQueryBuilder("settings.minRentDays");
+            minRentDaysRangeBuilder.lte(daysDiff);
+            boolQueryBuilder.must(minRentDaysRangeBuilder);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -349,7 +368,10 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            HttpPost deletePost = new HttpPost(e.getRequiredProperty("elasticsearch.scheme").concat("://").concat(e.getRequiredProperty("elasticsearch.host")).concat("/heroku_lktlmxlq_rent/_delete_by_query"));
+            HttpPost deletePost = new HttpPost(e.getRequiredProperty("elasticsearch.scheme").concat("://")
+                    .concat(e.getRequiredProperty("elasticsearch.host"))
+                    .concat(":" + e.getRequiredProperty("elasticsearch.port")).concat("/heroku_lktlmxlq_rent/_delete_by_query"));
+            System.out.println(deletePost.getURI().toString());
             deletePost.setHeader(new BasicHeader("Content-Type", "application/json"));
             deletePost.setEntity(new StringEntity("{\"query\": {\"match_all\": {}}}"));
 
@@ -370,6 +392,50 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             System.out.println("----------------------------------------");
             System.out.println(responseBody);
         }
+    }
+
+    @Override
+    public Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(RENT_INDEX);
+        searchRequest.types(OFFER_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(0);
+
+        SuggestBuilder suggestBuilder = new SuggestBuilder();
+        suggestBuilder.setGlobalText(query);
+        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(10));
+        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(10));
+
+        searchSourceBuilder.suggest(suggestBuilder);
+        searchRequest.source(searchSourceBuilder);
+
+        SearchResponse searchResponse = esClient.search(searchRequest);
+        Suggest suggest = searchResponse.getSuggest();
+        if (suggest != null) {
+
+            Set<String> suggests = new HashSet<>();
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionUa = suggest.getSuggestion("ua-suggest");
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionRu = suggest.getSuggestion("ru-suggest");
+
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> uaEntries = suggestionUa.getEntries();
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> ruEntries = suggestionRu.getEntries();
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> uaEntry : uaEntries) {
+                for (Suggest.Suggestion.Entry.Option option : uaEntry.getOptions()) {
+                    suggests.add(option.getText().toString());
+                }
+            }
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> ruEntry : ruEntries) {
+                for (Suggest.Suggestion.Entry.Option option : ruEntry.getOptions()) {
+                    suggests.add(option.getText().toString());
+                }
+            }
+            return suggests;
+        }
+        return Collections.emptySet();
     }
 }
 

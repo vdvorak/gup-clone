@@ -54,7 +54,7 @@ public class ESSearchRentOfferServiceImpl implements ESSearchRentOfferService {
 
     @Override
     public Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
-        return Collections.EMPTY_SET;
+        return esOfferRepository.suggestByOffersTitlesAndDescriptions(query);
     }
 
 }

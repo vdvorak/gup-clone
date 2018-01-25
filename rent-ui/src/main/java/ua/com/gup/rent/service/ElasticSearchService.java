@@ -27,4 +27,5 @@ public interface ElasticSearchService {
     List<CategoryOffersStatistic> countOffersInCategoriesByFilter(String status, String profileId);
 
 
+    String[] findSuggests(String query);
 }

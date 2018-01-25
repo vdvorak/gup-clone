@@ -9,6 +9,7 @@ import ua.com.gup.search.model.filter.rent.RentOfferFilter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ESRentOfferRepository {
 
@@ -23,4 +24,6 @@ public interface ESRentOfferRepository {
     void indexRentOfferCalendars(String rentOfferId, Map<String, Object> rentOfferCalendarMap) throws IOException;
 
     void clearRentOfferIndex() throws IOException;
+
+    Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 }
