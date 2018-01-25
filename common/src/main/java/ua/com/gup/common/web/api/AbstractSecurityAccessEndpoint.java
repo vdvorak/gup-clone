@@ -12,14 +12,12 @@ import ua.com.gup.common.dto.security.role.RoleEditDto;
 import ua.com.gup.common.dto.security.role.RoleFullDto;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.model.security.Role;
-import ua.com.gup.common.security.UserFunction;
 import ua.com.gup.common.service.UserRoleService;
 
 import javax.validation.Valid;
-import java.util.*;
-
-import static ua.com.gup.common.security.UserFunction.*;
-import static ua.com.gup.common.security.UserRoleFunctions.ROLE_FUNCTIONS;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 public abstract class AbstractSecurityAccessEndpoint {
@@ -142,7 +140,7 @@ public abstract class AbstractSecurityAccessEndpoint {
     }
 
     @PreAuthorize("hasAuthority('DELETE_ROLE_FUNCTIONS')")
-    @DeleteMapping(value = "/roles/{role}/functions}")
+    @DeleteMapping(value = "/roles/{role}/functions")
     public ResponseEntity<List<FunctionDto>> removeFunctionsFromRole(
             @PathVariable String role,
             @RequestBody FunctionsDto functions) {
