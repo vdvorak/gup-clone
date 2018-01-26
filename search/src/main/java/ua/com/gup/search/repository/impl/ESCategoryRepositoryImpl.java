@@ -46,7 +46,7 @@ public class ESCategoryRepositoryImpl implements ESCategoryRepository {
 //            indexRequest.source(objectMapper.writeValueAsString(esOffer));
 //        }
 //
-//        IndexResponse response = esClient.index(indexRequest);
+//        IndexResponse response = esClient.indexRentOffer(indexRequest);
 
 
     }

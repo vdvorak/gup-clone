@@ -72,7 +72,7 @@ public class SaleSearchEndpoint {
     }
 
 
-    @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
+    @RequestMapping(value = "/offers/suggests", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity suggestWordsByDescription(@RequestParam(name = "q") String query) {
 

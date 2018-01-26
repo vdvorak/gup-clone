@@ -52,7 +52,7 @@ public class ImageScaleUtil {
      * @return
      */
     public static BufferedImage mediumBufferedImageOfferPreparator(BufferedImage inputImage) {
-        return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 165, 120);
+        return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 220, 150);
     }
 
     /**

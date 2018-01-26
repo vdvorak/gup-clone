@@ -24,13 +24,11 @@ public class RentCalendarUtil {
     public static Map<String, RentOfferCalendarDay> getDaysMapForDates(LocalDate startDate,
                                                                        LocalDate endDate,
                                                                        List<RentOfferCalendarDay> daysList) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
         if (endDate.isBefore(startDate) || CollectionUtils.isEmpty(daysList)) {
             return Collections.EMPTY_MAP;
         }
         Map<String, RentOfferCalendarDay> daysMap = new HashMap((int) RentDateUtil.calculateDaysDiffBetweenDates(startDate, endDate));
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         int i = 0;
         while (startDate.isBefore(endDate)) {
             daysMap.put(formatter.format(startDate), daysList.get(i++));
@@ -39,6 +37,18 @@ public class RentCalendarUtil {
 
         return daysMap;
     }
+
+    public static Map<String, RentOfferCalendarDay> getDaysMapForDates(String startDate,
+                                                                       String endDate,
+                                                                       List<RentOfferCalendarDay> daysList) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localStartDate = LocalDate.parse(startDate, formatter);
+        LocalDate localEndDate = LocalDate.parse(endDate, formatter);
+
+        return getDaysMapForDates(localStartDate, localEndDate, daysList);
+    }
+
 
     public static RentOfferCalendar generateCalendarForDates(LocalDate startDate) {
         return generateCalendarForDates(startDate, startDate.plus(Period.ofYears(1)));

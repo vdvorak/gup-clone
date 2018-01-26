@@ -1,16 +1,23 @@
 package ua.com.gup.rent.service.calendar;
 
-import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;
+import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 
-import java.util.List;
+import java.time.LocalDate;
 
-/**
- * @author $developer
- **/
-public interface RentOfferCalendarService {
+public interface RentOfferCalendarService extends RentOfferGenericService<RentOfferCalendarChild, String> {
 
-    void save(RentOfferCalendar rentOfferCalendar);
-    boolean exists(String id);
-    List<RentOfferCalendar> findAll();
-    List<RentOfferCalendar> findAllByOfferId(String offerId);
+    void createRentOfferCalendars(RentOffer rentOffer);
+
+    void updateRentOfferCalendars(RentOffer rentOffer);
+
+    void refreshRentOfferCalendars(RentOffer rentOffer);
+
+    void removeRentOfferCalendars(RentOffer rentOffer);
+
+
+    void indexRentOffer(RentOffer rentOffer);
+
+    void indexRentOfferCalendars(RentOffer rentOffer);
 }

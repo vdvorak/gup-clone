@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = ObjectType.RENT_OFFER, language = "russian")
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @EqualsAndHashCode(of = {"id"})
@@ -41,6 +41,7 @@ public class RentOffer extends CommonRentOffer {
     private RentOfferStatistic statistic;
     private RentOfferSettings settings;
     private List<RentOfferCalendar> rentOfferCalendars;
+
 
     @Override
     @CreatedDate

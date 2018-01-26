@@ -28,15 +28,15 @@ public interface CommonOfferRepository<T extends CommonRentOffer, F extends Comm
 
     void deleteOfferImage(ImageStorage image);
 
-    public T findOne(String offerId);
+    T findOne(String offerId);
 
-    public void save(T offer);
+    void save(T offer);
 
-    public boolean exists(String id);
+    boolean exists(String id);
 
     List<CommonCategoryCount> searchCategoriesByString(String string, int page, int size);
 
-    public boolean isOwner(String rentObjectId, String userId);
+    boolean isOwner(String rentObjectId, String userId);
 
     List<T> findByIds(List<String> ids, Sort sort);
 
@@ -44,7 +44,7 @@ public interface CommonOfferRepository<T extends CommonRentOffer, F extends Comm
 
     long countByFilter(OfferModeratorFilter filter);
 
-    public List<T> searchByFilter(OfferModeratorFilter filter, Pageable pageable);
+    List<T> searchByFilter(OfferModeratorFilter filter, Pageable pageable);
 
     List<T> findByFilter(F offerFilter, CommonStatus offerStatus, Pageable pageable);
 

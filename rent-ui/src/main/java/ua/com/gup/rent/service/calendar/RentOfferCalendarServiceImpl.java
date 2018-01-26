@@ -1,39 +1,80 @@
 package ua.com.gup.rent.service.calendar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
-import ua.com.gup.rent.repository.calendar.RentCalendarOfferRepository;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;
+import ua.com.gup.rent.repository.calendar.RentOfferCalendarChildRepository;
+import ua.com.gup.rent.service.ElasticSearchService;
+import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
+import ua.com.gup.rent.util.RentCalendarUtil;
 
-import java.util.List;
-
+import java.util.Arrays;
 
 @Service
-public class RentOfferCalendarServiceImpl implements RentOfferCalendarService {
-    private final Logger log = LoggerFactory.getLogger(RentOfferCalendarServiceImpl.class);
+public class RentOfferCalendarServiceImpl extends RentOfferGenericServiceImpl<RentOfferCalendarChild, String> implements RentOfferCalendarService {
 
     @Autowired
-    private RentCalendarOfferRepository rentCalendarOfferRepository;
+    private ElasticSearchService searchService;
 
-    @Override
-    public void save(RentOfferCalendar rentOfferCalendar) {
-        rentCalendarOfferRepository.save(rentOfferCalendar);
+
+    @Autowired
+    public RentOfferCalendarServiceImpl(RentOfferCalendarChildRepository repository) {
+        super(repository);
     }
 
     @Override
-    public boolean exists(String id) {
-        return rentCalendarOfferRepository.exists(id);
+    public void createRentOfferCalendars(RentOffer rentOffer) {
+        for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
+            RentOfferCalendarChild rentOfferCalendarChild = new RentOfferCalendarChild();
+            rentOfferCalendarChild.setRentStartDate(rentOfferCalendar.getRentStartDate());
+            rentOfferCalendarChild.setRentEndDate(rentOfferCalendar.getRentEndDate());
+            rentOfferCalendarChild.setRentOfferId(rentOffer.getId());
+            rentOfferCalendarChild.setDaysMap(RentCalendarUtil.getDaysMapForDates(rentOfferCalendar.getRentStartDate(),
+                    rentOfferCalendar.getRentEndDate(), Arrays.asList(rentOfferCalendar.getDays())));
+            getRepository().create(rentOfferCalendarChild);
+        }
     }
 
     @Override
-    public List<RentOfferCalendar> findAll() {
-        return rentCalendarOfferRepository.findAll();
+    public void updateRentOfferCalendars(RentOffer rentOffer) {
+//        for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
+//            RentOfferCalendarChild rentOfferCalendarChild = new RentOfferCalendarChild();
+//            rentOfferCalendarChild.setRentStartDate(rentOfferCalendar.getRentStartDate());
+//            rentOfferCalendarChild.setRentEndDate(rentOfferCalendar.getRentEndDate());
+//            rentOfferCalendarChild.setRentOfferId(rentOffer.getId());
+//            rentOfferCalendarChild.setDaysMap(RentCalendarUtil.getDaysMapForDates(rentOfferCalendar.getRentStartDate(),
+//                    rentOfferCalendar.getRentEndDate(), Arrays.asList(rentOfferCalendar.getDays())));
+//            getRepository().create(rentOfferCalendarChild);
+//        }
     }
 
     @Override
-    public List<RentOfferCalendar> findAllByOfferId(String offerId) {
-        return rentCalendarOfferRepository.findAllByOfferId(offerId);
+    public void refreshRentOfferCalendars(RentOffer rentOffer) {
+        removeRentOfferCalendars(rentOffer);
+        createRentOfferCalendars(rentOffer);
     }
+
+    @Override
+    public void removeRentOfferCalendars(RentOffer rentOffer) {
+        getRepository().removeCalendars(rentOffer);
+    }
+
+    @Override
+    public void indexRentOffer(RentOffer rentOffer) {
+        searchService.indexRentOffer(rentOffer);
+    }
+
+    @Override
+    public void indexRentOfferCalendars(RentOffer rentOffer) {
+        searchService.indexRentOfferCalendars(rentOffer);
+    }
+
+    @Override
+    protected RentOfferCalendarChildRepository getRepository() {
+        return (RentOfferCalendarChildRepository) super.getRepository();
+    }
+
+
 }

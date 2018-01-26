@@ -1,41 +1,25 @@
 package ua.com.gup.rent.api.search;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.AsyncRestTemplate;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-import ua.com.gup.common.model.filter.*;
 import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
 import ua.com.gup.rent.api.search.dto.CategoryStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
+import ua.com.gup.rent.service.ElasticSearchService;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,37 +30,14 @@ public class RentSearchEndpoint {
     private final Logger log = LoggerFactory.getLogger(RentSearchEndpoint.class);
 
     @Autowired
-    private Environment e;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private AsyncRestTemplate asyncRestTemplate;
-
-    @Autowired
     private RentOfferProfilesService profilesService;
 
     @Autowired
     private RentOfferService offerService;
 
-    private UriComponentsBuilder uriComponentsBuilder;
-    private final ObjectMapper oMapper = new ObjectMapper();
+    @Autowired
+    private ElasticSearchService searchService;
 
-    @PostConstruct
-    public void initialize() {
-        restTemplate.setInterceptors(Arrays.asList(new ClientHttpRequestInterceptor() {
-            @Override
-            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-                System.out.println("request: " + request.getURI().toString());
-                System.out.println("request body: " + new String(body));
-                return execution.execute(request, body);
-            }
-        }));
-        uriComponentsBuilder = UriComponentsBuilder.newInstance().scheme(e.getProperty("search.host.scheme"))
-                .host(e.getProperty("search.host.address")).port(e.getProperty("search.host.port")).path("/search/api/rent");
-
-    }
 
     @ApiOperation(value = "Get all the offers by filter",
             notes = "List all offer using paging",
@@ -107,105 +68,12 @@ public class RentSearchEndpoint {
             }
         }
 
-        UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers");
-
-        if (pageable != null) {
-            Sort sort = pageable.getSort();
-            if (sort != null) {
-                sort.forEach(s -> builder.queryParam("sort", (s.getProperty() + "," + s.getDirection().name())));
-            }
-            builder.queryParam("size", pageable.getPageSize());
-            builder.queryParam("page", pageable.getPageNumber());
-        }
-
-        if (!StringUtils.isEmpty(offerFilter.getQuery())) {
-            builder.queryParam("query", offerFilter.getQuery());
-        }
-        if (offerFilter.getCategory() != null) {
-            builder.queryParam("category", offerFilter.getCategory());
-        }
-        if (!StringUtils.isEmpty(offerFilter.getCreatedDate())) {
-            builder.queryParam("createdDate", offerFilter.getCreatedDate());
-        }
-        if (!StringUtils.isEmpty(offerFilter.getCreatedDate())) {
-            builder.queryParam("dtRentStart", offerFilter.getDtRentStart());
-        }
-        if (offerFilter.getSeoUrls() != null) {
-            builder.queryParam("seoUrls", String.join(",", offerFilter.getSeoUrls()));
-        }
-        CommonAddressFilter address = offerFilter.getAddress();
-        if (address != null) {
-            if (!StringUtils.isEmpty(address.getCountries())) {
-                builder.queryParam("address.countries", address.getCountries());
-            }
-            if (!StringUtils.isEmpty(address.getRegions())) {
-                builder.queryParam("address.regions", address.getRegions());
-            }
-            if (!StringUtils.isEmpty(address.getDistricts())) {
-                builder.queryParam("address.districts", address.getDistricts());
-            }
-            if (!StringUtils.isEmpty(address.getCities())) {
-                builder.queryParam("address.cities", address.getCities());
-            }
-
-        }
-        CommonAuthorFilter authorFilter = offerFilter.getAuthorFilter();
-        if (authorFilter != null) {
-            if (!StringUtils.isEmpty(authorFilter.getAuthorId() != null)) {
-                builder.queryParam("authorFilter.authorId", authorFilter.getAuthorId());
-            }
-        }
-
-        List<CommonAttributeFilter> attrs = offerFilter.getAttrs();
-        for (int i = 0; i < attrs.size(); i++) {
-            CommonAttributeFilter caf = attrs.get(i);
-            builder.queryParam("attrs[" + i + "].key", caf.getKey());
-            builder.queryParam("attrs[" + i + "].vals", caf.getVals());
-        }
-
-        List<CommonAttributeFilter> multiAttrs = offerFilter.getMultiAttrs();
-        for (int i = 0; i < multiAttrs.size(); i++) {
-            CommonAttributeFilter caf = multiAttrs.get(i);
-            builder.queryParam("multiAttrs[" + i + "].key", caf.getKey());
-            builder.queryParam("multiAttrs[" + i + "].vals", caf.getVals());
-        }
-
-        List<BooleanAttributeFilter> boolAttrs = offerFilter.getBoolAttrs();
-        for (int i = 0; i < boolAttrs.size(); i++) {
-            BooleanAttributeFilter baf = boolAttrs.get(i);
-            builder.queryParam("boolAttrs[" + i + "].key", baf.getKey());
-            builder.queryParam("boolAttrs[" + i + "].val", baf.getVal());
-        }
-
-        List<NumericAttributeFilter> numAttrs = offerFilter.getNumAttrs();
-        for (int i = 0; i < numAttrs.size(); i++) {
-            NumericAttributeFilter naf = numAttrs.get(i);
-            builder.queryParam("numAttrs[" + i + "].key", naf.getKey());
-            builder.queryParam("numAttrs[" + i + "].from", naf.getFrom());
-            builder.queryParam("numAttrs[" + i + "].to", naf.getTo());
-        }
-
-
-        MoneyFilter price = offerFilter.getPrice();
-        if (price != null) {
-            builder.queryParam("price.from", price.getFrom());
-            builder.queryParam("price.to", price.getTo());
-        }
-
-        CommonCoordinatesFilter coordinates = offerFilter.getCoordinates();
-        if (coordinates != null) {
-            builder.queryParam("coordinates.minYX", convertToString(coordinates.getMinYX()));
-            builder.queryParam("coordinates.maxYX", convertToString(coordinates.getMaxYX()));
-        }
-
-        Map elasticPage = restTemplate.getForObject(builder.toUriString(), Map.class);
-        List<String> ids = (List<String>) elasticPage.get("content");
+        Map<String, Object> pageByFilter = searchService.findIdsPageByFilter(offerFilter, pageable);
+        List<String> ids = (List<String>) pageByFilter.get("content");
         if (!CollectionUtils.isEmpty(ids)) {
-
-
-            elasticPage.put("content", offerService.findByIds(ids, pageable.getSort()));
+            pageByFilter.put("content", offerService.findByIds(ids, pageable.getSort()));
         }
-        return new ResponseEntity(elasticPage, HttpStatus.OK);
+        return new ResponseEntity(pageByFilter, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/offers/categories/count", method = RequestMethod.GET,
@@ -215,9 +83,8 @@ public class RentSearchEndpoint {
         List<CategoryStatistic> categoriesCount = Collections.EMPTY_LIST;
         if (profilesService.profileExistsByPublicId(profilePublicId)) {
             String profileId = profilesService.findByPublicId(profilePublicId).getId();
-            UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/categories/count").queryParam("profileId", profileId).build();
-            CategoryStatistic[] categoryStatistics = restTemplate.getForObject(uriComponents.toUri(), CategoryStatistic[].class);
-            return new ResponseEntity(categoryStatistics, HttpStatus.OK);
+            List<CategoryOffersStatistic> statistics = searchService.countOffersInCategoriesByFilter("active", profileId);
+            return new ResponseEntity(statistics, HttpStatus.OK);
         }
 
         return new ResponseEntity(categoriesCount, HttpStatus.NOT_FOUND);
@@ -235,23 +102,43 @@ public class RentSearchEndpoint {
 
     @RequestMapping(value = "offers/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) {
-        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/categories/status").queryParam("status", status).build();
-        return new ResponseEntity(restTemplate.getForObject(uriComponents.toUri(), CategoryOffersStatistic[].class), HttpStatus.OK);
+        List<CategoryOffersStatistic> categoryOffersStatistics = searchService.countOffersInCategoriesByStatus(status);
+        return new ResponseEntity(categoryOffersStatistics, HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/offers/suggest", method = RequestMethod.GET,
+    @RequestMapping(value = "/offers/suggests", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity suggestWordsByDescription(@RequestParam(name = "q") String query) {
 
-//        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
-//                .path("/offers/suggest")
-//                .queryParam("q", query)
-//                .build();
-        String[] suggests = new String[]{"Not implemented yet", "Not implemented yet", "Not implemented yet"};//restTemplate.getForObject(uriComponents.toUri(), String[].class);
+        String[] suggests = searchService.findSuggests(query);
         return new ResponseEntity(suggests, HttpStatus.OK);
 
     }
+
+    @RequestMapping(value = "/offers/reindex", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity reindexAll() {
+        searchService.reIndexRentOffers();
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/offers/{rentOfferId}/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateRentOfferCalendars(@PathVariable(value = "rentOfferId") String rentOfferId) {
+        offerService.demo(rentOfferId);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/offers/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateAllRentOffersCalendars() {
+
+        offerService.demoAll();
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
+
 //
 //    @Deprecated
 //    @CrossOrigin
@@ -270,16 +157,4 @@ public class RentSearchEndpoint {
 //    }
 
 
-    private String convertToString(BigDecimal[] decimals) {
-        StringBuilder sb = new StringBuilder();
-
-        Arrays.asList(decimals).stream().forEach(c -> {
-                    if (sb.length() != 0) {
-                        sb.append(",");
-                    }
-                    sb.append(String.valueOf(c));
-                }
-        );
-        return sb.toString();
-    }
 }

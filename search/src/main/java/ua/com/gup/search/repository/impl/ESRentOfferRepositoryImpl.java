@@ -1,9 +1,23 @@
 package ua.com.gup.search.repository.impl;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
+import org.apache.lucene.search.join.ScoreMode;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.join.query.HasChildQueryBuilder;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -11,7 +25,11 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilde
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,19 +43,30 @@ import ua.com.gup.search.model.filter.rent.*;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Repository
 public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
+    @Autowired
+    private Environment e;
     private static final String RENT_INDEX = "heroku_lktlmxlq_rent";
     private static final String OFFER_TYPE = "offer";
 
+    private static final List<String> rentOfferIndexFields = Arrays.asList("seoUrl", "title", "description",
+            "createdDate",
+            "lastModifiedDate",
+            "address",
+            "status", "categories", "authorId",
+            "attrs", "multiAttrs", "numAttrs", "boolAttrs",
+            "user",
+            "settings",
+            "lastModifiedUser", "price");
 
     @Autowired
     private RestHighLevelClient esClient;
@@ -50,6 +79,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource(false);
+        searchSourceBuilder.size(0);
 
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
 
@@ -178,22 +208,39 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         LocalDate rentStart = offerFilter.getDtRentStart();
         LocalDate rentEnd = offerFilter.getDtRentEnd();
 
+
         if (rentStart != null
                 && rentEnd != null && (rentStart.isBefore(rentEnd))) {
 
+
+            long daysDiff = ChronoUnit.DAYS.between(rentStart, rentEnd);
+
+            RangeQueryBuilder maxRentDaysRangeBuilder = new RangeQueryBuilder("settings.maxRentDays");
+            maxRentDaysRangeBuilder.gte(daysDiff);
+            boolQueryBuilder.must(maxRentDaysRangeBuilder);
+
+
+            RangeQueryBuilder minRentDaysRangeBuilder = new RangeQueryBuilder("settings.minRentDays");
+            minRentDaysRangeBuilder.lte(daysDiff);
+            boolQueryBuilder.must(minRentDaysRangeBuilder);
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            RangeQueryBuilder rentStartDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentStartDate");
+
+            BoolQueryBuilder childQueryBuilder = new BoolQueryBuilder();
+            RangeQueryBuilder rentStartDateBuilder = new RangeQueryBuilder("rentStartDate");
             rentStartDateBuilder.lte(rentStart.format(formatter));
-            boolQueryBuilder.must(rentStartDateBuilder);
+            childQueryBuilder.must(rentStartDateBuilder);
 
-            RangeQueryBuilder rentEndDateBuilder = new RangeQueryBuilder("rentOfferCalendarInterval.rentEndDate");
+            RangeQueryBuilder rentEndDateBuilder = new RangeQueryBuilder("rentEndDate");
             rentEndDateBuilder.gte(rentEnd.format(formatter));
-            boolQueryBuilder.must(rentEndDateBuilder);
+            childQueryBuilder.must(rentEndDateBuilder);
 
+            HasChildQueryBuilder hasChildQueryBuilder = new HasChildQueryBuilder("calendar", childQueryBuilder, ScoreMode.None);
             while (rentStart.isBefore(rentEnd)) {
-                boolQueryBuilder.must(new TermQueryBuilder("rentOfferCalendarInterval.daysMap." + formatter.format(rentStart) + ".dayStatus", "free"));
+                childQueryBuilder.must(new TermQueryBuilder("daysMap." + formatter.format(rentStart) + ".dayStatus", "free"));
                 rentStart = rentStart.plusDays(1);
             }
+            boolQueryBuilder.must(hasChildQueryBuilder);
 
         }
 
@@ -204,9 +251,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
     @Override
     public Page findIdsByFilter(RentOfferFilter offerFilter, Pageable pageable) throws IOException {
 
-
         SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices("heroku_lktlmxlq_rent_find");
+        searchRequest.indices(RENT_INDEX);
         searchRequest.types(OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -229,20 +275,17 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         QueryBuilder queryBuilder = boolQueryBuilder(offerFilter);
         searchSourceBuilder.query(queryBuilder);
-        TermsAggregationBuilder aggregation = AggregationBuilders.terms("rent_offer").field("rentOfferId").size(Integer.MAX_VALUE);
-        searchSourceBuilder.aggregation(aggregation);
-
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse response = esClient.search(searchRequest);
-        Aggregations aggregations = response.getAggregations();
+
         List<String> ids = new ArrayList<>();
-        if (aggregations != null) {
-            Terms byCategoryAgg = aggregations.get("rent_offer");
-            byCategoryAgg.getBuckets().forEach(b -> ids.add(b.getKeyAsString()));
+        for (SearchHit searchHitFields : response.getHits().getHits()) {
+            ids.add(searchHitFields.getId());
         }
 
-        Page page = new PageImpl(ids, pageable, response.getHits().getTotalHits());
+        long total = response.getHits().getTotalHits();
+        Page page = new PageImpl(ids, pageable, total);
         return page;
 
     }
@@ -254,6 +297,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         searchRequest.types(OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(0);
         searchSourceBuilder.fetchSource(false);
 
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
@@ -269,6 +313,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         SearchResponse searchResponse = esClient.search(searchRequest);
         Aggregations aggregations = searchResponse.getAggregations();
 
+
         if (aggregations != null) {
             Terms byCategoryAgg = aggregations.get("by_category");
             List<ESCategoriesOffersStatistic> categoriesOffers = new ArrayList<>(byCategoryAgg.getBuckets().size());
@@ -277,4 +322,120 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         }
         return Collections.EMPTY_LIST;
     }
+
+    @Override
+    public void indexRentOffer(Map<String, Object> map) throws IOException {
+        Map<String, Object> document = new HashMap<>();
+        String id = (String) map.get("id");
+        if (!StringUtils.isEmpty(id)) {
+            for (String s : map.keySet()) {
+                if (rentOfferIndexFields.contains(s)) {
+
+                    document.put(s, map.get(s));
+                }
+            }
+            IndexRequest indexRequest = new IndexRequest(RENT_INDEX, OFFER_TYPE, id).source(document);
+            IndexResponse indexResponse = esClient.index(indexRequest);
+            switch (indexResponse.getResult()) {
+                case CREATED:
+                case UPDATED:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void indexRentOfferCalendars(String rentOfferId, Map<String, Object> rentOfferCalendarMap) throws IOException {
+
+        Map<String, Object> document = new HashMap<>();
+        String id = (String) rentOfferCalendarMap.get("id");
+        for (String s : rentOfferCalendarMap.keySet()) {
+            document.put(s, rentOfferCalendarMap.get(s));
+        }
+        IndexRequest indexRequest = new IndexRequest(RENT_INDEX, "calendar", id).parent(rentOfferId).source(document);
+        IndexResponse indexResponse = esClient.index(indexRequest);
+        switch (indexResponse.getResult()) {
+            case CREATED:
+            case UPDATED:
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void clearRentOfferIndex() throws IOException {
+
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+            HttpPost deletePost = new HttpPost(e.getRequiredProperty("elasticsearch.scheme").concat("://")
+                    .concat(e.getRequiredProperty("elasticsearch.host"))
+                    .concat(":" + e.getRequiredProperty("elasticsearch.port")).concat("/heroku_lktlmxlq_rent/_delete_by_query"));
+            System.out.println(deletePost.getURI().toString());
+            deletePost.setHeader(new BasicHeader("Content-Type", "application/json"));
+            deletePost.setEntity(new StringEntity("{\"query\": {\"match_all\": {}}}"));
+
+            System.out.println("Executing request " + deletePost.getRequestLine());
+
+            // Create a custom response handler
+            ResponseHandler<String> responseHandler = response -> {
+                int status = response.getStatusLine().getStatusCode();
+                if (status >= 200 && status < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status);
+                }
+            };
+
+            String responseBody = httpclient.execute(deletePost, responseHandler);
+            System.out.println("----------------------------------------");
+            System.out.println(responseBody);
+        }
+    }
+
+    @Override
+    public Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(RENT_INDEX);
+        searchRequest.types(OFFER_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(0);
+
+        SuggestBuilder suggestBuilder = new SuggestBuilder();
+        suggestBuilder.setGlobalText(query);
+        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(10));
+        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(10));
+
+        searchSourceBuilder.suggest(suggestBuilder);
+        searchRequest.source(searchSourceBuilder);
+
+        SearchResponse searchResponse = esClient.search(searchRequest);
+        Suggest suggest = searchResponse.getSuggest();
+        if (suggest != null) {
+
+            Set<String> suggests = new HashSet<>();
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionUa = suggest.getSuggestion("ua-suggest");
+            Suggest.Suggestion<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> suggestionRu = suggest.getSuggestion("ru-suggest");
+
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> uaEntries = suggestionUa.getEntries();
+            List<? extends Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option>> ruEntries = suggestionRu.getEntries();
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> uaEntry : uaEntries) {
+                for (Suggest.Suggestion.Entry.Option option : uaEntry.getOptions()) {
+                    suggests.add(option.getText().toString());
+                }
+            }
+
+            for (Suggest.Suggestion.Entry<? extends Suggest.Suggestion.Entry.Option> ruEntry : ruEntries) {
+                for (Suggest.Suggestion.Entry.Option option : ruEntry.getOptions()) {
+                    suggests.add(option.getText().toString());
+                }
+            }
+            return suggests;
+        }
+        return Collections.emptySet();
+    }
 }
+

@@ -4,19 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author victor dvorak
  **/
+
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class RentOfferSettings {
+
     private Integer minRentDays;
     private Integer maxRentDays;
+    private Boolean firstDayPayable;
     private String startDay;
     private String endDay;
+
+    public RentOfferSettings() {
+    }
 }

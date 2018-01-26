@@ -21,6 +21,8 @@ public class ElasticRentOffer extends CommonRentOffer {
     private RentOfferCalendarInterval rentOfferCalendarInterval;
     private RentOfferPrice price;
     private String seoUrl;
+    private Double minPrice;
+
 
     public ElasticRentOffer() {
     }
@@ -30,6 +32,7 @@ public class ElasticRentOffer extends CommonRentOffer {
         this.rentOfferId = cro.getId();
         this.seoUrl = cro.getSeoUrl();
         this.price = cro.getPrice();
+        this.minPrice = Math.min(price.getBusinessDayCost().doubleValue(), Math.min(price.getHolidayDayCost().doubleValue(), price.getWeekendDayCost().doubleValue()));
         this.youtubeVideoId = null;
         this.images = null;
         this.lands = null;

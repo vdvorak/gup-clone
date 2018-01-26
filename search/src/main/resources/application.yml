@@ -1,0 +1,13 @@
+server:
+  context-path: /search
+  port: 8082
+
+elasticsearch:
+    clustername: elasticsearch
+    scheme: https
+    host: es.dev.gup.ua
+    port: 443
+
+spring:
+  profiles:
+    active: dev

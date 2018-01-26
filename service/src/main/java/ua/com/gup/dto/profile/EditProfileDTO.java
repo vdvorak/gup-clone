@@ -6,8 +6,6 @@ import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.model.mongo.Phone;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 
-import java.util.Set;
-
 public class EditProfileDTO extends ProfileDTO {
 
     @JsonProperty("mainPhone")
