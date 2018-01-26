@@ -10,8 +10,8 @@ import ua.com.gup.common.repository.UserRoleRepository;
 
 import java.util.List;
 
-@Repository
-public class UserRoleRepositoryImpl implements UserRoleRepository {
+
+public abstract class CommonUserRoleRepositoryImpl implements UserRoleRepository {
 
     @Autowired
     private MongoTemplate mongoTemplate;

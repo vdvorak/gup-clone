@@ -16,8 +16,8 @@ import ua.com.gup.common.repository.ManagerActionRepository;
 import java.util.Collection;
 import java.util.List;
 
-@Repository
-public class ManagerActionRepositoryImpl implements ManagerActionRepository {
+
+public abstract class CommonManagerActionRepositoryImpl implements ManagerActionRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 

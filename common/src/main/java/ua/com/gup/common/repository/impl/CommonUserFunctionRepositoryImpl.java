@@ -11,8 +11,7 @@ import ua.com.gup.common.repository.UserFunctionRepository;
 
 import java.util.Collection;
 
-@Repository
-public class UserFunctionRepositoryImpl implements UserFunctionRepository {
+public abstract class CommonUserFunctionRepositoryImpl implements UserFunctionRepository {
 
     @Autowired
     private MongoTemplate mongoTemplate;

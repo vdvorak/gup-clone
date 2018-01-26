@@ -19,8 +19,7 @@ import ua.com.gup.common.service.FileStorageService;
 import ua.com.gup.common.service.ImageService;
 import ua.com.gup.common.util.ImageScaleUtil;
 
-@Service
-public class ImageServiceImpl implements ImageService {
+public abstract class CommonImageServiceImpl implements ImageService {
 
     @Autowired
     private FileStorageService fileStorageService;

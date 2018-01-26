@@ -24,11 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class ManagerActionServiceImpl implements ManagerActionService {
+public abstract class CommonManagerActionServiceImpl implements ManagerActionService {
 
-//    @Autowired
-//    private ManagerActionMapper managerActionMapper;
+
 
     @Autowired
     private ManagerActionMapperFactory managerActionMapperFactory;
@@ -41,12 +39,6 @@ public class ManagerActionServiceImpl implements ManagerActionService {
 
     @Override
     public ManagerAction create(ManagerActionDto dto) {
-
-//        //by default using CALL_TYPE
-//        if (dto.getType() == null) {
-//            dto.setType(ManagerActionType.TYPE_CALL);
-//        }
-
         ManagerActionMapper mapper = managerActionMapperFactory.getMapper(dto.getType());
         ManagerAction model = mapper.fromDto(dto.getType().createInstance(), dto);
         return repository.save(model);

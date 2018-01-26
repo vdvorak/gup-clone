@@ -1,7 +1,6 @@
 package ua.com.gup.common.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ua.com.gup.common.dto.security.function.FunctionDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
 import ua.com.gup.common.model.security.Function;
@@ -14,8 +13,8 @@ import ua.com.gup.common.service.UserRoleService;
 
 import java.util.*;
 
-@Service
-public class UserRoleServiceImpl implements UserRoleService {
+
+public abstract class CommonUserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     private UserRoleRepository roleRepository;
