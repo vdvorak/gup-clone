@@ -253,10 +253,18 @@ public class ManagerEndpoint {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    //@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
+    @GetMapping(value = "/actions")
+    public ResponseEntity<Page<ManagerActionDto>> searchActions(
+            ManagerActionFilter filter,
+            Pageable pageable) {
+        Page<ManagerActionDto> actions = managerActionService.findAll(filter, pageable);
+        return new ResponseEntity(actions, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/{managerPublicId}/actions")
-    public ResponseEntity<Page<ManagerActionDto>> searchActions(
+    public ResponseEntity<Page<ManagerActionDto>> searchManagerActions(
             @PathVariable("managerPublicId") String managerPublicId,
             ManagerActionFilter filter,
             Pageable pageable) {
