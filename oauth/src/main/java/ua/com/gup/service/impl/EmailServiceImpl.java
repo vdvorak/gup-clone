@@ -80,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit) {
-        EmailMessage message = emailRepository.findAndModifyMessages(oldStatus, newStatus, 1);
+        EmailMessage message = emailRepository.findAndModifyMessage(oldStatus, newStatus);
         return message != null ? Arrays.asList(message) : Collections.EMPTY_LIST;
     }
 
