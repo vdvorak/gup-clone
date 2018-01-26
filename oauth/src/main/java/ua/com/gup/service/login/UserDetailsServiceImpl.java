@@ -6,7 +6,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.com.gup.common.model.security.Role;
 import ua.com.gup.model.LoggedUser;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.service.UserService;
@@ -55,24 +54,6 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
                 profile.getEmail());
     }
 
-//    @Override
-//    public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
-//        Profile profile = userService.findProfileByUidAndWendor(uid, vendor);
-//        if (profile == null) {
-//            throw new UsernameNotFoundException("UID / VENDOR: [" + uid + " / " + vendor + "]");
-//        }
-//        return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
-//    }
-//
-//    @Override
-//    public UserDetails loadUserByPhoneAndVendor(String phoneNumber, String vendor) throws UsernameNotFoundException {
-//        Profile profile = userService.findProfileByPhoneNumberAndWendor(phoneNumber, vendor);
-//        if (profile == null) {
-//            throw new UsernameNotFoundException("PHONE_NUMBER / VENDOR: [" + phoneNumber + " / " + vendor + "]");
-//        }
-//        return buildPhoneUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
-//    }
-
     private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
         return new LoggedUser(
                 profile.getEmail(),
@@ -87,19 +68,6 @@ public class UserDetailsServiceImpl implements GupUserDetailsService {
                 profile.getPublicId(),
                 profile.getEmail());
     }
-
-    private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-        return new LoggedUser(profile.getUid(), profile.getSocWendor(),
-                true, profile.getBan(), true, true, true, authorities,
-                profile.getId(), profile.getPublicId(), profile.getEmail());
-    }
-
-    private LoggedUser buildPhoneUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-        return new LoggedUser(profile.getMainPhone().getPhoneNumber(), profile.getSocWendor(),
-                true, profile.getBan(), true, true, true, authorities,
-                profile.getId(), profile.getPublicId(), profile.getEmail());
-    }
-
     private List<GrantedAuthority> buildUserAuthority(Set<String> userRoles) {
         return userRoles.stream()
                 .map(userRole -> new SimpleGrantedAuthority(userRole))
