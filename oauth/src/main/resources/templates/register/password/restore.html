@@ -10,14 +10,8 @@
 
             <div th:include="fragments/content :: logo"></div>    
 
-
-
-            <!--            <div th:if="not ${error}">
-                            <div th:text="#{account.restore.successfull}"></div>
-                            <unban href="#" th:href="@{/login}" th:text="#{login}">Войти</unban>
-                        </div>-->
-
             <form class='flex' th:action="@{/register/password/restore}" method="POST"  >
+                <h1 class="smaller" th:text="#{restore.title}">Возобновление пароля</h1>
                 <div class="input flex-full-width" th:classappend="${error} ? error">
                     <input type="text"  name="email" th:placeholder="#{emailorphone}"  required>
                     <div class="error-message" th:if="${error}" th:text="#{${error}}">errors</div>
@@ -26,7 +20,9 @@
             </form>
 
 
+            <div th:include="fragments/content :: loginlink"></div>
 
+            <div th:include="fragments/content :: registerlink"></div>
 
             <div th:include="fragments/content :: social"></div>
 

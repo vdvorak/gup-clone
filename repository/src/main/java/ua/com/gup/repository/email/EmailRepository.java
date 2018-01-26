@@ -12,7 +12,7 @@ public interface EmailRepository {
 
     void removeMessage(EmailMessage message);
 
-    List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit);
+    EmailMessage findAndModifyMessage(EmailStatus oldStatus, EmailStatus newStatus);
 
     EmailMessage updateStatusAndLastAttemptTimestamp(EmailMessage message);
 

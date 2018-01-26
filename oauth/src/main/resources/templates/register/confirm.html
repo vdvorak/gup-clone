@@ -11,23 +11,36 @@
             <div th:include="fragments/content :: logo"></div>    
 
             <div th:if="${error}">
-                <div th:text="#{account.confirm.fail}"></div> 
+                <h3 th:text="#{account.confirm.fail}"></h3>
 
-                <div class="error-message"  th:if="${error}" th:text="#{${error}}">
+                <h4 class="error-message flex-full-width" style="text-align: center" th:if="${error}" th:text="#{${error}}">
                    confirm messages error text
-                </div>
+                </h4>
             </div>
             
             <div th:if="not ${error}">
-                <div th:text="#{account.confirm.successfull}"></div>
-                <a href="#" th:href="@{/login}" th:text="#{login}">Войти</a>                
+                <h3  th:text="#{account.confirm.successfull}"></h3>
+                <form class='flex' th:action="@{/login}"  method="post" name="login">
+                    <div class="input flex-full-width" th:classappend="${param.error} ? error">
+                        <input type="text" name="username" th:value="${username}"  th:placeholder="#{emailorphone}" required/>
+                    </div>
+                    <div class="input flex-full-width" th:classappend="${param.error} ? error">
+                        <input type="password" name="password" th:placeholder="#{password}" required>
+                        <div class="error-message"  th:if="${param.bad_credentials}" th:text="#{login.error}">
+                            bad credentials
+                        </div>
+                        <div class="error-message"  th:if="${param.blocked}" th:text="#{login.blocked}">
+                            blocked
+                        </div>
+                        <div class="error-message"  th:if="${param.reason}"  >
+                            <span th:text="#{reason}"></span>
+                            :&nbsp;
+                            <span th:text="${param.reason}"></span>
+                        </div>
+                    </div>
+                    <button class="flex-full-width submit" type="submit" th:text="#{authorization}">Авторизация</button>
+                </form>
             </div>
-
-
-
-            <div th:include="fragments/content :: social"></div>
-
-            <div th:include="fragments/content :: license"></div>
 
         </div>
 

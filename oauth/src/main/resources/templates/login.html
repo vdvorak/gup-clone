@@ -13,44 +13,43 @@
             <div th:include="fragments/content :: locale"></div>
 
             <div th:include="fragments/content :: logo"></div>
+
             <div sec:authorize="${not isAuthenticated()}">
+                <h1 th:text="#{authorization}">Авторизация</h1>
                 <form class='flex' th:action="@{/login}"  method="post" name="login">
                     <div class="input flex-full-width" th:classappend="${param.error} ? error">
                         <input type="text" name="username"  th:placeholder="#{emailorphone}" required/>
                     </div>
                     <div class="input flex-full-width" th:classappend="${param.error} ? error">
-                        <input type="password" name="password" th:placeholder="#{password}" required>           
+                        <input type="password" name="password" th:placeholder="#{password}" required>
                         <div class="error-message"  th:if="${param.bad_credentials}" th:text="#{login.error}">
                             bad credentials
-                        </div>                          
+                        </div>
                         <div class="error-message"  th:if="${param.blocked}" th:text="#{login.blocked}">
                             blocked
-                        </div>  
+                        </div>
                         <div class="error-message"  th:if="${param.reason}"  >
                             <span th:text="#{reason}"></span>
                             :&nbsp;
                             <span th:text="${param.reason}"></span>
-                        </div>  
+                        </div>
                     </div>
                     <button class="flex-full-width submit" type="submit" th:text="#{authorization}">Авторизация</button>
                 </form>
             </div>
-            
+
+
+
+            <div th:include="fragments/content :: restorelink" sec:authorize="${not isAuthenticated()}"></div>
+
+            <div th:include="fragments/content :: registerlink" sec:authorize="${not isAuthenticated()}"></div>
+
+            <div th:include="fragments/content :: social" sec:authorize="${not isAuthenticated()}"></div>
+
             <div sec:authorize="${isAuthenticated()}">
-                 <span sec:authentication="name"></span>
+                <span sec:authentication="name"></span>
                 <a href="#" th:href="@{/logout}" th:text="#{logout}">Выйти</a>
             </div>
-             <div class="register" sec:authorize="${not isAuthenticated()}">
-                <p th:text="#{forget.password}">Забыли пароль?</p>
-                <a href="#" th:href="@{/register/password/restore}" th:text="#{restore}">Восстановить</a>
-            </div>
-
-            <div class="register" sec:authorize="${not isAuthenticated()}">
-                <p th:text="#{noAccountQuestion}">Нет аккаунта?</p>
-                <a href="#" th:href="@{/register}" th:text="#{register}">Зарегистрироваться</a>
-            </div>
-
-            <div th:include="fragments/content :: social"></div>
 
             <div th:include="fragments/content :: license"></div>
         </div>

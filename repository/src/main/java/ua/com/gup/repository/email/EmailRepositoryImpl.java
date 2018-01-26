@@ -2,6 +2,7 @@ package ua.com.gup.repository.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,12 +35,12 @@ public class EmailRepositoryImpl implements EmailRepository {
     }
 
     @Override
-    public List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit) {
+    public EmailMessage findAndModifyMessage(EmailStatus oldStatus, EmailStatus newStatus) {
         Query query = new Query(Criteria.where("status").is(oldStatus));
-        query.limit(limit).with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
+        query.with(new Sort(Sort.Direction.DESC, "lastAttemptTimestamp"));
         Update update = new Update();
         update.set("status", newStatus);
-        return mongoTemplate.findAndModify(query, update, List.class);
+        return  mongoTemplate.findAndModify(query, update, EmailMessage.class);
     }
 
     @Override

@@ -65,6 +65,8 @@ public class RegisterController {
         }
 
         Profile profile = new Profile();
+        profile.setFirstname(registerProfile.getName());
+        profile.setLastname(registerProfile.getSurname());
         profile.setPassword(registerProfile.getPassword());
         profile.setEmail(registerProfile.getEmail().toLowerCase());
         profile.setSocWendor("GUP");
@@ -95,6 +97,7 @@ public class RegisterController {
             userService.updateProfile(profile);
         }
         verificationTokenService.deleteToken(verificationToken);
+        modelAndView.addObject("username",profile.getEmail());
         return modelAndView;
     }
 

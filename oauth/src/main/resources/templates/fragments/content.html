@@ -1,7 +1,8 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -26,15 +27,17 @@
 </div>
 
 <div th:fragment="social">
+    <h3 th:text="#{social.login}">Войти через соц. сети</h3>
     <div class="social">
-        <div class="social-elem">
-            <a th:href="@{/login/facebook}">facebook
-                <!--<img th:src="@{/images/facebook.svg}" src="images/facebook.svg" alt="facebook"/>-->
+        <div class="submit flex-half-width social-elem facebook">
+            <a th:href="@{/login/facebook}">
+                <p>Facebook</p>
+                <img th:src="@{/images/facebook.svg}" src="../static/images/facebook.svg" alt="facebook"/>
             </a>
         </div>
-        <div class="social-elem"><img th:src="@{/images/twitter.svg}" src="images/twitter.svg" alt="twitter"></div>
-        <div class="social-elem"><img th:src="@{/images/linkedin.svg}" src="images/linkedin.svg" alt="linkedin"></div>
-        <div class="social-elem"><img th:src="@{/images/pinterest.svg}" src="images/pinterest.svg" alt="pinterest">
+        <div class="submit flex-half-width social-elem google">
+            <p>Google</p>
+            <img th:src="@{/images/google.svg}" src="../static/images/google.svg" alt="google">
         </div>
     </div>
 </div>
@@ -48,6 +51,26 @@
         </p>
     </div>
 </div>
+
+<div th:fragment="registerlink">
+    <div class="register" sec:authorize="${not isAuthenticated()}">
+        <p th:text="#{noAccountQuestion}">Нет аккаунта?</p>
+        <a href="#" th:href="@{/register}" th:text="#{register}">Зарегистрироваться</a>
+    </div>
+</div>
+<div th:fragment="loginlink">
+    <div class="register">
+        <p th:text="#{allreadyRegisteredQuestion}">Уже зарегистрированы?</p>
+        <a href="#" th:href="@{/login}" th:text="#{login}">Войти</a>
+    </div>
+</div>
+<div th:fragment="restorelink">
+    <div class="register">
+        <p th:text="#{forget.password}">Забыли пароль?</p>
+        <a href="#" th:href="@{/register/password/restore}" th:text="#{restore}">Восстановить</a>
+    </div>
+</div>
+
 
 </body>
 

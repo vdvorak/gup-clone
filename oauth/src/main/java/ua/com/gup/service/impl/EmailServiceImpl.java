@@ -27,10 +27,7 @@ import ua.com.gup.service.model.EmailServiceTokenModel;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of the mail service.
@@ -83,7 +80,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public List<EmailMessage> findAndModifyMessages(EmailStatus oldStatus, EmailStatus newStatus, int limit) {
-        return emailRepository.findAndModifyMessages(oldStatus, newStatus, 20);
+        EmailMessage message = emailRepository.findAndModifyMessages(oldStatus, newStatus, 1);
+        return message != null ? Arrays.asList(message) : Collections.EMPTY_LIST;
     }
 
     @Override
@@ -125,6 +123,7 @@ public class EmailServiceImpl implements EmailService {
         VerificationToken verificationToken = null;
         String mailSubject = "No theme";
 
+
         switch (message.getEmailType()) {
             case EMAIL_REGISTRATION:
                 verificationToken = verificationTokenService.generateEmailRegistrationToken(message.getUserId());
@@ -155,6 +154,9 @@ public class EmailServiceImpl implements EmailService {
                 messageHelper.setReplyTo(message.getReplyTo());
                 messageHelper.setSubject(finalMailSubject);
                 messageHelper.setText(finalTemplateContent, true);
+                //add logo image
+                Resource resource = new ClassPathResource("static/images/logo-small.png");
+                messageHelper.addInline("logo.png", resource,"image/png");
             }
         };
         this.mailSender.send(preparator);

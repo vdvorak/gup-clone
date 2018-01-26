@@ -10,6 +10,8 @@ import ua.com.gup.mongo.composition.domain.email.EmailMessage;
 import ua.com.gup.mongo.model.offer.EmailStatus;
 import ua.com.gup.service.EmailService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -21,9 +23,11 @@ public class SendMailTask {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 * * * * *")
+    //@Scheduled(cron = "0 * * * * *")
+    @Scheduled(fixedDelay = 1000)
     public void printMessages() {
-        List<EmailMessage> messages = emailService.findAndModifyMessages(EmailStatus.QUEUE, EmailStatus.PROCESSING, 20);
+        List<EmailMessage> messages = emailService.findAndModifyMessages(EmailStatus.QUEUE, EmailStatus.PROCESSING, 1);
+
         for (EmailMessage message : messages) {
             try {
                 emailService.sendEmail(message);
