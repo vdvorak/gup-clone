@@ -6,4 +6,6 @@ public interface CommonProfileRepository {
     String getIdByPulblicId( String publicId);
 
     CommonProfile findByPublicId(String id);
+
+    boolean existsByRole(String role);
 }

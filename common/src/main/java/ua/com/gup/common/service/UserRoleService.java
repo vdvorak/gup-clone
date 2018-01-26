@@ -39,4 +39,6 @@ public interface UserRoleService {
     boolean existsRole(String name);
 
     boolean existsFunction(String name);
+
+    boolean isRoleUsed(String role);
 }

@@ -110,7 +110,6 @@ public class RentComplaintOfferEndpoint {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
 
-    @PostAuthorize("hasAuthority('READ_COMPLAINT_TYPES')")
     @RequestMapping(value = "/complaints/types", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferTypes() throws URISyntaxException {
         log.info("REST request to get Types");

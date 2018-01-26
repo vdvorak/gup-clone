@@ -76,6 +76,10 @@ public abstract class AbstractSecurityAccessEndpoint {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
+        if (userRoleService.isRoleUsed(role)) {
+            return new ResponseEntity("role is used",HttpStatus.CONFLICT);
+        }
+
         Role r = userRoleService.findByName(role);
         if (!r.getIsEditable()) {
             return new ResponseEntity("role.not.editable", HttpStatus.BAD_REQUEST);

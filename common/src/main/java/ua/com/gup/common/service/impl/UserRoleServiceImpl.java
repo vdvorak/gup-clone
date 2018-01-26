@@ -6,6 +6,7 @@ import ua.com.gup.common.dto.security.function.FunctionDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
 import ua.com.gup.common.model.security.Function;
 import ua.com.gup.common.model.security.Role;
+import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.common.repository.UserFunctionRepository;
 import ua.com.gup.common.repository.UserRoleRepository;
 import ua.com.gup.common.security.UserFunction;
@@ -20,6 +21,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     private UserRoleRepository roleRepository;
     @Autowired
     private UserFunctionRepository functionRepository;
+    @Autowired
+    private CommonProfileRepository profileRepository;
 
     private static final Set<UserFunction> functions = new HashSet<>(Arrays.asList(UserFunction.values()));
 
@@ -127,5 +130,12 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public boolean existsFunction(String name) {
         return functionRepository.exists(name);
+    }
+
+
+
+    @Override
+    public boolean isRoleUsed(String role) {
+        return profileRepository.existsByRole(role);
     }
 }

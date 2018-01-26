@@ -66,6 +66,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public boolean existsByRole(String role) {
+        Query query = new Query(Criteria.where("userRoles").in(role));
+        return mongoTemplate.exists(query,  Profile.class);
+    }
+
+    @Override
     public <T extends Profile> T findByPublicId(String id, Class<T> entityClass) {
         Query query = new Query(Criteria.where("publicId").is(id));
         return mongoTemplate.findOne(query, entityClass);

@@ -58,6 +58,13 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         return mongoTemplate.findOne(query, RentOfferProfile.class);
     }
 
+
+    @Override
+    public boolean existsByRole(String role) {
+        Query query = new Query(Criteria.where("userRoles").in(role));
+        return mongoTemplate.exists(query,  RentOfferProfile.class);
+    }
+
     @Override
     public <T extends RentOfferProfile> T findByPublicId(String id, Class<T> entityClass) {
         Query query = new Query(Criteria.where("publicId").is(id));
