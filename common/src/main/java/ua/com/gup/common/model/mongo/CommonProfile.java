@@ -321,12 +321,12 @@ public class CommonProfile {
 
 
     public CommonProfile setLastLoginDateEqualsToCurrentDate() {
-        this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond();
+        this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
 
     public CommonProfile setCreatedDateEqualsToCurrentDate() {
-        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond();
+        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
 
