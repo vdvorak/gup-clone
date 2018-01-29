@@ -7,6 +7,7 @@ import ua.com.gup.common.model.object.ObjectType;
 @Document(collection = ObjectType.USER)
 public class UserProfile extends Profile {
 
+    @Field("saleManager")
     private String manager;
 
     @Field("saleManagerInfo")

@@ -52,6 +52,10 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
     @Autowired
     private OperationService operationService;
 
+    @Autowired
+    private AdminPrivateProfileMapper adminPrivateProfileMapper;
+
+
     @Override
     public void createProfile(CreateProfileDTO profile) {
         Profile newProfile = new Profile();
@@ -255,8 +259,7 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
         return new PrivateProfileDTO(profileRepository.findByPublicId(publicId));
     }
 
-    @Autowired
-    private AdminPrivateProfileMapper adminPrivateProfileMapper;
+
     @Override
     public ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId) {
         Profile profile = profileRepository.findByPublicId(publicId);
