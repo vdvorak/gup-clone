@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public abstract class RentOfferGenericServiceImpl<T, PK extends Serializable>   implements RentOfferGenericService<T, PK> {
 
-    protected RentOfferGenericRepository repository;
+    private RentOfferGenericRepository repository;
 
 
     public RentOfferGenericServiceImpl(RentOfferGenericRepository rentOfferGenericRepository) {
