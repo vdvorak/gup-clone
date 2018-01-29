@@ -68,6 +68,18 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             "settings",
             "lastModifiedUser", "price");
 
+    private final TermSuggestionBuilder descriptionUaSuggestion
+            = new TermSuggestionBuilder("description_ua")
+            .stringDistance(TermSuggestionBuilder.StringDistanceImpl.NGRAM)
+            .minWordLength(3)
+            .size(10);
+
+    private final TermSuggestionBuilder descriptionRuSuggestion
+            = new TermSuggestionBuilder("description_ru")
+            .stringDistance(TermSuggestionBuilder.StringDistanceImpl.NGRAM)
+            .minWordLength(3)
+            .size(10);
+
     @Autowired
     private RestHighLevelClient esClient;
 
@@ -405,8 +417,9 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         SuggestBuilder suggestBuilder = new SuggestBuilder();
         suggestBuilder.setGlobalText(query);
-        suggestBuilder.addSuggestion("ua-suggest", new TermSuggestionBuilder("description_ua").size(10));
-        suggestBuilder.addSuggestion("ru-suggest", new TermSuggestionBuilder("description_ru").size(10));
+
+        suggestBuilder.addSuggestion("ua-suggest", descriptionUaSuggestion);
+        suggestBuilder.addSuggestion("ru-suggest", descriptionRuSuggestion);
 
         searchSourceBuilder.suggest(suggestBuilder);
         searchRequest.source(searchSourceBuilder);
