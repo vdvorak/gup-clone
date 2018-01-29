@@ -1,28 +1,23 @@
 package ua.com.gup.rent.service.bonus;
 
-import ua.com.gup.rent.model.mongo.bonus.RentOfferBonus;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.bonus.RentOfferBonusDTO;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.SortedSet;
 
 /**
  * @author Victor Dvorak
  **/
 public interface RentOfferBonusService extends RentOfferGenericService<RentOfferBonusDTO, String> {
 
-    RentOfferBonus save(RentOfferBonusDTO rentOfferCategoryAttributeCreateDTO);
+    void save(RentOfferBonusDTO rentOfferBonusDTO);
 
-    List<RentOfferBonus> findAll();
+    List<RentOfferBonusDTO> findAll();
 
-    RentOfferBonus findOne(String id);
+    RentOfferBonusDTO findOneByCode(String code);
 
-    Optional<RentOfferBonus> findOneByCode(String code);
+    RentOfferBonusDTO findOneByName(String name);
 
     void delete(String id);
 
-    Map<Integer, SortedSet<RentOfferBonusDTO>> findAllRentOfferBonusDTO();
 }

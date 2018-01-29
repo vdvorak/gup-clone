@@ -1,17 +1,15 @@
 package ua.com.gup.rent.service.bonus;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ua.com.gup.rent.mapper.RentOfferBonusMapper;
 import ua.com.gup.rent.model.mongo.bonus.RentOfferBonus;
-import ua.com.gup.rent.repository.abstracted.generic.RentOfferGenericRepository;
+import ua.com.gup.rent.repository.bonus.RentOfferBonusRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
 import ua.com.gup.rent.service.dto.bonus.RentOfferBonusDTO;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.SortedSet;
 
 /**
  * @author Victor Dvorak
@@ -20,37 +18,45 @@ import java.util.SortedSet;
 public class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferBonusDTO, String> implements RentOfferBonusService {
 
     @Autowired
-    public RentOfferBonusServiceImpl(@Qualifier("rentOfferBonusRepositoryImpl") RentOfferGenericRepository rentOfferGenericRepository) {
-        super(rentOfferGenericRepository);
+    RentOfferBonusMapper rentOfferBonusMapper;
+
+    @Autowired
+    public RentOfferBonusServiceImpl(RentOfferBonusRepository rentOfferBonusRepository) {
+        super(rentOfferBonusRepository);
     }
 
     @Override
-    public RentOfferBonus save(RentOfferBonusDTO rentOfferCategoryAttributeCreateDTO) {
-        return null; //getRepository().create();
+    public void save(RentOfferBonusDTO rentOfferBonusDTO) {
+        RentOfferBonus rentOfferBonus = rentOfferBonusMapper.fromDTOToModel(rentOfferBonusDTO);
+        getRepository().create(rentOfferBonus);
     }
 
     @Override
-    public List<RentOfferBonus> findAll() {
-        return null;
+    public List<RentOfferBonusDTO> findAll() {
+        List<RentOfferBonusDTO> listRentOfferBonusDTO = new ArrayList<RentOfferBonusDTO>();
+        for (Object item : getRepository().findAll()) {
+            listRentOfferBonusDTO.add(rentOfferBonusMapper.fromModelToDTO((RentOfferBonus) item));
+        }
+        return listRentOfferBonusDTO;
     }
 
     @Override
-    public RentOfferBonus findOne(String id) {
-        return null;
+    public RentOfferBonusDTO findOneByCode(String code) {
+        return rentOfferBonusMapper.fromModelToDTO(getRepository().findOneByCode(code));
     }
 
     @Override
-    public Optional<RentOfferBonus> findOneByCode(String code) {
-        return null;
+    public RentOfferBonusDTO findOneByName(String name) {
+        return rentOfferBonusMapper.fromModelToDTO(getRepository().findOneByName(name));
     }
 
     @Override
     public void delete(String id) {
-
+        getRepository().delete(getRepository().findOneById(id));
     }
 
     @Override
-    public Map<Integer, SortedSet<RentOfferBonusDTO>> findAllRentOfferBonusDTO() {
-        return null;
+    protected RentOfferBonusRepository getRepository() {
+        return (RentOfferBonusRepository) super.getRepository();
     }
 }
