@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -22,6 +24,9 @@ public class RentOfferUserEndpoint {
     @Autowired
     private Environment e;
 
+
+    @Autowired
+    private RentOfferProfilesService rentOfferProfilesService;
 
     @GetMapping(path = "/authenticate")
     public String isAuthenticated(HttpServletRequest request) {
@@ -37,6 +42,7 @@ public class RentOfferUserEndpoint {
         if ("anonymousUser".equals(principal)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(principal, HttpStatus.OK);
+        GupLoggedUser user = (GupLoggedUser) principal;
+        return new ResponseEntity<>(rentOfferProfilesService.findUserProfile(user.getPublicId()), HttpStatus.OK);
     }
 }
