@@ -17,5 +17,5 @@ public class RentOfferFilter extends CommonOfferFilter {
 
     private String dtRentEnd;
 
-
+    private Integer count;
 }

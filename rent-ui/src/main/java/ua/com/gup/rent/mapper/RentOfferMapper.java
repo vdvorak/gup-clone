@@ -148,6 +148,7 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
 
         offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
+        offerViewDetailsDTO.setCount(offer.getRentOfferCalendars().size());
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(rentOfferLandsMapper.fromModelToDTO(offer.getLands()));
         }

@@ -41,6 +41,9 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
     @JsonProperty(value = "statistic")
     private RentOfferStatisticDTO offerStatistic;
 
+    @ApiModelProperty(position = 170, notes = "rent offers count")
+    private Integer count;
+
     @ApiModelProperty(position = 110)
     private LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
 
