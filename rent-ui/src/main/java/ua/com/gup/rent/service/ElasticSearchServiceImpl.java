@@ -231,6 +231,10 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             builder.queryParam("coordinates.maxYX", convertToString(coordinates.getMaxYX()));
         }
 
+        if (offerFilter.getCount() != null && offerFilter.getCount() > 0) {
+            builder.queryParam("count", offerFilter.getCount());
+        }
+
         return restTemplate.getForObject(builder.toUriString(), Map.class);
     }
 

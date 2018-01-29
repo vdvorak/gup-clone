@@ -17,5 +17,6 @@ public class RentOfferFilter extends CommonOfferFilter {
 
     private String dtRentEnd;
 
+    @ApiModelProperty(value = "rent objects count")
     private Integer count;
 }

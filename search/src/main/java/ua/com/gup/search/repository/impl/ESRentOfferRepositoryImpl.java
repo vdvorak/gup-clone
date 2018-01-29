@@ -43,9 +43,7 @@ import ua.com.gup.search.model.filter.rent.*;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -53,6 +51,7 @@ import java.util.*;
 @Repository
 public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
+    private static final int MAX_RENT_COUNT = 100;
     @Autowired
     private Environment e;
     private static final String RENT_INDEX = "heroku_lktlmxlq_rent";
@@ -196,6 +195,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         }
         if (offerFilter.getMultiAttrs() != null) {
             for (AttributeFilter attrFilter : offerFilter.getMultiAttrs()) {
+                boolQueryBuilder.must(new TermsQueryBuilder("multiAttrs." + attrFilter.getKey() + ".selected.key", attrFilter.getVals().split(",")));
 //                query.addCriteria(Criteria.where("multiAttrs." + attrFilter.getKey() + ".selected").elemMatch(Criteria.where("key").in(attrFilter.getVals().split(","))));
             }
         }
@@ -248,6 +248,9 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             childQueryBuilder.must(rentEndDateBuilder);
 
             HasChildQueryBuilder hasChildQueryBuilder = new HasChildQueryBuilder("calendar", childQueryBuilder, ScoreMode.None);
+            if (offerFilter.getCount() != null) {
+                hasChildQueryBuilder.minMaxChildren(offerFilter.getCount(), MAX_RENT_COUNT);
+            }
             while (rentStart.isBefore(rentEnd)) {
                 childQueryBuilder.must(new TermQueryBuilder("daysMap." + formatter.format(rentStart) + ".dayStatus", "free"));
                 rentStart = rentStart.plusDays(1);

@@ -1,7 +1,9 @@
 package ua.com.gup.rent.api;
 
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,28 +84,6 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
             responseContainer = "List"
     )
 
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful retrieval of user detail", response = RentOfferViewShortDTO.class),
-            @ApiResponse(code = 500, message = "Internal server error")
-    })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
-                    value = "Results page you want to retrieve (0..N)"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-                    value = "Number of records per page."),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                    value = "Sorting criteria in the format: property(,asc|desc). " +
-                            "Default sort order is ascending. " +
-                            "Multiple sort criteria are supported. " +
-                            "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
-    })
-    @GetMapping(value = "/offers")
-    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) {
-        log.debug("REST request to get a page of Offers");
-        Page<RentOfferViewShortDTO> page = offerService.findAll(offerFilter, pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
     @PreAuthorize("hasAuthority('CREATE_OFFER')")
     @RequestMapping(value = "/offers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createOffer(@Valid @RequestBody RentOfferCreateDTO offerCreateDTO) throws CommandException {
@@ -125,6 +105,8 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
         executor.doCommand(updateRentOfferCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
     /**
      * GET  /offers/:seoUrl : get the "seoUrl" rent offer.
@@ -355,8 +337,8 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
     public ResponseEntity<RentOfferViewDetailsDTO> getOfferById(@PathVariable String id) {
         log.debug("REST request to get Offer by ID : {}", id);
         Optional<RentOfferViewDetailsDTO> offerDetailsDTO = offerService.findOne(id);
-        if(offerDetailsDTO.isPresent()){
-            return new ResponseEntity(offerDetailsDTO.get(),HttpStatus.OK);
+        if (offerDetailsDTO.isPresent()) {
+            return new ResponseEntity(offerDetailsDTO.get(), HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
 

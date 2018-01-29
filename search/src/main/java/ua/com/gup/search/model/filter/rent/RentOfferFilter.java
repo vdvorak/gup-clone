@@ -43,4 +43,6 @@ public class RentOfferFilter {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dtRentEnd;
 
+    private Integer count;
+
 }
