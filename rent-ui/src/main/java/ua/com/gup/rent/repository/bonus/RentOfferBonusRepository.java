@@ -9,8 +9,9 @@ import java.util.Optional;
 /**
  * @author Victor Dvorak
  **/
-public interface RentOfferBonusRepository extends MongoRepository<RentOfferBonus, String>,RentOfferGenericRepository<RentOfferBonus,String> {
+public interface RentOfferBonusRepository extends MongoRepository<RentOfferBonus, String>, RentOfferGenericRepository<RentOfferBonus, String> {
     //this implements MongoRepository method
     Optional<RentOfferBonus> findOneByCode(String code);
+
     Optional<RentOfferBonus> findOneByName(String name);
 }

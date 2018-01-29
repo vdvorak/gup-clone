@@ -12,11 +12,12 @@ import javax.annotation.PostConstruct;
  **/
 @Repository
 @Qualifier("rentOfferBonusRepositoryImpl")
-public  class RentOfferBonusRepositoryImpl extends RentOfferGenericRepositoryImpl<RentOfferBonus,String> {
+public class RentOfferBonusRepositoryImpl extends RentOfferGenericRepositoryImpl<RentOfferBonus, String> {
 
     public RentOfferBonusRepositoryImpl() {
         super(RentOfferBonus.class);
     }
+
     @PostConstruct
     void init() {
         if (!mongoTemplate.collectionExists(RentOfferBonus.class)) {

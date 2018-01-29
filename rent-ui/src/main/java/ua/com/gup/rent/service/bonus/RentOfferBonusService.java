@@ -12,12 +12,17 @@ import java.util.SortedSet;
 /**
  * @author Victor Dvorak
  **/
-public interface RentOfferBonusService extends RentOfferGenericService<RentOfferBonusDTO,String> {
+public interface RentOfferBonusService extends RentOfferGenericService<RentOfferBonusDTO, String> {
 
     RentOfferBonus save(RentOfferBonusDTO rentOfferCategoryAttributeCreateDTO);
+
     List<RentOfferBonus> findAll();
+
     RentOfferBonus findOne(String id);
+
     Optional<RentOfferBonus> findOneByCode(String code);
+
     void delete(String id);
+
     Map<Integer, SortedSet<RentOfferBonusDTO>> findAllRentOfferBonusDTO();
 }

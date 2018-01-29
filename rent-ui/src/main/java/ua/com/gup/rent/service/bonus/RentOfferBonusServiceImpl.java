@@ -17,7 +17,7 @@ import java.util.SortedSet;
  * @author Victor Dvorak
  **/
 @Service
-public  class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferBonusDTO,String> implements RentOfferBonusService  {
+public class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferBonusDTO, String> implements RentOfferBonusService {
 
     @Autowired
     public RentOfferBonusServiceImpl(@Qualifier("rentOfferBonusRepositoryImpl") RentOfferGenericRepository rentOfferGenericRepository) {
