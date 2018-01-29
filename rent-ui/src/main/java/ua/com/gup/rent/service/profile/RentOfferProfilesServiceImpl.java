@@ -172,8 +172,7 @@ public class RentOfferProfilesServiceImpl extends CommonProfileServiceImpl<RentO
         return new PageImpl<>(result, pageable, count);
     }
 
-    @Autowired
-    private OperationService operationService;
+
     @Override
     public UserProfileManagerDto findUserProfile(String profilePublicId) {
         RentOfferUserProfile user = rentOfferProfileRepository.findByPublicId(profilePublicId, RentOfferUserProfile.class);
