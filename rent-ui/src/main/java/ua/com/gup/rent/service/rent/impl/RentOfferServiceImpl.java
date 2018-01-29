@@ -267,11 +267,19 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         Optional<RentOffer> offer = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final RentOffer o = offer.get();
-            if (CommonStatus.ACTIVE.equals(o.getStatus())) {
-                o.incrementView(true, false);
-                offerMongoRepository.save(o);
-            } else {
-                offer = Optional.empty();
+            switch (o.getStatus()) {
+                case ACTIVE:
+                    o.incrementView(true, false);
+                    offerMongoRepository.save(o);
+                    break;
+                case ON_MODERATION:
+                case DEACTIVATED:
+                    GupLoggedUser loggedUser = RentSecurityUtils.getLoggedUser();
+                    if (loggedUser != null && loggedUser.getId().equals(o.getAuthorId())) {
+                        break;
+                    }
+                default:
+                    offer = Optional.empty();
             }
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
@@ -462,12 +470,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
 
-        //todo FOR dima SaveImages
-        //if (offerUpdateDTO.getImages() != null) {
-        // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
-        // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-        //  }
-        //}
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation
