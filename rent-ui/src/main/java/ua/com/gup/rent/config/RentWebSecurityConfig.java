@@ -59,7 +59,12 @@ public class RentWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+
+                .and()
+                .logout()
+                .logoutUrl("/api/users/logout");
+
         http.addFilterBefore(new CsrfTokenRequestBindingFilter(), CsrfFilter.class);
         http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
     }
