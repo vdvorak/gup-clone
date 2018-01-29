@@ -11,11 +11,8 @@ import javax.annotation.PostConstruct;
  * @author Victor Dvorak
  **/
 @Repository
-@Qualifier("rentBonusRepository")
+@Qualifier("rentOfferBonusRepositoryImpl")
 public  class RentOfferBonusRepositoryImpl extends RentOfferGenericRepositoryImpl<RentOfferBonus,String> {
-
-   /* @Autowired
-    private RentOfferBonusRepository rentOfferBonusRepository;*/
 
     public RentOfferBonusRepositoryImpl() {
         super(RentOfferBonus.class);
@@ -26,12 +23,4 @@ public  class RentOfferBonusRepositoryImpl extends RentOfferGenericRepositoryImp
             mongoTemplate.createCollection(RentOfferBonus.class);
         }
     }
-
-    /*public Optional<RentOfferBonus> findOneByCode(String code) {
-        return rentOfferBonusRepository.findOneByCode(code);
-    }
-
-    public Optional<RentOfferBonus> findOneByName(String name) {
-        return rentOfferBonusRepository.findOneByName(name);
-    }*/
 }

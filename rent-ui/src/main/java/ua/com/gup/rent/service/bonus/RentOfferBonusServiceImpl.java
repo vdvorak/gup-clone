@@ -20,7 +20,7 @@ import java.util.SortedSet;
 public  class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferBonusDTO,String> implements RentOfferBonusService  {
 
     @Autowired
-    public RentOfferBonusServiceImpl(@Qualifier("rentBonusRepository") RentOfferGenericRepository rentOfferGenericRepository) {
+    public RentOfferBonusServiceImpl(@Qualifier("rentOfferBonusRepositoryImpl") RentOfferGenericRepository rentOfferGenericRepository) {
         super(rentOfferGenericRepository);
     }
 
