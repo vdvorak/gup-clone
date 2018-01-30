@@ -81,7 +81,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     public boolean hasManager(String profilePublicId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
-        query.addCriteria(Criteria.where("manager").exists(true));
+        query.addCriteria(Criteria.where("rentManager").exists(true));
         return mongoTemplate.exists(query, RentOfferUserProfile.class);
     }
 
@@ -95,7 +95,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     @Override
     public List<RentOfferUserProfile> findUsersByManager(String managerId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(managerId));
+        query.addCriteria(Criteria.where("rentManager").is(managerId));
         return mongoTemplate.find(query, RentOfferUserProfile.class);
     }
 
@@ -103,7 +103,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     public RentOfferUserProfile getManagerUser(String managerPublicId, String publicId) {
         String managerId = getIdByPulblicId(managerPublicId);
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(managerId));
+        query.addCriteria(Criteria.where("rentManager").is(managerId));
         query.addCriteria(Criteria.where("publicId").is(publicId));
         return mongoTemplate.findOne(query, RentOfferUserProfile.class);
     }
@@ -240,7 +240,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         if (!StringUtils.isEmpty(filter.getManagerPublicId())) {
             String managerId = getIdByPulblicId(filter.getManagerPublicId());
             if (managerId != null) {
-                query.addCriteria(Criteria.where("manager").is(managerId));
+                query.addCriteria(Criteria.where("rentManager").is(managerId));
             }
         }
 
@@ -248,7 +248,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
             List<RentOfferProfile> managers = findLikeUsername(filter.getManagerUsername());
             if (managers!=null && !managers.isEmpty()) {
                 List<String> managerIds = managers.stream().map(profile -> profile.getId()).collect(Collectors.toList());
-                query.addCriteria(Criteria.where("manager").in(managerIds));
+                query.addCriteria(Criteria.where("rentManager").in(managerIds));
             }
         }
 
