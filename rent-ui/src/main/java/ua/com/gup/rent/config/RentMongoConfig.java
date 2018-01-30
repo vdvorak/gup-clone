@@ -48,7 +48,11 @@ public class RentMongoConfig {
         MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), mappingContext);
         mappingMongoConverter.setCustomConversions(new CustomConversions(Arrays.asList(
                 new RentJSR310DateConverters.DateToZonedDateTimeConverter(),
-                new RentJSR310DateConverters.ZonedDateTimeToDateConverter()
+                new RentJSR310DateConverters.ZonedDateTimeToDateConverter(),
+                new RentJSR310DateConverters.DateToLocalDateConverter(),
+                new RentJSR310DateConverters.LocalDateToDateConverter(),
+                new RentJSR310DateConverters.LocalDateTimeToDateConverter(),
+                new RentJSR310DateConverters.DateToLocalDateTimeConverter()
         )));
         return mappingMongoConverter;
     }
