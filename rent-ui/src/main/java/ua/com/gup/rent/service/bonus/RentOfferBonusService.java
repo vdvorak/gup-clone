@@ -1,22 +1,22 @@
 package ua.com.gup.rent.service.bonus;
 
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
-import ua.com.gup.rent.service.dto.bonus.RentOfferBonusDTO;
+import ua.com.gup.rent.service.dto.bonus.RentOfferCreateBonusDTO;
 
 import java.util.List;
 
 /**
  * @author Victor Dvorak
  **/
-public interface RentOfferBonusService extends RentOfferGenericService<RentOfferBonusDTO, String> {
+public interface RentOfferBonusService extends RentOfferGenericService<RentOfferCreateBonusDTO, String> {
 
-    void save(RentOfferBonusDTO rentOfferBonusDTO);
+    void save(RentOfferCreateBonusDTO rentOfferCreateBonusDTO);
 
-    List<RentOfferBonusDTO> findAll();
+    List<RentOfferCreateBonusDTO> findAll();
 
-    RentOfferBonusDTO findOneByCode(String code);
+    RentOfferCreateBonusDTO findOneByCode(String code);
 
-    RentOfferBonusDTO findOneByName(String name);
+    RentOfferCreateBonusDTO findOneByName(String name);
 
     void delete(String id);
 

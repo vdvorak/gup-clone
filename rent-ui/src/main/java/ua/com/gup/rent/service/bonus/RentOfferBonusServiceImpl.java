@@ -6,7 +6,7 @@ import ua.com.gup.rent.mapper.RentOfferBonusMapper;
 import ua.com.gup.rent.model.mongo.bonus.RentOfferBonus;
 import ua.com.gup.rent.repository.bonus.RentOfferBonusRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
-import ua.com.gup.rent.service.dto.bonus.RentOfferBonusDTO;
+import ua.com.gup.rent.service.dto.bonus.RentOfferCreateBonusDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Victor Dvorak
  **/
 @Service
-public class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferBonusDTO, String> implements RentOfferBonusService {
+public class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentOfferCreateBonusDTO, String> implements RentOfferBonusService {
 
     @Autowired
     RentOfferBonusMapper rentOfferBonusMapper;
@@ -26,27 +26,27 @@ public class RentOfferBonusServiceImpl extends RentOfferGenericServiceImpl<RentO
     }
 
     @Override
-    public void save(RentOfferBonusDTO rentOfferBonusDTO) {
-        RentOfferBonus rentOfferBonus = rentOfferBonusMapper.fromDTOToModel(rentOfferBonusDTO);
+    public void save(RentOfferCreateBonusDTO rentOfferCreateBonusDTO) {
+        RentOfferBonus rentOfferBonus = rentOfferBonusMapper.fromDTOToModel(rentOfferCreateBonusDTO);
         getRepository().create(rentOfferBonus);
     }
 
     @Override
-    public List<RentOfferBonusDTO> findAll() {
-        List<RentOfferBonusDTO> listRentOfferBonusDTO = new ArrayList<RentOfferBonusDTO>();
+    public List<RentOfferCreateBonusDTO> findAll() {
+        List<RentOfferCreateBonusDTO> listRentOfferCreateBonusDTO = new ArrayList<RentOfferCreateBonusDTO>();
         for (Object item : getRepository().findAll()) {
-            listRentOfferBonusDTO.add(rentOfferBonusMapper.fromModelToDTO((RentOfferBonus) item));
+            listRentOfferCreateBonusDTO.add(rentOfferBonusMapper.fromModelToDTO((RentOfferBonus) item));
         }
-        return listRentOfferBonusDTO;
+        return listRentOfferCreateBonusDTO;
     }
 
     @Override
-    public RentOfferBonusDTO findOneByCode(String code) {
+    public RentOfferCreateBonusDTO findOneByCode(String code) {
         return rentOfferBonusMapper.fromModelToDTO(getRepository().findOneByCode(code));
     }
 
     @Override
-    public RentOfferBonusDTO findOneByName(String name) {
+    public RentOfferCreateBonusDTO findOneByName(String name) {
         return rentOfferBonusMapper.fromModelToDTO(getRepository().findOneByName(name));
     }
 
