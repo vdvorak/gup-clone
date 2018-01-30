@@ -251,6 +251,25 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     }
 
     @Override
+    public Integer calculatePrice(RentOfferFilter offerFilter) {
+        UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers/price/calculate");
+        if (!StringUtils.isEmpty(offerFilter.getDtRentStart())) {
+            builder.queryParam("dtRentStart", offerFilter.getDtRentStart());
+        }
+        if (!StringUtils.isEmpty(offerFilter.getDtRentEnd())) {
+            builder.queryParam("dtRentEnd", offerFilter.getDtRentEnd());
+        }
+        if (offerFilter.getSeoUrls() != null) {
+            builder.queryParam("seoUrls", String.join(",", offerFilter.getSeoUrls()));
+        }
+        if (offerFilter.getCount() != null && offerFilter.getCount() > 0) {
+            builder.queryParam("count", offerFilter.getCount());
+        }
+        return restTemplate.getForObject(builder.toUriString(), Integer.class);
+    }
+
+
+    @Override
     public String[] findSuggests(String query) {
         UriComponents uriComponents = uriComponentsBuilder.cloneBuilder()
                 .path("/offers/suggest")

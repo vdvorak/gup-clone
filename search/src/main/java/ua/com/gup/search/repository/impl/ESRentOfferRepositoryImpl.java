@@ -17,7 +17,9 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.join.query.HasChildQueryBuilder;
+import org.elasticsearch.join.query.HasParentQueryBuilder;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -39,8 +41,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
+import ua.com.gup.search.model.domain.RentOfferCalendarDayType;
 import ua.com.gup.search.model.filter.rent.*;
 import ua.com.gup.search.repository.ESRentOfferRepository;
+import ua.com.gup.search.util.ElasticSearchRequestFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -56,6 +60,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
     private Environment e;
     private static final String RENT_INDEX = "heroku_lktlmxlq_rent";
     private static final String OFFER_TYPE = "offer";
+    private static final String CALENDAR_TYPE = "calendar";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //it thread safe
 
     private static final List<String> rentOfferIndexFields = Arrays.asList("seoUrl", "title", "description",
             "createdDate",
@@ -84,9 +90,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
     @Override
     public List<ESCategoriesStatistic> countOffersInCategoriesByStatusAndProfileId(String offerStatus, String profileId) throws IOException {
-        SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices(RENT_INDEX);
-        searchRequest.types(OFFER_TYPE);
+
+        SearchRequest searchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource(false);
@@ -129,7 +134,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         }
 
         if (!StringUtils.isEmpty(offerFilter.getSeoUrls())) {
-            boolQueryBuilder.must(new TermQueryBuilder("seoUrl", offerFilter.getSeoUrls()));
+            boolQueryBuilder.must(new TermsQueryBuilder("seoUrl", offerFilter.getSeoUrls()));
         }
 
         if (offerFilter.getAuthorFilter() != null && !StringUtils.isEmpty(offerFilter.getAuthorFilter().getAuthorId())) {
@@ -140,11 +145,11 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             boolQueryBuilder.mustNot(new TermQueryBuilder("_id", excludedIds));
         }
 
-        if (!CollectionUtils.isEmpty(statusList)) {
-            boolQueryBuilder.must(new TermsQueryBuilder("status", statusList));
-        } else {
-            boolQueryBuilder.must(new TermQueryBuilder("status", "active"));
-        }
+//        if (!CollectionUtils.isEmpty(statusList)) {
+//            boolQueryBuilder.must(new TermsQueryBuilder("status", statusList));
+//        } else {
+//            boolQueryBuilder.must(new TermQueryBuilder("status", "active"));
+//        }
 
         CoordinatesFilter coordinatesFilter = offerFilter.getCoordinates();
         if (coordinatesFilter != null) {
@@ -217,15 +222,18 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             }
         }
 
+
+        boolQueryBuilder = appendRentPeriodConditionChildrenFilter(boolQueryBuilder, offerFilter);
+        return boolQueryBuilder;
+    }
+
+    private BoolQueryBuilder appendRentPeriodConditionChildrenFilter(BoolQueryBuilder boolQueryBuilder, RentOfferCalculateRentPriceFilter offerFilter) {
         LocalDate rentStart = offerFilter.getDtRentStart();
         LocalDate rentEnd = offerFilter.getDtRentEnd();
-
-
         if (rentStart != null
                 && rentEnd != null && (rentStart.isBefore(rentEnd))) {
 
-
-            long daysDiff = ChronoUnit.DAYS.between(rentStart, rentEnd);
+            long daysDiff = ChronoUnit.DAYS.between(rentStart, rentEnd.plusDays(1)); // second temporal parameter is exclusive, then plusDays(1)!
 
             RangeQueryBuilder maxRentDaysRangeBuilder = new RangeQueryBuilder("settings.maxRentDays");
             maxRentDaysRangeBuilder.gte(daysDiff);
@@ -236,8 +244,6 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             minRentDaysRangeBuilder.lte(daysDiff);
             boolQueryBuilder.must(minRentDaysRangeBuilder);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
             BoolQueryBuilder childQueryBuilder = new BoolQueryBuilder();
             RangeQueryBuilder rentStartDateBuilder = new RangeQueryBuilder("rentStartDate");
             rentStartDateBuilder.lte(rentStart.format(formatter));
@@ -247,7 +253,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             rentEndDateBuilder.gte(rentEnd.format(formatter));
             childQueryBuilder.must(rentEndDateBuilder);
 
-            HasChildQueryBuilder hasChildQueryBuilder = new HasChildQueryBuilder("calendar", childQueryBuilder, ScoreMode.None);
+            HasChildQueryBuilder hasChildQueryBuilder = new HasChildQueryBuilder(CALENDAR_TYPE, childQueryBuilder, ScoreMode.None);
             if (offerFilter.getCount() != null) {
                 hasChildQueryBuilder.minMaxChildren(offerFilter.getCount(), MAX_RENT_COUNT);
             }
@@ -256,9 +262,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
                 rentStart = rentStart.plusDays(1);
             }
             boolQueryBuilder.must(hasChildQueryBuilder);
-
         }
-
         return boolQueryBuilder;
     }
 
@@ -266,9 +270,7 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
     @Override
     public Page findIdsByFilter(RentOfferFilter offerFilter, Pageable pageable) throws IOException {
 
-        SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices(RENT_INDEX);
-        searchRequest.types(OFFER_TYPE);
+        SearchRequest searchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.fetchSource("rentOfferId", "");
@@ -303,6 +305,91 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
         Page page = new PageImpl(ids, pageable, total);
         return page;
 
+    }
+
+    public Integer calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
+
+        Integer totalCost = new Integer(0);
+
+        SearchRequest searchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, OFFER_TYPE);
+
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.fetchSource(new String[]{"price"}, new String[]{});
+        searchSourceBuilder.size(1);
+
+        searchRequest.source(searchSourceBuilder);
+
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        if (!StringUtils.isEmpty(filter.getSeoUrls())) {
+            boolQueryBuilder.must(new TermsQueryBuilder("seoUrl", filter.getSeoUrls()));
+        }
+        boolQueryBuilder = appendRentPeriodConditionChildrenFilter(boolQueryBuilder, filter);
+
+        searchSourceBuilder.query(boolQueryBuilder);
+
+        SearchResponse response = esClient.search(searchRequest);
+
+        long total = response.getHits().getTotalHits();
+        if (total == 1) {
+
+            SearchHit rentOfferSearchHit = response.getHits().getHits()[0];
+            SearchRequest calendarSearchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, CALENDAR_TYPE);
+
+            SearchSourceBuilder calendarSearchSourceBuilder = new SearchSourceBuilder();
+            List<String> includes = new ArrayList<>();
+
+            LocalDate date = filter.getDtRentStart();
+            while (date.isBefore(filter.getDtRentEnd()) || date.isEqual(filter.getDtRentEnd())) {
+                includes.add("daysMap.".concat(formatter.format(date)));
+                date = date.plusDays(1);
+            }
+
+            calendarSearchSourceBuilder.fetchSource(includes.toArray(new String[includes.size()]), new String[]{});
+            calendarSearchSourceBuilder.size(1);
+
+            BoolQueryBuilder calendarBoolQueryBuilder = new BoolQueryBuilder();
+
+            BoolQueryBuilder parentQueryBuilder = new BoolQueryBuilder();
+            parentQueryBuilder.must(new TermsQueryBuilder("_id", rentOfferSearchHit.getId()));
+
+            HasParentQueryBuilder hasParentQueryBuilder = new HasParentQueryBuilder(OFFER_TYPE, parentQueryBuilder, false);
+            calendarBoolQueryBuilder.must(hasParentQueryBuilder);
+
+            calendarSearchSourceBuilder.query(calendarBoolQueryBuilder);
+            calendarSearchRequest.source(calendarSearchSourceBuilder);
+
+            SearchResponse innerResponse = esClient.search(calendarSearchRequest);
+            SearchHits searchhits = innerResponse.getHits();
+            if (searchhits != null) {
+
+                HashMap<String, Integer> priceMap = (HashMap<String, Integer>) rentOfferSearchHit.getSource().get("price");
+                Integer businessDayCost = priceMap.get("businessDayCost");
+                Integer weekendDayCost = priceMap.get("weekendDayCost");
+                Integer holidayDayCost = priceMap.get("holidayDayCost");
+
+                for (SearchHit hit : searchhits.getHits()) {
+                    Map<String, HashMap<String, Object>> daysMap = (HashMap) hit.getSource().get("daysMap");
+                    for (HashMap<String, Object> hashMap : daysMap.values()) {
+                        RentOfferCalendarDayType type = RentOfferCalendarDayType.fromInteger((Integer) hashMap.get("type"));
+                        switch (type) {
+                            case BUSINESS:
+                                totalCost += businessDayCost;
+                                break;
+                            case WEEKEND:
+                                totalCost += weekendDayCost;
+                                break;
+                            case HOLIDAY:
+                                totalCost += holidayDayCost;
+                                break;
+                            case CUSTOM:
+                                totalCost += 0;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return totalCost;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RentOfferFilter {
+public class RentOfferFilter extends RentOfferCalculateRentPriceFilter {
 
     private String query;
 
@@ -32,17 +32,16 @@ public class RentOfferFilter {
 
     private List<BooleanAttributeFilter> boolAttrs = new ArrayList<>();
 
-    private String[] seoUrls;
-
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate dtRentStart;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate dtRentEnd;
+    public RentOfferFilter(RentOfferCalculateRentPriceFilter filter) {
+        this.count = filter.getCount();
+        this.dtRentStart = filter.getDtRentStart();
+        this.dtRentEnd = filter.getDtRentEnd();
+        this.seoUrls = filter.getSeoUrls();
+    }
 
-    private Integer count;
 
 }

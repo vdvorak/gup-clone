@@ -76,6 +76,14 @@ public class RentSearchEndpoint {
         return new ResponseEntity(pageByFilter, HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/offers/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity calculateRentPrice(RentOfferFilter offerFilter) {
+        Integer price = searchService.calculatePrice(offerFilter);
+        return new ResponseEntity<>("{\"price\":+" + price + "}", HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/offers/categories/count", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity countProfileActiveOffersByCategory(@RequestParam(name = "profilePublicId") String profilePublicId) {
