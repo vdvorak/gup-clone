@@ -35,13 +35,4 @@ public class RentOfferFilter extends RentOfferCalculateRentPriceFilter {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
 
-
-    public RentOfferFilter(RentOfferCalculateRentPriceFilter filter) {
-        this.count = filter.getCount();
-        this.dtRentStart = filter.getDtRentStart();
-        this.dtRentEnd = filter.getDtRentEnd();
-        this.seoUrls = filter.getSeoUrls();
-    }
-
-
 }
