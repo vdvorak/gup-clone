@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.gup.common.GupLoggedUser;
-import ua.com.gup.rent.service.profile.RentOfferProfilesService;
+import ua.com.gup.rent.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class RentOfferUserEndpoint {
 
 
     @Autowired
-    private RentOfferProfilesService rentOfferProfilesService;
+    private ProfilesService profilesService;
 
     @GetMapping(path = "/authenticate")
     public String isAuthenticated(HttpServletRequest request) {
@@ -43,6 +43,6 @@ public class RentOfferUserEndpoint {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         GupLoggedUser user = (GupLoggedUser) principal;
-        return new ResponseEntity<>(rentOfferProfilesService.findUserProfile(user.getPublicId()), HttpStatus.OK);
+        return new ResponseEntity<>(profilesService.findUserProfile(user.getPublicId()), HttpStatus.OK);
     }
 }
