@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.common.annotation.Email;
 import ua.com.gup.common.annotation.Password;
 import ua.com.gup.common.model.ImageFileInfo;
@@ -17,7 +16,6 @@ import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.mongo.profile.ProfileStatistic;
 import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
 import ua.com.gup.common.model.mongo.profile.phone.DBStorePhones;
-import ua.com.gup.common.model.security.Role;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;

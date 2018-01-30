@@ -2,10 +2,11 @@ package ua.com.gup.rent.service.dto.category;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RentOfferCategoryDTO {
+public class RentOfferCategoryDTO implements Serializable {
 
     @ApiModelProperty(example = "code")
     private int code;

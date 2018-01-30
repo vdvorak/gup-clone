@@ -19,7 +19,6 @@ import ua.com.gup.common.model.mongo.profile.Contact;
 import ua.com.gup.common.model.mongo.profile.FinanceInfo;
 import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.OperationService;
 import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
 import ua.com.gup.dto.profile.CreateProfileDTO;

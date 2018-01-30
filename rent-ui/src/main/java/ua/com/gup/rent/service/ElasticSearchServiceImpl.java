@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.filter.*;
-import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;
