@@ -12,11 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
-import ua.com.gup.rent.service.dto.search.CategoryStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.ElasticSearchService;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
+import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryStatistic;
 import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
@@ -80,7 +80,7 @@ public class RentSearchEndpoint {
     @RequestMapping(value = "/offers/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity calculateRentPrice(RentOfferFilter offerFilter) {
         Integer price = searchService.calculatePrice(offerFilter);
-        return new ResponseEntity<>("{\"price\":+" + price + "}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"price\":" + price + "}", HttpStatus.OK);
     }
 
 
