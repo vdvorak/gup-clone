@@ -1,4 +1,4 @@
-package ua.com.gup.rent.api.search;
+package ua.com.gup.rent.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.*;
@@ -12,8 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
-import ua.com.gup.rent.api.search.dto.CategoryStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.ElasticSearchService;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;

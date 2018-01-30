@@ -1,7 +1,7 @@
 package ua.com.gup.rent.service;
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;

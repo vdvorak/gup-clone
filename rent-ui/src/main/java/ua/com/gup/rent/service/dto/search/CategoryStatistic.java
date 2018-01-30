@@ -1,4 +1,4 @@
-package ua.com.gup.rent.api.search.dto;
+package ua.com.gup.rent.service.dto.search;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
