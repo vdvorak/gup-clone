@@ -26,7 +26,8 @@ public class RentOfferCalendarServiceImpl extends RentOfferGenericServiceImpl<Re
 
     @Override
     public void createRentOfferCalendars(RentOffer rentOffer) {
-        for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
+        RentOfferCalendar rentOfferCalendar = rentOffer.getRentOfferCalendar();
+        for (int i = 0; i < rentOffer.getRentObjectsCount(); i++) {
             RentOfferCalendarChild rentOfferCalendarChild = new RentOfferCalendarChild();
             rentOfferCalendarChild.setRentStartDate(rentOfferCalendar.getRentStartDate());
             rentOfferCalendarChild.setRentEndDate(rentOfferCalendar.getRentEndDate());
@@ -35,6 +36,7 @@ public class RentOfferCalendarServiceImpl extends RentOfferGenericServiceImpl<Re
                     rentOfferCalendar.getRentEndDate(), Arrays.asList(rentOfferCalendar.getDays())));
             getRepository().create(rentOfferCalendarChild);
         }
+
     }
 
     @Override

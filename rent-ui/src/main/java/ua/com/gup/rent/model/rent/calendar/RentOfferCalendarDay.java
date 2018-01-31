@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(value = "currency", ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"currency", "dayStatus"}, ignoreUnknown = true)
 public class RentOfferCalendarDay {
 
-    //    private RentOfferCalendarDayType type;
-    private int type;
+    private int type; // RentOfferCalendarDayType type
     private BigDecimal price;
     private CommonCurrency currency;
     private RentOfferCalendarDayStatus dayStatus;

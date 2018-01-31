@@ -19,8 +19,6 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Document(collection = ObjectType.RENT_OFFER, language = "russian")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -40,8 +38,12 @@ public class RentOffer extends CommonRentOffer {
     private String deposit;
     private RentOfferStatistic statistic;
     private RentOfferSettings settings;
-    private List<RentOfferCalendar> rentOfferCalendars;
+    private RentOfferCalendar rentOfferCalendar;
+    private Integer rentObjectsCount;
 
+    public RentOffer() {
+        rentObjectsCount = 1;
+    }
 
     @Override
     @CreatedDate
@@ -60,14 +62,6 @@ public class RentOffer extends CommonRentOffer {
             statistic = new RentOfferStatistic();
         }
         return statistic;
-    }
-
-
-    public List<RentOfferCalendar> getRentOfferCalendars() {
-        if (rentOfferCalendars == null) {
-            rentOfferCalendars = new ArrayList<>();
-        }
-        return rentOfferCalendars;
     }
 
     public void incrementView(boolean incrementOfferViews, boolean incrementOfferPhoneViews) {

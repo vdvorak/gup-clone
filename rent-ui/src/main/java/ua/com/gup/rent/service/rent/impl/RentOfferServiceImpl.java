@@ -18,9 +18,7 @@ import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
 import ua.com.gup.rent.model.mongo.user.Profile;
-import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
@@ -129,19 +127,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         offer.setLastModifiedUser(loggedUser);
         offer.setAuthorId(loggedUser.getId());
 
-        LocalDate startDate = rentOfferCreateDTO.getCalendar().getStartDate();
-        LocalDate endDate = rentOfferCreateDTO.getCalendar().getEndDate();
-        List<RentOfferCalendarDay> days = rentOfferCreateDTO.getCalendar().getDays();
-
-        for (int i = 0; i < rentOfferCreateDTO.getCount(); i++) {
-            RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(startDate, endDate);
-            rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
-            offer.getRentOfferCalendars().add(rentOfferCalendar);
-
-
-        }
         offer = createWrapper(offer);
-
 
         return offer;
     }
@@ -543,7 +529,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
                 trgt.setAddress(to.getAddress());
             }
             trgt.setStatistic(new RentOfferStatistic());
-            trgt.setRentOfferCalendars(src.getRentOfferCalendars());
+            trgt.setRentOfferCalendar(src.getRentOfferCalendar());
+            trgt.setRentObjectsCount(src.getRentObjectsCount());
             trgt = createWrapper(trgt);
 
         }

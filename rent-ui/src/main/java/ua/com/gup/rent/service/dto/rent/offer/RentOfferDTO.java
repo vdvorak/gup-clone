@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 
@@ -18,4 +19,8 @@ public abstract class RentOfferDTO implements Serializable {
     @ApiModelProperty(position = 20, example = "description")
     private String description;
 
+    public void setDescription(String description) {
+        if (!StringUtils.isEmpty(description))
+            this.description = description.replaceAll("\\s+", " ");
+    }
 }

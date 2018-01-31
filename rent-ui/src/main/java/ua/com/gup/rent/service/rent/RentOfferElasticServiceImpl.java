@@ -24,7 +24,8 @@ public class RentOfferElasticServiceImpl implements RentOfferElasticService {
     public void createElasticRentOffer(RentOffer rentOffer) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
+        RentOfferCalendar rentOfferCalendar = rentOffer.getRentOfferCalendar();
+        for (int i = 0; i < rentOffer.getRentObjectsCount(); i++) {
             ElasticRentOffer elasticRentOffer = new ElasticRentOffer(rentOffer);
 
             RentOfferCalendarInterval interval = new RentOfferCalendarInterval();
