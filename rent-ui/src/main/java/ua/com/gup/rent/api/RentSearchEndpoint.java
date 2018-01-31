@@ -17,7 +17,7 @@ import ua.com.gup.rent.service.ElasticSearchService;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.service.dto.search.CategoryStatistic;
-import ua.com.gup.rent.service.profile.RentOfferProfilesService;
+import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class RentSearchEndpoint {
     private final Logger log = LoggerFactory.getLogger(RentSearchEndpoint.class);
 
     @Autowired
-    private RentOfferProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
     private RentOfferService offerService;

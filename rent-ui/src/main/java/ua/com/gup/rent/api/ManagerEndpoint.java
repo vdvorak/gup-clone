@@ -10,24 +10,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
-import ua.com.gup.common.mapper.manager.action.ManagerActionMapper;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.ManagerActionService;
-import ua.com.gup.common.service.UserRoleService;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileManagerDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
+import ua.com.gup.rent.service.dto.rent.offer.profile.ProfileDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerPrivateProfileDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileManagerDTO;
+import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.profile.ProfileFilter;
-import ua.com.gup.rent.service.profile.RentOfferProfilesService;
+import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.validation.Valid;
@@ -41,7 +39,7 @@ import java.util.Optional;
 public class ManagerEndpoint {
 
     @Autowired
-    private RentOfferProfilesService profilesService;
+    private ProfilesService profilesService;
     @Autowired
     private RentOfferService offerService;
     @Autowired
@@ -65,8 +63,8 @@ public class ManagerEndpoint {
     //MANAGER_READ_MANAGER
     @PreAuthorize("hasAuthority('READ_MANAGER_PROFILE')")
     @GetMapping(value = "/{managerPublicId}")
-    public ResponseEntity<RentOfferManagerPrivateProfileDto> findFullManagerProfileByPublicId(@PathVariable("managerPublicId") String managerPublicId) {
-        RentOfferManagerPrivateProfileDto profile = profilesService.findManagerPrivateProfileDTOForAdminByPublicId(managerPublicId);
+    public ResponseEntity<ManagerPrivateProfileDTO> findFullManagerProfileByPublicId(@PathVariable("managerPublicId") String managerPublicId) {
+        ManagerPrivateProfileDTO profile = profilesService.findManagerPrivateProfileDTOForAdminByPublicId(managerPublicId);
         return new ResponseEntity(profile, HttpStatus.OK);
     }
 
@@ -76,8 +74,8 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('SEARCH_PROFILES_MANAGER')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<UserProfileShortManagerDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
-        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
+    public ResponseEntity<Page<UserProfileShortManagerDTO>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
+        Page<UserProfileShortManagerDTO> profilesPageable = profilesService.findUserProfiles(filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -86,8 +84,8 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('READ_PROFILE_MANAGER')")
     @GetMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity<UserProfileManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
-        UserProfileManagerDto profile = profilesService.findUserProfile(profilePublicId);
+    public ResponseEntity<UserProfileManagerDTO> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
+        UserProfileManagerDTO profile = profilesService.findUserProfile(profilePublicId);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -101,7 +99,7 @@ public class ManagerEndpoint {
     //MANAGER_LINK_PROFILE
     @PreAuthorize("hasAuthority('LINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/link/{managerPublicId}")
-    public ResponseEntity<RentOfferProfileDTO> linkProfile(
+    public ResponseEntity<ProfileDTO> linkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
@@ -124,7 +122,7 @@ public class ManagerEndpoint {
     //MANAGER_UNLINK_PROFILE
     @PreAuthorize("hasAuthority('UNLINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/unlink/{managerPublicId}")
-    public ResponseEntity<RentOfferProfileDTO> unLinkProfile(
+    public ResponseEntity<ProfileDTO> unLinkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
@@ -148,11 +146,11 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('GET_MANAGER_USERS')")
     @GetMapping(value = "/{managerPublicId}/users")
-    public ResponseEntity<Page<UserProfileShortManagerDto>> getUsers(
+    public ResponseEntity<Page<UserProfileShortManagerDTO>> getUsers(
             @PathVariable("managerPublicId") String managerPublicId,
             ProfileFilter filter,
             Pageable pageable) {
-        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(managerPublicId, filter, pageable);
+        Page<UserProfileShortManagerDTO> profilesPageable = profilesService.findUserProfiles(managerPublicId, filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
 
     }
@@ -162,7 +160,7 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('GET_MANAGER_USER')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")
-    public ResponseEntity<UserProfileManagerDto> getUser(
+    public ResponseEntity<UserProfileManagerDTO> getUser(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId) {
 
@@ -174,7 +172,7 @@ public class ManagerEndpoint {
             return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
         }
 
-        UserProfileManagerDto user = profilesService.findUserProfile(userPublicId);
+        UserProfileManagerDTO user = profilesService.findUserProfile(userPublicId);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -187,7 +185,7 @@ public class ManagerEndpoint {
     public ResponseEntity creeateContactInfo(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId,
-            @RequestBody ManagerContactInfoEditDto contactInfoEditDto) {
+            @RequestBody ManagerContactInfoEditDTO contactInfoEditDto) {
 
         if (!profilesService.profileExistsByPublicId(userPublicId)) {
             return new ResponseEntity("error.user.not.found", HttpStatus.NOT_FOUND);
@@ -255,44 +253,44 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/actions")
-    public ResponseEntity<Page<ManagerActionDto>> searchActions(
+    public ResponseEntity<Page<ManagerActionDTO>> searchActions(
             ManagerActionFilter filter,
             Pageable pageable) {
-        Page<ManagerActionDto> actions = managerActionService.findAll(filter, pageable);
+        Page<ManagerActionDTO> actions = managerActionService.findAll(filter, pageable);
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/{managerPublicId}/actions")
-    public ResponseEntity<Page<ManagerActionDto>> searchManagerActions(
+    public ResponseEntity<Page<ManagerActionDTO>> searchManagerActions(
             @PathVariable("managerPublicId") String managerPublicId,
             ManagerActionFilter filter,
             Pageable pageable) {
 
         filter.setManagerPublicId(managerPublicId);
-        Page<ManagerActionDto> actions = managerActionService.findAll(filter, pageable);
+        Page<ManagerActionDTO> actions = managerActionService.findAll(filter, pageable);
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('READ_MANAGER_ACTION')")
     @GetMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> getAction(
+    public ResponseEntity<ManagerActionDTO> getAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
         if(!managerActionService.exists(actionId)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        ManagerActionDto action= managerActionService.getById(actionId);
+        ManagerActionDTO action= managerActionService.getById(actionId);
 
         return new ResponseEntity(action, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('CREATE_MANAGER_ACTION')")
     @PostMapping(value = "/{managerPublicId}/actions")
-    public ResponseEntity<ManagerActionDto> createAction(
+    public ResponseEntity<ManagerActionDTO> createAction(
             @PathVariable("managerPublicId") String managerPublicId,
-            @RequestBody @Valid ManagerActionDto dto) {
+            @RequestBody @Valid ManagerActionDTO dto) {
 
         dto.setId(null);
         if(StringUtils.isEmpty(dto.getManagerPublicId())){
@@ -305,10 +303,10 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('UPDATE_MANAGER_ACTION')")
     @PutMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> editAction(
+    public ResponseEntity<ManagerActionDTO> editAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId,
-            @RequestBody @Valid ManagerActionDto dto) {
+            @RequestBody @Valid ManagerActionDTO dto) {
 
         if(!managerActionService.exists(actionId)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -324,7 +322,7 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('DELETE_MANAGER_ACTION')")
     @DeleteMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> deleteAction(
+    public ResponseEntity<ManagerActionDTO> deleteAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
 

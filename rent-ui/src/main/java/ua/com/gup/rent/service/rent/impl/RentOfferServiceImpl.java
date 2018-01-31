@@ -19,7 +19,7 @@ import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
-import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
+import ua.com.gup.rent.model.mongo.user.Profile;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
@@ -235,7 +235,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Rent Offers by status = {} and authorId = {}", status, authorId);
-        RentOfferProfile profile = profileRepository.findById(authorId);
+        Profile profile = profileRepository.findById(authorId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
@@ -246,7 +246,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
-        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
@@ -441,7 +441,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
-        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortDTO>(Collections.EMPTY_LIST);
         }
@@ -496,8 +496,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Override
     public void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser) {
-        RentOfferProfile from = profileRepository.findByPublicId(fromUserPublicId);
-        RentOfferProfile to = profileRepository.findByPublicId(toUserPublicId);
+        Profile from = profileRepository.findByPublicId(fromUserPublicId);
+        Profile to = profileRepository.findByPublicId(toUserPublicId);
 
         List<RentOffer> fromOffers = offerMongoRepository.findAllByAuthorId(from.getId());
         for (RentOffer src : fromOffers) {
