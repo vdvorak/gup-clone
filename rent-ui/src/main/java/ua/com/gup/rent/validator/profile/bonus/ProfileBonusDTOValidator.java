@@ -1,4 +1,4 @@
-package ua.com.gup.rent.validator.rent.bonus;
+package ua.com.gup.rent.validator.profile.bonus;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
  **/
 @Slf4j
 @Component
-public class RentOfferProfileBonusDTOValidator implements Validator {
+public class ProfileBonusDTOValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return ProfileCreateBonusDTO.class.equals(clazz) || ProfileEditBonusDTO.class.equals(clazz);

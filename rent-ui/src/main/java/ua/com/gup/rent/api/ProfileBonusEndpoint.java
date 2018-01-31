@@ -1,8 +1,7 @@
 package ua.com.gup.rent.api;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -12,24 +11,23 @@ import ua.com.gup.rent.component.executor.RentCommandExecutor;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.profile.bonus.ProfileBonusService;
-import ua.com.gup.rent.validator.rent.offer.RentOfferDTOValidator;
+import ua.com.gup.rent.validator.profile.bonus.ProfileBonusDTOValidator;
 
 import java.net.URISyntaxException;
 
 /**
  * REST controller for managing Profile with Bonus.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/rest/profilesService/profile/bonus/")
 public class ProfileBonusEndpoint {
-
-    private final Logger log = LoggerFactory.getLogger(ProfileBonusEndpoint.class);
 
     @Autowired
     private ProfileBonusService profileBonusService;
 
     @Autowired
-    private RentOfferDTOValidator offerDTOValidator;
+    private ProfileBonusDTOValidator offerDTOValidator;
 
     @Autowired
     private RentCommandExecutor executor;
