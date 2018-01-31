@@ -37,6 +37,7 @@ public class ProfileBonusEndpoint {
     @Autowired
     private ProfileBonusDTOValidator profileBonusDTOValidator;
 
+    @Autowired
     private ProfileBonusMapper profileBonusMapper;
 
     @Autowired
