@@ -2,10 +2,8 @@ package ua.com.gup.search.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.ESOffer;
-import ua.com.gup.search.util.Locale;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
 
 import java.io.IOException;
 import java.util.List;

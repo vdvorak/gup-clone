@@ -2,13 +2,13 @@ package ua.com.gup.search.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.filter.rent.RentOfferCalculateRentPriceFilter;
-import ua.com.gup.search.model.filter.rent.RentOfferFilter;
+import ua.com.gup.search.model.filter.RentOfferCalculateRentPriceFilter;
+import ua.com.gup.search.model.filter.RentOfferFilter;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESRentOfferRentPrice;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,5 +29,5 @@ public interface ESRentOfferRepository {
 
     Set<String> suggestByOffersTitlesAndDescriptions(String query) throws IOException;
 
-    Integer calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException;
+    ESRentOfferRentPrice calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException;
 }

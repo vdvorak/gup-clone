@@ -39,10 +39,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
 import ua.com.gup.search.model.domain.RentOfferCalendarDayType;
-import ua.com.gup.search.model.filter.rent.*;
+import ua.com.gup.search.model.filter.*;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESRentOfferRentPrice;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 import ua.com.gup.search.util.ElasticSearchRequestFactory;
 
@@ -145,11 +146,11 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
             boolQueryBuilder.mustNot(new TermQueryBuilder("_id", excludedIds));
         }
 
-//        if (!CollectionUtils.isEmpty(statusList)) {
-//            boolQueryBuilder.must(new TermsQueryBuilder("status", statusList));
-//        } else {
-//            boolQueryBuilder.must(new TermQueryBuilder("status", "active"));
-//        }
+        if (!CollectionUtils.isEmpty(statusList)) {
+            boolQueryBuilder.must(new TermsQueryBuilder("status", statusList));
+        } else {
+            boolQueryBuilder.must(new TermQueryBuilder("status", "active"));
+        }
 
         CoordinatesFilter coordinatesFilter = offerFilter.getCoordinates();
         if (coordinatesFilter != null) {
@@ -289,7 +290,6 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         }
 
-
         QueryBuilder queryBuilder = boolQueryBuilder(offerFilter);
         searchSourceBuilder.query(queryBuilder);
         searchRequest.source(searchSourceBuilder);
@@ -307,14 +307,14 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
     }
 
-    public Integer calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
+    public ESRentOfferRentPrice calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
 
-        Integer totalCost = new Integer(0);
+        ESRentOfferRentPrice rentPrice = new ESRentOfferRentPrice();
 
         SearchRequest searchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, OFFER_TYPE);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.fetchSource(new String[]{"price"}, new String[]{});
+        searchSourceBuilder.fetchSource(new String[]{"price", "settings"}, new String[]{});
         searchSourceBuilder.size(1);
 
         searchRequest.source(searchSourceBuilder);
@@ -329,8 +329,8 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
 
         SearchResponse response = esClient.search(searchRequest);
 
-        long total = response.getHits().getTotalHits();
-        if (total == 1) {
+        long totalHits = response.getHits().getTotalHits();
+        if (totalHits == 1) {
 
             SearchHit rentOfferSearchHit = response.getHits().getHits()[0];
             SearchRequest calendarSearchRequest = ElasticSearchRequestFactory.getSearchRequest(RENT_INDEX, CALENDAR_TYPE);
@@ -373,23 +373,37 @@ public class ESRentOfferRepositoryImpl implements ESRentOfferRepository {
                         RentOfferCalendarDayType type = RentOfferCalendarDayType.fromInteger((Integer) hashMap.get("type"));
                         switch (type) {
                             case BUSINESS:
-                                totalCost += businessDayCost;
+                                rentPrice.addToTotalCost(businessDayCost);
                                 break;
                             case WEEKEND:
-                                totalCost += weekendDayCost;
+                                rentPrice.addToTotalCost(weekendDayCost);
                                 break;
                             case HOLIDAY:
-                                totalCost += holidayDayCost;
+                                rentPrice.addToTotalCost(holidayDayCost);
                                 break;
                             case CUSTOM:
-                                totalCost += 0;
+                                Integer customPrice = (Integer) hashMap.get("price");
+                                if (customPrice != null)
+                                    rentPrice.addToTotalCost(customPrice);
                                 break;
                         }
                     }
                 }
+                if (filter.getCount() != null) {
+                    rentPrice.multiplyTotalCost(filter.getCount());
+                }
+
+                if (rentPrice.getTotalCost() > 0) {
+                    Integer prepaymentPercent = priceMap.get("prepaymentPercent");
+                    if (prepaymentPercent != null)
+                        rentPrice.calculatePrePayment(prepaymentPercent);
+
+                }
+
+
             }
         }
-        return totalCost;
+        return rentPrice;
     }
 
     @Override

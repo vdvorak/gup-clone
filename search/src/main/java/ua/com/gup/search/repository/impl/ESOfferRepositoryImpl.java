@@ -16,9 +16,9 @@ import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.term.TermSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESOffer;
 import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.repository.ESOfferRepository;
 

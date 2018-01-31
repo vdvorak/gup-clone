@@ -1,8 +1,8 @@
 package ua.com.gup.search.repository;
 
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESOffer;
 import ua.com.gup.search.model.filter.OfferFilter;
 
 import java.io.IOException;

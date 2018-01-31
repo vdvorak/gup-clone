@@ -1,6 +1,6 @@
 package ua.com.gup.search.repository;
 
-import ua.com.gup.search.model.ESCategory;
+import ua.com.gup.search.model.search.ESCategory;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
