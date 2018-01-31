@@ -1,13 +1,13 @@
 package ua.com.gup.dto.profile.manager;
 
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
-import ua.com.gup.mongo.composition.domain.profile.UserProfile;
+import ua.com.gup.mongo.composition.domain.profile.Profile;
 
 public class UserProfileShortAdminDto extends ProfileShortAdminDTO {
 
     private String managerId;
 
-    public UserProfileShortAdminDto(UserProfile profile, String managerPublicId) {
+    public UserProfileShortAdminDto(Profile profile, String managerPublicId) {
         super(profile);
         this.managerId = managerPublicId;
     }

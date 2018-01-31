@@ -10,23 +10,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
+import ua.com.gup.common.dto.profile.manager.ManagerClientProfileDto;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
-import ua.com.gup.common.mapper.manager.action.ManagerActionMapper;
+import ua.com.gup.common.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.model.security.Role;
+import ua.com.gup.common.service.CommonManagerService;
 import ua.com.gup.common.service.ManagerActionService;
-import ua.com.gup.common.service.UserRoleService;
 import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.ManagerContactInfoEditDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.RentOfferManagerPrivateProfileDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileManagerDto;
-import ua.com.gup.rent.service.dto.rent.offer.profile.manager.UserProfileShortManagerDto;
+import ua.com.gup.common.dto.profile.manager.client.ManagerContactInfoEditDto;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
-import ua.com.gup.rent.service.profile.ProfileFilter;
+import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
 import ua.com.gup.rent.service.profile.RentOfferProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
@@ -46,6 +44,8 @@ public class ManagerEndpoint {
     private RentOfferService offerService;
     @Autowired
     private ManagerActionService managerActionService;
+    @Autowired
+    private CommonManagerService managerService;
 
     /**
      * get all managers with ROLE_USER
@@ -65,8 +65,8 @@ public class ManagerEndpoint {
     //MANAGER_READ_MANAGER
     @PreAuthorize("hasAuthority('READ_MANAGER_PROFILE')")
     @GetMapping(value = "/{managerPublicId}")
-    public ResponseEntity<RentOfferManagerPrivateProfileDto> findFullManagerProfileByPublicId(@PathVariable("managerPublicId") String managerPublicId) {
-        RentOfferManagerPrivateProfileDto profile = profilesService.findManagerPrivateProfileDTOForAdminByPublicId(managerPublicId);
+    public ResponseEntity<ManagerPrivateProfileDto> findFullManagerProfileByPublicId(@PathVariable("managerPublicId") String managerPublicId) {
+        ManagerPrivateProfileDto profile = managerService.findManagerByPublicId(managerPublicId);
         return new ResponseEntity(profile, HttpStatus.OK);
     }
 
@@ -76,8 +76,8 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('SEARCH_PROFILES_MANAGER')")
     @GetMapping(value = "/profiles")
-    public ResponseEntity<Page<UserProfileShortManagerDto>> findProfilesShortByFilter(ProfileFilter filter, Pageable pageable) {
-        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(filter, pageable);
+    public ResponseEntity<Page<ManagerClientProfileDto>> findProfilesShortByFilter(ManagerProfileFilter filter, Pageable pageable) {
+        Page<ManagerClientProfileDto> profilesPageable = managerService.findUserProfiles(filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
     }
 
@@ -86,8 +86,8 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('READ_PROFILE_MANAGER')")
     @GetMapping(value = "/profiles/{profilePublicId}")
-    public ResponseEntity<UserProfileManagerDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
-        UserProfileManagerDto profile = profilesService.findUserProfile(profilePublicId);
+    public ResponseEntity<ManagerClientProfileDto> findFullProfileByPublicId(@PathVariable("profilePublicId") String profilePublicId) {
+        ManagerClientProfileDto profile = managerService.findUserProfile(profilePublicId);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -101,7 +101,7 @@ public class ManagerEndpoint {
     //MANAGER_LINK_PROFILE
     @PreAuthorize("hasAuthority('LINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/link/{managerPublicId}")
-    public ResponseEntity<RentOfferProfileDTO> linkProfile(
+    public ResponseEntity linkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
@@ -109,10 +109,10 @@ public class ManagerEndpoint {
         if (!profilesService.hasRole(profilePublicId, Role.ROLE_USER)) {
             return new ResponseEntity("error.user.invalid.userType", HttpStatus.BAD_REQUEST);
         }
-        if (profilesService.hasManager(profilePublicId)) {
+        if (managerService.hasManager(profilePublicId)) {
             return new ResponseEntity("error.user.exists.manager", HttpStatus.BAD_REQUEST);
         }
-        profilesService.linkProfile(managerPublicId, profilePublicId);
+        managerService.linkProfile(managerPublicId, profilePublicId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -124,7 +124,7 @@ public class ManagerEndpoint {
     //MANAGER_UNLINK_PROFILE
     @PreAuthorize("hasAuthority('UNLINK_USER_TO_MANAGER')")
     @PostMapping(value = "/profiles/{profilePublicId}/unlink/{managerPublicId}")
-    public ResponseEntity<RentOfferProfileDTO> unLinkProfile(
+    public ResponseEntity unLinkProfile(
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
@@ -136,11 +136,11 @@ public class ManagerEndpoint {
             return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
         }
 
-        if (!profilesService.hasManager(profilePublicId)) {
+        if (!managerService.hasManager(profilePublicId)) {
             return new ResponseEntity("error.user.not.exists.manager", HttpStatus.BAD_REQUEST);
         }
-        profilesService.unlinkProfile(managerPublicId, profilePublicId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        managerService.unlinkProfile(managerPublicId, profilePublicId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -148,13 +148,12 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('GET_MANAGER_USERS')")
     @GetMapping(value = "/{managerPublicId}/users")
-    public ResponseEntity<Page<UserProfileShortManagerDto>> getUsers(
+    public ResponseEntity<Page<ManagerClientProfileDto>> getUsers(
             @PathVariable("managerPublicId") String managerPublicId,
-            ProfileFilter filter,
+            ManagerProfileFilter filter,
             Pageable pageable) {
-        Page<UserProfileShortManagerDto> profilesPageable = profilesService.findUserProfiles(managerPublicId, filter, pageable);
+        Page<ManagerClientProfileDto> profilesPageable = managerService.findUserProfiles(managerPublicId, filter, pageable);
         return new ResponseEntity<>(profilesPageable, HttpStatus.OK);
-
     }
 
     /**
@@ -162,7 +161,7 @@ public class ManagerEndpoint {
      */
     @PreAuthorize("hasAuthority('GET_MANAGER_USER')")
     @GetMapping(value = "/{managerPublicId}/users/{userPublicId}")
-    public ResponseEntity<UserProfileManagerDto> getUser(
+    public ResponseEntity<ManagerClientProfileDto> getUser(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("userPublicId") String userPublicId) {
 
@@ -174,8 +173,7 @@ public class ManagerEndpoint {
             return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
         }
 
-        UserProfileManagerDto user = profilesService.findUserProfile(userPublicId);
-
+        ManagerClientProfileDto user = managerService.findUserProfile(userPublicId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -197,7 +195,7 @@ public class ManagerEndpoint {
             return new ResponseEntity("error.manager.not.found", HttpStatus.NOT_FOUND);
         }
 
-        profilesService.updateUserContactInfoManager(userPublicId, contactInfoEditDto);
+        managerService.updateUserContactInfoManager(userPublicId, contactInfoEditDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

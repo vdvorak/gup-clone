@@ -1,4 +1,4 @@
-package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
+package ua.com.gup.common.dto.profile.manager.client;
 
 import lombok.Data;
 

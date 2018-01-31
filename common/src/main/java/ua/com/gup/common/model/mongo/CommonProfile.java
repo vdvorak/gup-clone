@@ -10,6 +10,8 @@ import ua.com.gup.common.annotation.Password;
 import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
+import ua.com.gup.common.model.mongo.manager.ManagerInfo;
 import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
 import ua.com.gup.common.model.mongo.profile.Contact;
 import ua.com.gup.common.model.mongo.profile.FinanceInfo;
@@ -27,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-public class CommonProfile {
+public abstract class CommonProfile<T extends ManagerClientInfo> {
 
     @Id
     private String id;
@@ -373,5 +375,12 @@ public class CommonProfile {
     public void setBanInfo(BanInfo banInfo) {
         this.banInfo = banInfo;
     }
+
+
+    public abstract T getManagerClientInfo();
+
+    public abstract void setManagerClientInfo(T managerClientInfo);
+
+    public abstract ManagerInfo getManagerInfo();
 
 }

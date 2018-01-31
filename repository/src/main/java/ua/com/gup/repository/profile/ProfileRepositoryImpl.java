@@ -10,11 +10,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.model.security.Role;
+import ua.com.gup.common.repository.filter.ProfileRepositoryFilter;
 import ua.com.gup.config.mongo.MongoTemplateOperations;
-import ua.com.gup.mongo.composition.domain.profile.ManagerProfile;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import javax.annotation.PostConstruct;
@@ -358,24 +356,26 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     public boolean hasManager(String profilePublicId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
-        query.addCriteria(Criteria.where("manager").exists(true));
-        return mongoTemplate.exists(query, UserProfile.class);
+        query.addCriteria(Criteria.where("saleManagerClientInfo.manager").exists(true));
+        return mongoTemplate.exists(query, Profile.class);
     }
 
+
+
     @Override
-    public List<UserProfile> findUsersByManager(String managerId) {
+    public List<Profile> findUsersByManager(String managerId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(managerId));
-        return mongoTemplate.find(query, UserProfile.class);
+        query.addCriteria(Criteria.where("saleManagerClientInfo.manager").is(managerId));
+        return mongoTemplate.find(query, Profile.class);
     }
 
     @Override
-    public UserProfile getManagerUser(String managerPublicId, String publicId) {
+    public Profile getManagerUser(String managerPublicId, String publicId) {
         String managerId = getIdByPulblicId(managerPublicId);
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(managerId));
+        query.addCriteria(Criteria.where("saleManagerClientInfo.manager").is(managerId));
         query.addCriteria(Criteria.where("publicId").is(publicId));
-        return mongoTemplate.findOne(query, UserProfile.class);
+        return mongoTemplate.findOne(query, Profile.class);
     }
 
     @Override
@@ -383,11 +383,11 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(managerId));
         query.fields().include("users");
-        ManagerProfile manager = mongoTemplate.findOne(query, ManagerProfile.class);
+        Profile manager = mongoTemplate.findOne(query, Profile.class);
         if (manager == null) {
             return Collections.EMPTY_SET;
         }
-        return manager.getUsers();
+        return manager.getManagerInfo().getUsers();
 
     }
 
@@ -433,6 +433,74 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
         query.addCriteria(Criteria.where("userRoles").in(role));
         return mongoTemplate.exists(query, Profile.class);
+    }
+
+    @Override
+    public long countByFilter(ProfileRepositoryFilter filter) {
+        Query query = buildQueryByFilter(filter);
+        return mongoTemplate.count(query, Profile.class);
+    }
+
+    @Override
+    public List<Profile> findByFilter(ProfileRepositoryFilter filter, Pageable pageable) {
+        Query query = buildQueryByFilter(filter);
+        query.with(pageable);
+        return mongoTemplate.find(query, Profile.class);
+    }
+
+    private Query buildQueryByFilter(ProfileRepositoryFilter filter) {
+        Query query = new Query();
+        if (filter.getRole() != null) {
+            query.addCriteria(Criteria.where("userRoles").is(new String[]{filter.getRole()}));
+        }
+        if (!StringUtils.isEmpty(filter.getUsername())) {
+            String searchFieldRegex = "(?i:.*" + filter.getUsername().trim() + ".*)";
+            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
+        }
+
+        if (!StringUtils.isEmpty(filter.getEmail())) {
+            query.addCriteria(Criteria.where("email").is(filter.getEmail().trim()));
+        }
+
+        if (!StringUtils.isEmpty(filter.getPublicId())) {
+            query.addCriteria(Criteria.where("publicId").is(filter.getPublicId().trim()));
+        }
+
+        if (filter.getUserRoles() != null) {
+            query.addCriteria(Criteria.where("userRoles").in(filter.getUserRoles()));
+        }
+
+        if (!StringUtils.isEmpty(filter.getMainPhone())) {
+            query.addCriteria(Criteria.where("mainPhone.phoneNumber").is(filter.getMainPhone()));
+        }
+
+        if (!StringUtils.isEmpty(filter.getAdditionalPhone())) {
+            query.addCriteria(Criteria.where("contact.contactPhones.phoneNumber").in(filter.getAdditionalPhone()));
+        }
+
+        if (!StringUtils.isEmpty(filter.getManagerPublicId())) {
+            String managerId = getIdByPulblicId(filter.getManagerPublicId());
+            if (managerId != null) {
+                query.addCriteria(Criteria.where("saleManagerClientInfo.manager").is(managerId));
+            }
+        }
+
+        if (!StringUtils.isEmpty(filter.getManagerUsername())) {
+            List<Profile> managers = findLikeUsername(filter.getManagerUsername());
+            if (managers!=null && !managers.isEmpty()) {
+                List<String> managerIds = managers.stream().map(profile -> profile.getId()).collect(Collectors.toList());
+                query.addCriteria(Criteria.where("saleManagerClientInfo.manager").in(managerIds));
+            }
+        }
+
+        return query;
+    }
+
+    public List<Profile> findLikeUsername(String username){
+        Query query = new Query();
+        String searchFieldRegex = "(?i:.*" + username.trim() + ".*)";
+        query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
+        return mongoTemplate.find(query, Profile.class);
     }
 
 }

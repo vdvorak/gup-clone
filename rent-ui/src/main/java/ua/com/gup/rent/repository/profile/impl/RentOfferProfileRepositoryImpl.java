@@ -5,12 +5,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.model.security.Role;
-import ua.com.gup.rent.model.mongo.user.RentOfferManagerProfile;
 import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
-import ua.com.gup.rent.model.mongo.user.RentOfferUserProfile;
 import ua.com.gup.rent.repository.abstracted.RentOfferGenericRepositoryImpl;
-import ua.com.gup.rent.repository.profile.ProfileRepositoryFilter;
+import ua.com.gup.common.repository.filter.ProfileRepositoryFilter;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 
 import javax.annotation.PostConstruct;
@@ -81,8 +78,8 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     public boolean hasManager(String profilePublicId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("publicId").is(profilePublicId));
-        query.addCriteria(Criteria.where("manager").exists(true));
-        return mongoTemplate.exists(query, RentOfferUserProfile.class);
+        query.addCriteria(Criteria.where("rentManagerClientInfo.manager").exists(true));
+        return mongoTemplate.exists(query, RentOfferProfile.class);
     }
 
     public List<RentOfferProfile> findLikeUsername(String username){
@@ -93,19 +90,19 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
     }
 
     @Override
-    public List<RentOfferUserProfile> findUsersByManager(String managerId) {
+    public List<RentOfferProfile> findUsersByManager(String managerId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("manager").is(managerId));
-        return mongoTemplate.find(query, RentOfferUserProfile.class);
+        query.addCriteria(Criteria.where("rentManagerClientInfo.manager").is(managerId));
+        return mongoTemplate.find(query, RentOfferProfile.class);
     }
 
     @Override
-    public RentOfferUserProfile getManagerUser(String managerPublicId, String publicId) {
+    public RentOfferProfile getManagerUser(String managerPublicId, String publicId) {
         String managerId = getIdByPulblicId(managerPublicId);
         Query query = new Query();
         query.addCriteria(Criteria.where("manager").is(managerId));
         query.addCriteria(Criteria.where("publicId").is(publicId));
-        return mongoTemplate.findOne(query, RentOfferUserProfile.class);
+        return mongoTemplate.findOne(query, RentOfferProfile.class);
     }
 
     @Override
@@ -113,11 +110,11 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(managerId));
         query.fields().include("users");
-        RentOfferManagerProfile manager = mongoTemplate.findOne(query, RentOfferManagerProfile .class);
+        RentOfferProfile manager = mongoTemplate.findOne(query, RentOfferProfile .class);
         if(manager == null){
             return Collections.EMPTY_SET;
         }
-        return manager.getUsers();
+        return manager.getManagerInfo().getUsers();
 
     }
 
@@ -181,10 +178,10 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
 //    }
 
     @Override
-    public <T extends RentOfferProfile> List<T> findByFilter(ProfileRepositoryFilter filter, Pageable pageable, Class<T> entityClass) {
+    public List<RentOfferProfile> findByFilter(ProfileRepositoryFilter filter, Pageable pageable) {
         Query query = buildQueryByFilter(filter);
         query.with(pageable);
-        return mongoTemplate.find(query, entityClass);
+        return mongoTemplate.find(query, RentOfferProfile.class);
     }
 
     @Override
@@ -240,7 +237,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
         if (!StringUtils.isEmpty(filter.getManagerPublicId())) {
             String managerId = getIdByPulblicId(filter.getManagerPublicId());
             if (managerId != null) {
-                query.addCriteria(Criteria.where("manager").is(managerId));
+                query.addCriteria(Criteria.where("rentManagerClientInfo.manager").is(managerId));
             }
         }
 
@@ -248,7 +245,7 @@ public class RentOfferProfileRepositoryImpl extends RentOfferGenericRepositoryIm
             List<RentOfferProfile> managers = findLikeUsername(filter.getManagerUsername());
             if (managers!=null && !managers.isEmpty()) {
                 List<String> managerIds = managers.stream().map(profile -> profile.getId()).collect(Collectors.toList());
-                query.addCriteria(Criteria.where("manager").in(managerIds));
+                query.addCriteria(Criteria.where("rentManagerClientInfo.manager").in(managerIds));
             }
         }
 

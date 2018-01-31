@@ -1,12 +1,15 @@
 package ua.com.gup.common.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.Phone;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+@Data
 public class PrivateProfileDTO extends DetailProfileDTO {
 
     @JsonProperty("mainPhone")
@@ -16,7 +19,7 @@ public class PrivateProfileDTO extends DetailProfileDTO {
     private String chatUID;
 
     @JsonProperty("roles")
-    private List<String> roles;
+    private Set<String> roles;
 
     public PrivateProfileDTO() {
     }
@@ -25,30 +28,6 @@ public class PrivateProfileDTO extends DetailProfileDTO {
         super(profile);
         this.mainPhone = profile.getMainPhone();
         this.chatUID = profile.getChatUID();
-        this.roles = profile.getUserRoles().stream().map(userRole -> userRole.toString()).collect(Collectors.toList());
-    }
-
-    public Phone getMainPhone() {
-        return mainPhone;
-    }
-
-    public void setMainPhone(Phone mainPhone) {
-        this.mainPhone = mainPhone;
-    }
-
-    public String getChatUID() {
-        return chatUID;
-    }
-
-    public void setChatUID(String chatUID) {
-        this.chatUID = chatUID;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+        this.roles = profile.getUserRoles();
     }
 }

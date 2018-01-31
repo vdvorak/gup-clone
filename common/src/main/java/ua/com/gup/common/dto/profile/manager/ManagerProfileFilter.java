@@ -1,4 +1,4 @@
-package ua.com.gup.rent.service.profile;
+package ua.com.gup.common.dto.profile.manager;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,7 +7,7 @@ import ua.com.gup.common.model.security.Role;
 import java.util.Set;
 
 @Data
-public class ProfileFilter {
+public class ManagerProfileFilter {
     @ApiModelProperty(position = 10, example = "username")
     private String username;
     @ApiModelProperty(position = 20, example = "email")

@@ -2,11 +2,14 @@ package ua.com.gup.mongo.composition.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.common.model.mongo.BanInfo;
 import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.address.Address;
+import ua.com.gup.common.model.mongo.manager.ManagerInfo;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
+import ua.com.gup.mongo.composition.domain.profile.manager.SaleManagerClientInfo;
 import ua.com.gup.mongo.model.profiles.BankCard;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
@@ -17,7 +20,7 @@ import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = ObjectType.USER)
-public class Profile extends CommonProfile {
+public class Profile extends CommonProfile<SaleManagerClientInfo> {
     private Long birthDate;
 
     private Set<String> favoriteOffers;
@@ -35,6 +38,12 @@ public class Profile extends CommonProfile {
     private Address locationAddress;
     private String mainKindActivity;
     private String facebookId;
+
+    @Field("saleManagerClientInfo")
+    private SaleManagerClientInfo managerClientInfo;
+
+    @Field("saleManagerInfo")
+    private ManagerInfo managerInfo;
 
     public Profile() {
     }
@@ -56,8 +65,6 @@ public class Profile extends CommonProfile {
         this.point = point;
         return this;
     }
-
-
 
 
     public Set<ProfileRating> getProfileRating() {
@@ -176,6 +183,29 @@ public class Profile extends CommonProfile {
     public Profile setFacebookId(String facebookId) {
         this.facebookId = facebookId;
         return this;
+    }
+
+
+    public SaleManagerClientInfo getManagerClientInfo() {
+        if (managerClientInfo == null) {
+            managerClientInfo = new SaleManagerClientInfo();
+        }
+        return managerClientInfo;
+    }
+
+    public void setManagerClientInfo(SaleManagerClientInfo managerClientInfo) {
+        this.managerClientInfo = managerClientInfo;
+    }
+
+    public ManagerInfo getManagerInfo() {
+        if (managerInfo == null) {
+            managerInfo = new ManagerInfo();
+        }
+        return managerInfo;
+    }
+
+    public void setManagerInfo(ManagerInfo managerInfo) {
+        this.managerInfo = managerInfo;
     }
 
     @Override
