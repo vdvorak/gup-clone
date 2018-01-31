@@ -1,4 +1,4 @@
-package ua.com.gup.rent.filter;
+package ua.com.gup.rent.service.dto.rent.offer.filter;
 
 
 import io.swagger.annotations.ApiModel;
@@ -8,7 +8,7 @@ import ua.com.gup.common.model.filter.CommonOfferFilter;
 
 @Data
 @ApiModel(description = "Rent Offer filter model")
-public class RentOfferFilter extends CommonOfferFilter {
+public class RentOfferFilterDTO extends CommonOfferFilter {
 
     @ApiModelProperty(value = "Only one category (level not important)", position = 10)
     private Integer category;

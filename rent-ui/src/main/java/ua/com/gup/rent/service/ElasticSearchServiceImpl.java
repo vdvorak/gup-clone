@@ -21,11 +21,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.filter.*;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;
 import ua.com.gup.rent.repository.calendar.RentOfferCalendarChildRepository;
 import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 
 import javax.annotation.PostConstruct;
@@ -136,7 +136,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
 
     @Override
-    public Map<String, Object> findIdsPageByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+    public Map<String, Object> findIdsPageByFilter(RentOfferFilterDTO offerFilter, Pageable pageable) {
         UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers");
 
         if (pageable != null) {
@@ -251,7 +251,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     }
 
     @Override
-    public Map calculatePrice(RentOfferFilter offerFilter) {
+    public Map calculatePrice(RentOfferFilterDTO offerFilter) {
         UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers/price/calculate");
         if (!StringUtils.isEmpty(offerFilter.getDtRentStart())) {
             builder.queryParam("dtRentStart", offerFilter.getDtRentStart());

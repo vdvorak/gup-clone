@@ -14,7 +14,6 @@ import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
@@ -28,6 +27,7 @@ import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
@@ -181,7 +181,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable) {
+    public Page<RentOfferViewShortDTO> findAll(RentOfferFilterDTO offerFilter, Pageable pageable) {
 
         log.debug("Request to get all Rent Offers by filter  {} ", offerFilter);
         long count = getRepository().countByFilter(offerFilter, CommonStatus.ACTIVE);
@@ -210,7 +210,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+    public List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilterDTO offerFilter, Pageable pageable) {
         log.debug("Request to get offers coordinates by filter");
         List<RentOffer> offers = getRepository().findByFilter(offerFilter, CommonStatus.ACTIVE, pageable);
         List<RentOfferViewCoordinatesDTO> coordinatesList = new ArrayList<>(offers.size());
@@ -311,7 +311,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             }
 
             search.append(offer.getTitle());
-            RentOfferFilter filter = new RentOfferFilter();
+            RentOfferFilterDTO filter = new RentOfferFilterDTO();
             filter.setQuery(search.toString());
             Page<RentOffer> result = new PageImpl<>(getRepository().findByFilter(filter, CommonStatus.ACTIVE, offer.getId(), pageable));
             return result.map(o -> offerMapper.offerToOfferShortDTO(o));

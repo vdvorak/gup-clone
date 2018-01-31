@@ -13,14 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.ElasticSearchService;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.service.dto.search.CategoryStatistic;
 import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
-import ua.com.gup.rent.validator.rent.offer.filter.RentOfferFilterValidator;
+import ua.com.gup.rent.validator.rent.offer.filter.RentOfferFilterDTOValidator;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -42,14 +42,14 @@ public class RentSearchEndpoint {
     private ElasticSearchService searchService;
 
     @Autowired
-    private RentOfferFilterValidator rentOfferFilterValidator;
+    private RentOfferFilterDTOValidator rentOfferFilterDTOValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() != null) {
             final Class<?> clazz = binder.getTarget().getClass();
-            if (RentOfferFilter.class.equals(clazz)) {
-                binder.addValidators(rentOfferFilterValidator);
+            if (RentOfferFilterDTO.class.equals(clazz)) {
+                binder.addValidators(rentOfferFilterDTOValidator);
             }
         }
     }
@@ -75,7 +75,7 @@ public class RentSearchEndpoint {
                             "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
     @GetMapping(value = "/offers")
-    public ResponseEntity<Page> getAllOffersByFilter(@Valid RentOfferFilter offerFilter, Pageable pageable) throws JsonProcessingException {
+    public ResponseEntity<Page> getAllOffersByFilter(@Valid RentOfferFilterDTO offerFilter, Pageable pageable) throws JsonProcessingException {
         log.debug("REST request to get a page of Offers");
 
         if (offerFilter.getAuthorFilter() != null) {
@@ -94,7 +94,7 @@ public class RentSearchEndpoint {
 
 
     @RequestMapping(value = "/offers/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity calculateRentPrice(@Valid RentOfferFilter offerFilter) {
+    public ResponseEntity calculateRentPrice(@Valid RentOfferFilterDTO offerFilter) {
         Map priceMap = searchService.calculatePrice(offerFilter);
         return new ResponseEntity<>(priceMap, HttpStatus.OK);
     }
