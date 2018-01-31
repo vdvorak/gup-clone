@@ -26,7 +26,7 @@ public interface ElasticSearchService {
 
     List<CategoryOffersStatistic> countOffersInCategoriesByFilter(String status, String profileId);
 
-    Integer calculatePrice(RentOfferFilter offerFilter);
+    Map calculatePrice(RentOfferFilter offerFilter);
 
     String[] findSuggests(String query);
 }

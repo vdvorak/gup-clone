@@ -10,10 +10,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RentCalendarUtil {
 
@@ -27,7 +24,7 @@ public class RentCalendarUtil {
         if (endDate.isBefore(startDate) || CollectionUtils.isEmpty(daysList)) {
             return Collections.EMPTY_MAP;
         }
-        Map<String, RentOfferCalendarDay> daysMap = new HashMap((int) RentDateUtil.calculateDaysDiffBetweenDates(startDate, endDate));
+        Map<String, RentOfferCalendarDay> daysMap = new LinkedHashMap<>((int) RentDateUtil.calculateDaysDiffBetweenDates(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         int i = 0;
         while (startDate.isBefore(endDate)) {

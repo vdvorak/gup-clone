@@ -88,7 +88,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     private RentOffer updateWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
         rentOfferCalendarService.indexRentOffer(rentOffer);
-//        rentOfferCalendarService.updateRentOfferCalendars(rentOffer);
+//        rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
 //        rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
 //
         rentOfferElasticService.updateElasticRentOffer(rentOffer);
@@ -96,14 +96,14 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public void demo(String rentOfferId) {
+    public void refreshAndIndexOfferCalendars(String rentOfferId) {
         RentOffer rentOffer = offerMongoRepository.findOne(rentOfferId);
         rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
         rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
     }
 
     @Override
-    public void demoAll() {
+    public void refreshAndIndexAllOffersCalendars() {
         for (RentOffer rentOffer : offerMongoRepository.findAll()) {
             rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
             rentOfferCalendarService.indexRentOfferCalendars(rentOffer);

@@ -86,7 +86,7 @@ public interface RentOfferService extends CommonOfferService {
 
     Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 
-    void demo(String rentOfferId);
+    void refreshAndIndexOfferCalendars(String rentOfferId);
 
-    void demoAll();
+    void refreshAndIndexAllOffersCalendars();
 }

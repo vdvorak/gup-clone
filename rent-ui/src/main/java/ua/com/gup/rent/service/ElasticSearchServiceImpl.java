@@ -251,7 +251,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     }
 
     @Override
-    public Integer calculatePrice(RentOfferFilter offerFilter) {
+    public Map calculatePrice(RentOfferFilter offerFilter) {
         UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers/price/calculate");
         if (!StringUtils.isEmpty(offerFilter.getDtRentStart())) {
             builder.queryParam("dtRentStart", offerFilter.getDtRentStart());
@@ -265,7 +265,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         if (offerFilter.getCount() != null && offerFilter.getCount() > 0) {
             builder.queryParam("count", offerFilter.getCount());
         }
-        return restTemplate.getForObject(builder.toUriString(), Integer.class);
+        return restTemplate.getForObject(builder.toUriString(), Map.class);
     }
 
 

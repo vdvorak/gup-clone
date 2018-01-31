@@ -79,8 +79,8 @@ public class RentSearchEndpoint {
 
     @RequestMapping(value = "/offers/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity calculateRentPrice(RentOfferFilter offerFilter) {
-        Integer price = searchService.calculatePrice(offerFilter);
-        return new ResponseEntity<>("{\"price\":" + price + "}", HttpStatus.OK);
+        Map priceMap = searchService.calculatePrice(offerFilter);
+        return new ResponseEntity<>(priceMap, HttpStatus.OK);
     }
 
 
@@ -133,15 +133,14 @@ public class RentSearchEndpoint {
 
     @RequestMapping(value = "/offers/{rentOfferId}/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateRentOfferCalendars(@PathVariable(value = "rentOfferId") String rentOfferId) {
-        offerService.demo(rentOfferId);
+        offerService.refreshAndIndexOfferCalendars(rentOfferId);
         return new ResponseEntity(HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/offers/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateAllRentOffersCalendars() {
-
-        offerService.demoAll();
+        offerService.refreshAndIndexAllOffersCalendars();
         return new ResponseEntity(HttpStatus.OK);
 
     }

@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ua.com.gup.rent.api.RentOfferEndpoint;
 import ua.com.gup.rent.component.SpringApplicationContextProvider;
+import ua.com.gup.rent.error.GlobalExceptionHandler;
 
 import javax.servlet.Filter;
 
 @Configuration
-@ComponentScan(basePackageClasses = {SpringApplicationContextProvider.class, RentOfferEndpoint.class},
+@ComponentScan(basePackageClasses = {SpringApplicationContextProvider.class, RentOfferEndpoint.class, GlobalExceptionHandler.class},
         basePackages = {"ua.com.gup.common"})
 public class RentWebConfig {
 
