@@ -25,7 +25,7 @@ import java.time.ZonedDateTime;
 @Data
 @ToString
 @EqualsAndHashCode(of = {"name", "code"})
-public class RentOfferProfileBonus extends CommonProfileBonus {
+public class ProfileBonus extends CommonProfileBonus {
     @Id
     String id;
     @Indexed(unique = true)
@@ -35,10 +35,10 @@ public class RentOfferProfileBonus extends CommonProfileBonus {
     @CreatedBy
     private GupLoggedUser createdByUser;
 
-    public RentOfferProfileBonus() {
+    public ProfileBonus() {
     }
 
-    public RentOfferProfileBonus(String name, String code, CommonBonusScenarios scenarios, ZonedDateTime startDate, ZonedDateTime endDate, Integer countUse, Boolean active) {
+    public ProfileBonus(String name, String code, CommonBonusScenarios scenarios, ZonedDateTime startDate, ZonedDateTime endDate, Integer countUse, Boolean active) {
         super(active, ZonedDateTime.now(), startDate, endDate, countUse, scenarios);
         this.name = name;
         this.code = code;
