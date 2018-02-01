@@ -62,5 +62,4 @@ public class RentMongoConfig {
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory, mongoConverter);
         return mongoTemplate;
     }
-
 }

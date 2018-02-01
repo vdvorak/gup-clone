@@ -1,5 +1,6 @@
 package ua.com.gup.rent.command.rent.profile.bonus;
 
+import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
 import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.rent.mapper.ProfileBonusMapper;
 import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
@@ -7,10 +8,10 @@ import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 import ua.com.gup.rent.service.profile.bonus.ProfileBonusService;
 
 public class UpdateProfileBonusCommand extends ProfileBonusCommand {
-    private ProfileEditBonusDTO profileEditBonusDTO;
+    private CommonProfileBonusDTO profileEditBonusDTO;
 
-    public UpdateProfileBonusCommand(ProfileBonusService profileBonusService, ProfileEditBonusDTO profileEditBonusDTO, ProfileBonusMapper profileBonusMapper) {
-        super(profileBonusService, "", profileBonusMapper);
+    public UpdateProfileBonusCommand(ProfileBonusService profileBonusService, CommonProfileBonusDTO profileEditBonusDTO, ProfileBonusMapper profileBonusMapper) {
+        super(profileBonusService, ((ProfileEditBonusDTO)profileEditBonusDTO).getId(), profileBonusMapper);
         this.profileEditBonusDTO = profileEditBonusDTO;
     }
 
@@ -18,7 +19,7 @@ public class UpdateProfileBonusCommand extends ProfileBonusCommand {
     public ProfileBonus execute() throws Exception {
 
            profileBonusService.update(profileEditBonusDTO);
-           profileBonus = this.profileBonusMapper.fromDTOToModel(profileBonusService.findOneByCode(profileEditBonusDTO.getCode()));
+           profileBonus = this.profileBonusMapper.fromDTOToModel(profileBonusService.findOneByCode(((ProfileEditBonusDTO)profileEditBonusDTO).getCode()));
            profileBonusId = profileBonus.getId();
 
         return profileBonus;

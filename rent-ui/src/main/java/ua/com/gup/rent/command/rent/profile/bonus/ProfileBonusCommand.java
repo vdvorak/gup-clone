@@ -36,7 +36,7 @@ public abstract class ProfileBonusCommand extends ProfileCommand<ProfileBonus> {
 
             @Override
             public String getObjectType() {
-                return ObjectType.BONUS_SCENARIOS;
+                return ObjectType.USERS_BONUS;
             }
         };
     }

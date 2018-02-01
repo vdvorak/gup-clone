@@ -69,7 +69,7 @@ public class ProfileBonusEndpoint {
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createBonus(@Valid @RequestBody ProfileCreateBonusDTO createBonusDTO) throws CommandException {
         log.debug(" create bonus  : {}", createBonusDTO);
-        CreateProfileBonusCommand createProfileBonusCommand = new CreateProfileBonusCommand(profileBonusService, (ProfileEditBonusDTO) createBonusDTO, profileBonusMapper);
+        CreateProfileBonusCommand createProfileBonusCommand = new CreateProfileBonusCommand(profileBonusService,  createBonusDTO, profileBonusMapper);
         executor.doCommand(createProfileBonusCommand);
         return new ResponseEntity<>(new CommonCreateDTO(createProfileBonusCommand.getObjectId()), HttpStatus.CREATED);
     }

@@ -57,6 +57,7 @@ spring:
     ansi:
      enabled: always
 
+
 security:
   basic:
     enabled: false

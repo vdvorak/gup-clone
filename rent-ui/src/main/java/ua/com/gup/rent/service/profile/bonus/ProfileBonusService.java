@@ -1,5 +1,6 @@
 package ua.com.gup.rent.service.profile.bonus;
 
+import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
 import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 
@@ -8,11 +9,11 @@ import java.util.List;
 /**
  * @author Victor Dvorak
  **/
-public interface ProfileBonusService extends RentOfferGenericService<ProfileEditBonusDTO, String> {
+public interface ProfileBonusService extends RentOfferGenericService<CommonProfileBonusDTO, String> {
 
-    void save(ProfileEditBonusDTO profileBonusDTO);
+    void save(CommonProfileBonusDTO createProfileBonusDTO);
 
-    void update(ProfileEditBonusDTO profileBonusDTO);
+    void update(CommonProfileBonusDTO editProfileBonusDTO);
 
     List<ProfileEditBonusDTO> findAll();
 

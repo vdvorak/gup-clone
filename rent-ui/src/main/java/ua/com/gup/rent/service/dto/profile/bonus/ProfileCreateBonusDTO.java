@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@ToString
+@ToString(callSuper = true)
 public class ProfileCreateBonusDTO extends CommonProfileBonusDTO {
 
     @ApiModelProperty

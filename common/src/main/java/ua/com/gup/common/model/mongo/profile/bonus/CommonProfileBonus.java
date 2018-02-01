@@ -6,7 +6,7 @@ import lombok.Data;
 import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * @author Victor Dvorak
@@ -18,11 +18,11 @@ public abstract class CommonProfileBonus implements Serializable {
 
     protected Boolean active;
 
-    protected ZonedDateTime createDate;
+    protected LocalDateTime createDate;
 
-    protected ZonedDateTime startDate;
+    protected LocalDateTime startDate;
 
-    protected ZonedDateTime endDate;
+    protected LocalDateTime endDate;
 
     protected Integer countUse;
 
@@ -31,7 +31,7 @@ public abstract class CommonProfileBonus implements Serializable {
     public CommonProfileBonus() {
 
     }
-    public CommonProfileBonus(Boolean active, ZonedDateTime createDate, ZonedDateTime startDate, ZonedDateTime endDate, Integer countUse, CommonBonusScenarios scenarios) {
+    public CommonProfileBonus(Boolean active, LocalDateTime createDate, LocalDateTime startDate, LocalDateTime endDate, Integer countUse, CommonBonusScenarios scenarios) {
         this.active = active;
         this.createDate = createDate;
         this.startDate = startDate;

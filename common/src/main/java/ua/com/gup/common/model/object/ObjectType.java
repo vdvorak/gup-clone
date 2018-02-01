@@ -14,6 +14,6 @@ public class ObjectType {
 
     public static final String ACTION_MANAGER = "action.manager";
 
-    public static final String BONUS_SCENARIOS = "rent.bonus_scenarios";
+    public static final String USERS_BONUS = "users.bonus";
 
 }

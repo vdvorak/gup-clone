@@ -20,6 +20,7 @@ public class RentUiApplication {
                 RentWebConfig.class,
                 RentSwaggerConfig.class,
                 RentMongoConfig.class,
+                RentDateTimeConfiguration.class,
                 RentRootConfig.class,
                 RentMailConfig.class,
                 RentWebSecurityConfig.class,

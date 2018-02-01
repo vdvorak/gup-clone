@@ -2,10 +2,12 @@ package ua.com.gup.rent.service.profile.bonus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
 import ua.com.gup.rent.mapper.ProfileBonusMapper;
 import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
 import ua.com.gup.rent.repository.profile.bonus.RentOfferProfileBonusRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
+import ua.com.gup.rent.service.dto.profile.bonus.ProfileCreateBonusDTO;
 import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.List;
  * @author Victor Dvorak
  **/
 @Service
-public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<ProfileEditBonusDTO, String> implements ProfileBonusService {
+public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<CommonProfileBonusDTO, String> implements ProfileBonusService {
 
     @Autowired
     private ProfileBonusMapper profileBonusMapper;
@@ -26,14 +28,14 @@ public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<Profile
     }
 
     @Override
-    public void save(ProfileEditBonusDTO profileBonusDTO) {
-        ProfileBonus profileBonus = profileBonusMapper.fromDTOToModel(profileBonusDTO);
+    public void save(CommonProfileBonusDTO createProfileBonusDTO) {
+        ProfileBonus profileBonus = profileBonusMapper.fromDTOToModel((ProfileCreateBonusDTO)createProfileBonusDTO);
         getRepository().create(profileBonus);
     }
 
     @Override
-    public void update(ProfileEditBonusDTO profileBonusDTO) {
-        getRepository().update(profileBonusMapper.fromDTOToModel(profileBonusDTO));
+    public void update(CommonProfileBonusDTO editProfileBonusDTO) {
+        getRepository().update(profileBonusMapper.fromDTOToModel((ProfileEditBonusDTO)editProfileBonusDTO));
     }
 
 

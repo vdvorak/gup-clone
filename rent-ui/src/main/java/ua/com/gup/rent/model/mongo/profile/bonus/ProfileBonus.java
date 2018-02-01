@@ -14,12 +14,12 @@ import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 import ua.com.gup.common.model.mongo.profile.bonus.CommonProfileBonus;
 import ua.com.gup.common.model.object.ObjectType;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * @author Victor Dvorak
  **/
-@Document(collection = ObjectType.BONUS_SCENARIOS)
+@Document(collection = ObjectType.USERS_BONUS)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -38,8 +38,8 @@ public class ProfileBonus extends CommonProfileBonus {
     public ProfileBonus() {
     }
 
-    public ProfileBonus(String name, String code, CommonBonusScenarios scenarios, ZonedDateTime startDate, ZonedDateTime endDate, Integer countUse, Boolean active) {
-        super(active, ZonedDateTime.now(), startDate, endDate, countUse, scenarios);
+    public ProfileBonus(String name, String code, CommonBonusScenarios scenarios, LocalDateTime startDate, LocalDateTime endDate, Integer countUse, Boolean active) {
+        super(active, LocalDateTime.now(), startDate, endDate, countUse, scenarios);
         this.name = name;
         this.code = code;
     }

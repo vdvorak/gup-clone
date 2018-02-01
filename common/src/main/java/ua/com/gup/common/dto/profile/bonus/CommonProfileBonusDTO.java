@@ -6,11 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * @author Victor Dvorak
@@ -19,28 +20,26 @@ import java.time.ZonedDateTime;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ToString
 public abstract class CommonProfileBonusDTO implements Serializable {
 
     @ApiModelProperty
     @NotNull
     protected Boolean active;
 
-    @ApiModelProperty
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    protected ZonedDateTime createDate;
+    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
+    protected LocalDateTime createDate;
 
-    @ApiModelProperty
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ss")
     @NotNull
-    protected ZonedDateTime startDate;
+    protected LocalDateTime startDate;
 
-    @ApiModelProperty
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
     @NotNull
-    protected ZonedDateTime endDate;
+    protected LocalDateTime endDate;
 
     @ApiModelProperty
     @NotNull
