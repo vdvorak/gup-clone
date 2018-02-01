@@ -7,12 +7,12 @@ import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
 import ua.com.gup.common.repository.CommonProfileRepository;
 
-public abstract class CommonManagerClientInfoMapper<T extends CommonClientInfoProfileDto, S extends ManagerClientInfo> {
+public abstract class CommonManagerClientInfoMapper<T extends CommonClientInfoProfileDto> {
 
     @Autowired
     private CommonProfileRepository profileRepository;
 
-    public T convert(S info) {
+    public T convert(ManagerClientInfo info) {
         T dto = createDto();
         if (info != null) {
             dto.setContactInfo(new ClientContactInfoDto(info.getContactInfo()));

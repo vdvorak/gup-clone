@@ -8,12 +8,7 @@ import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
 public class RentManagerClientInfo extends ManagerClientInfo {
 
 
-    private Integer offerQuantity;
-    private Integer spendedMoney;
-    private Integer rentOfferQuantity;
-    private Integer bonusMoney;
-    //Заявки на бронь
-    private Integer bookingRequests;
+
 
 
 

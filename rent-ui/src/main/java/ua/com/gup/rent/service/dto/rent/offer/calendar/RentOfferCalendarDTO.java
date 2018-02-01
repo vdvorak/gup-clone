@@ -16,6 +16,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RentOfferCalendarDTO implements Serializable {
 
+
     @JsonProperty("startDate")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;

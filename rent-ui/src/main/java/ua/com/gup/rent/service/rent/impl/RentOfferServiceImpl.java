@@ -19,7 +19,7 @@ import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
-import ua.com.gup.rent.model.mongo.user.RentOfferProfile;
+import ua.com.gup.rent.model.mongo.user.Profile;
 import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
@@ -235,7 +235,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable) {
         log.debug("Request to get all Rent Offers by status = {} and authorId = {}", status, authorId);
-        RentOfferProfile profile = profileRepository.findById(authorId);
+        Profile profile = profileRepository.findById(authorId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
@@ -246,7 +246,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserPublicId(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
-        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortWithModerationReportDTO>(Collections.EMPTY_LIST);
         }
@@ -267,11 +267,19 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         Optional<RentOffer> offer = offerMongoRepository.findOneBySeoUrl(seoUrl);
         if (offer.isPresent()) {
             final RentOffer o = offer.get();
-            if (CommonStatus.ACTIVE.equals(o.getStatus())) {
-                o.incrementView(true, false);
-                offerMongoRepository.save(o);
-            } else {
-                offer = Optional.empty();
+            switch (o.getStatus()) {
+                case ACTIVE:
+                    o.incrementView(true, false);
+                    offerMongoRepository.save(o);
+                    break;
+                case ON_MODERATION:
+                case DEACTIVATED:
+                    GupLoggedUser loggedUser = RentSecurityUtils.getLoggedUser();
+                    if (loggedUser != null && loggedUser.getId().equals(o.getAuthorId())) {
+                        break;
+                    }
+                default:
+                    offer = Optional.empty();
             }
         }
         return offer.map(o -> offerMapper.offerToOfferDetailsDTO(o));
@@ -433,7 +441,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Override
     public Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable) {
         log.debug("Request to get all Offers by status = {} and userPublicId = {}", status, userPublicId);
-        RentOfferProfile profile = profileRepository.findByPublicId(userPublicId);
+        Profile profile = profileRepository.findByPublicId(userPublicId);
         if (profile == null) {
             return new PageImpl<RentOfferViewShortDTO>(Collections.EMPTY_LIST);
         }
@@ -462,12 +470,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         result |= offerUpdateDTO.getTitle() != null;
         result |= offerUpdateDTO.getDescription() != null;
 
-        //todo FOR dima SaveImages
-        //if (offerUpdateDTO.getImages() != null) {
-        // for (MultipartFile imageDTO : offerUpdateDTO.getImages()) {
-        // result |= (imageDTO.getBase64Data() != null && imageDTO.getImageId() == null);
-        //  }
-        //}
         result |= offerUpdateDTO.getAddress() != null;
 
         // price can be change without moderation
@@ -494,8 +496,8 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Override
     public void cloneOffers(String fromUserPublicId, String toUserPublicId, boolean copyFromUser) {
-        RentOfferProfile from = profileRepository.findByPublicId(fromUserPublicId);
-        RentOfferProfile to = profileRepository.findByPublicId(toUserPublicId);
+        Profile from = profileRepository.findByPublicId(fromUserPublicId);
+        Profile to = profileRepository.findByPublicId(toUserPublicId);
 
         List<RentOffer> fromOffers = offerMongoRepository.findAllByAuthorId(from.getId());
         for (RentOffer src : fromOffers) {

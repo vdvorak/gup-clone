@@ -103,7 +103,6 @@ public class ManagerEndpoint {
             @PathVariable("profilePublicId") String profilePublicId,
             @PathVariable("managerPublicId") String managerPublicId) {
 
-        //Role role = userRoleService.findByName(Role.ROLE_USER);
         if (!profilesService.hasRole(profilePublicId, Role.ROLE_USER)) {
             return new ResponseEntity("error.user.invalid.userType", HttpStatus.BAD_REQUEST);
         }

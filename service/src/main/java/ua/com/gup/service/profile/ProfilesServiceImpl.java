@@ -22,9 +22,6 @@ import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.service.OperationService;
 import ua.com.gup.common.service.impl.CommonProfileServiceImpl;
 import ua.com.gup.dto.profile.CreateProfileDTO;
-import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
-import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
-import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.profile.ProfileFilter;
@@ -48,6 +45,10 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
     private PublicProfileSequenceRepository profileSequenceService;
     @Autowired
     private OperationService operationService;
+
+    @Autowired
+    private AdminPrivateProfileMapper adminPrivateProfileMapper;
+
 
     @Override
     public void createProfile(CreateProfileDTO profile) {
@@ -252,8 +253,7 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
         return new PrivateProfileDTO(profileRepository.findByPublicId(publicId));
     }
 
-    @Autowired
-    private AdminPrivateProfileMapper adminPrivateProfileMapper;
+
     @Override
     public ProfileDTO findPrivateProfileDTOForAdminByPublicId(String publicId) {
         Profile profile = profileRepository.findByPublicId(publicId);
@@ -319,68 +319,6 @@ public class ProfilesServiceImpl extends CommonProfileServiceImpl<Profile> imple
         }
         List<ProfileShortAdminDTO> list = fullProfiles.stream().map(profile -> new ProfileShortAdminDTO(profile)).collect(Collectors.toList());
         return new PageImpl<>(list, pageable, count);
-    }
-
-    @Override
-    public void linkProfile(String managerPublicId, String profilePublicId) {
-        Profile user = profileRepository.findByPublicId(profilePublicId, Profile.class);
-        Profile manager = profileRepository.findByPublicId(managerPublicId, Profile.class);
-
-        manager.getManagerInfo().getUsers().add(user.getId());
-        user.getManagerClientInfo().setManager(manager.getId());
-
-        profileRepository.updateProfile(manager);
-        profileRepository.updateProfile(user);
-    }
-
-    @Override
-    public void unlinkProfile(String managerPublicId, String profilePublicId) {
-        Profile user = profileRepository.findByPublicId(profilePublicId, Profile.class);
-        Profile manager = profileRepository.findById(managerPublicId, Profile.class);
-
-        manager.getManagerInfo().getUsers().remove(user.getId());
-        user.getManagerClientInfo().setManager(null);
-
-        profileRepository.updateProfile(manager);
-        profileRepository.updateProfile(user);
-    }
-
-    @Override
-    public boolean hasManager(String profilePublicId) {
-        return profileRepository.hasManager(profilePublicId);
-    }
-
-    @Override
-    public List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId) {
-
-        String managerId = profileRepository.getIdByPulblicId(managerPublicId);
-        List<Profile> users = profileRepository.findUsersByManager(managerId);
-        if (users == null) {
-            return Collections.EMPTY_LIST;
-        }
-        return users.stream().
-                map(profile -> new UserProfileShortAdminDto(profile, managerPublicId)).
-                collect(Collectors.toList());
-    }
-
-    @Override
-    public UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId) {
-        Profile profile = profileRepository.getManagerUser(managerPublicId, publicId);
-        if (profile == null) {
-            return null;
-        }
-        return new UserPrivateProfileDto(profile, managerPublicId);
-
-    }
-
-    @Override
-    public ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId) {
-        Profile managerProfile = profileRepository.findByPublicId(publicId, Profile.class);
-        Set<String> usersPulblicId = profileRepository.getPulblicIdsByIds(managerProfile.getManagerInfo().getUsers());
-        if (managerProfile != null) {
-            return new ManagerPrivateProfileDto(managerProfile, usersPulblicId);
-        }
-        return null;
     }
 
 

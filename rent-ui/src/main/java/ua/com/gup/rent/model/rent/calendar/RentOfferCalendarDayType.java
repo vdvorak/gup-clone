@@ -3,7 +3,10 @@ package ua.com.gup.rent.model.rent.calendar;
 public enum RentOfferCalendarDayType {
 
     BUSINESS(0),
-    WEEKEND(1);
+    WEEKEND(1),
+    HOLIDAY(2),
+    CUSTOM(3);
+
 
     private int type;
 

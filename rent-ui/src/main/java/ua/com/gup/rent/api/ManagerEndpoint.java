@@ -11,8 +11,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.dto.profile.manager.ManagerClientProfileDto;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
 import ua.com.gup.common.dto.profile.manager.ManagerPrivateProfileDto;
+import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
+import ua.com.gup.common.dto.profile.manager.client.ManagerContactInfoEditDto;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
@@ -20,12 +22,9 @@ import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.CommonManagerService;
 import ua.com.gup.common.service.ManagerActionService;
-import ua.com.gup.rent.service.dto.rent.offer.profile.RentOfferProfileDTO;
-import ua.com.gup.common.dto.profile.manager.client.ManagerContactInfoEditDto;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
-import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
-import ua.com.gup.rent.service.profile.RentOfferProfilesService;
+import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.validation.Valid;
@@ -35,11 +34,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/managers")
-//@Deprecated
 public class ManagerEndpoint {
 
     @Autowired
-    private RentOfferProfilesService profilesService;
+    private ProfilesService profilesService;
     @Autowired
     private RentOfferService offerService;
     @Autowired

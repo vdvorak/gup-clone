@@ -1,7 +1,5 @@
 package ua.com.gup.common.security;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-
 //use Function.java
 @Deprecated()
 public enum UserFunction {

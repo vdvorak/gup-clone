@@ -5,37 +5,30 @@
  */
 package ua.com.gup.common.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
 import ua.com.gup.common.mapper.CommonCategoryMapper;
 import ua.com.gup.common.model.image.ImageStorage;
-import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.CommonRentOffer;
 import ua.com.gup.common.model.offer.CommonCategoryCount;
-import ua.com.gup.common.repository.CommonOfferMongoRepository;
 import ua.com.gup.common.repository.CommonOfferRepository;
-import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.common.service.ImageService;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class CommonOfferServiceImpl implements CommonOfferService {
 
     @Autowired
     private CommonOfferRepository commonOfferRepository;
     @Autowired
-    private CommonOfferMongoRepository offerMongoRepository;
-    @Autowired
     private ImageService imageService;
     @Autowired
     private CommonCategoryMapper commonCategoryMapper;
-    @Autowired
-    private CommonProfileRepository profileRepository;
+
 
     @Override
     public boolean exists(String id) {

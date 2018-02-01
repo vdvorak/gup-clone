@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * @author victor dvorak
@@ -15,7 +16,7 @@ import javax.validation.constraints.Size;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class RentOfferSettingsDTO {
+public class RentOfferSettingsDTO implements Serializable {
     @Min(1)
     private Integer minRentDays;
     @Max(30)

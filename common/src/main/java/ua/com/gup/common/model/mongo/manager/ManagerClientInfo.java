@@ -3,7 +3,7 @@ package ua.com.gup.common.model.mongo.manager;
 import lombok.Data;
 
 @Data
-public abstract class ManagerClientInfo {
+public  class ManagerClientInfo {
 
     private String manager;
     private String managerPublicId;
@@ -13,6 +13,14 @@ public abstract class ManagerClientInfo {
     private InterestingStatus interestingStatus;
 
     private ContactInfo contactInfo;
+
+    //rent
+    private Integer offerQuantity;
+    private Integer spendedMoney;
+    private Integer rentOfferQuantity;
+    private Integer bonusMoney;
+    //Заявки на бронь
+    private Integer bookingRequests;
 
 
 }

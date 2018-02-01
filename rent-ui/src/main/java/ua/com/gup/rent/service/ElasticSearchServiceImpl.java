@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.gup.common.model.filter.*;
-import ua.com.gup.rent.api.search.dto.CategoryOffersStatistic;
+import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendarChild;
@@ -231,6 +231,10 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             builder.queryParam("coordinates.maxYX", convertToString(coordinates.getMaxYX()));
         }
 
+        if (offerFilter.getCount() != null && offerFilter.getCount() > 0) {
+            builder.queryParam("count", offerFilter.getCount());
+        }
+
         return restTemplate.getForObject(builder.toUriString(), Map.class);
     }
 
@@ -245,6 +249,25 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/categories/count").queryParam("profileId", profileId).build();
         return restTemplate.getForObject(uriComponents.toUri(), List.class);
     }
+
+    @Override
+    public Integer calculatePrice(RentOfferFilter offerFilter) {
+        UriComponentsBuilder builder = this.uriComponentsBuilder.cloneBuilder().path("/offers/price/calculate");
+        if (!StringUtils.isEmpty(offerFilter.getDtRentStart())) {
+            builder.queryParam("dtRentStart", offerFilter.getDtRentStart());
+        }
+        if (!StringUtils.isEmpty(offerFilter.getDtRentEnd())) {
+            builder.queryParam("dtRentEnd", offerFilter.getDtRentEnd());
+        }
+        if (offerFilter.getSeoUrls() != null) {
+            builder.queryParam("seoUrls", String.join(",", offerFilter.getSeoUrls()));
+        }
+        if (offerFilter.getCount() != null && offerFilter.getCount() > 0) {
+            builder.queryParam("count", offerFilter.getCount());
+        }
+        return restTemplate.getForObject(builder.toUriString(), Integer.class);
+    }
+
 
     @Override
     public String[] findSuggests(String query) {

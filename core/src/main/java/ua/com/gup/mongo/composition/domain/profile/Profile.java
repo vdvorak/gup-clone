@@ -2,25 +2,20 @@ package ua.com.gup.mongo.composition.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import ua.com.gup.common.model.mongo.BanInfo;
-import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.address.Address;
+import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
 import ua.com.gup.common.model.mongo.manager.ManagerInfo;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
-import ua.com.gup.mongo.composition.domain.profile.manager.SaleManagerClientInfo;
 import ua.com.gup.mongo.model.profiles.BankCard;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
-import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
 
-import java.util.List;
 import java.util.Set;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = ObjectType.USER)
-public class Profile extends CommonProfile<SaleManagerClientInfo> {
+public class Profile extends CommonProfile {
     private Long birthDate;
 
     private Set<String> favoriteOffers;
@@ -39,11 +34,7 @@ public class Profile extends CommonProfile<SaleManagerClientInfo> {
     private String mainKindActivity;
     private String facebookId;
 
-    @Field("saleManagerClientInfo")
-    private SaleManagerClientInfo managerClientInfo;
 
-    @Field("saleManagerInfo")
-    private ManagerInfo managerInfo;
 
     public Profile() {
     }
@@ -186,27 +177,22 @@ public class Profile extends CommonProfile<SaleManagerClientInfo> {
     }
 
 
-    public SaleManagerClientInfo getManagerClientInfo() {
-        if (managerClientInfo == null) {
-            managerClientInfo = new SaleManagerClientInfo();
-        }
-        return managerClientInfo;
+    @Override
+    public ManagerClientInfo getManagerClientInfo() {
+        return this.getSaleManagerClientInfo();
     }
 
-    public void setManagerClientInfo(SaleManagerClientInfo managerClientInfo) {
-        this.managerClientInfo = managerClientInfo;
+    @Override
+    public void setManagerClientInfo(ManagerClientInfo managerClientInfo) {
+        this.saleManagerClientInfo = managerClientInfo;
     }
 
+    @Override
     public ManagerInfo getManagerInfo() {
-        if (managerInfo == null) {
-            managerInfo = new ManagerInfo();
-        }
-        return managerInfo;
+        return this.getSaleManagerInfo();
     }
 
-    public void setManagerInfo(ManagerInfo managerInfo) {
-        this.managerInfo = managerInfo;
-    }
+
 
     @Override
     public String toString() {

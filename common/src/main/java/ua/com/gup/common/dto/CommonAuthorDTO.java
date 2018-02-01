@@ -31,5 +31,5 @@ public class CommonAuthorDTO {
     @JsonProperty("imgUrl")
     @ApiModelProperty(position = 50)
     private String imageUrl;
-    
+
 }

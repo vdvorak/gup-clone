@@ -19,7 +19,6 @@ import ua.com.gup.common.model.mongo.profile.ProfileContactList;
 import ua.com.gup.common.model.mongo.profile.ProfileStatistic;
 import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
 import ua.com.gup.common.model.mongo.profile.phone.DBStorePhones;
-import ua.com.gup.common.model.security.Role;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -29,12 +28,12 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-public abstract class CommonProfile<T extends ManagerClientInfo> {
+public abstract class CommonProfile {
 
     @Id
     private String id;
     @Indexed
-    private  String publicId;
+    private String publicId;
     @Indexed
     private String idSeoWord;
     private boolean active;
@@ -81,6 +80,12 @@ public abstract class CommonProfile<T extends ManagerClientInfo> {
     private FinanceInfo financeInfo;
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
+
+    protected ManagerClientInfo rentManagerClientInfo;
+    private ManagerInfo rentManagerInfo;
+
+    protected ManagerClientInfo saleManagerClientInfo;
+    private ManagerInfo saleManagerInfo;
 
     public CommonProfile setId(String id) {
         this.id = id;
@@ -234,6 +239,7 @@ public abstract class CommonProfile<T extends ManagerClientInfo> {
     public Boolean isConfirmModerator() {
         return confirmModerator;
     }
+
     public Boolean getConfirmModerator() {
         return confirmModerator;
     }
@@ -376,11 +382,54 @@ public abstract class CommonProfile<T extends ManagerClientInfo> {
         this.banInfo = banInfo;
     }
 
+    public abstract ManagerClientInfo getManagerClientInfo();
 
-    public abstract T getManagerClientInfo();
-
-    public abstract void setManagerClientInfo(T managerClientInfo);
+    public abstract void setManagerClientInfo(ManagerClientInfo managerClientInfo);
 
     public abstract ManagerInfo getManagerInfo();
 
+    public ManagerClientInfo getRentManagerClientInfo() {
+        if (rentManagerClientInfo == null) {
+            rentManagerClientInfo = new ManagerClientInfo();
+        }
+        return rentManagerClientInfo;
+    }
+
+    public void setRentManagerClientInfo(ManagerClientInfo rentManagerClientInfo) {
+        this.rentManagerClientInfo = rentManagerClientInfo;
+    }
+
+    public ManagerInfo getRentManagerInfo() {
+        if (saleManagerInfo == null) {
+            saleManagerInfo = new ManagerInfo();
+        }
+        return saleManagerInfo;
+    }
+
+    public void setRentManagerInfo(ManagerInfo rentManagerInfo) {
+        this.rentManagerInfo = rentManagerInfo;
+    }
+
+    public ManagerClientInfo getSaleManagerClientInfo() {
+        if(saleManagerClientInfo == null){
+            saleManagerClientInfo = new ManagerClientInfo();
+        }
+        return saleManagerClientInfo;
+    }
+
+    public void setSaleManagerClientInfo(ManagerClientInfo saleManagerClientInfo) {
+        this.saleManagerClientInfo = saleManagerClientInfo;
+    }
+
+
+    public ManagerInfo getSaleManagerInfo() {
+        if (saleManagerInfo == null) {
+            saleManagerInfo = new ManagerInfo();
+        }
+        return saleManagerInfo;
+    }
+
+    public void setSaleManagerInfo(ManagerInfo saleManagerInfo) {
+        this.saleManagerInfo = saleManagerInfo;
+    }
 }

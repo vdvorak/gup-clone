@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.com.gup.search.model.ESCategoriesOffersStatistic;
 import ua.com.gup.search.model.ESCategoriesStatistic;
+import ua.com.gup.search.model.filter.rent.RentOfferCalculateRentPriceFilter;
 import ua.com.gup.search.model.filter.rent.RentOfferFilter;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 import ua.com.gup.search.service.ESSearchRentOfferService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -57,4 +59,8 @@ public class ESSearchRentOfferServiceImpl implements ESSearchRentOfferService {
         return esOfferRepository.suggestByOffersTitlesAndDescriptions(query);
     }
 
+    @Override
+    public Integer calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
+        return esOfferRepository.calculateRentPrice(filter);
+    }
 }

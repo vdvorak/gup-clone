@@ -5,9 +5,16 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import ua.com.gup.config.*;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @EnableAutoConfiguration
 @EnableResourceServer
 public class OAuthServerGupApplication {
+    @PostConstruct
+    void initialize() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
     public static void main(String[] args) {
         SpringApplication.run(new Object[]{WebConfig.class
                 , OAuthRootConfig.class
