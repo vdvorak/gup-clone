@@ -2,13 +2,13 @@ package ua.com.gup.common.mapper.manager.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.service.CommonProfileService;
 
 
-public abstract class ManagerActionMapper<T extends ManagerAction, K extends ManagerActionDto> {
+public abstract class ManagerActionMapper<T extends ManagerAction, K extends ManagerActionDTO> {
 
     @Autowired
     private CommonProfileService profileService;

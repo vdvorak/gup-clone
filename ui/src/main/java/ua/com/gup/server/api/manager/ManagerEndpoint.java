@@ -13,7 +13,7 @@ import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
 import ua.com.gup.common.dto.profile.manager.ManagerClientProfileDto;
 import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
 import ua.com.gup.common.dto.profile.manager.client.ManagerContactInfoEditDto;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
@@ -250,44 +250,44 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/actions")
-    public ResponseEntity<Page<ManagerActionDto>> searchActions(
+    public ResponseEntity<Page<ManagerActionDTO>> searchActions(
             ManagerActionFilter filter,
             Pageable pageable) {
-        Page<ManagerActionDto> actions = managerActionService.findAll(filter, pageable);
+        Page<ManagerActionDTO> actions = managerActionService.findAll(filter, pageable);
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/{managerPublicId}/actions")
-    public ResponseEntity<Page<ManagerActionDto>> searchManagerActions(
+    public ResponseEntity<Page<ManagerActionDTO>> searchManagerActions(
             @PathVariable("managerPublicId") String managerPublicId,
             ManagerActionFilter filter,
             Pageable pageable) {
 
         filter.setManagerPublicId(managerPublicId);
-        Page<ManagerActionDto> actions = managerActionService.findAll(filter, pageable);
+        Page<ManagerActionDTO> actions = managerActionService.findAll(filter, pageable);
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('READ_MANAGER_ACTION')")
     @GetMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> getAction(
+    public ResponseEntity<ManagerActionDTO> getAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
         if(!managerActionService.exists(actionId)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        ManagerActionDto action= managerActionService.getById(actionId);
+        ManagerActionDTO action= managerActionService.getById(actionId);
 
         return new ResponseEntity(action, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('CREATE_MANAGER_ACTION')")
     @PostMapping(value = "/{managerPublicId}/actions")
-    public ResponseEntity<ManagerActionDto> createAction(
+    public ResponseEntity<ManagerActionDTO> createAction(
             @PathVariable("managerPublicId") String managerPublicId,
-            @RequestBody @Valid ManagerActionDto dto) {
+            @RequestBody @Valid ManagerActionDTO dto) {
 
         dto.setId(null);
         if(StringUtils.isEmpty(dto.getManagerPublicId())){
@@ -300,10 +300,10 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('UPDATE_MANAGER_ACTION')")
     @PutMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> editAction(
+    public ResponseEntity<ManagerActionDTO> editAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId,
-            @RequestBody @Valid ManagerActionDto dto) {
+            @RequestBody @Valid ManagerActionDTO dto) {
 
         if(!managerActionService.exists(actionId)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -319,7 +319,7 @@ public class ManagerEndpoint {
 
     @PreAuthorize("hasAuthority('DELETE_MANAGER_ACTION')")
     @DeleteMapping(value = "/{managerPublicId}/actions/{actionId}")
-    public ResponseEntity<ManagerActionDto> deleteAction(
+    public ResponseEntity<ManagerActionDTO> deleteAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
 

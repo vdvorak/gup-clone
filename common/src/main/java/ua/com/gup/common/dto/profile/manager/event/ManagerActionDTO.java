@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-public class ManagerActionDto {
+public class ManagerActionDTO {
     @ApiModelProperty(position = 1, example = "Dmitriy")
     private String id;
     @ApiModelProperty(position = 2, example = "12-12-2012")

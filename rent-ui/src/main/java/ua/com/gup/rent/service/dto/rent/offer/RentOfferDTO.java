@@ -21,6 +21,6 @@ public abstract class RentOfferDTO implements Serializable {
 
     public void setDescription(String description) {
         if (!StringUtils.isEmpty(description))
-            this.description = description.replaceAll("\\s+", " ");
+            this.description = description.replaceAll("\\s{2,}", " ");
     }
 }
