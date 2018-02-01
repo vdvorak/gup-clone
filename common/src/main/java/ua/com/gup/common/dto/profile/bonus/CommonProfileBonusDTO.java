@@ -27,17 +27,17 @@ public abstract class CommonProfileBonusDTO implements Serializable {
     @NotNull
     protected Boolean active;
 
-    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
+    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
     protected LocalDateTime createDate;
 
-    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ss")
+    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
     @NotNull
     protected LocalDateTime startDate;
 
-    @ApiModelProperty(value ="yyyy-MM-dd@HH:mm:ss" ,example = "2018-12-03T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
+    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
     @NotNull
     protected LocalDateTime endDate;
 
