@@ -17,6 +17,7 @@ public abstract class CommonManagerClientMapper<T extends ManagerClientProfileDt
 
     public T convert(S profile) {
         T dto = createDto();
+        dto.setChatUID(profile.getChatUID());
         dto.setFirstname(profile.getFirstname());
         dto.setLastname(profile.getLastname());
         dto.setPublicId(profile.getPublicId());

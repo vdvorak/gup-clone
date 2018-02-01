@@ -1,6 +1,7 @@
 package ua.com.gup.common.dto.profile.manager;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import ua.com.gup.common.dto.profile.manager.client.CommonClientInfoProfileDto;
@@ -39,6 +40,8 @@ public abstract class ManagerClientProfileDto<T extends ManagerClientInfo, M ext
     private String imageUrlLarge;
     @ApiModelProperty(position = 118, example = "[ROLE_USER,ROLE_MANAGER]")
     private Set<String> userRoles;
+    @JsonProperty("chatUID")
+    private String chatUID;
 
     public ManagerClientProfileDto(){
     }
