@@ -14,6 +14,7 @@ import ua.com.gup.common.model.category.attribute.OfferCategorySingleAttributeVa
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferContactInfoDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferLandsDTO;
+import ua.com.gup.rent.service.dto.rent.offer.calendar.RentOfferCalendarDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticDTO;
 
 import java.util.LinkedHashMap;
@@ -43,6 +44,10 @@ public class RentOfferViewDetailsDTO extends RentOfferViewBaseDTO {
 
     @ApiModelProperty(position = 170, notes = "rent offers count")
     private Integer count;
+
+    @ApiModelProperty(notes = "rent calendar")
+    @JsonProperty(value = "calendar")
+    private RentOfferCalendarDTO rentOfferCalendarDTO;
 
     @ApiModelProperty(position = 110)
     private LinkedHashMap<String, OfferCategorySingleAttributeValue> attrs = new LinkedHashMap<>();
