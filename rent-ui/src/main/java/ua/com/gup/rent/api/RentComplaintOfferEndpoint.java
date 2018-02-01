@@ -62,8 +62,8 @@ public class RentComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("isAuthenticated()")
-    @PostAuthorize("hasAuthority('UPDATE_COMPLAINT_STATUS')")
+
+    @PreAuthorize("hasAuthority('UPDATE_COMPLAINT_STATUS')")
     @RequestMapping(value = "/complaints/{id}/status", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateComplaintOfferStaus(@Valid @RequestBody RentComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
@@ -94,8 +94,7 @@ public class RentComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("isAuthenticated()")
-    @PostAuthorize("hasAuthority('UPDATE_COMPLAINT_TYPES')")
+    @PreAuthorize("hasAuthority('UPDATE_COMPLAINT_TYPES')")
     @RequestMapping(value = "/complaints/{id}/types", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody RentComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
@@ -212,8 +211,7 @@ public class RentComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the status, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PreAuthorize("isAuthenticated()")
-    @PostAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('READ_COMPLAINT')")
     @RequestMapping(value = "/complaints/is-complaint-available/{offerId}/{userPublicId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isComplaintAvailable(@PathVariable("offerId") String offerId, @PathVariable("userPublicId") String userPublicId) throws URISyntaxException {
         log.debug("REST request to check if exists complaint on this offerId {} by this userPublicId {}", offerId, userPublicId);
