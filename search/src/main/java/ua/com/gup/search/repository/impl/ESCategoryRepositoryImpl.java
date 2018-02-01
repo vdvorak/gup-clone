@@ -9,12 +9,13 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.search.model.ESCategory;
+import ua.com.gup.search.model.search.ESCategory;
 import ua.com.gup.search.repository.ESCategoryRepository;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
 
 @Repository
 public class ESCategoryRepositoryImpl implements ESCategoryRepository {
@@ -28,6 +29,7 @@ public class ESCategoryRepositoryImpl implements ESCategoryRepository {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
+
     public void createOffer() throws IOException {
 
 //        String id = UUID.randomUUID().toString();
@@ -70,7 +72,7 @@ public class ESCategoryRepositoryImpl implements ESCategoryRepository {
             SearchHit searchHit = searchHitIterator.next();
             Map<String, Object> source = searchHit.getSource();
             Map map = (Map) source.get("title");
-            return new ESCategory((Integer) source.get("code"), (String) map.get(locale.toString()));
+            return new ESCategory(source.get("code"), map.get(locale.toString()));
         }
         return new ESCategory();
     }

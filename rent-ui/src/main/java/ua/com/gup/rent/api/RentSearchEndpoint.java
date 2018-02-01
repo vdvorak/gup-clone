@@ -11,15 +11,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.ElasticSearchService;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.search.CategoryOffersStatistic;
 import ua.com.gup.rent.service.dto.search.CategoryStatistic;
 import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
+import ua.com.gup.rent.validator.rent.offer.filter.RentOfferFilterDTOValidator;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,19 @@ public class RentSearchEndpoint {
 
     @Autowired
     private ElasticSearchService searchService;
+
+    @Autowired
+    private RentOfferFilterDTOValidator rentOfferFilterDTOValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() != null) {
+            final Class<?> clazz = binder.getTarget().getClass();
+            if (RentOfferFilterDTO.class.equals(clazz)) {
+                binder.addValidators(rentOfferFilterDTOValidator);
+            }
+        }
+    }
 
 
     @ApiOperation(value = "Get all the offers by filter",
@@ -59,7 +75,7 @@ public class RentSearchEndpoint {
                             "Not taken into account if the 'query' is specified. Example = 'lastModifiedBy,desc\nprice.amount,desc'")
     })
     @GetMapping(value = "/offers")
-    public ResponseEntity<Page> getAllOffersByFilter(RentOfferFilter offerFilter, Pageable pageable) throws JsonProcessingException {
+    public ResponseEntity<Page> getAllOffersByFilter(@Valid RentOfferFilterDTO offerFilter, Pageable pageable) throws JsonProcessingException {
         log.debug("REST request to get a page of Offers");
 
         if (offerFilter.getAuthorFilter() != null) {
@@ -78,9 +94,9 @@ public class RentSearchEndpoint {
 
 
     @RequestMapping(value = "/offers/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity calculateRentPrice(RentOfferFilter offerFilter) {
-        Integer price = searchService.calculatePrice(offerFilter);
-        return new ResponseEntity<>("{\"price\":+" + price + "}", HttpStatus.OK);
+    public ResponseEntity calculateRentPrice(@Valid RentOfferFilterDTO offerFilter) {
+        Map priceMap = searchService.calculatePrice(offerFilter);
+        return new ResponseEntity<>(priceMap, HttpStatus.OK);
     }
 
 
@@ -97,16 +113,6 @@ public class RentSearchEndpoint {
 
         return new ResponseEntity(categoriesCount, HttpStatus.NOT_FOUND);
     }
-
-    //    @CrossOrigin
-//    @RequestMapping(value = "offers/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) {
-//        UriComponents uriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/categories/status").queryParam("status", status).build();
-//        return new ResponseEntity(restTemplate.getForObject(uriComponents.toUri(), CategoryOffersStatistic[].class), HttpStatus.OK);
-//    }
-//
-//
-
 
     @RequestMapping(value = "offers/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) {
@@ -133,36 +139,16 @@ public class RentSearchEndpoint {
 
     @RequestMapping(value = "/offers/{rentOfferId}/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateRentOfferCalendars(@PathVariable(value = "rentOfferId") String rentOfferId) {
-        offerService.demo(rentOfferId);
+        offerService.refreshAndIndexOfferCalendars(rentOfferId);
         return new ResponseEntity(HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/offers/calendars/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateAllRentOffersCalendars() {
-
-        offerService.demoAll();
+        offerService.refreshAndIndexAllOffersCalendars();
         return new ResponseEntity(HttpStatus.OK);
 
     }
-
-
-//
-//    @Deprecated
-//    @CrossOrigin
-//    @RequestMapping(value = "/offers/category", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity countOffersByCategoryAndQuery(@RequestParam(name = "q") String query) {
-//
-//        SearchResponseDTO searchResponseDTO = new SearchResponseDTO();
-//        UriComponents aggregateUriComponents = uriComponentsBuilder.cloneBuilder().path("/offers/count").queryParam("q", query).build();
-//
-//        CompletableFuture<ResponseEntity<CategoryStatistic[]>> aggregateResponse = CompletableFutureUtil.toCompletableFuture(asyncRestTemplate.getForEntity(aggregateUriComponents.toUri(), CategoryStatistic[].class));
-//        aggregateResponse.whenCompleteAsync(((responseEntity, throwable) -> searchResponseDTO.setAggregations(responseEntity.getBody())));
-//
-//        CompletableFuture.allOf(aggregateResponse).join();
-//        return new ResponseEntity(searchResponseDTO, HttpStatus.OK);
-//    }
-
 
 }

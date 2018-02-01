@@ -4,16 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.filter.rent.RentOfferCalculateRentPriceFilter;
-import ua.com.gup.search.model.filter.rent.RentOfferFilter;
+import ua.com.gup.search.model.filter.RentOfferCalculateRentPriceFilter;
+import ua.com.gup.search.model.filter.RentOfferFilter;
+import ua.com.gup.search.model.search.ESCategoriesOffersStatistic;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESRentOfferRentPrice;
 import ua.com.gup.search.repository.ESRentOfferRepository;
 import ua.com.gup.search.service.ESSearchRentOfferService;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +59,7 @@ public class ESSearchRentOfferServiceImpl implements ESSearchRentOfferService {
     }
 
     @Override
-    public Integer calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
+    public ESRentOfferRentPrice calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException  {
         return esOfferRepository.calculateRentPrice(filter);
     }
 }

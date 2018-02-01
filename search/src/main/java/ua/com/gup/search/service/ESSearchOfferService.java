@@ -1,7 +1,7 @@
 package ua.com.gup.search.service;
 
-import ua.com.gup.search.model.ESCategoriesStatistic;
-import ua.com.gup.search.model.ESOffer;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
+import ua.com.gup.search.model.search.ESOffer;
 import ua.com.gup.search.model.filter.OfferFilter;
 import ua.com.gup.search.util.Locale;
 

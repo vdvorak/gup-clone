@@ -8,14 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ua.com.gup.search.model.ESCategoriesOffersStatistic;
-import ua.com.gup.search.model.filter.rent.RentOfferCalculateRentPriceFilter;
-import ua.com.gup.search.model.filter.rent.RentOfferFilter;
+import ua.com.gup.search.model.filter.RentOfferCalculateRentPriceFilter;
+import ua.com.gup.search.model.filter.RentOfferFilter;
+import ua.com.gup.search.model.search.ESCategoriesStatistic;
 import ua.com.gup.search.service.ESSearchRentOfferService;
 import ua.com.gup.search.util.Locale;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,14 +65,13 @@ public class SearchRentOffersEndpoint {
     }
 
     @RequestMapping(value = "/categories/status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ESCategoriesOffersStatistic>> countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) throws IOException {
+    public ResponseEntity<List<ESCategoriesStatistic>> countOffersInCategoriesByStatus(@RequestParam(name = "status", defaultValue = "active") String status) throws IOException {
         return new ResponseEntity(esSearchRentOfferService.countOffersInCategoriesByStatus(status), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/price/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity calculateRentPrice(RentOfferCalculateRentPriceFilter filter) throws IOException {
-        Integer rentPrice = esSearchRentOfferService.calculateRentPrice(filter);
-        return new ResponseEntity(rentPrice, HttpStatus.OK);
+        return new ResponseEntity(esSearchRentOfferService.calculateRentPrice(filter), HttpStatus.OK);
     }
 
 

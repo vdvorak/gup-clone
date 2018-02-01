@@ -5,13 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.service.CommonOfferService;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
@@ -43,9 +42,9 @@ public interface RentOfferService extends CommonOfferService {
 
     RentOffer updateAndReturn(String offerId, RentOfferUpdateDTO offerUpdateDTO);
 
-    Page<RentOfferViewShortDTO> findAll(RentOfferFilter offerFilter, Pageable pageable);
+    Page<RentOfferViewShortDTO> findAll(RentOfferFilterDTO offerFilter, Pageable pageable);
 
-    List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable);
+    List<RentOfferViewCoordinatesDTO> findCoordinatesByFilter(RentOfferFilterDTO offerFilter, Pageable pageable);
 
     Page<RentOfferViewShortWithModerationReportDTO> findAllByStatusAndUserId(CommonStatus status, String authorId, Pageable pageable);
 
@@ -86,7 +85,7 @@ public interface RentOfferService extends CommonOfferService {
 
     Page<RentOfferViewShortDTO> findByManagerAndPublicIdAndStatus(CommonStatus status, String userPublicId, Pageable pageable);
 
-    void demo(String rentOfferId);
+    void refreshAndIndexOfferCalendars(String rentOfferId);
 
-    void demoAll();
+    void refreshAndIndexAllOffersCalendars();
 }

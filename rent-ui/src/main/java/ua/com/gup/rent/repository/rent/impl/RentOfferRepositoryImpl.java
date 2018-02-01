@@ -12,33 +12,26 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
-import ua.com.gup.common.model.filter.CommonAddressFilter;
-import ua.com.gup.common.model.filter.CommonAttributeFilter;
-import ua.com.gup.common.model.filter.CommonCoordinatesFilter;
 import ua.com.gup.common.model.filter.CommonOfferFilter;
 import ua.com.gup.common.model.object.ObjectType;
 import ua.com.gup.common.repository.CommonOfferRepository;
 import ua.com.gup.common.repository.impl.CommonOfferRepositoryImpl;
-import ua.com.gup.rent.filter.*;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class RentOfferRepositoryImpl
-        extends CommonOfferRepositoryImpl<RentOffer,RentOfferFilter>
-        implements RentOfferRepository, CommonOfferRepository<RentOffer,RentOfferFilter> {
+        extends CommonOfferRepositoryImpl<RentOffer,RentOfferFilterDTO>
+        implements RentOfferRepository, CommonOfferRepository<RentOffer,RentOfferFilterDTO> {
 
 
     private final Logger log = LoggerFactory.getLogger(RentOfferRepositoryImpl.class);
@@ -98,7 +91,7 @@ public class RentOfferRepositoryImpl
     protected Query buildQueryByFilter(CommonOfferFilter offerFilter, List<CommonStatus> statusList, Collection<String> excludedIds, Pageable pageable) {
 
         Query query = super.buildQueryByFilter(offerFilter, statusList, excludedIds, pageable);
-        RentOfferFilter filter = (RentOfferFilter) offerFilter;
+        RentOfferFilterDTO filter = (RentOfferFilterDTO) offerFilter;
         if (filter.getCategory() != null) {
             query.addCriteria(Criteria.where("categories").all(filter.getCategory()));
         }

@@ -24,11 +24,11 @@ import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.rent.command.rent.offer.CreateRentOfferCommand;
 import ua.com.gup.rent.command.rent.offer.UpdateRentOfferCommand;
 import ua.com.gup.rent.component.executor.RentCommandExecutor;
-import ua.com.gup.rent.filter.RentOfferFilter;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
+import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
@@ -231,7 +231,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
             response = RentOfferViewCoordinatesDTO.class
     )
     @RequestMapping(value = "/offers/coordinates", method = RequestMethod.GET)
-    public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilter offerFilter, Pageable pageable) {
+    public ResponseEntity<List> getOffersCoordinatesByFilter(RentOfferFilterDTO offerFilter, Pageable pageable) {
         log.debug("REST request to get a list of Rent Offers");
         List<RentOfferViewCoordinatesDTO> list = offerService.findCoordinatesByFilter(offerFilter, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);

@@ -8,6 +8,8 @@ import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
 import ua.com.gup.common.service.mapper.ImageStorageMapper;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
+import ua.com.gup.rent.model.mongo.rent.calendar.RentOfferCalendar;
+import ua.com.gup.rent.model.rent.calendar.RentOfferCalendarDay;
 import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
@@ -67,6 +69,16 @@ public class RentOfferMapper {
         offer.setDescription(offerCreateDTO.getDescription());
         offer.setStatus(CommonStatus.NEW);
         offer.setPrice(rentOfferPriceMapper.fromDTOToModel(offerCreateDTO.getPrice()));
+
+        LocalDate startDate = offerCreateDTO.getCalendar().getStartDate();
+        LocalDate endDate = offerCreateDTO.getCalendar().getEndDate();
+        List<RentOfferCalendarDay> days = offerCreateDTO.getCalendar().getDays();
+
+        RentOfferCalendar rentOfferCalendar = new RentOfferCalendar(startDate, endDate);
+        rentOfferCalendar.setDays(days.toArray(new RentOfferCalendarDay[days.size()]));
+        offer.setRentOfferCalendar(rentOfferCalendar);
+        offer.setRentObjectsCount(offerCreateDTO.getCount());
+
         return offer;
     }
 
@@ -148,7 +160,7 @@ public class RentOfferMapper {
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
 
         offerViewDetailsDTO.setOfferStatistic(new RentOfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
-        offerViewDetailsDTO.setCount(offer.getRentOfferCalendars().size());
+        offerViewDetailsDTO.setCount(offer.getRentObjectsCount());
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(rentOfferLandsMapper.fromModelToDTO(offer.getLands()));
         }

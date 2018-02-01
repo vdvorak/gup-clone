@@ -44,8 +44,4 @@ public class ManagerActionDto {
     @NotNull
     private CallStatus callStatus;
 
-
-    public ManagerActionDto() {
-    }
-
 }
