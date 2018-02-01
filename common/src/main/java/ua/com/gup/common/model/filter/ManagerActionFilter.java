@@ -10,11 +10,11 @@ import java.util.Date;
 @Data
 public class ManagerActionFilter {
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     public Date date;
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     public Date dateStart;
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     public Date dateEnd;
 
     @JsonFormat(pattern = "HH:mm")
