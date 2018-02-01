@@ -400,10 +400,10 @@ public abstract class CommonProfile {
     }
 
     public ManagerInfo getRentManagerInfo() {
-        if (saleManagerInfo == null) {
-            saleManagerInfo = new ManagerInfo();
+        if (rentManagerInfo == null) {
+            rentManagerInfo = new ManagerInfo();
         }
-        return saleManagerInfo;
+        return rentManagerInfo;
     }
 
     public void setRentManagerInfo(ManagerInfo rentManagerInfo) {
