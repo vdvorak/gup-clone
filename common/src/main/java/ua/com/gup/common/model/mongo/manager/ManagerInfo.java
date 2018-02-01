@@ -1,9 +1,12 @@
-package ua.com.gup.rent.model.mongo.user;
+package ua.com.gup.common.model.mongo.manager;
+
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ManagerProfile extends Profile {
+@Data
+public class ManagerInfo {
 
     private Set<String> users;
 
@@ -12,9 +15,5 @@ public class ManagerProfile extends Profile {
             users = new HashSet<>();
         }
         return users;
-    }
-
-    public void setUsers(Set<String> users) {
-        this.users = users;
     }
 }

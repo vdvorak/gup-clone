@@ -1,8 +1,7 @@
-package ua.com.gup.rent.repository.profile;
+package ua.com.gup.common.repository.filter;
 
 import lombok.Data;
-import ua.com.gup.common.model.security.Role;
-import ua.com.gup.rent.service.profile.ProfileFilter;
+import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
 
 import java.util.Set;
 @Data
@@ -26,7 +25,7 @@ public class ProfileRepositoryFilter {
     private String managerPublicId;
 
 
-    public ProfileRepositoryFilter(ProfileFilter filter) {
+    public ProfileRepositoryFilter(ManagerProfileFilter filter) {
         this.username = filter.getUsername();
         this.email = filter.getEmail();
         this.publicId = filter.getPublicId();

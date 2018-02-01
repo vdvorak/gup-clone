@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
 import ua.com.gup.common.annotation.Email;
 import ua.com.gup.common.annotation.Password;
 import ua.com.gup.common.model.ImageFileInfo;
 import ua.com.gup.common.model.address.Address;
 import ua.com.gup.common.model.enumeration.CommonUserType;
+import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
+import ua.com.gup.common.model.mongo.manager.ManagerInfo;
 import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
 import ua.com.gup.common.model.mongo.profile.Contact;
 import ua.com.gup.common.model.mongo.profile.FinanceInfo;
@@ -25,12 +28,12 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-public class CommonProfile {
+public abstract class CommonProfile {
 
     @Id
     private String id;
     @Indexed
-    private  String publicId;
+    private String publicId;
     @Indexed
     private String idSeoWord;
     private boolean active;
@@ -77,6 +80,12 @@ public class CommonProfile {
     private FinanceInfo financeInfo;
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
+
+    protected ManagerClientInfo rentManagerClientInfo;
+    private ManagerInfo rentManagerInfo;
+
+    protected ManagerClientInfo saleManagerClientInfo;
+    private ManagerInfo saleManagerInfo;
 
     public CommonProfile setId(String id) {
         this.id = id;
@@ -230,6 +239,7 @@ public class CommonProfile {
     public Boolean isConfirmModerator() {
         return confirmModerator;
     }
+
     public Boolean getConfirmModerator() {
         return confirmModerator;
     }
@@ -372,4 +382,54 @@ public class CommonProfile {
         this.banInfo = banInfo;
     }
 
+    public abstract ManagerClientInfo getManagerClientInfo();
+
+    public abstract void setManagerClientInfo(ManagerClientInfo managerClientInfo);
+
+    public abstract ManagerInfo getManagerInfo();
+
+    public ManagerClientInfo getRentManagerClientInfo() {
+        if (rentManagerClientInfo == null) {
+            rentManagerClientInfo = new ManagerClientInfo();
+        }
+        return rentManagerClientInfo;
+    }
+
+    public void setRentManagerClientInfo(ManagerClientInfo rentManagerClientInfo) {
+        this.rentManagerClientInfo = rentManagerClientInfo;
+    }
+
+    public ManagerInfo getRentManagerInfo() {
+        if (saleManagerInfo == null) {
+            saleManagerInfo = new ManagerInfo();
+        }
+        return saleManagerInfo;
+    }
+
+    public void setRentManagerInfo(ManagerInfo rentManagerInfo) {
+        this.rentManagerInfo = rentManagerInfo;
+    }
+
+    public ManagerClientInfo getSaleManagerClientInfo() {
+        if(saleManagerClientInfo == null){
+            saleManagerClientInfo = new ManagerClientInfo();
+        }
+        return saleManagerClientInfo;
+    }
+
+    public void setSaleManagerClientInfo(ManagerClientInfo saleManagerClientInfo) {
+        this.saleManagerClientInfo = saleManagerClientInfo;
+    }
+
+
+    public ManagerInfo getSaleManagerInfo() {
+        if (saleManagerInfo == null) {
+            saleManagerInfo = new ManagerInfo();
+        }
+        return saleManagerInfo;
+    }
+
+    public void setSaleManagerInfo(ManagerInfo saleManagerInfo) {
+        this.saleManagerInfo = saleManagerInfo;
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.model.complaint.ComplaintFilter;
 import ua.com.gup.common.model.complaint.ComplaintOfferStatus;
@@ -46,7 +47,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 201 (Created) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('CREATE_COMPLAINT')")
     @RequestMapping(value = "/complaints", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createComplaintOffer(@Valid @RequestBody ComplaintOffer complaintOffer) throws URISyntaxException {
         log.debug("REST request to save new ComplaintOffer : {}", complaintOffer);
@@ -70,7 +71,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('UPDATE_COMPLAINT_STATUS')")
     @RequestMapping(value = "/complaints/{id}/status", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateComplaintOfferStaus(@Valid @RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
@@ -93,7 +94,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('UPDATE_COMPLAINT_TYPE')")
     @RequestMapping(value = "/complaints/{id}/type", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateComplaintOfferDescription(@RequestBody ComplaintOfferType type, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", type);
@@ -116,7 +117,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('UPDATE_COMPLAINT_TYPES')")
     @RequestMapping(value = "/complaints/{id}/types", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateComplaintOfferTypes(@RequestBody ComplaintOffer complaintOffer, @PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to update ComplaintOffer : {}", complaintOffer);
@@ -161,7 +162,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('READ_COMPLAINT_STATUSES')")
     @RequestMapping(value = "/complaints/statuses", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> getComplaintOfferStatuses() throws URISyntaxException {
         log.debug("REST request to get Statuses");
@@ -182,7 +183,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('READ_COMPLAINT')")
     @RequestMapping(value = "/complaints/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ComplaintOffer> getComplaintOfferById(@PathVariable("id") String id) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer : {}", id);
@@ -202,7 +203,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('READ_COMPLAINTS_BY_OFFER')")
     @RequestMapping(value = "/complaints/offer/{offerId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByOfferId(@PathVariable("offerId") String offerId) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -223,7 +224,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('SEARCH_COMPLAINTS_BY_INITIATOR')")
     @RequestMapping(value = "/complaints/initiator/{initiatorId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByInitiatorId(@PathVariable("initiatorId") String initiatorId) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -247,7 +248,7 @@ public class ComplaintOfferEndpoint {
      * @return the ResponseEntity with status 200 (Ok) and with body the new complaintOffer, or with status 400 (Bad Request) if the offer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin
+    @PreAuthorize("hasAuthority('SEARCH_COMPLAINTS_BY_STATUS')")
     @RequestMapping(value = "/complaints/status/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ComplaintOffer>> getComplaintOfferByStatus(@PathVariable("status") String status) throws URISyntaxException {
         log.debug("REST request to get ComplaintOffer's");
@@ -267,7 +268,7 @@ public class ComplaintOfferEndpoint {
     }
 
 
-    @PostAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('SEARCH_COMPLAINTS_BY_FILTER')")
     @RequestMapping(value = "/complaints", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<ComplaintOffer>> findComplaints(ComplaintFilter filter, Pageable pageable)
             throws URISyntaxException {

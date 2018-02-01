@@ -33,7 +33,6 @@ import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewCoordinatesDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewDetailsDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortDTO;
 import ua.com.gup.rent.service.dto.rent.offer.view.RentOfferViewShortWithModerationReportDTO;
-import ua.com.gup.rent.service.rent.RentOfferElasticService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 import ua.com.gup.rent.service.sequence.RentSequenceService;
 import ua.com.gup.rent.util.RentOfferSEOFriendlyUrlUtil;
@@ -71,25 +70,17 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     @Autowired
     private RentOfferCalendarService rentOfferCalendarService;
 
-    @Autowired
-    private RentOfferElasticService rentOfferElasticService;
-
     private RentOffer createWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
         rentOfferCalendarService.indexRentOffer(rentOffer);
         rentOfferCalendarService.createRentOfferCalendars(rentOffer);
         rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
-        rentOfferElasticService.createElasticRentOffer(rentOffer);
         return rentOffer;
     }
 
     private RentOffer updateWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
         rentOfferCalendarService.indexRentOffer(rentOffer);
-//        rentOfferCalendarService.refreshRentOfferCalendars(rentOffer);
-//        rentOfferCalendarService.indexRentOfferCalendars(rentOffer);
-//
-        rentOfferElasticService.updateElasticRentOffer(rentOffer);
         return rentOffer;
     }
 
@@ -332,8 +323,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         log.debug("Request to delete Offer : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(CommonStatus.ARCHIVED);
-        offer = offerMongoRepository.save(offer);
-        rentOfferElasticService.updateElasticRentOffer(offer);
+        offerMongoRepository.save(offer);
     }
 
 
@@ -390,7 +380,6 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(status);
         offer = offerMongoRepository.save(offer);
-        rentOfferElasticService.updateElasticRentOffer(offer);
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 

@@ -1,19 +1,18 @@
-package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
+package ua.com.gup.common.dto.profile.manager;
 
 import ua.com.gup.common.dto.profile.AdminPrivateProfileDTO;
-import ua.com.gup.rent.model.mongo.user.ManagerProfile;
+import ua.com.gup.common.model.mongo.CommonProfile;
 
 import java.util.Set;
 
-public class ManagerPrivateProfileDTO extends AdminPrivateProfileDTO {
-
+public class ManagerPrivateProfileDto  extends AdminPrivateProfileDTO {
     /**
      * users public id of manager
      * */
     private Set<String> users ;
 
 
-    public ManagerPrivateProfileDTO(ManagerProfile profile, Set<String> users) {
+    public ManagerPrivateProfileDto(CommonProfile profile, Set<String> users) {
         super(profile);
         this.users = users;
     }

@@ -4,12 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.common.dto.profile.ProfileDTO;
 import ua.com.gup.common.dto.profile.ProfileShortAdminDTO;
-import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.CommonProfileService;
 import ua.com.gup.dto.profile.CreateProfileDTO;
-import ua.com.gup.dto.profile.manager.ManagerPrivateProfileDto;
-import ua.com.gup.dto.profile.manager.UserPrivateProfileDto;
-import ua.com.gup.dto.profile.manager.UserProfileShortAdminDto;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 import ua.com.gup.repository.profile.ProfileFilter;
@@ -207,15 +203,5 @@ public interface ProfilesService extends CommonProfileService<Profile>{
 
     Page<ProfileShortAdminDTO> findByRole(String role, Pageable pageable);
 
-    void linkProfile(String managerPublicId, String profilePublicId);
 
-    void unlinkProfile(String managerPublicId, String profilePublicId);
-
-    boolean hasManager(String profilePublicId);
-
-    List<UserProfileShortAdminDto> getManagerUsers(String managerPublicId);
-
-    UserPrivateProfileDto getManagerUser(String managerPublicId, String publicId);
-
-    ManagerPrivateProfileDto findManagerPrivateProfileDTOForAdminByPublicId(String publicId);
 }

@@ -165,6 +165,8 @@ public class RentOfferMapper {
             offerViewDetailsDTO.setLands(rentOfferLandsMapper.fromModelToDTO(offer.getLands()));
         }
 
+        if (offer.getRentOfferCalendar() != null)
+            offerViewDetailsDTO.setRentOfferCalendarDTO(rentOfferCalendarMapper.fromModelToDTO(offer.getRentOfferCalendar()));
         return offerViewDetailsDTO;
     }
 

@@ -1,11 +1,11 @@
-package ua.com.gup.rent.service.dto.rent.offer.profile.manager;
+package ua.com.gup.common.dto.profile.manager.client;
 
 import lombok.Data;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 
 @Data
-public class ManagerContactInfoEditDTO {
-    private ManagerUserPhoneDTO contactPhone;
+public class ManagerContactInfoEditDto {
+    private ManagerUserPhoneDto contactPhone;
     private String skypeUserName;
     private String viberUserName;
     private String realAddress;
