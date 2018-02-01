@@ -23,7 +23,7 @@ public class ProfileShortAdminDTO {
     public ProfileShortAdminDTO(CommonProfile profile) {
         this.firstname = profile.getFirstname();
         this.lastname = profile.getLastname();
-        this.userRoles = profile.getUserRoles().stream().map(cur -> cur.toString()).collect(Collectors.toSet());
+        this.userRoles = profile.getUserRoles();
         this.publicId = profile.getPublicId();
         if (profile.getImageLarge() != null) {
             this.imageUrlLarge = profile.getImageLarge().getUrl();

@@ -2,16 +2,14 @@ package ua.com.gup.mongo.composition.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.com.gup.common.model.mongo.BanInfo;
-import ua.com.gup.common.model.mongo.CommonProfile;
 import ua.com.gup.common.model.address.Address;
+import ua.com.gup.common.model.mongo.CommonProfile;
+import ua.com.gup.common.model.mongo.manager.ManagerClientInfo;
+import ua.com.gup.common.model.mongo.manager.ManagerInfo;
 import ua.com.gup.common.model.object.ObjectType;
-import ua.com.gup.common.model.mongo.offer.OfferUserContactInfo;
 import ua.com.gup.mongo.model.profiles.BankCard;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
-import ua.com.gup.common.model.mongo.profile.order.OrderAddress;
 
-import java.util.List;
 import java.util.Set;
 
 
@@ -36,6 +34,8 @@ public class Profile extends CommonProfile {
     private String mainKindActivity;
     private String facebookId;
 
+
+
     public Profile() {
     }
 
@@ -56,8 +56,6 @@ public class Profile extends CommonProfile {
         this.point = point;
         return this;
     }
-
-
 
 
     public Set<ProfileRating> getProfileRating() {
@@ -177,6 +175,24 @@ public class Profile extends CommonProfile {
         this.facebookId = facebookId;
         return this;
     }
+
+
+    @Override
+    public ManagerClientInfo getManagerClientInfo() {
+        return this.getSaleManagerClientInfo();
+    }
+
+    @Override
+    public void setManagerClientInfo(ManagerClientInfo managerClientInfo) {
+        this.saleManagerClientInfo = managerClientInfo;
+    }
+
+    @Override
+    public ManagerInfo getManagerInfo() {
+        return this.getSaleManagerInfo();
+    }
+
+
 
     @Override
     public String toString() {

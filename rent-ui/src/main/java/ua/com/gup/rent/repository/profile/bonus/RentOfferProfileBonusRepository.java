@@ -1,17 +1,17 @@
 package ua.com.gup.rent.repository.profile.bonus;
 
-import ua.com.gup.rent.model.mongo.profile.bonus.RentOfferProfileBonus;
+import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
 import ua.com.gup.rent.repository.abstracted.generic.RentOfferGenericRepository;
 
 /**
  * @author Victor Dvorak
  **/
-public interface RentOfferProfileBonusRepository extends RentOfferGenericRepository<RentOfferProfileBonus, String> {
+public interface RentOfferProfileBonusRepository extends RentOfferGenericRepository<ProfileBonus, String> {
 
-    RentOfferProfileBonus findOneByCode(String code);
+    ProfileBonus findOneByCode(String code);
 
-    RentOfferProfileBonus findOneByName(String name);
+    ProfileBonus findOneByName(String name);
 
-    RentOfferProfileBonus findOneById(String id);
+    ProfileBonus findOneById(String id);
 
 }

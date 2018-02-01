@@ -2,11 +2,11 @@ package ua.com.gup.rent.service.profile.bonus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.gup.rent.mapper.RentOfferProfileBonusMapper;
-import ua.com.gup.rent.model.mongo.profile.bonus.RentOfferProfileBonus;
+import ua.com.gup.rent.mapper.ProfileBonusMapper;
+import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
 import ua.com.gup.rent.repository.profile.bonus.RentOfferProfileBonusRepository;
 import ua.com.gup.rent.service.abstracted.RentOfferGenericServiceImpl;
-import ua.com.gup.rent.service.dto.profile.bonus.ProfileCreateBonusDTO;
+import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
  * @author Victor Dvorak
  **/
 @Service
-public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<ProfileCreateBonusDTO, String> implements ProfileBonusService {
+public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<ProfileEditBonusDTO, String> implements ProfileBonusService {
 
     @Autowired
-    RentOfferProfileBonusMapper rentOfferProfileBonusMapper;
+    private ProfileBonusMapper profileBonusMapper;
 
     @Autowired
     public ProfileBonusServiceImpl(RentOfferProfileBonusRepository rentOfferProfileBonusRepository) {
@@ -26,28 +26,34 @@ public class ProfileBonusServiceImpl extends RentOfferGenericServiceImpl<Profile
     }
 
     @Override
-    public void save(ProfileCreateBonusDTO profileCreateBonusDTO) {
-        RentOfferProfileBonus rentOfferProfileBonus = rentOfferProfileBonusMapper.fromDTOToModel(profileCreateBonusDTO);
-        getRepository().create(rentOfferProfileBonus);
+    public void save(ProfileEditBonusDTO profileBonusDTO) {
+        ProfileBonus profileBonus = profileBonusMapper.fromDTOToModel(profileBonusDTO);
+        getRepository().create(profileBonus);
     }
 
     @Override
-    public List<ProfileCreateBonusDTO> findAll() {
-        List<ProfileCreateBonusDTO> listProfileCreateBonusDTO = new ArrayList<ProfileCreateBonusDTO>();
-        for (Object item : getRepository().findAll()) {
-            listProfileCreateBonusDTO.add(rentOfferProfileBonusMapper.fromModelToDTO((RentOfferProfileBonus) item));
+    public void update(ProfileEditBonusDTO profileBonusDTO) {
+        getRepository().update(profileBonusMapper.fromDTOToModel(profileBonusDTO));
+    }
+
+
+    @Override
+    public List<ProfileEditBonusDTO> findAll() {
+        List<ProfileEditBonusDTO> listProfileBonusDTO = new ArrayList<ProfileEditBonusDTO>();
+        for (ProfileBonus item : getRepository().findAll()) {
+            listProfileBonusDTO.add(profileBonusMapper.fromModelToDTO(item));
         }
-        return listProfileCreateBonusDTO;
+        return listProfileBonusDTO;
     }
 
     @Override
-    public ProfileCreateBonusDTO findOneByCode(String code) {
-        return rentOfferProfileBonusMapper.fromModelToDTO(getRepository().findOneByCode(code));
+    public ProfileEditBonusDTO findOneByCode(String code) {
+        return profileBonusMapper.fromModelToDTO(getRepository().findOneByCode(code));
     }
 
     @Override
-    public ProfileCreateBonusDTO findOneByName(String name) {
-        return rentOfferProfileBonusMapper.fromModelToDTO(getRepository().findOneByName(name));
+    public ProfileEditBonusDTO findOneByName(String name) {
+        return profileBonusMapper.fromModelToDTO(getRepository().findOneByName(name));
     }
 
     @Override

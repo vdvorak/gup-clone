@@ -1,10 +1,8 @@
 package ua.com.gup.repository.profile;
 
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.repository.CommonProfileRepository;
 import ua.com.gup.mongo.composition.domain.profile.Profile;
-import ua.com.gup.mongo.composition.domain.profile.UserProfile;
 import ua.com.gup.mongo.model.profiles.ProfileRating;
 
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.Set;
 /**
  * The interface Profile repository.
  */
-public interface ProfileRepository  extends CommonProfileRepository {
+public interface ProfileRepository  extends CommonProfileRepository<Profile> {
     /**
      * Create profile.
      *
@@ -198,20 +196,13 @@ public interface ProfileRepository  extends CommonProfileRepository {
 
     Profile findByFacebookId(String facebookId);
 
+    List<Profile> findUsersByManager(String managerId);
 
-    boolean hasManager(String profilePublicId);
-
-    List<UserProfile> findUsersByManager(String managerId);
-
-    UserProfile getManagerUser(String managerPublicId, String publicId);
+    Profile getManagerUser(String managerPublicId, String publicId);
 
     Set<String> getManagerUserIds(String managerId);
 
     String getPulblicIdById( String id);
-
-    String getIdByPulblicId( String publicId);
-
-    Set<String> getPulblicIdsByIds( Set<String> usersPublicId);
 
     boolean hasRole(String profilePublicId, String roleUser);
 }
