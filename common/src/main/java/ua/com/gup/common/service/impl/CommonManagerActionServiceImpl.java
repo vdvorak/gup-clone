@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import ua.com.gup.common.dto.profile.manager.event.ManagerActionDto;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.mapper.manager.action.ManagerActionMapper;
 import ua.com.gup.common.mapper.manager.action.ManagerActionMapperFactory;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
@@ -34,14 +34,14 @@ public abstract class CommonManagerActionServiceImpl implements ManagerActionSer
     private CommonProfileRepository profileRepository;
 
     @Override
-    public ManagerAction create(ManagerActionDto dto) {
+    public ManagerAction create(ManagerActionDTO dto) {
         ManagerActionMapper mapper = managerActionMapperFactory.getMapper(dto.getType());
         ManagerAction model = mapper.fromDto(dto.getType().createInstance(), dto);
         return repository.save(model);
     }
 
     @Override
-    public ManagerAction save(ManagerActionDto dto) {
+    public ManagerAction save(ManagerActionDTO dto) {
         ManagerAction model = repository.findById(dto.getId());
         ManagerActionMapper mapper = managerActionMapperFactory.getMapper(dto.getType());
         model = mapper.fromDto(dto.getType().createInstance(), dto);
@@ -76,7 +76,7 @@ public abstract class CommonManagerActionServiceImpl implements ManagerActionSer
     }
 
     @Override
-    public ManagerActionDto getById(String id) {
+    public ManagerActionDTO getById(String id) {
         ManagerAction action = repository.findById(id);
         if (action == null) {
             return null;
@@ -87,14 +87,14 @@ public abstract class CommonManagerActionServiceImpl implements ManagerActionSer
     }
 
     @Override
-    public Page<ManagerActionDto> findAll(ManagerActionFilter filter, Pageable pageable) {
+    public Page<ManagerActionDTO> findAll(ManagerActionFilter filter, Pageable pageable) {
         long count = repository.countFiltered(filter);
         List<ManagerAction> actions = Collections.EMPTY_LIST;
         if (count > 0) {
             actions = repository.findFiltered(filter, pageable);
         }
 
-        List<ManagerActionDto> list = actions.stream().map(action -> {
+        List<ManagerActionDTO> list = actions.stream().map(action -> {
             return managerActionMapperFactory.getMapper(action.getType()).toDto(action);
         }).collect(Collectors.toList());
         return new PageImpl<>(list, pageable, count);
