@@ -7,13 +7,16 @@ import ua.com.gup.rent.service.dto.profile.bonus.ProfileCreateBonusDTO;
 import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Victor Dvorak
  **/
 @Component
 public class ProfileBonusMapper {
-    public ProfileEditBonusDTO fromModelToDTO(ProfileBonus profileBonus) {
+    public CommonProfileBonusDTO fromModelToDTO(ProfileBonus profileBonus) {
+
         ProfileEditBonusDTO profileBonusDTO = new ProfileEditBonusDTO();
 
         profileBonusDTO.setId(profileBonus.getId());
@@ -30,20 +33,45 @@ public class ProfileBonusMapper {
         return profileBonusDTO;
     }
 
+    public List<CommonProfileBonusDTO> fromModelToDTO(List<ProfileBonus> profileBonusList) {
+
+        List<CommonProfileBonusDTO> profileBonusListDTO = new ArrayList<CommonProfileBonusDTO>();
+
+        for (ProfileBonus item : profileBonusList) {
+
+            ProfileEditBonusDTO addItem = new ProfileEditBonusDTO();
+
+            addItem.setId(item.getId());
+            addItem.setCode(item.getCode());
+            addItem.setName(item.getName());
+            addItem.setScenarios(item.getScenarios());
+            addItem.setActive(item.getActive());
+            addItem.setCountUse(item.getCountUse());
+            addItem.setCreateDate(item.getCreateDate());
+            addItem.setStartDate(item.getStartDate());
+            addItem.setEndDate(item.getEndDate());
+
+            profileBonusListDTO.add(addItem);
+        }
+
+
+        return profileBonusListDTO;
+    }
+
     public ProfileBonus fromDTOToModel(CommonProfileBonusDTO profileBonusDTO) {
 
         boolean isRentOfferEditBonusDTO = ProfileEditBonusDTO.class.isInstance(profileBonusDTO);
         ProfileBonus profileBonus = new ProfileBonus();
 
-        if(isRentOfferEditBonusDTO && ((ProfileEditBonusDTO)profileBonusDTO).getId()!=null){
+        if (isRentOfferEditBonusDTO && ((ProfileEditBonusDTO) profileBonusDTO).getId() != null) {
             //if update
-            ProfileEditBonusDTO item = (ProfileEditBonusDTO)profileBonusDTO;
+            ProfileEditBonusDTO item = (ProfileEditBonusDTO) profileBonusDTO;
             profileBonus.setId(item.getId());
             profileBonus.setCode(item.getCode());
             profileBonus.setName(item.getName());
-        }else{
-           //if create
-            ProfileCreateBonusDTO item = (ProfileCreateBonusDTO)profileBonusDTO;
+        } else {
+            //if create
+            ProfileCreateBonusDTO item = (ProfileCreateBonusDTO) profileBonusDTO;
             //todo generation form server
             profileBonus.setCode(item.getCode());
             profileBonus.setName(item.getName());
