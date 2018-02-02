@@ -4,9 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
-import ua.com.gup.common.model.mongo.profile.manager.event.status.CallStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerCallAction;
+import ua.com.gup.common.model.mongo.profile.manager.event.status.CallStatus;
 
 import java.util.Collection;
 

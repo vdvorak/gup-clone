@@ -1,13 +1,9 @@
 package ua.com.gup.common.dto.profile.manager.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-import ua.com.gup.common.model.mongo.profile.manager.event.status.CallStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerActionType;
-import ua.com.gup.common.model.mongo.profile.manager.event.status.MeetingStatus;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -45,8 +41,5 @@ public class ManagerActionDTO {
     @NotNull
     private ManagerActionType type;
     @ApiModelProperty(position = 14, example = "[NEW_CALL, FAIL_CALL, RE_CALL, PRESENTATION, ACTIVE_NEGOTIATIONS, CALL_BACK, REJECT]")
-    private CallStatus callStatus;
-    @ApiModelProperty(position = 14, example = "[PLANNED_MEETING, DONE_MEETING, NOT_DONE_MEETING, ADDITIONAL_MEETING, FAILURE_NOT_INTERESTING_MEETING]")
-    private MeetingStatus meetingStatus;
-
+    private String status;
 }

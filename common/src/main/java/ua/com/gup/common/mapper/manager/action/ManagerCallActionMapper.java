@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerCallAction;
+import ua.com.gup.common.model.mongo.profile.manager.event.status.CallStatus;
 import ua.com.gup.common.service.CommonProfileService;
 
 @Component
@@ -19,13 +20,13 @@ public class ManagerCallActionMapper extends ManagerActionMapper<ManagerCallActi
 
     public ManagerActionDTO toDto(ManagerCallAction action) {
         ManagerActionDTO dto = super.toDto(action);
-        dto.setCallStatus(action.getCallStatus());
+        dto.setStatus(action.getCallStatus().name());
         return dto;
     }
 
     public ManagerCallAction fromDto(ManagerCallAction model, ManagerActionDTO dto) {
         model = super.fromDto(model, dto);
-        model.setCallStatus(dto.getCallStatus());
+        model.setCallStatus(CallStatus.valueOf(dto.getStatus()));
         return model;
     }
 }
