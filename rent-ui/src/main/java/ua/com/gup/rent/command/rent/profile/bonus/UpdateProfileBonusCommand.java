@@ -34,10 +34,13 @@ public class UpdateProfileBonusCommand extends ProfileBonusCommand {
         OperationType operationType = null;
 
 
-        switch (operationType) {
+        switch (this.operationType) {
 
             case PROFILE_BONUS_UPDATE:
                 operationType = OperationType.PROFILE_BONUS_UPDATE;
+                break;
+            case PROFILE_BONUS_ACTIVATE_OR_DEACTIVATE:
+                operationType = OperationType.PROFILE_BONUS_ACTIVATE_OR_DEACTIVATE;
                 break;
 
         }

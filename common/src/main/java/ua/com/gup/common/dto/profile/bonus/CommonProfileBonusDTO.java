@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 
 import javax.validation.constraints.NotNull;
@@ -27,17 +28,20 @@ public abstract class CommonProfileBonusDTO implements Serializable {
     @NotNull
     protected Boolean active;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    //@DateTimeFormat(pattern = "dd-MM-yyyy")
     protected LocalDateTime createDate;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    //@DateTimeFormat(pattern = "dd-MM-yyyy")
     @NotNull
     protected LocalDateTime startDate;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     @NotNull
     protected LocalDateTime endDate;
 

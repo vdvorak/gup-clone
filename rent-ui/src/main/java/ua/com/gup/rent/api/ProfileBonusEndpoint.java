@@ -58,9 +58,9 @@ public class ProfileBonusEndpoint {
     }
 
     @ApiOperation(value = "Get Bonus")
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getBonus(@PathVariable(name = "name") String name) throws CommandException {
-        CommonProfileBonusDTO profileBonusDTO = profileBonusMapper.fromModelToDTO(profileBonusService.findOneByName(name));
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getBonus(@PathVariable(name = "id") String id) throws CommandException {
+        CommonProfileBonusDTO profileBonusDTO = profileBonusMapper.fromModelToDTO(profileBonusService.findOneById(id));
         if (profileBonusDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
