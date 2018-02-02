@@ -1,6 +1,6 @@
 package ua.com.gup.common.model.mongo.profile.manager.event.status;
 
-public enum MeetingStatus {
+public enum MeetingStatus{
     PLANNED_MEETING,
     DONE_MEETING,
     NOT_DONE_MEETING,

@@ -30,7 +30,10 @@ import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/managers")
@@ -260,9 +263,10 @@ public class ManagerEndpoint {
 
     @GetMapping(value = "/actions/types")
     public ResponseEntity searchActionTypes() {
-        List<ManagerActionTypeDTO> res = new ArrayList<>();
-        res.add(new ManagerActionTypeDTO(ManagerActionType.TYPE_CALL));
-        res.add(new ManagerActionTypeDTO(ManagerActionType.TYPE_MEETING));
+        List<ManagerActionTypeDTO> res = new ArrayList<>(ManagerActionType.values().length);
+        for (ManagerActionType t : ManagerActionType.values()) {
+            res.add(new ManagerActionTypeDTO(t));
+        }
         return new ResponseEntity(res, HttpStatus.OK);
     }
 

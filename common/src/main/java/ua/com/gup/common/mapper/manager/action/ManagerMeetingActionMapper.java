@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerCallAction;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerMeetingAction;
+import ua.com.gup.common.model.mongo.profile.manager.event.status.MeetingStatus;
 import ua.com.gup.common.service.CommonProfileService;
 
 @Component
@@ -20,13 +21,13 @@ public class ManagerMeetingActionMapper extends ManagerActionMapper<ManagerMeeti
 
     public ManagerActionDTO toDto(ManagerMeetingAction action) {
         ManagerActionDTO dto = super.toDto(action);
-        dto.setMeetingStatus(action.getMeetingStatus());
+        dto.setStatus(action.getMeetingStatus().name());
         return dto;
     }
 
     public ManagerMeetingAction fromDto(ManagerMeetingAction model, ManagerActionDTO dto) {
         model = super.fromDto(model, dto);
-        model.setMeetingStatus(dto.getMeetingStatus());
+        model.setMeetingStatus(MeetingStatus.valueOf(dto.getStatus()));
         return model;
     }
 }
