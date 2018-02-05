@@ -16,4 +16,6 @@ public class ObjectType {
 
     public static final String USERS_BONUS = "users.bonus";
 
+    public static final String ROLE  = "role";
+
 }
