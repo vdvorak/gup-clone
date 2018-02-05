@@ -9,6 +9,8 @@ import lombok.ToString;
 import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 /**
  * @author Victor Dvorak
@@ -20,12 +22,17 @@ import javax.validation.constraints.NotNull;
 @ToString(callSuper = true)
 public class ProfileCreateBonusDTO extends CommonProfileBonusDTO {
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "name", example = "BONUS_NAME")
     @NotNull
+    @Size(min = 5, max = 50)
     private String name;
-
-    @ApiModelProperty
-    //todo code generation by server
+    //auto generation
     private String code;
+
+    @ApiModelProperty(value = "publicId", example = "id777")
+    private String managerPublicId;
+
+    @ApiModelProperty(value = "Float", example = "12.11")
+    private BigDecimal bonusAmount;
 
 }
