@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.common.dto.CommonCreateDTO;
 import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
+import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.rent.command.rent.profile.bonus.CreateProfileBonusCommand;
 import ua.com.gup.rent.command.rent.profile.bonus.UpdateProfileBonusCommand;
@@ -25,6 +26,7 @@ import ua.com.gup.rent.service.profile.bonus.ProfileBonusService;
 import ua.com.gup.rent.validator.profile.bonus.ProfileBonusDTOValidator;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,6 +67,18 @@ public class ProfileBonusEndpoint {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(profileBonusDTO, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "Get All Bonus Type Scenario")
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getAllBonusScenario() throws CommandException {
+        List<CommonBonusScenarios> allBonusScenario = Arrays.asList(CommonBonusScenarios.values());
+        if (allBonusScenario == null || allBonusScenario.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(allBonusScenario, HttpStatus.OK);
+
     }
 
     @ApiOperation(value = "Get All Bonus")
