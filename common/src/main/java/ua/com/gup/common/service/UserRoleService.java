@@ -30,9 +30,9 @@ public interface UserRoleService {
 
     void addFunctionToRole(String function, String role);
 
-    void addFunctionsToRole(List<String> function, String role);
+    void addFunctionsToRole(List<String> functions, Role role);
 
-    void removeFunctionToRole(String function, String role);
+    void removeFunctionToRole(String function, Role role);
 
     void removeFunctionsToRole(List<String> functions, String role);
 

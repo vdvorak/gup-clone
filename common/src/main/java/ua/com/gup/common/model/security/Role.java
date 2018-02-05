@@ -2,14 +2,15 @@ package ua.com.gup.common.model.security;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-@Document(collection = "role")
+import static ua.com.gup.common.model.object.ObjectType.ROLE;
+
+@Document(collection = ROLE)
 @Data
 public class Role {
 
