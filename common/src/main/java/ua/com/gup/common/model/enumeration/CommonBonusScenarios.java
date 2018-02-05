@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum CommonBonusScenarios {
-    REFERENCE_MANAGER("REFERENCE_MANAGER","add manager in user"),
+    REFERENCE_MANAGER("REFERENCE_MANAGER","add manager reference  in user"),
     BONUS_MONEY("BONUS_MONEY","add amount in bonus cash");
 
       private String scenario;

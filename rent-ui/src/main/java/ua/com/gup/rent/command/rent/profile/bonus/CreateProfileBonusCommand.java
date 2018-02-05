@@ -15,7 +15,6 @@ public class CreateProfileBonusCommand extends ProfileBonusCommand {
     public ProfileBonus execute() throws Exception {
 
         profileBonusService.save(profileBonus);
-       // profileBonus = profileBonusService.findOneByCode(profileBonus.getCode());
         profileBonusId = profileBonus.getId();
 
         return profileBonus;
