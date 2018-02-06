@@ -38,5 +38,6 @@ public abstract class CommonProfileBonus implements Serializable {
         this.endDate = endDate;
         this.countUse = countUse;
         this.scenarios = scenarios;
+
     }
 }

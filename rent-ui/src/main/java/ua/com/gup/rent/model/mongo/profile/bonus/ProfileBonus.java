@@ -14,6 +14,7 @@ import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 import ua.com.gup.common.model.mongo.profile.bonus.CommonProfileBonus;
 import ua.com.gup.common.model.object.ObjectType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -34,6 +35,9 @@ public class ProfileBonus extends CommonProfileBonus {
     private String code;
     @CreatedBy
     private GupLoggedUser createdByUser;
+
+    protected String managerPublicId;
+    protected BigDecimal bonusAmount;
 
     public ProfileBonus() {
     }

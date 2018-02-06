@@ -11,11 +11,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.command.CommandException;
-import ua.com.gup.common.dto.CommonCreateDTO;
+import ua.com.gup.common.dto.profile.bonus.CommonBonusCreateDTO;
 import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
 import ua.com.gup.common.model.enumeration.CommonBonusScenarios;
 import ua.com.gup.common.model.mongo.operation.OperationType;
 import ua.com.gup.rent.command.rent.profile.bonus.CreateProfileBonusCommand;
+import ua.com.gup.rent.command.rent.profile.bonus.ExecuteScenarioProfileBonusCommand;
 import ua.com.gup.rent.command.rent.profile.bonus.UpdateProfileBonusCommand;
 import ua.com.gup.rent.component.executor.RentCommandExecutor;
 import ua.com.gup.rent.mapper.ProfileBonusMapper;
@@ -26,8 +27,8 @@ import ua.com.gup.rent.service.profile.bonus.ProfileBonusService;
 import ua.com.gup.rent.validator.profile.bonus.ProfileBonusDTOValidator;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * REST controller for managing Profile with Bonus.
@@ -61,46 +62,31 @@ public class ProfileBonusEndpoint {
 
     @ApiOperation(value = "Get Bonus")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getBonus(@PathVariable(name = "id") String id) throws CommandException {
-        CommonProfileBonusDTO profileBonusDTO = profileBonusMapper.fromModelToDTO(profileBonusService.findOneById(id));
-        if (profileBonusDTO == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(profileBonusDTO, HttpStatus.OK);
+    public ResponseEntity getBonus(@NotNull @PathVariable(name = "id") String id) throws CommandException {
+        return new ResponseEntity<>(profileBonusMapper.fromModelToDTO(profileBonusService.findOneById(id)), HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "Get All Bonus Type Scenario")
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllBonusScenario() throws CommandException {
-        List<CommonBonusScenarios> allBonusScenario = Arrays.asList(CommonBonusScenarios.values());
-        if (allBonusScenario == null || allBonusScenario.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(allBonusScenario, HttpStatus.OK);
-
+        return new ResponseEntity<>(Arrays.asList(CommonBonusScenarios.values()), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get All Bonus")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllBonus() throws CommandException {
-        List<ProfileBonus> bonusList = profileBonusService.findAll();
-        if (bonusList == null || bonusList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<CommonProfileBonusDTO> profileBonusDTOList = profileBonusMapper.fromModelToDTO(bonusList);
-        ResponseEntity<List<CommonProfileBonusDTO>> listItems = new ResponseEntity<>(profileBonusDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(profileBonusMapper.fromModelToDTO(profileBonusService.findAll()), HttpStatus.OK);
 
-        return new ResponseEntity<>(listItems, HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "Set activate deactivate bonus")
     @RequestMapping(value = "/activate/{id}/{activate}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity setActivate(@PathVariable(name = "id") String id, @PathVariable(name = "activate") Boolean activate) throws CommandException {
+    public ResponseEntity setActivate(@NotNull @PathVariable(name = "id") String id, @NotNull @PathVariable(name = "activate") Boolean activate) throws CommandException {
         ProfileBonus bonus = profileBonusService.findOneById(id);
-        if (bonus == null || bonus.getId() != null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (bonus == null) {
+            return new ResponseEntity<>(bonus, HttpStatus.OK);
         }
         bonus.setActive(activate);
         profileBonusService.update(bonus);
@@ -111,14 +97,13 @@ public class ProfileBonusEndpoint {
     }
 
     @ApiOperation(value = "Create Bonus")
-    // @PreAuthorize("hasAuthority('CREATE_OFFER')")
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createBonus(@Valid @RequestBody ProfileCreateBonusDTO createBonusDTO) throws CommandException {
         log.debug(" create bonus  : {}", createBonusDTO);
         CreateProfileBonusCommand createProfileBonusCommand = new CreateProfileBonusCommand(profileBonusService, profileBonusMapper.fromDTOToModel(createBonusDTO));
         executor.doCommand(createProfileBonusCommand);
-        return new ResponseEntity<>(new CommonCreateDTO(createProfileBonusCommand.getObjectId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CommonBonusCreateDTO(createProfileBonusCommand.getObjectId(), ((ProfileBonus) createProfileBonusCommand.getJournalable().getObject()).getCode()), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Edit Bonus")
@@ -129,12 +114,25 @@ public class ProfileBonusEndpoint {
         log.debug("Edit Bonus : {}", editBonusDTO);
         ProfileBonus profileBonus = profileBonusService.findOneById(id);
         if (profileBonus == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(profileBonus, HttpStatus.OK);
         }
         profileBonus = profileBonusMapper.fromDTOToModel(editBonusDTO);
 
         UpdateProfileBonusCommand updateProfileBonusCommand = new UpdateProfileBonusCommand(profileBonusService, profileBonus, OperationType.PROFILE_BONUS_UPDATE);
         executor.doCommand(updateProfileBonusCommand);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Execute bonus scenario")
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/execute/scenario/{code}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity executeScenario(@PathVariable(name = "code") String code) throws CommandException {
+        ProfileBonus profileBonus = profileBonusService.findOneByCode(code);
+        if (profileBonus == null) {
+            return new ResponseEntity<>(profileBonus, HttpStatus.OK);
+        }
+        ExecuteScenarioProfileBonusCommand executeScenarioProfileBonusCommand = new ExecuteScenarioProfileBonusCommand(profileBonusService, profileBonus);
+        executor.doCommand(executeScenarioProfileBonusCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

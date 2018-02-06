@@ -51,6 +51,12 @@ spring:
     store-type: redis
   profiles:
     active: dev
+  rabbitmq:
+    host: 62.80.167.165
+    port: 5672
+    username: gup
+    password: gup
+    virtual-host: /gup-notify
   thymeleaf:
     cache: false
   output:

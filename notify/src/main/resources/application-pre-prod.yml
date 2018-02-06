@@ -1,0 +1,17 @@
+server:
+  port: 8083
+  context-path: /notify
+
+spring:
+  rabbitmq:
+    host: Rabbitmq-1.dev.gup.ua
+    port: 5672
+    username: gup
+    password: gup
+    virtual-host: /gup-notify
+
+gup:
+  notifications-api:
+    scheme: https
+    host: notifications.dev.gup.ua
+    port: 443
