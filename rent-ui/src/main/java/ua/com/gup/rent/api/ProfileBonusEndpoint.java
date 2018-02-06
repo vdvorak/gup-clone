@@ -3,6 +3,8 @@ package ua.com.gup.rent.api;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,10 +35,11 @@ import java.util.Arrays;
 /**
  * REST controller for managing Profile with Bonus.
  */
-@Slf4j
 @RestController
 @RequestMapping("/api/users/bonus/")
 public class ProfileBonusEndpoint {
+
+    private final Logger logger = LoggerFactory.getLogger(ProfileBonusEndpoint.class);
 
     @Autowired
     private ProfileBonusService profileBonusService;
@@ -100,7 +103,7 @@ public class ProfileBonusEndpoint {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createBonus(@Valid @RequestBody ProfileCreateBonusDTO createBonusDTO) throws CommandException {
-        log.debug(" create bonus  : {}", createBonusDTO);
+        logger.debug(" create bonus  : {}", createBonusDTO);
         CreateProfileBonusCommand createProfileBonusCommand = new CreateProfileBonusCommand(profileBonusService, profileBonusMapper.fromDTOToModel(createBonusDTO));
         executor.doCommand(createProfileBonusCommand);
         return new ResponseEntity<>(new CommonBonusCreateDTO(createProfileBonusCommand.getObjectId(), ((ProfileBonus) createProfileBonusCommand.getJournalable().getObject()).getCode()), HttpStatus.CREATED);
@@ -111,7 +114,7 @@ public class ProfileBonusEndpoint {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity editBonus(@PathVariable(name = "id") String id,
                                     @Valid @RequestBody ProfileEditBonusDTO editBonusDTO) throws CommandException {
-        log.debug("Edit Bonus : {}", editBonusDTO);
+        logger.debug("Edit Bonus : {}", editBonusDTO);
         ProfileBonus profileBonus = profileBonusService.findOneById(id);
         if (profileBonus == null) {
             return new ResponseEntity<>(profileBonus, HttpStatus.OK);

@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public enum NotificationType implements Serializable{
 
-    USUAL(1);
+    USUAL(1),
+    OFFER(2),
+    DEAL(4);
 
     private int type;
 

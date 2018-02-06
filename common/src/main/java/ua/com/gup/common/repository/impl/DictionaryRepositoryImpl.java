@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.gup.repository.dictionary;
+package ua.com.gup.common.repository.impl;
 
 import java.util.HashMap;
 import javax.annotation.PostConstruct;
@@ -12,8 +12,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.com.gup.mongo.composition.domain.dictionary.Dictionary;
-import ua.com.gup.mongo.model.enumeration.Locale;
+import ua.com.gup.common.model.Locale;
+import ua.com.gup.common.repository.DictionaryRepository;
+import ua.com.gup.common.model.mongo.dictionary.Dictionary;
 
 @Repository
 public class DictionaryRepositoryImpl implements DictionaryRepository {

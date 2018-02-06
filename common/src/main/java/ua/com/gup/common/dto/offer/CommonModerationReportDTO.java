@@ -1,4 +1,4 @@
-package ua.com.gup.rent.service.dto.rent;
+package ua.com.gup.common.dto.offer;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,7 +16,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class RentOfferModerationReportDTO implements Serializable {
+public class CommonModerationReportDTO implements Serializable {
 
     @ApiModelProperty(position = 0, example = "58ff0d6c821847a4bc8c5bff")
     @NotNull

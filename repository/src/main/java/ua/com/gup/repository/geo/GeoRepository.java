@@ -2,7 +2,7 @@ package ua.com.gup.repository.geo;
 
 
 import ua.com.gup.mongo.composition.domain.geo.GeoModel;
-import ua.com.gup.mongo.model.enumeration.Locale;
+import ua.com.gup.common.model.Locale;
 
 import java.util.List;
 

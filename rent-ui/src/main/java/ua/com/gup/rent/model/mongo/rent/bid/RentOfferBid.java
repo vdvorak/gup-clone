@@ -53,5 +53,6 @@ public class RentOfferBid implements Serializable {
     private GupLoggedUser user;
 
     private RentOfferBidInfo offerBidInfo;
+    private RentOfferBidStatus status;
 
 }

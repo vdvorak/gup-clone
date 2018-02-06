@@ -1,4 +1,4 @@
-package ua.com.gup.dto.dictionary;
+package ua.com.gup.common.dto.dictionary;
 
 /**
  *
@@ -11,8 +11,7 @@ public class DictionaryMessageDTO {
     public DictionaryMessageDTO(String key, String value) {
         this.key = key;
         this.value = value;
-    }   
-    
+    }
 
     private String key;
     private String value;

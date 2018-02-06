@@ -3,19 +3,20 @@ package ua.com.gup.rent.service.rent.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.gup.common.GupLoggedUser;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
-import ua.com.gup.notify.factory.NotificationFactory;
-import ua.com.gup.notify.model.NotificationType;
+import ua.com.gup.rent.event.offer.RentOfferModeratedEvent;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
@@ -24,10 +25,8 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
-import ua.com.gup.rent.service.amqp.RentNotificationService;
 import ua.com.gup.rent.service.calendar.RentOfferCalendarService;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
-import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
@@ -74,7 +73,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     private RentOfferCalendarService rentOfferCalendarService;
 
     @Autowired
-    private RentNotificationService rentNotificationService;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     private RentOffer createWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
@@ -153,7 +152,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
     }
 
     @Override
-    public RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO) {
+    public RentOfferViewDetailsDTO save(CommonModerationReportDTO offerModerationReportDTO) {
         log.debug("Request to save Rent Offer modified by moderator: {}", offerModerationReportDTO);
         RentOffer offer = offerMongoRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);
@@ -163,10 +162,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = updateWrapper(offer);
-        rentNotificationService.convertAndSend(NotificationFactory.createNotification(NotificationType.USUAL,
-                "title may be here",
-                "description may be here",
-                offer.getAuthorId()));
+        applicationEventPublisher.publishEvent(new RentOfferModeratedEvent(offer));
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }

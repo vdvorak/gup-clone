@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.gup.dto.dictionary.DictionaryMessageDTO;
-import ua.com.gup.mongo.model.enumeration.Locale;
-import ua.com.gup.service.dictionary.DictionaryService;
+import ua.com.gup.common.dto.dictionary.DictionaryMessageDTO;
+import ua.com.gup.common.model.Locale;
+import ua.com.gup.common.service.DictionaryService;
 
 /**
  *
@@ -40,7 +40,7 @@ public class DictionaryEndpoint {
     public ResponseEntity<Void> editMessages(
             @PathVariable Locale locale,
             @RequestBody List<DictionaryMessageDTO> messages) {
-        dictionaryService.saveMesages(locale, messages);
+        dictionaryService.saveMessages(locale, messages);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -53,7 +53,7 @@ public class DictionaryEndpoint {
         if(dictionaryService.isExists(locale,key)){
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-        dictionaryService.saveMesage(locale, key, message);
+        dictionaryService.saveMessage(locale, key, message);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

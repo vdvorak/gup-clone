@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
         "ua.com.gup.rent.service",
         "ua.com.gup.rent.mapper",
         "ua.com.gup.rent.validator",
+        "ua.com.gup.rent.event.listener",
         "ua.com.gup.common.service"})
 public class RentRootConfig {
 }

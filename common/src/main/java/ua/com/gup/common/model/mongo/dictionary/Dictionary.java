@@ -1,5 +1,5 @@
 
-package ua.com.gup.mongo.composition.domain.dictionary;
+package ua.com.gup.common.model.mongo.dictionary;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -16,11 +16,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.dto.offer.CommonCategoryCountDTO;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.dto.offer.OfferCreateDTO;
-import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
@@ -201,7 +201,7 @@ public class OfferEndpoint extends AbstractImageEndpoint {
     @CrossOrigin
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
-    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody OfferModerationReportDTO offerModerationReportDTO) {
+    public ResponseEntity<OfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody CommonModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
         OfferViewDetailsDTO result = offerService.save(offerModerationReportDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));

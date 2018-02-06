@@ -24,7 +24,7 @@ import ua.com.gup.common.web.api.AbstractImageEndpoint;
 import ua.com.gup.rent.command.rent.offer.CreateRentOfferCommand;
 import ua.com.gup.rent.command.rent.offer.UpdateRentOfferCommand;
 import ua.com.gup.rent.component.executor.RentCommandExecutor;
-import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCategoryCountDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
@@ -287,7 +287,7 @@ public class RentOfferEndpoint extends AbstractImageEndpoint {
      */
     @PreAuthorize("hasAuthority('UPDATE_OFFER_MODERATOR') and hasPermission(#offerModerationReportDTO.id, 'offer','EDIT')")
     @RequestMapping(value = "/offers/moderator", method = RequestMethod.PUT)
-    public ResponseEntity<RentOfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody RentOfferModerationReportDTO offerModerationReportDTO) {
+    public ResponseEntity<RentOfferViewDetailsDTO> updateOfferByModerator(@Valid @RequestBody CommonModerationReportDTO offerModerationReportDTO) {
         log.debug("REST request to update Offer by moderator : {}", offerModerationReportDTO);
         RentOfferViewDetailsDTO result = offerService.save(offerModerationReportDTO);
         return RentResponseUtil.wrapOrNotFound(Optional.ofNullable(result));

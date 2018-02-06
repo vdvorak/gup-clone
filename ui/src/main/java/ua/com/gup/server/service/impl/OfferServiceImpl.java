@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.common.model.enumeration.CommonCurrency;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.MoneyFilter;
@@ -16,7 +17,6 @@ import ua.com.gup.common.model.image.ImageStorage;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
 import ua.com.gup.dto.offer.OfferCreateDTO;
-import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
@@ -40,7 +40,6 @@ import ua.com.gup.service.sequence.SequenceService;
 import ua.com.gup.util.SEOFriendlyUrlUtil;
 import ua.com.gup.util.security.SecurityUtils;
 
-import javax.naming.OperationNotSupportedException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -127,7 +126,7 @@ public class OfferServiceImpl extends CommonOfferServiceImpl implements OfferSer
      * @return the persisted entity
      */
     @Override
-    public OfferViewDetailsDTO save(OfferModerationReportDTO offerModerationReportDTO) {
+    public OfferViewDetailsDTO save(CommonModerationReportDTO offerModerationReportDTO) {
         log.debug("Request to save Offer modified by moderator: {}", offerModerationReportDTO);
         Offer offer = offerMongoRepository.findOne(offerModerationReportDTO.getId());
         offerMapper.offerModeratorDTOToOffer(offerModerationReportDTO, offer);

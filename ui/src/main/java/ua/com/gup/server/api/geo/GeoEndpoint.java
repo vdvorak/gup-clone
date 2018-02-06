@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.mongo.composition.domain.geo.GeoModel;
-import ua.com.gup.mongo.model.enumeration.Locale;
+import ua.com.gup.common.model.Locale;
 import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.server.dto.CommonGeoDTO;
 import ua.com.gup.server.dto.converter.GeoDTOConverter;

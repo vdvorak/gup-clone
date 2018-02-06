@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
-import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.filter.RentOfferFilterDTO;
@@ -32,7 +32,7 @@ public interface RentOfferService extends CommonOfferService {
 
     List<RentOfferViewShortDTO> findByIds(List<String> ids, Sort sort);
 
-    RentOfferViewDetailsDTO save(RentOfferModerationReportDTO offerModerationReportDTO);
+    RentOfferViewDetailsDTO save(CommonModerationReportDTO offerModerationReportDTO);
 
     RentOfferViewDetailsDTO save(RentOfferCreateDTO rentOfferCreateDTO);
 

@@ -2,10 +2,10 @@ package ua.com.gup.server.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.service.CommonOfferService;
 import ua.com.gup.dto.offer.OfferCreateDTO;
-import ua.com.gup.dto.offer.OfferModerationReportDTO;
 import ua.com.gup.dto.offer.OfferUpdateDTO;
 import ua.com.gup.dto.offer.statistic.OfferStatisticByDateDTO;
 import ua.com.gup.dto.offer.view.OfferViewCoordinatesDTO;
@@ -49,7 +49,7 @@ public interface OfferService extends CommonOfferService {
      * @param offerModerationReportDTO the entity to save
      * @return the persisted entity
      */
-    OfferViewDetailsDTO save(OfferModerationReportDTO offerModerationReportDTO);
+    OfferViewDetailsDTO save(CommonModerationReportDTO offerModerationReportDTO);
 
     /**
      * Get all the offers.

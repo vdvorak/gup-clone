@@ -2,7 +2,7 @@ package ua.com.gup.server.api.geo;
 
 
 import ua.com.gup.mongo.composition.domain.geo.GeoModel;
-import ua.com.gup.mongo.model.enumeration.Locale;
+import ua.com.gup.common.model.Locale;
 import ua.com.gup.repository.geo.GeoRepository;
 import ua.com.gup.server.dto.CommonGeoDTO;
 

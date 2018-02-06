@@ -3,6 +3,7 @@ package ua.com.gup.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.common.model.category.attribute.*;
 import ua.com.gup.common.model.mongo.offer.Lands;
 import ua.com.gup.common.model.mongo.offer.OfferModerationReport;
@@ -52,7 +53,7 @@ public class OfferMapper {
     private CategoryAttributeService categoryAttributeService;
     @Autowired
     private ImageStorageMapper offerImageMapper;
-    
+
     private static final int PRICE_ATTRIBUTE_CODE = 1;
 
     public Offer offerCreateDTOToOffer(OfferCreateDTO offerCreateDTO) {
@@ -68,8 +69,8 @@ public class OfferMapper {
         }
         if (source.getAddress() != null) {
             target.setAddress(addressMapper.addressDTOToAddress(source.getAddress()));
-        }        
-        
+        }
+
         if (source.getYoutubeVideoId() != null) {
             target.setYoutubeVideoId(source.getYoutubeVideoId());
         }
@@ -77,8 +78,8 @@ public class OfferMapper {
             target.setContactInfo(contactInfoMapper.contactInfoDTOToContactInfo(source.getContactInfo()));
         }
     }
-    
-    public void offerModeratorDTOToOffer(OfferModerationReportDTO source, Offer target) {
+
+    public void offerModeratorDTOToOffer(CommonModerationReportDTO source, Offer target) {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getOfferCategoriesIds(source.getCategory()));
         }
@@ -131,11 +132,11 @@ public class OfferMapper {
             offerViewDetailsDTO.setPrice(priceDTO);
         }
         offerViewDetailsDTO.setYoutubeVideoId(offer.getYoutubeVideoId());
-        
+
         //owner ? doesn't hide phone number : hide phone number
-        boolean hidePhoneNumber =   !SecurityUtils.isAuthenticated() || !(SecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));        
+        boolean hidePhoneNumber = !SecurityUtils.isAuthenticated() || !(SecurityUtils.getCurrentUserId().equals(offer.getAuthorId()));
         offerViewDetailsDTO.setContactInfo(contactInfoMapper.contactInfoToContactInfoDTO(offer.getContactInfo(), hidePhoneNumber));
-        
+
         offerViewDetailsDTO.setOfferStatistic(new OfferStatisticDTO(offer.getStatistic().getTotalOfferViewsCount(), offer.getStatistic().getTotalOfferPhonesViewsCount()));
         if (offer.getLands() != null) {
             offerViewDetailsDTO.setLands(transformLandsToOfferLandsDTO(offer.getLands()));
@@ -185,10 +186,10 @@ public class OfferMapper {
             target.setCategories(offerCategoryMapper.offerCategoriesByCategoriesIds(source.getCategories()));
         }
         target.setTitle(source.getTitle());
-        target.setDescription(source.getDescription());        
-        
-        offerImageMapper.toListDTO(source.getImages(), target.getImages());       
-        
+        target.setDescription(source.getDescription());
+
+        offerImageMapper.toListDTO(source.getImages(), target.getImages());
+
         target.setSeoUrl(source.getSeoUrl());
 
     }
@@ -214,7 +215,7 @@ public class OfferMapper {
         if (source.getPrice() != null) {
             target.setPrice(priceMapper.moneyDTOToMoney(source.getPrice()));
         }
-        
+
         if (source.getLands() != null) {
             target.setLands(transformOfferLandsDTOToLands(source.getLands()));
         }

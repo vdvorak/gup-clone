@@ -15,7 +15,7 @@ import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.category.attribute.RentOfferCategoryAttributeService;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeDTO;
 import ua.com.gup.rent.service.dto.category.attribute.RentOfferCategoryAttributeValueDTO;
-import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
+import ua.com.gup.common.dto.offer.CommonModerationReportDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferCreateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.RentOfferUpdateDTO;
 import ua.com.gup.rent.service.dto.rent.offer.statistic.RentOfferStatisticByDateDTO;
@@ -103,7 +103,7 @@ public class RentOfferMapper {
         }
     }
 
-    public void offerModeratorDTOToOffer(RentOfferModerationReportDTO source, RentOffer target) {
+    public void offerModeratorDTOToOffer(CommonModerationReportDTO source, RentOffer target) {
         if (source.getCategory() != null) {
             target.setCategories(categoryService.getRentOfferCategoriesIds(source.getCategory()));
         }
