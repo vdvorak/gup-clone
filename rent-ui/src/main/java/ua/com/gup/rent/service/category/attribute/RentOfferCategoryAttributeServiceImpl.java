@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service Implementation for managing RentOfferCategoryAttribute.
  */
 @Service
-public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServiceImpl<RentOfferCategoryAttributeCreateDTO, String> implements RentOfferCategoryAttributeService {
+public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServiceImpl<RentOfferCategoryAttribute, String> implements RentOfferCategoryAttributeService {
 
     private final Logger logger = LoggerFactory.getLogger(RentOfferCategoryAttributeServiceImpl.class);
 
@@ -73,18 +73,6 @@ public class RentOfferCategoryAttributeServiceImpl extends RentOfferGenericServi
     public List<RentOfferCategoryAttribute> findAll() {
         logger.debug("Request to get all Categories by filter");
         return ((RentOfferCategoryAttributeRepository) getRepository()).findAll();
-    }
-
-    /**
-     * Get the "id" categoryAttribute.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    public RentOfferCategoryAttribute findOne(String id) {
-        logger.debug("Request to get RentOfferCategoryAttribute : {}", id);
-        return ((RentOfferCategoryAttributeRepository) getRepository()).findOne(id);
     }
 
     /**

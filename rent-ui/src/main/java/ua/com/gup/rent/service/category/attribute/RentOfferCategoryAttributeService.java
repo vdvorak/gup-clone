@@ -15,7 +15,7 @@ import java.util.SortedSet;
 /**
  * Service Interface for managing RentOfferCategoryAttribute.
  */
-public interface RentOfferCategoryAttributeService extends RentOfferGenericService<RentOfferCategoryAttributeCreateDTO, String> {
+public interface RentOfferCategoryAttributeService extends RentOfferGenericService<RentOfferCategoryAttribute, String>  {
     /**
      * Save a categoryAttribute.
      *
@@ -36,13 +36,7 @@ public interface RentOfferCategoryAttributeService extends RentOfferGenericServi
      * @return the list of entities
      */
     List<RentOfferCategoryAttribute> findAll();
-    /**
-     * Get the "id" categoryAttribute.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-     RentOfferCategoryAttribute findOne(String id);
+
     /**
      * Get the "code" categoryAttribute.
      *
