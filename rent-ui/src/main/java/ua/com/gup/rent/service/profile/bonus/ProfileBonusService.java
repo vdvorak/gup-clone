@@ -1,25 +1,26 @@
 package ua.com.gup.rent.service.profile.bonus;
 
-import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
+import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
 import ua.com.gup.rent.service.abstracted.generic.RentOfferGenericService;
-import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 
 import java.util.List;
 
 /**
  * @author Victor Dvorak
  **/
-public interface ProfileBonusService extends RentOfferGenericService<CommonProfileBonusDTO, String> {
+public interface ProfileBonusService extends RentOfferGenericService<ProfileBonus, String> {
 
-    void save(CommonProfileBonusDTO createProfileBonusDTO);
+    void save(ProfileBonus profileBonus);
 
-    void update(CommonProfileBonusDTO editProfileBonusDTO);
+    void update(ProfileBonus profileBonus);
 
-    List<ProfileEditBonusDTO> findAll();
+    List<ProfileBonus> findAll();
 
-    ProfileEditBonusDTO findOneByCode(String code);
+    ProfileBonus findOneByCode(String code);
 
-    ProfileEditBonusDTO findOneByName(String name);
+    ProfileBonus findOneByName(String name);
+
+    ProfileBonus findOneById(String id);
 
     void delete(String id);
 

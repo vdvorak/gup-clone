@@ -32,9 +32,11 @@ public abstract class ManagerActionMapper<T extends ManagerAction, K extends Man
         dto.setClientId(action.getClientPublicId());
 
         CommonProfile manager = profileService.findByPublicId(action.getManagerPublicId());
-        dto.setManagerFirstname(manager.getFirstname());
-        dto.setManagerLastname(manager.getLastname());
-        dto.setManagerPublicId(manager.getPublicId());
+        if (manager != null) {
+            dto.setManagerFirstname(manager.getFirstname());
+            dto.setManagerLastname(manager.getLastname());
+            dto.setManagerPublicId(manager.getPublicId());
+        }
         return dto;
     }
 

@@ -1,26 +1,24 @@
 package ua.com.gup.rent.command.rent.profile.bonus;
 
-import ua.com.gup.common.dto.profile.bonus.CommonProfileBonusDTO;
+import lombok.Data;
 import ua.com.gup.common.model.mongo.operation.OperationType;
-import ua.com.gup.rent.mapper.ProfileBonusMapper;
 import ua.com.gup.rent.model.mongo.profile.bonus.ProfileBonus;
-import ua.com.gup.rent.service.dto.profile.bonus.ProfileEditBonusDTO;
 import ua.com.gup.rent.service.profile.bonus.ProfileBonusService;
 
+@Data
 public class UpdateProfileBonusCommand extends ProfileBonusCommand {
-    private CommonProfileBonusDTO profileEditBonusDTO;
+    private OperationType operationType;
 
-    public UpdateProfileBonusCommand(ProfileBonusService profileBonusService, CommonProfileBonusDTO profileEditBonusDTO, ProfileBonusMapper profileBonusMapper) {
-        super(profileBonusService, ((ProfileEditBonusDTO)profileEditBonusDTO).getId(), profileBonusMapper);
-        this.profileEditBonusDTO = profileEditBonusDTO;
+    public UpdateProfileBonusCommand(ProfileBonusService profileBonusService, ProfileBonus profileBonus, OperationType operationType) {
+        super(profileBonusService, profileBonus);
+        this.operationType = operationType;
     }
 
     @Override
     public ProfileBonus execute() throws Exception {
 
-           profileBonusService.update(profileEditBonusDTO);
-           profileBonus = this.profileBonusMapper.fromDTOToModel(profileBonusService.findOneByCode(((ProfileEditBonusDTO)profileEditBonusDTO).getCode()));
-           profileBonusId = profileBonus.getId();
+        profileBonusService.update(profileBonus);
+        profileBonusId = profileBonus.getId();
 
         return profileBonus;
 
@@ -33,6 +31,21 @@ public class UpdateProfileBonusCommand extends ProfileBonusCommand {
 
     @Override
     public OperationType getOperationType() {
-        return OperationType.PROFILE_BONUS_UPDATE;
+        OperationType operationType = null;
+
+
+        switch (this.operationType) {
+
+            case PROFILE_BONUS_UPDATE:
+                operationType = OperationType.PROFILE_BONUS_UPDATE;
+                break;
+            case PROFILE_BONUS_ACTIVATE_OR_DEACTIVATE:
+                operationType = OperationType.PROFILE_BONUS_ACTIVATE_OR_DEACTIVATE;
+                break;
+
+        }
+
+        return operationType;
     }
+
 }

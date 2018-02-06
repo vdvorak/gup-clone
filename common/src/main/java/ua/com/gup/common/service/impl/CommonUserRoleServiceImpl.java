@@ -92,23 +92,21 @@ public abstract class CommonUserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public void addFunctionsToRole(List<String> functions, String role) {
-        Role r = roleRepository.findByName(role);
+    public void addFunctionsToRole(List<String> functions, Role role) {
         for (String function : functions) {
             Function f = functionRepository.findByName(function);
             if (f != null) {
-                r.getFunctions().add(f);
+                role.getFunctions().add(f);
             }
         }
-        roleRepository.save(r);
+        roleRepository.save(role);
     }
 
     @Override
-    public void removeFunctionToRole(String function, String role) {
-        Role r = roleRepository.findByName(role);
+    public void removeFunctionToRole(String function, Role role) {
         Function f = functionRepository.findByName(function);
-        r.getFunctions().remove(f);
-        roleRepository.save(r);
+        role.getFunctions().remove(f);
+        roleRepository.save(role);
     }
 
     @Override

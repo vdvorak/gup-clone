@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.gup.common.command.Command;
+import ua.com.gup.common.command.SessionCommandExecutor;
 import ua.com.gup.common.dto.security.function.FunctionDto;
 import ua.com.gup.common.dto.security.function.FunctionsDto;
 import ua.com.gup.common.dto.security.role.RoleDto;
@@ -23,7 +25,20 @@ import java.util.List;
 public abstract class AbstractSecurityAccessEndpoint {
 
     @Autowired
-    private UserRoleService userRoleService;
+    protected UserRoleService userRoleService;
+
+    protected abstract Command<Role> getCreateCommand(RoleDto dto);
+
+    protected abstract Command<Role> getEditCommand(Role role);
+
+    protected abstract Command<Role> getDeleteCommand(Role role);
+
+    protected abstract Command<Role> getAddFunctionsCommand(Role role, List<String> functions);
+
+    protected abstract Command<Role> getRemmoveFunctionsCommand(Role role, List<String> functions);
+
+    @Autowired
+    private SessionCommandExecutor executor;
 
     @PreAuthorize("hasAuthority('READ_ALL_ROLES')")
     @GetMapping(value = "/roles")
@@ -37,11 +52,12 @@ public abstract class AbstractSecurityAccessEndpoint {
 
     @PreAuthorize("hasAuthority('CREATE_ROLE')")
     @PostMapping(value = "/roles")
-    public ResponseEntity<RoleDto> createRole(@Valid @RequestBody RoleDto dto) {
+    public ResponseEntity<RoleDto> createRole(@Valid @RequestBody RoleDto dto) throws Exception {
         if (userRoleService.existsRole(dto.getName())) {
             return new ResponseEntity("Role with name [" + dto.getName() + "] allready exists", HttpStatus.CONFLICT);
         }
-        userRoleService.create(dto);
+
+        executor.doCommand(getCreateCommand(dto));
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
@@ -58,26 +74,26 @@ public abstract class AbstractSecurityAccessEndpoint {
 
     @PreAuthorize("hasAuthority('EDIT_ROLE')")
     @PutMapping(value = "/roles/{role}")
-    public ResponseEntity<RoleDto> editRole(@PathVariable String role, @RequestBody RoleEditDto dto) {
+    public ResponseEntity<RoleDto> editRole(@PathVariable String role, @RequestBody RoleEditDto dto) throws Exception {
         if (!userRoleService.existsRole(role)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         Role r = userRoleService.findByName(role);
         r.setTitle(dto.getTitle());
-        Role save = userRoleService.save(r);
-        return new ResponseEntity<>(new RoleDto(save), HttpStatus.OK);
+        executor.doCommand(getEditCommand(r));
+        return new ResponseEntity<>(new RoleDto(r), HttpStatus.OK);
     }
 
 
     @PreAuthorize("hasAuthority('DELETE_ROLE')")
     @DeleteMapping(value = "/roles/{role}")
-    public ResponseEntity deleteRole(@PathVariable String role) {
+    public ResponseEntity deleteRole(@PathVariable String role) throws Exception {
         if (!userRoleService.existsRole(role)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
         if (userRoleService.isRoleUsed(role)) {
-            return new ResponseEntity("role is used",HttpStatus.CONFLICT);
+            return new ResponseEntity("role is used", HttpStatus.CONFLICT);
         }
 
         Role r = userRoleService.findByName(role);
@@ -85,8 +101,8 @@ public abstract class AbstractSecurityAccessEndpoint {
             return new ResponseEntity("role.not.editable", HttpStatus.BAD_REQUEST);
         }
 
-        userRoleService.remove(r);
-        return new ResponseEntity( HttpStatus.OK);
+        executor.doCommand(getDeleteCommand(r));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/functions")
@@ -134,12 +150,13 @@ public abstract class AbstractSecurityAccessEndpoint {
     @PutMapping(value = "/roles/{role}/functions")
     public ResponseEntity<List<FunctionDto>> addFunctionsToRole(
             @PathVariable String role,
-            @RequestBody FunctionsDto functions) {
+            @RequestBody FunctionsDto functions) throws Exception {
         if (!userRoleService.existsRole(role)) {
             return new ResponseEntity("error.role.notFound", HttpStatus.NOT_FOUND);
         }
 
-        userRoleService.addFunctionsToRole(functions.getFunctions(), role);
+        Role r = userRoleService.findByName(role);
+        executor.doCommand(getAddFunctionsCommand(r, functions.getFunctions()));
         return getFunctionsByRole(role);
     }
 
@@ -147,11 +164,12 @@ public abstract class AbstractSecurityAccessEndpoint {
     @DeleteMapping(value = "/roles/{role}/functions")
     public ResponseEntity<List<FunctionDto>> removeFunctionsFromRole(
             @PathVariable String role,
-            @RequestBody FunctionsDto functions) {
+            @RequestBody FunctionsDto functions) throws Exception {
         if (!userRoleService.existsRole(role)) {
             return new ResponseEntity("error.role.notFound", HttpStatus.NOT_FOUND);
         }
-        userRoleService.removeFunctionsToRole(functions.getFunctions(), role);
+        Role r = userRoleService.findByName(role);
+        executor.doCommand(getRemmoveFunctionsCommand(r, functions.getFunctions()));
         return getFunctionsByRole(role);
     }
 

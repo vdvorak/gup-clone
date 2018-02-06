@@ -3,22 +3,22 @@ package ua.com.gup.common.dto.profile.manager.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import ua.com.gup.common.model.mongo.profile.manager.event.CallStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerActionType;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 public class ManagerActionDTO {
     @ApiModelProperty(position = 1, example = "Dmitriy")
     private String id;
     @ApiModelProperty(position = 2, example = "12-12-2012")
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date date;
+    @JsonFormat( pattern = "dd-MM-yyyy")
+    private LocalDate date;
+    @JsonFormat( pattern = "HH:mm")
     @ApiModelProperty(position = 3, example = "13:57")
-    @JsonFormat(pattern = "HH:mm")
-    private Date time;
+    private LocalTime time;
     @ApiModelProperty(position = 4, example = "id100000228")
     private String clientId;
     @ApiModelProperty(position = 5, example = "Dmitriy")
@@ -41,7 +41,5 @@ public class ManagerActionDTO {
     @NotNull
     private ManagerActionType type;
     @ApiModelProperty(position = 14, example = "[NEW_CALL, FAIL_CALL, RE_CALL, PRESENTATION, ACTIVE_NEGOTIATIONS, CALL_BACK, REJECT]")
-    @NotNull
-    private CallStatus callStatus;
-
+    private String status;
 }

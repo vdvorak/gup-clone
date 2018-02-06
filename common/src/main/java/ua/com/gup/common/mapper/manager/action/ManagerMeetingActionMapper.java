@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerCallAction;
-import ua.com.gup.common.model.mongo.profile.manager.event.status.CallStatus;
+import ua.com.gup.common.model.mongo.profile.manager.event.ManagerMeetingAction;
+import ua.com.gup.common.model.mongo.profile.manager.event.status.MeetingStatus;
 import ua.com.gup.common.service.CommonProfileService;
 
 @Component
-public class ManagerCallActionMapper extends ManagerActionMapper<ManagerCallAction, ManagerActionDTO> {
+public class ManagerMeetingActionMapper extends ManagerActionMapper<ManagerMeetingAction, ManagerActionDTO> {
 
     @Autowired
     private CommonProfileService profileService;
@@ -18,15 +19,15 @@ public class ManagerCallActionMapper extends ManagerActionMapper<ManagerCallActi
         return new ManagerActionDTO();
     }
 
-    public ManagerActionDTO toDto(ManagerCallAction action) {
+    public ManagerActionDTO toDto(ManagerMeetingAction action) {
         ManagerActionDTO dto = super.toDto(action);
-        dto.setStatus(action.getCallStatus().name());
+        dto.setStatus(action.getMeetingStatus().name());
         return dto;
     }
 
-    public ManagerCallAction fromDto(ManagerCallAction model, ManagerActionDTO dto) {
+    public ManagerMeetingAction fromDto(ManagerMeetingAction model, ManagerActionDTO dto) {
         model = super.fromDto(model, dto);
-        model.setCallStatus(CallStatus.valueOf(dto.getStatus()));
+        model.setMeetingStatus(MeetingStatus.valueOf(dto.getStatus()));
         return model;
     }
 }

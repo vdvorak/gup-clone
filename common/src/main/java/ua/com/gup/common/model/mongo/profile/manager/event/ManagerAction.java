@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.gup.common.model.object.ObjectType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -17,10 +20,10 @@ public class ManagerAction {
     private String id;
     private ManagerActionType type;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date date;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private Date time;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
+    @DateTimeFormat( pattern = "HH:mm")
+    private LocalTime time;
 
     private String clientPublicId;
     private String firstname;

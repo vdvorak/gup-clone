@@ -23,29 +23,29 @@ import java.time.LocalDateTime;
 @ToString
 public abstract class CommonProfileBonusDTO implements Serializable {
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "Boolean", example = "false|true")
     @NotNull
     protected Boolean active;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     protected LocalDateTime createDate;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @NotNull
     protected LocalDateTime startDate;
 
-    @ApiModelProperty(value ="dd-MM-yyyyTHH:mm:ss" ,example = "03-12-2018T10:15")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyyTHH:mm:ss")
+    @ApiModelProperty(value = "dd-MM-yyyy HH:mm:ss", example = "03-12-2018 10:15")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     @NotNull
     protected LocalDateTime endDate;
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "Integer", example = "5")
     @NotNull
     protected Integer countUse;
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "String", example = "{BONUS_MONEY,REFERENCE_MANAGER}")
     @NotNull
     protected CommonBonusScenarios scenarios;
 

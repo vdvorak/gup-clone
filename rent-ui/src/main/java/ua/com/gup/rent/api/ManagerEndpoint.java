@@ -15,10 +15,12 @@ import ua.com.gup.common.dto.profile.manager.ManagerPrivateProfileDto;
 import ua.com.gup.common.dto.profile.manager.ManagerProfileFilter;
 import ua.com.gup.common.dto.profile.manager.client.ManagerContactInfoEditDto;
 import ua.com.gup.common.dto.profile.manager.event.ManagerActionDTO;
+import ua.com.gup.common.dto.profile.manager.event.ManagerActionTypeDTO;
 import ua.com.gup.common.model.enumeration.CommonStatus;
 import ua.com.gup.common.model.filter.ManagerActionFilter;
 import ua.com.gup.common.model.mongo.manager.InterestingStatus;
 import ua.com.gup.common.model.mongo.profile.manager.event.ManagerAction;
+import ua.com.gup.common.model.mongo.profile.manager.event.ManagerActionType;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.CommonManagerService;
 import ua.com.gup.common.service.ManagerActionService;
@@ -28,6 +30,7 @@ import ua.com.gup.rent.service.profile.ProfilesService;
 import ua.com.gup.rent.service.rent.RentOfferService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -258,6 +261,15 @@ public class ManagerEndpoint {
         return new ResponseEntity(actions, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/actions/types")
+    public ResponseEntity searchActionTypes() {
+        List<ManagerActionTypeDTO> res = new ArrayList<>(ManagerActionType.values().length);
+        for (ManagerActionType t : ManagerActionType.values()) {
+            res.add(new ManagerActionTypeDTO(t));
+        }
+        return new ResponseEntity(res, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAuthority('SEARCH_MANAGER_ACTIONS')")
     @GetMapping(value = "/{managerPublicId}/actions")
     public ResponseEntity<Page<ManagerActionDTO>> searchManagerActions(
@@ -275,11 +287,11 @@ public class ManagerEndpoint {
     public ResponseEntity<ManagerActionDTO> getAction(
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
-        if(!managerActionService.exists(actionId)){
+        if (!managerActionService.exists(actionId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        ManagerActionDTO action= managerActionService.getById(actionId);
+        ManagerActionDTO action = managerActionService.getById(actionId);
 
         return new ResponseEntity(action, HttpStatus.OK);
     }
@@ -291,7 +303,7 @@ public class ManagerEndpoint {
             @RequestBody @Valid ManagerActionDTO dto) {
 
         dto.setId(null);
-        if(StringUtils.isEmpty(dto.getManagerPublicId())){
+        if (StringUtils.isEmpty(dto.getManagerPublicId())) {
             dto.setManagerPublicId(managerPublicId);
         }
         ManagerAction action = managerActionService.create(dto);
@@ -306,11 +318,11 @@ public class ManagerEndpoint {
             @PathVariable("actionId") String actionId,
             @RequestBody @Valid ManagerActionDTO dto) {
 
-        if(!managerActionService.exists(actionId)){
+        if (!managerActionService.exists(actionId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        if(StringUtils.isEmpty(dto.getManagerPublicId())){
+        if (StringUtils.isEmpty(dto.getManagerPublicId())) {
             dto.setManagerPublicId(managerPublicId);
         }
         dto.setId(actionId);
@@ -324,7 +336,7 @@ public class ManagerEndpoint {
             @PathVariable("managerPublicId") String managerPublicId,
             @PathVariable("actionId") String actionId) {
 
-        if(!managerActionService.exists(actionId)){
+        if (!managerActionService.exists(actionId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
