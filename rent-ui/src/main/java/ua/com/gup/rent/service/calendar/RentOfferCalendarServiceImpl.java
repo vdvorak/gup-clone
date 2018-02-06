@@ -41,15 +41,7 @@ public class RentOfferCalendarServiceImpl extends RentOfferGenericServiceImpl<Re
 
     @Override
     public void updateRentOfferCalendars(RentOffer rentOffer) {
-//        for (RentOfferCalendar rentOfferCalendar : rentOffer.getRentOfferCalendars()) {
-//            RentOfferCalendarChild rentOfferCalendarChild = new RentOfferCalendarChild();
-//            rentOfferCalendarChild.setRentStartDate(rentOfferCalendar.getRentStartDate());
-//            rentOfferCalendarChild.setRentEndDate(rentOfferCalendar.getRentEndDate());
-//            rentOfferCalendarChild.setRentOfferId(rentOffer.getId());
-//            rentOfferCalendarChild.setDaysMap(RentCalendarUtil.getDaysMapForDates(rentOfferCalendar.getRentStartDate(),
-//                    rentOfferCalendar.getRentEndDate(), Arrays.asList(rentOfferCalendar.getDays())));
-//            getRepository().create(rentOfferCalendarChild);
-//        }
+        throw new IllegalArgumentException("Not implemented yet");
     }
 
     @Override

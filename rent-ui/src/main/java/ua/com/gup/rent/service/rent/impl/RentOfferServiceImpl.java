@@ -14,6 +14,8 @@ import ua.com.gup.common.model.filter.OfferModeratorFilter;
 import ua.com.gup.common.model.mongo.offer.OfferContactInfo;
 import ua.com.gup.common.model.security.Role;
 import ua.com.gup.common.service.impl.CommonOfferServiceImpl;
+import ua.com.gup.notify.factory.NotificationFactory;
+import ua.com.gup.notify.model.NotificationType;
 import ua.com.gup.rent.mapper.RentOfferMapper;
 import ua.com.gup.rent.model.mongo.category.RentOfferCategory;
 import ua.com.gup.rent.model.mongo.rent.RentOffer;
@@ -22,6 +24,7 @@ import ua.com.gup.rent.model.rent.statistic.RentOfferStatistic;
 import ua.com.gup.rent.repository.profile.RentOfferProfileRepository;
 import ua.com.gup.rent.repository.rent.RentOfferRepository;
 import ua.com.gup.rent.repository.rent.impl.RentOfferMongoRepository;
+import ua.com.gup.rent.service.amqp.RentNotificationService;
 import ua.com.gup.rent.service.calendar.RentOfferCalendarService;
 import ua.com.gup.rent.service.category.RentOfferCategoryService;
 import ua.com.gup.rent.service.dto.rent.RentOfferModerationReportDTO;
@@ -69,6 +72,9 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
 
     @Autowired
     private RentOfferCalendarService rentOfferCalendarService;
+
+    @Autowired
+    private RentNotificationService rentNotificationService;
 
     private RentOffer createWrapper(RentOffer rentOffer) {
         rentOffer = offerMongoRepository.save(rentOffer);
@@ -157,6 +163,10 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
             offer.setStatus(CommonStatus.ACTIVE);
         }
         offer = updateWrapper(offer);
+        rentNotificationService.convertAndSend(NotificationFactory.createNotification(NotificationType.USUAL,
+                "title may be here",
+                "description may be here",
+                offer.getAuthorId()));
         RentOfferViewDetailsDTO result = offerMapper.offerToOfferDetailsDTO(offer);
         return result;
     }
@@ -323,7 +333,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         log.debug("Request to delete Offer : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(CommonStatus.ARCHIVED);
-        offerMongoRepository.save(offer);
+        updateWrapper(offer);
     }
 
 
@@ -379,7 +389,7 @@ public class RentOfferServiceImpl extends CommonOfferServiceImpl implements Rent
         log.debug("Request to updateRentOfferCalendars updateRentOfferCalendars rent offer's status : {}", id);
         RentOffer offer = offerMongoRepository.findOne(id);
         offer.setStatus(status);
-        offer = offerMongoRepository.save(offer);
+        offer = updateWrapper(offer);
         return Optional.of(offer).map(o -> offerMapper.offerToOfferDetailsDTO(o));
     }
 
