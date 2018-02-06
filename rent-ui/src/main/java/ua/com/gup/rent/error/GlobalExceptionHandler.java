@@ -14,7 +14,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({CommandException.class})
     public ResponseEntity handleAccessDeniedException(Exception e) {
-        e.printStackTrace();
-        return new ResponseEntity("Внутрішня помилка, адміністратора вже повідомлено", HttpStatus.INTERNAL_SERVER_ERROR);
+        if (log.isDebugEnabled()) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("Внутрішня помилка : [" +e.getLocalizedMessage()+"]. Адміністратора вже повідомлено", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
