@@ -2,6 +2,8 @@ package ua.com.gup.rent.repository.abstracted;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import ua.com.gup.rent.repository.abstracted.generic.RentOfferGenericRepository;
 
 import java.io.Serializable;
@@ -34,6 +36,12 @@ public abstract class RentOfferGenericRepositoryImpl<T, PK extends Serializable>
     public void delete(T t) {
         mongoTemplate.remove(t);
 
+    }
+
+    @Override
+    public T findOne(PK pk) {
+        Query query = new Query(Criteria.where("_id").is(pk));
+        return mongoTemplate.findOne(query, tClass);
     }
 
     @Override

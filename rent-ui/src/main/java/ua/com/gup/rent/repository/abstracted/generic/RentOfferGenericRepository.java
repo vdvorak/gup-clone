@@ -10,6 +10,8 @@ public interface RentOfferGenericRepository<T, PK> {
 
     void delete(T t);
 
+    T findOne(PK pk);
+
     List<T> findAll();
 
 }

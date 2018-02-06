@@ -19,4 +19,9 @@ public class RentOfferBidServiceImpl extends RentOfferGenericServiceImpl<RentOff
         //see RentOfferBidStatus status;
         return null;
     }
+
+    @Override
+    protected RentOfferBidRepository getRepository() {
+        return (RentOfferBidRepository) super.getRepository();
+    }
 }

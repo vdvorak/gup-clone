@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.gup.common.command.CommandException;
 import ua.com.gup.common.dto.CommonCreateDTO;
-import ua.com.gup.rent.command.rent.offer.CreateRentOfferCommand;
 import ua.com.gup.rent.command.rent.offer.bid.CreateRentOfferBidCommand;
 import ua.com.gup.rent.component.executor.RentCommandExecutor;
 import ua.com.gup.rent.event.offer.bid.RentOfferBidCreatedEvent;
@@ -26,6 +25,9 @@ public class RentOfferBidEndpoint {
     private RentOfferBidService bidService;
 
     @Autowired
+    private RentOfferService offerService;
+
+    @Autowired
     private RentCommandExecutor executor;
 
     @Autowired
@@ -37,9 +39,12 @@ public class RentOfferBidEndpoint {
             @PathVariable String seo,
             @Valid @RequestBody RentOfferBidCreateDTO offerCreateDTO) throws CommandException {
 
+        if (!offerService.existsBySeoUrl(seo)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
         CreateRentOfferBidCommand createRentOfferCommand = new CreateRentOfferBidCommand(bidService, offerCreateDTO);
         executor.doCommand(createRentOfferCommand);
-
+        applicationEventPublisher.publishEvent(new RentOfferBidCreatedEvent(bidService.findOne(createRentOfferCommand.getObjectId())));
         return new ResponseEntity<>(new CommonCreateDTO(createRentOfferCommand.getObjectId()), HttpStatus.CREATED);
     }
 }
