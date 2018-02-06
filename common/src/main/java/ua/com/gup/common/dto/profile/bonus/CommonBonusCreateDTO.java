@@ -8,6 +8,7 @@ import ua.com.gup.common.dto.CommonCreateDTO;
  **/
 @Data
 public class CommonBonusCreateDTO extends CommonCreateDTO {
+
     private String code;
 
     public CommonBonusCreateDTO(String id, String code) {

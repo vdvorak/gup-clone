@@ -66,51 +66,55 @@ public class ProfileBonusMapper {
             profileBonusListDTO.add(addItem);
         }
 
-
         return profileBonusListDTO;
     }
 
     public ProfileBonus fromDTOToModel(CommonProfileBonusDTO profileBonusDTO) {
-
-        boolean isRentOfferEditBonusDTO = ProfileEditBonusDTO.class.isInstance(profileBonusDTO);
+        //convert DTO to  Domain Model
         ProfileBonus profileBonus = new ProfileBonus();
-        profileBonus.setScenarios(profileBonusDTO.getScenarios());
-        if (isRentOfferEditBonusDTO && ((ProfileEditBonusDTO) profileBonusDTO).getId() != null) {
-            //update||edit
-            ProfileEditBonusDTO item = (ProfileEditBonusDTO) profileBonusDTO;
-            profileBonus.setId(item.getId());
-            profileBonus.setCode(item.getCode());
-            profileBonus.setName(item.getName());
+        //check instance object type{class} update
+        boolean IsProfileEditBonusDTO = ProfileEditBonusDTO.class.isInstance(profileBonusDTO);
+        //check instance object type{class} create
+        boolean isProfileCreateBonusDTO = ProfileCreateBonusDTO.class.isInstance(profileBonusDTO);
 
-            //check scenario
-            profileBonus.setManagerPublicId(item.getManagerPublicId());
-            profileBonus.setBonusAmount(item.getBonusAmount());
-        } else {
-            //if only create not edit or update
-            if (profileBonusDTO.getCreateDate() == null) {
-                //create||generation code
-                String expReg="\\w{5}-\\w{5}";
-                Generex code = new Generex(expReg);
-                ProfileCreateBonusDTO item = (ProfileCreateBonusDTO) profileBonusDTO;
-                profileBonus.setCode(code.random());
-                profileBonus.setName(item.getName());
-                profileBonus.setCreateDate(LocalDateTime.now());
+        //if not exist object doing create object
+        if (isProfileCreateBonusDTO) {
+            //generation bonus code
+            String bonusCode = new Generex("([a-zA-Z0-9]{5}\\-[a-zA-Z0-9]{5})").random();
 
-                //check scenario
-                profileBonus.setManagerPublicId(item.getManagerPublicId());
-                profileBonus.setBonusAmount(item.getBonusAmount());
-            }
+            ProfileCreateBonusDTO profileCreateBonusDTO = (ProfileCreateBonusDTO) profileBonusDTO;
+
+            profileBonus.setName(profileCreateBonusDTO.getName());
+            profileBonus.setCode(bonusCode);
+
+            //from server backend
+            profileBonus.setCreateDate(LocalDateTime.now());
+
+            profileBonus.setActive(profileCreateBonusDTO.getActive());
+            profileBonus.setCountUse(profileCreateBonusDTO.getCountUse());
+            profileBonus.setStartDate(profileCreateBonusDTO.getStartDate());
+            profileBonus.setEndDate(profileCreateBonusDTO.getEndDate());
+
+            //check scenario form bonus
+            profileBonus.setScenarios(profileCreateBonusDTO.getScenarios());
+            // 1 - scenario   managerPublicId
+            profileBonus.setManagerPublicId(profileCreateBonusDTO.getManagerPublicId());
+            //2  , scenario bonusAmount
+            profileBonus.setBonusAmount(profileCreateBonusDTO.getBonusAmount());
         }
 
+        //if exists object doing update field's
+        if (IsProfileEditBonusDTO) {
+            ProfileEditBonusDTO profileEditBonusDTO = (ProfileEditBonusDTO) profileBonusDTO;
+            profileBonus.setId(profileEditBonusDTO.getId());
+            profileBonus.setCode(profileEditBonusDTO.getCode());
+            profileBonus.setName(profileEditBonusDTO.getName());
+            profileBonus.setActive(profileEditBonusDTO.getActive());
+            profileBonus.setCountUse(profileEditBonusDTO.getCountUse());
+            profileBonus.setStartDate(profileEditBonusDTO.getStartDate());
+            profileBonus.setEndDate(profileEditBonusDTO.getEndDate());
+        }
 
-
-
-
-        profileBonus.setActive(profileBonusDTO.getActive());
-        profileBonus.setCountUse(profileBonusDTO.getCountUse());
-
-        profileBonus.setStartDate(profileBonusDTO.getStartDate());
-        profileBonus.setEndDate(profileBonusDTO.getEndDate());
 
         return profileBonus;
     }

@@ -2,7 +2,6 @@ package ua.com.gup.rent.api;
 
 
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,18 +62,18 @@ public class ProfileBonusEndpoint {
         }
     }
 
-    @ApiOperation(value = "Get Bonus")
+    @ApiOperation(value = "Get All Bonus Type Scenario")
+    @RequestMapping(value = "/get/scenarios", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getAllBonusScenario() throws CommandException {
+        return new ResponseEntity<>(Arrays.asList(CommonBonusScenarios.values()), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Get Bonus By Id")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getBonus(@NotNull @PathVariable(name = "id") String id) throws CommandException {
         return new ResponseEntity<>(profileBonusMapper.fromModelToDTO(profileBonusService.findOneById(id)), HttpStatus.OK);
     }
 
-
-    @ApiOperation(value = "Get All Bonus Type Scenario")
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAllBonusScenario() throws CommandException {
-        return new ResponseEntity<>(Arrays.asList(CommonBonusScenarios.values()), HttpStatus.OK);
-    }
 
     @ApiOperation(value = "Get All Bonus")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -84,7 +83,7 @@ public class ProfileBonusEndpoint {
     }
 
 
-    @ApiOperation(value = "Set activate deactivate bonus")
+    @ApiOperation(value = "Set status bonus {activate=true||false}")
     @RequestMapping(value = "/activate/{id}/{activate}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity setActivate(@NotNull @PathVariable(name = "id") String id, @NotNull @PathVariable(name = "activate") Boolean activate) throws CommandException {
         ProfileBonus bonus = profileBonusService.findOneById(id);
@@ -140,7 +139,3 @@ public class ProfileBonusEndpoint {
     }
 
 }
-
-
-
-

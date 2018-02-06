@@ -33,11 +33,12 @@ public class ProfileBonus extends CommonProfileBonus {
     private String name;
     @Indexed(unique = true)
     private String code;
+
     @CreatedBy
     private GupLoggedUser createdByUser;
 
-    protected String managerPublicId;
-    protected BigDecimal bonusAmount;
+    private String managerPublicId;
+    private BigDecimal bonusAmount;
 
     public ProfileBonus() {
     }
