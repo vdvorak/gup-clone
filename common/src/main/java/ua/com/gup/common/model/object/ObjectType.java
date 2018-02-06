@@ -7,6 +7,7 @@ public class ObjectType {
     public static final String SALE_OPERATION = "operation";
 
     public static final String RENT_OFFER = "rent.offer";
+    public static final String RENT_OFFER_BID = "rent.offer.bid";
     public static final String RENT_OFFER_ELASTIC = "rent.offer_elastic";
     public static final String RENT_OPERATION = "rent.operation";
     public static final String RENT_OFFER_CALENDAR_CHILD = "rent.offer_calendar_child";
